@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訂購花籃 - 祥安生命有限公司</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX'); 
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html">祥安生命有限公司</a></div>
+    <nav id="main-nav">
+        <ul>
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="about.html">關於我們</a></li>
+            <li><a href="services.html">服務項目</a></li>
+            <li><a href="plans.html">方案與費用</a></li>
+            <li><a href="blog.html">生命故事</a></li>
+            <li><a href="order.html" class="active">訂購花籃</a></li>
+            <li class="contact-nav"><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </nav>
+    <button class="mobile-menu-btn">選單</button>
+</header>
+
+<main>
+    <section class="hero-section" style="background-image: url('images/order-banner.webp');">
+        <div class="hero-content">
+            <h1>心意傳達，莊重花禮訂購</h1>
+            <p>為您準備莊重且優雅的致敬花禮，快速完成訂購與準確配送。</p>
+            <a href="#order-form-section" class="cta-button primary">立即訂購</a>
+        </div>
+    </section>
+
+    <section id="order-form-section" class="container">
+        <div class="text-center">
+            <h2>花籃訂購表單 (二殯快速查詢)</h2>
+        </div>
+
+        <form class="order-form" action="[請替換為您的表單接收網址]" method="POST">
+            
+            <div class="card-grid" style="grid-template-columns: 1fr;">
+                <div class="card-item" style="text-align: left; border-top: 5px solid var(--accent-color);">
+                    <h3>1. 選擇花籃類型</h3>
+                    <label for="product-select">選擇款式：</label>
+                    <select id="product-select" name="product-select" required>
+                        <option value="">-- 請選擇花籃類型 --</option>
+                        <option value="A">致敬典雅花籃 (NT$ 3,800)</option>
+                        <option value="B">永懷追思蘭花盆 (NT$ 4,500)</option>
+                        <option value="C">豪華雙層鮮花架 (NT$ 6,000)</option>
+                        <option value="D">客製化設計花禮 (報價)</option>
+                    </select>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: gray;">* 實際樣式以花材為準，將確保花材新鮮與配色莊重。</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">2. 禮廳與亡者資訊 (準確配送關鍵)</h3>
+
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 20px;">
+                <div>
+                    <label for="funeral-hall-select">選擇殯儀館 *</label>
+                    <select id="funeral-hall-select" name="funeral-hall-select" required>
+                        <option value="">-- 請選擇殯儀館 --</option>
+                        <option value="台北市立第二殯儀館">台北市立第二殯儀館</option>
+                        <option value="台北市立第一殯儀館">台北市立第一殯儀館</option>
+                        <option value="其他">其他 (請於備註填寫)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="hall-date-input">告別式日期 *</label>
+                    <input type="date" id="hall-date-input" name="hall-date-input" required disabled> 
+                </div>
+            </div>
+
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 20px;">
+                <div>
+                    <label for="hall-select">選擇禮廳 (將根據日期載入) *</label>
+                    <select id="hall-select" name="hall-select" required disabled>
+                        <option value="">-- 請先選擇日期 --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="deceased-name-input">亡者/家屬 姓名 (系統自動填入) *</label>
+                    <input type="text" id="deceased-name-input" name="deceased-name-input" placeholder="請選擇禮廳後自動帶入亡者姓名" required disabled>
+                </div>
+            </div>
+            
+            <button type="button" id="official-query-btn" class="cta-button primary" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-search"></i> 官方查詢：點此連結至二殯檔期網頁確認
+            </button>
+            
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #D32F2F;">**重要：** 如未在上方列表中找到，請點擊上方紅色按鈕，到官方網頁確認後，手動填寫禮廳和亡者姓名。</p>
+
+            <label for="card-message">輓詞/卡片內容：</label>
+            <textarea id="card-message" name="card-message" rows="4" placeholder="請填寫您想傳達的追思詞句 (例如：永懷德範、安息主懷)" required></textarea>
+
+            <h3 style="margin-top: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">3. 訂購人與支付方式</h3>
+            
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 20px;">
+                <div>
+                    <label for="sender-name">訂購人姓名：</label>
+                    <input type="text" id="sender-name" name="sender-name" placeholder="您的姓名或公司名稱" required>
+                </div>
+                <div>
+                    <label for="sender-phone">聯絡電話：</label>
+                    <input type="tel" id="sender-phone" name="sender-phone" placeholder="09XX-XXXXXX" required>
+                </div>
+            </div>
+
+            <label>選擇支付方式 *</label>
+            <div class="payment-options card-grid" style="grid-template-columns: 1fr 1fr;">
+                <label class="payment-box line-pay">
+                    <input type="radio" name="payment-method" value="linepay" required>
+                    <h4><i class="fab fa-line"></i> Line Pay (建議)</h4>
+                    <div class="payment-instruction">請聯繫 LINE 專員取得付款連結或 QR Code 進行支付。</div>
+                </label>
+                <label class="payment-box bank-transfer">
+                    <input type="radio" name="payment-method" value="banktransfer" required>
+                    <h4><i class="fas fa-university"></i> 銀行轉帳</h4>
+                    <div class="payment-instruction">匯款後，請將**轉帳證明或末五碼**發送至 LINE 進行核對。</div>
+                </label>
+            </div>
+            
+            <div class="text-center" style="margin-top: 50px;">
+                <button type="submit" class="cta-button secondary">確認訂單並聯繫專員</button>
+                <p style="font-size: 0.9rem; color: var(--primary-color); margin-top: 15px;">* 送出訂單後，請務必聯繫 LINE 專員確認花材庫存、配送時間與完成付款。</p>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-logo">祥安生命有限公司 © 2025</div>
+        <div class="footer-links">
+            <h4>快速連結</h4>
+            <ul>
+                <li><a href="about.html">核心承諾</a></li>
+                <li><a href="plans.html">費用透明</a></li>
+                <li><a href="blog.html">常見問答</a></li>
+                <li><a href="order.html">訂購花籃</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>服務據點</h4>
+            <p style="color: var(--secondary-color);">服務地區：雙北、桃園，全台服務請洽專線。</p>
+            <p>地址：[請填寫公司地址]</p>
+        </div>
+        <div class="footer-social">
+            <h4>24H 禮儀師陳妍如 專線</h4>
+            <p style="font-size: 1.5rem; color: var(--accent-color);">📞 <a href="tel:0978583699">0978-583-699</a></p>
+            <p>聯繫我們：</p>
+            <a href="https://line.me/ti/p/[您的LINE ID]" target="_blank" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
+            <a href="[您的 Facebook 專頁網址]" target="_blank" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
+        </div>
+    </div>
+</footer>
+
+<div class="floating-cta">
+    <a href="https://line.me/ti/p/[您的LINE ID]" target="_blank" title="LINE 即時諮詢"><i class="fab fa-line"></i></a>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
