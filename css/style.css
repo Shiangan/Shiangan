@@ -1,6 +1,8 @@
+/* =========================================== */
+/* 品牌色與變數定義 (高級、莊重、內斂的色調) */
+/* =========================================== */
 :root {
-    /* 品牌色定義 (高級、莊重、內斂的色調) */
-    --primary-color: #383130;   /* 深夜灰/烏木色，代表莊重與專業 */
+    --primary-color: #383130;   /* 深夜灰/烏木色，莊重與專業 */
     --secondary-color: #A39D9B; /* 柔和的淺灰/鵝卵石色，用於邊框、次要文字 */
     --accent-color: #B8860B;    /* 低調奢華的**暗金色** (Gold), 用於強調、CTA */
     --text-dark: #333333;
@@ -10,7 +12,9 @@
     --border-color: #e8e8e8;
 }
 
-/* Base Styles & Anti-Copy */
+/* =========================================== */
+/* 基礎樣式 (Base Styles) */
+/* =========================================== */
 * {
     margin: 0;
     padding: 0;
@@ -49,6 +53,9 @@ ul {
     padding: 80px 30px; /* 增加頂級間距 */
 }
 
+/* =========================================== */
+/* 標題樣式 (Typography) */
+/* =========================================== */
 h1, h2, h3 {
     font-weight: 700;
     margin-bottom: 25px;
@@ -99,7 +106,9 @@ p {
     text-align: center;
 }
 
+/* =========================================== */
 /* Header & Navigation - 極簡化與精緻化 */
+/* =========================================== */
 header {
     background-color: white;
     box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08); /* 陰影更淺更柔和 */
@@ -120,27 +129,51 @@ header {
 }
 
 #main-nav ul {
+    display: flex;
     gap: 45px;
+    align-items: center;
 }
 
 #main-nav a {
     color: var(--primary-color);
+    padding: 8px 0;
     font-weight: 500;
+    position: relative;
+    letter-spacing: 0.5px;
 }
 
 #main-nav a:hover,
 #main-nav a.active {
     color: var(--accent-color);
+    font-weight: 700;
+}
+/* 導航底部線條細節 */
+#main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px; 
+    background-color: var(--accent-color);
+    transition: width 0.4s ease-in-out; 
 }
 
+#main-nav a:hover::after,
+#main-nav a.active::after {
+    width: 70%;
+}
+
+/* 聯繫 CTA 按鈕 */
 .contact-nav a {
     background-color: var(--accent-color);
     color: white !important; 
     padding: 10px 25px;
-    border-radius: 50px; /* 改為圓角膠囊形狀，更柔和 */
+    border-radius: 50px; /* 圓角膠囊形狀 */
     font-weight: 700;
-    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.5);
     transition: all 0.4s ease;
+    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.5);
 }
 
 .contact-nav a:hover {
@@ -149,28 +182,54 @@ header {
     box-shadow: 0 6px 15px rgba(184, 134, 11, 0.7);
 }
 
-/* Mobile Menu Button - 保持優雅 */
+.contact-nav a:hover::after {
+    width: 0;
+}
+
+/* Mobile Menu Button */
 .mobile-menu-btn {
-    /* 確保在行動版中能正確顯示圖示 */
-    font-size: 1.1rem;
+    display: none; /* 預設隱藏，RWD 時顯示 */
+    background: var(--accent-color);
+    border: none;
     padding: 10px 18px;
-}
-/* 新增 mobile-nav open 狀態的樣式 (如果 JS 中有用到 .open) */
-#main-nav.open {
-    /* ... 根據需要調整 RWD 樣式 ... */
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
-
+/* =========================================== */
 /* Hero Section - 沉穩大氣 */
+/* =========================================== */
 .hero-section {
-    height: 550px; /* 再次增加高度，營造開闊感 */
+    height: 550px; 
+    background-size: cover;
     background-position: center;
-    /* 這裡可以加入背景圖片固定，增加縱深感 (Parallax effect) */
-    background-attachment: fixed; 
+    background-attachment: fixed; /* Parallax effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
 }
 
 .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.65); /* 遮罩更深，文字更突出 */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    max-width: 1000px;
 }
 
 .hero-content p {
@@ -181,13 +240,22 @@ header {
     letter-spacing: 1px;
 }
 
-/* CTA Button - 高級互動 */
+/* CTA Button 樣式 */
 .cta-button {
+    display: inline-block;
     padding: 18px 40px;
     border-radius: 4px;
     font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
     letter-spacing: 2px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.cta-button.primary {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
 }
 
 .cta-button.primary:hover {
@@ -196,17 +264,35 @@ header {
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
+.cta-button.secondary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 2px solid var(--primary-color);
+}
 
+.cta-button.secondary:hover {
+    background-color: #5d5351; 
+    border-color: #5d5351;
+    transform: translateY(-6px);
+}
+
+/* =========================================== */
 /* Card Grid Layout - 精品陳列感 */
+/* =========================================== */
 .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
+    margin-top: 30px;
 }
 
 .card-item {
     background-color: var(--bg-light); /* 改回白色背景，讓層次更分明 */
     padding: 35px;
+    border-radius: 8px; 
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06); /* 陰影更深，讓卡片浮起 */
-    border: none; /* 移除外框，專注於陰影和左側條 */
+    text-align: left; 
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s; 
     border-left: 5px solid var(--accent-color); 
 }
 
@@ -217,67 +303,151 @@ header {
 
 .card-item .icon {
     font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    display: block;
+    float: left; /* 圖標靠左，與標題並排 */
+    margin-right: 15px;
 }
 
+.card-item h3 {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    border-bottom: none; 
+    padding-bottom: 0;
+}
+.card-item p {
+    font-size: 1rem;
+    clear: both; /* 確保內容在圖標下方 */
+}
 
-/* --- 專屬花禮訂購頁面優化 --- */
+/* =========================================== */
+/* 花禮訂購頁面 (Order Form) 專屬樣式 */
+/* =========================================== */
+
+/* 產品展示 (如果有的話) */
+.product-showcase {
+    gap: 25px;
+}
 
 .product-card {
-    border: 1px solid var(--border-color); /* 使用標準邊框色，更柔和 */
-    transition: all 0.5s ease;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.5s, transform 0.5s;
 }
 
 .product-card:hover {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    transform: translateY(-7px); /* 提升位移 */
+    transform: translateY(-7px); 
 }
 
 .product-card img {
+    display: block;
+    width: 100%;
     height: 280px; /* 增加圖片高度，更有視覺衝擊力 */
+    object-fit: cover;
+    transition: transform 0.6s;
+}
+
+.product-card:hover img {
+    transform: scale(1.05); 
 }
 
 .product-card h3 {
     font-size: 1.6rem;
-    color: var(--accent-color);
+    color: var(--accent-color); 
+    margin: 15px 15px 5px 15px;
+    font-style: italic;
 }
-
 
 /* 配送保證區塊 (極致分區) */
 .delivery-guarantee {
-    background-color: #fffaf0 !important; /* 與客製化區塊色彩一致 */
-    border: 3px double var(--accent-color) !important; /* 改為雙線金色邊框，更具設計感 */
+    background-color: #fffaf0 !important; 
+    border: 3px double var(--accent-color) !important; /* 雙線金色邊框，更具設計感 */
     padding: 35px;
     margin: 60px 0;
     border-radius: 12px;
     font-weight: 600;
 }
 
-.delivery-guarantee p {
-    line-height: 1.8;
+.delivery-guarantee i {
+    color: var(--accent-color) !important;
+    font-size: 1.8rem !important;
 }
 
-/* 訂購表單區塊 (流暢互動) */
+/* 訂購表單區塊 (高級簡約風格) */
 .order-form {
+    background-color: var(--bg-section);
     padding: 50px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
+.order-form h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 12px;
+    margin-top: 30px;
+    letter-spacing: 0.5px;
+}
+
+.order-form label {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-top: 15px;
+    display: block;
+}
+
 .order-form input, .order-form textarea, .order-form select {
+    background-color: var(--bg-light); 
     border: 1px solid var(--secondary-color);
     padding: 15px; /* 增加輸入框高度，更易點擊 */
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .order-form input:focus, .order-form textarea:focus, .order-form select:focus {
     border-color: var(--accent-color);
     box-shadow: 0 0 8px rgba(184, 134, 11, 0.5); /* 金色光暈更明顯 */
+    outline: none;
 }
 
+/* 支付方式優化 */
+.payment-box {
+    border: 2px solid var(--secondary-color);
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+/* 勾選時的金色外框與光暈 */
 .payment-box:has(input[type="radio"]:checked) {
     border-color: var(--accent-color);
     box-shadow: 0 0 20px rgba(184, 134, 11, 0.6); 
     background-color: #fffcf8; /* 極淺的金色背景 */
 }
+
+.payment-box h4 {
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.payment-instruction {
+    font-size: 0.85rem;
+    color: #777;
+}
+
 /* 新增載入狀態樣式 (配合 JS 優化) */
 .loading-state {
     opacity: 0.8;
@@ -286,16 +456,72 @@ header {
 }
 
 
+/* =========================================== */
 /* Footer Styles - 底部沉穩收尾 */
+/* =========================================== */
 footer {
+    background-color: var(--primary-color);
+    color: var(--bg-section); 
     padding: 70px 0 40px 0;
+    font-size: 0.95rem;
 }
 
-.footer-social h4 {
-    margin-bottom: 20px;
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: 40px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25); 
 }
-.footer-social p a {
+
+.footer-links h4, .footer-social h4, .footer-notice h4 {
     color: var(--accent-color);
+    letter-spacing: 0.5px;
+    margin-bottom: 18px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-social a {
+    font-size: 1.4rem;
+    margin-right: 15px;
+    color: var(--accent-color);
+}
+.footer-social a:hover {
+    color: #fff;
+}
+
+/* Floating CTA (LINE Button) - 保持高級感 */
+.floating-cta {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 990;
+}
+.floating-cta a {
+    display: block;
+    width: 65px;
+    height: 65px;
+    line-height: 65px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 3rem;
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s, background-color 0.3s;
+}
+.floating-cta a:hover {
+    transform: scale(1.1);
+    background-color: #d1b15c;
 }
 
 
@@ -313,6 +539,10 @@ footer {
     .logo a {
         font-size: 1.8rem;
     }
+    /* 調整桌面版導航間距 */
+    #main-nav ul {
+        gap: 30px;
+    }
 }
 
 @media (max-width: 900px) {
@@ -320,11 +550,11 @@ footer {
     #main-nav {
         display: none; /* 預設隱藏 */
         position: fixed;
-        top: 66px; /* 配合 Header 高度 */
+        top: 66px; 
         left: 0;
         width: 100%;
         height: 100vh;
-        background-color: rgba(255, 255, 255, 0.98); /* 半透明白底，略微看到下方內容 */
+        background-color: rgba(255, 255, 255, 0.98); 
         z-index: 999;
         overflow-y: auto;
         padding-top: 30px;
@@ -349,10 +579,12 @@ footer {
         border-bottom: 1px solid var(--border-color);
         padding: 10px 0;
     }
-
+    
+    /* 確保手機版點擊區塊夠大 */
     #main-nav a {
         font-size: 1.3rem;
         display: block;
+        padding: 10px 0;
     }
     
     .mobile-menu-btn {
@@ -381,7 +613,15 @@ footer {
         margin-bottom: 30px;
     }
 
-    /* 產品卡片與表單 RWD */
+    /* 卡片與表單 RWD */
+    .card-item {
+        text-align: center;
+    }
+    .card-item .icon {
+        float: none;
+        margin-right: 0;
+    }
+    
     .product-card img {
         height: 200px; 
     }
@@ -415,6 +655,7 @@ footer {
         font-size: 1.4rem;
     }
     
+    /* 付款方式在手機上堆疊 */
     .payment-options.card-grid {
         grid-template-columns: 1fr;
         gap: 20px;
