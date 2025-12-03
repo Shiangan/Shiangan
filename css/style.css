@@ -1,23 +1,23 @@
 /* =========================================== */
-/* 品牌色與變數定義 (V3.0 - 現代精煉版) */
+/* 品牌色與變數定義 (V4.0 - 墨水藍與白金) */
 /* =========================================== */
 :root {
     /* 核心色調與文字 */
-    --primary-color: #222222;   /* 關鍵優化: 極致黑/煤炭黑 */
-    --secondary-color: #A39D9B; /* 柔和淺灰 */
-    --accent-color: #9B703C;    /* 關鍵優化: 古銅金色 (更亮、更現代) */
-    --text-dark: #111111;       /* 關鍵優化: 超深黑，極高對比度 (WCAG AAA) */
+    --primary-color: #1C2938;   /* 墨水藍/深夜藍 (專業與莊重) */
+    --secondary-color: #A39D9B; 
+    --accent-color: #C9A873;    /* 柔和米金/白金 (典雅點綴) */
+    --text-dark: #222222;       /* 極高對比度內文 (WCAG AAA) */
     --text-light: #f4f4f4;
     
     /* 背景與基礎 */
-    --bg-light: #ffffff;        
-    --bg-section: #F8F8F8;      /* 關鍵優化: 極淡銀灰 (創造俐落現代感) */
+    --bg-light: #FFFFFF;        
+    --bg-section: #F7F7F7;      /* 極淺寧靜灰 (現代層次感) */
     
     /* 輔助與光影 */
     --border-color: #e8e8e8;
     --shadow-light: rgba(0, 0, 0, 0.06); 
     --shadow-medium: rgba(0, 0, 0, 0.15); 
-    --shadow-accent: rgba(155, 112, 60, 0.4); /* 古銅金色調的柔和陰影 */
+    --shadow-accent: rgba(201, 168, 115, 0.5); /* 米金柔和陰影 */
 }
 
 /* =========================================== */
@@ -27,12 +27,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* 確保所有元素在寬度上都不會溢出 */
     max-width: 100%; 
 }
 
 body {
     font-family: 'Noto Sans TC', sans-serif; 
-    line-height: 1.8; /* 舒適閱讀行高 */
+    line-height: 1.8; 
     color: var(--text-dark);
     background-color: var(--bg-light);
     overflow-x: hidden; 
@@ -43,6 +44,10 @@ body {
 
 h1, h2, h3, h4, .logo a {
     font-family: 'Noto Serif TC', serif;
+    color: var(--primary-color); 
+}
+.hero-content h1 {
+    color: white;
 }
 
 a {
@@ -66,7 +71,7 @@ ul {
 }
 
 /* =========================================== */
-/* 標題樣式 (Typography) - 強化層次與設計感 */
+/* 標題樣式 (Typography) */
 /* =========================================== */
 h1, h2, h3 {
     font-weight: 700;
@@ -76,14 +81,12 @@ h1, h2, h3 {
 
 h1 {
     font-size: 3.8rem; 
-    color: white;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); 
     letter-spacing: 2px; 
 }
 
 h2 {
     font-size: 2.8rem;
-    color: var(--primary-color);
     text-align: center;
     margin-bottom: 70px; 
     padding-bottom: 15px; 
@@ -94,14 +97,14 @@ h2 {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08); 
 }
 
-/* H2 層次底線 */
+/* H2 層次底線 (使用米金) */
 h2::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px; /* 重點線 */
+    width: 80px; 
     height: 3px; 
     background-color: var(--accent-color);
     z-index: 1; 
@@ -116,13 +119,12 @@ h2::after {
     width: 100%; 
     max-width: 450px; 
     height: 1px;
-    background-color: var(--border-color); /* 輔助線 */
+    background-color: var(--border-color); 
     z-index: 0;
 }
 
 h3 {
     font-size: 1.8rem;
-    color: var(--primary-color);
 }
 
 p {
@@ -152,7 +154,6 @@ header {
 .logo a {
     font-size: 2.1rem;
     font-weight: 900;
-    color: var(--primary-color);
     letter-spacing: 2px; 
     white-space: nowrap; 
 }
@@ -194,8 +195,8 @@ header {
 }
 
 .contact-nav a {
-    background-color: var(--accent-color);
-    color: var(--text-dark) !important; /* 確保高對比 */
+    background-color: var(--accent-color); /* 米金按鈕 */
+    color: var(--primary-color) !important; /* 深藍文字 */
     padding: 10px 25px;
     border-radius: 50px; 
     font-weight: 700;
@@ -206,7 +207,7 @@ header {
 .contact-nav a:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px var(--shadow-accent);
-    background-color: #B08A48; /* Hover 時微調顏色 */
+    background-color: #D6B788; 
 }
 
 .mobile-menu-btn {
@@ -217,7 +218,7 @@ header {
     border-radius: 4px;
     font-size: 1.1rem;
     cursor: pointer;
-    color: var(--text-dark);
+    color: var(--primary-color); /* 按鈕文字使用深藍 */
     font-weight: 700;
     white-space: nowrap;
 }
@@ -276,7 +277,7 @@ header {
 }
 .cta-button.primary {
     background-color: var(--accent-color);
-    color: var(--text-dark);
+    color: var(--primary-color);
 }
 .cta-button.secondary {
     background-color: var(--primary-color);
@@ -285,7 +286,7 @@ header {
 
 
 /* =========================================== */
-/* Card Grid & Forms - 提升互動細膩度 */
+/* Card Grid & Forms */
 /* =========================================== */
 .card-grid {
     display: grid;
@@ -296,9 +297,9 @@ header {
     background-color: var(--bg-light); 
     padding: 35px;
     box-shadow: 0 4px 15px var(--shadow-light); 
-    border-radius: 8px; /* 柔和圓角 */
+    border-radius: 8px; 
     border: 1px solid var(--border-color); 
-    border-left: 5px solid var(--accent-color); 
+    border-left: 5px solid var(--accent-color); /* 米金強調線 */
     
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
@@ -310,26 +311,33 @@ header {
 
 .card-item .icon {
     font-size: 3rem;
-    color: var(--accent-color);
+    color: var(--accent-color); /* 米金圖標 */
     float: left; 
     margin-right: 15px;
 }
 
 /* Form Styles */
 .order-form {
-    background-color: var(--bg-section);
+    background-color: var(--bg-section); /* 淺寧靜灰背景 */
     padding: 50px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
-/* ... (其他 Form 樣式保持精煉) ... */
+.order-form input, .order-form textarea, .order-form select {
+    padding: 15px; 
+}
+.payment-box:has(input[type="radio"]:checked) {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px var(--shadow-accent); 
+    background-color: #fffcf8; 
+}
 
 
 /* =========================================== */
 /* Footer & Floating CTA */
 /* =========================================== */
 footer {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* 深藍 Footer */
     color: var(--bg-section); 
     padding: 70px 0 40px 0;
     font-size: 0.95rem;
@@ -352,7 +360,7 @@ footer {
     height: 65px;
     line-height: 65px;
     font-size: 3rem;
-    background-color: var(--accent-color);
+    background-color: var(--accent-color); /* 米金浮動按鈕 */
     color: white;
     border-radius: 50%;
     text-align: center;
@@ -366,7 +374,7 @@ footer {
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (選單修正與優化) */
+/* RWD - 響應式設計 (選單與文字修正) */
 /* ==================================================== */
 
 @media (max-width: 1024px) {
@@ -387,9 +395,15 @@ footer {
         margin-bottom: 15px; 
     }
 
+    /* ---------------------------------- */
+    /* 關鍵修正 1: 文字溢出修正 */
+    /* ---------------------------------- */
     h1 {
         font-size: 2.2rem;
         letter-spacing: 0.5px;
+        /* 允許長標題在移動端換行，解決文字擋住問題 */
+        word-break: break-word; 
+        white-space: normal; 
     }
     h2 {
         font-size: 1.8rem;
@@ -413,42 +427,40 @@ footer {
         margin-bottom: 20px;
     }
     
+    /* ---------------------------------- */
+    /* 關鍵修正 2: 選單展開狀態 (解決打不開問題) */
+    /* ---------------------------------- */
     .mobile-menu-btn {
-        display: block; /* 啟用漢堡按鈕 */
-        z-index: 1001; /* 確保按鈕在選單之上 */
+        display: block; 
+        z-index: 1001; 
     }
     
-    /* ---------------------------------- */
-    /* 關鍵修正: 移動端導航邏輯 */
-    /* ---------------------------------- */
     #main-nav {
-        /* 導航展開時的視覺位置 */
         position: absolute;
-        top: 75px; /* 假設 Header 高度約為 75px，確保選單從 Header 下方展開 */
+        top: 75px; 
         left: 0;
         width: 100%;
         background-color: var(--bg-light); 
         box-shadow: 0 4px 10px var(--shadow-medium);
         z-index: 999;
         
-        /* 隱藏選單的關鍵設定，使用 max-height 實現平滑過渡 */
+        /* 隱藏狀態 */
         max-height: 0; 
         overflow: hidden; 
         transition: max-height 0.4s ease-in-out, opacity 0.4s;
         opacity: 0;
     }
     
-    /* 導航項目垂直堆疊 */
     #main-nav ul {
         flex-direction: column;
         gap: 15px; 
         padding: 20px 0;
-        align-items: flex-start; /* 讓選單項靠左對齊 */
+        align-items: flex-start; 
     }
     
-    /* 點擊後，由 JavaScript 添加此 Class 來展開選單 */
-    #main-nav.active {
-        max-height: 500px; /* 必須大於選單實際高度 */
+    /* 點擊按鈕後，由 JavaScript 添加此 Class 來展開選單 */
+    #main-nav.active { /* <-- 必須匹配 JS 程式碼中的 'active' */
+        max-height: 500px; 
         opacity: 1;
     }
     /* ---------------------------------- */
@@ -472,6 +484,19 @@ footer {
         font-size: 1.6rem; 
         padding-bottom: 5px;
         margin-bottom: 20px;
+    }
+    
+    .order-form {
+        padding: 15px;
+    }
+    .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    .payment-options.card-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
     
     .card-item {
