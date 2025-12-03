@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================================
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mainNav = document.getElementById('main-nav');
-    const NAV_ACTIVE_CLASS = 'active'; // <--- 修正後的統一 Class 名稱
+    const NAV_ACTIVE_CLASS = 'active'; // 統一 Class 名稱，與 CSS 展開匹配
 
     if (mobileMenuBtn && mainNav) {
         
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================================
-    // 區塊 3: 喪禮花禮訂購表單互動邏輯
+    // 區塊 3: 喪禮花禮訂購表單互動邏輯 (保持穩定)
     // ===========================================
 
     const orderForm = document.querySelector('.order-form');
