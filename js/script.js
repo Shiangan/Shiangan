@@ -305,5 +305,94 @@ document.addEventListener('DOMContentLoaded', function() {
                 content.style.maxHeight = null;
             }
         });
+
+        // 區塊 3: 喪禮花籃訂購表單處理 (Order Form Line Notify)
+document.addEventListener('DOMContentLoaded', function() {
+    const flowerOrderForm = document.getElementById('flowerOrderForm');
+
+    if (flowerOrderForm && flowerOrderForm.getAttribute('action') === '#order-success') {
+        flowerOrderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formElements = form.elements;
+            const lineId = '您的LINE ID'; // !!! 請替換為您的實際 LINE ID !!!
+
+            // 收集表單資料
+            let formData = {};
+            for (let i = 0; i < formElements.length; i++) {
+                const element = formElements[i];
+                // 排除按鈕和沒有 name 屬性的元素
+                if (element.name && element.type !== 'submit') {
+                    if (element.type === 'radio' && !element.checked) {
+                        continue; // 跳過未選中的 radio
+                    }
+                    
+                    // 排除未選擇的下拉式選單 (若有空值)
+                    if (element.tagName === 'SELECT' && element.value === '') {
+                        continue; 
+                    }
+
+                    // 使用 input 的 name 作為 key，value 作為值
+                    let key = element.name; 
+                    let value = element.value.trim();
+
+                    // 處理 Radio Button: payment-method
+                    if (element.type === 'radio' && element.name === 'payment-method') {
+                        key = '支付方式';
+                        value = element.value;
+                    }
+                    
+                    // 將所有欄位加入 formData
+                    formData[key] = value;
+                }
+            }
+            
+            // 確保所有必填欄位都有值（基本檢查）
+            const requiredFields = ['產品選擇', '收件殯儀館/地點', '送達日期', '禮廳/廳室名稱', '致意對象姓名', '輓詞/卡片內容', '訂購人姓名/公司名稱', '訂購人聯絡電話', '支付方式'];
+            for (const field of requiredFields) {
+                if (!formData[field]) {
+                    alert(`請填寫所有必填欄位：【${field}】`);
+                    return;
+                }
+            }
+
+            // === 構建 LINE 訊息內容 ===
+            let message = `【網站花禮訂單通知】\n\n`;
+            message += `==============================\n`;
+            message += `🛒 訂單摘要\n`;
+            message += `產品：${formData['產品選擇']}\n`;
+            message += `金額：${formData['產品選擇'].match(/\$(\d+,?\d+)/)?.[0] || '未定'}\n`;
+            message += `支付方式：${formData['支付方式']}\n`;
+            message += `==============================\n`;
+            message += `📍 禮廳資訊\n`;
+            message += `收件地點：${formData['收件殯儀館/地點']}\n`;
+            message += `送達日期：${formData['送達日期']}\n`;
+            message += `廳室名稱：${formData['禮廳/廳室名稱']}\n`;
+            message += `致意對象：${formData['致意對象姓名']}\n`;
+            message += `------------------------------\n`;
+            message += `💌 輓詞內容：\n`;
+            message += `${formData['輓詞/卡片內容']}\n`;
+            message += `------------------------------\n`;
+            message += `👤 訂購人\n`;
+            message += `姓名/公司：${formData['訂購人姓名/公司名稱']}\n`;
+            message += `電話：${formData['訂購人聯絡電話']}\n`;
+
+            // 將訊息編碼
+            const lineMessage = encodeURIComponent(message);
+            
+            // 生成 LINE 連結
+            const lineUrl = `https://line.me/ti/p/${lineId}?text=${lineMessage}`;
+
+            // 跳轉到 LINE
+            window.open(lineUrl, '_blank');
+            
+            // 提示用戶並清空表單
+            alert('訂單細節已傳送！請務必前往 LINE 聯繫專員，確認訂單與付款事宜。');
+            form.reset();
+        });
+    }
+});
+
     });
 });
