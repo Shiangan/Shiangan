@@ -1,28 +1,25 @@
 // --------------------------------------------------------
-// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終修正版 V2.1 (選單功能已修復)
+// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終修正版 V3.0 (新增 Accordion 與 LINE 訊息編碼)
 // --------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
 
     // ===========================================
-    // 區塊 1: 隱私與智慧財產保護
+    // 區塊 1: 隱私與智慧財產保護 (不變)
     // ===========================================
     document.addEventListener('copy', function() {
-        // 柔性提示：在使用者複製內容時，給予版權提示
         console.info("© 版權所有 祥安生命有限公司。請尊重智慧財產權。");
     });
 
     // ===========================================
     // 區塊 2: 導航功能與使用者介面 (UX)
-    // 關鍵修正: 確保選單切換邏輯正確，修復選單打不開的問題
     // ===========================================
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mainNav = document.getElementById('main-nav');
-    const NAV_ACTIVE_CLASS = 'active'; // 統一 Class 名稱，與 CSS 展開匹配
+    const NAV_ACTIVE_CLASS = 'active'; 
 
     if (mobileMenuBtn && mainNav) {
         
-        // 儲存按鈕的初始圖標和文字（例如：<i class="fas fa-bars"></i> 選單）
         const initialBtnHtml = mobileMenuBtn.innerHTML;
         
         // 行動選單切換邏輯
@@ -30,12 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
             mainNav.classList.toggle(NAV_ACTIVE_CLASS);
             const isActive = mainNav.classList.contains(NAV_ACTIVE_CLASS);
             
-            // 根據狀態切換按鈕文字/圖標
             this.innerHTML = isActive 
                 ? '<i class="fas fa-times"></i> 關閉' 
                 : initialBtnHtml;
             
-            // 無障礙優化：切換 aria-expanded 屬性
             this.setAttribute('aria-expanded', isActive);
         });
         
@@ -45,24 +40,23 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 if (mainNav.classList.contains(NAV_ACTIVE_CLASS)) {
                     mainNav.classList.remove(NAV_ACTIVE_CLASS);
-                    mobileMenuBtn.innerHTML = initialBtnHtml; // 恢復初始文字
+                    mobileMenuBtn.innerHTML = initialBtnHtml; 
                     mobileMenuBtn.setAttribute('aria-expanded', false);
                 }
             });
         });
     }
 
-    // 頁面導航高亮 (優化路徑檢查邏輯)
+    // 頁面導航高亮
     const currentPath = window.location.pathname.split('/').pop();
     const navItems = document.querySelectorAll('#main-nav a');
     
     navItems.forEach(item => {
         const itemHref = item.getAttribute('href');
         
-        // 檢查 href 是否匹配當前路徑或首頁 ('', 'index.html')
         if (itemHref && currentPath && itemHref.endsWith(currentPath)) {
             item.classList.add(NAV_ACTIVE_CLASS);
-        } else if ((!currentPath || currentPath === 'index.html' || currentPath === '') && (itemHref === '/' || itemHref === 'index.html')) {
+        } else if ((!currentPath || currentPath === 'index.html' || currentPath === '') && (itemHref === 'index.html')) {
              item.classList.add(NAV_ACTIVE_CLASS);
         }
     });
@@ -97,12 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (funeralHallSelect && hallDateInput && hallSelect && deceasedNameInput) {
         
-        // 儲存按鈕初始文字
         if(officialQueryButton) {
             officialQueryButton.setAttribute('data-initial-text', officialQueryButton.innerHTML);
         }
         
-        // 1. 監聽殯儀館選擇
         funeralHallSelect.addEventListener('change', function() {
             hallDateInput.value = '';
             hallSelect.innerHTML = '<option value="">-- 請先選擇日期 --</option>'; 
@@ -115,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
             hallDateInput.disabled = (this.value === ''); 
         });
 
-        // 2. 監聽日期選擇 - 加入載入反饋
         hallDateInput.addEventListener('change', function() {
             if (!this.value || !funeralHallSelect.value) {
                 hallSelect.innerHTML = '<option value="">-- 請先選擇殯儀館和日期 --</option>';
@@ -136,22 +127,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 800);
         });
         
-        // 3. 監聽禮廳選擇
         hallSelect.addEventListener('change', function() {
             const selectedHall = this.value;
             const selectedHallName = funeralHallSelect.value;
             const selectedDate = hallDateInput.value;
             
-            // 處理手動輸入或空值
             if (selectedHall === '' || selectedHall === '手動輸入') {
                 deceasedNameInput.value = '';
                 if (selectedHall === '手動輸入') {
-                    deceasedNameInput.focus(); // 將焦點導向逝者姓名
+                    deceasedNameInput.focus(); 
                 }
                 return; 
             }
             
-            // 查詢逝者姓名
             const schedule = mockScheduleDB[selectedHallName]?.[selectedDate];
             const selectedDeceased = schedule ? schedule.find(item => item.hall === selectedHall) : null;
             
@@ -162,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 4. 根據選擇更新禮廳選項
         function updateHallOptions() {
             const selectedHallName = funeralHallSelect.value;
             const selectedDate = hallDateInput.value;
@@ -180,10 +167,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 options += `<option value="手動輸入">-- 列表中找不到？請手動輸入禮廳 --</option>`;
             } else if (selectedHallName && selectedDate) {
-                 // 無資料時，自動選擇手動輸入
                  options = `<option value="">-- 今日無公開檔期資料 --</option>`;
                  options += `<option value="手動輸入" selected>-- 請手動輸入禮廳 --</option>`;
-                 // 設置 HTML 後，讓 UX 自動跳轉到手動輸入
                  hallSelect.innerHTML = options;
                  hallSelect.value = '手動輸入';
                  return; 
@@ -194,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
             hallSelect.innerHTML = options;
         }
         
-        // 5. 官方查詢按鈕點擊事件
         if (officialQueryButton) {
             officialQueryButton.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -205,41 +189,102 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // 6. 表單提交事件 (導向 LINE)
+        // 關鍵優化：將表單數據編碼至 LINE 訊息
         if (orderForm) {
             orderForm.addEventListener('submit', function(e) {
                 e.preventDefault(); 
                 
-                // 獲取並清理輸入數據 (使用 trim() 清理前後空格)
                 const senderName = document.getElementById('sender-name')?.value.trim();
                 const senderPhone = document.getElementById('sender-phone')?.value.trim();
                 const hallValue = funeralHallSelect.value.trim();
                 const dateValue = hallDateInput.value.trim();
                 const deceasedValue = deceasedNameInput.value.trim();
+                const product = document.getElementById('product-select')?.value.trim() || '未選擇花禮/罐頭塔';
+                const remark = document.getElementById('remark')?.value.trim() || '無';
 
-                // 檢查表單關鍵資訊是否為空
+
                 if (!hallValue || !dateValue || !deceasedValue || !senderName || !senderPhone) {
-                    alert('請務必填寫所有標記 * 的關鍵資訊（殯儀館、日期、逝者姓名、您的姓名與電話），確保訂單準確！');
+                    alert('請務必填寫所有標記 * 的關鍵資訊，確保訂單準確！');
                     return;
                 }
                 
                 const confirmed = confirm('確認送出訂單？請注意：送出後將引導您至 LINE 聯繫專員，以完成付款與配送細節核對。');
                 
                 if (confirmed) {
-                    console.log('--- 表單數據模擬發送成功 ---');
                     
+                    // 1. 建立預設訊息文本
+                    const lineMessage = `【網站花禮訂單】\n` + 
+                                        `* 訂購人姓名：${senderName}\n` +
+                                        `* 訂購人電話：${senderPhone}\n` +
+                                        `* 訂購產品：${product}\n` +
+                                        `\n--- 告別式資訊 ---\n` +
+                                        `* 殯儀館：${hallValue}\n` +
+                                        `* 告別式日期：${dateValue}\n` +
+                                        `* 逝者姓名：${deceasedValue}\n` +
+                                        `* 備註：${remark}`;
+                    
+                    // 2. 獲取 LINE 連結
                     const lineLinkElement = document.querySelector('.floating-cta a[href*="line"]');
-                    const lineLink = lineLinkElement?.getAttribute('href'); 
+                    let lineLink = lineLinkElement?.getAttribute('href'); 
                     
-                    alert('訂單已暫存！即將引導至 LINE 專員，請務必聯繫以確認最終訂購細節與付款。');
+                    // 3. 編碼訊息並附加到 LINE 連結
+                    const encodedMessage = encodeURIComponent(lineMessage);
                     
-                    if (lineLink) {
+                    if (lineLink && lineLink.includes('line.me/ti/p')) {
+                         lineLink = lineLink.replace('?', `?text=${encodedMessage}&`); 
+                         
+                         alert('訂單已暫存！即將引導至 LINE 專員，請將預設訊息發送給我們，以確認最終訂購細節與付款。');
                          window.location.href = lineLink;
+
                     } else {
-                         alert('LINE 連結未設置，請手動聯繫客服。');
+                         alert('LINE 連結未設置或格式不正確，請手動複製以下資訊並聯繫客服：\n\n' + lineMessage);
                     }
                 }
             });
         }
+    }
+    
+    // ===========================================
+    // 區塊 4: 手風琴 (Accordion) 功能 (for service.html)
+    // ===========================================
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const currentItem = header.parentElement;
+            const content = header.nextElementSibling;
+            
+            // 關閉所有非當前項目的內容
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                if (item !== currentItem && item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    item.querySelector('.accordion-content').style.maxHeight = null;
+                }
+            });
+
+            // 切換當前項目的狀態
+            currentItem.classList.toggle('active');
+
+            if (currentItem.classList.contains('active')) {
+                // 展開內容：設定高度為內容的實際高度 (scrollHeight)
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                // 收合內容：高度設為 null
+                content.style.maxHeight = null;
+            }
+        });
+    });
+
+    // 初始載入時，預設展開第一個項目
+    const firstItem = document.querySelector('.accordion-item:first-child');
+    if (firstItem && window.location.pathname.includes('services.html')) {
+        firstItem.classList.add('active');
+        // 確保內容已渲染才能計算 scrollHeight
+        setTimeout(() => {
+             const content = firstItem.querySelector('.accordion-content');
+             if (content) {
+                 content.style.maxHeight = content.scrollHeight + "px";
+             }
+        }, 0);
     }
 });
