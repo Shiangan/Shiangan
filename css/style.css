@@ -687,3 +687,129 @@ footer {
         padding: 30px 0 15px 0;
     }
 }
+
+/* =========================================== */
+/* 內頁：關於我們 (About Page) 專屬樣式 */
+/* =========================================== */
+
+/* 創辦人詳細介紹區塊 */
+.profile-detail {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+/* 圖片容器：用於圖片和證書標籤的定位 */
+.profile-image-container {
+    flex: 0 0 350px; /* 固定寬度 */
+    position: relative;
+    box-shadow: var(--shadow-medium);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--bg-section);
+}
+
+/* 創辦人圖片樣式 */
+.profile-image {
+    width: 100%;
+    height: 450px; /* 圖片固定高度 */
+    background-size: cover;
+    background-position: top center;
+    border-radius: 8px;
+    filter: grayscale(10%); /* 略微灰階，增添莊重感 */
+    transition: filter 0.5s ease-in-out;
+}
+.profile-image:hover {
+    filter: grayscale(0%);
+}
+
+/* 證書標籤容器 */
+.certifications {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 證書標籤基礎樣式 */
+.cert-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-light);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.cert-tag i {
+    margin-right: 8px;
+}
+
+.cert-national {
+    background-color: var(--primary-color); /* 深藍 */
+}
+
+.cert-experience {
+    background-color: var(--accent-color); /* 古銅金 */
+    color: var(--primary-color);
+}
+
+/* E-E-A-T 列表樣式 */
+.E-E-A-T-list {
+    margin-top: 20px;
+    margin-bottom: 25px;
+    list-style: none;
+    padding-left: 0;
+    border-left: 3px solid var(--accent-color);
+    padding-left: 20px;
+}
+.E-E-A-T-list li {
+    margin-bottom: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.E-E-A-T-list li i {
+    color: var(--accent-color);
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+.profile-text .signature {
+    font-family: 'Noto Serif TC', serif;
+    font-style: italic;
+    color: var(--secondary-color);
+    margin-top: 30px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+}
+
+/* 響應式調整 (900px 以下) */
+@media (max-width: 900px) {
+    .profile-detail {
+        flex-direction: column;
+    }
+    .profile-image-container {
+        flex: 0 0 auto;
+        width: 100%; /* 手機上佔滿寬度 */
+        max-width: 450px;
+        margin: 0 auto 20px;
+    }
+    .profile-image {
+        height: 350px; /* 手機上略微降低高度 */
+    }
+}
+@media (max-width: 600px) {
+    .profile-image {
+        height: 250px;
+    }
+    .cert-tag {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+}
+
