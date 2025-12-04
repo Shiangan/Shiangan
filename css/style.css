@@ -1196,3 +1196,152 @@ footer {
 }
 
 
+/* =========================================== */
+/* 內頁：服務流程 (Services Page) 專屬樣式 */
+/* =========================================== */
+
+/* 服務類型卡片網格 (Services Type Cards) */
+.card-grid.grid-4-cols {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+.service-card {
+    padding-bottom: 30px; /* 為 sub-link 留出空間 */
+    position: relative;
+    text-align: left;
+}
+.service-card h3 {
+    min-height: 2.5rem;
+}
+.service-card .sub-link {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+.service-card .sub-link:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* 服務保證區塊 (Guarantee Points) */
+.cta-services-footer {
+    background-color: var(--bg-section);
+    padding: 30px;
+    margin-top: 50px;
+}
+.guarantee-points p {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin: 5px 0;
+}
+.guarantee-points p i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+
+/* 手風琴 (Accordion) 流程分解樣式 */
+.accordion-container {
+    max-width: 900px;
+    margin: 0 auto 50px;
+}
+.accordion-item {
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden; /* 確保內容不會溢出圓角 */
+    box-shadow: var(--shadow-small);
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    border-top: 5px solid transparent; /* 佔位用，由 HTML 內聯樣式控制顏色 */
+    transition: background-color 0.3s, border-top-color 0.3s;
+}
+
+.accordion-header:hover {
+    background-color: #f9f9f9;
+}
+
+.accordion-header i {
+    margin-right: 15px;
+    color: var(--primary-color);
+}
+.accordion-header .accordion-icon {
+    font-size: 0.8rem;
+    margin-right: 0;
+    transition: transform 0.3s ease;
+}
+
+/* 手風琴展開時的圖標旋轉效果 */
+.accordion-header[aria-expanded="true"] .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0 20px 0;
+    background-color: #fff;
+    /* 過渡效果用 max-height 模擬，確保 content 的高度變化順暢 */
+    max-height: 0; 
+    transition: max-height 0.3s ease-in-out, padding-bottom 0.3s ease;
+    overflow: hidden;
+}
+
+/* 內容展開時的樣式 */
+.accordion-content.active {
+    max-height: 500px; /* 需大於實際內容高度 */
+    padding-bottom: 20px;
+}
+
+.accordion-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 10px 0 20px 0;
+}
+.accordion-content li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .card-grid.grid-4-cols {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .accordion-header {
+        font-size: 1.1rem;
+        padding: 15px;
+    }
+    .accordion-header i {
+        font-size: 1rem;
+        margin-right: 10px;
+    }
+    .accordion-content {
+        padding: 0 15px 0;
+    }
+    .accordion-content.active {
+        padding-bottom: 15px;
+    }
+    .guarantee-points {
+        display: block !important;
+    }
+    .guarantee-points p {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+}
