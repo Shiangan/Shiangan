@@ -1,29 +1,27 @@
-/* ====================================================================== */
-/* 品牌色與變數定義 (V8.1 - 精品級單頁網站：現代極簡黑白金) */
-/* ====================================================================== */
+/* =========================================== */
+/* 品牌色與變數定義 (V6.3 - 最終安全區域與排版修正版) */
+/* =========================================== */
 :root {
     /* 核心色調與文字 */
-    --primary-color: #111111;   /* 主色：極致深黑 (專業、現代、強烈) */
-    --secondary-color: #555555; /* 次要文字 (用於內文，提升層次) */
-    --accent-color: #D4AF37;    /* 點綴色：純金色 (極致奢華感) */
-    --accent-color-hover: #E2C063; /* 金色懸停色 */
-    --text-dark: #111111;       
-    --text-light: #fefefe;      
+    --primary-color: #1C2938;   /* 墨水藍/深夜藍 (專業與莊重) */
+    --secondary-color: #A39D9B; /* 次要文字/輔助線 */
+    --accent-color: #C9A873;    /* 柔和米金/白金 (典雅點綴) */
+    --accent-color-hover: #D6B788; /* 米金懸停色 */
+    --text-dark: #333333;       /* 內文標準色 */
+    --text-light: #f4f4f4;      /* 深色背景文字 */
     
     /* 背景與基礎 */
-    --bg-light: #FFFFFF;        /* 主要背景：純白 */
-    --bg-section: #F8F8F8;      /* 區塊背景色 (極淺灰暖白，增加層次) */
+    --bg-light: #FFFFFF;        
+    --bg-section: #FBFBFC;      /* 更柔和、極淺的區塊背景色 */
     
     /* 輔助與光影 */
-    --border-color: #e0e0e0;    
-    --shadow-light: 0 1px 12px rgba(0, 0, 0, 0.08); /* 精緻陰影 */
-    --shadow-medium: 0 20px 50px rgba(0, 0, 0, 0.25); /* 強烈陰影 */
-    --shadow-accent: 0 8px 30px rgba(212, 175, 55, 0.6); /* 強化金色光暈 */
+    --border-color: #e5e5e5;
+    --shadow-light: 0 1px 5px rgba(0, 0, 0, 0.04); 
+    --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.1); 
+    --shadow-accent: 0 4px 10px rgba(201, 168, 115, 0.4); 
     
-    /* 排版變數 */
-    --site-max-width: 1300px; 
-    --padding-h: 80px;        /* 標準橫向內邊距 (寬闊感) */
-    --header-height: 90px;    /* 增加 Header 高度，更具氣勢 */
+    /* 新增變數：用於計算內容安全區域 */
+    --header-padding-v: 15px; 
 }
 
 /* =========================================== */
@@ -35,275 +33,525 @@
     box-sizing: border-box;
 }
 
-img, video { max-width: 100%; height: auto; display: block; }
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block; 
+}
 
 body {
     font-family: 'Noto Sans TC', sans-serif; 
-    line-height: 1.85; /* 增加行高，提升閱讀質感 */
+    line-height: 1.7; 
     color: var(--text-dark);
     background-color: var(--bg-light);
     overflow-x: hidden; 
-    font-weight: 300; /* 內文稍微輕盈，更具設計感 */
 }
 
 h1, h2, h3, h4, .logo a {
     font-family: 'Noto Serif TC', serif; 
     color: var(--primary-color); 
-    letter-spacing: 2px; /* 提升字距，極致精緻感 */
+    letter-spacing: 0.5px; 
+}
+.hero-content h1 {
+    color: white;
 }
 
-a { color: var(--primary-color); text-decoration: none; transition: all 0.4s ease; }
-a:hover { color: var(--accent-color); }
-ul { list-style: none; }
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.4s ease-in-out, opacity 0.4s ease-in-out; 
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+ul {
+    list-style: none;
+}
 
 .container {
-    max-width: var(--site-max-width); 
+    max-width: 1300px; 
     margin: 0 auto;
-    padding: 0 var(--padding-h); 
+    padding: 120px 60px; 
 }
 section {
-    padding: 140px 0; /* 極大化區塊留白，營造精品網站的開闊感 */
+    padding: 80px 0; 
 }
 
+/* 關鍵修正 1: 解決 Sticky Header 遮擋問題，移除 !important */
 .first-section {
-    padding-top: calc(140px + var(--header-height)); 
+    padding-top: 150px; /* 給 Sticky Header 留足夠空間 */
 }
 
 /* =========================================== */
-/* 標題樣式 (Typography) - 極致重量感 */
+/* 標題樣式 (Typography) */
 /* =========================================== */
-h1 { font-size: 4.5rem; font-weight: 900; line-height: 1.1; }
+h1 {
+    font-size: 3.8rem; 
+    font-weight: 700;
+    line-height: 1.3;
+}
 h2 {
-    font-size: 3.2rem; font-weight: 900; text-align: center; line-height: 1.2;
-    position: relative; margin-bottom: 100px; 
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.3;
+    word-break: keep-all; 
+    overflow-wrap: break-word; 
+    position: relative; 
+    margin-bottom: 60px; 
 }
 h2::after {
-    content: ''; position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%);
-    width: 180px; height: 3px; background-color: var(--accent-color); 
+    content: '';
+    position: absolute;
+    bottom: -15px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px; 
+    height: 3px; 
+    background-color: var(--accent-color);
 }
-h3 { font-size: 2.4rem; font-weight: 700; margin-bottom: 35px; letter-spacing: 1.5px; }
+h3 {
+    font-size: 2.1rem; 
+    font-weight: 500; 
+    margin-bottom: 20px;
+}
 p {
-    margin-bottom: 35px; max-width: 800px; margin-left: auto; margin-right: auto;
-    color: var(--secondary-color); font-size: 1.1rem; 
+    margin-bottom: 25px; 
+    max-width: 750px; 
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-dark); 
 }
 
 /* =========================================== */
-/* Header & Navigation - 精品級標誌 */
+/* Header & Navigation - 頂部安全區修正 */
 /* =========================================== */
 header {
     background-color: var(--bg-light); 
     box-shadow: var(--shadow-light); 
-    position: sticky; top: 0; z-index: 1000;
-    padding-top: env(safe-area-inset-top); 
-}
-
-.header-inner {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: var(--header-height); 
-    padding-left: max(0px, env(safe-area-inset-left));
-    padding-right: max(0px, env(safe-area-inset-right));
+    
+    /* 關鍵修正 2: 處理 iOS/Android 頂部安全區域 (Dynamic Island / Liu Hai) */
+    padding-left: max(60px, env(safe-area-inset-left));
+    padding-right: max(60px, env(safe-area-inset-right));
+    padding-top: calc(var(--header-padding-v) + env(safe-area-inset-top));
+    padding-bottom: var(--header-padding-v);
+    height: auto; 
 }
 
 .logo a {
-    font-size: 3.2rem; font-weight: 900; letter-spacing: 6px; /* 更寬的字距，強化標誌感 */
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 1px; 
+    white-space: nowrap; 
 }
 
-#main-nav ul { display: flex; gap: 60px; align-items: center; }
+#main-nav ul {
+    display: flex;
+    gap: 45px;
+    align-items: center;
+}
 
-#main-nav a { font-weight: 600; padding: 10px 0; position: relative; letter-spacing: 1px; }
-#main-nav a:hover, #main-nav a.active { color: var(--accent-color); font-weight: 800; }
+#main-nav a {
+    color: var(--primary-color);
+    padding: 5px 0;
+    font-weight: 400; 
+    position: relative;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+#main-nav a:hover,
+#main-nav a.active {
+    color: var(--accent-color);
+    font-weight: 700;
+}
 #main-nav a::after {
-    content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-    width: 0; height: 3px; background-color: var(--accent-color);
-    transition: width 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* 彈性過渡效果 */
+    content: '';
+    position: absolute;
+    bottom: -5px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px; 
+    background-color: var(--accent-color);
+    transition: width 0.4s ease-in-out;
 }
-#main-nav a:hover::after, #main-nav a.active::after { width: 100%; }
+#main-nav a:hover::after,
+#main-nav a.active::after {
+    width: 70%;
+}
 
 .contact-nav a {
-    background-color: var(--accent-color); color: var(--primary-color) !important; 
-    padding: 15px 40px; border-radius: 4px; font-weight: 700; 
-    box-shadow: var(--shadow-accent); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
-    border: none; text-transform: uppercase; letter-spacing: 2px;
+    background-color: var(--accent-color); 
+    color: var(--primary-color) !important; 
+    padding: 8px 20px; 
+    border-radius: 50px; 
+    font-weight: 600;
+    box-shadow: var(--shadow-accent);
+    transition: all 0.3s ease-out; 
+    white-space: nowrap;
 }
 .contact-nav a:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 15px 40px var(--shadow-accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--shadow-accent);
     background-color: var(--accent-color-hover); 
 }
 
 .mobile-menu-btn {
-    display: none; background: var(--accent-color); border: none;
-    padding: 12px 20px; border-radius: 6px; font-size: 1.2rem;
-    cursor: pointer; color: var(--primary-color); font-weight: 700;
-    white-space: nowrap; z-index: 1001; 
+    display: none; 
+    background: var(--accent-color);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--primary-color); 
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 /* =========================================== */
-/* Hero & CTA - 視覺衝擊與留白 */
+/* Hero & CTA - 尺寸修正，解決內容截斷 */
 /* =========================================== */
 .hero-section {
-    height: 900px; /* 極致高度 */
-    /* ... 保持背景和遮罩不變 ... */
+    height: 600px; 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
 }
-.hero-section::before { background-color: rgba(0, 0, 0, 0.85); } /* 遮罩更深 */
-
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65); 
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    max-width: 1000px;
+}
 .hero-content h1 {
-    font-size: 6rem; /* 極大化標題尺寸 */
-    text-shadow: 0 8px 20px rgba(0, 0, 0, 1.0); 
-    color: var(--text-light); 
+    font-size: 4.2rem; 
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); 
+    margin-bottom: 40px;
 }
 .hero-content p {
-    font-size: 1.9rem; margin-bottom: 80px; font-weight: 300; letter-spacing: 2px;
-    color: var(--text-light); opacity: 0.85;
+    color: var(--text-light); 
+    font-size: 1.5rem;
+    margin-bottom: 60px;
+    font-weight: 300;
+    letter-spacing: 1px;
 }
 
 .cta-button {
-    padding: 22px 55px; border-radius: 4px; font-weight: 800; letter-spacing: 3.5px; 
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    padding: 16px 35px; 
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: var(--shadow-medium);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    border: none; 
+    cursor: pointer;
 }
-.cta-button:hover { transform: translateY(-7px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); }
-.cta-button.primary { background-color: var(--accent-color); color: var(--primary-color); }
-.cta-button.secondary { background-color: var(--primary-color); color: white; }
+.cta-button:hover {
+    transform: translateY(-2px); 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); 
+}
+.cta-button.primary {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+.cta-button.secondary {
+    background-color: var(--primary-color);
+    color: white;
+}
 
 
 /* =========================================== */
-/* Card Grid & Forms - 精緻工藝與層次感 */
+/* Card Grid & Forms */
 /* =========================================== */
 .card-grid {
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
-    gap: 80px; /* 增加卡片間距 */
-    margin-top: 70px; 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 40px; 
+    margin-top: 40px; 
 }
 .card-item {
-    background-color: var(--bg-light); padding: 55px; 
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); /* 輕微但清晰的陰影 */
+    background-color: var(--bg-light); 
+    padding: 40px; 
+    box-shadow: var(--shadow-light); 
     border: 1px solid var(--border-color); 
-    border-radius: 4px; 
-    border-left: 12px solid var(--accent-color); /* 強化金色線條厚度 */
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* 極致流暢的懸停 */
-}
-.card-item:hover { 
-    transform: translateY(-18px); /* 懸停抬升更多 */
-    box-shadow: var(--shadow-medium); 
+    border-radius: 8px; 
+    border-left: 5px solid var(--accent-color); 
+    transition: all 0.4s ease-out; 
+    height: 100%; 
 }
 
-.card-item .icon { font-size: 4.5rem; color: var(--accent-color); margin-bottom: 30px; }
+.card-item:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); 
+}
+
+.card-item .icon {
+    font-size: 3rem;
+    color: var(--accent-color); 
+    margin-bottom: 15px; 
+    display: block; 
+}
 
 /* Form Styles */
-.order-form { 
-    background-color: var(--bg-section); padding: 90px; border-radius: 16px; 
+.order-form {
+    background-color: var(--bg-section); 
+    padding: 60px; 
+    border-radius: 12px;
     box-shadow: var(--shadow-light); 
+    border: 1px solid var(--border-color);
+}
+.order-form input, .order-form textarea, .order-form select {
+    width: 100%; 
+    padding: 15px; 
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px; 
+    font-family: inherit; 
+    background-color: white; 
+}
+.payment-box:has(input[type="radio"]:checked) {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--shadow-accent); 
+    background-color: #fffcf8; 
+}
+
+/* Pricing Table Classes (for plans.html) */
+.price-highlight-success {
+    font-weight: 700; 
+    color: #4CAF50;
+}
+.price-highlight-warning {
+    font-weight: 700; 
+    color: #FFC107;
+}
+.price-highlight-danger {
+    font-weight: 700; 
+    color: #D32F2F;
 }
 
 /* Service Page Accordion Styles */
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+    padding: 0 20px;
+}
+.accordion-item.active .accordion-content {
+    /* max-height 由 JS 動態設定 */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
 .accordion-header {
-    font-size: 1.8rem;
-    padding: 30px; /* 增加內邊距 */
-    border-left: 10px solid var(--primary-color); 
+    cursor: pointer;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    position: relative;
+    border-left: 5px solid;
+    transition: background-color 0.3s ease;
+}
+.accordion-header:hover {
+    background-color: #eee;
 }
 .accordion-item.active .accordion-header {
-    border-left-color: var(--accent-color); 
-    background-color: var(--bg-section);
+    background-color: #fff8e1; /* 點擊後變亮 */
 }
 
 
 /* =========================================== */
-/* Footer & Floating CTA */
+/* Footer & Floating CTA - 底部安全區修正 */
 /* =========================================== */
 footer {
     background-color: var(--primary-color); 
-    color: var(--text-light); 
-    padding: 160px 0 100px 0; /* 增加 Footer 份量 */
-    font-size: 1.05rem;
+    color: var(--bg-section); 
+    padding: 100px 0 50px 0; 
+    font-size: 0.95rem;
 }
 .footer-grid {
-    grid-template-columns: 3fr 1fr 1fr 2fr; gap: 80px; padding-bottom: 60px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 更細膩的分隔線 */
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25); 
 }
-.footer-grid h4 { color: var(--accent-color); font-size: 1.6rem; font-weight: 900; margin-bottom: 30px;}
-.footer-grid a { opacity: 0.6; padding: 6px 0;}
-.footer-grid a:hover { opacity: 1; transform: translateX(10px); }
+.footer-grid h4 {
+    color: var(--accent-color); 
+}
+.footer-grid a {
+    color: var(--text-light);
+    display: block; 
+    padding: 3px 0;
+}
+.footer-grid a:hover {
+    color: var(--accent-color-hover);
+}
 
 .floating-cta {
-    right: max(40px, env(safe-area-inset-right));
-    bottom: max(40px, env(safe-area-inset-bottom));
+    position: fixed;
+    z-index: 990;
+    /* 關鍵修正 3: 確保不被手機底部導航欄遮擋 */
+    right: max(30px, env(safe-area-inset-right));
+    bottom: max(30px, env(safe-area-inset-bottom));
 }
 
 .floating-cta a {
-    width: 80px; height: 80px; line-height: 80px;
-    font-size: 3.5rem; 
-    background-color: var(--accent-color); color: var(--primary-color); 
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    width: 65px;
+    height: 65px;
+    line-height: 65px;
+    font-size: 2.5rem; 
+    background-color: var(--accent-color); 
+    color: var(--primary-color); 
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block; 
 }
-.floating-cta a:hover { transform: scale(1.18); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65); }
+.floating-cta a:hover {
+    transform: scale(1.08) rotate(2deg); 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (結構修正重點) */
+/* RWD - 響應式設計 (安全區域與標題尺寸最終修正) */
 /* ==================================================== */
 
-@media (max-width: 1200px) {
-    :root { --padding-h: 40px; }
+@media (max-width: 1024px) {
+    .container {
+        padding: 80px 40px; 
+    }
 }
 
 @media (max-width: 900px) {
     
-    .mobile-menu-btn { display: block; }
-    
-    /* 手機選單固定且覆蓋全螢幕 */
-    #main-nav {
-        position: fixed; top: calc(var(--header-height) + env(safe-area-inset-top)); 
-        left: 0; width: 100%; height: 100vh; 
-        background-color: var(--bg-light); 
-        box-shadow: 0 4px 15px var(--shadow-medium); z-index: 999;
-        
-        opacity: 0; visibility: hidden;
-        transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+    .mobile-menu-btn {
+        display: block; 
+        z-index: 1001; 
     }
     
-    #main-nav.active { opacity: 1; visibility: visible; }
+    /* 修正：不再使用 display: none，改用 max-height 進行過渡 */
+    #main-nav {
+        position: absolute;
+        top: 100%; /* 確保選單從 Header 底部開始 */
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-light); 
+        box-shadow: 0 4px 10px var(--shadow-medium);
+        z-index: 999;
+        
+        display: block; 
+        max-height: 0; /* 初始收合狀態 */
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
+    }
+    
+    #main-nav.active { 
+        max-height: 500px; /* 展開狀態，足夠容納選單內容 */
+        opacity: 1;
+        pointer-events: all;
+    }
     
     #main-nav ul {
-        flex-direction: column; gap: 40px; padding: 50px var(--padding-h); align-items: flex-start; 
+        flex-direction: column;
+        gap: 15px; 
+        padding: 20px 40px; 
+        align-items: flex-start; 
     }
-    #main-nav a { font-size: 1.6rem; padding: 15px 0; }
-    
-    .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+    }
 }
 
 @media (max-width: 600px) {
-    :root { --padding-h: 20px; }
-    
-    h1 { font-size: 3.5rem; }
-    h2 { font-size: 2.5rem; margin-bottom: 60px; }
-    
-    section { padding: 80px 0; }
-    
-    .header-inner { 
-        height: 70px; 
-        padding-left: max(15px, env(safe-area-inset-left)); 
-        padding-right: max(15px, env(safe-area-inset-right)); 
+    /* 關鍵修正 4: RWD 標題優化 (解決 Hero 標題過大) */
+    h1 {
+        font-size: 2rem; 
     }
-    .logo a { font-size: 2.5rem; letter-spacing: 4px; }
-
-    /* Hero 區塊調整 */
-    .hero-section { height: 600px; }
-    .hero-content h1 { font-size: 3.8rem; }
-    .hero-content p { font-size: 1.4rem; margin-bottom: 40px; }
+    h2 {
+        font-size: 1.8rem; 
+        margin-bottom: 30px;
+    }
     
-    .cta-button { padding: 18px 40px; font-size: 1rem; letter-spacing: 2.5px;}
+    .container {
+        padding: 40px 15px; 
+    }
+    
+    header {
+        /* 手機 Header 調整，應用安全區域 */
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: calc(10px + env(safe-area-inset-top));
+        padding-bottom: 10px;
+    }
+
+    /* 關鍵修正 5: Hero 區塊調整 */
+    .hero-section {
+        height: 400px; 
+    }
+    .hero-content h1 {
+        font-size: 2.1rem; 
+        margin-bottom: 25px;
+    }
+    .hero-content p {
+        font-size: 1.1rem;
+        margin-bottom: 35px; 
+    }
+    
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        white-space: nowrap; 
+    }
     
     /* Floating CTA 尺寸調整 */
     .floating-cta {
-        right: max(20px, env(safe-area-inset-right));
-        bottom: max(20px, env(safe-area-inset-bottom));
+        right: max(15px, env(safe-area-inset-right));
+        bottom: max(15px, env(safe-area-inset-bottom));
     }
     .floating-cta a {
-        width: 70px; height: 70px; line-height: 70px; font-size: 3rem;
+        width: 55px;
+        height: 55px;
+        line-height: 55px;
+        font-size: 2rem;
     }
     
-    .card-grid { grid-template-columns: 1fr; gap: 50px; }
-    .card-item { padding: 35px; border-left: 8px solid var(--accent-color); }
+    footer {
+        padding: 60px 0 30px 0;
+    }
 }
