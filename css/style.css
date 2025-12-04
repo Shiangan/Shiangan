@@ -876,4 +876,179 @@ footer {
     }
 }
 
+/* =========================================== */
+/* 內頁：殯葬百科 (Blog Page) 樣式 */
+/* =========================================== */
+
+/* 核心雙欄佈局 */
+.blog-page-layout {
+    display: grid;
+    /* 側邊欄固定寬度 280px，文章區佔滿剩餘空間 */
+    grid-template-columns: 280px 1fr; 
+    gap: 40px;
+    align-items: flex-start; /* 頂端對齊 */
+}
+
+/* 側邊欄樣式 */
+.blog-sidebar {
+    padding: 20px 0;
+    position: sticky; /* 讓側邊欄可以固定在頂部 */
+    top: 100px; /* 距離頂部導航欄的距離 */
+}
+
+.blog-sidebar h3 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* 分類列表樣式 */
+.category-list li a {
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1rem;
+}
+
+.category-list li a:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.category-list li a i {
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+.category-list li a:hover i {
+    color: var(--text-light);
+}
+
+
+/* 文章列表主區塊 */
+.article-list {
+    min-width: 0; /* 允許文章列表被壓縮，避免溢出 */
+}
+.article-list h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+.article-list .blog-icon {
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+.separator-line {
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+/* 文章卡片網格佈局 */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* 文章卡片個別樣式 */
+.blog-card {
+    text-align: left;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-small);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+.blog-card h3 {
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    min-height: 3.9rem; /* 確保標題行數一致 */
+}
+.blog-card p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+.blog-card .meta-info {
+    font-size: 0.85rem;
+    color: gray;
+    margin-bottom: 10px;
+}
+.read-more-link {
+    font-weight: 700;
+    color: var(--accent-color);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 5px;
+}
+.read-more-link:hover {
+    text-decoration: underline;
+}
+
+/* 分頁器樣式 */
+.pagination {
+    margin-top: 40px;
+    padding: 10px 0;
+}
+.pagination a {
+    color: var(--primary-color);
+    padding: 8px 15px;
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    margin: 0 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a.active, .pagination a:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+}
+.pagination a.active {
+    font-weight: 700;
+}
+
+
+/* 響應式調整 (平板及手機) */
+@media (max-width: 992px) {
+    .blog-page-layout {
+        /* 在平板/手機上改為單欄佈局 */
+        grid-template-columns: 1fr;
+    }
+    .blog-sidebar {
+        position: static; /* 解除固定 */
+        order: -1; /* 將側邊欄移到主內容上方 */
+        padding: 0;
+    }
+    .blog-sidebar .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    .blog-sidebar .category-list li {
+        flex: 1 1 auto;
+        min-width: 120px;
+    }
+    .blog-sidebar .category-list li a {
+        text-align: center;
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+    }
+    .blog-sidebar .contact-promo {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .blog-card h3 {
+        min-height: auto; /* 手機上不再需要強制高度 */
+    }
+}
 
