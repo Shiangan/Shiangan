@@ -813,3 +813,67 @@ footer {
     }
 }
 
+/* =========================================== */
+/* 內頁：聯絡我們 (Contact Page) 樣式補充 */
+/* =========================================== */
+
+/* 確保聯絡頁面的兩欄佈局 */
+.contact-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: stretch;
+}
+
+/* 表單輸入框樣式微調 */
+.contact-form label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    display: block;
+    font-weight: 700;
+}
+.contact-form input[type="text"],
+.contact-form input[type="tel"],
+.contact-form input[type="email"],
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* 聯絡資訊卡片內的圖標間距 */
+.contact-info-card p .icon,
+.contact-info-card address .icon {
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+.contact-info-card h3 {
+    margin-top: 0;
+}
+
+/* 地圖容器 */
+.map-container {
+    box-shadow: var(--shadow-small);
+}
+
+/* 手機響應式調整 */
+@media (max-width: 800px) {
+    .contact-grid-2col {
+        grid-template-columns: 1fr; /* 單欄佈局 */
+        gap: 40px;
+    }
+}
+
+
