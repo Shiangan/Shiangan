@@ -1345,3 +1345,160 @@ footer {
         margin-bottom: 10px;
     }
 }
+
+/* =========================================== */
+/* 內頁：花禮訂購 (Order Page) 專屬樣式 */
+/* =========================================== */
+
+/* 確保網格佈局的通用性和響應性 */
+.grid-2-cols {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+.grid-3-cols {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+/* 配送保證區塊樣式 */
+.delivery-guarantee {
+    background-color: var(--bg-section); /* 請確保您已定義此變量，例如: #f7f7f7 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-small);
+}
+.delivery-guarantee p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.delivery-guarantee p i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+/* 產品卡片樣式 */
+.product-showcase {
+    margin-bottom: 40px !important;
+}
+.product-card {
+    border: 1px solid var(--border-color); /* 請確保您已定義此變量，例如: #ddd */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-small); /* 請確保您已定義此變量 */
+    transition: box-shadow 0.3s;
+}
+.product-card:hover {
+    box-shadow: var(--shadow-medium); /* 請確保您已定義此變量 */
+}
+.product-card img {
+    width: 100%; 
+    height: auto; 
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.product-card h3 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin: 5px 0 10px;
+}
+.product-card .product-description {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #666;
+}
+.custom-order-promo {
+    padding: 25px;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    background-color: #fff8e1; 
+}
+
+/* 表單區塊樣式 */
+.order-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+}
+.order-form .form-section-title {
+    margin-top: 40px; 
+    border-bottom: 1px solid var(--border-color); 
+    padding-bottom: 10px;
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+}
+.order-form .form-tip {
+    font-size: 0.9rem; 
+    color: gray;
+    margin-top: 10px;
+}
+.order-form .final-reminder {
+    color: #D32F2F !important; 
+    font-weight: 700;
+}
+/* 讓 input/select/textarea 佔滿父層容器 */
+.order-form input[type="text"],
+.order-form input[type="tel"],
+.order-form input[type="date"],
+.order-form select,
+.order-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* 確保 padding 不會撐大寬度 */
+}
+
+/* 支付選項樣式 */
+.payment-options {
+    margin-top: 10px;
+    gap: 15px !important;
+}
+.payment-box {
+    display: block;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s;
+    position: relative;
+}
+.payment-box input[type="radio"] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 1.2em;
+    height: 1.2em;
+}
+.payment-box h4 {
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+}
+.payment-box .payment-instruction {
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 500;
+}
+/* 支付選項顏色美化 */
+.line-pay {
+    background-color: #e6f7e6; 
+    border: 2px solid #00B900;
+}
+.bank-transfer {
+    background-color: #e6f7ff; 
+    border: 2px solid var(--primary-color);
+}
+
+/* 響應式調整 */
+@media (max-width: 600px) {
+    .delivery-guarantee, .product-showcase, .grid-2-cols, .payment-options {
+        grid-template-columns: 1fr;
+    }
+    .delivery-guarantee p {
+        text-align: left !important;
+        margin-bottom: 5px;
+    }
+}
+
