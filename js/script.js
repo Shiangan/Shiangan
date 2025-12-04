@@ -8,35 +8,38 @@ document.addEventListener('DOMContentLoaded', function() {
     // 區塊 1: 隱私與智慧財產保護 (移除右鍵禁用，改為柔性提示)
     // ===========================================
     document.addEventListener('copy', function() {
-        // 在使用者複製內容時，給予柔性提示
         console.info("© 版權所有 祥安生命有限公司。請尊重智慧財產權。");
     });
-    // 註解：建議不要禁用 contextmenu，會影響使用者體驗。
 
     // ===========================================
     // 區塊 2: 導航功能與使用者介面 (UX)
-    // 關鍵修正: 優化 RWD 選單按鈕邏輯
     // ===========================================
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mainNav = document.getElementById('main-nav');
+    // 修正: 確保 mobile 選單容器與 nav 同步，或使用新的 class 讓選單出現
+    const navContainer = document.querySelector('header'); 
     const NAV_ACTIVE_CLASS = 'active';
+    const MOBILE_MENU_CLASS = 'mobile-menu'; // 配合 CSS 900px RWD 媒體查詢
 
-    if (mobileMenuBtn && mainNav) {
+    if (mobileMenuBtn && mainNav && navContainer) {
         
-        // 儲存按鈕的初始圖標和文字，避免重複創建
+        // 將 #main-nav 設置為移動選單的容器，以便在 RWD 樣式中切換
+        mainNav.classList.add(MOBILE_MENU_CLASS);
         const initialBtnHtml = mobileMenuBtn.innerHTML;
         
         // 行動選單切換邏輯
         mobileMenuBtn.addEventListener('click', function() {
+            // 使用 active class 切換 display 狀態 (CSS 需配合)
             mainNav.classList.toggle(NAV_ACTIVE_CLASS);
+            const isActive = mainNav.classList.contains(NAV_ACTIVE_CLASS);
             
-            // 使用更簡潔的方式切換按鈕狀態
-            this.innerHTML = mainNav.classList.contains(NAV_ACTIVE_CLASS) 
+            // 修正: 切換按鈕圖標和文字
+            this.innerHTML = isActive 
                 ? '<i class="fas fa-times"></i> 關閉' 
                 : initialBtnHtml;
             
-            // 修正：如果使用 CSS 的 visibility 隱藏選單，這裡也要調整
-            mainNav.setAttribute('aria-expanded', mainNav.classList.contains(NAV_ACTIVE_CLASS));
+            // 無障礙優化
+            this.setAttribute('aria-expanded', isActive);
         });
         
         // 點擊選單項目後自動關閉
@@ -45,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 if (mainNav.classList.contains(NAV_ACTIVE_CLASS)) {
                     mainNav.classList.remove(NAV_ACTIVE_CLASS);
-                    mobileMenuBtn.innerHTML = initialBtnHtml; // 恢復初始文字
-                    mainNav.setAttribute('aria-expanded', false);
+                    mobileMenuBtn.innerHTML = initialBtnHtml; 
+                    mobileMenuBtn.setAttribute('aria-expanded', false);
                 }
             });
         });
@@ -58,11 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     navItems.forEach(item => {
         const itemHref = item.getAttribute('href');
-        // 檢查 href 是否為空，以及是否匹配當前路徑或首頁 ('')
+        // 檢查 href 是否匹配當前路徑或首頁 ('', 'index.html')
         if (itemHref && currentPath && itemHref.endsWith(currentPath)) {
             item.classList.add(NAV_ACTIVE_CLASS);
         } else if ((!currentPath || currentPath === 'index.html' || currentPath === '') && (itemHref === '/' || itemHref === 'index.html')) {
-             item.classList.add(NAV_ACTIVE_CLASS); // 處理首頁匹配
+             item.classList.add(NAV_ACTIVE_CLASS);
         }
     });
 
@@ -78,12 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const deceasedNameInput = document.getElementById('deceased-name-input');
     const officialQueryButton = document.getElementById('official-query-btn');
     
-    // --- 模擬殯儀館檔期資料庫 ---
+    // --- 模擬殯儀館檔期資料庫 (保持不變) ---
     const mockScheduleDB = {
         '台北市立第二殯儀館': {
             '2025-12-10': [{ hall: '至真二廳', deceased: '李府老夫人 李○○' }, { hall: '至善二廳', deceased: '張公大人 張○○' }],
             '2025-12-11': [{ hall: '至真二廳', deceased: '王公大人 王○○' }, { hall: '至善一廳', deceased: '林公大人 林○○' }],
-            '2025-12-12': [] // 模擬無檔期
+            '2025-12-12': [] 
         },
         '台北市立第一殯儀館': { 
             '2025-12-10': [{ hall: '景行廳', deceased: '陳府老夫人 陳○○' }]
@@ -96,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (funeralHallSelect && hallDateInput && hallSelect && deceasedNameInput) {
         
-        // 儲存按鈕初始文字 (優化載入邏輯)
         if(officialQueryButton) {
             officialQueryButton.setAttribute('data-initial-text', officialQueryButton.innerHTML);
         }
@@ -107,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
             hallSelect.innerHTML = '<option value="">-- 請先選擇日期 --</option>'; 
             deceasedNameInput.value = '';
             
-            // 使用 ternary operator 簡化判斷
             const isTaipei2 = (this.value === '台北市立第二殯儀館');
             if (officialQueryButton) {
                 officialQueryButton.style.display = isTaipei2 ? 'block' : 'none';
@@ -117,14 +118,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 2. 監聽日期選擇 - 加入載入反饋
         hallDateInput.addEventListener('change', function() {
-            if (!this.value) return; // 如果日期為空，不執行查詢
+            if (!this.value || !funeralHallSelect.value) {
+                hallSelect.innerHTML = '<option value="">-- 請先選擇殯儀館和日期 --</option>';
+                return; 
+            }
             
             if (officialQueryButton) {
                 officialQueryButton.classList.add('loading-state');
                 officialQueryButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在查詢檔期...';
             }
 
-            // 模擬異步查詢
             setTimeout(() => {
                 updateHallOptions();
                 if (officialQueryButton) {
@@ -140,22 +143,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedHallName = funeralHallSelect.value;
             const selectedDate = hallDateInput.value;
             
-            // 處理手動輸入或空值
             if (selectedHall === '' || selectedHall === '手動輸入') {
                 deceasedNameInput.value = '';
                 if (selectedHall === '手動輸入') {
-                    // 修正: 使用更柔性的訊息提示 (或直接讓用戶填寫，避免彈窗中斷流程)
-                    // console.info("已選擇手動輸入，請在下方欄位填寫逝者姓名。");
+                    deceasedNameInput.focus(); 
                 }
-                deceasedNameInput.focus(); // 將焦點導向逝者姓名，提升 UX
                 return; 
             }
             
-            // 查詢逝者姓名
             const schedule = mockScheduleDB[selectedHallName]?.[selectedDate];
             const selectedDeceased = schedule ? schedule.find(item => item.hall === selectedHall) : null;
             
-            // 防禦性檢查
             if (selectedDeceased?.deceased) {
                 deceasedNameInput.value = selectedDeceased.deceased;
             } else {
@@ -168,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedHallName = funeralHallSelect.value;
             const selectedDate = hallDateInput.value;
             
-            hallSelect.innerHTML = ''; // 清空選項
+            hallSelect.innerHTML = ''; 
             deceasedNameInput.value = '';
 
             const dateSchedule = mockScheduleDB[selectedHallName]?.[selectedDate];
@@ -179,14 +177,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 dateSchedule.forEach(item => {
                     options += `<option value="${item.hall}">${item.hall}</option>`;
                 });
-                // 添加列表找不到的選項
                 options += `<option value="手動輸入">-- 列表中找不到？請手動輸入禮廳 --</option>`;
             } else if (selectedHallName && selectedDate) {
-                 // 修正 UX: 無資料時，直接引導至手動輸入
+                 // 無資料時，自動選擇手動輸入
                  options = `<option value="">-- 今日無公開檔期資料 --</option>`;
                  options += `<option value="手動輸入" selected>-- 請手動輸入禮廳 --</option>`;
-                 // 觸發一次 change 事件，自動清空逝者姓名並提示
+                 // 設置 HTML 後，觸發 change 確保 UX 提示
+                 hallSelect.innerHTML = options;
                  hallSelect.value = '手動輸入';
+                 return; // 完成設定，提前返回
             } else {
                  options = '<option value="">-- 請先選擇日期 --</option>';
             }
@@ -194,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hallSelect.innerHTML = options;
         }
         
-        // 5. 官方查詢按鈕點擊事件 (導向外部連結)
+        // 5. 官方查詢按鈕點擊事件
         if (officialQueryButton) {
             officialQueryButton.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -205,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-
         // 6. 表單提交事件 (導向 LINE)
         if (orderForm) {
             orderForm.addEventListener('submit', function(e) {
@@ -230,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('--- 表單數據模擬發送成功 ---');
                     
                     const lineLinkElement = document.querySelector('.floating-cta a[href*="line"]');
-                    const lineLink = lineLinkElement?.getAttribute('href'); // 使用可選鏈
+                    const lineLink = lineLinkElement?.getAttribute('href'); 
                     
                     alert('訂單已暫存！即將引導至 LINE 專員，請務必聯繫以確認最終訂購細節與付款。');
                     
