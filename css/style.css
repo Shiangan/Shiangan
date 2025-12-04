@@ -31,9 +31,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 確保元素在所有裝置上都不會被安全區域裁切 (此設定在 body/html 處更常見，但這裡做全局覆蓋) */
-    min-height: 0;
-    min-width: 0;
 }
 
 img, video {
@@ -48,10 +45,6 @@ body {
     color: var(--text-dark);
     background-color: var(--bg-light);
     overflow-x: hidden; 
-    
-    /* 確保內容不會跑到安全區域外 */
-    padding-top: env(safe-area-inset-top); 
-    padding-bottom: env(safe-area-inset-bottom);
 }
 
 h1, h2, h3, h4, .logo a {
@@ -86,12 +79,10 @@ section {
     padding: 80px 0; 
 }
 
-/* 關鍵修正 1: 解決 Sticky Header 遮擋問題 */
+/* 關鍵修正 1: 解決 Sticky Header 遮擋問題，移除 !important */
 .first-section {
-    /* 使用一個足夠大的固定值來防止內容被擋，並讓 Hero 內容垂直置中 */
-    padding-top: 100px !important; 
+    padding-top: 150px; /* 給 Sticky Header 留足夠空間 */
 }
-
 
 /* =========================================== */
 /* 標題樣式 (Typography) */
@@ -148,10 +139,8 @@ header {
     align-items: center;
     
     /* 關鍵修正 2: 處理 iOS/Android 頂部安全區域 (Dynamic Island / Liu Hai) */
-    /* 確保左右 padding 至少為 60px */
     padding-left: max(60px, env(safe-area-inset-left));
     padding-right: max(60px, env(safe-area-inset-right));
-    /* 頂部 padding 包含變數與安全區域 */
     padding-top: calc(var(--header-padding-v) + env(safe-area-inset-top));
     padding-bottom: var(--header-padding-v);
     height: auto; 
@@ -354,6 +343,51 @@ header {
     background-color: #fffcf8; 
 }
 
+/* Pricing Table Classes (for plans.html) */
+.price-highlight-success {
+    font-weight: 700; 
+    color: #4CAF50;
+}
+.price-highlight-warning {
+    font-weight: 700; 
+    color: #FFC107;
+}
+.price-highlight-danger {
+    font-weight: 700; 
+    color: #D32F2F;
+}
+
+/* Service Page Accordion Styles */
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+    padding: 0 20px;
+}
+.accordion-item.active .accordion-content {
+    /* max-height 由 JS 動態設定 */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.accordion-header {
+    cursor: pointer;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    position: relative;
+    border-left: 5px solid;
+    transition: background-color 0.3s ease;
+}
+.accordion-header:hover {
+    background-color: #eee;
+}
+.accordion-item.active .accordion-header {
+    background-color: #fff8e1; /* 點擊後變亮 */
+}
+
 
 /* =========================================== */
 /* Footer & Floating CTA - 底部安全區修正 */
@@ -427,14 +461,10 @@ footer {
         z-index: 1001; 
     }
     
+    /* 修正：不再使用 display: none，改用 max-height 進行過渡 */
     #main-nav {
-        display: none; 
-    }
-    
-    .mobile-menu {
         position: absolute;
-        /* 讓選單剛好在 Header 下方 */
-        top: calc(var(--header-padding-v) * 2 + 2.2rem + env(safe-area-inset-top)); 
+        top: 100%; /* 確保選單從 Header 底部開始 */
         left: 0;
         width: 100%;
         background-color: var(--bg-light); 
@@ -442,19 +472,20 @@ footer {
         z-index: 999;
         
         display: block; 
+        max-height: 0; /* 初始收合狀態 */
+        overflow: hidden;
         opacity: 0;
-        transform: translateY(-10px);
         pointer-events: none;
-        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
     }
     
-    .mobile-menu.active { 
+    #main-nav.active { 
+        max-height: 500px; /* 展開狀態，足夠容納選單內容 */
         opacity: 1;
-        transform: translateY(0);
         pointer-events: all;
     }
     
-    .mobile-menu ul {
+    #main-nav ul {
         flex-direction: column;
         gap: 15px; 
         padding: 20px 40px; 
