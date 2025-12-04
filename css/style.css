@@ -1,5 +1,5 @@
 /* =========================================== */
-/* 品牌色與變數定義 (V6.2 - 極致高級感版面結構優化) */
+/* 品牌色與變數定義 (V6.3 - 最終安全區域與排版修正版) */
 /* =========================================== */
 :root {
     /* 核心色調與文字 */
@@ -14,23 +14,26 @@
     --bg-light: #FFFFFF;        
     --bg-section: #FBFBFC;      /* 更柔和、極淺的區塊背景色 */
     
-    /* 輔助與光影 - 質感提升重點 */
+    /* 輔助與光影 */
     --border-color: #e5e5e5;
     --shadow-light: 0 1px 5px rgba(0, 0, 0, 0.04); 
     --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.1); 
     --shadow-accent: 0 4px 10px rgba(201, 168, 115, 0.4); 
     
-    --header-height-desktop: 70px; /* 新增變數：桌面 Header 高度 */
-    --header-height-mobile: 55px;  /* 新增變數：手機 Header 高度 */
+    /* 新增變數：用於計算內容安全區域 */
+    --header-padding-v: 15px; 
 }
 
 /* =========================================== */
-/* 基礎樣式 (Base Styles) - 留白與字體優化 */
+/* 基礎樣式 (Base Styles) */
 /* =========================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* 確保元素在所有裝置上都不會被安全區域裁切 (此設定在 body/html 處更常見，但這裡做全局覆蓋) */
+    min-height: 0;
+    min-width: 0;
 }
 
 img, video {
@@ -46,8 +49,9 @@ body {
     background-color: var(--bg-light);
     overflow-x: hidden; 
     
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale; 
+    /* 確保內容不會跑到安全區域外 */
+    padding-top: env(safe-area-inset-top); 
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 h1, h2, h3, h4, .logo a {
@@ -76,20 +80,21 @@ ul {
 .container {
     max-width: 1300px; 
     margin: 0 auto;
-    padding: 120px 60px; /* 桌面端保持大留白 */
+    padding: 120px 60px; 
 }
 section {
     padding: 80px 0; 
 }
 
-/* 關鍵修正: 確保第一個區塊不被 Sticky Header 擋住 */
+/* 關鍵修正 1: 解決 Sticky Header 遮擋問題 */
 .first-section {
-    padding-top: var(--header-height-desktop) !important;
+    /* 使用一個足夠大的固定值來防止內容被擋，並讓 Hero 內容垂直置中 */
+    padding-top: 100px !important; 
 }
 
 
 /* =========================================== */
-/* 標題樣式 (Typography) - 精緻化 */
+/* 標題樣式 (Typography) */
 /* =========================================== */
 h1 {
     font-size: 3.8rem; 
@@ -104,9 +109,8 @@ h2 {
     word-break: keep-all; 
     overflow-wrap: break-word; 
     position: relative; 
-    margin-bottom: 60px; /* 減少 H2 間距，讓區塊更緊湊 */
+    margin-bottom: 60px; 
 }
-
 h2::after {
     content: '';
     position: absolute;
@@ -117,26 +121,21 @@ h2::after {
     height: 3px; 
     background-color: var(--accent-color);
 }
-
 h3 {
     font-size: 2.1rem; 
     font-weight: 500; 
     margin-bottom: 20px;
 }
 p {
-    margin-bottom: 25px; /* 增加段落間距 */
-    max-width: 750px; /* 限制內文寬度，增加閱讀舒適度 */
+    margin-bottom: 25px; 
+    max-width: 750px; 
     margin-left: auto;
     margin-right: auto;
     color: var(--text-dark); 
 }
 
-.text-center {
-    text-align: center;
-}
-
 /* =========================================== */
-/* Header & Navigation - 輕量化 */
+/* Header & Navigation - 頂部安全區修正 */
 /* =========================================== */
 header {
     background-color: var(--bg-light); 
@@ -147,8 +146,15 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 60px; 
-    height: var(--header-height-desktop); /* 使用變數 */
+    
+    /* 關鍵修正 2: 處理 iOS/Android 頂部安全區域 (Dynamic Island / Liu Hai) */
+    /* 確保左右 padding 至少為 60px */
+    padding-left: max(60px, env(safe-area-inset-left));
+    padding-right: max(60px, env(safe-area-inset-right));
+    /* 頂部 padding 包含變數與安全區域 */
+    padding-top: calc(var(--header-padding-v) + env(safe-area-inset-top));
+    padding-bottom: var(--header-padding-v);
+    height: auto; 
 }
 
 .logo a {
@@ -224,7 +230,7 @@ header {
 }
 
 /* =========================================== */
-/* Hero & CTA */
+/* Hero & CTA - 尺寸修正，解決內容截斷 */
 /* =========================================== */
 .hero-section {
     height: 600px; 
@@ -294,36 +300,34 @@ header {
 
 
 /* =========================================== */
-/* Card Grid & Forms - 材質感優化 (改用 Grid 自動排版) */
+/* Card Grid & Forms */
 /* =========================================== */
 .card-grid {
     display: grid;
-    /* 修正: 確保在不同螢幕尺寸下自動適應 2-4 欄 */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 40px; /* 稍微減少間距，讓卡片更緊湊 */
-    margin-top: 40px; /* 與上方文字拉開距離 */
+    gap: 40px; 
+    margin-top: 40px; 
 }
 .card-item {
     background-color: var(--bg-light); 
     padding: 40px; 
     box-shadow: var(--shadow-light); 
     border: 1px solid var(--border-color); 
-    border-radius: 8px; /* 略微增加圓角，更柔和 */
-    border-left: 5px solid var(--accent-color); /* 強調線稍微加粗 */
-    
+    border-radius: 8px; 
+    border-left: 5px solid var(--accent-color); 
     transition: all 0.4s ease-out; 
-    height: 100%; /* 確保卡片高度一致 (在 Grid 佈局下通常會自動實現) */
+    height: 100%; 
 }
 
 .card-item:hover {
-    transform: translateY(-8px); /* 增加抬升距離，更明顯的互動感 */
+    transform: translateY(-8px); 
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); 
 }
 
 .card-item .icon {
     font-size: 3rem;
     color: var(--accent-color); 
-    margin-bottom: 15px; /* Icon 獨立一行，更簡潔 */
+    margin-bottom: 15px; 
     display: block; 
 }
 
@@ -342,7 +346,7 @@ header {
     border: 1px solid var(--border-color);
     margin-bottom: 20px; 
     font-family: inherit; 
-    background-color: white; /* 確保輸入框背景為白色，增加層次 */
+    background-color: white; 
 }
 .payment-box:has(input[type="radio"]:checked) {
     border-color: var(--accent-color);
@@ -352,7 +356,7 @@ header {
 
 
 /* =========================================== */
-/* Footer & Floating CTA */
+/* Footer & Floating CTA - 底部安全區修正 */
 /* =========================================== */
 footer {
     background-color: var(--primary-color); 
@@ -362,7 +366,6 @@ footer {
 }
 .footer-grid {
     display: grid;
-    /* 修正: 讓第一欄寬度更具優勢 */
     grid-template-columns: 2.5fr 1fr 1fr 1.5fr;
     gap: 40px;
     padding-bottom: 30px;
@@ -373,7 +376,7 @@ footer {
 }
 .footer-grid a {
     color: var(--text-light);
-    display: block; /* 讓 Footer 連結可以佔滿一行，點擊更容易 */
+    display: block; 
     padding: 3px 0;
 }
 .footer-grid a:hover {
@@ -382,10 +385,12 @@ footer {
 
 .floating-cta {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
     z-index: 990;
+    /* 關鍵修正 3: 確保不被手機底部導航欄遮擋 */
+    right: max(30px, env(safe-area-inset-right));
+    bottom: max(30px, env(safe-area-inset-bottom));
 }
+
 .floating-cta a {
     width: 65px;
     height: 65px;
@@ -400,29 +405,23 @@ footer {
     display: block; 
 }
 .floating-cta a:hover {
-    transform: scale(1.08) rotate(2deg); /* 增加一個輕微的旋轉，更活潑 */
+    transform: scale(1.08) rotate(2deg); 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (最終防擋修正) */
+/* RWD - 響應式設計 (安全區域與標題尺寸最終修正) */
 /* ==================================================== */
 
 @media (max-width: 1024px) {
     .container {
         padding: 80px 40px; 
     }
-    header {
-        padding: 15px 40px;
-    }
 }
 
 @media (max-width: 900px) {
     
-    /* ---------------------------------- */
-    /* 關鍵修正: 選單展開狀態 (修正 Header 高度與內容對齊) */
-    /* ---------------------------------- */
     .mobile-menu-btn {
         display: block; 
         z-index: 1001; 
@@ -434,7 +433,8 @@ footer {
     
     .mobile-menu {
         position: absolute;
-        top: var(--header-height-desktop); /* 桌面高度為 70px */
+        /* 讓選單剛好在 Header 下方 */
+        top: calc(var(--header-padding-v) * 2 + 2.2rem + env(safe-area-inset-top)); 
         left: 0;
         width: 100%;
         background-color: var(--bg-light); 
@@ -460,7 +460,6 @@ footer {
         padding: 20px 40px; 
         align-items: flex-start; 
     }
-
     .footer-grid {
         grid-template-columns: 1fr;
         text-align: center;
@@ -469,63 +468,59 @@ footer {
 }
 
 @media (max-width: 600px) {
-    .container {
-        padding: 40px 15px; /* 手機安全邊距 */
-    }
-    /* 修正 Header: 確保手機 Header 高度與定位一致 */
-    header {
-        padding: 10px 15px;
-        height: var(--header-height-mobile); /* 55px */
-    }
-    /* 修正: 第一個區塊的 padding-top 也要跟著手機 Header 高度調整 */
-    .first-section {
-        padding-top: var(--header-height-mobile) !important;
-    }
-
-    /* RWD 標題優化 */
+    /* 關鍵修正 4: RWD 標題優化 (解決 Hero 標題過大) */
     h1 {
         font-size: 2rem; 
     }
     h2 {
-        font-size: 1.6rem; 
-        margin-bottom: 25px;
-    }
-    h3 {
-        font-size: 1.5rem;
+        font-size: 1.8rem; 
+        margin-bottom: 30px;
     }
     
+    .container {
+        padding: 40px 15px; 
+    }
+    
+    header {
+        /* 手機 Header 調整，應用安全區域 */
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: calc(10px + env(safe-area-inset-top));
+        padding-bottom: 10px;
+    }
+
+    /* 關鍵修正 5: Hero 區塊調整 */
     .hero-section {
-        height: 350px; 
+        height: 400px; 
+    }
+    .hero-content h1 {
+        font-size: 2.1rem; 
+        margin-bottom: 25px;
     }
     .hero-content p {
         font-size: 1.1rem;
-        margin-bottom: 25px;
+        margin-bottom: 35px; 
     }
     
     .cta-button {
         padding: 10px 20px;
         font-size: 0.9rem;
+        white-space: nowrap; 
     }
-
-    .order-form {
-        padding: 30px 20px; 
+    
+    /* Floating CTA 尺寸調整 */
+    .floating-cta {
+        right: max(15px, env(safe-area-inset-right));
+        bottom: max(15px, env(safe-area-inset-bottom));
     }
-    .card-item {
-        padding: 25px;
+    .floating-cta a {
+        width: 55px;
+        height: 55px;
+        line-height: 55px;
+        font-size: 2rem;
     }
     
     footer {
-        padding: 40px 0 20px 0;
-    }
-    
-    .floating-cta {
-        bottom: 15px;
-        right: 15px;
-    }
-    .floating-cta a {
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        font-size: 1.8rem;
+        padding: 60px 0 30px 0;
     }
 }
