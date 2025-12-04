@@ -1,44 +1,41 @@
 // --------------------------------------------------------
-// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終修正版 V2.0
+// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終修正版 V2.1 (選單功能已修復)
 // --------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
 
     // ===========================================
-    // 區塊 1: 隱私與智慧財產保護 (移除右鍵禁用，改為柔性提示)
+    // 區塊 1: 隱私與智慧財產保護
     // ===========================================
     document.addEventListener('copy', function() {
+        // 柔性提示：在使用者複製內容時，給予版權提示
         console.info("© 版權所有 祥安生命有限公司。請尊重智慧財產權。");
     });
 
     // ===========================================
     // 區塊 2: 導航功能與使用者介面 (UX)
+    // 關鍵修正: 確保選單切換邏輯正確，修復選單打不開的問題
     // ===========================================
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mainNav = document.getElementById('main-nav');
-    // 修正: 確保 mobile 選單容器與 nav 同步，或使用新的 class 讓選單出現
-    const navContainer = document.querySelector('header'); 
-    const NAV_ACTIVE_CLASS = 'active';
-    const MOBILE_MENU_CLASS = 'mobile-menu'; // 配合 CSS 900px RWD 媒體查詢
+    const NAV_ACTIVE_CLASS = 'active'; // 統一 Class 名稱，與 CSS 展開匹配
 
-    if (mobileMenuBtn && mainNav && navContainer) {
+    if (mobileMenuBtn && mainNav) {
         
-        // 將 #main-nav 設置為移動選單的容器，以便在 RWD 樣式中切換
-        mainNav.classList.add(MOBILE_MENU_CLASS);
+        // 儲存按鈕的初始圖標和文字（例如：<i class="fas fa-bars"></i> 選單）
         const initialBtnHtml = mobileMenuBtn.innerHTML;
         
         // 行動選單切換邏輯
         mobileMenuBtn.addEventListener('click', function() {
-            // 使用 active class 切換 display 狀態 (CSS 需配合)
             mainNav.classList.toggle(NAV_ACTIVE_CLASS);
             const isActive = mainNav.classList.contains(NAV_ACTIVE_CLASS);
             
-            // 修正: 切換按鈕圖標和文字
+            // 根據狀態切換按鈕文字/圖標
             this.innerHTML = isActive 
                 ? '<i class="fas fa-times"></i> 關閉' 
                 : initialBtnHtml;
             
-            // 無障礙優化
+            // 無障礙優化：切換 aria-expanded 屬性
             this.setAttribute('aria-expanded', isActive);
         });
         
@@ -48,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 if (mainNav.classList.contains(NAV_ACTIVE_CLASS)) {
                     mainNav.classList.remove(NAV_ACTIVE_CLASS);
-                    mobileMenuBtn.innerHTML = initialBtnHtml; 
+                    mobileMenuBtn.innerHTML = initialBtnHtml; // 恢復初始文字
                     mobileMenuBtn.setAttribute('aria-expanded', false);
                 }
             });
@@ -61,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     navItems.forEach(item => {
         const itemHref = item.getAttribute('href');
+        
         // 檢查 href 是否匹配當前路徑或首頁 ('', 'index.html')
         if (itemHref && currentPath && itemHref.endsWith(currentPath)) {
             item.classList.add(NAV_ACTIVE_CLASS);
@@ -81,12 +79,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const deceasedNameInput = document.getElementById('deceased-name-input');
     const officialQueryButton = document.getElementById('official-query-btn');
     
-    // --- 模擬殯儀館檔期資料庫 (保持不變) ---
+    // --- 模擬殯儀館檔期資料庫 ---
     const mockScheduleDB = {
         '台北市立第二殯儀館': {
             '2025-12-10': [{ hall: '至真二廳', deceased: '李府老夫人 李○○' }, { hall: '至善二廳', deceased: '張公大人 張○○' }],
             '2025-12-11': [{ hall: '至真二廳', deceased: '王公大人 王○○' }, { hall: '至善一廳', deceased: '林公大人 林○○' }],
-            '2025-12-12': [] 
+            '2025-12-12': []
         },
         '台北市立第一殯儀館': { 
             '2025-12-10': [{ hall: '景行廳', deceased: '陳府老夫人 陳○○' }]
@@ -99,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (funeralHallSelect && hallDateInput && hallSelect && deceasedNameInput) {
         
+        // 儲存按鈕初始文字
         if(officialQueryButton) {
             officialQueryButton.setAttribute('data-initial-text', officialQueryButton.innerHTML);
         }
@@ -143,14 +142,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedHallName = funeralHallSelect.value;
             const selectedDate = hallDateInput.value;
             
+            // 處理手動輸入或空值
             if (selectedHall === '' || selectedHall === '手動輸入') {
                 deceasedNameInput.value = '';
                 if (selectedHall === '手動輸入') {
-                    deceasedNameInput.focus(); 
+                    deceasedNameInput.focus(); // 將焦點導向逝者姓名
                 }
                 return; 
             }
             
+            // 查詢逝者姓名
             const schedule = mockScheduleDB[selectedHallName]?.[selectedDate];
             const selectedDeceased = schedule ? schedule.find(item => item.hall === selectedHall) : null;
             
@@ -182,10 +183,10 @@ document.addEventListener('DOMContentLoaded', function() {
                  // 無資料時，自動選擇手動輸入
                  options = `<option value="">-- 今日無公開檔期資料 --</option>`;
                  options += `<option value="手動輸入" selected>-- 請手動輸入禮廳 --</option>`;
-                 // 設置 HTML 後，觸發 change 確保 UX 提示
+                 // 設置 HTML 後，讓 UX 自動跳轉到手動輸入
                  hallSelect.innerHTML = options;
                  hallSelect.value = '手動輸入';
-                 return; // 完成設定，提前返回
+                 return; 
             } else {
                  options = '<option value="">-- 請先選擇日期 --</option>';
             }
@@ -209,14 +210,14 @@ document.addEventListener('DOMContentLoaded', function() {
             orderForm.addEventListener('submit', function(e) {
                 e.preventDefault(); 
                 
-                // 獲取並清理輸入數據
+                // 獲取並清理輸入數據 (使用 trim() 清理前後空格)
                 const senderName = document.getElementById('sender-name')?.value.trim();
                 const senderPhone = document.getElementById('sender-phone')?.value.trim();
                 const hallValue = funeralHallSelect.value.trim();
                 const dateValue = hallDateInput.value.trim();
                 const deceasedValue = deceasedNameInput.value.trim();
 
-                // 修正: 檢查表單關鍵資訊是否為空
+                // 檢查表單關鍵資訊是否為空
                 if (!hallValue || !dateValue || !deceasedValue || !senderName || !senderPhone) {
                     alert('請務必填寫所有標記 * 的關鍵資訊（殯儀館、日期、逝者姓名、您的姓名與電話），確保訂單準確！');
                     return;
