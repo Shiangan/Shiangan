@@ -904,18 +904,19 @@ footer {
 
 
 /* =========================================== */
-/* 內頁：殯葬百科 (Blog Page) 樣式 */
+/* 內頁：殯葬百科 (Blog Page) 樣式 - 最終修正版 */
 /* =========================================== */
 .blog-page-layout {
     display: grid;
+    /* 桌面版：側邊欄 280px, 內容區 1fr (內容會自動佔滿剩餘寬度) */
     grid-template-columns: 280px 1fr; 
     gap: 40px;
-    align-items: flex-start;
+    align-items: flex-start; /* 讓內容對齊頂部 */
 }
 .blog-sidebar {
     padding: 20px 0;
     position: sticky; 
-    top: 100px; 
+    top: 100px; /* 確保在 Header 下方固定，讓分類列表隨時可見 */
 }
 .blog-sidebar h3 {
     border-bottom: 2px solid var(--primary-color);
@@ -929,25 +930,34 @@ footer {
     border-radius: 4px;
     color: var(--text-dark);
     font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
 }
-.category-list li a:hover {
+/* 新增 active 狀態和 Hover 狀態統一 */
+.category-list li a:hover,
+.category-list li a.active { 
     background-color: var(--primary-color);
     color: var(--text-light);
 }
 .category-list li a i {
     margin-right: 10px;
     color: var(--secondary-color);
+    transition: color 0.3s;
 }
-.category-list li a:hover i {
+.category-list li a:hover i,
+.category-list li a.active i {
     color: var(--text-light);
 }
 .article-list {
-    min-width: 0; 
+    min-width: 0; /* 確保在網格佈局中內容不會溢出 */
 }
 .article-list h2 {
     font-size: 1.8rem;
     padding-bottom: 0;
     margin-bottom: 10px;
+    text-align: left !important; /* 修正：確保內容區 H2 靠左對齊 */
+}
+.article-list h2::after {
+    display: none; /* 移除全域 H2 的置中底線，改用 separator-line */
 }
 .article-list .blog-icon {
     color: var(--primary-color);
@@ -958,48 +968,73 @@ footer {
     margin-bottom: 30px;
 }
 .blog-grid {
+    /* 使用 auto-fit 確保文章卡片自動適應寬度，並保持兩欄或三欄 */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
 }
 .blog-card {
+    background: #fff; 
     text-align: left;
     padding: 25px;
     border-radius: 8px;
     box-shadow: var(--shadow-small);
+    height: 100%; /* 確保網格中的卡片等高 */
+    display: flex; /* 使用 Flex 輔助排版 */
+    flex-direction: column;
 }
 .blog-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
 }
+.blog-card img {
+    width: 100%;
+    height: 180px; /* 固定圖片高度，保持視覺一致 */
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
 .blog-card h3 {
     font-size: 1.3rem;
     margin-top: 0;
     margin-bottom: 10px;
-    min-height: 3.9rem; 
+    min-height: 4rem; /* 確保標題高度固定 */
+    /* 限制標題最多兩行 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; 
+    overflow: hidden;
 }
 .blog-card p {
     font-size: 0.95rem;
     margin-bottom: 15px;
     color: var(--text-dark);
+    flex-grow: 1; /* 讓段落佔滿剩餘空間，推動 "閱讀全文" 到底部 */
+    /* 限制內文摘要最多三行 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
 }
 .blog-card .meta-info {
     font-size: 0.85rem;
-    color: gray;
+    color: var(--secondary-color);
     margin-bottom: 10px;
 }
 .read-more-link {
     font-weight: 700;
     color: var(--accent-color);
     display: inline-block;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 .read-more-link:hover {
+    color: var(--primary-color);
     text-decoration: underline;
 }
 .pagination {
     margin-top: 40px;
     padding: 10px 0;
+    text-align: center; /* 確保分頁置中 */
 }
 .pagination a {
     color: var(--primary-color);
@@ -1014,9 +1049,39 @@ footer {
     color: var(--text-light);
     border-color: var(--primary-color);
 }
-.pagination a.active {
-    font-weight: 700;
+
+/* 響應式調整 (RWD): 保持與您原本設定的 @media (max-width: 900px) 一致 */
+@media (max-width: 900px) {
+    /* 內頁 RWD: Blog Page */
+    .blog-page-layout {
+        grid-template-columns: 1fr; /* 切換為單欄 */
+    }
+    .blog-sidebar {
+        position: static; /* 移除固定效果 */
+        order: -1; /* 讓側邊欄跑到內容上方 */
+        padding: 0;
+    }
+    .blog-sidebar .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+        justify-content: center; /* 讓分類列表置中 */
+    }
+    .blog-sidebar .category-list li {
+        flex: 1 1 auto;
+        min-width: 120px;
+    }
+    .blog-sidebar .category-list li a {
+        text-align: center;
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+    }
+    .article-list h2 {
+        text-align: center !important; /* 手機上標題置中 */
+    }
 }
+
 
 
 /* =========================================== */
