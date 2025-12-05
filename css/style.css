@@ -641,20 +641,45 @@ footer {
         gap: 40px;
     }
 
-    /* 內頁 RWD: Blog Page */
+    //* =========================================== */
+/* 響應式調整 (RWD): 900px 以下的基礎結構與修正 */
+/* =========================================== */
+@media (max-width: 900px) {
+    /* --- 核心修正：避免佈局溢出 --- */
+    body {
+        overflow-x: hidden; /* 確保沒有元素溢出主視口，解決橫向滾動 */
+    }
+    
+    /* --- 導航列調整 --- */
+    #main-nav {
+        max-height: 0;
+        top: var(--header-height);
+        /* ... 其他手機選單樣式 ... */
+    }
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    /* --- Blog Page 專屬修正 (解決超出範圍的核心) --- */
     .blog-page-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* 強制切換為單欄 */
+        gap: 20px; 
     }
     .blog-sidebar {
-        position: static; 
-        order: -1; 
-        padding: 0;
+        position: static; /* 移除 sticky */
+        order: -1; /* 移到內容上方 */
+        padding: 0 15px; /* 確保有左右邊距 */
+    }
+    .blog-sidebar h3 {
+        text-align: center;
+        border-bottom: none; 
     }
     .blog-sidebar .category-list {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
         margin-bottom: 20px;
+        justify-content: center; 
     }
     .blog-sidebar .category-list li {
         flex: 1 1 auto;
@@ -664,12 +689,51 @@ footer {
         text-align: center;
         padding: 8px 10px;
         border: 1px solid var(--border-color);
+        white-space: nowrap; /* 確保按鈕文字不換行，防止溢出 */
+    }
+    /* 文章列表微調 */
+    .article-list {
+        padding: 0 15px; /* 確保內容有左右邊距 */
+    }
+    .article-list h2 {
+        text-align: center !important; /* 手機上標題置中 */
+    }
+    .blog-grid {
+        /* 在 900px 以下，確保網格是單欄或最大兩欄 */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
     }
 }
 
-/* 600px 以下：主要 Mobile 調整 */
+/* =========================================== */
+/* 響應式調整 (RWD): 600px 以下的字體與邊距細節 */
+/* =========================================== */
 @media (max-width: 600px) {
     
+    /* --- 全域邊距與排版調整 (使用您提供的 safe-area 調整) --- */
+    .container {
+        /* 確保內容有足夠邊距，並考慮手機安全區域 */
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: 30px; 
+        padding-bottom: 30px;
+    }
+    section {
+        padding: 40px 0; 
+    }
+    
+    /* --- Header 調整 --- */
+    header {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: calc(8px + env(safe-area-inset-top)); 
+        padding-bottom: 8px;
+    }
+    .logo a {
+        font-size: 1.5rem;
+    }
+
+    /* --- 字體調整 --- */
     h1 {
         font-size: 2rem; 
     }
@@ -679,40 +743,18 @@ footer {
     h3 {
         font-size: 1.4rem; 
     }
-    
-    .container {
-        padding-left: max(var(--safe-area-pad-h-sm), env(safe-area-inset-left));
-        padding-right: max(var(--safe-area-pad-h-sm), env(safe-area-inset-right));
-        padding-top: 30px; 
-        padding-bottom: 30px;
-    }
-    section {
-        padding: 40px 0; 
-    }
-    
-    header {
-        padding-left: max(var(--safe-area-pad-h-sm), env(safe-area-inset-left));
-        padding-right: max(var(--safe-area-pad-h-sm), env(safe-area-inset-right));
-        padding-top: calc(8px + env(safe-area-inset-top)); 
-        padding-bottom: 8px;
-    }
-    .logo a {
-        font-size: 1.5rem;
-    }
 
+    /* --- Hero 區塊調整 --- */
     .hero-section {
         height: 50vh; 
         min-height: 300px;
+        padding: 80px 20px;
     }
     .hero-content h1 {
         font-size: 2.2rem; 
-        margin-bottom: 15px;
-    }
-    .hero-content p {
-        font-size: 1rem; 
-        margin-bottom: 25px; 
     }
     
+    /* --- CTA 按鈕調整 --- */
     .cta-button {
         padding: 8px 16px;
         font-size: 0.85rem;
@@ -722,16 +764,7 @@ footer {
         padding: 15px 30px;
     }
     
-    /* 手風琴在手機上的樣式調整 */
-    .accordion-header {
-        padding: 15px 20px;
-        font-size: 1rem;
-    }
-    .accordion-content p {
-        padding-bottom: 20px;
-    }
-
-    /* Floating CTA 調整 */
+    /* --- Floating CTA 調整 --- */
     .floating-cta {
         right: max(15px, env(safe-area-inset-right));
         bottom: max(15px, env(safe-area-inset-bottom));
@@ -744,9 +777,11 @@ footer {
         font-size: 1.6rem;
     }
     
+    /* --- Footer 調整 --- */
     footer {
         padding: 30px 0 15px 0;
     }
+
 
     /* 內頁 RWD: About Page */
     .profile-image {
