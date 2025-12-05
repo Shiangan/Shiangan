@@ -421,7 +421,7 @@ header {
     margin-bottom: 12px;
     overflow: hidden;
     background-color: var(--bg-light);
-    box-shadow: var(--shadow-light);
+    box-shadow: var(--shadow-small);
 }
 
 .accordion-header {
@@ -536,276 +536,6 @@ footer {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 }
 
-
-/* ==================================================== */
-/* RWD - 響應式設計 (確保在各個設備上排版完整無缺) */
-/* ==================================================== */
-
-/* 1024px 以下：Tablet 調整 */
-@media (max-width: 1024px) {
-    .container {
-        padding-left: max(30px, env(safe-area-inset-left)); 
-        padding-right: max(30px, env(safe-area-inset-right));
-    }
-    header {
-        padding-left: max(30px, env(safe-area-inset-left));
-        padding-right: max(30px, env(safe-area-inset-right));
-    }
-}
-
-/* 900px 以下：啟用手機選單 */
-@media (max-width: 900px) {
-    
-    .mobile-menu-btn {
-        display: block; 
-        z-index: 1001; 
-    }
-    
-    #main-nav {
-        display: block; 
-        position: absolute;
-        top: var(--header-height); /* 確保從導航欄下方開始展開 */
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-light); 
-        box-shadow: 0 4px 10px var(--shadow-medium);
-        z-index: 999;
-        
-        max-height: 0; 
-        overflow: hidden;
-        opacity: 0;
-        pointer-events: none;
-        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
-    }
-    
-    #main-nav.active { 
-        max-height: 80vh; 
-        opacity: 1;
-        pointer-events: all;
-    }
-    
-    #main-nav ul {
-        flex-direction: column;
-        gap: 15px; 
-        padding-left: max(30px, env(safe-area-inset-left));
-        padding-right: max(30px, env(safe-area-inset-right));
-        padding-top: 20px;
-        padding-bottom: 20px;
-        align-items: flex-start; 
-    }
-    
-    .contact-nav {
-        width: 100%; 
-        margin-top: 10px;
-    }
-    .contact-nav a {
-        display: block; 
-        text-align: center;
-        padding: 10px 18px; 
-    }
-
-    .footer-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 30px;
-    }
-    
-    .flow-chart ol {
-        flex-direction: column;
-        align-items: center;
-    }
-    .flow-chart li:not(:last-child)::after {
-        content: '↓';
-        right: 50%;
-        top: 100%;
-        transform: translate(50%, -50%);
-    }
-
-    /* 內頁 RWD: About Page */
-    .profile-detail {
-        flex-direction: column;
-    }
-    .profile-image-container {
-        flex: 0 0 auto;
-        width: 100%; 
-        max-width: 450px;
-        margin: 0 auto 20px;
-    }
-    .profile-image {
-        height: 350px; 
-    }
-
-    /* 內頁 RWD: Contact Page */
-    .contact-grid-2col {
-        grid-template-columns: 1fr; 
-        gap: 40px;
-    }
-
-    //* =========================================== */
-/* 響應式調整 (RWD): 900px 以下的基礎結構與修正 */
-/* =========================================== */
-@media (max-width: 900px) {
-    /* --- 核心修正：避免佈局溢出 --- */
-    body {
-        overflow-x: hidden; /* 確保沒有元素溢出主視口，解決橫向滾動 */
-    }
-    
-    /* --- 導航列調整 --- */
-    #main-nav {
-        max-height: 0;
-        top: var(--header-height);
-        /* ... 其他手機選單樣式 ... */
-    }
-    .mobile-menu-btn {
-        display: flex;
-    }
-    
-    /* --- Blog Page 專屬修正 (解決超出範圍的核心) --- */
-    .blog-page-layout {
-        grid-template-columns: 1fr; /* 強制切換為單欄 */
-        gap: 20px; 
-    }
-    .blog-sidebar {
-        position: static; /* 移除 sticky */
-        order: -1; /* 移到內容上方 */
-        padding: 0 15px; /* 確保有左右邊距 */
-    }
-    .blog-sidebar h3 {
-        text-align: center;
-        border-bottom: none; 
-    }
-    .blog-sidebar .category-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 20px;
-        justify-content: center; 
-    }
-    .blog-sidebar .category-list li {
-        flex: 1 1 auto;
-        min-width: 120px;
-    }
-    .blog-sidebar .category-list li a {
-        text-align: center;
-        padding: 8px 10px;
-        border: 1px solid var(--border-color);
-        white-space: nowrap; /* 確保按鈕文字不換行，防止溢出 */
-    }
-    /* 文章列表微調 */
-    .article-list {
-        padding: 0 15px; /* 確保內容有左右邊距 */
-    }
-    .article-list h2 {
-        text-align: center !important; /* 手機上標題置中 */
-    }
-    .blog-grid {
-        /* 在 900px 以下，確保網格是單欄或最大兩欄 */
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 15px;
-    }
-}
-
-/* =========================================== */
-/* 響應式調整 (RWD): 600px 以下的字體與邊距細節 */
-/* =========================================== */
-@media (max-width: 600px) {
-    
-    /* --- 全域邊距與排版調整 (使用您提供的 safe-area 調整) --- */
-    .container {
-        /* 確保內容有足夠邊距，並考慮手機安全區域 */
-        padding-left: max(15px, env(safe-area-inset-left));
-        padding-right: max(15px, env(safe-area-inset-right));
-        padding-top: 30px; 
-        padding-bottom: 30px;
-    }
-    section {
-        padding: 40px 0; 
-    }
-    
-    /* --- Header 調整 --- */
-    header {
-        padding-left: max(15px, env(safe-area-inset-left));
-        padding-right: max(15px, env(safe-area-inset-right));
-        padding-top: calc(8px + env(safe-area-inset-top)); 
-        padding-bottom: 8px;
-    }
-    .logo a {
-        font-size: 1.5rem;
-    }
-
-    /* --- 字體調整 --- */
-    h1 {
-        font-size: 2rem; 
-    }
-    h2 {
-        font-size: 1.8rem; 
-    }
-    h3 {
-        font-size: 1.4rem; 
-    }
-
-    /* --- Hero 區塊調整 --- */
-    .hero-section {
-        height: 50vh; 
-        min-height: 300px;
-        padding: 80px 20px;
-    }
-    .hero-content h1 {
-        font-size: 2.2rem; 
-    }
-    
-    /* --- CTA 按鈕調整 --- */
-    .cta-button {
-        padding: 8px 16px;
-        font-size: 0.85rem;
-    }
-    .cta-button.large {
-        font-size: 1rem;
-        padding: 15px 30px;
-    }
-    
-    /* --- Floating CTA 調整 --- */
-    .floating-cta {
-        right: max(15px, env(safe-area-inset-right));
-        bottom: max(15px, env(safe-area-inset-bottom));
-        gap: 8px;
-    }
-    .floating-cta a {
-        width: 45px; 
-        height: 45px;
-        line-height: 45px;
-        font-size: 1.6rem;
-    }
-    
-    /* --- Footer 調整 --- */
-    footer {
-        padding: 30px 0 15px 0;
-    }
-
-
-    /* 內頁 RWD: About Page */
-    .profile-image {
-        height: 250px;
-    }
-    .cert-tag {
-        font-size: 0.8rem;
-        padding: 4px 8px;
-    }
-
-    /* 內頁 RWD: Order Page */
-    .delivery-guarantee, .product-showcase, .grid-2-cols, .payment-options {
-        grid-template-columns: 1fr;
-    }
-    .delivery-guarantee p {
-        text-align: left !important;
-        margin-bottom: 5px;
-    }
-    
-    /* 內頁 RWD: Services Page */
-    .card-grid.grid-4-cols {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
-}
 
 /* =========================================== */
 /* 內頁：關於我們 (About Page) 專屬樣式 */
@@ -1084,39 +814,6 @@ footer {
     color: var(--text-light);
     border-color: var(--primary-color);
 }
-
-/* 響應式調整 (RWD): 保持與您原本設定的 @media (max-width: 900px) 一致 */
-@media (max-width: 900px) {
-    /* 內頁 RWD: Blog Page */
-    .blog-page-layout {
-        grid-template-columns: 1fr; /* 切換為單欄 */
-    }
-    .blog-sidebar {
-        position: static; /* 移除固定效果 */
-        order: -1; /* 讓側邊欄跑到內容上方 */
-        padding: 0;
-    }
-    .blog-sidebar .category-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 20px;
-        justify-content: center; /* 讓分類列表置中 */
-    }
-    .blog-sidebar .category-list li {
-        flex: 1 1 auto;
-        min-width: 120px;
-    }
-    .blog-sidebar .category-list li a {
-        text-align: center;
-        padding: 8px 10px;
-        border: 1px solid var(--border-color);
-    }
-    .article-list h2 {
-        text-align: center !important; /* 手機上標題置中 */
-    }
-}
-
 
 
 /* =========================================== */
@@ -1554,12 +1251,266 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
+
+/* ==================================================== */
+/* RWD - 響應式設計 (確保在各個設備上排版完整無缺) */
+/* ==================================================== */
+
+/* 1024px 以下：Tablet 調整 */
+@media (max-width: 1024px) {
+    .container {
+        padding-left: max(30px, env(safe-area-inset-left)); 
+        padding-right: max(30px, env(safe-area-inset-right));
+    }
+    header {
+        padding-left: max(30px, env(safe-area-inset-left));
+        padding-right: max(30px, env(safe-area-inset-right));
+    }
+}
+
+/* 900px 以下：手機/平板-Blog 結構與導航修正 */
+@media (max-width: 900px) {
+    
+    /* --- 核心修正：避免佈局溢出 --- */
+    body {
+        overflow-x: hidden; /* 確保沒有元素溢出主視口，解決橫向滾動 */
+    }
+
+    /* --- 導航列調整 (啟用手機選單) --- */
+    .mobile-menu-btn {
+        display: block; 
+        z-index: 1001; 
+    }
+    #main-nav {
+        display: block; 
+        position: absolute;
+        top: var(--header-height); 
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-light); 
+        box-shadow: 0 4px 10px var(--shadow-medium);
+        z-index: 999;
+        max-height: 0; 
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
+    }
+    #main-nav.active { 
+        max-height: 80vh; 
+        opacity: 1;
+        pointer-events: all;
+    }
+    #main-nav ul {
+        flex-direction: column;
+        gap: 15px; 
+        padding-left: max(30px, env(safe-area-inset-left));
+        padding-right: max(30px, env(safe-area-inset-right));
+        padding-top: 20px;
+        padding-bottom: 20px;
+        align-items: flex-start; 
+    }
+    .contact-nav {
+        width: 100%; 
+        margin-top: 10px;
+    }
+    .contact-nav a {
+        display: block; 
+        text-align: center;
+        padding: 10px 18px; 
+    }
+    
+    /* --- Footer 調整 --- */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+    }
+    
+    /* --- Flow Chart 調整 --- */
+    .flow-chart ol {
+        flex-direction: column;
+        align-items: center;
+    }
+    .flow-chart li:not(:last-child)::after {
+        content: '↓';
+        right: 50%;
+        top: 100%;
+        transform: translate(50%, -50%);
+    }
+
+    /* --- About Page 調整 --- */
+    .profile-detail {
+        flex-direction: column;
+    }
+    .profile-image-container {
+        flex: 0 0 auto;
+        width: 100%; 
+        max-width: 450px;
+        margin: 0 auto 20px;
+    }
+    .profile-image {
+        height: 350px; 
+    }
+    
+    /* --- Contact Page 調整 --- */
+    .contact-grid-2col {
+        grid-template-columns: 1fr; 
+        gap: 40px;
+    }
+
+    /* --- Blog Page 專屬修正 (解決超出範圍的核心) --- */
+    .blog-page-layout {
+        grid-template-columns: 1fr; /* 強制切換為單欄 */
+        gap: 20px; 
+    }
+    .blog-sidebar {
+        position: static; /* 移除 sticky */
+        order: -1; /* 移到內容上方 */
+        padding: 0 15px; /* 確保有左右邊距 */
+    }
+    .blog-sidebar h3 {
+        text-align: center;
+        border-bottom: none; 
+    }
+    .blog-sidebar .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+        justify-content: center; 
+    }
+    .blog-sidebar .category-list li {
+        flex: 1 1 auto;
+        min-width: 120px;
+    }
+    .blog-sidebar .category-list li a {
+        text-align: center;
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+        white-space: nowrap; /* 確保按鈕文字不換行，防止溢出 */
+    }
+    /* 文章列表微調 */
+    .article-list {
+        padding: 0 15px; /* 確保內容有左右邊距 */
+    }
+    .article-list h2 {
+        text-align: center !important; /* 手機上標題置中 */
+    }
+    .blog-grid {
+        /* 在 900px 以下，確保網格是單欄或最大兩欄 */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+    }
+}
+
+/* 600px 以下：字體、邊距細節與遮擋修正 (最終修正版) */
+@media (max-width: 600px) {
+    
+    /* --- 核心修正：解決遮擋和排版問題 --- */
+    .container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: 30px; 
+        padding-bottom: 30px;
+    }
+    
+    /* 修正 Header 遮擋問題：增加 section 頂部 padding (從 40px 增加到 55px) */
+    section {
+        padding: 55px 0 40px 0; 
+    }
+    
+    /* 修正 Floating CTA 遮擋問題：增加 footer 底部空間 */
+    footer {
+        /* 增加底部 padding，等於 CTA 高度(約45px) + 間距(約15px) */
+        padding-bottom: calc(15px + 45px + 15px); 
+    }
+    
+    /* --- Header 調整 --- */
+    header {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: calc(8px + env(safe-area-inset-top)); 
+        padding-bottom: 8px;
+    }
+    .logo a {
+        font-size: 1.5rem;
+    }
+
+    /* --- 字體調整 (解決字太大的問題) --- */
+    h1 {
+        font-size: 1.8rem; /* 從 2rem 縮小 */
+    }
+    h2 {
+        font-size: 1.6rem; /* 從 1.8rem 縮小 */
+    }
+    h3 {
+        font-size: 1.4rem; 
+    }
+
+    /* --- Hero 區塊調整 (主要修正點) --- */
+    .hero-content h1 {
+        font-size: 1.8rem; /* 從 2.2rem 大幅縮小 */
+        line-height: 1.3;
+    }
+    .hero-section {
+        height: auto; /* 讓高度更具彈性 */
+        min-height: 350px;
+        padding: 80px 20px;
+    }
+    
+    /* --- CTA 按鈕調整 --- */
+    .cta-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    .cta-button.large {
+        font-size: 1rem;
+        padding: 15px 30px;
+    }
+    
+    /* --- Floating CTA 調整 --- */
+    /* 調整 CTA 按鈕實際尺寸 */
+    .floating-cta {
+        right: max(15px, env(safe-area-inset-right));
+        bottom: max(15px, env(safe-area-inset-bottom));
+        gap: 8px;
+    }
+    .floating-cta a {
+        width: 45px; 
+        height: 45px;
+        line-height: 45px;
+        font-size: 1.6rem;
+    }
+    
+    /* --- About Page 調整 --- */
+    .profile-image {
+        height: 250px;
+    }
+    .cert-tag {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    /* --- Order Page 調整 --- */
+    .delivery-guarantee, .product-showcase, .grid-2-cols, .payment-options {
+        grid-template-columns: 1fr;
+    }
+    .delivery-guarantee p {
+        text-align: left !important;
+        margin-bottom: 5px;
+    }
+    
+    /* --- Services Page 調整 --- */
+    .card-grid.grid-4-cols {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    
+    /* --- Plans Detail RWD 調整 --- */
     .price-grid {
-        /* 在手機上變為單欄堆疊 */
         grid-template-columns: 1fr;
     }
     .price-card.featured-plan {
-        transform: none; /* 移除放大效果 */
+        transform: none; 
     }
 }
