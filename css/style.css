@@ -21,13 +21,13 @@ html {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 全域重設與過渡：確保完整性與流暢性 */
+/* 全域重設與過渡：性能優化版 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 全域過渡：提升網站互動的流暢度與完整性 */
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s, max-height 0.4s;
+    /* --- 核心優化：移除 box-shadow 和 max-height，讓過渡更輕量級 --- */
+    transition: color 0.3s ease-out, background-color 0.3s ease-out, border-color 0.3s ease-out, transform 0.3s ease-out;
 }
 
 /* 確保圖片和媒體在不同解析度下不會失真或越界 */
@@ -368,9 +368,11 @@ header {
     height: 100%;
 }
 
+/* --- 性能優化後，單獨為 card-item:hover 加上 box-shadow 過渡 --- */
 .card-item:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; 
 }
 
 .card-item .icon {
@@ -480,6 +482,8 @@ header {
     max-height: 0;
     overflow: hidden;
     padding: 0 25px;
+    /* --- 性能優化後，單獨為 accordion-content 加上 max-height 過渡 --- */
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
 }
 .accordion-content p {
     padding-top: 10px;
@@ -1539,7 +1543,8 @@ footer {
     .blog-sidebar {
         position: static; /* 移除 sticky */
         order: -1; /* 移到內容上方 */
-        padding: 0 15px; /* 確保有左右邊距 */
+        /* --- RWD 修正：移除多餘 padding，讓它由 .container 統一管理 --- */
+        padding: 0; 
     }
     .blog-sidebar h3 {
         text-align: center;
@@ -1567,7 +1572,8 @@ footer {
     }
     /* 文章列表微調 */
     .article-list {
-        padding: 0 15px; /* 確保內容有左右邊距 */
+        /* --- RWD 修正：移除多餘 padding，讓它由 .container 統一管理 --- */
+        padding: 0;
     }
     .article-list h2 {
         text-align: center !important; /* 手機上標題置中 */
@@ -1691,4 +1697,26 @@ footer {
     .price-card.featured-plan {
         transform: none;
     }
+}
+
+
+/* =========================================== */
+/* 可訪問性 (A11Y) 最終優化：確保鍵盤焦點可見 */
+/* =========================================== */
+
+/* 確保只有透過鍵盤導航時才顯示輪廓，提升滑鼠用戶的視覺體驗 */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    /* 使用您的品牌強調色作為輪廓顏色 */
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
+    border-radius: 4px; /* 略微圓角 */
+}
+
+/* 點擊時移除瀏覽器預設的輪廓，讓上面的樣式接管 */
+:focus:not(:focus-visible) {
+    outline: none;
 }
