@@ -1253,3 +1253,213 @@ footer {
     margin-bottom: 8px;
     line-height: 1.6;
 }
+
+/* =========================================== */
+/* 內頁補充樣式 (針對 Article/Plans Detail) */
+/* =========================================== */
+
+/* --- 1. 文章詳情頁 (Article Detail) 樣式 --- */
+
+/* 文章主體容器 */
+.article-detail {
+    min-width: 0; 
+    padding: 0 15px;
+}
+.article-detail h1 {
+    font-size: 2.5rem; 
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-align: left; /* 覆蓋全域 H2/H3 的置中 */
+}
+
+/* 確保文章內的小標題左對齊 */
+.article-detail h2, 
+.article-detail h3 {
+    text-align: left !important;
+    position: relative;
+    padding-left: 20px;
+}
+/* 移除文章內 H2/H3 的置中底線 */
+.article-detail h2::after {
+    display: none;
+}
+
+/* 讓文章內 H2 有左側色條 */
+.article-detail h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 15px;
+}
+
+/* 內文中的圖片 */
+.article-detail img {
+    margin: 20px auto;
+    border-radius: 6px;
+    box-shadow: var(--shadow-small);
+}
+
+/* 文章頁的引用區塊 */
+.article-detail blockquote {
+    border-left: 5px solid var(--secondary-color);
+    padding: 20px 25px;
+    margin: 30px 0;
+    background-color: var(--bg-section);
+    border-radius: 4px;
+    font-style: italic;
+    color: var(--text-dark);
+}
+
+/* 文章頁的列表樣式 */
+.article-detail ul {
+    list-style: disc;
+    padding-left: 30px;
+    margin-bottom: 20px;
+}
+.article-detail ul li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    color: #444;
+}
+
+
+/* --- 2. 方案與價格頁 (Plans Detail) 樣式 --- */
+
+/* 方案卡片網格 */
+.price-grid {
+    display: grid;
+    /* 確保價格卡片在桌面是三欄 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+    margin-top: 30px;
+}
+
+/* 單一價格卡片 */
+.price-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    overflow: hidden;
+    padding: 0;
+    border: 3px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+/* 特色方案標註 */
+.price-card.featured-plan {
+    border-color: var(--primary-color); /* 強調邊框 */
+    transform: scale(1.05); /* 稍微放大 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.price-card header {
+    padding: 30px 20px 20px;
+    background-color: var(--bg-section);
+}
+
+.price-card .plan-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.price-card .plan-subtitle {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin: 5px 0 15px;
+}
+
+/* 價格標籤 */
+.price-tag {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    padding: 10px 0;
+    background-color: var(--primary-color);
+    margin: 15px -20px -20px; /* 讓價格標籤略微突出卡片 */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+.price-card.featured-plan .price-tag {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+.price-tag .currency {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-right: 5px;
+}
+
+/* 方案內容特色列表 */
+.plan-features {
+    padding: 30px 20px 20px;
+    text-align: left;
+}
+.plan-features ul {
+    list-style: none;
+    padding-left: 0;
+}
+.plan-features li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+.plan-features li i {
+    color: green;
+    margin-right: 10px;
+}
+.plan-features li.excluded i {
+    color: #D32F2F; /* 紅色叉叉標記不包含的項目 */
+}
+
+/* 方案底部的 CTA */
+.plan-cta {
+    padding: 0 20px 30px;
+}
+
+/* 價格頁的警告區塊 */
+.alert-box {
+    margin: 40px auto;
+    max-width: 900px;
+    text-align: left;
+}
+
+/* 規費說明列表 */
+.check-list {
+    margin-top: 20px;
+    padding-left: 0 !important;
+    list-style: none;
+}
+.check-list li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #444;
+}
+.check-list li i {
+    color: var(--accent-color);
+    margin-right: 10px;
+}
+
+
+/* --- 3. 響應式調整 (Plans Detail RWD) --- */
+
+@media (max-width: 1024px) {
+    .price-grid {
+        /* 在平板上變為兩欄 */
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 768px) {
+    .price-grid {
+        /* 在手機上變為單欄堆疊 */
+        grid-template-columns: 1fr;
+    }
+    .price-card.featured-plan {
+        transform: none; /* 移除放大效果 */
+    }
+}
