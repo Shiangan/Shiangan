@@ -1,18 +1,18 @@
 /* ==================================================== */
-/* 核心通用性與相容性保障 (Foundation & Reset) - V10.0 強化版 */
+/* 核心通用性與相容性保障 (Foundation & Reset) - 最終精煉版 */
 /* ==================================================== */
 
 /* --- 字體導入 (Font Loading: 確保字體語義化和性能) --- */
-/* 備註：請確保您的專案資料夾中有辰魚落雁體.ttf 和 Iansui-Regular.ttf */
+/* 備註：請根據您的實際字體存放路徑調整 (範例假設字體放在上一層的 /fonts 資料夾) */
 @font-face {
     font-family: 'ChenYu';
-    src: url('辰魚落雁體.ttf') format('truetype');
+    src: url('../fonts/辰魚落雁體.ttf') format('truetype');
     font-weight: 400;
     font-display: swap; 
 }
 @font-face {
     font-family: 'Iansui';
-    src: url('Iansui-Regular.ttf') format('truetype');
+    src: url('../fonts/Iansui-Regular.ttf') format('truetype');
     font-weight: 400;
     font-display: swap;
 }
@@ -32,7 +32,7 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 核心優化：僅對性能友好的屬性進行過渡 */
+    /* 精簡過渡屬性：僅對常見互動屬性進行過渡 */
     transition: color 0.3s ease-out, background-color 0.3s ease-out, border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out, opacity 0.3s ease-out;
     
     /* 避免文字溢出到頁面外 (最終防線) */
@@ -49,7 +49,7 @@ img, picture, video, canvas, svg {
     max-width: 100%;
     height: auto;
     display: block;
-    -ms-interpolation-mode: bicubic; 
+    /* 移除 -ms-interpolation-mode，該屬性已過時且不再被廣泛支持 */
 }
 
 /* 避免在 iOS Safari 上點擊元素時出現灰色背景 */
@@ -59,10 +59,10 @@ a, button, input {
 
 
 /* ==================================================== */
-/* 品牌色與變數定義 (V10.0 - 月光典雅金配色) */
+/* 品牌色與變數定義 (月光典雅金配色 - V10.1 穩定版) */
 /* ==================================================== */
 :root {
-    /* --- 核心色調與文字：調整為低飽和度的深藍綠與香檳金 --- */
+    /* --- 核心色調與文字：低飽和度的深藍綠與香檳金 --- */
     --primary-color: #1A3440;   /* 深海墨綠 (更沉穩專業的主色) */
     --secondary-color: #7A899C; /* 次要文字/輔助線 (柔和藍灰) */
     --accent-color: #CBAE88;    /* 月光典雅金 (霧面香檳金，低調奢華) */
@@ -82,16 +82,16 @@ a, button, input {
     --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.15); 
     --shadow-accent: 0 4px 15px rgba(203, 174, 136, 0.4); /* 品牌色陰影 */
 
-    /* --- 統一樣式變數：排版與安全區域 (保持不變) --- */
+    /* --- 統一樣式變數：排版與安全區域 --- */
     --safe-area-pad-h: 40px;
     --header-height: 70px;
     --section-pad-v: 80px; 
     --content-max-width: 1200px;
 
-    /* --- 狀態色變數 (微調與新配色協調) --- */
-    --success-color: #4CAF50; /* 成功：使用經典、高對比綠色 */
-    --warning-color: #FFA000; /* 警告：經典橙色 */
-    --danger-color: #D32F2F;  /* 危險：經典紅色 */
+    /* --- 狀態色變數 --- */
+    --success-color: #4CAF50; 
+    --warning-color: #FFA000; 
+    --danger-color: #D32F2F;  
 }
 
 /* ==================================================== */
@@ -123,6 +123,7 @@ a {
 }
 
 a:hover {
+    /* 修正：統一連結懸停色為強調金 */
     color: var(--accent-color);
 }
 
@@ -144,10 +145,12 @@ section {
     padding: var(--section-pad-v) 0;
 }
 .container-v-padding {
+    /* 修正：避免重複定義 section 的 padding，直接在 container 內使用 */
     padding-top: calc(var(--section-pad-v) / 2);
     padding-bottom: calc(var(--section-pad-v) / 2);
 }
 .first-section {
+    /* 修正：將 header-height 設為變數，計算更精確 */
     padding-top: calc(var(--header-height) + 50px);
 }
 
@@ -257,14 +260,14 @@ header {
 
 .contact-nav a {
     background-color: var(--accent-color);
-    color: var(--primary-color) !important; /* 確保按鈕文字為深色，高對比 */
+    color: var(--primary-color) !important; 
     padding: 0.625em 1.375em; 
     border-radius: 50px;
     font-weight: 600;
     box-shadow: var(--shadow-accent);
     white-space: nowrap;
     line-height: 1.2; 
-    border: 1px solid var(--accent-color); /* 增加邊框增加立體感 */
+    border: 1px solid var(--accent-color); 
 }
 .contact-nav a:hover {
     transform: translateY(-2px);
@@ -295,19 +298,25 @@ header {
     min-height: 500px;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    /* 修正：在移動設備上禁用 fixed，以提高性能 */
+    background-attachment: scroll; 
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     text-align: center;
 }
+@media (min-width: 1025px) {
+    .hero-section {
+        background-attachment: fixed;
+    }
+}
+
 .hero-section::before {
     content: '';
     position: absolute;
     inset: 0;
-    /* 調整透明度，讓背景圖更具質感 (使用新的 primary-color) */
-    background-color: rgba(26, 52, 64, 0.75); /* 使用 primary-color 的深色半透明遮罩 */
+    background-color: rgba(26, 52, 64, 0.75); 
     backdrop-filter: blur(1px); 
     z-index: 1;
 }
@@ -366,7 +375,7 @@ header {
     border: 2px solid var(--primary-color);
 }
 .cta-button.secondary:hover {
-    background-color: #2F596E; /* 略淺的 primary-color */
+    background-color: #2F596E; 
     border-color: #2F596E;
 }
 .cta-button.small {
@@ -397,7 +406,6 @@ header {
     box-shadow: var(--shadow-small);
     border: 1px solid var(--border-color);
     border-radius: 12px; 
-    /* 質感強化：邊條與陰影更協調 */
     border-left: 6px solid var(--accent-color); 
     height: 100%;
     transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
@@ -415,6 +423,10 @@ header {
     color: var(--accent-color);
     margin-bottom: 15px;
     display: block;
+}
+.card-item h3 {
+    /* 修正：確保 card-item 內 H3 繼承了主要顏色 */
+    color: var(--primary-color);
 }
 .card-item p {
     flex-grow: 1;
@@ -533,7 +545,8 @@ header {
     max-height: 0;
     overflow: hidden;
     padding: 0 25px;
-    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+    /* 修正：過渡應包含 max-height 和 padding-bottom，以實現平滑展開/收合 */
+    transition: max-height 0.4s ease-in-out, padding-bottom 0.4s ease-in-out; 
 }
 .accordion-content p {
     padding-top: 10px;
@@ -547,7 +560,8 @@ header {
     font-size: 1.25rem;
 }
 .service-page-accordion .accordion-content.active {
-    max-height: 500px;
+    /* 修正：使用大值確保內容能完全展開，而非固定的 500px */
+    max-height: 2000px; 
     padding-bottom: 20px;
 }
 .service-page-accordion .accordion-content ul {
@@ -571,11 +585,11 @@ footer {
     font-size: 0.9rem;
 }
 .footer-grid {
-    display: grid;
     grid-template-columns: 2.5fr 1.5fr 1.5fr 1.5fr;
     gap: 30px;
     padding-bottom: 40px; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    display: grid; /* 確保在任何情況下都是網格佈局 */
 }
 .footer-grid h4 {
     color: var(--accent-color);
@@ -673,7 +687,6 @@ footer {
     border-radius: 50px;
     font-size: 0.9rem;
     font-weight: 700;
-    /* 修正：將標籤文字改為深色，確保在淺金背景上的高對比度 */
     color: var(--primary-color); 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     white-space: nowrap;
@@ -682,11 +695,9 @@ footer {
     margin-right: 8px;
 }
 .cert-national {
-    /* 修正：國家認證使用核心金色 */
     background-color: var(--accent-color); 
 }
 .cert-experience {
-    /* 修正：經驗使用次要背景色，並讓文字保持深色 */
     background-color: var(--bg-light); 
     border: 1px solid var(--accent-color);
 }
@@ -874,7 +885,6 @@ footer {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-    /* 強化防止溢出 */
     overflow-wrap: break-word; 
 }
 .blog-card p {
@@ -1048,7 +1058,6 @@ footer {
     padding: 25px;
     border: 2px solid var(--accent-color);
     border-radius: 8px;
-    /* 使用新的金色強調背景 */
     background-color: var(--bg-accent-light); 
 }
 .order-form {
@@ -1081,7 +1090,7 @@ footer {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
-    border: 1px solid var(--border-color); /* 統一邊框顏色 */
+    border: 1px solid var(--border-color); 
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -1096,6 +1105,7 @@ footer {
     cursor: pointer;
     text-align: left;
     position: relative;
+    border: 2px solid transparent; /* 預留邊框，避免 hover/active 時佈局跳動 */
 }
 .payment-box input[type="radio"] {
     position: absolute;
@@ -1113,12 +1123,19 @@ footer {
     color: #555;
     font-weight: 500;
 }
+/* 支付選項點擊或選中時的樣式 */
+.payment-box:has(input[type="radio"]:checked),
+.payment-box:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .line-pay {
     background-color: #e6f7e6;
-    border: 2px solid var(--success-color); /* 使用新的成功色 */
+    border: 2px solid var(--success-color); 
 }
 .bank-transfer {
-    background-color: #f1f6f8; /* 略淺於 bg-section 的顏色 */
+    background-color: #f1f6f8; 
     border: 2px solid var(--primary-color);
 }
 
@@ -1163,7 +1180,7 @@ footer {
 .guarantee-points p i {
     margin-right: 8px;
     font-size: 1.2rem;
-    color: var(--accent-color); /* 統一使用金色作為強調符號 */
+    color: var(--accent-color); 
 }
 
 
@@ -1203,7 +1220,7 @@ footer {
     background-color: var(--bg-section);
 }
 .price-card.featured-plan header {
-    background-color: var(--bg-accent-light); /* 使用新的金色強調背景 */
+    background-color: var(--bg-accent-light); 
 }
 .price-card.featured-plan .plan-title {
     color: var(--primary-color);
@@ -1230,7 +1247,8 @@ footer {
     color: var(--text-light);
     padding: 15px 0;
     background-color: var(--primary-color);
-    margin: 15px -20px -20px;
+    /* 修正：統一價格標籤的定位和陰影 */
+    margin: 0 -20px 0 -20px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 .price-card.featured-plan .price-tag {
@@ -1254,7 +1272,7 @@ footer {
 }
 .plan-features li {
     padding: 10px 0;
-    border-bottom: 1px dashed var(--border-color); /* 統一使用變數 */
+    border-bottom: 1px dashed var(--border-color); 
     color: var(--text-dark);
     font-size: 1rem;
 }
@@ -1342,7 +1360,7 @@ footer {
     border-right: 1px solid var(--border-color);
 }
 .table-wrapper tbody tr:nth-child(even) td:first-child {
-    background-color: var(--bg-section); /* 匹配偶數行背景 */
+    background-color: var(--bg-section); 
 }
 .table-wrapper table th:first-child {
     background-color: var(--primary-color);
@@ -1353,7 +1371,7 @@ footer {
 /* 3. 表格內文與數據行樣式 */
 .table-wrapper tbody td {
     padding: 12px 10px;
-    border-bottom: 1px solid var(--border-color); /* 統一使用變數 */
+    border-bottom: 1px solid var(--border-color); 
     transition: background-color 0.3s ease;
     vertical-align: middle;
 }
@@ -1374,7 +1392,7 @@ footer {
 
 /* 懸停效果 (Hover) */
 .table-wrapper tbody tr:hover {
-    background-color: #f0f8ff; /* 略淺的藍色懸停效果，與主色調協調 */
+    background-color: #f0f8ff; 
     box-shadow: inset 0 0 0 1px #bce0fd;
 }
 .table-wrapper tbody tr:hover td:first-child {
@@ -1395,9 +1413,8 @@ footer {
 }
 
 /* 5. 特別備註行 (底色) */
-.table-wrapper tr[style*="background-color: #fff8e1"] td {
+.table-wrapper tr.alert-row td {
     font-weight: 700;
-    /* 修正：使用新的金色背景變數 */
     background-color: var(--bg-accent-light) !important; 
     color: #444;
 }
@@ -1416,7 +1433,7 @@ footer {
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (Media Queries - 最終防線 V10.0) */
+/* RWD - 響應式設計 (Media Queries - 最終防線 V10.1) */
 /* ==================================================== */
 
 /* Tablet and Smaller Desktop (<= 1024px) */
@@ -1442,13 +1459,17 @@ footer {
     .blog-grid {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* Mobile and Smaller Tablet (<= 900px) */
 @media (max-width: 900px) {
+    
     /* --- 字體調整 --- */
     h1 { font-size: 2.8rem; }
-    h2 { font-size: 2rem; } /* 修正：避免 h2 在 RWD 斷點過度變大 */
+    h2 { font-size: 2rem; } 
 
     /* --- 手機選單啟用 --- */
     .mobile-menu-btn {
@@ -1490,14 +1511,9 @@ footer {
         width: 100%;
     }
     .contact-nav {
-        width: 100%;
-        margin-top: 10px;
+        display: none; /* 隱藏桌面聯繫按鈕，讓浮動按鈕或菜單內連結承接 */
     }
-    .contact-nav a {
-        display: block;
-        text-align: center;
-        padding: 0.625em 1.375em; 
-    }
+    
     /* --- 佈局切換單欄化 --- */
     .footer-grid {
         grid-template-columns: 1fr;
@@ -1509,7 +1525,8 @@ footer {
     .delivery-guarantee, 
     .product-showcase, 
     .grid-2-cols, 
-    .payment-options {
+    .payment-options,
+    .grid-3-cols { /* 修正：將 grid-3-cols 也切換為單欄 */
         grid-template-columns: 1fr;
     }
     /* --- Blog 側邊欄調整 --- */
@@ -1580,7 +1597,7 @@ footer {
         padding: 40px 0;
     }
 
-    /* --- 核心字體縮減：確保不會溢出 (修正上次手機版字體消失問題) --- */
+    /* --- 核心字體縮減：確保不會溢出 --- */
     h1 { 
         font-size: 2rem; 
         line-height: 1.1; 
@@ -1634,8 +1651,11 @@ footer {
     
     /* --- Floating CTA 調整 (確保底部不被系統手勢區遮擋) --- */
     .floating-cta {
-        right: max(10px, env(safe-area-inset-right)); 
-        bottom: calc(10px + env(safe-area-inset-bottom));
+        /* 改為水平排列，避免佔據過多高度 */
+        flex-direction: row; 
+        right: 50%;
+        transform: translateX(50%);
+        bottom: calc(15px + env(safe-area-inset-bottom));
         gap: 8px;
     }
     .floating-cta a {
@@ -1643,6 +1663,7 @@ footer {
         height: 45px;
         line-height: 45px;
         font-size: 1.8rem;
+        box-shadow: var(--shadow-small);
     }
     
     /* --- Footer 底部空間調整 --- */
@@ -1652,7 +1673,7 @@ footer {
 
     /* --- 價格表格調整 --- */
     .table-wrapper table {
-        min-width: 600px; /* 繼續縮小以適應更小的行動設備 */
+        min-width: 600px; 
     }
     .card-grid.grid-4-cols {
         grid-template-columns: repeat(2, 1fr);
