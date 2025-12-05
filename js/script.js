@@ -396,3 +396,91 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 });
+
+/* =========================================== */
+/* 網站核心互動腳本 (script.js) */
+/* =========================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ------------------------------------------
+    // 1. 手機選單切換邏輯 (Mobile Menu Toggle)
+    // ------------------------------------------
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = document.getElementById('main-nav');
+
+    if (menuBtn && nav) {
+        menuBtn.addEventListener('click', () => {
+            const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true' || false;
+            
+            // 切換 CSS 類和 ARIA 屬性
+            nav.classList.toggle('active');
+            menuBtn.setAttribute('aria-expanded', !isExpanded);
+            
+            // 切換按鈕圖標
+            const icon = menuBtn.querySelector('i');
+            if (icon) {
+                if (!isExpanded) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times'); // 漢堡選單變 X 
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    }
+
+    // ------------------------------------------
+    // 2. 手風琴功能邏輯 (Accordion Logic) - 匹配 Services Page
+    // ------------------------------------------
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            // 找到對應的 accordion-item
+            const item = header.closest('.accordion-item');
+            // 找到內容區塊 (使用 data-content 標記)
+            const content = item.querySelector('.accordion-content[data-content]');
+            
+            if (!item || !content) return;
+
+            // 檢查當前狀態
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                // 關閉
+                item.classList.remove('active');
+                header.setAttribute('aria-expanded', 'false');
+                content.style.maxHeight = null; // 讓 CSS 的 max-height: 0 生效
+                content.classList.remove('active');
+            } else {
+                // 關閉所有其他的 (實現單一展開)
+                document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                    const activeHeader = activeItem.querySelector('.accordion-header');
+                    const activeContent = activeItem.querySelector('.accordion-content[data-content]');
+
+                    if (activeItem !== item) {
+                        activeItem.classList.remove('active');
+                        activeHeader.setAttribute('aria-expanded', 'false');
+                        activeContent.style.maxHeight = null;
+                        activeContent.classList.remove('active');
+                    }
+                });
+
+                // 展開當前
+                item.classList.add('active');
+                header.setAttribute('aria-expanded', 'true');
+                // 設置 max-height 為內容的實際高度，觸發 CSS 過渡
+                content.style.maxHeight = content.scrollHeight + 40 + "px"; // +40px 確保內容 padding 完整顯示
+                content.classList.add('active');
+            }
+        });
+    });
+
+    // ------------------------------------------
+    // 3. 確保浮動按鈕在頁面頂部被遮擋
+    // ------------------------------------------
+    // (此處不需要額外 JS，因為您已經使用 CSS Sticky Header 和 z-index 處理)
+});
+
