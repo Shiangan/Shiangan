@@ -1514,3 +1514,145 @@ footer {
         transform: none; 
     }
 }
+
+/* =========================================
+   方案價格表格 (Plans Page Table) 樣式
+   ========================================= */
+
+/* 1. 響應式表格容器 (實現手機橫向捲動) */
+.table-wrapper {
+    width: 100%;
+    /* 核心 RWD 設置：當表格寬度超過容器時，啟用橫向捲動 */
+    overflow-x: auto; 
+    margin: 30px 0;
+    /* 讓表格邊緣看起來更美觀 */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+}
+
+.table-wrapper table {
+    /* 確保表格在容器內有足夠的最小寬度，以利於手機捲動 */
+    min-width: 760px; 
+    width: 100%;
+    border-collapse: separate; /* 使用 separate 讓 border-radius 有效 */
+    border-spacing: 0;
+    text-align: center;
+}
+
+/* 2. 表格頭部樣式 */
+.table-wrapper thead th {
+    padding: 15px 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    /* 讓表頭固定在左邊 (RWD 捲動時) - 現代瀏覽器支援 */
+    position: sticky; 
+    top: 0;
+    z-index: 10;
+}
+
+/* 讓第一欄 (服務細項) 在手機上捲動時保持固定 */
+.table-wrapper table th:first-child,
+.table-wrapper table td:first-child {
+    text-align: left;
+    padding-left: 20px;
+    font-weight: 700;
+    /* RWD 核心：固定第一欄，在手機上捲動時保持不動 */
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background-color: #f9f9f9; /* 淺灰背景 */
+    border-right: 1px solid #eee;
+}
+
+.table-wrapper table th:first-child {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+
+/* 3. 表格內文與數據行樣式 */
+.table-wrapper tbody td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eeeeee;
+    transition: background-color 0.3s ease;
+    vertical-align: middle;
+}
+
+/* 價格高亮行 */
+.table-wrapper tbody tr:first-child td {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 15px 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* 偶數行背景色，提升可讀性 */
+.table-wrapper tbody tr:nth-child(even) {
+    background-color: #f5f5f5; /* 略深一點的偶數行背景 */
+}
+/* 覆蓋偶數行第一列的顏色 */
+.table-wrapper tbody tr:nth-child(even) td:first-child {
+    background-color: #eeeeee;
+}
+
+
+/* 懸停效果 (Hover) */
+.table-wrapper tbody tr:hover {
+    background-color: #f0f8ff; /* 淺藍色懸停 */
+}
+.table-wrapper tbody tr:hover td:first-child {
+    background-color: #e0f2ff;
+}
+
+
+/* 4. 價格強調色塊樣式 */
+.price-highlight-success { /* 8.8 萬 - 綠色 */
+    color: var(--success-color, #4CAF50);
+}
+
+.price-highlight-warning { /* 15.8 萬 - 橘色 */
+    color: var(--warning-color, #FF9800);
+}
+
+.price-highlight-danger { /* 25 萬起 - 紅色/強調色 */
+    color: var(--accent-color, #D32F2F);
+}
+
+
+/* 5. 特別備註行 (底色) */
+.table-wrapper tr[style*="background-color: #fff8e1"] td {
+    font-weight: 700;
+    background-color: #fff8e1 !important; /* 確保覆蓋偶數行背景 */
+    color: #444;
+}
+
+/* 6. 按鈕行樣式 */
+.table-wrapper tbody tr:last-child td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: none; /* 移除表格底線 */
+}
+
+/* 確保按鈕行第一欄的背景色與其餘列一致 */
+.table-wrapper tbody tr:last-child td:first-child {
+    /* 這裡使用 #f9f9f9 以匹配表格外部背景 */
+    background-color: #f9f9f9; 
+}
+
+
+/* RWD 調整：確保行動裝置上的字體不會過大 */
+@media (max-width: 900px) {
+    .table-wrapper table {
+        /* 在行動裝置上可以更自由地捲動 */
+        min-width: 850px; 
+    }
+    .table-wrapper tbody tr:first-child td {
+        font-size: 1.1rem;
+    }
+    .table-wrapper table th:first-child,
+    .table-wrapper table td:first-child {
+        padding-left: 15px;
+    }
+}
+
