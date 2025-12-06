@@ -1,5 +1,5 @@
 /* ==================================================== */
-/* 核心通用性與相容性保障 (Foundation & Reset) - 最終精煉版 */
+/* 核心通用性與相容性保障 (Foundation & Reset) - V13.0 */
 /* ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -31,15 +31,15 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 升級過渡屬性：使用 Cubic Bezier 曲線，讓過渡更柔順 */
+    /* 升級過渡屬性：讓過渡更柔順、更具質感 */
     transition: color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                 background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                 border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                 transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                 box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                 opacity 0.3s ease-out,
-                max-height 0.4s ease-in-out, /* 新增 max-height 過渡 */
-                padding 0.4s ease-in-out; /* 新增 padding 過渡 */
+                max-height 0.4s ease-in-out, 
+                padding 0.4s ease-in-out; 
     
     /* 避免文字溢出到頁面外 (最終防線) */
     word-break: break-word;     
@@ -54,8 +54,20 @@ img, picture, video, canvas, svg {
     max-width: 100%;
     height: auto;
     display: block;
+    user-select: none; /* 防止圖片被拖拽 */
+    -webkit-user-drag: none;
 }
 
+/* 表格元素重設與繼承強化 (優化) */
+input, button, textarea, select {
+    font: inherit; /* 繼承字體 */
+    color: inherit; /* 繼承文字顏色 */
+}
+table {
+    border-collapse: collapse; 
+    border-spacing: 0;
+    width: 100%;
+}
 /* 避免在 iOS Safari 上點擊元素時出現灰色背景 */
 a, button, input {
     -webkit-tap-highlight-color: transparent;
@@ -63,7 +75,7 @@ a, button, input {
 
 
 /* ==================================================== */
-/* 品牌色與變數定義 (月光典雅金配色 - V11.0 質感升級版) */
+/* 品牌色與變數定義 (月光典雅金配色 - V13.0 專業模組化) */
 /* ==================================================== */
 :root {
     /* --- 核心色調與文字：低飽和度的深藍綠與香檳金 --- */
@@ -71,7 +83,7 @@ a, button, input {
     --secondary-color: #7A899C; /* 次要文字/輔助線 (柔和藍灰) */
     --accent-color: #CBAE88;    /* 月光典雅金 (霧面香檳金，低調奢華) */
     --accent-color-hover: #E4C8A8; /* 香檳金懸停色 */
-    --text-dark: #3E4A56;       /* 【修正】內文標準色 (柔和深藍灰，提升閱讀舒適度) */
+    --text-dark: #3E4A56;       /* 內文標準色 (柔和深藍灰，提升閱讀舒適度) */
     --text-light: #F8F9FA;      /* 深色背景文字 (極淺灰) */
 
     /* --- 背景與基礎：更輕盈的留白 --- */
@@ -83,19 +95,32 @@ a, button, input {
     /* --- 質感陰影 (更輕盈、更柔和、更擴散) --- */
     --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.04); 
     --shadow-small: 0 4px 15px rgba(0, 0, 0, 0.05); 
-    --shadow-medium: 0 15px 45px rgba(0, 0, 0, 0.12); /* 【升級】更擴散、更飄浮的陰影 */
-    --shadow-accent: 0 4px 20px rgba(203, 174, 136, 0.3); /* 【升級】品牌色光暈 */
+    --shadow-medium: 0 15px 45px rgba(0, 0, 0, 0.12); /* 更擴散、更飄浮的陰影 */
+    --shadow-accent: 0 4px 20px rgba(203, 174, 136, 0.3); /* 品牌色光暈 */
+
+    /* --- 狀態色變數 --- */
+    --success-color: #4CAF50; 
+    --warning-color: #FFA000; 
+    --danger-color: #D32F2F;  
+
+    /* --- Z-INDEX 系統 (專業模組化) --- */
+    --z-base: 1;
+    --z-dropdown: 50;   
+    --z-sticky: 100;    /* Header */
+    --z-modal: 1000;    /* 彈窗/側邊欄 */
+    --z-overlay: 1010;  /* 遮罩/手機選單容器 */
+    --z-fixed-cta: 990; /* 浮動 CTA */
 
     /* --- 統一樣式變數：排版與安全區域 --- */
     --safe-area-pad-h: 40px;
     --header-height: 70px;
     --section-pad-v: 80px; 
     --content-max-width: 1200px;
-
-    /* --- 狀態色變數 --- */
-    --success-color: #4CAF50; 
-    --warning-color: #FFA000; 
-    --danger-color: #D32F2F;  
+    
+    /* --- 字體尺寸 (排版比例) --- */
+    --font-size-base: 1rem;       /* 16px */
+    --font-size-large: 1.25rem;
+    --font-size-small: 0.875rem;
 }
 
 /* ==================================================== */
@@ -107,9 +132,10 @@ body {
     color: var(--text-dark);
     background-color: var(--bg-light);
     overflow-x: hidden; 
+    font-size: var(--font-size-base);
 }
 
-/* 區塊輕背景增強 (新增) */
+/* 區塊輕背景增強 */
 .bg-section {
     background-color: var(--bg-section); 
     /* 極細微漸層，製造光線層次 */
@@ -130,6 +156,7 @@ h1, h2, h3, h4, .logo a {
 a {
     color: var(--primary-color);
     text-decoration: none;
+    outline: none; /* 移除預設點擊輪廓，交由 :focus-visible 處理 */
     transition: color 0.3s;
 }
 
@@ -170,9 +197,9 @@ h2 {
     position: relative;
     margin-bottom: 40px; 
 }
-/* H2 裝飾升級：從橫線改為簡潔圓點 */
+/* H2 裝飾升級：簡潔圓點 */
 h2::after {
-    content: '\2022'; /* Unicode 圓點 */
+    content: '\2022'; 
     position: absolute;
     bottom: -15px;
     left: 50%;
@@ -211,7 +238,7 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); 
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: var(--z-sticky); /* 使用 Z-Index 變數 */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -233,24 +260,22 @@ header {
 }
 
 /* ==================================================== */
-/* 主導航容器 - 垂直佈局修正 */
+/* 主導航容器 (RWD 專用：垂直佈局修正) */
 /* ==================================================== */
 #main-nav ul {
     display: flex;
-    flex-direction: column; /* 【關鍵修正】改為垂直方向 */
+    flex-direction: column; 
     gap: 0; 
-    align-items: flex-start; /* 靠左對齊 */
-    width: 100%; /* 佔滿寬度 */
-    padding: 20px 0; /* 上下留白 */
+    align-items: flex-start; 
+    width: 100%; 
+    padding: 20px 0; 
 }
 
 #main-nav li {
-    width: 100%; /* 讓每個項目都佔滿寬度 */
+    width: 100%; 
 }
 
-/* ==================================================== */
 /* 連結樣式修正 */
-/* ==================================================== */
 #main-nav a {
     display: flex; 
     justify-content: space-between; 
@@ -272,9 +297,7 @@ header {
     background-color: rgba(0,0,0,0.02); 
 }
 
-/* ==================================================== */
 /* 導航底線升級 - 左側亮條 (垂直選單專用) */
-/* ==================================================== */
 #main-nav > ul > li > a::after {
     content: '';
     position: absolute;
@@ -294,9 +317,7 @@ header {
 }
 
 
-/* ==================================================== */
 /* 聯絡按鈕修正 */
-/* ==================================================== */
 .contact-nav {
     width: 100%;
     padding: 10px 20px; 
@@ -304,7 +325,7 @@ header {
 }
 
 .contact-nav a {
-    display: block; /* 滿寬按鈕 */
+    display: block; 
     text-align: center;
     background-color: var(--accent-color);
     color: var(--primary-color) !important; 
@@ -314,7 +335,7 @@ header {
     box-shadow: var(--shadow-accent);
     line-height: 1.2; 
     border: 1px solid var(--accent-color); 
-    width: 100%; /* 按鈕滿寬 */
+    width: 100%; 
 }
 .contact-nav a:hover {
     transform: translateY(-2px);
@@ -323,23 +344,19 @@ header {
     border-color: var(--accent-color-hover);
 }
 
-/* ==================================================== */
 /* Dropdown (垂直堆疊模式) - max-height 平滑動畫優化 */
-/* ==================================================== */
-
 #main-nav ul li.has-dropdown {
     position: relative;
 }
 
 #main-nav ul li.has-dropdown a i.fa-chevron-down {
     font-size: 0.8em;
-    margin-right: 10px; 
+    margin-right: 10px; /* 保持原稿 */
     transition: transform 0.3s ease;
 }
 
 /* 下拉選單 (L2) 樣式 - 嵌入式 (手風琴內容) */
 .submenu {
-    /* 【關鍵修正】使用 max-height 實現平滑過渡 */
     position: relative; 
     top: 0;
     left: 0;
@@ -357,7 +374,7 @@ header {
     max-height: 0;
     padding: 0;
     overflow: hidden; 
-    opacity: 0; /* 配合 max-height 隱藏時的過渡 */
+    opacity: 0; 
 }
 
 /* L1 懸停/聚焦時顯示 L2 選單 (CSS Only - Hover) */
@@ -371,7 +388,7 @@ header {
 }
 
 /* L1 項目被點擊 (Active - For JS click) 時展開 L2 選單 */
-/* 如果使用 JS 點擊來切換 active class，請啟用這段 */
+/* 這裡維持原稿的註釋版本，如果實際頁面使用 JS 則會啟用 .active */
 /*
 #main-nav ul li.has-dropdown.active > .submenu {
     max-height: 2000px;
@@ -417,7 +434,7 @@ header {
 
 /* 確保 L2 選單連結沒有左側邊條動畫 */
 .submenu li a::after {
-    display: none; 
+    display: none !important; 
 }
 
 
@@ -448,12 +465,12 @@ header {
     inset: 0;
     /* 升級：增加背景沉穩度 */
     background-color: rgba(26, 52, 64, 0.85); 
-    backdrop-filter: blur(2px); /* 【升級】毛玻璃濾鏡，增加圖片景深與文字對比 */
-    z-index: 1;
+    backdrop-filter: blur(2px); /* 毛玻璃濾鏡，增加圖片景深與文字對比 */
+    z-index: var(--z-base); /* 使用 Z-Index 變數 */
 }
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: calc(var(--z-base) + 1);
     padding: 20px;
     max-width: 900px;
 }
@@ -539,7 +556,7 @@ header {
     padding: 35px; /* 增加內邊距 */
     box-shadow: var(--shadow-small);
     border: 1px solid var(--border-color);
-    border-radius: 16px; /* 【升級】圓角增大 */
+    border-radius: 16px; /* 圓角增大 */
     border-left: 8px solid var(--accent-color); /* 加寬色條 */
     height: 100%;
     transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
@@ -750,7 +767,7 @@ footer {
 /* 浮動 CTA 質感與位置精確調整 */
 .floating-cta {
     position: fixed;
-    z-index: 990;
+    z-index: var(--z-fixed-cta); /* 使用 Z-Index 變數 */
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -836,8 +853,9 @@ footer {
 .details-text h3 {
     font-size: 1.8rem;
     color: var(--primary-color);
-    border-left: 5px solid var(--accent-color);
-    padding-left: 15px;
+    /* 國際化預留：使用邏輯屬性 border-inline-start */
+    border-inline-start: 5px solid var(--accent-color); 
+    padding-inline-start: 15px;
     margin-bottom: 25px;
 }
 
@@ -1084,6 +1102,30 @@ footer {
     overflow: hidden;
 }
 
+/* --- 表單狀態樣式 (新增：驗證回饋) --- */
+
+/* 錯誤狀態 (由 JS 驗證失敗時添加 .error 類別) */
+.contact-form input.error,
+.contact-form textarea.error {
+    border-color: var(--danger-color) !important;
+}
+.contact-form input.error:focus,
+.contact-form textarea.error:focus {
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.4);
+}
+.contact-form .error-message {
+    color: var(--danger-color);
+    font-size: var(--font-size-small);
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+/* 成功狀態 */
+.contact-form input.success,
+.contact-form textarea.success {
+    border-color: var(--success-color) !important;
+}
+
 
 /* ==================================================== */
 /* 內頁：殯葬百科 (Blog Page) 樣式 */
@@ -1259,8 +1301,9 @@ footer {
     color: var(--primary-color);
     margin-top: 40px;
     margin-bottom: 15px;
-    border-left: 5px solid var(--accent-color); 
-    padding-left: 15px;
+    /* 國際化預留：使用邏輯屬性 border-inline-start */
+    border-inline-start: 5px solid var(--accent-color); 
+    padding-inline-start: 15px;
 }
 /* 內文中的圖片 */
 .article-detail img {
@@ -1865,7 +1908,7 @@ footer {
     margin: 0;
 }
 /* ==================================================== */
-/* RWD - 響應式設計 (Media Queries - V12.10 最終層級降級版) */
+/* RWD - 響應式設計 (Media Queries - V13.0 最終層級) */
 /* ==================================================== */
 
 /* Tablet and Smaller Desktop (<= 1024px) */
@@ -1919,7 +1962,7 @@ footer {
         width: 100%;
         background-color: var(--bg-light);
         box-shadow: 0 4px 10px var(--shadow-medium);
-        z-index: 999;
+        z-index: var(--z-overlay); /* 使用 Z-Index 變數 */
         max-height: 0;
         overflow: hidden;
         opacity: 0;
@@ -1931,8 +1974,8 @@ footer {
         opacity: 1;
         pointer-events: all;
         top: calc(var(--header-height) + env(safe-area-inset-top));
-        /* 確保手機選單容器 Z-index 略高於 Header (1000) */
-        z-index: 1010; 
+        /* 確保手機選單容器 Z-index 略高於 Header */
+        z-index: var(--z-overlay); 
         overflow-y: auto; /* 允許垂直滾動 */
     }
     
@@ -2002,7 +2045,7 @@ footer {
         
         transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, opacity 0.3s ease-out; 
         transform: none; 
-        z-index: 5; 
+        z-index: var(--z-dropdown); 
     }
     
     /* 當 L1 項目被點擊 (active) 時展開 L2 選單 */
@@ -2032,7 +2075,7 @@ footer {
     }
 
     .contact-nav {
-        /* 移除 display: none; 確保按鈕在手機選單內可見 */
+        /* 確保按鈕在手機選單內可見 */
         display: block;
         padding-left: max(30px, env(safe-area-inset-left));
         padding-right: max(30px, env(safe-area-inset-right));
@@ -2120,7 +2163,7 @@ footer {
     }
 }
 
-/* Small Mobile (<= 600px) - 內容擠壓的最終防線 (保持不變) */
+/* Small Mobile (<= 600px) - 內容擠壓的最終防線 */
 @media (max-width: 600px) {
     :root {
         --safe-area-pad-h: 15px;
@@ -2223,7 +2266,7 @@ footer {
 
 
 /* ==================================================== */
-/* 可訪問性 (A11Y) 最終優化 - Focus 狀態統一 (保持不變) */
+/* 可訪問性 (A11Y) 最終優化 - Focus 狀態統一 */
 /* ==================================================== */
 
 a:focus-visible,
@@ -2233,6 +2276,7 @@ textarea:focus-visible,
 select:focus-visible,
 .accordion-header:focus-visible, 
 .card-item:focus-visible { 
+    /* 統一使用品牌強調色作為 Focus 輪廓 */
     outline: 3px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: 4px;
