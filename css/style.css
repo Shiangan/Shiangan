@@ -2,8 +2,7 @@
 /* 核心通用性與相容性保障 (Foundation & Reset) - 最終精煉版 */
 /* ==================================================== */
 
-/* --- 字體導入 (Font Loading: 確保字體語義化和性能) --- */
-/* 備註：請根據您的實際字體存放路徑調整 (範例假設字體放在上一層的 /fonts 資料夾) */
+/* --- 字體導入 (Font Loading) --- */
 @font-face {
     font-family: 'ChenYu';
     src: url('../fonts/辰魚落雁體.ttf') format('truetype');
@@ -32,24 +31,22 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 精簡過渡屬性：僅對常見互動屬性進行過渡 */
+    /* 精煉過渡屬性：僅針對最常見的互動屬性 */
     transition: color 0.3s ease-out, background-color 0.3s ease-out, border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out, opacity 0.3s ease-out;
     
     /* 避免文字溢出到頁面外 (最終防線) */
-    word-wrap: break-word;     
-    word-break: break-word;
+    word-break: break-word;     
     overflow-wrap: break-word; 
 
     /* 確保所有元素繼承點擊高亮透明 */
     -webkit-tap-highlight-color: transparent; 
 }
 
-/* 確保圖片和媒體的響應性與邊緣處理 */
+/* 確保圖片和媒體的響應性 */
 img, picture, video, canvas, svg {
     max-width: 100%;
     height: auto;
     display: block;
-    /* 移除 -ms-interpolation-mode，該屬性已過時且不再被廣泛支持 */
 }
 
 /* 避免在 iOS Safari 上點擊元素時出現灰色背景 */
@@ -59,7 +56,7 @@ a, button, input {
 
 
 /* ==================================================== */
-/* 品牌色與變數定義 (月光典雅金配色 - V10.1 穩定版) */
+/* 品牌色與變數定義 (月光典雅金配色 - V10.2 精煉版) */
 /* ==================================================== */
 :root {
     /* --- 核心色調與文字：低飽和度的深藍綠與香檳金 --- */
@@ -123,7 +120,6 @@ a {
 }
 
 a:hover {
-    /* 修正：統一連結懸停色為強調金 */
     color: var(--accent-color);
 }
 
@@ -131,7 +127,7 @@ ul {
     list-style: none;
 }
 
-/* 核心排版：內容安全區域 (保障移動設備完整性) */
+/* 核心排版：內容安全區域 */
 .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
@@ -144,13 +140,7 @@ ul {
 section {
     padding: var(--section-pad-v) 0;
 }
-.container-v-padding {
-    /* 修正：避免重複定義 section 的 padding，直接在 container 內使用 */
-    padding-top: calc(var(--section-pad-v) / 2);
-    padding-bottom: calc(var(--section-pad-v) / 2);
-}
 .first-section {
-    /* 修正：將 header-height 設為變數，計算更精確 */
     padding-top: calc(var(--header-height) + 50px);
 }
 
@@ -195,7 +185,7 @@ p {
 }
 
 /* ==================================================== */
-/* Header & Navigation (黏性標頭與移動端優化) */
+/* Header & Navigation */
 /* ==================================================== */
 header {
     background-color: var(--bg-light);
@@ -241,7 +231,7 @@ header {
     color: var(--accent-color);
     font-weight: 700;
 }
-/* 下方動態底線質感優化 */
+
 #main-nav a::after {
     content: '';
     position: absolute;
@@ -291,14 +281,13 @@ header {
 }
 
 /* ==================================================== */
-/* Hero & CTA (首屏英雄區) */
+/* Hero & CTA */
 /* ==================================================== */
 .hero-section {
     height: 70vh; 
     min-height: 500px;
     background-size: cover;
     background-position: center;
-    /* 修正：在移動設備上禁用 fixed，以提高性能 */
     background-attachment: scroll; 
     display: flex;
     align-items: center;
@@ -392,7 +381,7 @@ header {
 
 
 /* ==================================================== */
-/* Commitment & Card Grid (卡片質感強化) */
+/* Commitment & Card Grid */
 /* ==================================================== */
 .card-grid {
     display: grid;
@@ -411,6 +400,7 @@ header {
     transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* 精煉：確保內容垂直平均分配 */
 }
 
 .card-item:hover {
@@ -425,7 +415,6 @@ header {
     display: block;
 }
 .card-item h3 {
-    /* 修正：確保 card-item 內 H3 繼承了主要顏色 */
     color: var(--primary-color);
 }
 .card-item p {
@@ -545,9 +534,9 @@ header {
     max-height: 0;
     overflow: hidden;
     padding: 0 25px;
-    /* 修正：過渡應包含 max-height 和 padding-bottom，以實現平滑展開/收合 */
     transition: max-height 0.4s ease-in-out, padding-bottom 0.4s ease-in-out; 
 }
+/* 由 JS 控制，不再需要 .accordion-content.active 類別 */
 .accordion-content p {
     padding-top: 10px;
     padding-bottom: 20px; 
@@ -555,14 +544,10 @@ header {
     text-align: left;
     max-width: 100%;
 }
+
 /* Services Page 特有手風琴樣式 */
 .service-page-accordion .accordion-header {
     font-size: 1.25rem;
-}
-.service-page-accordion .accordion-content.active {
-    /* 修正：使用大值確保內容能完全展開，而非固定的 500px */
-    max-height: 2000px; 
-    padding-bottom: 20px;
 }
 .service-page-accordion .accordion-content ul {
     list-style: disc;
@@ -576,7 +561,7 @@ header {
 
 
 /* ==================================================== */
-/* Footer & Floating CTA (修正底部安全區域) */
+/* Footer & Floating CTA */
 /* ==================================================== */
 footer {
     background-color: var(--primary-color);
@@ -589,7 +574,7 @@ footer {
     gap: 30px;
     padding-bottom: 40px; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    display: grid; /* 確保在任何情況下都是網格佈局 */
+    display: grid;
 }
 .footer-grid h4 {
     color: var(--accent-color);
@@ -701,7 +686,6 @@ footer {
     background-color: var(--bg-light); 
     border: 1px solid var(--accent-color);
 }
-/* 修正：確保 i 顏色正確 */
 .cert-national i {
     color: var(--primary-color);
 }
@@ -785,7 +769,7 @@ footer {
 
 
 /* ==================================================== */
-/* 內頁：殯葬百科 (Blog Page) 樣式 - 最終精煉版 */
+/* 內頁：殯葬百科 (Blog Page) 樣式 */
 /* ==================================================== */
 .blog-page-layout {
     display: grid;
@@ -952,11 +936,6 @@ footer {
     position: relative;
     padding-left: 20px;
 }
-/* 移除文章內 H2/H3 的置中底線 */
-.article-detail h2::after {
-    display: none;
-}
-
 /* 讓文章內 H2 有左側色條 */
 .article-detail h2 {
     font-size: 1.8rem;
@@ -966,7 +945,6 @@ footer {
     border-left: 4px solid var(--accent-color);
     padding-left: 15px;
 }
-
 /* 內文中的圖片 */
 .article-detail img {
     margin: 20px auto;
@@ -1105,7 +1083,7 @@ footer {
     cursor: pointer;
     text-align: left;
     position: relative;
-    border: 2px solid transparent; /* 預留邊框，避免 hover/active 時佈局跳動 */
+    border: 2px solid transparent; 
 }
 .payment-box input[type="radio"] {
     position: absolute;
@@ -1156,12 +1134,15 @@ footer {
     min-height: 2.5rem;
 }
 .service-card .sub-link {
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
+    /* 移除絕對定位，使其自然在底部定位 */
+    position: static; 
+    margin-top: auto; 
+    display: inline-block;
     color: var(--accent-color);
     font-weight: 700;
     font-size: 0.95rem;
+    /* 修正：在 service-card 中靠左 */
+    align-self: flex-start; 
 }
 .service-card .sub-link:hover {
     color: var(--primary-color);
@@ -1185,7 +1166,7 @@ footer {
 
 
 /* ==================================================== */
-/* 方案與價格頁 (Plans Detail) 樣式 - 精煉版 */
+/* 方案與價格頁 (Plans Detail) 樣式 */
 /* ==================================================== */
 
 /* 方案卡片網格 */
@@ -1247,7 +1228,6 @@ footer {
     color: var(--text-light);
     padding: 15px 0;
     background-color: var(--primary-color);
-    /* 修正：統一價格標籤的定位和陰影 */
     margin: 0 -20px 0 -20px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -1317,7 +1297,7 @@ footer {
    方案價格表格 (Plans Page Table) 樣式
    ========================================= */
 
-/* 1. 響應式表格容器 (實現手機橫向捲動) */
+/* 1. 響應式表格容器 */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -1433,7 +1413,7 @@ footer {
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (Media Queries - 最終防線 V10.1) */
+/* RWD - 響應式設計 (Media Queries - 最終防線 V10.2) */
 /* ==================================================== */
 
 /* Tablet and Smaller Desktop (<= 1024px) */
@@ -1511,7 +1491,7 @@ footer {
         width: 100%;
     }
     .contact-nav {
-        display: none; /* 隱藏桌面聯繫按鈕，讓浮動按鈕或菜單內連結承接 */
+        display: none; 
     }
     
     /* --- 佈局切換單欄化 --- */
@@ -1526,7 +1506,7 @@ footer {
     .product-showcase, 
     .grid-2-cols, 
     .payment-options,
-    .grid-3-cols { /* 修正：將 grid-3-cols 也切換為單欄 */
+    .grid-3-cols { 
         grid-template-columns: 1fr;
     }
     /* --- Blog 側邊欄調整 --- */
@@ -1651,11 +1631,11 @@ footer {
     
     /* --- Floating CTA 調整 (確保底部不被系統手勢區遮擋) --- */
     .floating-cta {
-        /* 改為水平排列，避免佔據過多高度 */
-        flex-direction: row; 
-        right: 50%;
-        transform: translateX(50%);
-        bottom: calc(15px + env(safe-area-inset-bottom));
+        /* 改回 column，確保右側空間一致 */
+        flex-direction: column; 
+        right: max(15px, env(safe-area-inset-right)); /* 確保靠邊 */
+        bottom: calc(15px + env(safe-area-inset-bottom)); /* 確保底部安全 */
+        transform: translateX(0);
         gap: 8px;
     }
     .floating-cta a {
