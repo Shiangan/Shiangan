@@ -1588,7 +1588,7 @@ footer {
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (Media Queries - 最終精緻版 V11.0) */
+/* RWD - 響應式設計 (Media Queries - 最終精緻版 V12.1) */
 /* ==================================================== */
 
 /* Tablet and Smaller Desktop (<= 1024px) */
@@ -1604,6 +1604,10 @@ footer {
     header {
         padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
         padding-right: max(var(--safe-area-pad-h), env(safe-area-inset-right));
+    }
+    /* V12.1 修正：縮小導航間距，避免與 Logo 衝突 */
+    #main-nav ul {
+        gap: 20px; 
     }
     .price-grid {
         grid-template-columns: repeat(2, 1fr); 
@@ -1626,7 +1630,7 @@ footer {
     h1 { font-size: 2.8rem; }
     h2 { font-size: 2rem; } 
 
-    /* --- 手機選單啟用 --- */
+    /* --- 手機選單啟用 (保持不變) --- */
     .mobile-menu-btn {
         display: block;
     }
@@ -1669,7 +1673,7 @@ footer {
     
     /* L1 項目被點擊時，確保底線不顯示 */
     #main-nav ul li.has-dropdown.active > a::after {
-        transform: translateX(-50%) scaleX(0); /* 關鍵修正 */
+        transform: translateX(-50%) scaleX(0); 
     }
 
     .contact-nav {
@@ -1678,20 +1682,25 @@ footer {
     
     /* --- RWD：Dropdown 轉為手風琴模式 --- */
     
-    /* L1 連結在手機模式下應作為開關按鈕 (由 JS 捕獲點擊事件) */
+    /* L1 連結在手機模式下應作為開關按鈕 (V12.1 最終精修) */
     #main-nav ul li.has-dropdown > a {
         cursor: pointer;
         user-select: none;
-        padding: 10px 30px; /* 與其他 L1 項目對齊 */
         font-weight: 700;
+        /* V12.1 修正：優化點擊區域和對齊方式 */
+        padding: 12px 30px; 
+        display: flex; 
+        justify-content: space-between; 
+        width: 100%; 
+        align-items: center;
     }
     
     /* 當 L1 項目被點擊 (active) 時，箭頭旋轉 */
     .has-dropdown.active > a i.fa-chevron-down { 
-        transform: rotate(180deg); /* 關鍵修正 */
+        transform: rotate(180deg); 
     }
 
-    /* 手機模式下的次選單 (手風琴內容) */
+    /* 手機模式下的次選單 (手風琴內容) (保持不變) */
     .submenu {
         position: static;
         width: 100%;
@@ -1702,41 +1711,37 @@ footer {
         box-shadow: none;
         background-color: transparent;
         border-radius: 0;
-        /* 使用 max-height 實現平滑收合動畫 */
         overflow: hidden;
         max-height: 0;
-        opacity: 1; /* 確保內容可見 */
+        opacity: 1; 
         visibility: visible;
         pointer-events: all;
         transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
-        transform: none; /* 重置 desktop transform */
+        transform: none; 
     }
     
     /* 當 L1 項目被點擊 (active) 時展開 L2 選單 */
     .has-dropdown.active > .submenu {
-        max-height: 500px; /* 設置一個足夠大的值 */
+        max-height: 500px; 
         padding-top: 10px;
     }
     
-    /* 手機選單中的 L1 項目需要額外空間 */
-    /* L1 連結的 padding 已在上方定義，這裡移除重複的定義 */
-    
-    /* 手機模式下，次選單的連結縮進 */
+    /* 手機模式下，次選單的連結縮進 (V12.1 最終精修) */
     .submenu li a {
-        padding-left: 50px; /* 增加縮進 */
+        padding-left: 65px; /* 增加縮進 */
         font-weight: 500;
         font-size: 0.95rem;
     }
     
     .submenu .submenu-title {
-        padding-left: 50px;
+        padding-left: 65px; /* 標題也增加縮進 */
         border-bottom: none;
     }
     .submenu .submenu-separator {
         display: none;
     }
     
-    /* --- 佈局切換單欄化 --- */
+    /* --- 佈局切換單欄化 (保持不變) --- */
     .footer-grid {
         grid-template-columns: 1fr;
         text-align: center;
@@ -1764,7 +1769,7 @@ footer {
     .stat-item:last-child {
         border-bottom: none;
     }
-    /* --- Blog 側邊欄調整 --- */
+    /* --- Blog 側邊欄調整 (保持不變) --- */
     .blog-page-layout {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -1788,7 +1793,7 @@ footer {
         flex: 0 0 auto;
         min-width: 120px;
     }
-    /* --- Flow Chart 調整 --- */
+    /* --- Flow Chart 調整 (保持不變) --- */
     .flow-chart ol {
         flex-direction: column;
         align-items: center;
@@ -1799,7 +1804,7 @@ footer {
         top: 100%;
         transform: translate(50%, -50%);
     }
-    /* --- About Page 調整 --- */
+    /* --- About Page 調整 (保持不變) --- */
     .profile-image-container {
         width: 100%;
         max-width: 450px;
@@ -1808,7 +1813,7 @@ footer {
     .profile-image {
         height: 300px;
     }
-    /* --- 價格卡片單欄 --- */
+    /* --- 價格卡片單欄 (保持不變) --- */
     .price-grid {
         grid-template-columns: 1fr;
     }
@@ -1817,7 +1822,7 @@ footer {
     }
 }
 
-/* Small Mobile (<= 600px) - 內容擠壓的最終防線 */
+/* Small Mobile (<= 600px) - 內容擠壓的最終防線 (保持不變) */
 @media (max-width: 600px) {
     :root {
         --safe-area-pad-h: 15px;
@@ -1832,7 +1837,7 @@ footer {
         padding: 40px 0;
     }
 
-    /* --- 核心字體縮減：確保不會溢出 --- */
+    /* --- 核心字體縮減：確保不會溢出 (保持不變) --- */
     h1 { 
         font-size: 2rem; 
         line-height: 1.1; 
@@ -1844,7 +1849,7 @@ footer {
     h3 { font-size: 1.4rem; } 
     p { font-size: 0.95rem; } 
 
-    /* --- Header & Navigation --- */
+    /* --- Header & Navigation (保持不變) --- */
     header {
         min-height: var(--header-height);
         padding-left: max(15px, env(safe-area-inset-left));
@@ -1860,7 +1865,7 @@ footer {
         padding: 6px 10px;
     }
 
-    /* --- CTA 按鈕與標籤文字防溢出 --- */
+    /* --- CTA 按鈕與標籤文字防溢出 (保持不變) --- */
     .cta-button {
         font-size: 0.9rem; 
         padding: 0.75em 1.5em; 
@@ -1870,7 +1875,7 @@ footer {
         padding: 1em 2em;
     }
     
-    /* 特別針對 about.html 的資歷標籤進行防護 */
+    /* 特別針對 about.html 的資歷標籤進行防護 (保持不變) */
     .cert-tag {
         font-size: 0.8rem; 
         padding: 4px 8px; 
@@ -1884,12 +1889,11 @@ footer {
         font-size: 0.95rem;
     }
     
-    /* --- Floating CTA 調整 (確保底部不被系統手勢區遮擋) --- */
+    /* --- Floating CTA 調整 (確保底部不被系統手勢區遮擋) (保持不變) --- */
     .floating-cta {
-        /* 改回 column，確保右側空間一致 */
         flex-direction: column; 
-        right: max(15px, env(safe-area-inset-right)); /* 確保靠邊 */
-        bottom: calc(15px + env(safe-area-inset-bottom)); /* 確保底部安全 */
+        right: max(15px, env(safe-area-inset-right)); 
+        bottom: calc(15px + env(safe-area-inset-bottom)); 
         transform: translateX(0);
         gap: 8px;
     }
@@ -1899,19 +1903,18 @@ footer {
         line-height: 45px;
         font-size: 1.8rem;
         box-shadow: var(--shadow-small);
-        /* 在手機上關閉彈跳效果，保持穩定 */
         transition: transform 0.3s, box-shadow 0.3s; 
     }
     .floating-cta a:hover {
         transform: scale(1.05); 
     }
     
-    /* --- Footer 底部空間調整 --- */
+    /* --- Footer 底部空間調整 (保持不變) --- */
     footer {
         padding-bottom: calc(40px + env(safe-area-inset-bottom));
     }
 
-    /* --- 價格表格調整 --- */
+    /* --- 價格表格調整 (保持不變) --- */
     .table-wrapper table {
         min-width: 600px; 
     }
@@ -1922,7 +1925,7 @@ footer {
 
 
 /* ==================================================== */
-/* 可訪問性 (A11Y) 最終優化 - Focus 狀態統一 */
+/* 可訪問性 (A11Y) 最終優化 - Focus 狀態統一 (保持不變) */
 /* ==================================================== */
 
 a:focus-visible,
@@ -1930,9 +1933,8 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
-.accordion-header:focus-visible, /* 確保手風琴頭部也遵守統一的 focus 樣式 */
-.card-item:focus-visible { /* 確保卡片組件也遵守統一的 focus 樣式 */
-    /* 統一使用品牌色和更清晰的輪廓 */
+.accordion-header:focus-visible, 
+.card-item:focus-visible { 
     outline: 3px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: 4px;
@@ -1940,3 +1942,4 @@ select:focus-visible,
 :focus:not(:focus-visible) {
     outline: none;
 }
+
