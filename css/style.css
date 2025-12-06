@@ -40,9 +40,9 @@
     h1 { font-size: 2.8rem; }
     h2 { font-size: 2rem; } 
 
-    /* 【修正 1】Header 必須固定在頂部，並確保 z-index 最高 */
+    /* 【核心修正 1】Header 必須固定在頂部，並確保 z-index 最高 */
     header {
-        position: fixed; /* 從 sticky/relative 改為 fixed */
+        position: fixed; /* 保持固定在頂部 */
         width: 100%;
         top: 0;
         z-index: 1010; /* 確保高於導航列 1005 */
@@ -56,57 +56,57 @@
         z-index: 1020; /* 確保按鈕在選單之上 */
     }
     
-    /* 【修正 2】導航列 (#main-nav) 定位與樣式修正 (解決重疊核心) */
+    /* 【核心修正 2】導航列 (#main-nav) 樣式修正 (恢復為頂部下拉菜單) */
     #main-nav {
-        /* 【關鍵】固定定位，佔滿剩餘螢幕空間 */
-        position: fixed; 
+        /* 使用絕對定位，讓它覆蓋下方內容，但不鎖定 viewport */
+        position: absolute; 
         
-        /* 從 Header 的高度下方開始 */
+        /* 讓它從 Header 底部開始展開 */
         top: var(--header-height, 70px); 
         left: 0;
         width: 100%;
         
-        /* 佔滿螢幕高度減去 Header 高度 */
-        height: calc(100vh - var(--header-height, 70px)); 
-        
-        /* 使用深色背景，與 Header 淺色形成對比 */
-        background-color: var(--primary-color); 
-        
-        box-shadow: none; /* 清除桌面模式的陰影 */
-        overflow-y: auto; /* 【關鍵】允許內容垂直滾動 */
+        /* 移除固定高度和滾動，改用 max-height 控制收合 */
+        height: auto; 
+        overflow-y: hidden; /* 確保收合時內容不外洩 */
         overflow-x: hidden;
+
+        /* 樣式設置 */
+        background-color: var(--primary-color); 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
         z-index: 1005; 
         
-        /* 預設從右側隱藏 */
-        transform: translateX(100%); 
-        transition: transform 0.3s ease-out;
+        /* 預設隱藏和收合 */
+        max-height: 0; /* 關鍵：默認收合 */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
         
-        /* 移除 max-height, opacity, pointer-events 屬性 */
-        max-height: none !important; 
-        opacity: 1 !important; 
-        pointer-events: all !important;
+        /* 展開/收合過渡效果 */
+        transition: max-height 0.4s ease-in-out, 
+                    opacity 0.3s ease-out,
+                    visibility 0.3s;
         
         /* 確保選單展開時，能顯示 L1, L2 項目 */
         display: block;
+        transform: none; /* 確保沒有任何 translateX 影響 */
     }
     
-    /* 導航列展開時的樣式 (對應 JS 的 .active) */
+    /* 【核心修正 3】導航列展開時的樣式 (對應 JS 的 .active) */
     #main-nav.active {
-        transform: translateX(0); /* 滑入視野 */
+        /* 展開菜單 */
+        max-height: 2000px; /* 設置一個足夠大的值來展開內容 */
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
     }
     
-    /* 配合 JS 展開時鎖定 Body 滾動，防止內容洩露 */
+    /* 配合 JS 展開時，不再需要鎖定 Body 滾動 (若 JS 有 .menu-open 應設為 overflow: auto) */
     body.menu-open {
-        overflow: hidden; 
+        overflow: auto; 
     }
     
-    /* 修正了 #main-nav.active 的 top，以避免與 Header 衝突 */
-    #main-nav.active {
-        top: var(--header-height, 70px); /* 確保從 Header 下方開始 */
-        z-index: 1005;
-        /* 移除原有的 max-height, opacity 屬性覆蓋，因為已被 position: fixed 取代 */
-    }
-    
+    /* 菜單內部的 ul 調整為垂直排列 */
     #main-nav ul {
         flex-direction: column;
         gap: 0; /* 垂直排列時使用 padding 控制間距 */
@@ -117,20 +117,16 @@
         align-items: flex-start;
     }
 
-    /* V12.10 核心修正 1：移除 L1 元素的 Z-index 修正，讓選單內部的 Z-index 單純化 */
+    /* 確保 L1 項目佔滿寬度 */
     #main-nav ul li {
         position: static; 
         z-index: auto;
+        width: 100%; 
     }
     
     /* 確保 L1 連結底線收合 (不顯示) */
     #main-nav a::after {
         display: none;
-    }
-    
-    /* L1 項目被點擊時，確保底線不顯示 (已包含在上面的 display: none) */
-    #main-nav ul li.has-dropdown.active > a::after {
-        transform: translateX(-50%) scaleX(0); 
     }
 
     .contact-nav {
@@ -138,21 +134,16 @@
     }
     
     /* ------------------------------------------------------------------ */
-    /* --- RWD：Dropdown 轉為手風琴模式 - 最終修正 Z-index 與 max-height --- */
+    /* --- RWD：Dropdown 轉為手風琴模式 --- */
     /* ------------------------------------------------------------------ */
     
-    /* V12.10 核心修正 2：移除此處的 Z-index 提升，因為 position: fixed 已解決層級問題 */
-    .has-dropdown.active {
-        z-index: auto !important; 
-    }
-
     /* L1 連結在手機模式下應作為開關按鈕 */
     #main-nav ul li.has-dropdown > a {
         cursor: pointer;
         user-select: none;
         color: var(--text-light); /* L1 連結改為淺色 */
         font-weight: 700;
-        padding: 12px 0; /* 移除左右 padding，讓 ul 的 padding 生效 */
+        padding: 12px 0; 
         padding-right: 0;
         display: flex; 
         justify-content: space-between; 
@@ -174,21 +165,19 @@
     
     /* 手機模式下的次選單 (手風琴內容) */
     .submenu {
-        position: static;
+        position: static; /* 移除絕對定位 */
         width: 100%;
         min-width: auto;
         
         /* 【核心修正】預設收合 */
         max-height: 0; 
         
-        /* 保持 RWD 模式的 padding */
-        padding: 0 0 10px 0; 
+        padding: 0;
         margin-top: 0;
         
-        /* 移除桌面模式的視覺隱藏，讓過渡生效 */
         border: none;
         box-shadow: none;
-        background-color: rgba(0, 0, 0, 0.1); /* 次選單背景色改為深色透明 */
+        background-color: rgba(0, 0, 0, 0.1); 
         border-radius: 0;
         
         opacity: 1; 
@@ -198,21 +187,22 @@
         z-index: 5; 
         
         /* 僅保留高度過渡，使其像手風琴 */
-        transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
+        transition: max-height 0.4s ease-in-out; 
     }
     
     /* 當 L1 項目被點擊 (active) 時展開 L2 選單 */
     .has-dropdown.active > .submenu {
         max-height: 2000px; 
         padding-top: 10px;
+        padding-bottom: 10px;
     }
     
     /* 手機模式下，次選單的連結縮進 */
     .submenu li a {
-        padding-left: 30px; /* 修正縮進 */
+        padding-left: 30px; 
         font-weight: 500;
         font-size: 0.95rem;
-        color: var(--text-light); /* 確保 L2 連結顏色也是淺色 */
+        color: var(--text-light); 
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     
@@ -222,7 +212,7 @@
     }
     
     .submenu .submenu-title {
-        padding-left: 30px; /* 修正縮進 */
+        padding-left: 30px; 
         border-bottom: none;
         color: var(--secondary-color);
     }
@@ -584,6 +574,7 @@ section {
     padding: var(--section-pad-v) 0;
 }
 .first-section {
+    /* 這裡必須與 Header 高度及 Padding 配合，確保內容不被 Header 遮擋 */
     padding-top: calc(var(--header-height) + 50px);
 }
 
@@ -637,7 +628,8 @@ p {
 header {
     background-color: var(--bg-light);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); 
-    position: sticky; /* 桌面模式使用 Sticky */
+    /* 桌面模式使用 Sticky，手機模式則由 Media Query 覆蓋為 fixed */
+    position: sticky; 
     top: 0;
     z-index: 1000;
     display: flex;
@@ -2024,4 +2016,3 @@ footer {
     color: var(--bg-section);
     margin: 0;
 }
-
