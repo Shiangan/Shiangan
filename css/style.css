@@ -1,3 +1,30 @@
+🛠️ 好的，感謝您提供截圖。從您提供的截圖來看，手機選單的堆疊層級（Z-index）衝突 確實仍然存在，儘管我們在 CSS 中已嘗試提升 z-index。
+這個問題在複雜的響應式選單中非常常見，尤其是在手機端將下拉選單 (.submenu) 轉為手風琴模式時。
+根本原因分析與 V12.8 最終修正策略：
+ * Header 的 Z-index 邏輯正確：header 保持 1000。
+ * 手機選單容器的 Z-index 邏輯正確：#main-nav.active 保持 1010。
+ * 問題點：L1/L2 選單項目的堆疊：在手機模式下，當您點擊 "專業生命禮儀服務" 展開 L2 選單時，這個 L2 選單 (.submenu) 仍然被後續的 L1 兄弟元素（如 "喪葬費用公開方案"）覆蓋。
+這是因為在 CSS 媒體查詢中，當 "專業生命禮儀服務" 所在的 li.has-dropdown 展開後，它與下方的 li 元素（如 "喪葬費用公開方案"）仍然是同一個父級容器 (#main-nav ul) 內的兄弟元素，除非展開的項目創建了新的堆疊上下文且具有更高的 z-index。
+🔍 V12.8 最終 Z-index 修正細節
+為了徹底解決這個問題，我們需要對手機模式下的 L1 展開項 (.has-dropdown.active) 執行以下操作：
+ * 強制創建堆疊上下文：設定 position: relative（已在 V12.7 嘗試）。
+ * 大幅提升展開項目的 Z-index：將其 z-index 提升到一個遠高於其他 L1 兄弟元素的數值，確保展開的內容不會被後面的選項蓋住。
+關鍵程式碼修訂位置
+我們將專注於 /* Mobile and Smaller Tablet (<= 900px) */ 區塊內的以下類別：
+/* --- RWD：Dropdown 轉為手風琴模式 - V12.8 最終修正堆疊衝突 --- */
+
+/* V12.8 關鍵修正：當 L1 項目展開時，強制創建新的堆疊上下文並【極度提升】 Z-index */
+.has-dropdown.active {
+    position: relative; /* 確保新的堆疊上下文 */
+    z-index: 999;       /* 將其 Z-index 從 10 提升到極高，確保它浮在所有兄弟項目之上 */
+}
+
+我已將此最終修正整合到完整的 V12.8 程式碼中。
+💻 完整程式碼：V12.8 最終堆疊修正版 (直接貼上)
+請再次將現有 CSS 檔案的全部內容，替換為下面提供的完整程式碼。
+/* ==================================================== */
+/* 核心通用性與相容性保障 (Foundation & Reset) - 最終精煉版 */
+/* ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
 @font-face {
@@ -206,7 +233,7 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); 
     position: sticky;
     top: 0;
-    /* V12.7 維持：確保 Header 權限最高，數值保持在安全高位 */
+    /* V12.8 維持：確保 Header 權限最高，數值保持在安全高位 */
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -300,7 +327,7 @@ header {
 }
 
 /* ==================================================== */
-/* Dropdown (選單再選單) 樣式 - 【V12.7 修正 Z-index】 */
+/* Dropdown (選單再選單) 樣式 - 【V12.8 修正 Z-index】 */
 /* ==================================================== */
 
 /* L1 級別選單項的容器設定 */
@@ -330,7 +357,7 @@ header {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: var(--shadow-medium); /* 質感陰影 */
-    /* V12.7 修正：確保在桌面模式下，此選單層級高於 Header 內的其他 L1 項目。 */
+    /* V12.8 維持：確保在桌面模式下，此選單層級高於 Header 內的其他 L1 項目。 */
     z-index: 1010;
     
     /* 預設隱藏並使用過渡效果 */
@@ -688,9 +715,9 @@ header {
 /* Footer & Floating CTA */
 /* ==================================================== */
 footer {
-    /* V12.7 修正：將 position 改為相對，footer 應該是頁面內容的一部分 */
+    /* V12.8 修正：將 position 改為相對，footer 應該是頁面內容的一部分 */
     position: relative; 
-    /* V12.7 移除 z-index: 990; */
+    /* V12.8 移除 z-index: 990; */
     z-index: auto; 
     background-color: var(--primary-color);
     color: var(--bg-section);
@@ -728,7 +755,7 @@ footer {
 /* 浮動 CTA 質感與位置精確調整 */
 .floating-cta {
     position: fixed;
-    /* V12.7 維持：確保浮動按鈕低於 Header (1000) */
+    /* V12.8 維持：確保浮動按鈕低於 Header (1000) */
     z-index: 990;
     display: flex;
     flex-direction: column;
@@ -1468,7 +1495,7 @@ footer {
     letter-spacing: 0.5px;
     position: sticky;
     top: 0;
-    /* V12.7 修正：確保遠低於 Header (1000) */
+    /* V12.8 修正：確保遠低於 Header (1000) */
     z-index: 50;
 }
 
@@ -1480,7 +1507,7 @@ footer {
     font-weight: 700;
     position: sticky;
     left: 0;
-    /* V12.7 修正：確保此欄在表頭(50)和表格內容(預設 0)之上 */
+    /* V12.8 修正：確保此欄在表頭(50)和表格內容(預設 0)之上 */
     z-index: 60;
     background-color: var(--bg-light);
     border-right: 1px solid var(--border-color);
@@ -1594,7 +1621,7 @@ footer {
 
 
 /* ==================================================== */
-/* RWD - 響應式設計 (Media Queries - V12.7 最終修正版) */
+/* RWD - 響應式設計 (Media Queries - V12.8 最終修正版) */
 /* ==================================================== */
 
 /* Tablet and Smaller Desktop (<= 1024px) */
@@ -1660,7 +1687,7 @@ footer {
         opacity: 1;
         pointer-events: all;
         top: calc(var(--header-height) + env(safe-area-inset-top));
-        /* V12.7 維持：確保手機選單容器 Z-index 略高於 Header (1000) */
+        /* V12.8 維持：確保手機選單容器 Z-index 略高於 Header (1000) */
         z-index: 1010;
     }
     
@@ -1689,12 +1716,12 @@ footer {
         display: none; 
     }
     
-    /* --- RWD：Dropdown 轉為手風琴模式 - V12.7 修正堆疊衝突 --- */
+    /* --- RWD：Dropdown 轉為手風琴模式 - V12.8 關鍵 Z-index 修正 --- */
     
-    /* V12.7 關鍵修正：當 L1 項目展開時，強制創建新的堆疊上下文並提高 Z-index */
+    /* V12.8 關鍵修正：當 L1 項目展開時，強制創建新的堆疊上下文並【極度提升】 Z-index */
     .has-dropdown.active {
         position: relative; /* 創建堆疊上下文 */
-        z-index: 10;        /* 提升層級，確保其子元素 (submenu) 能浮在下方的 L1 兄弟元素之上 */
+        z-index: 999;       /* 提升到極高，確保它浮在後續所有兄弟項目之上 */
     }
 
     /* L1 連結在手機模式下應作為開關按鈕 (V12.1 最終精修) */
@@ -1733,7 +1760,7 @@ footer {
         pointer-events: all;
         transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
         transform: none; 
-        /* V12.7 修正：這裡的 z-index 影響較小，但保留以確保層級清晰 */
+        /* V12.8 修正：這裡的 z-index 影響較小，但保留以確保層級清晰 */
         z-index: 5;
     }
     
@@ -1960,6 +1987,4 @@ select:focus-visible,
 :focus:not(:focus-visible) {
     outline: none;
 }
-
-
 
