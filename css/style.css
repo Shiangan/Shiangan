@@ -302,6 +302,102 @@ header {
 }
 
 /* ==================================================== */
+/* Dropdown (選單再選單) 樣式 - 【優化後】 */
+/* ==================================================== */
+
+/* L1 級別選單項的容器設定 */
+#main-nav ul li.has-dropdown {
+    position: relative;
+}
+
+/* L1 選單文字後的小箭頭 */
+#main-nav ul li.has-dropdown a i.fa-chevron-down {
+    font-size: 0.7em;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+/* 下拉選單 (L2) 基礎樣式 */
+.submenu {
+    display: block; 
+    position: absolute;
+    top: 100%; /* 從 L1 項目底部開始 */
+    left: 50%;
+    /* 【優化】使用 transform: translateY() 代替 margin-top 確保流暢性 */
+    transform: translateX(-50%) translateY(15px); 
+    min-width: 240px;
+    padding: 10px 0;
+    
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium); /* 質感陰影 */
+    z-index: 900;
+    
+    /* 預設隱藏並使用過渡效果 */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* 【優化】transition */
+}
+
+/* L1 懸停時顯示 L2 選單 */
+#main-nav ul li.has-dropdown:hover > .submenu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    /* 【優化】懸停時，將 Y 軸偏移量減少到 0，製造浮現感 */
+    transform: translateX(-50%) translateY(0); 
+}
+
+/* L1 懸停時旋轉小箭頭 */
+#main-nav ul li.has-dropdown:hover > a i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* 次選單的標題樣式 (如：服務項目分類) */
+.submenu .submenu-title {
+    padding: 8px 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+    cursor: default;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* 次選單中的分隔線 */
+.submenu .submenu-separator {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 8px 0;
+    padding: 0;
+    list-style: none; /* 移除點點 */
+}
+
+/* L2 選單中的連結樣式 */
+.submenu li a {
+    display: block;
+    padding: 10px 20px;
+    font-weight: 400; /* 略微減輕字重 */
+    color: var(--text-dark);
+    line-height: 1.2;
+    position: relative;
+}
+
+.submenu li a:hover {
+    background-color: var(--bg-section);
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+/* 確保 L2 選單連結沒有底線動畫 */
+.submenu li a::after {
+    display: none; 
+}
+
+
+/* ==================================================== */
 /* Hero & CTA */
 /* ==================================================== */
 .hero-section {
@@ -1555,6 +1651,55 @@ footer {
     }
     .contact-nav {
         display: none; 
+    }
+    
+    /* --- RWD：Dropdown 轉為手風琴模式 --- */
+    /* 手機模式下的次選單 (手風琴內容) */
+    .submenu {
+        position: static;
+        width: 100%;
+        min-width: auto;
+        padding: 0 0 10px 0;
+        margin-top: 0;
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+        border-radius: 0;
+        /* 使用 max-height 實現平滑收合動畫 */
+        overflow: hidden;
+        max-height: 0;
+        opacity: 1; /* 確保內容可見 */
+        visibility: visible;
+        pointer-events: all;
+        transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
+        transform: none; /* 重置 desktop transform */
+    }
+    
+    /* 當 L1 項目被點擊 (active) 時展開 L2 選單 */
+    .has-dropdown.active > .submenu {
+        max-height: 500px; /* 設置一個足夠大的值 */
+        padding-top: 10px;
+    }
+    
+    /* 手機選單中的 L1 項目需要額外空間 */
+    #main-nav ul li.has-dropdown > a {
+        padding: 10px 30px; /* 與其他 L1 項目對齊 */
+        font-weight: 700;
+    }
+    
+    /* 手機模式下，次選單的連結縮進 */
+    .submenu li a {
+        padding-left: 50px; /* 增加縮進 */
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+    
+    .submenu .submenu-title {
+        padding-left: 50px;
+        border-bottom: none;
+    }
+    .submenu .submenu-separator {
+        display: none;
     }
     
     /* --- 佈局切換單欄化 --- */
