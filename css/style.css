@@ -778,6 +778,170 @@ footer {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* ==================================================== */
+/* 專業服務頁面細節樣式 (Service Details Page) */
+/* 旨在提升質感與專業度 */
+/* ==================================================== */
+
+/* 1. 通用區塊填充 (Vertical Padding) */
+.container-v-padding {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .container-v-padding {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}
+
+/* 2. 服務細節網格 (Service Details Grid) */
+.service-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 預設兩欄 */
+    gap: 50px; /* 增加間距，提升質感 */
+    align-items: center; /* 垂直置中對齊 */
+    margin-top: 40px;
+}
+
+/* 手機響應式：堆疊排列 */
+@media (max-width: 992px) {
+    .service-details-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* 圖片區塊樣式 */
+.details-image {
+    background-color: var(--bg-section);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+}
+.details-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+/* 視覺互動效果 */
+.details-image:hover img {
+    transform: scale(1.03);
+}
+
+/* 文字區塊標題 */
+.details-text h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    border-left: 5px solid var(--accent-color);
+    padding-left: 15px;
+    margin-bottom: 25px;
+}
+
+/* 內容列表樣式 (重點強調服務項目) */
+.details-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.details-text li {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border-color);
+    color: var(--text-dark);
+}
+.details-text li:last-child {
+    border-bottom: none;
+}
+.details-text li i {
+    color: var(--secondary-color); /* 藍色用於專業項目圖標 */
+    margin-right: 12px;
+    font-size: 1.25rem;
+}
+.details-text li strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+
+/* 逆序排列 (用於道教區塊) */
+.service-details-grid.reverse-order {
+    /* 確保在桌面版上，圖片在左，文字在右 */
+    direction: rtl; /* 反轉 flex/grid 元素的順序 */
+    text-align: left;
+}
+/* 針對內容單獨修正方向 */
+.service-details-grid.reverse-order > .details-image,
+.service-details-grid.reverse-order > .details-text {
+    direction: ltr;
+}
+/* 手機響應式修正：在單欄模式下恢復正常閱讀順序 */
+@media (max-width: 992px) {
+    .service-details-grid.reverse-order {
+        direction: ltr; 
+    }
+}
+
+
+/* 3. 筆記提示與專業保證區塊 (Note Tip/E-E-A-T Block) */
+.note-tip {
+    padding: 25px 30px;
+    border-radius: 8px;
+    background-color: var(--bg-section);
+    border-left: 6px solid var(--secondary-color); /* 使用藍色作為專業提示邊條 */
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin: 40px auto;
+    line-height: 1.6;
+    box-shadow: var(--shadow-small);
+}
+.note-tip i {
+    color: var(--secondary-color);
+    margin-right: 10px;
+    font-size: 1.4rem;
+    vertical-align: middle;
+}
+.note-tip strong {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+
+/* 專業保證提示 (E-E-A-T 強化) */
+.note-tip.professional-tip {
+    border-left: 6px solid var(--accent-color); /* 使用強調色，更突出信任度 */
+    background-color: var(--bg-light); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+.note-tip.professional-tip i {
+    color: var(--accent-color);
+}
+.note-tip.professional-tip strong {
+    color: var(--accent-color);
+}
+
+/* 4. 底部 CTA 區塊樣式修正 */
+.final-cta-plans { /* 繼承自上一個修正版本，用於最後的 CTA 區塊 */
+    padding: 60px 0;
+    background-color: var(--bg-section);
+}
+.final-cta-plans h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+.final-cta-plans .section-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+
 
 /* =========================================== */
 /* 內頁：關於我們 (About Page) 專屬樣式 */
