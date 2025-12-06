@@ -214,6 +214,7 @@ header {
     justify-content: space-between;
     align-items: center;
     min-height: var(--header-height);
+    z-index: 1000;
     padding: 10px 0;
     /* 處理左右和頂部安全區域 */
     padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
@@ -298,7 +299,7 @@ header {
     color: var(--primary-color);
     font-weight: 700;
     white-space: nowrap;
-    z-index: 1001;
+    z-index: 1020;
 }
 
 /* ==================================================== */
@@ -332,7 +333,7 @@ header {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: var(--shadow-medium); /* 質感陰影 */
-    z-index: 900;
+    z-index: 1010;
     
     /* 預設隱藏並使用過渡效果 */
     opacity: 0;
@@ -689,6 +690,8 @@ header {
 /* Footer & Floating CTA */
 /* ==================================================== */
 footer {
+    position: fixed;
+    z-index: 990;
     background-color: var(--primary-color);
     color: var(--bg-section);
     padding: var(--section-pad-v) 0; 
