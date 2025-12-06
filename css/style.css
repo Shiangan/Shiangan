@@ -341,17 +341,19 @@ header {
     transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* 【優化】transition */
 }
 
-/* L1 懸停時顯示 L2 選單 */
-#main-nav ul li.has-dropdown:hover > .submenu {
+/* L1 懸停/聚焦時顯示 L2 選單 (已修正並強化 A11Y) */
+#main-nav ul li.has-dropdown:hover > .submenu,
+#main-nav ul li.has-dropdown:focus-within > .submenu {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
-    /* 【優化】懸停時，將 Y 軸偏移量減少到 0，製造浮現感 */
+    /* 【優化】懸停/聚焦時，將 Y 軸偏移量減少到 0，製造浮現感 */
     transform: translateX(-50%) translateY(0); 
 }
 
-/* L1 懸停時旋轉小箭頭 */
-#main-nav ul li.has-dropdown:hover > a i.fa-chevron-down {
+/* L1 懸停/聚焦時旋轉小箭頭 */
+#main-nav ul li.has-dropdown:hover > a i.fa-chevron-down,
+#main-nav ul li.has-dropdown:focus-within > a i.fa-chevron-down {
     transform: rotate(180deg);
 }
 
@@ -462,7 +464,8 @@ header {
     transition: all 0.3s ease;
     line-height: 1.2;
 }
-.cta-button:hover {
+.cta-button:hover,
+.cta-button:focus-visible { /* A11Y 強化 */
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
@@ -471,7 +474,8 @@ header {
     color: var(--primary-color);
     border: 2px solid var(--accent-color);
 }
-.cta-button.primary:hover {
+.cta-button.primary:hover,
+.cta-button.primary:focus-visible {
     background-color: var(--accent-color-hover);
     border-color: var(--accent-color-hover);
 }
@@ -481,7 +485,8 @@ header {
     color: white;
     border: 2px solid var(--primary-color);
 }
-.cta-button.secondary:hover {
+.cta-button.secondary:hover,
+.cta-button.secondary:focus-visible {
     background-color: #2F596E; 
     border-color: #2F596E;
 }
@@ -521,7 +526,8 @@ header {
     justify-content: space-between; 
 }
 
-.card-item:hover {
+.card-item:hover,
+.card-item:focus-visible { /* A11Y 強化 */
     transform: translateY(-8px); /* 增大抬升距離 */
     box-shadow: var(--shadow-medium);
 }
@@ -620,7 +626,8 @@ header {
     text-align: left;
     transition: background-color 0.3s;
 }
-.accordion-header:hover {
+.accordion-header:hover,
+.accordion-header:focus-visible { /* A11Y 強化 */
     background-color: #fcfcfc;
 }
 
@@ -1196,6 +1203,15 @@ footer {
     border-radius: 6px;
     box-sizing: border-box;
 }
+.order-form input:focus,
+.order-form select:focus,
+.order-form textarea:focus {
+    /* 升級：使用品牌金邊框和光暈 */
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(203, 174, 136, 0.4); 
+    outline: none;
+}
+
 .payment-options {
     margin-top: 10px;
     gap: 15px !important;
@@ -1644,16 +1660,37 @@ footer {
         padding-bottom: 20px;
         align-items: flex-start;
     }
+    
+    /* 確保 L1 連結底線收合 (不顯示) */
     #main-nav a::after {
-        left: 0;
-        transform: translateX(0);
-        width: 100%;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
     }
+    
+    /* L1 項目被點擊時，確保底線不顯示 */
+    #main-nav ul li.has-dropdown.active > a::after {
+        transform: translateX(-50%) scaleX(0); /* 關鍵修正 */
+    }
+
     .contact-nav {
         display: none; 
     }
     
     /* --- RWD：Dropdown 轉為手風琴模式 --- */
+    
+    /* L1 連結在手機模式下應作為開關按鈕 (由 JS 捕獲點擊事件) */
+    #main-nav ul li.has-dropdown > a {
+        cursor: pointer;
+        user-select: none;
+        padding: 10px 30px; /* 與其他 L1 項目對齊 */
+        font-weight: 700;
+    }
+    
+    /* 當 L1 項目被點擊 (active) 時，箭頭旋轉 */
+    .has-dropdown.active > a i.fa-chevron-down { 
+        transform: rotate(180deg); /* 關鍵修正 */
+    }
+
     /* 手機模式下的次選單 (手風琴內容) */
     .submenu {
         position: static;
@@ -1682,10 +1719,7 @@ footer {
     }
     
     /* 手機選單中的 L1 項目需要額外空間 */
-    #main-nav ul li.has-dropdown > a {
-        padding: 10px 30px; /* 與其他 L1 項目對齊 */
-        font-weight: 700;
-    }
+    /* L1 連結的 padding 已在上方定義，這裡移除重複的定義 */
     
     /* 手機模式下，次選單的連結縮進 */
     .submenu li a {
@@ -1895,7 +1929,9 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
-select:focus-visible {
+select:focus-visible,
+.accordion-header:focus-visible, /* 確保手風琴頭部也遵守統一的 focus 樣式 */
+.card-item:focus-visible { /* 確保卡片組件也遵守統一的 focus 樣式 */
     /* 統一使用品牌色和更清晰的輪廓 */
     outline: 3px solid var(--accent-color);
     outline-offset: 4px;
