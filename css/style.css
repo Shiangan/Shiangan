@@ -1733,8 +1733,8 @@ footer {
     .has-dropdown.active > a i.fa-chevron-down { 
         transform: rotate(180deg); 
     }
-
-    /* 手機模式下的次選單 (手風琴內容) */
+    
+    /* 【關鍵修正】手機模式下的次選單 (手風琴內容) */
     .submenu {
         /* 核心修正：覆蓋桌面版的所有定位與隱藏屬性 */
         position: static; 
@@ -1752,6 +1752,7 @@ footer {
         max-height: 0;
         padding: 0;
         overflow: hidden; 
+        /* 確保元素是可見的，只是被 max-height 隱藏 */
         opacity: 1; 
         visibility: visible;
         pointer-events: all;
