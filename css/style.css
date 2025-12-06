@@ -1331,42 +1331,67 @@ footer {
 
 
 /* ==================================================== */
-/* 方案與價格頁 (Plans Detail) 樣式 */
+/* 方案與價格頁 (Plans Detail) 樣式 - 價格卡片網格 */
 /* ==================================================== */
 
 /* 方案卡片網格 */
 .price-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* 預設三欄，確保在寬螢幕上有良好的排版 */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
     margin-top: 40px;
 }
 
+/* 響應式優化：平板與手機 */
+@media (max-width: 992px) {
+    .price-grid {
+        grid-template-columns: repeat(2, 1fr); /* 平板兩欄 */
+    }
+}
+@media (max-width: 600px) {
+    .price-grid {
+        grid-template-columns: 1fr; /* 手機單欄 */
+    }
+}
+
 /* 單一價格卡片 */
 .price-card {
-    background: #fff;
+    background: var(--bg-light);
     border-radius: 16px; 
     box-shadow: var(--shadow-small);
     text-align: center;
     overflow: hidden;
     padding: 0;
-    border: 4px solid var(--border-color); 
+    border: 3px solid var(--border-color); /* 修正邊框寬度為 3px，更細緻 */
     transition: all 0.3s ease;
+}
+
+/* 懸停效果：略微放大並改變邊框顏色 */
+.price-card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--secondary-color);
 }
 
 /* 特色方案標註 */
 .price-card.featured-plan {
     border-color: var(--accent-color); 
     transform: scale(1.05);
-    box-shadow: var(--shadow-medium);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* 強化陰影 */
 }
+@media (max-width: 600px) {
+    .price-card.featured-plan {
+        transform: scale(1.02); /* 手機上縮小放大效果，避免佔用過多空間 */
+    }
+}
+
 
 .price-card header {
     padding: 30px 20px 20px;
     background-color: var(--bg-section);
 }
 .price-card.featured-plan header {
-    background-color: var(--bg-accent-light); 
+    background-color: var(--bg-accent-light); /* 使用變數 */
 }
 .price-card.featured-plan .plan-title {
     color: var(--primary-color);
@@ -1374,64 +1399,77 @@ footer {
 
 
 .price-card .plan-title {
-    font-size: 1.9rem; 
+    font-size: 2rem; /* 略微放大標題 */
     color: var(--primary-color);
     margin: 0;
+    font-weight: 700;
 }
 
 .price-card .plan-subtitle {
-    font-size: 1.05rem; 
+    font-size: 1.1rem; /* 略微放大副標題 */
     color: var(--secondary-color);
     margin: 5px 0 15px;
+    font-weight: 400;
 }
 
 /* 價格標籤 */
 .price-tag {
     font-family: 'Iansui', 'Noto Serif TC', serif;
-    font-size: 3.8rem; 
-    font-weight: 700;
+    font-size: clamp(3rem, 5vw, 4rem); /* 使用 clamp 確保響應式字體大小 */
+    font-weight: 900; /* 更粗的字體 */
     color: var(--text-light);
     padding: 20px 0;
     background-color: var(--primary-color);
-    margin: 0 -20px 0 -20px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* 修正：邊界應與父容器對齊，而不是負邊距。使用 padding 調整。 */
+    margin: 0; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* 確保價格區塊與 header 分離 */
+    border-top: 1px solid rgba(255, 255, 255, 0.2); 
 }
 .price-card.featured-plan .price-tag {
     background-color: var(--accent-color);
-    color: var(--primary-color);
+    color: var(--text-light); /* 保持白色文字，確保可讀性 */
 }
 .price-tag .currency {
-    font-size: 2rem; 
+    font-size: 2.2rem; /* 略微放大貨幣符號 */
     font-weight: 400;
     margin-right: 5px;
 }
 
 /* 方案內容特色列表 */
 .plan-features {
-    padding: 30px 20px 20px;
+    padding: 30px 25px 20px; /* 增加左右填充 */
     text-align: left;
 }
 .plan-features ul {
     list-style: none;
     padding-left: 0;
+    margin: 0;
 }
 .plan-features li {
-    padding: 12px 0; 
+    padding: 14px 0; /* 增加上下填充 */
     border-bottom: 1px dashed var(--border-color); 
     color: var(--text-dark);
     font-size: 1.05rem; 
+    display: flex;
+    align-items: center;
 }
 .plan-features li i {
     color: var(--success-color);
-    margin-right: 10px;
+    margin-right: 12px; /* 增加圖標與文字間距 */
+    font-size: 1.15rem;
+    flex-shrink: 0;
 }
 .plan-features li.excluded i {
     color: var(--danger-color);
 }
+.plan-features li:last-child {
+    border-bottom: none; /* 移除最後一項的虛線 */
+}
 
 /* 方案底部的 CTA */
 .plan-cta {
-    padding: 0 20px 30px;
+    padding: 0 25px 30px; /* 匹配 .plan-features 的左右填充 */
 }
 
 /* 價格頁的警告區塊 */
@@ -1439,6 +1477,10 @@ footer {
     margin: 40px auto;
     max-width: 900px;
     text-align: left;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--bg-accent-light); /* 使用變數 */
+    border-left: 5px solid var(--danger-color); /* 增加重點邊條 */
 }
 
 /* 規費說明列表 */
@@ -1449,12 +1491,17 @@ footer {
 }
 .check-list li {
     font-size: 1.05rem;
-    margin-bottom: 10px;
-    color: #444;
+    margin-bottom: 12px; /* 增加行距 */
+    color: var(--text-dark); /* 使用變數 */
+    display: flex;
+    align-items: flex-start;
 }
 .check-list li i {
-    color: var(--accent-color);
+    color: var(--secondary-color); /* 使用次要色，區分於成功色 */
     margin-right: 10px;
+    font-size: 1.1rem;
+    margin-top: 3px;
+    flex-shrink: 0;
 }
 
 
@@ -1468,28 +1515,30 @@ footer {
     overflow-x: auto;
     margin: 40px 0;
     border-radius: 12px; 
-    box-shadow: var(--shadow-small);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* 強化陰影質感 */
     border: 1px solid var(--border-color);
 }
 
 .table-wrapper table {
-    min-width: 1000px; 
+    min-width: 1100px; /* 增加最小寬度，以容納詳細資訊 */
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     text-align: center;
+    overflow: hidden; 
 }
 
 /* 2. 表格頭部樣式 */
 .table-wrapper thead th {
     background-color: var(--primary-color);
     color: var(--text-light);
-    padding: 18px 10px;
+    padding: 18px 12px; /* 調整填充 */
     font-weight: 700;
     letter-spacing: 0.5px;
     position: sticky;
     top: 0;
     z-index: 50;
+    white-space: nowrap;
 }
 
 /* 固定第一欄樣式精煉 */
@@ -1497,6 +1546,7 @@ footer {
 .table-wrapper table td:first-child {
     text-align: left;
     padding-left: 25px;
+    padding-right: 15px;
     font-weight: 700;
     position: sticky;
     left: 0;
@@ -1515,19 +1565,26 @@ footer {
 
 /* 3. 表格內文與數據行樣式 */
 .table-wrapper tbody td {
-    padding: 15px 10px; 
+    padding: 15px 12px; /* 調整填充 */
     border-bottom: 1px solid var(--border-color); 
     transition: background-color 0.3s ease;
     vertical-align: middle;
+    color: var(--text-dark);
+    line-height: 1.4; /* 增加行高，提升可讀性 */
 }
 
 /* 價格高亮行 */
 .table-wrapper tbody tr:first-child td {
-    font-size: 1.4rem; 
-    font-weight: 700;
-    padding: 20px 10px;
-    color: var(--primary-color);
+    font-size: 1.6rem; /* 讓價格更突出 */
+    font-weight: 900;
+    padding: 22px 12px;
+    color: var(--accent-color); 
+    background-color: #fffaf0 !important; /* 淺暖色背景，突出價格 */
     border-bottom: 3px solid var(--border-color);
+}
+.table-wrapper tbody tr:first-child td:first-child {
+    color: var(--primary-color);
+    background-color: #fffaf0 !important;
 }
 
 /* 偶數行背景色，提升可讀性 */
@@ -1535,7 +1592,7 @@ footer {
     background-color: var(--bg-section);
 }
 
-/* 懸停效果 (Hover) */
+/* 懸停效果 (Hover) - 確保固定欄顏色一致 */
 .table-wrapper tbody tr:hover {
     background-color: #f0f8ff; 
     box-shadow: inset 0 0 0 1px #bce0fd;
@@ -1544,24 +1601,41 @@ footer {
     background-color: #e0f2ff;
 }
 
-/* 4. 價格強調色塊樣式 */
+/* 4. 價格強調色塊樣式 - 統一字體粗細 */
+.price-highlight-success,
+.price-highlight-warning,
+.price-highlight-danger {
+    font-weight: 700;
+}
 .price-highlight-success {
     color: var(--success-color);
 }
-
 .price-highlight-warning {
     color: var(--warning-color);
 }
-
 .price-highlight-danger {
     color: var(--danger-color);
 }
+/* 統一表格內的勾選/叉叉圖標樣式 */
+.table-wrapper td .fas.fa-check-circle {
+    color: var(--success-color);
+    font-size: 1.1em;
+}
+.table-wrapper td .fas.fa-times-circle {
+    color: var(--danger-color);
+    font-size: 1.1em;
+}
+
 
 /* 5. 特別備註行 (底色) */
 .table-wrapper tr.alert-row td {
     font-weight: 700;
     background-color: var(--bg-accent-light) !important; 
-    color: #444;
+    color: var(--danger-color); /* 使用警告色 */
+    text-align: center !important;
+}
+.table-wrapper tr.alert-row td:first-child {
+    background-color: var(--bg-accent-light) !important;
 }
 
 /* 6. 按鈕行樣式 */
@@ -1570,21 +1644,19 @@ footer {
     padding-bottom: 25px;
     border-bottom: none; 
 }
-
-/* 確保按鈕行第一欄的背景色與其餘列一致 */
 .table-wrapper tbody tr:last-child td:first-child {
     background-color: var(--bg-light);
 }
 
 /* =========================================== */
-/* 專業數據呈現組件 (Stats Block) - 【新增】 */
+/* 專業數據呈現組件 (Stats Block) - 優化 */
 /* =========================================== */
 .stats-block {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
     margin-top: 50px;
-    padding: 40px 0;
+    padding: 50px 20px; /* 增加垂直填充 */
     background-color: var(--primary-color);
     color: var(--text-light);
     border-radius: 12px;
@@ -1593,25 +1665,41 @@ footer {
 .stat-item {
     text-align: center;
     border-right: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0 10px;
 }
 .stat-item:last-child {
     border-right: none;
 }
+
+/* 響應式優化：手機版移除垂直分隔線 */
+@media (max-width: 768px) {
+    .stats-block {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+    }
+    .stat-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 15px 0;
+    }
+    .stat-item:last-child {
+        border-bottom: none;
+    }
+}
+
 .stat-number {
     font-family: 'Iansui', 'Noto Serif TC', serif;
-    font-size: clamp(2rem, 5vw, 3.5rem); 
+    font-size: clamp(2.5rem, 5vw, 4rem); 
     font-weight: 900;
     color: var(--accent-color);
-    line-height: 1;
-    margin-bottom: 5px;
+    line-height: 1.1;
+    margin-bottom: 8px;
 }
 .stat-description {
-    font-size: 1rem;
-    color: var(--bg-section);
+    font-size: 1.1rem; 
+    color: var(--bg-light); 
     margin: 0;
 }
-
-
 /* ==================================================== */
 /* RWD - 響應式設計 (Media Queries - V12.10 最終層級降級版) */
 /* ==================================================== */
