@@ -6,7 +6,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // **修正開始：抗閃爍機制**
-    // 假設你在 body 或 html 上有設定 .js-loading class
     document.body.classList.remove('js-loading');
     
     // ====================================================
@@ -17,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainNav = document.getElementById('main-nav');
     const body = document.body;
     const dropdowns = document.querySelectorAll('.dropdown');
-    const mobileBreakpoint = 900; // RWD 斷點，與 CSS 保持一致
-    const accordionContainer = document.querySelector('.accordion-container'); // 移至頂層
+    const mobileBreakpoint = 900; 
+    const accordionContainer = document.querySelector('.accordion-container');
 
     // 輔助函數：關閉所有手機子菜單
     function closeAllMobileSubmenus() {
@@ -29,9 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ====================================================
     // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
-    // (無變動)
     // ====================================================
-
     function handleScroll() {
         if (window.scrollY > 0) {
             header.classList.add('scrolled');
@@ -40,36 +37,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // 確保 header 存在才執行
     if (header) {
         handleScroll(); 
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
 
     // ====================================================
-  // ====================================================
-// 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
-// ====================================================
-if (menuToggle && mainNav) {
-    menuToggle.addEventListener('click', function() {
-        const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
-        
-        // 【關鍵】確保這裡能切換狀態
-        this.setAttribute('aria-expanded', !isExpanded);
-        mainNav.classList.toggle('active');
-        body.classList.toggle('no-scroll');
-        
-        if (!isExpanded) {
-            closeAllMobileSubmenus(); 
-        } 
-    });
-}
+    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
+    // ====================================================
+    if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
+            
+            this.setAttribute('aria-expanded', !isExpanded);
+            mainNav.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            
+            if (!isExpanded) {
+                // 如果是開啟選單，關閉所有子選單
+                closeAllMobileSubmenus(); 
+            } 
+        });
+    }
 
     // ====================================================
     // 3. 桌面 Dropdown A11Y (Focus-Within 模擬 Hover)
-    // (無變動)
     // ====================================================
-    
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener('focusin', function() {
             if (window.innerWidth > mobileBreakpoint) {
@@ -88,37 +81,33 @@ if (menuToggle && mainNav) {
 
 
     // ====================================================
-  // ====================================================
-// 4. 手機導航手風琴選單 (Mobile Navigation Accordion)
-// ====================================================
-if (mainNav) {
-    mainNav.addEventListener('click', function(e) {
-        if (window.innerWidth <= mobileBreakpoint) { 
-            // 【關鍵】確保點擊對象是 li.dropdown > a
-            let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
+    // 4. 手機導航手風琴選單 (Mobile Navigation Accordion)
+    // ====================================================
+    if (mainNav) {
+        mainNav.addEventListener('click', function(e) {
+            if (window.innerWidth <= mobileBreakpoint) { 
+                // 確保點擊對象是 li.dropdown > a
+                let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
 
-            if (targetLink) {
-                e.preventDefault(); 
-                
-                const parentLi = targetLink.closest('li.dropdown');
-                
-                if (parentLi.classList.contains('active')) {
-                    parentLi.classList.remove('active');
-                } else {
-                    closeAllMobileSubmenus(); 
-                    parentLi.classList.add('active');
+                if (targetLink) {
+                    e.preventDefault(); 
+                    
+                    const parentLi = targetLink.closest('li.dropdown');
+                    
+                    if (parentLi.classList.contains('active')) {
+                        parentLi.classList.remove('active');
+                    } else {
+                        closeAllMobileSubmenus(); 
+                        parentLi.classList.add('active');
+                    }
                 }
             }
-        }
-    });
-}
-
+        });
+    }
 
     // ====================================================
     // 5. 通用手風琴 (Accordion Component Logic) - 強化版
-    // **核心修正區塊**：確保點擊才有展開，並強化初始化。
     // ====================================================
-    
     if (accordionContainer) {
         
         // --- 初始化 A11Y 與狀態 ---
@@ -129,22 +118,18 @@ if (mainNav) {
              if (header && content) {
                  const uniqueId = `acc-item-${index}`;
                  
-                 // 確保內容 ID 和標頭的控制關聯
                  content.id = `${uniqueId}-content`;
                  header.setAttribute('aria-controls', content.id);
 
-                 // 檢查初始狀態
                  const isActive = item.classList.contains('active');
 
-                 // 確保內容收合 (CSS 配合 transition)
+                 // 確保內容收合 (利用 JS 確保初始 max-height 正確)
                  content.style.maxHeight = isActive ? content.scrollHeight + 30 + "px" : 0;
                  
-                 // 確保 A11Y 屬性正確
                  header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-                 header.setAttribute('tabindex', '0'); // 讓標頭可被鍵盤選中
+                 header.setAttribute('tabindex', '0'); 
              }
         });
-
 
         // --- 點擊事件監聽 ---
         accordionContainer.addEventListener('click', function(e) {
@@ -156,13 +141,12 @@ if (mainNav) {
                 const isMultiAccordion = accordionContainer.classList.contains('multi-accordion');
                 const isCurrentlyActive = item.classList.contains('active');
                 
-                // 1. 如果不是多開模式，先關閉所有已開啟的項目
+                // 1. 非多開模式，先關閉其他項目
                 if (!isMultiAccordion) {
                     document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
                         if (activeItem !== item) {
                             activeItem.classList.remove('active');
                             const activeContent = activeItem.querySelector('.accordion-content');
-                            // 收合內容
                             activeContent.style.maxHeight = 0;
                             activeItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
                         }
@@ -174,12 +158,11 @@ if (mainNav) {
 
                 // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
-                    // 展開時：計算內容實際高度並展開
-                    // +30px 是預留給內容的 padding-top/padding-bottom 空間，需與 CSS 設置一致
-                    content.style.maxHeight = content.scrollHeight + 30 + "px"; 
+                    // 展開時
+                    content.style.maxHeight = content.scrollHeight + 30 + "px"; // 確保 +30px 留給 CSS padding
                     header.setAttribute('aria-expanded', 'true');
                 } else {
-                    // 收合時：設定 max-height 為 0
+                    // 收合時
                     content.style.maxHeight = 0;
                     header.setAttribute('aria-expanded', 'false');
                 }
@@ -188,14 +171,10 @@ if (mainNav) {
     }
 
     // ====================================================
-    // 6. 圖片延遲載入 (Image Lazy Loading for SEO/Performance)
-    // (無變動)
+    // 6. 圖片延遲載入 (Image Lazy Loading)
     // ====================================================
-    
-    // ... (Lazy Load 邏輯保持不變) ...
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
-        
         const observerOptions = {
             rootMargin: '0px 0px 200px 0px' 
         };
@@ -232,11 +211,9 @@ if (mainNav) {
 
     
     // ====================================================
-    // 7. 平滑滾動至錨點 (Smooth Scrolling for UX)
-    // (無變動)
+    // 7. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
-    
-    if (header) { // 確保 header 存在
+    if (header) { 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 if (this.getAttribute('href') === '#') return;
@@ -247,7 +224,7 @@ if (mainNav) {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                     // 關閉手機菜單 (如果已開啟)
+                     // 關閉手機菜單
                      if (mainNav && mainNav.classList.contains('active')) {
                          menuToggle.click(); 
                      }
@@ -264,5 +241,4 @@ if (mainNav) {
             });
         });
     }
-    
 });
