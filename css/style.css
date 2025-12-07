@@ -302,7 +302,8 @@ header {
 
 /* 桌面版 Dropdown 樣式 */
 @media (min-width: 901px) {
-    #main-nav ul li.dropdown > a i.fa-chevron-down { /* 修正這裡，指向 a 裡面的 i */
+    /* 隱藏手機版用的向下箭頭 */
+    #main-nav ul li.dropdown > a i.fa-chevron-down { 
         display: none !important;
     }
     
@@ -312,9 +313,13 @@ header {
 
     .dropdown .submenu { 
         position: absolute; 
+        /* 【修正 1：位置】將子選單定在主項目下方左側對齊 */
         top: 100%; 
-        left: 50%; 
-        transform: translateX(-50%); 
+        left: 0; 
+        /* 【修正 2：移除位移】移除 translateX，讓它從左邊 0% 開始展開 */
+        transform: none; 
+        
+        /* 保持寬度、背景和邊框樣式 */
         width: 250px; 
         background-color: var(--bg-light); 
         border: 1px solid var(--border-color);
@@ -322,6 +327,8 @@ header {
         border-radius: 0 0 8px 8px;
         box-shadow: var(--shadow-small); 
         padding: 10px 0;
+        
+        /* 保持收合狀態樣式 */
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -331,7 +338,7 @@ header {
     
     /* 修正後的程式碼 (桌面版 Dropdown 開啟狀態) */
     .dropdown:hover > .submenu,
-    .dropdown:focus-within > .submenu { /* 修正：使用 focus-within 確保可訪問性 */
+    .dropdown:focus-within > .submenu { 
         opacity: 1;
         visibility: visible;
         pointer-events: all;
@@ -343,6 +350,7 @@ header {
         font-weight: 500;
         font-size: 1rem;
         transition: background-color 0.2s, color 0.2s;
+        /* 保持直式排列：因為 ul li 預設就是直式，所以這裡不需要調整 flex */
     }
     .submenu li a:hover {
         background-color: var(--bg-section);
@@ -350,6 +358,7 @@ header {
         font-weight: 700;
     }
 }
+
 
 /* ==================================================== */
 /* Hero & CTA (保持原樣，確保高質感) */
@@ -1388,57 +1397,108 @@ footer ul {
     font-size: 1.05rem;
 }
 
-/* FAQ 風琴樣式 */
-.faq-item {
-    border-bottom: 1px dotted var(--border-color);
-    padding: 5px 0;
+/* ==================================================== */
+/* Accordion (手風琴) Style - A11Y 強化與優化 [已修正] */
+/* ==================================================== */
+.accordion-container {
+    max-width: 850px;
+    margin: 30px auto;
 }
-.faq-item summary {
+
+.accordion-item {
+    border: 1px solid var(--border-color);
+    border-radius: 12px; 
+    margin-bottom: 15px;
+    overflow: hidden;
+    background-color: var(--bg-light);
+    box-shadow: var(--shadow-small);
+    transition: box-shadow 0.3s;
+}
+.accordion-item:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+.accordion-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 0;
+    width: 100%;
+    padding: 20px 25px; 
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--primary-color);
     cursor: pointer;
-    font-size: 1.1rem;
+    background: none;
+    border: none;
+    text-align: left;
+    /* 修正：移除全域的 all transition 避免干擾 max-height，這裡只放需要的 */
+    transition: background-color 0.3s, color 0.3s;
 }
-.faq-item summary:hover {
+.accordion-header:hover,
+.accordion-header:focus-visible { 
+    background-color: var(--bg-section);
+}
+
+.accordion-item.active .accordion-header {
+    background-color: var(--soft-accent-color);
     color: var(--accent-color);
 }
-.faq-item[open] summary {
+
+.accordion-header i {
     color: var(--accent-color);
+    margin-right: 15px;
+    transition: transform 0.3s ease;
 }
-.faq-item summary::before {
-    content: 'Q: ';
-    color: var(--accent-color);
-    font-weight: 900;
-    margin-right: 10px;
-}
-.faq-item[open] summary::after {
-    content: '\25B2'; 
-    font-size: 0.7rem;
-    color: var(--accent-color);
-    margin-left: 10px;
-}
-.faq-item:not([open]) summary::after {
-    content: '\25BC'; 
-    font-size: 0.7rem;
+
+/* 展開/收合箭頭 */
+.accordion-header::after {
+    content: '\25BC';
+    font-size: 0.8rem;
     color: var(--secondary-color);
-    margin-left: 10px;
+    transition: transform 0.3s ease, color 0.3s;
 }
-.faq-content {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    font-size: 1rem;
-    color: #555;
+
+.accordion-item.active .accordion-header::after {
+    transform: rotate(180deg);
+    color: var(--accent-color);
 }
-.faq-content p::before {
-    content: 'A: ';
-    color: var(--primary-color);
-    font-weight: 700;
-    margin-right: 5px;
+
+.accordion-content {
+    /* 核心邏輯：默認 max-height 為 0，並設定平滑過渡 */
+    max-height: 0; 
+    overflow: hidden;
+    padding: 0 25px;
+    /* 關鍵：確保 max-height 和 padding 都有過渡 */
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
 }
+
+/* JS 展開時，賦予底部填充，【移除 max-height: 1000px;】 */
+.accordion-item.active .accordion-content {
+    /* max-height 由 JS 動態計算，這裡只確保 padding 展開 */
+    padding-bottom: 20px; 
+    padding-top: 10px; 
+}
+
+
+.accordion-content p {
+    padding-top: 0;
+    margin-bottom: 0;
+    text-align: left;
+    max-width: 100%;
+}
+
+/* Services Page 特有手風琴樣式 */
+.service-page-accordion .accordion-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 10px 0 20px 0;
+    text-align: left; 
+}
+.service-page-accordion .accordion-content li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
 
 /* 內文結尾 CTA */
 .article-end-cta {
