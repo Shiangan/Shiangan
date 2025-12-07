@@ -2072,3 +2072,86 @@ footer ul {
         order: -1;
     }
 }
+
+/* --- 環保葬 --- */
+/* --- 新增 eco-burial.html 專用的樣式 --- */
+
+/* 確保 page-hero-section 有足夠高度且圖片正確顯示 */
+.page-hero-section {
+    padding-top: 150px;
+    padding-bottom: 100px;
+    background-size: cover;
+    background-position: center center;
+    color: #ffffff;
+    text-align: center;
+}
+
+.page-hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* 環保葬類型卡片樣式 */
+.type-card {
+    transition: transform 0.3s ease;
+}
+
+.type-card:hover {
+    transform: translateY(-5px);
+}
+
+.type-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.type-card ul li {
+    text-align: left;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.type-card ul li .fa-check-circle {
+    color: var(--primary-color); /* 使用你的品牌主色 */
+    margin-right: 8px;
+}
+
+/* 步驟流程圖樣式 */
+.step-flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.step-item {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-top: 5px solid var(--accent-color);
+    text-align: center;
+}
+
+.step-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color); /* 使用你的輔助色或品牌色 */
+    margin-bottom: 10px;
+}
+
+.step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* 在較小螢幕上調整網格佈局 */
+@media (max-width: 768px) {
+    .step-flow-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
