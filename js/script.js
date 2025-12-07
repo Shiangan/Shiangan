@@ -87,24 +87,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ====================================================
+    /    // ====================================================
     // 4. 手機導航手風琴選單 (Mobile Navigation Accordion)
-    // (無變動)
     // ====================================================
     if (mainNav) {
         mainNav.addEventListener('click', function(e) {
-            if (window.innerWidth <= mobileBreakpoint) { 
+            if (window.innerWidth <= mobileBreakpoint) { // 確保只在手機版執行
                 let targetLink = e.target.closest('#main-nav ul li.dropdown > a');
 
                 if (targetLink) {
-                    e.preventDefault(); 
+                    e.preventDefault(); // 阻止跳轉
                     
                     const parentLi = targetLink.closest('li.dropdown');
                     
                     if (parentLi.classList.contains('active')) {
                         parentLi.classList.remove('active');
                     } else {
-                        closeAllMobileSubmenus(); 
-                        parentLi.classList.add('active');
+                        closeAllMobileSubmenus(); // 關閉其他
+                        parentLi.classList.add('active'); // 展開當前
                     }
                 }
             }
