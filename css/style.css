@@ -268,9 +268,9 @@ header {
 #main-nav a.active {
     color: var(--accent-color);
     font-weight: 700;
-    /* 使用 subtle 下劃線提升質感 */
+    /* 保留原樣式（沒有下劃線） */
     box-shadow: none;
-    padding-bottom: 12px; /* 調整 padding 配合 box-shadow */
+    padding-bottom: 15px; /* 恢復原始 padding，因為沒有下劃線 */
 }
 
 /* 聯絡按鈕 */
@@ -331,7 +331,7 @@ header {
     
     /* 修正後的程式碼 (桌面版 Dropdown 開啟狀態) */
     .dropdown:hover > .submenu,
-    .dropdown:focus-within > .submenu { /* 這裡修正了語法 */
+    .dropdown:focus-within > .submenu { /* 修正：使用 focus-within 確保可訪問性 */
         opacity: 1;
         visibility: visible;
         pointer-events: all;
@@ -1929,12 +1929,14 @@ footer ul {
     
     .main-nav { 
         display: block;
-        position: fixed; /* 使用 fixed 確保選單在 Header 下方 */
-        top: var(--header-height);
+        position: fixed; 
+        /* 【修正】: top 使用 calc 確保在 Header 下方 */
+        top: calc(var(--header-height) + env(safe-area-inset-top, 0px)); 
         left: 0;
         width: 100%;
         background-color: var(--bg-light);
-        box-shadow: none;
+        /* 【修正】: 消除陰影，避免視覺上的灰色層/遮罩感 */
+        box-shadow: none; 
         z-index: var(--z-overlay); 
         max-height: 0; 
         overflow: hidden;
@@ -1946,10 +1948,11 @@ footer ul {
     }
     
     .main-nav.active {
-        /* 保證選單正常開啟，使用 vh 單位確保適應所有設備高度 */
-        max-height: 90vh; 
+        /* 【修正】: 使用 100vh 減去 Header 高度，更精確地佔滿剩餘可視區域 */
+        max-height: calc(100vh - var(--header-height)); 
         opacity: 1;
         pointer-events: all;
+        /* 【修正】: 允許內容滾動，解決內容被切斷的問題 */
         overflow-y: auto; 
     }
 
@@ -1960,7 +1963,8 @@ footer ul {
         flex-direction: column; 
         gap: 0 !important; 
         padding-top: 20px;
-        padding-bottom: 20px;
+        /* 【修正】: 增加底部留白 */
+        padding-bottom: 40px; 
         align-items: flex-start;
          width: 100%; 
     }
@@ -2042,7 +2046,8 @@ footer ul {
     .contact-nav {
         display: block;
         padding-top: 20px;
-        padding-bottom: 10px;
+        /* 【修正】: 增加底部留白，讓按鈕不會貼到手機底部 */
+        padding-bottom: 30px; 
         padding-left: 0; 
         padding-right: 0;
         border-top: 1px solid var(--border-color); 
