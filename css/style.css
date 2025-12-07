@@ -1857,3 +1857,216 @@ select:focus-visible,
 :focus:not(:focus-visible) {
     outline: none;
 }
+
+/* -------------------------------------- */
+/* 花產品展示區塊 (Product Grid) */
+/* -------------------------------------- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    border-color: var(--soft-accent-color);
+}
+
+.product-card.selected-product {
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+    transform: translateY(-3px);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-body h3 {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.price-tag {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.product-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 20px 0;
+}
+
+.product-features li {
+    padding: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.product-features i {
+    color: var(--success-color);
+    margin-right: 8px;
+}
+
+/* -------------------------------------- */
+/* 訂購花表單區塊 (Order Layout) */
+/* -------------------------------------- */
+.order-main-layout {
+    display: grid;
+    /* 資訊區佔 1/3，表單佔 2/3 */
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.order-info {
+    padding: 20px;
+}
+
+.commitment-block {
+    display: flex;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+
+.commitment-block i {
+    font-size: 2rem;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+
+.commitment-block h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+}
+
+.contact-cta-box {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid var(--accent-color);
+    margin-top: 30px;
+}
+
+.order-form-wrap {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Form 樣式優化 */
+.form-group {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+.form-group legend {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    padding: 0 10px;
+}
+
+.order-form-wrap label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.order-form-wrap input[type="text"],
+.order-form-wrap input[type="tel"],
+.order-form-wrap input[type="email"],
+.order-form-wrap input[type="datetime-local"],
+.order-form-wrap textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.order-form-wrap input:focus,
+.order-form-wrap textarea:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.full-width-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-note {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 15px;
+}
+
+.privacy-note {
+    margin: 20px 0;
+    font-size: 0.95rem;
+}
+
+/* 響應式調整 */
+@media (max-width: 900px) {
+    /* 產品網格變為兩欄 */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    /* 訂購表單佈局垂直堆疊 */
+    .order-main-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .order-form-wrap {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* 手機上產品網格變為單欄 */
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    .product-image {
+        height: 150px;
+    }
+    .order-form-wrap {
+        padding: 20px 15px;
+    }
+}
+
