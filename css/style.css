@@ -746,170 +746,116 @@ footer {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* ==================================================== */
-/* 專業服務頁面細節樣式 (Service Details Page) */
-/* ==================================================== */
-
-/* 1. 通用區塊填充 (Vertical Padding) */
-.container-v-padding {
-    padding-top: 60px;
-    padding-bottom: 60px;
-}
-/* 響應式調整 */
-@media (max-width: 768px) {
-    .container-v-padding {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
+/* -------------------------------------- */
+/* 服務快速導航 (Service Quick Nav) 樣式 */
+/* -------------------------------------- */
+.service-quick-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap; /* 換行處理 */
 }
 
-/* 2. 服務細節網格 (Service Details Grid) */
-.service-details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 50px; 
-    align-items: center; 
+.service-quick-nav a {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 12px 25px;
+    border-radius: 50px; /* 圓角膠囊形狀 */
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    white-space: nowrap; /* 確保文字不換行 */
+}
+
+.service-quick-nav a:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+.service-quick-nav i {
+    margin-right: 8px;
+}
+
+/* -------------------------------------- */
+/* 服務細節區塊 (Service Detail Block) 樣式 */
+/* -------------------------------------- */
+
+.service-detail-block {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.two-column-layout {
+    display: flex;
+    align-items: center;
+    gap: 40px;
     margin-top: 40px;
 }
 
-/* 手機響應式：堆疊排列 */
-@media (max-width: 992px) {
-    .service-details-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
+.two-column-layout .text-content {
+    flex: 1;
+    padding: 20px 0;
 }
 
-/* 圖片區塊樣式 */
-.details-image {
-    background-color: var(--bg-section);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-medium);
+.two-column-layout .image-content {
+    flex: 1;
+    min-width: 0; /* 確保圖片容器在 Flexbox 中能正確縮小 */
 }
-.details-image img {
+
+.service-image {
     width: 100%;
     height: auto;
-    display: block;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     object-fit: cover;
-    transition: transform 0.5s ease;
-}
-/* 視覺互動效果 */
-.details-image:hover img {
-    transform: scale(1.03);
 }
 
-/* 文字區塊標題 */
-.details-text h3 {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    /* 國際化預留：使用邏輯屬性 border-inline-start */
-    border-inline-start: 5px solid var(--accent-color); 
-    padding-inline-start: 15px;
-    margin-bottom: 25px;
+.section-title-with-icon {
+    font-size: 2rem;
+    color: var(--heading-color);
+    margin-bottom: 10px;
 }
 
-/* 內容列表樣式 (重點強調服務項目) */
-.details-text ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.section-title-with-icon i {
+    color: var(--accent-color);
+    margin-right: 15px;
 }
-.details-text li {
-    font-size: 1.15rem;
-    line-height: 1.6;
+
+/* 環保葬卡片 */
+.eco-cards .card-item {
+    padding: 30px;
+    border: 1px dashed var(--soft-accent-color);
+    background-color: #fcfcff;
+}
+.eco-cards i {
+    font-size: 2.5rem;
+    color: var(--accent-color);
     margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px dashed var(--border-color);
-    color: var(--text-dark);
 }
-.details-text li:last-child {
-    border-bottom: none;
-}
-.details-text li i {
-    color: var(--secondary-color); 
-    margin-right: 12px;
+.eco-cards h4 {
     font-size: 1.25rem;
-}
-.details-text li strong {
-    color: var(--primary-color);
-    font-weight: 700;
+    margin-bottom: 10px;
 }
 
 
-/* 逆序排列 (用於道教區塊) */
-.service-details-grid.reverse-order {
-    /* 確保在桌面版上，圖片在左，文字在右 */
-    direction: rtl; 
-    text-align: left;
-}
-/* 針對內容單獨修正方向 */
-.service-details-grid.reverse-order > .details-image,
-.service-details-grid.reverse-order > .details-text {
-    direction: ltr;
-}
-/* 手機響應式修正：在單欄模式下恢復正常閱讀順序 */
-@media (max-width: 992px) {
-    .service-details-grid.reverse-order {
-        direction: ltr; 
+/* 響應式調整 (讓圖文區塊在手機上堆疊) */
+@media (max-width: 900px) {
+    .two-column-layout {
+        flex-direction: column; /* 手機上垂直堆疊 */
+        gap: 30px;
+    }
+    
+    /* 讓反轉區塊 (例如中式禮儀) 在手機上圖片依然在上方 */
+    .reverse-on-mobile {
+        flex-direction: column;
+    }
+
+    .section-title-with-icon {
+        font-size: 1.7rem;
     }
 }
-
-
-/* 3. 筆記提示與專業保證區塊 (Note Tip/E-E-A-T Block) */
-.note-tip {
-    padding: 25px 30px;
-    border-radius: 8px;
-    background-color: var(--bg-section);
-    border-left: 6px solid var(--secondary-color); 
-    font-size: 1.1rem;
-    color: var(--text-dark);
-    margin: 40px auto;
-    line-height: 1.6;
-    box-shadow: var(--shadow-small);
-}
-.note-tip i {
-    color: var(--secondary-color);
-    margin-right: 10px;
-    font-size: 1.4rem;
-    vertical-align: middle;
-}
-.note-tip strong {
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-
-/* 專業保證提示 (E-E-A-T 強化) */
-.note-tip.professional-tip {
-    border-left: 6px solid var(--accent-color); 
-    background-color: var(--bg-light); 
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
-.note-tip.professional-tip i {
-    color: var(--accent-color);
-}
-.note-tip.professional-tip strong {
-    color: var(--accent-color);
-}
-
-/* 4. 底部 CTA 區塊樣式修正 */
-.final-cta-plans { 
-    padding: 60px 0;
-    background-color: var(--bg-section);
-}
-.final-cta-plans h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-}
-.final-cta-plans .section-subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-
 
 /* =========================================== */
 /* 內頁：關於我們 (About Page) 專屬樣式 */
