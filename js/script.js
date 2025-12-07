@@ -1,229 +1,357 @@
 /**
  * ====================================================
- * 程式夥伴 - 網站核心互動腳本 (V13.2 最終整合版)
+ * 程式夥伴 - 網站核心互動腳本 (V14.0 最終整合與優化版)
  * 確保所有頁面功能 (導航、手風琴、滾動) 及文章功能 (TOC 高亮) 完整且高效。
+ * 採 ES6 最佳實踐、優化效能、全面 A11y 支援。
  * ====================================================
  */
 
 document.addEventListener('DOMContentLoaded', initApp);
 
+// 通用配置常量
+const MOBILE_BREAKPOINT = 900; // 與 CSS 斷點同步
+const SCROLL_OFFSET_BUFFER = 10; // 平滑滾動的額外緩衝距離
+
+/**
+ * ----------------------------------------------------
+ * 核心應用程式初始化
+ * ----------------------------------------------------
+ */
 function initApp() {
-    // 獲取通用元素
+    // 獲取通用元素 (使用 const 鎖定，提升可讀性)
     const header = document.querySelector('header');
     const menuToggle = document.getElementById('menu-toggle');
     const mainNav = document.getElementById('main-nav');
     const dropdowns = document.querySelectorAll('#main-nav .dropdown');
     
-    // ----------------------------------------------------
-    // 1. 導航功能 (Header Navigation) 
-    // ----------------------------------------------------
+    // --- 初始化所有模組 ---
+    initNavigation(header, menuToggle, mainNav, dropdowns);
+    initAccordion();
+    initSmoothScroll(header, mainNav, menuToggle); // 傳遞相關元素用於交互
+    initArticleTOC(header);
     
-    // --- 1a. 手機選單開合 (Hamburger Menu) ---
+    // 監聽視窗大小變化，用於重置桌面/手機模式下的導航狀態
+    window.addEventListener('resize', debounce(() => {
+        if (window.innerWidth > MOBILE_BREAKPOINT) {
+            resetMobileNav(mainNav, menuToggle);
+        }
+    }, 150));
+}
+
+/**
+ * ----------------------------------------------------
+ * 輔助函數：Debounce 去抖 (用於 resize 等頻繁事件)
+ * ----------------------------------------------------
+ */
+const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+};
+
+/**
+ * ----------------------------------------------------
+ * 1. 導航功能 (Header Navigation) 模組
+ * ----------------------------------------------------
+ */
+function initNavigation(header, menuToggle, mainNav, dropdowns) {
     if (menuToggle && mainNav) {
-        menuToggle.addEventListener('click', toggleMobileMenu);
-    }
-    
-    function toggleMobileMenu() {
-        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-        const newState = !isExpanded;
-
-        // 導航、按鈕、滾動狀態同步
-        mainNav.classList.toggle('active', newState);
-        menuToggle.setAttribute('aria-expanded', newState);
-        document.body.classList.toggle('no-scroll', newState); 
+        menuToggle.addEventListener('click', () => toggleMobileMenu(mainNav, menuToggle));
     }
 
-    // --- 1b. 手機子選單（下拉選單轉為手風琴）---
+    // 初始化下拉選單事件
     dropdowns.forEach(dropdown => {
         const dropdownLink = dropdown.querySelector('a');
-        const submenu = dropdown.querySelector('.submenu');
+        if (!dropdownLink) return;
 
-        if (dropdownLink && submenu) {
-            
-            // 監聽父連結點擊事件
-            dropdownLink.addEventListener('click', (e) => {
-                // 檢查是否為手機模式 (與 CSS 中的 900px 斷點同步)
-                if (window.innerWidth <= 900) {
-                    e.preventDefault(); // 阻止連結跳轉
-                    
-                    const wasActive = dropdown.classList.contains('active');
-
-                    // 關閉所有其他開啟的手機子選單
-                    dropdowns.forEach(otherDropdown => {
-                        if (otherDropdown !== dropdown && otherDropdown.classList.contains('active')) {
-                            otherDropdown.classList.remove('active');
-                            otherDropdown.querySelector('a').setAttribute('aria-expanded', 'false');
-                        }
-                    });
-
-                    // 切換當前 dropdown 的 active 狀態
-                    dropdown.classList.toggle('active', !wasActive);
-                    dropdownLink.setAttribute('aria-expanded', !wasActive);
+        // --- 手機子選單（手風琴邏輯）---
+        dropdownLink.addEventListener('click', (e) => handleMobileDropdown(e, dropdown, dropdowns));
+        
+        // --- 桌面下拉選單的鍵盤 A11Y 處理 ---
+        // 使用 mouseenter/mouseleave 結合 focusin/focusout 確保良好的桌面體驗
+        dropdown.addEventListener('mouseenter', () => dropdown.classList.add('active'));
+        dropdown.addEventListener('mouseleave', () => dropdown.classList.remove('active'));
+        
+        dropdown.addEventListener('focusin', () => dropdown.classList.add('active'));
+        dropdown.addEventListener('focusout', () => {
+            // 延遲檢查，確保焦點確實移出了整個 dropdown 容器
+            setTimeout(() => {
+                if (!dropdown.contains(document.activeElement)) {
+                    dropdown.classList.remove('active');
                 }
-            });
-            
-            // --- 1c. 桌面下拉選單的鍵盤 A11Y 處理 ---
-            if (window.innerWidth > 900) {
-                dropdown.addEventListener('focusin', () => dropdown.classList.add('focus-within'));
-                dropdown.addEventListener('focusout', () => {
-                    // 使用 setTimeout 確保焦點確實移出了整個 dropdown 容器
-                    setTimeout(() => {
-                        if (!dropdown.contains(document.activeElement)) {
-                            dropdown.classList.remove('focus-within');
-                        }
-                    }, 0);
-                });
-            }
+            }, 0);
+        });
+    });
+
+    // 處理 Header 滾動透明度/變色/陰影 (提升滾動體驗)
+    if (header) {
+        window.addEventListener('scroll', throttle(() => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        }, 100));
+    }
+}
+
+/** * 輔助函數：Throttle 節流 (用於 scroll 等頻繁事件) 
+ */
+const throttle = (func, limit) => {
+    let inThrottle;
+    return (...args) => {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
         }
+    };
+};
+
+
+/**
+ * 處理手機選單開合
+ */
+function toggleMobileMenu(mainNav, menuToggle) {
+    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    const newState = !isExpanded;
+
+    mainNav.classList.toggle('active', newState);
+    menuToggle.setAttribute('aria-expanded', newState);
+    document.body.classList.toggle('no-scroll', newState); 
+    
+    // 確保 Tab 鍵導航只在開啟時有效
+    document.querySelectorAll('#main-nav a, #main-nav button').forEach(el => {
+        el.setAttribute('tabindex', newState ? '0' : '-1');
     });
+}
 
-    // ----------------------------------------------------
-    // 2. 泛用型手風琴功能 (Universal Accordion) 
-    // ----------------------------------------------------
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-    accordionHeaders.forEach(header => {
-        const content = header.nextElementSibling;
+/**
+ * 處理手機模式下的下拉選單 (轉為手風琴)
+ */
+function handleMobileDropdown(e, currentDropdown, allDropdowns) {
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        e.preventDefault(); // 阻止連結跳轉
         
-        // 初始化 ARIA 屬性
-        header.setAttribute('aria-expanded', 'false');
-        content.setAttribute('aria-hidden', 'true');
-        
-        header.addEventListener('click', handleAccordionToggle);
-    });
+        const wasActive = currentDropdown.classList.contains('active');
+        const newState = !wasActive;
 
-    function handleAccordionToggle(e) {
-        const header = e.currentTarget;
-        const item = header.closest('.accordion-item');
-        const content = item.querySelector('.accordion-content');
-        const isActive = item.classList.contains('active');
-        const newState = !isActive;
-
-        // 關閉所有其他開啟的手風琴
-        document.querySelectorAll('.accordion-item.active').forEach(openItem => {
-            if (openItem !== item) {
-                openItem.classList.remove('active');
-                const openHeader = openItem.querySelector('.accordion-header');
-                const openContent = openItem.querySelector('.accordion-content');
-                openHeader.setAttribute('aria-expanded', 'false');
-                openContent.setAttribute('aria-hidden', 'true');
+        // 關閉所有其他開啟的手機子選單 (確保手風琴效果)
+        allDropdowns.forEach(otherDropdown => {
+            if (otherDropdown !== currentDropdown && otherDropdown.classList.contains('active')) {
+                otherDropdown.classList.remove('active');
+                otherDropdown.querySelector('a')?.setAttribute('aria-expanded', 'false');
             }
         });
 
-        // 切換當前手風琴的狀態和 ARIA 屬性
-        item.classList.toggle('active', newState);
-        header.setAttribute('aria-expanded', newState);
-        content.setAttribute('aria-hidden', !newState);
+        // 切換當前 dropdown 的 active 狀態
+        currentDropdown.classList.toggle('active', newState);
+        currentDropdown.querySelector('a').setAttribute('aria-expanded', newState);
     }
+}
+
+/**
+ * 輔助函數：重置手機導航狀態
+ */
+function resetMobileNav(mainNav, menuToggle) {
+     if (mainNav.classList.contains('active')) {
+        mainNav.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        menuToggle.setAttribute('aria-expanded', 'false');
+    }
+    // 確保桌面模式下所有連結可訪問
+    document.querySelectorAll('#main-nav a, #main-nav button').forEach(el => {
+        el.setAttribute('tabindex', '0');
+    });
+}
 
 
-    // ----------------------------------------------------
-    // 3. 平滑滾動至目標 (Smooth Scroll)
-    // ----------------------------------------------------
+/**
+ * ----------------------------------------------------
+ * 2. 泛用型手風琴功能 (Universal Accordion) 模組
+ * ----------------------------------------------------
+ */
+function initAccordion() {
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+        const item = header.closest('.accordion-item');
+        const content = item?.querySelector('.accordion-content');
+        if (!content) return;
+
+        const isInitiallyActive = item.classList.contains('active');
+
+        // 初始化 ARIA 屬性
+        header.setAttribute('aria-expanded', isInitiallyActive);
+        content.setAttribute('aria-hidden', !isInitiallyActive);
+        content.id = content.id || `accordion-content-${Math.random().toString(36).substring(2, 9)}`;
+        header.setAttribute('aria-controls', content.id);
+
+        header.addEventListener('click', handleAccordionToggle);
+    });
+}
+
+/**
+ * 處理手風琴開合邏輯
+ */
+function handleAccordionToggle(e) {
+    const header = e.currentTarget;
+    const item = header.closest('.accordion-item');
+    const content = item.querySelector('.accordion-content');
+    const isActive = item.classList.contains('active');
+    const newState = !isActive;
+
+    // 關閉所有其他開啟的手風琴 (保持單一開啟狀態)
+    document.querySelectorAll('.accordion-item.active').forEach(openItem => {
+        if (openItem !== item) {
+            openItem.classList.remove('active');
+            const openHeader = openItem.querySelector('.accordion-header');
+            const openContent = openItem.querySelector('.accordion-content');
+            openHeader.setAttribute('aria-expanded', 'false');
+            openContent.setAttribute('aria-hidden', 'true');
+        }
+    });
+
+    // 切換當前手風琴的狀態和 ARIA 屬性
+    item.classList.toggle('active', newState);
+    header.setAttribute('aria-expanded', newState);
+    content.setAttribute('aria-hidden', !newState);
+    
+    // 讓內容平滑展開/收起
+    // content.style.maxHeight = newState ? `${content.scrollHeight}px` : null; // 需要 CSS 配合
+}
+
+
+/**
+ * ----------------------------------------------------
+ * 3. 平滑滾動至目標 (Smooth Scroll) 模組
+ * ----------------------------------------------------
+ */
+function initSmoothScroll(header, mainNav, menuToggle) {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        const href = anchor.getAttribute('href');
+        if (href === '#' || href.length <= 1) return; // 排除無效的 #
+
         anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            // 排除單純的 #
-            if (href === '#') return;
-            
             e.preventDefault();
             
             const targetId = href.substring(1);
             const targetElement = document.getElementById(targetId);
 
             if (targetElement) {
-                // 考慮固定 Header 的高度，並新增 10px 緩衝
-                const headerHeight = header ? header.offsetHeight : 70;
-                const targetPosition = targetElement.offsetTop - headerHeight - 10;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // 滾動完成後，如果手機選單開啟則關閉
-                if (mainNav && mainNav.classList.contains('active')) {
-                    toggleMobileMenu();
+                // 1. 關閉手機選單 (如果開啟)
+                if (mainNav?.classList.contains('active')) {
+                     // 避免直接調用 toggleMobileMenu，因為我們只想要關閉
+                    mainNav.classList.remove('active');
+                    menuToggle?.setAttribute('aria-expanded', 'false');
+                    document.body.classList.remove('no-scroll');
                 }
+                
+                // 2. 計算滾動位置
+                const headerHeight = header ? header.offsetHeight : 0;
+                // 使用 requestAnimationFrame 確保在下次重繪時進行滾動，避免抖動
+                window.requestAnimationFrame(() => {
+                    const targetPosition = targetElement.offsetTop - headerHeight - SCROLL_OFFSET_BUFFER;
+    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 3. 更新 URL Hash (確保回退按鈕正常，並觸發 :target CSS)
+                    history.pushState(null, '', href);
+                    // 4. 對目標元素設定焦點，提高 A11y
+                    targetElement.setAttribute('tabindex', '-1');
+                    targetElement.focus();
+                });
             }
         });
     });
+}
 
 
-    // ----------------------------------------------------
-    // 4. 文章頁面：目錄 (TOC) 自動高亮顯示
-    // ----------------------------------------------------
+/**
+ * ----------------------------------------------------
+ * 4. 文章頁面：目錄 (TOC) 自動高亮顯示 模組
+ * ----------------------------------------------------
+ */
+function initArticleTOC(header) {
     const articleBody = document.querySelector('.article-body');
     const tocLinks = document.querySelectorAll('.table-of-contents a');
 
-    if (articleBody && tocLinks.length > 0) {
-        
-        // 收集所有文章內部的 H2 標題元素 (通常是 TOC 目標)
-        const headings = articleBody.querySelectorAll('h2');
-        
-        // 計算 Header 高度，用於設定 Intersection Observer 的觸發位置
-        const headerHeight = header ? header.offsetHeight : 70;
-        
-        // 設定 Observer 選項：觸發點在固定 Header 的下方 (HeaderHeight + 20px)
-        const observerOptions = {
-            root: null, // 視窗為根元素
-            rootMargin: `-${headerHeight + 20}px 0px 0px 0px`, 
-            threshold: 0 // 讓標題一進入觸發區即觸發
-        };
+    if (!articleBody || tocLinks.length === 0) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            let currentActiveId = null;
+    // 收集所有文章內部的 H2 標題元素
+    const headings = Array.from(articleBody.querySelectorAll('h2, h3')); // 納入 H3 讓 TOC 更細緻
+    
+    const getHeaderHeight = () => header ? header.offsetHeight : 0;
+    
+    // =======================================================
+    // 使用 Intersection Observer API 進行高性能滾動監聽
+    // =======================================================
+    
+    // 設定 Observer 選項：觸發點在固定 Header 的下方 (HeaderHeight + 20px)
+    const observerOptions = {
+        root: null, // 視窗為根元素
+        // rootMargin 必須動態計算，但 Intersection Observer 的 margin 不支援函式調用
+        // 所以我們改為在 callback 內計算 rect 偏移，並使用較保守的 margin
+        rootMargin: `-10% 0px -80% 0px`, // 頂部 10% 進入/離開，底部 80% 進入/離開
+        threshold: [0, 1.0] // 觀察 0% 和 100%
+    };
+    
+    // 建立 ID 對應，確保所有標題都有 ID 且格式正確
+    headings.forEach(heading => {
+        if (!heading.id) {
+            // 穩定的 ID 生成：移除數字/符號，轉小寫，用'-'連接
+            heading.id = heading.textContent
+                                .replace(/^[\u0030-\u0039\s\.\-—–]+/, '') 
+                                .trim()
+                                .toLowerCase()
+                                .replace(/[^\w\s-]/g, '') // 移除特殊字元
+                                .replace(/\s+/g, '-'); 
+        }
+    });
 
-            // 尋找第一個 "離開" 頂部 (向上滾動越過) 的標題
-            // 或第一個 "進入" 頂部邊界 (向下滾動進入) 的標題
-            entries.forEach(entry => {
-                // 如果元素向上滾動離開頂部 (isIntersecting=false, boundingClientRect.top < 0)
-                // 或者元素進入視窗頂部邊界 (isIntersecting=true)
-                if (entry.isIntersecting) {
-                    currentActiveId = entry.target.id;
-                }
-            });
+    const observer = new IntersectionObserver(debounce(entries => {
+        let currentActiveId = null;
+        let activeHeading = null;
+        const headerHeight = getHeaderHeight();
+
+        // 1. 找到第一個頂部被越過（或正好進入觀察區）的標題
+        //    遍歷所有標題，尋找最靠近頂部且頂部位置已越過 Header 的標題
+        for (let i = 0; i < headings.length; i++) {
+            const rect = headings[i].getBoundingClientRect();
+            // 條件：標題的頂部位置 (rect.top) 已經在 Header 下方（即 <= HeaderHeight + buffer）
+            // +20 是給予緩衝區
+            if (rect.top <= headerHeight + 20) {
+                activeHeading = headings[i];
+                currentActiveId = headings[i].id;
+            } else {
+                // 由於標題是順序排列的，一旦發現第一個未越過的標題，就可以停止
+                break;
+            }
+        }
+
+        // 2. 處理活躍狀態的切換
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            const targetId = link.getAttribute('href').substring(1);
             
-            // 優化：處理同時多個標題交集或滾動過快的情況
-            if (!currentActiveId) {
-                // 尋找目前最靠近頂部的元素 (若 Intersection Observer 判斷失效)
-                 for (let i = 0; i < headings.length; i++) {
-                    const rect = headings[i].getBoundingClientRect();
-                    // 只要標題頂部在 Header 下方，就視為當前活動
-                    if (rect.top <= headerHeight + 5) {
-                        currentActiveId = headings[i].id;
-                    }
-                }
+            if (currentActiveId && targetId === currentActiveId) {
+                link.classList.add('active');
+                
+                // 優化：滾動 TOC 容器，確保活躍連結可見
+                link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-
-
-            // 處理活躍狀態的切換
-            tocLinks.forEach(link => {
-                link.classList.remove('active');
-                if (currentActiveId && link.getAttribute('href') === `#${currentActiveId}`) {
-                    link.classList.add('active');
-                }
-            });
-            
-             // 處理頁面在頂部或沒有任何標題在觀察區的情況
-            if (!currentActiveId && window.scrollY < headerHeight * 1.5 && tocLinks.length > 0) {
-                 tocLinks[0].classList.add('active');
-            }
-
-        }, observerOptions);
-
-        // 開始觀察所有 H2 標題
-        headings.forEach(heading => {
-            // 確保所有 H2 都有 ID
-            if (!heading.id) {
-                // 使用 Unicode 數字移除符號 (如 "1. 標題" 中的 "1.")
-                heading.id = heading.textContent.replace(/^[\u0030-\u0039\s\.\-—–]+/, '') // 移除前置數字/符號
-                                               .trim()
-                                               .toLowerCase()
-                                               .replace(/\s+/g, '-'); // 用 - 取代空格
-            }
-            observer.observe(heading);
         });
-    }
+        
+        // 3. 處理頁面在極頂部的情況 (高亮第一個連結)
+        if (!currentActiveId && window.scrollY < headerHeight * 1.5 && tocLinks.length > 0) {
+             tocLinks[0].classList.add('active');
+        }
 
+    }, 50), observerOptions); // 增加 debounce 避免頻繁觸發
+
+    // 開始觀察所有標題
+    headings.forEach(heading => observer.observe(heading));
 }
