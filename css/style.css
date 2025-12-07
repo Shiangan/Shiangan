@@ -1490,316 +1490,196 @@ footer {
 /* ==================================================== */
 
 /* 方案卡片網格 */
-.price-grid {
+/* -------------------------------------- */
+/* 價格卡片網格 (Price Card Grid) 樣式 */
+/* -------------------------------------- */
+
+.price-card-grid {
     display: grid;
-    /* 預設三欄，確保在寬螢幕上有良好的排版 */
-    grid-template-columns: repeat(3, 1fr); 
+    /* 預設在桌機上呈現三欄，間距 30px */
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-top: 40px;
+    align-items: stretch; /* 確保所有卡片高度一致 */
 }
 
-/* 響應式優化：平板與手機 */
-@media (max-width: 992px) {
-    .price-grid {
-        grid-template-columns: repeat(2, 1fr); /* 平板兩欄 */
-    }
-}
-@media (max-width: 600px) {
-    .price-grid {
-        grid-template-columns: 1fr; /* 手機單欄 */
-    }
-}
-
-/* 單一價格卡片 */
-.price-card {
-    background: var(--bg-light);
-    border-radius: 16px; 
-    box-shadow: var(--shadow-small);
+/* 單個價格方案卡片 */
+.price-plan {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 30px;
     text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
     overflow: hidden;
+}
+
+.price-plan:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.plan-header {
+    margin-bottom: 20px;
+}
+
+.price-plan h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-top: 10px;
+}
+
+.price-plan .price-tag {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin: 15px 0;
+}
+
+.price-plan .tagline {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
+    min-height: 40px; /* 保持最低高度以防文字長度不一 */
+}
+
+.price-plan ul {
+    list-style: none;
     padding: 0;
-    border: 3px solid var(--border-color); 
-    transition: all 0.3s ease;
+    margin: 20px 0;
+    text-align: left;
 }
 
-/* 懸停效果：略微放大並改變邊框顏色 */
-.price-card:hover {
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    border-color: var(--secondary-color);
+.price-plan ul li {
+    padding: 8px 0;
+    font-size: 1rem;
+    border-bottom: 1px dotted #eee;
+    color: #444;
 }
 
-/* 特色方案標註 */
-.price-card.featured-plan {
-    border-color: var(--accent-color); 
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+.price-plan ul li i {
+    color: var(--success-color); /* 綠色打勾 */
+    margin-right: 10px;
 }
-@media (max-width: 600px) {
-    .price-card.featured-plan {
-        transform: scale(1.02); 
+
+/* 推薦方案樣式 */
+.price-plan.featured {
+    border-color: var(--accent-color);
+    border-width: 2px;
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+}
+
+.plan-ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    padding: 5px 25px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transform: rotate(45deg) translate(25%, -50%);
+    transform-origin: 100% 0;
+}
+
+/* 響應式調整 */
+@media (max-width: 1024px) {
+    /* 平板佈局：兩欄 */
+    .price-card-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-
-.price-card header {
-    padding: 30px 20px 20px;
-    background-color: var(--bg-section);
-}
-.price-card.featured-plan header {
-    background-color: var(--bg-accent-light); 
-}
-.price-card.featured-plan .plan-title {
-    color: var(--primary-color);
-}
-
-
-.price-card .plan-title {
-    font-size: 2rem; 
-    color: var(--primary-color);
-    margin: 0;
-    font-weight: 700;
+@media (max-width: 600px) {
+    /* 手機佈局：單欄，間距加大 */
+    .price-card-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .price-plan {
+        padding: 25px;
+    }
+    .price-plan .price-tag {
+        font-size: 2rem;
+    }
 }
 
-.price-card .plan-subtitle {
-    font-size: 1.1rem; 
-    color: var(--secondary-color);
-    margin: 5px 0 15px;
-    font-weight: 400;
-}
+/* -------------------------------------- */
+/* 服務細項比較表格 (Comparison Table) 樣式 */
+/* -------------------------------------- */
 
-/* 價格標籤 */
-.price-tag {
-    font-family: 'Iansui', 'Noto Serif TC', serif;
-    font-size: clamp(3rem, 5vw, 4rem); 
-    font-weight: 900; 
-    color: var(--text-light);
-    padding: 20px 0;
-    background-color: var(--primary-color);
-    margin: 0; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    /* 確保價格區塊與 header 分離 */
-    border-top: 1px solid rgba(255, 255, 255, 0.2); 
-}
-.price-card.featured-plan .price-tag {
-    background-color: var(--accent-color);
-    color: var(--text-light); 
-}
-.price-tag .currency {
-    font-size: 2.2rem; 
-    font-weight: 400;
-    margin-right: 5px;
-}
-
-/* 方案內容特色列表 */
-.plan-features {
-    padding: 30px 25px 20px; 
-    text-align: left;
-}
-.plan-features ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-.plan-features li {
-    padding: 14px 0; 
-    border-bottom: 1px dashed var(--border-color); 
-    color: var(--text-dark);
-    font-size: 1.05rem; 
-    display: flex;
-    align-items: center;
-}
-.plan-features li i {
-    color: var(--success-color);
-    margin-right: 12px; 
-    font-size: 1.15rem;
-    flex-shrink: 0;
-}
-.plan-features li.excluded i {
-    color: var(--danger-color);
-}
-.plan-features li:last-child {
-    border-bottom: none; 
-}
-
-/* 方案底部的 CTA */
-.plan-cta {
-    padding: 0 25px 30px; 
-}
-
-/* 價格頁的警告區塊 */
-.alert-box {
-    margin: 40px auto;
-    max-width: 900px;
-    text-align: left;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: var(--bg-accent-light); 
-    border-left: 5px solid var(--danger-color); 
-}
-
-/* 規費說明列表 */
-.check-list {
-    margin-top: 20px;
-    padding-left: 0 !important;
-    list-style: none;
-}
-.check-list li {
-    font-size: 1.05rem;
-    margin-bottom: 12px; 
-    color: var(--text-dark); 
-    display: flex;
-    align-items: flex-start;
-}
-.check-list li i {
-    color: var(--secondary-color); 
-    margin-right: 10px;
-    font-size: 1.1rem;
-    margin-top: 3px;
-    flex-shrink: 0;
-}
-
-
-/* =========================================
-   方案價格表格 (Plans Page Table) 樣式
-   ========================================= */
-
-    
-.table-wrapper {
-    width: 100%;
+/* 確保表格可以在小螢幕上捲動 */
+.responsive-table-wrap {
     overflow-x: auto;
-    margin: 40px 0;
-    border-radius: 12px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
-    border: 1px solid var(--border-color);
-}
-
-.table-wrapper table {
-    min-width: 1100px; 
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    text-align: center;
-    overflow: hidden; 
 }
 
-/* 2. 表格頭部樣式 */
-.table-wrapper thead th {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    padding: 18px 12px; 
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    white-space: nowrap;
+.comparison-table {
+    width: 100%;
+    min-width: 700px; /* 確保在手機上仍有足夠寬度，觸發捲動 */
+    border-collapse: collapse;
+    margin: 30px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
 }
 
-/* 固定第一欄樣式精煉 */
-.table-wrapper table th:first-child,
-.table-wrapper table td:first-child {
+.comparison-table th, .comparison-table td {
+    padding: 15px 15px;
+    border: 1px solid #f0f0f0;
     text-align: left;
-    padding-left: 25px;
-    padding-right: 15px;
-    font-weight: 700;
-    position: sticky;
-    left: 0;
-    z-index: 60;
-    background-color: var(--bg-light);
-    border-right: 1px solid var(--border-color);
-}
-.table-wrapper tbody tr:nth-child(even) td:first-child {
-    background-color: var(--bg-section); 
-}
-.table-wrapper table th:first-child {
-    background-color: var(--primary-color);
-    border-bottom: 3px solid var(--accent-color);
-}
-
-
-/* 3. 表格內文與數據行樣式 */
-.table-wrapper tbody td {
-    padding: 15px 12px; 
-    border-bottom: 1px solid var(--border-color); 
-    transition: background-color 0.3s ease;
     vertical-align: middle;
-    color: var(--text-dark);
-    line-height: 1.4; 
 }
 
-/* 價格高亮行 */
-.table-wrapper tbody tr:first-child td {
-    font-size: 1.6rem; 
-    font-weight: 900;
-    padding: 22px 12px;
-    color: var(--accent-color); 
-    background-color: #fffaf0 !important; 
-    border-bottom: 3px solid var(--border-color);
+/* 表頭樣式 */
+.comparison-table thead th {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap; /* 確保標題不換行 */
 }
-.table-wrapper tbody tr:first-child td:first-child {
+
+.comparison-table tbody th {
+    /* 服務項目欄 */
+    background-color: #f7f7f7;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* 分隔行樣式 */
+.comparison-table .category-divider {
+    background-color: var(--soft-accent-color); /* 淺色底色區分區塊 */
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
     color: var(--primary-color);
-    background-color: #fffaf0 !important;
+    padding: 5px 0;
 }
 
-/* 偶數行背景色，提升可讀性 */
-.table-wrapper tbody tr:nth-child(even) {
-    background-color: var(--bg-section);
+/* 數據欄位樣式 */
+.comparison-table td {
+    color: #555;
+    text-align: center; /* 讓內容居中對齊 */
 }
 
-/* 懸停效果 (Hover) - 確保固定欄顏色一致 */
-.table-wrapper tbody tr:hover {
-    background-color: #f0f8ff; 
-    box-shadow: inset 0 0 0 1px #bce0fd;
-}
-.table-wrapper tbody tr:hover td:first-child {
-    background-color: #e0f2ff;
-}
+/* 突出顯示 "Yes" 或 "Upgrade" */
+.comparison-table td:nth-child(2) { color: #888; } /* 基礎方案顏色較低調 */
+.comparison-table td:nth-child(3) { color: var(--success-color); font-weight: 600; } /* 推薦方案顏色突出 */
+.comparison-table td:nth-child(4) { color: var(--accent-color); font-weight: 700; } /* 尊榮方案顏色最突出 */
 
-/* 4. 價格強調色塊樣式 - 統一字體粗細 */
-.price-highlight-success,
-.price-highlight-warning,
-.price-highlight-danger {
-    font-weight: 700;
-}
-.price-highlight-success {
-    color: var(--success-color);
-}
-.price-highlight-warning {
-    color: var(--warning-color);
-}
-.price-highlight-danger {
-    color: var(--danger-color);
-}
-/* 統一表格內的勾選/叉叉圖標樣式 */
-.table-wrapper td .fas.fa-check-circle {
-    color: var(--success-color);
-    font-size: 1.1em;
-}
-.table-wrapper td .fas.fa-times-circle {
-    color: var(--danger-color);
-    font-size: 1.1em;
-}
-
-
-/* 5. 特別備註行 (底色) */
-.table-wrapper tr.alert-row td {
-    font-weight: 700;
-    background-color: var(--bg-accent-light) !important; 
-    color: var(--danger-color); 
-    text-align: center !important;
-}
-.table-wrapper tr.alert-row td:first-child {
-    background-color: var(--bg-accent-light) !important;
-}
-
-/* 6. 按鈕行樣式 */
-.table-wrapper tbody tr:last-child td {
-    padding-top: 25px;
-    padding-bottom: 25px;
-    border-bottom: none; 
-}
-.table-wrapper tbody tr:last-child td:first-child {
-    background-color: var(--bg-light);
+/* 響應式調整 */
+/* 在手機上，表頭的文字可以縮小一點 */
+@media (max-width: 600px) {
+    .comparison-table thead th {
+        font-size: 0.9rem;
+        padding: 10px 8px;
+    }
 }
 
 /* =========================================== */
