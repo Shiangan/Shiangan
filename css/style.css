@@ -559,7 +559,7 @@ header {
 
 
 /* ==================================================== */
-/* Accordion (手風琴) Style - A11Y 強化與優化 */
+/* (index-fap)Accordion (手風琴) Style - A11Y 強化與優化 [已修正] */
 /* ==================================================== */
 .accordion-container {
     max-width: 850px;
@@ -592,7 +592,8 @@ header {
     background: none;
     border: none;
     text-align: left;
-    transition: background-color 0.3s;
+    /* 修正：移除全域的 all transition 避免干擾 max-height，這裡只放需要的 */
+    transition: background-color 0.3s, color 0.3s;
 }
 .accordion-header:hover,
 .accordion-header:focus-visible { 
@@ -624,15 +625,17 @@ header {
 }
 
 .accordion-content {
+    /* 核心邏輯：默認 max-height 為 0，並設定平滑過渡 */
     max-height: 0; 
     overflow: hidden;
     padding: 0 25px;
+    /* 關鍵：確保 max-height 和 padding 都有過渡 */
     transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
 }
 
-/* JS 展開時，賦予底部填充 */
+/* JS 展開時，賦予底部填充，【移除 max-height: 1000px;】 */
 .accordion-item.active .accordion-content {
-    max-height: 1000px; 
+    /* max-height 由 JS 動態計算，這裡只確保 padding 展開 */
     padding-bottom: 20px; 
     padding-top: 10px; 
 }
