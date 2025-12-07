@@ -31,10 +31,9 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 統一設定過渡時間 0.3s，提高效能 */
+    /* 【優化】移除全域 'all' 過渡，使用更精準的 transition-property 提升效能 */
     transition: all 0.3s ease-out; 
-    /* 僅針對主要屬性進行過渡，避免過度渲染 */
-    transition-property: color, background-color, border-color, transform, box-shadow, opacity, max-height, padding, margin;
+    transition-property: color, background-color, border-color, transform, box-shadow, opacity, margin;
     word-break: break-word;     
     overflow-wrap: break-word; 
     -webkit-tap-highlight-color: transparent; /* 移除點擊時的高亮 */
@@ -601,8 +600,9 @@ header {
     background: none;
     border: none;
     text-align: left;
-    /* 修正：移除全域的 all transition 避免干擾 max-height，這裡只放需要的 */
-    transition: background-color 0.3s, color 0.3s;
+    /* 【關鍵修正】: 移除全域 'all'，只允許 color, bg-color 過渡 */
+    transition-property: background-color, color, transform; 
+    transition-duration: 0.3s;
 }
 .accordion-header:hover,
 .accordion-header:focus-visible { 
@@ -1431,8 +1431,9 @@ footer ul {
     background: none;
     border: none;
     text-align: left;
-    /* 修正：移除全域的 all transition 避免干擾 max-height，這裡只放需要的 */
-    transition: background-color 0.3s, color 0.3s;
+    /* 【關鍵修正】: 移除全域 'all'，只允許 color, bg-color 過渡 */
+    transition-property: background-color, color, transform; 
+    transition-duration: 0.3s;
 }
 .accordion-header:hover,
 .accordion-header:focus-visible { 
@@ -2004,7 +2005,7 @@ footer ul {
         max-height: 0; 
         overflow: hidden;
         opacity: 0;
-        pointer-events: none;
+        pointer-events: none; /* 【關鍵】: 確保收合時無法點擊 */
         padding-left: var(--safe-area-pad-h); 
         padding-right: var(--safe-area-pad-h);
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
@@ -2014,7 +2015,7 @@ footer ul {
         /* 【修正】: 使用 100vh 減去 Header 高度，更精確地佔滿剩餘可視區域 */
         max-height: calc(100vh - var(--header-height)); 
         opacity: 1;
-        pointer-events: all;
+        pointer-events: all; /* 【關鍵】: 確保展開時可以點擊 */
         /* 【修正】: 允許內容滾動，解決內容被切斷的問題 */
         overflow-y: auto; 
     }
@@ -2070,7 +2071,7 @@ footer ul {
         box-shadow: none; 
         
         max-height: 0; 
-        padding: 0;
+        padding: 0; /* 【關鍵】: 確保初始狀態沒有 padding */
         overflow: hidden; 
         opacity: 1; 
         visibility: visible; 
@@ -2088,7 +2089,7 @@ footer ul {
     #main-nav ul li.dropdown.active > .submenu {
         max-height: 500px; 
         padding-top: 10px;
-        padding-bottom: 10px;
+        padding-bottom: 10px; /* 【關鍵】: 展開時恢復 padding */
     }
     
     .submenu li a {
@@ -2217,4 +2218,3 @@ footer ul {
         grid-template-columns: 1fr;
     }
 }
-
