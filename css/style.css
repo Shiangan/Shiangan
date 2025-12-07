@@ -96,12 +96,7 @@ table {
     --shadow-medium: 0 15px 45px rgba(0, 0, 0, 0.12); /* 更擴散、更飄浮的陰影 */
     --shadow-accent: 0 4px 20px rgba(203, 174, 136, 0.3); /* 品牌色光暈 */
 
-    /* --- 狀態色變數 --- */
-    --success-color: #4CAF50; 
-    --warning-color: #FFA000; 
-    --danger-color: #D32F2F;  
-
-     /* --- Z-INDEX 系統 (專業模組化) --- */
+    /* --- Z-INDEX 系統 (專業模組化) --- */
     --z-base: 1;
     --z-dropdown: 50;   
     --z-sticky: 100;    /* Header */
@@ -231,17 +226,21 @@ header {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* ==================================================== */
-/* 主導航容器 (RWD 專用：垂直佈局修正) */
-/* ==================================================== */
+/* 核心修正：讓導航容器在桌面版上正確水平排列 */
 #main-nav ul {
+    /* 修正：在桌面版上恢復水平排列 */
     display: flex;
-    flex-direction: column; 
-    gap: 30; 
+    flex-direction: row; /* 關鍵修正：水平排列 */
+    gap: 30px; /* 項目間距 */
+    align-items: center;
+    list-style: none; /* 移除列表樣式 */
+}
+/* 桌面隱藏手機漢堡按鈕 */
+.mobile-menu-btn {
+    display: none;
 }
 
 
-/
 /* 連結樣式修正 (通用) */
 #main-nav a {
     display: block; 
@@ -276,6 +275,7 @@ header {
     width: auto;
     padding: 0; 
     list-style: none;
+    margin-left: 30px; /* 與主選單項目隔開 */
 }
 
 .contact-nav a {
@@ -298,6 +298,89 @@ header {
     background-color: var(--accent-color-hover);
     border-color: var(--accent-color-hover);
 }
+
+/* 桌面版 Dropdown 樣式修正 */
+@media (min-width: 901px) {
+    /* 確保 L1 項目在桌面版上保持水平佈局 */
+    #main-nav ul {
+        flex-direction: row; 
+    }
+    
+    /* 確保 dropdown 箭頭在桌面版上隱藏 */
+    #main-nav ul li.dropdown > a i.fa-chevron-down {
+        display: none !important;
+    }
+    
+    /* 重新啟用桌面版下拉選單的絕對定位 */
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown .submenu { 
+        position: absolute; 
+        top: 100%; 
+        left: 50%; /* 子選單居中對齊父選單 */
+        transform: translateX(-50%); 
+        width: 250px; /* 設置固定寬度 */
+        background-color: var(--bg-light); 
+        border: 1px solid var(--border-color);
+        border-top: 3px solid var(--accent-color); /* 增加品牌色分隔 */
+        border-radius: 0 0 8px 8px;
+        box-shadow: var(--shadow-small); 
+        padding: 10px 0;
+        
+        /* 隱藏/顯示邏輯 */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        z-index: var(--z-dropdown); 
+    }
+    
+    .dropdown:hover > .submenu,
+    .dropdown.focus-within > .submenu { /* A11Y 強化 */
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+    }
+    
+    .submenu li a {
+        padding: 10px 20px; 
+        font-weight: 500;
+        font-size: 1rem;
+        border-bottom: none !important; 
+        transition: background-color 0.2s, color 0.2s;
+    }
+    .submenu li a:hover {
+        background-color: var(--bg-section);
+        color: var(--accent-color);
+        font-weight: 700;
+    }
+
+    /* 確保次選單的標題和分隔線正確顯示或隱藏 */
+    .submenu .divider {
+        display: block; /* 桌面可顯示 */
+        border-top: 1px solid var(--border-color);
+        margin: 5px 0;
+    }
+    .submenu .plans-tital,
+    .submenu .submenu-title {
+        display: block; /* 桌面可顯示 */
+        padding: 10px 20px 5px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+    }
+    
+    .contact-nav {
+        display: block;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-top: none;
+        margin-top: 0;
+    }
+}
+
 
 /* ==================================================== */
 /* Hero & CTA */
@@ -1815,9 +1898,10 @@ footer {
     :root {
         --safe-area-pad-h: 25px; 
     }
-    .main-header {
-        padding-left: var(--safe-area-pad-h);
-        padding-right: var(--safe-area-pad-h);
+    /* 修正：將 header 類名從 .main-header 改為 header */
+    header {
+        padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
+        padding-right: max(var(--safe-area-pad-h), env(safe-area-inset-right));
     }
 
     /* --- 字體調整 (保持不變) --- */
@@ -1828,16 +1912,21 @@ footer {
         font-size: clamp(1.6rem, 4.5vw, 2rem); 
     } 
 
-    /* --- 手機選單容器啟用與按鈕修正 (保持不變) --- */
+    /* --- 手機選單容器啟用與按鈕修正 --- */
     .mobile-menu-btn { 
-        display: block;
+        display: block; /* 手機顯示漢堡按鈕 */
         background: none;
         border: none;
         color: var(--primary-color);
-        font-size: 1.1rem;
+        font-size: 1.2rem; /* 增大按鈕圖標 */
         font-weight: 700;
         cursor: pointer;
         padding: 10px 0;
+        /* 確保按鈕在手機上有足夠的點擊區域 */
+        width: 40px; 
+        height: 40px; 
+        line-height: 40px;
+        text-align: center;
     }
     
     .main-nav { 
@@ -1849,7 +1938,7 @@ footer {
         background-color: var(--bg-light);
         box-shadow: 0 4px 10px var(--shadow-medium);
         z-index: var(--z-overlay); 
-        max-height: 0; 
+        max-height: 0; /* 關鍵：初始隱藏 */
         overflow: hidden;
         opacity: 0;
         pointer-events: none;
@@ -1868,11 +1957,10 @@ footer {
     }
 
     
-    /* L1 清單樣式 (垂直排列) */
+    /* L1 清單樣式 (強制垂直排列) */
     #main-nav ul {
-        /* 修正：確保在 RWD 下強制垂直堆疊和移除間距 */
         display: flex;
-        flex-direction: column;
+        flex-direction: column; /* 關鍵修正：垂直堆疊 */
         gap: 0 !important; 
         padding-top: 20px;
         padding-bottom: 20px;
@@ -1881,65 +1969,41 @@ footer {
     }
 
     /* ------------------------------------------------------------------ */
-
-    /* ------------------------------------------------------------------ */
     /* --- RWD：Dropdown 轉為手風琴模式 - L1 項目修正 --- */
     /* ------------------------------------------------------------------ */
     
     /* 修正 L1 項目選擇器 (使用 .dropdown) */
-    #main-nav ul li.dropdown > a { 
+    #main-nav ul li > a { 
         cursor: pointer;
         user-select: none;
         font-weight: 700;
         padding: 12px 0; 
-        display: flex; 
+        display: flex; /* 確保內容與箭頭能分開排列 */
         justify-content: space-between; 
         width: 100%; 
         align-items: center;
         border-bottom: 1px solid var(--border-color); 
-        /* 確保顏色和懸停狀態正常 */
         color: var(--primary-color);
+        /* 確保連結本身是塊狀，佔滿寬度 */
+        padding-left: 0; 
+        padding-right: 0;
     }
-    /* 移除最後一個 L1 的分隔線 */
-    #main-nav ul li:last-child a {
-        border-bottom: none; 
-    }
-
+    
     /* 確保 L1 箭頭初始狀態 */
-   #main-nav ul li.dropdown > a i.fa-chevron-down {
+    /* 修正: 針對 L1 項目非下拉選單時，隱藏箭頭 */
+   #main-nav ul li:not(.dropdown) > a i.fa-chevron-down {
+        display: none !important;
+    }
+    /* 針對 L1 下拉選單項目，顯示箭頭 */
+    #main-nav ul li.dropdown > a i.fa-chevron-down {
         transform: rotate(0deg); 
         transition: transform 0.3s ease;
+        display: inline-block !important;
+        margin-left: 10px;
     }
 
     /* ------------------------------------------------------------------ */
     /* --- RWD：L2 子選單 (手風琴) 修正 --- */
-    /* ------------------------------------------------------------------ */
-    
-    /* RWD L2 子選單: 使用 .submenu 類名 */
-#main-nav ul li.dropdown > a { 
-        cursor: pointer;
-        user-select: none;
-        font-weight: 700;
-        padding: 12px 0; 
-        display: flex; 
-        justify-content: space-between; 
-        width: 100%; 
-        align-items: center;
-        border-bottom: 1px solid var(--border-color); 
-        color: var(--primary-color);
-    }
-    /* 移除最後一個 L1 的分隔線 */
-    #main-nav ul li:last-child a {
-        border-bottom: none; 
-    }
-
-   #main-nav ul li.dropdown > a i.fa-chevron-down {
-        transform: rotate(0deg); 
-        transition: transform 0.3s ease;
-    }
-
-    /* ------------------------------------------------------------------ */
-    /* --- RWD：L2 子選單 (手風琴) 修正 (保持不變) --- */
     /* ------------------------------------------------------------------ */
     
     .dropdown .submenu { 
@@ -1951,7 +2015,7 @@ footer {
         border-radius: 0;
         box-shadow: none; 
         
-        max-height: 0 !important; 
+        max-height: 0 !important; /* 關鍵：用於手風琴開合動畫 */
         padding: 0;
         overflow: hidden !important; 
         opacity: 1 !important; 
@@ -1967,24 +2031,27 @@ footer {
     }
     
     #main-nav ul li.dropdown.active > .submenu {
-        max-height: 500px !important; 
+        max-height: 500px !important; /* 確保足夠高以顯示所有內容 */
         padding-top: 10px;
         padding-bottom: 10px;
     }
     
     .submenu li a {
-        padding: 8px 20px; 
-        font-weight: 400;
-        font-size: 0.95rem;
-        border-bottom: none !important; 
+        padding: 10px 20px; /* 增加內邊距 */
+        font-weight: 500;
+        font-size: 1rem;
+        border-bottom: none !important; /* 移除子選單項目底線 */
+        display: block; /* 確保子選單項目也是塊級元素 */
+        text-align: left;
     }
 
     .submenu .divider {
-        display: none; 
+        display: none; /* RWD 隱藏分隔線 */
     }
     
     .submenu .plans-tital,
     .submenu .submenu-title {
+        /* RWD 隱藏標題 */
         display: none; 
     }
 
@@ -1998,6 +2065,9 @@ footer {
         /* RWD 時 contact-nav 也要變成一個分隔區塊 */
         border-top: 1px solid var(--border-color); 
         margin-top: 10px;
+    }
+    .contact-nav a {
+         width: 100%; /* 手機版按鈕佔滿寬度 */
     }
     
     /* --- 佈局切換單欄化 (保持不變) --- */
@@ -2068,6 +2138,7 @@ footer {
         width: 100%;
         max-width: 450px;
         margin: 0 auto 20px;
+        flex: auto;
     }
     .profile-image {
         height: 300px;
@@ -2075,6 +2146,11 @@ footer {
     /* --- 價格卡片單欄 --- */
     .price-grid {
         grid-template-columns: 1fr;
+    }
+    .price-card.featured-plan {
+        transform: scale(1.02); 
+    }
+}
 
 /* ==================================================== */
 /* 可訪問性 (A11Y) 最終優化 - Focus 狀態統一 */
