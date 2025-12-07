@@ -21,6 +21,7 @@
     };
     
     // --- 模擬殯儀館檔期資料庫 (結構精簡) ---
+    // 用於表單互動時，模擬查詢禮廳及逝者姓名
     const mockScheduleDB = {
         '台北市立第二殯儀館': {
             '2025-12-10': [{ hall: '至真二廳', deceased: '李府老夫人 李○○' }, { hall: '至善二廳', deceased: '張公大人 張○○' }],
@@ -41,26 +42,28 @@
      */
     function highlightActiveLink(navLinks) {
         const { CLASS_ACTIVE, DROPDOWN_SELECTOR } = CONSTANTS;
+        // 清理路徑：移除查詢參數和哈希值
         const cleanPath = (url) => url?.split('?')[0].split('#')[0] || 'index.html';
+        // 取得當前檔案名
         const currentPath = cleanPath(window.location.pathname.split('/').pop() || 'index.html'); 
         
         navLinks.forEach(item => {
             const itemHref = cleanPath(item.getAttribute('href'));
             item.classList.remove(CLASS_ACTIVE);
 
-            // 1. 精確匹配當前頁面
+            // 1. 精確匹配當前頁面 (L1, L2, L3)
             if (itemHref === currentPath) {
                  item.classList.add(CLASS_ACTIVE);
                  
             } else {
-                 // 2. 處理下拉選單子頁面的高亮
+                 // 2. 處理下拉選單子頁面的高亮 (L2/L3 反映到 L1)
                  const parentLi = item.closest('li');
                  if (parentLi && parentLi.classList.contains(DROPDOWN_SELECTOR)) {
                     // 找出此下拉選單的 L1 連結
-                    const l1Link = parentLi.querySelector('a');
+                    const l1Link = parentLi.querySelector(':scope > a'); 
                     const l1Href = cleanPath(l1Link?.getAttribute('href'));
 
-                    // 如果當前路徑是以 L1 連結路徑為基礎的 (例如: services/details.html 屬於 services.html)
+                    // 如果當前路徑是以 L1 連結路徑為基礎的前綴
                     if (currentPath.startsWith(l1Href.replace('.html', ''))) {
                         l1Link.classList.add(CLASS_ACTIVE);
                     }
@@ -82,7 +85,6 @@
 
         /**
          * 1.1 行動選單切換邏輯
-         * 修正：在關閉時，強制清除 overflow 屬性，以確保 CSS 的 max-height: 0 生效
          * @param {boolean} isToggling - true: 開啟, false: 關閉, null/undefined: 切換
          */
         function toggleMobileMenu(isToggling) {
@@ -104,7 +106,7 @@
                     if (icon) icon.style.transform = 'rotate(0deg)';
                 });
                 
-                // 修正：確保在關閉時使用 CSS 的 overflow: hidden;
+                // 確保在關閉時清除行內樣式，讓 CSS 的 overflow: hidden; 生效 
                 mainNav.style.overflowY = ''; 
                 
              } else {
@@ -115,12 +117,16 @@
         
         /**
          * 1.2 行動端下拉選單 (手風琴) 邏輯
-         * 修正：確保點擊 L1 標題時，能夠切換手風琴狀態
          */
         function handleMobileDropdown(e, item, dropdownLink, icon) {
             // 僅在行動模式下啟用手風琴效果
             if (window.innerWidth <= MOBILE_BREAKPOINT) {
                 
+                // 如果 L1 連結是空的 (純粹的選單標籤)，則始終阻止跳轉
+                if (dropdownLink.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+
                 const currentlyActive = item.classList.contains(CLASS_ACTIVE);
                 
                 // 實作單一展開模式 (收合其他已開啟的項目)
@@ -140,8 +146,10 @@
                     icon.style.transform = !currentlyActive ? 'rotate(180deg)' : 'rotate(0deg)';
                 }
                 
-                // 阻止預設行為 (阻止跳轉)，因為點擊 L1 標題在手機上主要是為了展開子選單
-                e.preventDefault(); 
+                // 如果是帶有子選單的 L1 連結，阻止預設跳轉，優先展開子選單
+                if (item.querySelector('.submenu')) {
+                    e.preventDefault(); 
+                }
             }
         }
 
@@ -150,9 +158,7 @@
         mobileMenuBtn.addEventListener('click', () => toggleMobileMenu());
         
         /**
-         * 1.3 點擊選單項目後自動關閉（使用事件委派優化）
-         * 修正：L1 連結點擊後不應該自動關閉 (因為 L1 點擊現在只負責展開手風琴，除非它沒有子選單)
-         * L2/L3 連結點擊後應該關閉主菜單
+         * 1.3 點擊選單項目後自動關閉（L2/L3 點擊後關閉）
          */
         mainNav.addEventListener('click', function(e) {
             const link = e.target.closest('a');
@@ -162,17 +168,13 @@
             if (window.innerWidth <= MOBILE_BREAKPOINT && mainNav.classList.contains(CLASS_ACTIVE)) { 
                 const parentDropdown = link.closest(DROPDOWN_SELECTOR);
                 
-                // 如果點擊的是 L1 連結本身 (即 .dropdown > a)，則跳過，由 handleMobileDropdown 處理
-                if (parentDropdown && parentDropdown.contains(link.parentElement) && link.parentElement.tagName === 'LI') {
-                    // 如果 L1 連結沒有子選單，才允許導航並關閉菜單
-                    if (!parentDropdown.querySelector('.submenu')) {
-                        setTimeout(() => toggleMobileMenu(false), 0);
-                    }
-                    return; 
+                // 判斷是否為 L1 連結 (即直接屬於 .dropdown 的 a 元素，且沒有父級 submenu)
+                const isL1Link = parentDropdown && link.closest('.submenu') === null;
+
+                // 如果點擊的不是 L1 連結 (即 L2 或 L3)，則關閉選單
+                if (!isL1Link) {
+                    setTimeout(() => toggleMobileMenu(false), 0);
                 }
-                
-                // L2 或 L3 連結，點擊後關閉選單
-                setTimeout(() => toggleMobileMenu(false), 0);
             }
         });
         
@@ -186,12 +188,12 @@
             }
         });
 
-        // 1.5 螢幕尺寸調整優化
+        // 1.5 螢幕尺寸調整優化 (桌面模式下清除行動選單狀態)
         window.addEventListener('resize', () => {
             if (window.innerWidth > MOBILE_BREAKPOINT && mainNav.classList.contains(CLASS_ACTIVE)) {
-                toggleMobileMenu(false); // 桌面模式下確保選單關閉
+                toggleMobileMenu(false); 
             }
-            // 清除所有手機手風琴狀態
+            // 清除所有手機手風琴狀態 (避免桌面模式時保留手風琴的 active class)
             dropdownItems.forEach(item => {
                 item.classList.remove(CLASS_ACTIVE);
                 const icon = item.querySelector('.fa-chevron-down');
@@ -266,12 +268,14 @@
             let options = '<option value="">-- 請選擇禮廳 --</option>'; 
             
             if (dateSchedule && dateSchedule.length > 0) {
+                // 載入從模擬 DB 查到的禮廳
                 dateSchedule.forEach(item => {
                     options += `<option value="${item.hall}">${item.hall}</option>`;
                 });
                 options += `<option value="手動輸入">-- 列表中找不到？請手動輸入禮廳 --</option>`;
                 hallSelect.innerHTML = options;
             } else if (selectedHallName && selectedDate) {
+                 // 該日無檔期資料 (強制選擇手動輸入)
                  options = `<option value="">-- 今日無公開檔期資料 --</option>`;
                  options += `<option value="手動輸入" selected>-- 請手動輸入禮廳 --</option>`;
                  
@@ -299,13 +303,14 @@
         hallDateInput.addEventListener('change', function() {
             if (!this.value || !funeralHallSelect.value) return; 
             
-            // 載入狀態
+            // 模擬載入狀態
             if (officialQueryButton) {
                 officialQueryButton.classList.add('loading-state');
                 officialQueryButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在查詢檔期...';
                 officialQueryButton.disabled = true;
             }
 
+            // 模擬網路延遲
             setTimeout(() => {
                 updateHallOptions();
                 if (officialQueryButton) {
@@ -327,6 +332,7 @@
                 return; 
             }
             
+            // 從模擬 DB 中找到逝者姓名
             const schedule = mockScheduleDB[selectedHallName]?.[selectedDate];
             const selectedDeceased = schedule?.find(item => item.hall === selectedHall);
             
@@ -346,15 +352,18 @@
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault(); 
             
+            // 擷取並清理所有表單數據
             const senderNameValue = senderName?.value.trim() || '';
             const senderPhoneValue = senderPhone?.value.trim() || '';
             const hallValue = funeralHallSelect.value.trim();
             const dateValue = hallDateInput.value.trim();
+            // 處理禮廳顯示：如果是手動輸入，則顯示逝者姓名 + 備註
             const hallDisplayValue = hallSelect.value === '手動輸入' ? deceasedNameInput.value.trim() + ' (禮廳手動輸入)' : hallSelect.value;
             const deceasedValue = deceasedNameInput.value.trim();
             const productValue = productSelect?.value.trim() || '未選擇花禮/罐頭塔';
             const remarkValue = remarkInput?.value.trim() || '無';
 
+            // 簡易驗證
             if (!hallValue || !dateValue || !deceasedValue || !senderNameValue || !senderPhoneValue) {
                 alert('請務必填寫所有標記 * 的關鍵資訊（訂購人/電話、殯儀館/日期/逝者姓名），確保訂單準確！');
                 return;
@@ -364,6 +373,7 @@
             
             if (confirmed) {
                 
+                // 結構化 LINE 訊息內容
                 const lineMessage = `【網站花禮訂單 - 待處理】\n` + 
                                     `\n--- 訂購人資訊 ---\n` +
                                     `* 姓名：${senderNameValue}\n` +
@@ -380,6 +390,7 @@
                 const encodedMessage = encodeURIComponent(lineMessage);
 
                 if (lineLinkElement) {
+                    // 建構完整的 LINE Universal Link (包含預填訊息)
                     const finalLineLink = `${LINE_UNIVERSAL_URL}?text=${encodedMessage}`;
                      
                     alert('訂單已暫存！即將引導至 LINE 專員，請將預設訊息發送給我們，以確認最終訂購細節與付款。');
@@ -404,10 +415,10 @@
         faqItems.forEach(currentItem => {
             // 3.1 處理單一展開模式
             currentItem.addEventListener('toggle', (e) => {
-                if (currentItem.open) {
+                if (currentItem.open) { // 如果當前項目被打開
                     faqItems.forEach(otherItem => {
                         if (otherItem !== currentItem && otherItem.open) {
-                            otherItem.open = false; 
+                            otherItem.open = false; // 關閉其他已開啟的項目
                         }
                     });
                 }
@@ -427,6 +438,7 @@
     function initializeCopyrightProtection() {
         const { COPYRIGHT_TEXT } = CONSTANTS;
         
+        // 4.1 複製事件：在複製內容後追加版權聲明
         document.addEventListener('copy', function(e) {
             const selection = document.getSelection();
             
@@ -439,7 +451,7 @@
             console.info(COPYRIGHT_TEXT.replace('\n\n--- 聲明 ---\n', '')); 
         });
         
-        // 頁面底部的版權年份動態更新
+        // 4.2 頁面底部的版權年份動態更新
         const currentYearIndex = document.getElementById('current-year');
         if (currentYearIndex) {
             currentYearIndex.textContent = new Date().getFullYear();
