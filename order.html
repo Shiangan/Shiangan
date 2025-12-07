@@ -64,11 +64,10 @@
     
     <nav id="main-nav" role="navigation" aria-label="主要網站導覽">
         <ul>
-            <li><a href="index.html" class="active" aria-current="page">首頁</a></li>
+            <li><a href="index.html">首頁</a></li>
             <li><a href="about.html">關於我們 (E-E-A-T)</a></li>
             
-            <li class="has-dropdown">
-                <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+            <li class="dropdown"> <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
                 
                 <ul class="submenu">
                     <li class="submenu-title">服務項目分類</li>
@@ -84,8 +83,7 @@
             
             <li><a href="plans.html">喪葬費用公開方案</a></li>
             
-            <li class="has-dropdown">
-                <a href="blog.html" aria-expanded="false" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
+            <li class="dropdown"> <a href="blog.html" aria-expanded="false" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
                 
                 <ul class="submenu">
                     <li class="submenu-title">常見問答與流程</li>
@@ -97,13 +95,11 @@
                 </ul>
             </li>
             
-            <li><a href="order.html">花籃訂購</a></li>
-            <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線">24H 聯絡我們</a></li>
+            <li><a href="order.html" class="active" aria-current="page">花籃訂購</a></li> <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線">24H 聯絡我們</a></li>
         </ul>
     </nav>
 
-    <button class="mobile-menu-btn" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-        <i class="fas fa-bars"></i> 選單
+    <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false"> <i class="fas fa-bars"></i> 選單
     </button>
 </header>
 
@@ -112,14 +108,12 @@
         <div class="hero-content">
             <h1>**奠儀用品**快速訂購：花籃、罐頭塔、水果籃**專人配送**</h1>
             <p>祥安提供**莊重、準時**的花禮代訂服務，**專人快速配送至雙北、桃園各大殯儀館**，讓您表達最深的敬意。</p>
-            <a href="#contact-methods" class="cta-button primary" title="開始訂購">📞 立即電話快速訂購 <i class="fas fa-cart-arrow-down"></i></a>
+            <a href="#order-form-section" class="cta-button primary" title="開始訂購">📝 填寫線上訂購單 <i class="fas fa-cart-arrow-down"></i></a>
         </div>
     </section>
 
     <section class="container" id="product-list" aria-labelledby="product-heading">
         <h2 id="product-heading">精選奠儀花禮與用品目錄 (台北/新北/桃園)</h2>
-        <p class="text-center section-subtitle">所有價格已包含**雙北/桃園地區運送費、卡片代印**及**場地協調費**，透明無隱藏費用。</p>
-
         <div class="pricing-grid grid-3-cols">
             
             <div class="pricing-card product-card">
@@ -136,7 +130,7 @@
                     <li><i class="fas fa-check-circle"></i> **雙北/桃園**專人配送到位</li>
                     <li><i class="fas fa-check-circle"></i> 確保擺放位置莊嚴</li>
                 </ul>
-                <a href="#contact-methods" class="cta-button secondary">📞 快速電話訂購</a>
+                <a href="#order-form-section" class="cta-button secondary">📝 線上訂購</a>
             </div>
 
             <div class="pricing-card product-card recommended">
@@ -153,7 +147,7 @@
                     <li><i class="fas fa-star"></i> **保證新鮮、日期明確**</li>
                     <li><i class="fas fa-star"></i> 適用**台北/新北/桃園**地區</li>
                 </ul>
-                <a href="#contact-methods" class="cta-button primary">📞 快速電話訂購</a>
+                <a href="#order-form-section" class="cta-button primary">📝 線上訂購</a>
             </div>
 
             <div class="pricing-card product-card">
@@ -170,12 +164,98 @@
                     <li><i class="fas fa-check-circle"></i> 可客製化內容物或等級</li>
                     <li><i class="fas fa-check-circle"></i> 適用所有宗教儀式</li>
                 </ul>
-                <a href="#contact-methods" class="cta-button secondary">📞 快速電話訂購</a>
+                <a href="#order-form-section" class="cta-button secondary">📝 線上訂購</a>
             </div>
             
         </div>
     </section>
 
+    <section class="container-v-padding bg-section" id="order-form-section" aria-labelledby="form-heading">
+        <div class="container">
+            <h2 id="form-heading" class="text-center">線上預填訂購單 (最終將導向 LINE 專人確認)</h2>
+            <p class="text-center section-subtitle">請填寫以下資訊，我們將整合訂單資訊，引導您到 LINE 快速聯繫專員核對細節。</p>
+
+            <form class="order-form form-layout-responsive" action="#" method="POST">
+                
+                <fieldset>
+                    <legend>⭐ 訂購人與產品資訊</legend>
+                    <div class="form-group">
+                        <label for="sender-name">訂購人姓名 *</label>
+                        <input type="text" id="sender-name" required placeholder="請填寫送禮者姓名 (用於輓聯)">
+                    </div>
+                    <div class="form-group">
+                        <label for="sender-phone">聯繫電話 *</label>
+                        <input type="tel" id="sender-phone" required placeholder="請填寫手機號碼 (用於緊急聯繫)">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-select">欲訂購花禮項目 *</label>
+                        <select id="product-select" required>
+                            <option value="">-- 請選擇產品 --</option>
+                            <option value="鮮花藝術花籃 (2500元起)">鮮花藝術花籃 (NT$ 2,500 起/對)</option>
+                            <option value="罐頭塔/飲料塔 (2800元起)">罐頭塔/飲料塔 (NT$ 2,800 起/對)</option>
+                            <option value="高級水果禮籃 (3500元起)">高級水果禮籃 (NT$ 3,500 起/籃)</option>
+                            <option value="客製化花禮 (請備註需求)">客製化花禮 (需備註需求)</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>📍 告別式場地與逝者資訊</legend>
+                    <div class="form-group">
+                        <label for="funeral-hall-select">選擇殯儀館 *</label>
+                        <select id="funeral-hall-select" required>
+                            <option value="">-- 請選擇場館 --</option>
+                            <option value="台北市立第二殯儀館">台北市立第二殯儀館</option>
+                            <option value="台北市立第一殯儀館">台北市立第一殯儀館</option>
+                            <option value="新北市立板橋殯儀館">新北市立板橋殯儀館</option>
+                            <option value="桃園市立殯葬園區">桃園市立殯葬園區</option>
+                            <option value="其他地區/自宅">其他地區/自宅 (請填寫地址)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group flex-group">
+                        <div class="flex-item">
+                            <label for="hall-date-input">告別式/入殮日期 *</label>
+                            <input type="date" id="hall-date-input" required disabled>
+                        </div>
+                        
+                        <div class="flex-item">
+                            <label for="hall-select">禮廳名稱 (依日期更新) *</label>
+                            <select id="hall-select" required>
+                                <option value="">-- 請先選擇日期 --</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deceased-name-input">逝者或家屬姓名 *</label>
+                        <input type="text" id="deceased-name-input" required placeholder="如：張公大人 張OO 或 家屬 林OO">
+                    </div>
+                    
+                    <a href="https://tpmhc.gov.taipei/mp121021/Content_List.aspx?n=4FE882BFE6B60E2A" target="_blank" rel="noopener noreferrer" class="cta-button secondary small" id="official-query-btn" style="display: none; margin-top: 10px;">
+                        <i class="fas fa-search"></i> 點此查詢二殯官方檔期 (外部連結)
+                    </a>
+                </fieldset>
+
+                <fieldset>
+                    <legend>📝 備註與輓聯內容</legend>
+                    <div class="form-group">
+                        <label for="remark">其他備註/輓聯內容 (必填：例如輓詞、需開發票等)</label>
+                        <textarea id="remark" rows="3" placeholder="請備註輓詞、特殊需求或送達時間。範例：輓詞：德範永昭"></textarea>
+                    </div>
+                </fieldset>
+
+                <div class="form-submit-area">
+                    <button type="submit" class="cta-button primary large">
+                        提交訂單資訊並導向 LINE 專員確認 <i class="fab fa-line"></i>
+                    </button>
+                    <p class="form-notice">
+                        點擊提交後，您的訂單將暫存，並**立即導向 LINE 專員**。請務必將自動生成的訊息發送給我們，以確認最終細節與付款。
+                    </p>
+                </div>
+            </form>
+        </div>
+    </section>
     <section class="container-v-padding bg-section" id="order-process" aria-labelledby="process-heading">
         <div class="container">
             <h2 id="process-heading" class="text-center">快速訂購與配送服務流程</h2>
@@ -214,8 +294,7 @@
 
 <footer role="contentinfo">
     <div class="container footer-grid">
-        <div class="footer-logo">祥安生命有限公司 © <span id="current-year-order-seo">2025</span></div>
-        <div class="footer-links">
+        <div class="footer-logo">祥安生命有限公司 © <span id="current-year">2025</span></div> <div class="footer-links">
             <h4>快速連結</h4>
             <ul>
                 <li><a href="about.html">核心承諾 (E-E-A-T)</a></li>
@@ -249,9 +328,6 @@
     <a href="https://line.me/ti/p/[您的LINE ID]?utm_source=website&utm_medium=floating&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢"><i class="fab fa-line"></i></a>
 </div>
 
-<script>
-    document.getElementById('current-year-order-seo').textContent = new Date().getFullYear();
-</script>
 <script src="js/script.js" defer></script>
 </body>
 </html>
