@@ -17,7 +17,8 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    /* 修正：移除 scroll-behavior: smooth;，改由 JS 處理，以避開固定 Header 問題 */
+    /* scroll-behavior: smooth; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility; 
@@ -31,8 +32,9 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-    transition-duration: 0.3s;
+    /* 修正：將所有過渡時間統一設定為 0.3s，提高效能 */
+    transition: all 0.3s ease-out; 
+    transition-property: color, background-color, border-color, transform, box-shadow, opacity, max-height, height, padding, margin;
     word-break: break-word;     
     overflow-wrap: break-word; 
     -webkit-tap-highlight-color: transparent; 
@@ -120,6 +122,11 @@ body {
     font-size: var(--font-size-base);
 }
 
+/* 修正：配合 JS 鎖定滾動 */
+body.no-scroll {
+    overflow: hidden;
+}
+
 .bg-section {
     background-color: var(--bg-section); 
     background-image: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(243, 246, 249, 0.7) 100%);
@@ -196,7 +203,8 @@ textarea:focus-visible,
 select:focus-visible,
 .accordion-header:focus-visible, 
 .card-item:focus-visible,
-.price-plan:focus-visible { 
+.price-plan:focus-visible,
+.service-quick-nav a:focus-visible { /* 修正：新增 service-quick-nav 連結 */
     /* 統一使用品牌強調色作為 Focus 輪廓 */
      outline: 3px solid var(--accent-color);
     outline-offset: 4px;
@@ -296,7 +304,7 @@ header {
 }
 .contact-nav a:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.5);
+    box-shadow: 0 6px 20px rgba(rgba(var(--accent-rgb), 0.5));
     background-color: var(--accent-color-hover);
     border-color: var(--accent-color-hover);
 }
@@ -330,6 +338,7 @@ header {
         z-index: var(--z-dropdown); 
     }
     
+    /* 修正：新增 .focus-within 狀態，配合 JS 實現鍵盤無障礙操作 */
     .dropdown:hover > .submenu,
     .dropdown.focus-within > .submenu { 
         opacity: 1;
@@ -638,21 +647,24 @@ header {
 }
 
 .accordion-content {
+    /* 修正：使用 max-height 實現平滑動畫，並確保過渡時間一致 */
     max-height: 0; 
     overflow: hidden;
     padding: 0 25px;
-    transition: max-height 0.4s cubic-bezier(0.65, 0.05, 0.36, 1), padding 0.4s cubic-bezier(0.65, 0.05, 0.36, 1); 
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
 }
 
 /* JS 展開時，賦予底部填充 */
 .accordion-item.active .accordion-content {
-    max-height: 500px; 
+    /* 修正：將 max-height 設定足夠大的值 (例如 1000px)，確保所有內容都能展開 */
+    max-height: 1000px; 
     padding-bottom: 20px; 
+    padding-top: 10px; /* 修正：展開時新增上填充，讓內容不緊貼標題 */
 }
 
 
 .accordion-content p {
-    padding-top: 10px;
+    padding-top: 0;
     margin-bottom: 0;
     text-align: left;
     max-width: 100%;
@@ -663,6 +675,7 @@ header {
     list-style: disc;
     padding-left: 20px;
     margin: 10px 0 20px 0;
+    text-align: left; /* 修正：列表項目確保左對齊 */
 }
 .service-page-accordion .accordion-content li {
     margin-bottom: 8px;
@@ -774,7 +787,8 @@ footer {
     white-space: nowrap; 
 }
 
-.service-quick-nav a:hover {
+.service-quick-nav a:hover,
+.service-quick-nav a.active { /* 修正：新增 .active 狀態，以便 JS 在滾動高亮時賦予樣式 */
     background-color: var(--primary-color);
     color: #ffffff;
     border-color: var(--primary-color);
@@ -842,7 +856,8 @@ footer {
         gap: 30px;
     }
     .reverse-on-mobile {
-        flex-direction: column; /* 確保圖文反轉時，手機上圖仍在上 */
+        /* 修正：在手機上，確保圖文反轉時，圖片總是在上方，文字在下方 */
+        flex-direction: column; 
     }
     .section-title-with-icon {
         font-size: 1.7rem;
@@ -1273,7 +1288,8 @@ footer {
     padding-left: 10px;
     transition: all 0.2s;
 }
-.table-of-contents li a:hover {
+.table-of-contents li a:hover,
+.table-of-contents li a.active { /* 修正：新增 .active 狀態，配合 JS 滾動高亮 */
     color: var(--accent-color);
     border-left-color: var(--accent-color);
     font-weight: 700;
@@ -1453,6 +1469,7 @@ footer {
     padding-left: 20px;
     margin-bottom: 20px;
     font-size: 1.05rem;
+    text-align: left; /* 修正：列表項目確保左對齊 */
 }
 .article-body li {
     margin-bottom: 10px;
@@ -1932,22 +1949,25 @@ footer {
         background-color: var(--bg-light);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         z-index: var(--z-overlay); 
+        /* 修正：將過渡屬性移到 .main-nav.active 中，避免與 *{} 衝突 */
         max-height: 0; 
         overflow: hidden;
         opacity: 0;
         pointer-events: none;
-        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
         padding-left: var(--safe-area-pad-h); 
         padding-right: var(--safe-area-pad-h);
     }
     
     .main-nav.active {
-        max-height: 80vh;
+        /* 修正：專注於開/關狀態 */
+        max-height: 80vh; 
         opacity: 1;
         pointer-events: all;
         top: var(--header-height); 
         z-index: var(--z-overlay); 
         overflow-y: auto; 
+        /* 修正：確保在開啟時過渡效果依然存在 */
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
     }
 
     
@@ -1983,6 +2003,7 @@ footer {
     }
     
     #main-nav ul li.dropdown > a i.fa-chevron-down {
+        /* 修正：確保箭頭正常顯示 */
         transform: rotate(0deg); 
         transition: transform 0.3s ease;
         display: inline-block !important;
@@ -1998,22 +2019,24 @@ footer {
         border: none;
         box-shadow: none; 
         
-        max-height: 0 !important; 
+        max-height: 0; /* 修正：移除了 !important */
         padding: 0;
-        overflow: hidden !important; 
-        opacity: 1 !important; 
-        visibility: visible !important;
-        pointer-events: all !important; 
+        overflow: hidden; /* 修正：移除了 !important */
+        opacity: 1; /* 修正：保持可見，僅控制 max-height */
+        visibility: visible; /* 修正：保持可見 */
+        pointer-events: all; /* 修正：保持可用 */
         
         transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
     }
 
+    /* JS 觸發狀態 */
     #main-nav ul li.dropdown.active > a i.fa-chevron-down {
         transform: rotate(180deg);
     }
     
     #main-nav ul li.dropdown.active > .submenu {
-        max-height: 500px !important; 
+        /* 修正：使用大數 max-height 以實現過渡，並賦予上下填充 */
+        max-height: 500px; 
         padding-top: 10px;
         padding-bottom: 10px;
     }
