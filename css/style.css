@@ -269,7 +269,7 @@ header {
     color: var(--accent-color);
     font-weight: 700;
     /* 使用 subtle 下劃線提升質感 */
-    box-shadow: 0 3px 0 0 var(--accent-color);
+    box-shadow: none
     padding-bottom: 12px; /* 調整 padding 配合 box-shadow */
 }
 
@@ -302,7 +302,7 @@ header {
 
 /* 桌面版 Dropdown 樣式 */
 @media (min-width: 901px) {
-    #main-nav ul li.dropdown > hover > .submenu,
+    #main-nav ul li.dropdown > a i.fa-chevron-down { /* 修正這裡，指向 a 裡面的 i */
         display: none !important;
     }
     
@@ -329,12 +329,14 @@ header {
         z-index: var(--z-dropdown); 
     }
     
+    /* 修正後的程式碼 (桌面版 Dropdown 開啟狀態) */
     .dropdown:hover > .submenu,
-        .dropdown:focus-within > .submenu { /* <--- 改用原生 :focus-within 偽類 */
+    .dropdown:focus-within > .submenu { /* 這裡修正了語法 */
         opacity: 1;
         visibility: visible;
         pointer-events: all;
     }
+
     
     .submenu li a {
         padding: 10px 20px; 
