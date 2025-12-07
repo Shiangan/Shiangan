@@ -1,27 +1,32 @@
 /* ====================================================
    程式夥伴 - 網站核心 JavaScript (V14.5 最終質感精修版)
-   功能涵蓋：
-   1. Header/導航 (Sticky, Scroll Class, RWD Toggle)
-   2. 桌面 Dropdown A11Y (focus-within)
-   3. 手機手風琴選單 (Mobile Accordion Nav)
-   4. 核心組件互動 (通用 Accordion, 圖片 Lazy Load)
-   5. SEO/性能 (平滑滾動)
+   優化項目：通用手風琴 (Accordion) 加入平滑過渡與 A11Y 強化
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
     
     // ====================================================
-    // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
+    // 0. 變數與設定 (Variables & Configurations)
     // ====================================================
-
     const header = document.querySelector('header');
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.getElementById('main-nav');
     const body = document.body;
-    
-    // 監聽滾動事件：Header 變化
+    const dropdowns = document.querySelectorAll('.dropdown');
+    const mobileBreakpoint = 900; // RWD 斷點，與 CSS 保持一致
+
+    // 輔助函數：關閉所有手機子菜單
+    function closeAllMobileSubmenus() {
+        document.querySelectorAll('#main-nav ul li.dropdown.active').forEach(li => {
+            li.classList.remove('active');
+        });
+    }
+
+    // ====================================================
+    // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
+    // ====================================================
+
     function handleScroll() {
-        // 使用 window.scrollY > 0 判斷，比 document.documentElement.scrollTop 更可靠
         if (window.scrollY > 0) {
             header.classList.add('scrolled');
         } else {
@@ -29,9 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // 首次執行一次，確保頁面載入時 Header 狀態正確
     handleScroll(); 
-    window.addEventListener('scroll', handleScroll, { passive: true }); // 使用 passive: true 優化滾動性能
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     // ====================================================
     // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
@@ -48,32 +52,24 @@ document.addEventListener('DOMContentLoaded', function() {
         // 如果菜單被關閉，確保所有手機子菜單也關閉
         if (!isExpanded) {
             closeAllMobileSubmenus(); 
-        } else {
-             // 關閉時清空所有 active 狀態，確保下次展開是乾淨的
-             document.querySelectorAll('.dropdown.active').forEach(dd => dd.classList.remove('active'));
-        }
+        } 
+        // 註：不需要 else 區塊來清空狀態，因為 closeAllMobileSubmenus 已經處理了
     });
     
     // ====================================================
     // 3. 桌面 Dropdown A11Y (Focus-Within 模擬 Hover)
-    // 確保鍵盤使用者也能正確使用下拉選單
     // ====================================================
     
-    const dropdowns = document.querySelectorAll('.dropdown');
-
     dropdowns.forEach(dropdown => {
-        // 鍵盤 Tab 進入 Dropdown 範圍時，添加 focus-within 類
         dropdown.addEventListener('focusin', function() {
-            if (window.innerWidth > 900) {
+            if (window.innerWidth > mobileBreakpoint) {
                  this.classList.add('focus-within');
             }
         });
         
-        // 鍵盤 Tab 離開 Dropdown 範圍時，移除 focus-within 類
-        dropdown.addEventListener('focusout', function(e) {
-            // 使用 setTimeout 確保在新的 focusin 事件發生後再執行移除，避免閃爍
+        dropdown.addEventListener('focusout', function() {
             setTimeout(() => {
-                if (window.innerWidth > 900 && !this.contains(document.activeElement)) {
+                if (window.innerWidth > mobileBreakpoint && !this.contains(document.activeElement)) {
                     this.classList.remove('focus-within');
                 }
             }, 10);
@@ -83,22 +79,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ====================================================
     // 4. 手機導航手風琴選單 (Mobile Navigation Accordion)
-    // 使用事件委託來監聽點擊，提高性能
     // ====================================================
 
-    function closeAllMobileSubmenus() {
-        document.querySelectorAll('#main-nav ul li.dropdown.active').forEach(li => {
-            li.classList.remove('active');
-        });
-    }
-
     mainNav.addEventListener('click', function(e) {
-        // 僅在手機模式 (CSS media query) 下生效
-        if (window.innerWidth <= 900) { 
+        if (window.innerWidth <= mobileBreakpoint) { 
             let targetLink = e.target.closest('#main-nav ul li.dropdown > a');
 
             if (targetLink) {
-                e.preventDefault(); // 阻止連結跳轉，等待手風琴展開
+                e.preventDefault(); 
                 
                 const parentLi = targetLink.closest('li.dropdown');
                 
@@ -106,9 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 如果已展開，則關閉
                     parentLi.classList.remove('active');
                 } else {
-                    // 關閉所有其他已展開的子菜單
+                    // 關閉所有其他已展開的子菜單並展開當前
                     closeAllMobileSubmenus(); 
-                    // 展開當前子菜單
                     parentLi.classList.add('active');
                 }
             }
@@ -116,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ====================================================
-    // 5. 通用手風琴 (Accordion Component Logic)
+    // 5. 通用手風琴 (Accordion Component Logic) - 強化版
     // ====================================================
     
     const accordionContainer = document.querySelector('.accordion-container');
@@ -127,32 +114,65 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (header) {
                 const item = header.closest('.accordion-item');
+                const content = item.querySelector('.accordion-content');
+                const isMultiAccordion = accordionContainer.classList.contains('multi-accordion'); // 檢查是否為多開模式
+                const isCurrentlyActive = item.classList.contains('active');
                 
-                // 關閉所有非當前點擊的項目
-                document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
-                    if (activeItem !== item) {
-                        activeItem.classList.remove('active');
-                    }
-                });
+                // 如果不是多開模式 (單一開合)，則關閉所有非當前點擊的項目
+                if (!isMultiAccordion) {
+                    document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                        if (activeItem !== item) {
+                            activeItem.classList.remove('active');
+                            // 確保內容收合
+                            activeItem.querySelector('.accordion-content').style.maxHeight = 0;
+                            // A11Y 確保
+                            activeItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                }
                 
                 // 切換當前項目的狀態
                 item.classList.toggle('active');
+
+                // 實作平滑過渡 (需 CSS 配合 transition: max-height)
+                if (!isCurrentlyActive) {
+                    // 展開時：設定 max-height 為內容的實際高度 + 確保足夠的空間
+                    content.style.maxHeight = content.scrollHeight + 30 + "px"; 
+                    header.setAttribute('aria-expanded', 'true');
+                } else {
+                    // 收合時：設定 max-height 為 0
+                    content.style.maxHeight = 0;
+                    header.setAttribute('aria-expanded', 'false');
+                }
             }
+        });
+
+        // 初始化 A11Y 屬性：確保所有手風琴標頭都有 aria-expanded 屬性
+        document.querySelectorAll('.accordion-header').forEach((header, index) => {
+             header.setAttribute('aria-expanded', 'false');
+             
+             const item = header.closest('.accordion-item');
+             const content = item.querySelector('.accordion-content');
+             // 確保內容與標頭的 ID/Controls 關聯
+             const uniqueId = `acc-item-${index}`;
+             item.id = uniqueId;
+             content.id = `${uniqueId}-content`;
+             header.setAttribute('aria-controls', `${uniqueId}-content`);
+
+             // 初始化時確保內容是收合的 (max-height: 0)
+             content.style.maxHeight = 0;
         });
     }
 
-
     // ====================================================
     // 6. 圖片延遲載入 (Image Lazy Loading for SEO/Performance)
-    // 使用 Intersection Observer 實現原生級別的延遲載入
-    // 這是現代且高效能的優化方式
     // ====================================================
     
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
         
         const observerOptions = {
-            rootMargin: '0px 0px 200px 0px' // 在圖片進入視口前 200px 就開始載入
+            rootMargin: '0px 0px 200px 0px' 
         };
 
         const imageObserver = new IntersectionObserver(function(entries, observer) {
@@ -160,13 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const img = entry.target;
                     
-                    // 從 data-src 替換為 src
                     if (img.dataset.src) {
                         img.src = img.dataset.src;
-                        img.removeAttribute('data-src'); // 清理屬性
+                        img.removeAttribute('data-src'); 
                     }
                     
-                    // 針對 SEO/A11Y，處理 data-alt
                     if (img.dataset.alt) {
                         img.alt = img.dataset.alt;
                         img.removeAttribute('data-alt');
@@ -181,8 +199,6 @@ document.addEventListener('DOMContentLoaded', function() {
             imageObserver.observe(img);
         });
     } else {
-        // 如果瀏覽器不支援 Intersection Observer，則使用備用方案
-        // (例如直接載入所有圖片，或使用簡單的滾動事件監聽器)
         document.querySelectorAll('img[data-src]').forEach(img => {
             img.src = img.dataset.src;
             img.alt = img.dataset.alt || '';
@@ -192,12 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ====================================================
     // 7. 平滑滾動至錨點 (Smooth Scrolling for UX)
-    // 確保點擊錨點連結時，有平滑的動畫效果
     // ====================================================
     
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            // 排除單純作為容器的連結，例如手機菜單中的 dropdown 連結
             if (this.getAttribute('href') === '#') return;
             
             e.preventDefault();
@@ -208,10 +222,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetElement) {
                  // 關閉手機菜單
                  if (mainNav.classList.contains('active')) {
-                     menuToggle.click(); // 模擬點擊漢堡按鈕關閉菜單
+                     menuToggle.click(); 
                  }
                 
-                 // 計算滾動位置，減去固定 Header 的高度，防止內容被遮擋
+                 // 計算滾動位置，減去固定 Header 的高度
                  const headerHeight = header.offsetHeight;
                  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
                 
@@ -222,6 +236,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
     
 });
