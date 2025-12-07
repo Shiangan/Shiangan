@@ -151,7 +151,7 @@ section {
 
 /* 標題樣式 (流體字體與 ChenYu 搭配) */
 h1 {
-    font-family: 'ChenYu', 'Noto Serif TC', serif;
+    font-family: 'Iansui', 'Noto Serif TC', serif;
     font-size: clamp(2.5rem, 6vw, 3.5rem); 
     font-weight: 700;
     color: var(--primary-color);
@@ -302,7 +302,7 @@ header {
 
 /* 桌面版 Dropdown 樣式 */
 @media (min-width: 901px) {
-    #main-nav ul li.dropdown > a i.fa-chevron-down {
+    #main-nav ul li.dropdown > hover > .submenu,
         display: none !important;
     }
     
@@ -330,7 +330,7 @@ header {
     }
     
     .dropdown:hover > .submenu,
-    .dropdown.focus-within > .submenu { 
+        .dropdown:focus-within > .submenu { /* <--- 改用原生 :focus-within 偽類 */
         opacity: 1;
         visibility: visible;
         pointer-events: all;
