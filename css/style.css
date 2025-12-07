@@ -1,8 +1,9 @@
 /* ==================================================== */
-/* 核心通用性與相容性保障 (Foundation & Reset) - V13.1 (修正底線與風琴) */
+/* 核心通用性與相容性保障 (Foundation & Reset) - V1.0 */
 /* ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
+/* 假設您使用繁體中文字體，例如：辰魚落雁體或 Iansui */
 @font-face {
     font-family: 'ChenYu';
     src: url('../fonts/辰魚落雁體.ttf') format('truetype');
@@ -24,19 +25,15 @@ html {
     text-rendering: optimizeLegibility; 
     -ms-text-size-adjust: 100%;     
     -webkit-text-size-adjust: 100%; 
-    /* 修正：新增全域防止水平捲軸 */
     overflow-x: hidden; 
 }
 
-/* 全域重設與過渡：RWD 與 A11Y 強化 */
+/* 全域重設與優化 */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* 修正：使用更優雅的貝茲曲線，且只對需要平滑過渡的屬性使用 */
-    /* 這裡僅設置通用曲線，具體過渡應在目標元素上定義，減少全域性能消耗 */
-    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-    transition-duration: 0.3s;
+    /* 移除通用過渡，只在需要動畫的元件上定義 */
     
     /* 避免文字溢出到頁面外 (最終防線) */
     word-break: break-word;     
@@ -46,7 +43,7 @@ html {
     -webkit-tap-highlight-color: transparent; 
 }
 
-/* --- 核心修正：移除連結底線 --- */
+/* --- 核心修正：移除連結底線與繼承顏色 --- */
 a {
     text-decoration: none; /* 移除所有連結的底線 */
     color: inherit;
@@ -60,7 +57,7 @@ img, picture, video, canvas, svg {
     -webkit-user-drag: none;
 }
 
-/* 表格元素重設與繼承強化 (優化) */
+/* 表格元素重設與繼承強化 */
 input, button, textarea, select {
     font: inherit; /* 繼承字體 */
     color: inherit; /* 繼承文字顏色 */
@@ -73,11 +70,11 @@ table {
 
 
 /* ==================================================== */
-/* 品牌色與變數定義 (月光典雅金配色 - V13.1 專業模組化) */
+/* 品牌色與變數定義 (月光典雅金配色) */
 /* ==================================================== */
 :root {
-    /* --- 核心色調與文字：低飽和度的深藍綠與香檳金 --- */
-    --primary-color: #1A3440;   /* 深海墨綠 (更沉穩專業的主色) */
+    /* --- 核心色調與文字：深海墨綠與香檳金 --- */
+    --primary-color: #1A3440;   /* 深海墨綠 (穩重專業的主色) */
     --secondary-color: #7A899C; /* 次要文字/輔助線 (柔和藍灰) */
     --accent-color: #CBAE88;    /* 月光典雅金 (霧面香檳金，低調奢華) */
     --accent-color-hover: #E4C8A8; /* 香檳金懸停色 */
@@ -87,23 +84,20 @@ table {
     /* --- 背景與基礎：更輕盈的留白 --- */
     --bg-light: #FFFFFF;
     --bg-section: #F3F6F9;      /* 區塊輕背景 (比白色略深的霧白) */
-    --bg-accent-light: #fffcf4; /* 淺色強調背景 (訂購單 - 帶有金色底蘊) */
+    --bg-accent-light: #fffcf4; /* 淺色強調背景 (帶有金色底蘊) */
     --border-color: #E6EBF0;    /* 淺邊框 (更現代、柔和) */
 
-    /* --- 質感陰影 (更輕盈、更柔和、更擴散) --- */
+    /* --- 質感陰影 --- */
     --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.04); 
     --shadow-small: 0 4px 15px rgba(0, 0, 0, 0.05); 
-    --shadow-medium: 0 15px 45px rgba(0, 0, 0, 0.12); /* 更擴散、更飄浮的陰影 */
+    --shadow-medium: 0 15px 45px rgba(0, 0, 0, 0.12);
     --shadow-accent: 0 4px 20px rgba(203, 174, 136, 0.3); /* 品牌色光暈 */
-
-    /* --- 狀態色變數 --- */
-    --success-color: #4CAF50; 
-    --warning-color: #FFA000; 
-    --danger-color: #D32F2F;  
 
      /* --- Z-INDEX 系統 (專業模組化) --- */
     --z-base: 1;
-    --z-dropdown: 50;   
+    --z-dropdown: 50; 
+    --z-table-sticky: 70;
+    --z-table-header-corner: 80;  
     --z-sticky: 100;    /* Header */
     --z-fixed-cta: 990; /* 浮動 CTA */
     --z-modal: 1000;    /* 彈窗/側邊欄 */
@@ -116,16 +110,15 @@ table {
     --section-pad-v: 80px; 
     --content-max-width: 1200px;
     
-    /* --- 字體尺寸 (排版比例) --- */
+    /* --- 字體尺寸 --- */
     --font-size-base: 1rem;       /* 16px */
-    --font-size-large: 1.25rem;
-    --font-size-small: 0.875rem;
 }
 
 /* ==================================================== */
 /* 基礎樣式與排版 (Base Styles & Typography) */
 /* ==================================================== */
 body {
+    /* 優先使用 Iansui 或 Noto Sans TC 作為基礎字體 */
     font-family: 'Iansui', 'Noto Sans TC', sans-serif;
     line-height: 1.7;
     color: var(--text-dark);
@@ -137,7 +130,6 @@ body {
 /* 區塊輕背景增強 */
 .bg-section {
     background-color: var(--bg-section); 
-    /* 極細微漸層，製造光線層次 */
     background-image: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(243, 246, 249, 0.7) 100%);
 }
 
@@ -170,10 +162,13 @@ h2 {
     text-align: center;
     position: relative;
     margin-bottom: 40px; 
+    /* 核心優化：使用優雅的陳魚落雁體作為裝飾性標題 */
+    font-family: 'ChenYu', 'Iansui', sans-serif;
+    color: var(--primary-color);
 }
-/* H2 裝飾升級：簡潔圓點 */
+/* H2 裝飾升級：使用更簡潔的圓點 */
 h2::after {
-    content: '\2022'; 
+    content: '•'; 
     position: absolute;
     bottom: -15px;
     left: 50%;
@@ -188,6 +183,7 @@ h3 {
     font-size: clamp(1.3rem, 4vw, 1.8rem);
     font-weight: 500;
     margin-bottom: 15px;
+    color: var(--primary-color);
 }
 p {
     font-size: 1.05rem; 
@@ -204,9 +200,8 @@ p {
 /* ==================================================== */
 /* Header & Navigation */
 /* ==================================================== */
-header {
+.main-header {
     background-color: var(--bg-light);
-    /* 強化 Header 陰影，讓它看起來更浮動 */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); 
     position: sticky;
     top: 0;
@@ -215,34 +210,32 @@ header {
     justify-content: space-between;
     align-items: center;
     min-height: var(--header-height);
-    padding: 10px 0;
-    /* 處理左右和頂部安全區域 */
-    padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
-    padding-right: max(var(--safe-area-pad-h), env(safe-area-inset-right));
+    padding: 10px var(--safe-area-pad-h); 
+    /* 處理頂部安全區域 */
     padding-top: calc(10px + env(safe-area-inset-top));
 }
 
-.logo a {
+.logo { 
+    font-family: 'ChenYu', 'Iansui', sans-serif; /* Logo使用特殊字體 */
     font-size: 1.8rem;
     font-weight: 900;
     letter-spacing: 1.5px; 
     white-space: nowrap;
-    color: var(--accent-color) !important; 
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color); 
+}
+.logo a {
+    color: var(--primary-color); 
 }
 
-/* ==================================================== */
-/* 主導航容器 (RWD 專用：垂直佈局修正) */
-/* ==================================================== */
-#main-nav ul {
+/* 桌面導航樣式 */
+.main-nav ul {
     display: flex;
-    flex-direction: column; 
-    gap: 30; 
+    flex-direction: row; 
+    gap: 30px; 
+    list-style: none; 
+    margin: 0; 
 }
-
-
-/* 連結樣式修正 */
-#main-nav a {
+.main-nav a {
     display: block; 
     color: var(--primary-color);
     padding: 15px 0; 
@@ -250,193 +243,115 @@ header {
     position: relative;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    box-sizing: border-box;
+    transition: color 0.3s; 
 }
-
-#main-nav a:hover,
-#main-nav a.active {
+.main-nav a:hover,
+.main-nav a.active {
     color: var(--accent-color);
     font-weight: 700;
-     background-color: transparent;
 }
 
-/* --- 核心修正：移除導航底線/亮條 --- */
-#main-nav > ul > li > a::after {
-    display: none !important; 
-    content: none !important;
-}
-
-/* 聯絡按鈕修正 */
-.contact-nav {
-    /* 桌面版只包含按鈕本身 */
-    width: auto;
-    padding: 0; 
-}
-
-.contact-nav a {
-    display: block; 
-    text-align: center;
-    background-color: var(--accent-color);
-    color: var(--primary-color) !important; 
-    padding: 12px 20px; 
-    border-radius: 50px;
-    font-weight: 600;
-    box-shadow: var(--shadow-accent);
-    line-height: 1.2; 
-    border: 1px solid var(--accent-color); 
-    width: auto; 
-}
-.contact-nav a:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--shadow-accent);
-    background-color: var(--accent-color-hover);
-    border-color: var(--accent-color-hover);
+/* --- 漢堡選單按鈕 (桌面隱藏) --- */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--primary-color);
 }
 
 /* Dropdown (桌面 L2 選單樣式) */
-#main-nav ul li.has-dropdown {
+.main-nav ul li.dropdown { 
     position: relative;
 }
-
-
-#main-nav ul li.has-dropdown a i.fa-chevron-down {
+.main-nav ul li.dropdown a {
+    display: flex; 
+    align-items: center;
+}
+.main-nav ul li.dropdown a i {
     font-size: 0.8em;
     margin-left: 5px; 
-    margin-right: 0; 
     transition: transform 0.3s ease;
 }
 
-
 /* 下拉選單 (L2) 樣式 - 桌面浮動模式 */
-.submenu {
+.main-nav .dropdown ul { 
+    display: block; 
     position: absolute; 
     top: 100%; 
     left: 0;
     transform: translateY(10px); 
-    
     width: 250px; 
-    
     background-color: var(--bg-light); 
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: var(--shadow-medium); 
-    
-    /* 核心收合屬性 */
-    max-height: none;
     padding: 10px 0;
-    overflow: visible; 
     opacity: 0; 
     visibility: hidden; 
     pointer-events: none; 
-    
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     z-index: var(--z-dropdown); 
 }
 
-
-/* L1 懸停/聚焦時顯示 L2 選單 (CSS Only - Hover) */
-#main-nav ul li.has-dropdown:hover > .submenu,
-#main-nav ul li.has-dropdown:focus-within > .submenu {
-    max-height: none; 
-    padding: 10px 0; 
+.main-nav ul li.dropdown:hover > ul {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
     transform: translateY(0); 
-    border-top: none;
-    border-bottom: none;
 }
 
-
-
-/* L1 懸停/聚焦/Active 時旋轉小箭頭 */
-#main-nav ul li.has-dropdown:hover > a i.fa-chevron-down,
-#main-nav ul li.has-dropdown:focus-within > a i.fa-chevron-down,
-#main-nav ul li.has-dropdown.active > a i.fa-chevron-down {
-    transform: rotate(180deg);
-}
-
-
-
-/* 次選單標題 - 桌面版樣式 */
-.submenu .submenu-title {
+.main-nav .dropdown ul li a {
     padding: 10px 20px; 
-    color: var(--secondary-color);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    font-size: 0.9em;
+    font-weight: 400;
 }
-
-/* 次選單中的分隔線 - 桌面版啟用 */
-.submenu .submenu-separator {
-    display: block; 
-    height: 1px;
-    background-color: var(--border-color);
-    margin: 5px 0;
-}
-
-
-/* 次選單連結 */
-.submenu li a {
-    padding: 10px 20px; 
-    color: var(--text-dark);
-    font-size: 1rem;
-    display: block;
-}
-
-.submenu li a:hover {
+.main-nav .dropdown ul li a:hover {
     background-color: var(--bg-section);
     color: var(--accent-color);
-}
-
-/* 確保 L2 選單連結沒有亮條動畫 */
-.submenu li a::after {
-    display: none !important; 
 }
 
 
 /* ==================================================== */
 /* Hero & CTA */
 /* ==================================================== */
-.hero-section {
+.hero-banner { 
     height: 70vh; 
-    min-height: 500px;
+    min-height: 550px;
+    /* 建議使用高品質背景圖，例如： hero-image.jpg */
+    /* background-image: url('hero-image.jpg'); */ 
     background-size: cover;
     background-position: center;
-    background-attachment: scroll; 
+    background-attachment: fixed; /* 視覺優化：視差滾動效果 */
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     text-align: center;
 }
-@media (min-width: 1025px) {
-    .hero-section {
-        background-attachment: fixed;
-    }
-}
 
-.hero-section::before {
+.hero-banner::before {
     content: '';
     position: absolute;
     inset: 0;
-    /* 升級：增加背景沉穩度 */
-    background-color: rgba(26, 52, 64, 0.85); 
-    backdrop-filter: blur(2px); /* 毛玻璃濾鏡，增加圖片景深與文字對比 */
+    /* 增加背景沉穩度，使用深墨綠半透明遮罩 */
+    background-color: rgba(26, 52, 64, 0.88); 
+    backdrop-filter: blur(1px); /* 輕微毛玻璃，增強文字對比 */
     z-index: var(--z-base); 
 }
-.hero-content {
+.hero-banner > * {
     position: relative;
     z-index: calc(var(--z-base) + 1);
-    padding: 20px;
-    max-width: 900px;
 }
-.hero-content h1 {
+.hero-banner h1 {
     font-size: clamp(2.5rem, 6vw, 4.5rem); 
-    color: white;
+    color: var(--text-light);
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     margin-bottom: 25px;
+    font-family: 'ChenYu', 'Iansui', sans-serif;
 }
-.hero-content p {
+.hero-banner p {
     color: var(--text-light);
     font-size: clamp(1rem, 3vw, 1.3rem);
     margin-bottom: 40px;
@@ -444,156 +359,189 @@ header {
     letter-spacing: 1px;
 }
 
-/* CTA 按鈕組件化 */
+/* CTA 按鈕組件化 (Primary) */
 .cta-button {
     display: inline-block;
     padding: 0.875em 1.875em; 
-    border-radius: 8px;
+    border-radius: 50px; /* 圓角更柔和 */
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 1.5px;
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--shadow-accent);
     border: none;
     cursor: pointer;
     text-align: center;
-    transition: all 0.3s ease;
+    /* 加入按鈕過渡 */
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     line-height: 1.2;
+    text-transform: uppercase;
 }
 .cta-button:hover,
-.cta-button:focus-visible { /* A11Y 強化 */
+.cta-button:focus-visible { 
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 30px rgba(203, 174, 136, 0.55);
 }
-.cta-button.primary {
+.cta-button {
     background-color: var(--accent-color);
     color: var(--primary-color);
     border: 2px solid var(--accent-color);
 }
-.cta-button.primary:hover,
-.cta-button.primary:focus-visible {
+.cta-button:hover {
     background-color: var(--accent-color-hover);
     border-color: var(--accent-color-hover);
 }
 
-.cta-button.secondary {
-    background-color: var(--primary-color);
-    color: white;
-    border: 2px solid var(--primary-color);
-}
-.cta-button.secondary:hover,
-.cta-button.secondary:focus-visible {
-    background-color: #2F596E; 
-    border-color: #2F596E;
-}
-.cta-button.small {
-    padding: 0.5em 1em;
-    font-size: 0.9rem;
-    text-transform: none;
-    font-weight: 500;
-    box-shadow: var(--shadow-light);
-}
-.cta-button.large {
-    padding: 1.125em 2.5em;
-    font-size: 1.2rem;
-}
-
 
 /* ==================================================== */
-/* Commitment & Card Grid */
+/* Service Category & Commitments */
 /* ==================================================== */
-.card-grid {
+
+.service-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
-    margin-top: 20px;
-}
-.card-item {
-    background-color: var(--bg-light);
-    padding: 35px; 
-    box-shadow: var(--shadow-small);
-    border: 1px solid var(--border-color);
-    border-radius: 16px; 
-    border-left: 8px solid var(--accent-color); 
-    height: 100%;
-    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
+    margin-top: 50px;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.card-item:hover,
-.card-item:focus-visible { 
-    transform: translateY(-8px); 
+.service-item, .core-commitments div {
+    background-color: var(--bg-light);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-small);
+    border-top: 5px solid var(--accent-color); /* 強調色頂線 */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.service-item:hover, .core-commitments div:hover {
+    transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
 }
-
-.card-item .icon {
-    font-size: 3.5rem; 
-    color: var(--accent-color);
-    margin-bottom: 20px;
-    display: block;
+.service-item p, .core-commitments p {
+    margin: 0;
+    font-size: 1rem;
+    max-width: none;
 }
-.card-item h3 {
+.details-link {
+    display: block;
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 600;
+    color: var(--accent-color);
+    transition: color 0.3s;
+}
+.details-link:hover {
     color: var(--primary-color);
 }
-.card-item p {
-    flex-grow: 1;
-    margin-bottom: 0;
-}
 
-/* Trust Section Special */
-.trust-section .card-item {
-    border-left: none;
-    text-align: center;
+/* 核心承諾區塊 */
+.core-commitments .commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
 }
-.trust-section .card-item i.fas {
-    font-size: 2.5rem; 
-    margin-bottom: 15px;
-}
-.trust-section .card-item .cta-button {
-    margin-top: 15px;
+.core-commitments .commitment-grid h3 {
+    margin-bottom: 10px;
+    font-weight: 700;
 }
 
 
-/* Flow Chart Style */
-.flow-chart ol {
+/* 服務流程 */
+.service-process {
+    background-color: var(--bg-section);
+}
+.service-process .process-steps {
+    list-style: none;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    list-style: none;
     padding: 20px 0;
-    gap: 30px; 
+    gap: 40px; /* 增加間距 */
 }
-.flow-chart li {
-    background-color: var(--bg-section);
+.service-process li {
+    background-color: var(--bg-light);
     border: 1px solid var(--border-color);
-    padding: 15px 30px; 
+    padding: 12px 25px; 
     border-radius: 50px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--primary-color);
     position: relative;
     white-space: nowrap;
     box-shadow: var(--shadow-light);
+    transition: background-color 0.3s;
 }
-.flow-chart li:not(:last-child)::after {
+.service-process li:hover {
+    background-color: var(--bg-accent-light);
+}
+.service-process li:not(:last-child)::after {
     content: '→';
     position: absolute;
-    right: -35px; 
+    right: -30px; 
     top: 50%;
     transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--accent-color);
     font-weight: 300;
-    color: var(--secondary-color);
 }
 
+/* Trust CTA 專區 */
+.trust-cta { 
+    text-align: center;
+    padding: 60px 0;
+    background-color: var(--primary-color); /* 使用主色作為背景，強烈對比 */
+    color: var(--text-light);
+}
+.trust-cta h2 {
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+.trust-cta h2::after {
+    color: var(--accent-color);
+}
+.trust-cta ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 800px;
+}
+.trust-cta li {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    box-shadow: var(--shadow-medium);
+}
+.trust-cta .phone-number {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #FF6B6B; /* 使用柔和的緊急紅色 */
+    display: inline-block;
+    margin-top: 15px;
+    letter-spacing: 1px;
+}
+
+
 /* ==================================================== */
-/* Accordion (手風琴) Style - A11Y 強化與優化 */
+/* Accordion (手風琴) Style - FAQ */
 /* ==================================================== */
+.faq-section { 
+    padding: var(--section-pad-v) 0;
+}
 .accordion-container {
     max-width: 850px;
     margin: 30px auto;
 }
-
-.accordion-item {
+.faq-item { 
     border: 1px solid var(--border-color);
     border-radius: 12px; 
     margin-bottom: 15px;
@@ -602,11 +550,10 @@ header {
     box-shadow: var(--shadow-small);
     transition: box-shadow 0.3s;
 }
-.accordion-item:hover {
+.faq-item:hover {
     box-shadow: var(--shadow-medium);
 }
-
-.accordion-header {
+.faq-item summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -616,1610 +563,233 @@ header {
     font-weight: 700;
     color: var(--primary-color);
     cursor: pointer;
-    background: none;
-    border: none;
-    text-align: left;
     transition: background-color 0.3s;
+    list-style: none; 
 }
-.accordion-header:hover,
-.accordion-header:focus-visible { 
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+.faq-item summary:hover,
+.faq-item summary:focus-visible { 
     background-color: #fcfcfc;
-}
-
-.accordion-item.active .accordion-header {
-    background-color: var(--bg-section);
     color: var(--accent-color);
 }
-
-.accordion-header i {
+.faq-item summary::after {
+    content: '+'; /* 替換為 + 符號，視覺更簡潔 */
+    font-size: 1.5rem;
     color: var(--accent-color);
-    margin-right: 15px;
-    transition: transform 0.3s ease;
-}
-
-/* 展開/收合箭頭 */
-.accordion-header::after {
-    content: '\25BC';
-    font-size: 0.8rem;
-    color: var(--secondary-color);
     transition: transform 0.3s ease, color 0.3s;
+    line-height: 1;
+    font-weight: 300;
 }
 
-.accordion-item.active .accordion-header::after {
-    transform: rotate(180deg);
+.faq-item[open] summary {
+    background-color: var(--bg-accent-light);
     color: var(--accent-color);
 }
-
-.accordion-content {
-    /* 核心修正：max-height 用於平滑過渡 */
-    max-height: 0; 
-    overflow: hidden;
-    padding: 0 25px;
-    /* 修正：過渡應包含 padding-bottom */
-    transition: max-height 0.4s cubic-bezier(0.65, 0.05, 0.36, 1), padding-bottom 0.4s cubic-bezier(0.65, 0.05, 0.36, 1); 
+.faq-item[open] summary::after {
+    content: '-'; /* 展開時變為 - 符號 */
+    transform: rotate(0deg); 
+    color: var(--accent-color);
 }
-
-/* JS 展開時，設定一個足夠大的高度並賦予底部填充 */
-.accordion-item.active .accordion-content {
-    max-height: 500px; /* 這裡應由 JS 計算，純 CSS 只能用大值模擬 */
-    padding-bottom: 20px; 
-}
-
-
-.accordion-content p {
-    padding-top: 10px;
-    margin-bottom: 0;
+.faq-item p {
+    padding: 0 25px 20px; 
+    margin: 0;
     text-align: left;
-    max-width: 100%;
-}
-
-/* Services Page 特有手風琴樣式 */
-.service-page-accordion .accordion-header {
-    font-size: 1.25rem;
-}
-.service-page-accordion .accordion-content ul {
-    list-style: disc;
-    padding-left: 20px;
-    margin: 10px 0 20px 0;
-}
-.service-page-accordion .accordion-content li {
-    margin-bottom: 8px;
-    line-height: 1.6;
 }
 
 
 /* ==================================================== */
 /* Footer & Floating CTA */
 /* ==================================================== */
-footer {
+.main-footer {
     position: relative; 
-    z-index: auto; 
     background-color: var(--primary-color);
     color: var(--bg-section);
-    padding: var(--section-pad-v) 0; 
+    padding: var(--section-pad-v) 0 40px; 
     font-size: 0.95rem; 
 }
-.footer-grid {
-    grid-template-columns: 2.5fr 1.5fr 1.5fr 1.5fr;
+.main-footer .footer-content { 
+    grid-template-columns: 2.5fr 1.5fr 1.5fr; 
     gap: 30px;
     padding-bottom: 40px; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     display: grid;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding-left: var(--safe-area-pad-h);
+    padding-right: var(--safe-area-pad-h);
 }
-.footer-grid h4 {
+.main-footer .footer-content h4 {
+    font-family: 'ChenYu', 'Iansui', sans-serif;
     color: var(--accent-color);
     font-size: 1.25rem; 
     margin-bottom: 18px;
 }
-.footer-grid a {
+.main-footer .footer-content a {
     color: var(--text-light);
     display: block;
     padding: 5px 0;
     font-size: 1rem; 
     transition: color 0.3s;
 }
-.footer-grid a:hover {
+.main-footer .footer-content a:hover {
     color: var(--accent-color-hover);
 }
-.footer-logo {
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--text-light);
+.main-footer .footer-content address {
+    font-style: normal;
 }
-
-/* 浮動 CTA 質感與位置精確調整 */
-.floating-cta {
-    position: fixed;
-    z-index: var(--z-fixed-cta); 
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-
-    /* 確保右側和底部都考慮到安全區域 */
-    right: max(25px, env(safe-area-inset-right));
-    bottom: max(25px, env(safe-area-inset-bottom));
-}
-
-.floating-cta a {
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 2.2rem;
-    background-color: var(--accent-color);
-    color: var(--primary-color);
-    border-radius: 50%;
-    text-align: center;
-    box-shadow: var(--shadow-medium);
-    /* 升級：使用 Spring 彈跳曲線，動畫更生動 */
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
-}
-.floating-cta a:hover {
-    transform: scale(1.15); 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* ==================================================== */
-/* 專業服務頁面細節樣式 (Service Details Page) */
-/* ==================================================== */
-
-/* 1. 通用區塊填充 (Vertical Padding) */
-.container-v-padding {
-    padding-top: 60px;
-    padding-bottom: 60px;
-}
-/* 響應式調整 */
-@media (max-width: 768px) {
-    .container-v-padding {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-}
-
-/* 2. 服務細節網格 (Service Details Grid) */
-.service-details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 50px; 
-    align-items: center; 
-    margin-top: 40px;
-}
-
-/* 手機響應式：堆疊排列 */
-@media (max-width: 992px) {
-    .service-details-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-}
-
-/* 圖片區塊樣式 */
-.details-image {
-    background-color: var(--bg-section);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-medium);
-}
-.details-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-/* 視覺互動效果 */
-.details-image:hover img {
-    transform: scale(1.03);
-}
-
-/* 文字區塊標題 */
-.details-text h3 {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    /* 國際化預留：使用邏輯屬性 border-inline-start */
-    border-inline-start: 5px solid var(--accent-color); 
-    padding-inline-start: 15px;
-    margin-bottom: 25px;
-}
-
-/* 內容列表樣式 (重點強調服務項目) */
-.details-text ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.details-text li {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px dashed var(--border-color);
-    color: var(--text-dark);
-}
-.details-text li:last-child {
-    border-bottom: none;
-}
-.details-text li i {
-    color: var(--secondary-color); 
-    margin-right: 12px;
-    font-size: 1.25rem;
-}
-.details-text li strong {
-    color: var(--primary-color);
-    font-weight: 700;
-}
-
-
-/* 逆序排列 (用於道教區塊) */
-.service-details-grid.reverse-order {
-    /* 確保在桌面版上，圖片在左，文字在右 */
-    direction: rtl; 
-    text-align: left;
-}
-/* 針對內容單獨修正方向 */
-.service-details-grid.reverse-order > .details-image,
-.service-details-grid.reverse-order > .details-text {
-    direction: ltr;
-}
-/* 手機響應式修正：在單欄模式下恢復正常閱讀順序 */
-@media (max-width: 992px) {
-    .service-details-grid.reverse-order {
-        direction: ltr; 
-    }
-}
-
-
-/* 3. 筆記提示與專業保證區塊 (Note Tip/E-E-A-T Block) */
-.note-tip {
-    padding: 25px 30px;
-    border-radius: 8px;
-    background-color: var(--bg-section);
-    border-left: 6px solid var(--secondary-color); 
-    font-size: 1.1rem;
-    color: var(--text-dark);
-    margin: 40px auto;
-    line-height: 1.6;
-    box-shadow: var(--shadow-small);
-}
-.note-tip i {
-    color: var(--secondary-color);
-    margin-right: 10px;
+.footer-phone {
     font-size: 1.4rem;
-    vertical-align: middle;
-}
-.note-tip strong {
     font-weight: 700;
-    color: var(--primary-color);
-}
-
-
-/* 專業保證提示 (E-E-A-T 強化) */
-.note-tip.professional-tip {
-    border-left: 6px solid var(--accent-color); 
-    background-color: var(--bg-light); 
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
-.note-tip.professional-tip i {
-    color: var(--accent-color);
-}
-.note-tip.professional-tip strong {
-    color: var(--accent-color);
-}
-
-/* 4. 底部 CTA 區塊樣式修正 */
-.final-cta-plans { 
-    padding: 60px 0;
-    background-color: var(--bg-section);
-}
-.final-cta-plans h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
     margin-bottom: 15px;
 }
-.final-cta-plans .section-subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 30px;
-}
 
-
-
-/* =========================================== */
-/* 內頁：關於我們 (About Page) 專屬樣式 */
-/* =========================================== */
-.profile-detail {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-    margin-top: 30px;
-}
-.profile-image-container {
-    flex: 0 0 350px;
-    position: relative;
-    box-shadow: var(--shadow-medium);
-    border-radius: 12px; 
-    overflow: hidden;
-    background-color: var(--bg-section);
-}
-.profile-image {
-    width: 100%;
-    height: 450px;
-    background-size: cover;
-    background-position: top center;
-    border-radius: 12px;
-    filter: grayscale(10%);
-    transition: filter 0.5s ease;
-}
-.profile-image:hover {
-    filter: grayscale(0%) brightness(1.05); 
-}
-.certifications {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.cert-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--primary-color); 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
-}
-.cert-tag i {
-    margin-right: 8px;
-}
-.cert-national {
-    background-color: var(--accent-color); 
-}
-.cert-experience {
-    background-color: var(--bg-light); 
-    border: 1px solid var(--accent-color);
-}
-.cert-national i {
-    color: var(--primary-color);
-}
-.cert-experience i {
-    color: var(--accent-color);
-}
-.E-E-A-T-list {
-    margin-top: 20px;
-    margin-bottom: 25px;
-    list-style: none;
-    padding-left: 0;
-    border-left: 3px solid var(--accent-color);
-    padding-left: 20px;
-}
-.E-E-A-T-list li {
-    margin-bottom: 12px;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-.E-E-A-T-list li i {
-    color: var(--accent-color);
-    margin-right: 10px;
-    font-size: 1.1rem;
-}
-.profile-text .signature {
-    font-family: 'Iansui', 'Noto Serif TC', serif;
-    font-style: italic;
-    color: var(--secondary-color);
-    margin-top: 30px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 10px;
-}
-
-
-/* =========================================== */
-/* 內頁：聯絡我們 (Contact Page) 樣式補充 */
-/* =========================================== */
-.contact-grid-2col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    align-items: stretch;
-}
-.contact-form label {
-    margin-top: 15px;
-    margin-bottom: 5px;
-    display: block;
-    font-weight: 700;
-}
-.contact-form input[type="text"],
-.contact-form input[type="tel"],
-.contact-form input[type="email"],
-.contact-form select,
-.contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px; 
-    box-sizing: border-box;
-    font-size: 1rem;
-}
-.contact-form input:focus,
-.contact-form select:focus,
-.contact-form textarea:focus {
-    /* 升級：使用品牌金邊框和光暈 */
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(203, 174, 136, 0.4); 
-    outline: none;
-}
-.contact-info-card p .icon,
-.contact-info-card address .icon {
-    color: var(--primary-color);
-    margin-right: 8px;
-}
-.contact-info-card h3 {
-    margin-top: 0;
-}
-.map-container {
-    box-shadow: var(--shadow-small);
-    border-radius: 10px; 
-    overflow: hidden;
-}
-
-/* --- 表單狀態樣式 (新增：驗證回饋) --- */
-
-/* 錯誤狀態 (由 JS 驗證失敗時添加 .error 類別) */
-.contact-form input.error,
-.contact-form textarea.error {
-    border-color: var(--danger-color); 
-}
-.contact-form input.error:focus,
-.contact-form textarea.error:focus {
-    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.4);
-}
-.contact-form .error-message {
-    color: var(--danger-color);
-    font-size: var(--font-size-small);
-    margin-top: 5px;
-    margin-bottom: 0;
-}
-
-/* 成功狀態 */
-.contact-form input.success,
-.contact-form textarea.success {
-    border-color: var(--success-color); 
-}
-
-
-/* ==================================================== */
-/* 內頁：殯葬百科 (Blog Page) 樣式 */
-/* ==================================================== */
-.blog-page-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 40px;
-    align-items: flex-start;
-}
-.blog-sidebar {
-    padding: 20px 0;
-    position: sticky;
-    top: calc(var(--header-height) + 30px); 
-}
-.blog-sidebar h3 {
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-.category-list li a {
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: 8px;
-    border-radius: 8px; 
-    color: var(--text-dark);
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s, color 0.3s;
-}
-.category-list li a:hover,
-.category-list li a.active {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-}
-.category-list li a i {
-    color: var(--secondary-color);
-    margin-right: 10px;
-    transition: color 0.3s;
-}
-.category-list li a:hover i,
-.category-list li a.active i {
-    color: var(--text-light);
-}
-
-/* 文章列表與卡片 */
-.article-list {
-    min-width: 0;
-}
-.article-list h2 {
-    font-size: 1.8rem;
-    padding-bottom: 0;
-    margin-bottom: 10px;
-    text-align: left !important;
-}
-.article-list h2::after {
-    display: none;
-}
-.article-list .blog-icon {
-    color: var(--primary-color);
-    margin-right: 10px;
-}
-.separator-line {
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 30px;
-}
-.blog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-}
-.blog-card {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px; 
-    box-shadow: var(--shadow-small);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-.blog-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-medium);
-}
-/* 圖片比例固定 (現代 CSS 優化) */
-.blog-card img {
-    width: 100%;
-    aspect-ratio: 16 / 9; 
-    object-fit: cover;
-    border-radius: 8px; 
-    margin-bottom: 15px;
-}
-.blog-card h3 {
-    font-size: 1.4rem;
-    margin-top: 0;
-    margin-bottom: 10px;
-    min-height: 3.6rem; 
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    overflow-wrap: break-word; 
-}
-.blog-card p {
-    font-size: 0.95rem;
-    margin-bottom: 15px;
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-}
-.blog-card .meta-info {
-    font-size: 0.85rem;
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-}
-.read-more-link {
-    font-weight: 700;
-    color: var(--accent-color);
-    display: inline-block;
-    margin-top: 10px;
-}
-.read-more-link:hover {
-    color: var(--primary-color);
-}
-.pagination {
-    margin-top: 50px;
-    padding: 10px 0;
+.copyright {
     text-align: center;
+    padding-top: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    padding-left: var(--safe-area-pad-h);
+    padding-right: var(--safe-area-pad-h);
 }
-.pagination a {
-    color: var(--primary-color);
-    padding: 10px 18px;
-    border: 1px solid var(--border-color);
-    margin: 0 4px;
-    border-radius: 6px; 
-    font-weight: 500;
-}
-.pagination a.active, .pagination a:hover {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    border-color: var(--primary-color);
-}
-
-
-/* --- 文章詳情頁 (Article Detail) 樣式 --- */
-/* 文章主體容器 */
-.article-detail {
-    min-width: 0;
-    padding: 0 15px;
-}
-.article-detail h1 {
-    font-size: 2.5rem;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-/* 確保文章內的小標題左對齊 */
-.article-detail h2,
-.article-detail h3 {
-    text-align: left !important;
-    position: relative;
-    padding-left: 20px;
-}
-/* 讓文章內 H2 有左側色條 */
-.article-detail h2 {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    margin-top: 40px;
-    margin-bottom: 15px;
-    /* 國際化預留：使用邏輯屬性 border-inline-start */
-    border-inline-start: 5px solid var(--accent-color); 
-    padding-inline-start: 15px;
-}
-/* 內文中的圖片 */
-.article-detail img {
-    margin: 20px auto;
-    border-radius: 10px; 
-    box-shadow: var(--shadow-small);
-}
-
-/* 文章頁的引用區塊 */
-.article-detail blockquote {
-    border-left: 5px solid var(--secondary-color);
-    padding: 20px 25px;
-    margin: 30px 0;
-    background-color: var(--bg-section);
-    border-radius: 6px;
-    font-style: italic;
-    color: var(--text-dark);
-}
-
-/* 文章頁的列表樣式 */
-.article-detail ul {
-    list-style: disc;
-    padding-left: 30px;
-    margin-bottom: 25px;
-}
-.article-detail ul li {
-    margin-bottom: 10px;
-    line-height: 1.7;
-    color: #444;
-}
-
-
-/* =========================================== */
-/* 內頁：花禮訂購 (Order Page) 專屬樣式 */
-/* ==================================================== */
-.grid-2-cols {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-.grid-3-cols {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-}
-.delivery-guarantee {
-    background-color: var(--bg-section);
-    padding: 25px; 
-    border-radius: 10px; 
-    box-shadow: var(--shadow-small);
-}
-.delivery-guarantee p {
-    margin: 0;
-    font-size: 1.05rem; 
-    font-weight: 500;
-}
-.delivery-guarantee p i {
-    margin-right: 8px;
-    font-size: 1.2rem;
-}
-.product-showcase {
-    margin-bottom: 40px !important;
-}
-.product-card {
-    border: 1px solid var(--border-color);
-    padding: 20px; 
-    border-radius: 10px; 
-    box-shadow: var(--shadow-small);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-.product-card:hover {
-    box-shadow: var(--shadow-medium);
-    transform: translateY(-3px);
-}
-.product-card img {
-    width: 100%;
-    aspect-ratio: 16 / 9; 
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
-.product-card h3 {
-    font-size: 1.3rem;
-    color: var(--primary-color);
-    margin: 5px 0 10px;
-}
-.product-card .product-description {
-    font-style: italic;
-    font-size: 0.9rem;
-    color: #666;
-}
-.custom-order-promo {
-    padding: 30px; 
-    border: 2px solid var(--accent-color);
-    border-radius: 10px; 
-    background-color: var(--bg-accent-light); 
-}
-.order-form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px; 
-    box-shadow: var(--shadow-medium);
-}
-.order-form .form-section-title {
-    margin-top: 40px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
-    font-size: 1.5rem; 
-    color: var(--secondary-color);
-}
-.order-form .form-tip {
-    font-size: 0.95rem;
-    color: gray;
-    margin-top: 10px;
-}
-.order-form .final-reminder {
-    color: var(--danger-color) !important;
-    font-weight: 700;
-}
-.order-form input[type="text"],
-.order-form input[type="tel"],
-.order-form input[type="date"],
-.order-form select,
-.order-form textarea {
-    width: 100%;
-    padding: 12px; 
-    margin-top: 5px;
-    border: 1px solid var(--border-color); 
-    border-radius: 6px;
-    box-sizing: border-box;
-}
-.order-form input:focus,
-.order-form select:focus,
-.order-form textarea:focus {
-    /* 升級：使用品牌金邊框和光暈 */
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(203, 174, 136, 0.4); 
-    outline: none;
-}
-
-.payment-options {
-    margin-top: 10px;
-    gap: 15px !important;
-}
-.payment-box {
-    display: block;
-    padding: 18px; 
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: left;
-    position: relative;
-    border: 2px solid transparent; 
-}
-.payment-box input[type="radio"] {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 1.2em;
-    height: 1.2em;
-}
-.payment-box h4 {
-    margin: 0 0 5px;
-    font-size: 1.2rem;
-}
-.payment-box .payment-instruction {
-    font-size: 0.9rem;
-    color: #555;
-    font-weight: 500;
-}
-/* 支付選項點擊或選中時的樣式 */
-.payment-box:has(input[type="radio"]:checked),
-.payment-box:hover {
-    border-color: var(--accent-color);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.line-pay {
-    background-color: #e6f7e6;
-    border: 2px solid var(--success-color); 
-}
-.bank-transfer {
-    background-color: #f1f6f8; 
-    border: 2px solid var(--primary-color);
-}
-
-
-/* =========================================== */
-/* 內頁：服務流程 (Services Page) 專屬樣式 */
-/* =========================================== */
-.card-grid.grid-4-cols {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
-}
-.service-card {
-    padding-bottom: 30px;
-    position: relative;
-    text-align: left;
-}
-.service-card h3 {
-    min-height: 2.5rem;
-}
-.service-card .sub-link {
-    /* 移除絕對定位，使其自然在底部定位 */
-    position: static; 
-    margin-top: auto; 
-    display: inline-block;
-    color: var(--accent-color);
-    font-weight: 700;
-    font-size: 1rem; 
-    /* 修正：在 service-card 中靠左 */
-    align-self: flex-start; 
-}
-.service-card .sub-link:hover {
-    color: var(--primary-color);
-    text-decoration: underline;
-}
-.cta-services-footer {
-    background-color: var(--bg-section);
-    padding: 40px; 
-    margin-top: 50px;
-}
-.guarantee-points p {
-    font-size: 1.1rem; 
-    font-weight: 500;
-    margin: 5px 0;
-}
-.guarantee-points p i {
-    margin-right: 10px;
-    font-size: 1.3rem;
-    color: var(--accent-color); 
-}
-
 
 /* ==================================================== */
-/* 方案與價格頁 (Plans Detail) 樣式 - 價格卡片網格 */
-/* ==================================================== */
-
-/* 方案卡片網格 */
-.price-grid {
-    display: grid;
-    /* 預設三欄，確保在寬螢幕上有良好的排版 */
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 30px;
-    margin-top: 40px;
-}
-
-/* 響應式優化：平板與手機 */
-@media (max-width: 992px) {
-    .price-grid {
-        grid-template-columns: repeat(2, 1fr); /* 平板兩欄 */
-    }
-}
-@media (max-width: 600px) {
-    .price-grid {
-        grid-template-columns: 1fr; /* 手機單欄 */
-    }
-}
-
-/* 單一價格卡片 */
-.price-card {
-    background: var(--bg-light);
-    border-radius: 16px; 
-    box-shadow: var(--shadow-small);
-    text-align: center;
-    overflow: hidden;
-    padding: 0;
-    border: 3px solid var(--border-color); 
-    transition: all 0.3s ease;
-}
-
-/* 懸停效果：略微放大並改變邊框顏色 */
-.price-card:hover {
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    border-color: var(--secondary-color);
-}
-
-/* 特色方案標註 */
-.price-card.featured-plan {
-    border-color: var(--accent-color); 
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
-}
-@media (max-width: 600px) {
-    .price-card.featured-plan {
-        transform: scale(1.02); 
-    }
-}
-
-
-.price-card header {
-    padding: 30px 20px 20px;
-    background-color: var(--bg-section);
-}
-.price-card.featured-plan header {
-    background-color: var(--bg-accent-light); 
-}
-.price-card.featured-plan .plan-title {
-    color: var(--primary-color);
-}
-
-
-.price-card .plan-title {
-    font-size: 2rem; 
-    color: var(--primary-color);
-    margin: 0;
-    font-weight: 700;
-}
-
-.price-card .plan-subtitle {
-    font-size: 1.1rem; 
-    color: var(--secondary-color);
-    margin: 5px 0 15px;
-    font-weight: 400;
-}
-
-/* 價格標籤 */
-.price-tag {
-    font-family: 'Iansui', 'Noto Serif TC', serif;
-    font-size: clamp(3rem, 5vw, 4rem); 
-    font-weight: 900; 
-    color: var(--text-light);
-    padding: 20px 0;
-    background-color: var(--primary-color);
-    margin: 0; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    /* 確保價格區塊與 header 分離 */
-    border-top: 1px solid rgba(255, 255, 255, 0.2); 
-}
-.price-card.featured-plan .price-tag {
-    background-color: var(--accent-color);
-    color: var(--text-light); 
-}
-.price-tag .currency {
-    font-size: 2.2rem; 
-    font-weight: 400;
-    margin-right: 5px;
-}
-
-/* 方案內容特色列表 */
-.plan-features {
-    padding: 30px 25px 20px; 
-    text-align: left;
-}
-.plan-features ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-.plan-features li {
-    padding: 14px 0; 
-    border-bottom: 1px dashed var(--border-color); 
-    color: var(--text-dark);
-    font-size: 1.05rem; 
-    display: flex;
-    align-items: center;
-}
-.plan-features li i {
-    color: var(--success-color);
-    margin-right: 12px; 
-    font-size: 1.15rem;
-    flex-shrink: 0;
-}
-.plan-features li.excluded i {
-    color: var(--danger-color);
-}
-.plan-features li:last-child {
-    border-bottom: none; 
-}
-
-/* 方案底部的 CTA */
-.plan-cta {
-    padding: 0 25px 30px; 
-}
-
-/* 價格頁的警告區塊 */
-.alert-box {
-    margin: 40px auto;
-    max-width: 900px;
-    text-align: left;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: var(--bg-accent-light); 
-    border-left: 5px solid var(--danger-color); 
-}
-
-/* 規費說明列表 */
-.check-list {
-    margin-top: 20px;
-    padding-left: 0 !important;
-    list-style: none;
-}
-.check-list li {
-    font-size: 1.05rem;
-    margin-bottom: 12px; 
-    color: var(--text-dark); 
-    display: flex;
-    align-items: flex-start;
-}
-.check-list li i {
-    color: var(--secondary-color); 
-    margin-right: 10px;
-    font-size: 1.1rem;
-    margin-top: 3px;
-    flex-shrink: 0;
-}
-
-
-/* =========================================
-   方案價格表格 (Plans Page Table) 樣式
-   ========================================= */
-
-    
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    margin: 40px 0;
-    border-radius: 12px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
-    border: 1px solid var(--border-color);
-}
-
-.table-wrapper table {
-    min-width: 1100px; 
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    text-align: center;
-    overflow: hidden; 
-}
-
-/* 2. 表格頭部樣式 */
-.table-wrapper thead th {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    padding: 18px 12px; 
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    white-space: nowrap;
-}
-
-/* 固定第一欄樣式精煉 */
-.table-wrapper table th:first-child,
-.table-wrapper table td:first-child {
-    text-align: left;
-    padding-left: 25px;
-    padding-right: 15px;
-    font-weight: 700;
-    position: sticky;
-    left: 0;
-    z-index: 60;
-    background-color: var(--bg-light);
-    border-right: 1px solid var(--border-color);
-}
-.table-wrapper tbody tr:nth-child(even) td:first-child {
-    background-color: var(--bg-section); 
-}
-.table-wrapper table th:first-child {
-    background-color: var(--primary-color);
-    border-bottom: 3px solid var(--accent-color);
-}
-
-
-/* 3. 表格內文與數據行樣式 */
-.table-wrapper tbody td {
-    padding: 15px 12px; 
-    border-bottom: 1px solid var(--border-color); 
-    transition: background-color 0.3s ease;
-    vertical-align: middle;
-    color: var(--text-dark);
-    line-height: 1.4; 
-}
-
-/* 價格高亮行 */
-.table-wrapper tbody tr:first-child td {
-    font-size: 1.6rem; 
-    font-weight: 900;
-    padding: 22px 12px;
-    color: var(--accent-color); 
-    background-color: #fffaf0 !important; 
-    border-bottom: 3px solid var(--border-color);
-}
-.table-wrapper tbody tr:first-child td:first-child {
-    color: var(--primary-color);
-    background-color: #fffaf0 !important;
-}
-
-/* 偶數行背景色，提升可讀性 */
-.table-wrapper tbody tr:nth-child(even) {
-    background-color: var(--bg-section);
-}
-
-/* 懸停效果 (Hover) - 確保固定欄顏色一致 */
-.table-wrapper tbody tr:hover {
-    background-color: #f0f8ff; 
-    box-shadow: inset 0 0 0 1px #bce0fd;
-}
-.table-wrapper tbody tr:hover td:first-child {
-    background-color: #e0f2ff;
-}
-
-/* 4. 價格強調色塊樣式 - 統一字體粗細 */
-.price-highlight-success,
-.price-highlight-warning,
-.price-highlight-danger {
-    font-weight: 700;
-}
-.price-highlight-success {
-    color: var(--success-color);
-}
-.price-highlight-warning {
-    color: var(--warning-color);
-}
-.price-highlight-danger {
-    color: var(--danger-color);
-}
-/* 統一表格內的勾選/叉叉圖標樣式 */
-.table-wrapper td .fas.fa-check-circle {
-    color: var(--success-color);
-    font-size: 1.1em;
-}
-.table-wrapper td .fas.fa-times-circle {
-    color: var(--danger-color);
-    font-size: 1.1em;
-}
-
-
-/* 5. 特別備註行 (底色) */
-.table-wrapper tr.alert-row td {
-    font-weight: 700;
-    background-color: var(--bg-accent-light) !important; 
-    color: var(--danger-color); 
-    text-align: center !important;
-}
-.table-wrapper tr.alert-row td:first-child {
-    background-color: var(--bg-accent-light) !important;
-}
-
-/* 6. 按鈕行樣式 */
-.table-wrapper tbody tr:last-child td {
-    padding-top: 25px;
-    padding-bottom: 25px;
-    border-bottom: none; 
-}
-.table-wrapper tbody tr:last-child td:first-child {
-    background-color: var(--bg-light);
-}
-
-/* =========================================== */
-/* 專業數據呈現組件 (Stats Block) - 優化 */
-/* =========================================== */
-.stats-block {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-    padding: 50px 20px; 
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    border-radius: 12px;
-    box-shadow: var(--shadow-medium);
-}
-.stat-item {
-    text-align: center;
-    border-right: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 0 10px;
-}
-.stat-item:last-child {
-    border-right: none;
-}
-
-/* 響應式優化：手機版移除垂直分隔線 */
-@media (max-width: 768px) {
-    .stats-block {
-        grid-template-columns: 1fr;
-        padding: 30px 20px;
-    }
-    .stat-item {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 15px 0;
-    }
-    .stat-item:last-child {
-        border-bottom: none;
-    }
-}
-
-.stat-number {
-    font-family: 'Iansui', 'Noto Serif TC', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem); 
-    font-weight: 900;
-    color: var(--accent-color);
-    line-height: 1.1;
-    margin-bottom: 8px;
-}
-.stat-description {
-    font-size: 1.1rem; 
-    color: var(--bg-light); 
-    margin: 0;
-}
-/* ==================================================== */
-/* RWD - 響應式設計 (Media Queries - V13.1 最終層級) */
+/* RWD - 響應式設計 (Media Queries) */
 /* ==================================================== */
 
 /* Tablet and Smaller Desktop (<= 1024px) */
 @media (max-width: 1024px) {
     :root {
-        --safe-area-pad-h: 30px;
-        --section-pad-v: 60px;
+        --safe-area-pad-h: 25px;
+        --section-pad-v: 60px; 
     }
-    .container {
-        padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
-        padding-right: max(var(--safe-area-pad-h), env(safe-area-inset-right));
-    }
-    header {
-        padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
-        padding-right: max(var(--safe-area-pad-h), env(safe-area-inset-right));
-    }
-    /* 縮小導航間距，避免與 Logo 衝突 */
-    #main-nav ul {
-        gap: 20px; 
-    }
-    .price-grid {
-        grid-template-columns: repeat(2, 1fr); 
-    }
-    .price-card.featured-plan {
-        transform: scale(1.03);
-    }
-    .blog-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-    .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
+    
+    .hero-banner {
+        background-attachment: scroll; /* 手機禁用視差 */
     }
 }
 
 /* Mobile and Smaller Tablet (<= 900px) */
 @media (max-width: 900px) {
     
-    /* --- 字體調整 --- */
-    h1 { font-size: 2.8rem; }
-    h2 { font-size: 2rem; } 
-
     /* --- 手機選單容器啟用 --- */
-    .mobile-menu-btn {
+    .menu-toggle { 
         display: block;
+        padding: 10px;
     }
-    #main-nav {
+    
+    .main-header {
+        justify-content: space-between;
+        padding-left: var(--safe-area-pad-h);
+        padding-right: var(--safe-area-pad-h);
+    }
+    
+    .main-nav {
         display: block;
         position: absolute;
         top: var(--header-height);
         left: 0;
         width: 100%;
         background-color: var(--bg-light);
-        box-shadow: 0 4px 10px var(--shadow-medium);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         z-index: var(--z-overlay); 
-        max-height: 0; /* 預設收合 */
+        max-height: 0; 
         overflow: hidden;
         opacity: 0;
         pointer-events: none;
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease-out;
+        
+        padding-left: var(--safe-area-pad-h);
+        padding-right: var(--safe-area-pad-h);
     }
-    #main-nav.active {
+    
+    /* 展開狀態 (需 JS 搭配) */
+    .main-header .main-nav.active { 
         max-height: 80vh;
         opacity: 1;
         pointer-events: all;
-        top: var(--header-height); 
-        z-index: var(--z-overlay); 
-        overflow-y: auto; /* 允許垂直滾動 */
+        overflow-y: auto; 
     }
-
     
-    #main-nav ul {
-        flex-direction: column;
+    /* RWD 導航：垂直佈局 */
+    .main-nav ul {
+        flex-direction: column; 
         gap: 0; 
-        padding-left: max(30px, env(safe-area-inset-left));
-        padding-right: max(30px, env(safe-area-inset-right));
         padding-top: 20px;
         padding-bottom: 20px;
         align-items: flex-start;
-         width: 100%; 
-    }
-
-    /* ------------------------------------------------------------------ */
-    /* --- RWD：Dropdown 轉為手風琴模式 - 最終優化修正 --- */
-    /* ------------------------------------------------------------------ */
-    
-    /* L1 項目在 RWD 模式下應作為開關按鈕，且使用 max-height 邏輯 */
-    #main-nav ul li.has-dropdown > a {
-        cursor: pointer;
-        user-select: none;
-        font-weight: 700;
-        padding: 12px 0; 
-        display: flex; 
-        justify-content: space-between; 
         width: 100%; 
-        align-items: center;
-        border-bottom: 1px solid var(--border-color); 
     }
-    
-    /* 確保 L1 連結底線收合 (不顯示) */
-   #main-nav ul li.has-dropdown > a i.fa-chevron-down {
-        transform: rotate(0deg); 
+    .main-nav ul li {
+        width: 100%;
+    }
+    .main-nav ul li a {
+        padding: 12px 0; 
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 700;
+        justify-content: space-between;
+    }
+    .main-nav ul li:last-child a {
+        border-bottom: none;
     }
 
-    /* RWD L2 子選單: 使用 max-height 實現平滑展開（需 JS 配合）*/
-    .submenu {
-        /* 取消桌面版的浮動定位，改為靜態流動 */
+    /* RWD Dropdown L2 子選單 (手風琴模式) */
+    .main-nav .dropdown ul { 
         position: static; 
         transform: none; 
-        
         width: 100%; 
-        
         background-color: var(--bg-section); 
         border: none;
-        border-radius: 0;
         box-shadow: none; 
         
-        /* 核心修正：使用 max-height 進行平滑過渡 */
-        max-height: 0 !important; /* 初始收合 */
+        /* 核心 RWD 摺疊控制 */
+        max-height: 0 !important; 
         padding: 0;
         overflow: hidden !important; 
-        opacity: 1 !important; /* 確保內容透明度為 1 */
+        opacity: 1 !important; 
         visibility: visible !important;
-        pointer-events: all !important; 
         
-        /* 啟用平滑過渡 */
         transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
-        z-index: var(--z-dropdown); 
-    }
-
-    /* RWD L2 選單展開狀態 (由 JS 設置 .active) */
-    #main-nav ul li.has-dropdown.active > a i.fa-chevron-down {
-        transform: rotate(180deg);
     }
     
-    #main-nav ul li.has-dropdown.active > .submenu {
-        max-height: 500px !important; /* 使用一個足夠大的值進行過渡 */
+    /* RWD L2 選單展開狀態 (需 JS 搭配 .active) */
+    .main-nav ul li.dropdown.active > ul {
+        max-height: 500px !important; 
         padding-top: 10px;
         padding-bottom: 10px;
     }
     
-    /* RWD L2 連結樣式調整，增加左邊距以配合 L1 */
-    .submenu li a {
-        padding: 8px 20px; 
+    .main-nav .dropdown ul li a {
+        padding: 8px 10px; /* 增加一點左邊距 */
         font-weight: 400;
         font-size: 0.95rem;
-    }
-
-    /* L2 選單中的分隔線 - RWD 移除 */
-    .submenu .submenu-separator {
-        display: none; 
-    }
-
-    /* 次選單標題 - RWD 移除 */
-    .submenu .submenu-title {
-        display: none; 
-    }
-
-    /* 移除最後一個 L1 的分隔線 */
-    #main-nav ul li:last-child a {
-        border-bottom: none; 
-    }
-
-     .contact-nav {
-        /* 確保按鈕在手機選單內可見 */
-        display: block;
-        padding-left: max(30px, env(safe-area-inset-left));
-        padding-right: max(30px, env(safe-area-inset-right));
-    }
-
-
-    /* --- 佈局切換單欄化 (保持不變) --- */
-    .footer-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 30px;
-    }
-    .contact-grid-2col,
-    .profile-detail,
-    .delivery-guarantee, 
-    .product-showcase, 
-    .grid-2-cols, 
-    .payment-options,
-    .grid-3-cols { 
-        grid-template-columns: 1fr;
-    }
-    .stats-block {
-        grid-template-columns: 1fr;
-        padding: 30px;
-    }
-    .stat-item {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 15px;
-        padding-top: 15px;
-    }
-    .stat-item:last-child {
         border-bottom: none;
+        color: var(--text-dark);
     }
-    /* --- Blog 側邊欄調整 --- */
-    .blog-page-layout {
+    
+    /* Footer RWD 調整 */
+    .main-footer .footer-content {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 40px;
     }
-    .blog-sidebar {
-        position: static;
-        order: -1;
-        padding: 0;
+    .footer-section h4 {
+        margin-top: 0;
     }
-    .blog-sidebar h3 {
-        text-align: center;
-        border-bottom: none;
-    }
-    .blog-sidebar .category-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-    }
-    .blog-sidebar .category-list li {
-        flex: 0 0 auto;
-        min-width: 120px;
-    }
-    /* --- Flow Chart 調整 --- */
-    .flow-chart ol {
+
+    /* 流程圖 RWD 調整 */
+    .service-process .process-steps {
         flex-direction: column;
         align-items: center;
     }
-    .flow-chart li:not(:last-child)::after {
+    .service-process li:not(:last-child)::after { 
         content: '↓';
         right: 50%;
         top: 100%;
         transform: translate(50%, -50%);
-    }
-    /* --- About Page 調整 --- */
-    .profile-image-container {
-        width: 100%;
-        max-width: 450px;
-        margin: 0 auto 20px;
-    }
-    .profile-image {
-        height: 300px;
-    }
-    /* --- 價格卡片單欄 --- */
-    .price-grid {
-        grid-template-columns: 1fr;
-    }
-    .price-card.featured-plan {
-        transform: none;
+        line-height: 1; 
+        font-size: 2rem;
     }
 }
-
-/* Small Mobile (<= 600px) - 內容擠壓的最終防線 */
-@media (max-width: 600px) {
-    :root {
-        --safe-area-pad-h: 15px;
-        --section-pad-v: 40px;
-        --header-height: 60px;
-    }
-    .container {
-        padding-left: max(15px, env(safe-area-inset-left));
-        padding-right: max(15px, env(safe-area-inset-right));
-    }
-    section {
-        padding: 40px 0;
-    }
-
-    /* --- 核心字體縮減：確保不會溢出 (保持不變) --- */
-    h1 { 
-        font-size: 2rem; 
-        line-height: 1.1; 
-    }
-    h2 { 
-        font-size: 1.6rem; 
-        margin-bottom: 30px; 
-    }
-    h3 { font-size: 1.4rem; } 
-    p { font-size: 0.95rem; } 
-
-    /* --- Header & Navigation (保持不變) --- */
-    header {
-        min-height: var(--header-height);
-        padding-left: max(15px, env(safe-area-inset-left));
-        padding-right: max(15px, env(safe-area-inset-right));
-        padding-top: calc(5px + env(safe-area-inset-top));
-        padding-bottom: 5px;
-    }
-    .logo a {
-        font-size: 1.5rem; 
-    }
-    .mobile-menu-btn {
-        font-size: 0.9rem; 
-        padding: 6px 10px;
-    }
-
-    /* --- CTA 按鈕與標籤文字防溢出 (保持不變) --- */
-    .cta-button {
-        font-size: 0.9rem; 
-        padding: 0.75em 1.5em; 
-    }
-    .cta-button.large {
-        font-size: 1rem;
-        padding: 1em 2em;
-    }
-    
-    /* 特別針對 about.html 的資歷標籤進行防護 (保持不變) */
-    .cert-tag {
-        font-size: 0.8rem; 
-        padding: 4px 8px; 
-    }
-    .certifications {
-        flex-direction: row; 
-        flex-wrap: wrap; 
-        gap: 5px;
-    }
-    .E-E-A-T-list li {
-        font-size: 0.95rem;
-    }
-    
-     .floating-cta {
-        flex-direction: column; 
-        right: max(15px, env(safe-area-inset-right)); 
-        /* 修正：使用 calc 確保底部留有安全空間 */
-        bottom: calc(15px + env(safe-area-inset-bottom)); 
-        transform: translateX(0);
-        gap: 8px;
-    }
-    .floating-cta a {
-        width: 45px; 
-        height: 45px;
-        line-height: 45px;
-        font-size: 1.8rem;
-        box-shadow: var(--shadow-small);
-        transition: transform 0.3s, box-shadow 0.3s; 
-    }
-    .floating-cta a:hover {
-        transform: scale(1.05); 
-    }
-    
-    /* --- Footer 底部空間調整 (保持不變) --- */
-    footer {
-        padding-bottom: calc(40px + env(safe-area-inset-bottom));
-    }
-
-    /* --- 價格表格調整 (保持不變) --- */
-    .table-wrapper table {
-        min-width: 600px; 
-    }
-    .card-grid.grid-4-cols {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 
 /* ==================================================== */
 /* 可訪問性 (A11Y) 最終優化 - Focus 狀態統一 */
@@ -2230,13 +800,14 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
-.accordion-header:focus-visible, 
-.card-item:focus-visible { 
+.cta-button:focus-visible,
+.faq-item summary:focus-visible { 
     /* 統一使用品牌強調色作為 Focus 輪廓 */
      outline: 3px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: 4px;
 }
+/* 隱藏非鍵盤導航的默認 Focus 輪廓 */
 :focus:not(:focus-visible) {
     outline: none;
 }
