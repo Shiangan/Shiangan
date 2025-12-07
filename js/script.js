@@ -1,11 +1,13 @@
 // --------------------------------------------------------
-// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終極致版 V5.0
+// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終極致版 V6.0 (優化版)
 // --------------------------------------------------------
 
 /**
  * 腳本入口：確保 DOM 完全載入後執行初始化
+ * 使用 IIFE (立即調用函數表達式) 隔離作用域，防止全域污染
  */
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
+    'use strict'; // 啟用嚴格模式
 
     // 統一管理 CSS Class 名稱與選擇器 (集中化管理)
     const CONSTANTS = {
@@ -14,33 +16,65 @@ document.addEventListener('DOMContentLoaded', function() {
         MOBILE_BREAKPOINT: 900, // 與 CSS @media 斷點一致
         QUERY_DELAY_MS: 800,    // 模擬 API 查詢延遲時間
         LINE_UNIVERSAL_URL: 'https://line.me/R/oa/lineLink',
+        COPYRIGHT_TEXT: "\n\n--- 聲明 ---\n© 版權所有 祥安生命有限公司。請尊重智慧財產權。",
     };
     
+    // --- 模擬殯儀館檔期資料庫 (結構精簡) ---
+    const mockScheduleDB = {
+        '台北市立第二殯儀館': {
+            '2025-12-10': [{ hall: '至真二廳', deceased: '李府老夫人 李○○' }, { hall: '至善二廳', deceased: '張公大人 張○○' }],
+            '2025-12-11': [{ hall: '至真二廳', deceased: '王公大人 王○○' }, { hall: '至善一廳', deceased: '林公大人 林○○' }],
+            '2025-12-12': []
+        },
+        '台北市立第一殯儀館': { '2025-12-10': [{ hall: '景行廳', deceased: '陳府老夫人 陳○○' }] },
+        '新北市立板橋殯儀館': { '2025-12-11': [{ hall: '追遠廳', deceased: '周公大人 周○○' }] }
+    };
+
     // ===========================================
     // 區塊 1: 導航功能與使用者介面 (UX/A11Y)
     // ===========================================
+
+    /** * 根據當前 URL 匹配並高亮導航連結 
+     * @param {NodeList} navLinks - 所有導航連結元素
+     */
+    function highlightActiveLink(navLinks) {
+        const { CLASS_ACTIVE } = CONSTANTS;
+        // Helper: 清理 URL 
+        const cleanPath = (url) => url?.split('?')[0].split('#')[0] || 'index.html';
+        const currentPath = cleanPath(window.location.pathname.split('/').pop() || 'index.html'); 
+        
+        navLinks.forEach(item => {
+            const itemHref = cleanPath(item.getAttribute('href'));
+            item.classList.remove(CLASS_ACTIVE);
+
+            // 精確匹配 (e.g., index.html) 或 子頁面模糊匹配 (e.g., service.html 匹配 service-detail.html)
+            if (itemHref === currentPath || 
+                (itemHref && currentPath.startsWith(itemHref.replace('.html', '')) && currentPath !== itemHref)) {
+                 item.classList.add(CLASS_ACTIVE);
+            }
+        });
+    }
 
     function initializeNavigation() {
         const { CLASS_ACTIVE, MOBILE_BREAKPOINT } = CONSTANTS;
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const mainNav = document.getElementById('main-nav');
         
-        if (!mobileMenuBtn || !mainNav) return; // 安全退出檢查
+        if (!mobileMenuBtn || !mainNav) return; 
 
-        // 元素快取與狀態管理
         const initialBtnHtml = mobileMenuBtn.innerHTML;
         const navLinks = mainNav.querySelectorAll('a');
         const dropdownItems = document.querySelectorAll('.has-dropdown');
 
         /**
          * 1.1 行動選單切換邏輯
-         * @param {boolean} isToggling - true: 開啟, false: 關閉, undefined: 切換
+         * @param {boolean} isToggling - true: 開啟, false: 關閉, null/undefined: 切換
          */
         function toggleMobileMenu(isToggling) {
-             const shouldOpen = isToggling ?? !mainNav.classList.contains(CLASS_ACTIVE); // 使用 Nullish 合併運算符
+             const shouldOpen = isToggling ?? !mainNav.classList.contains(CLASS_ACTIVE); 
 
              mainNav.classList.toggle(CLASS_ACTIVE, shouldOpen);
-             document.body.classList.toggle('menu-open', shouldOpen); // 鎖定 body 滾動穿透
+             document.body.classList.toggle('menu-open', shouldOpen); // 鎖定 body 滾動
              
              // 更新按鈕圖標和 ARIA 屬性
              mobileMenuBtn.innerHTML = shouldOpen 
@@ -57,123 +91,100 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
              }
         }
+        
+        // 1.2 行動端下拉選單 (手風琴) 邏輯
+        function handleMobileDropdown(e, item, dropdownLink, icon) {
+            // 僅在行動模式下啟用手風琴效果
+            if (window.innerWidth <= MOBILE_BREAKPOINT) {
+                e.preventDefault(); 
+
+                // 實作單一展開模式
+                dropdownItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains(CLASS_ACTIVE)) {
+                        otherItem.classList.remove(CLASS_ACTIVE);
+                        const otherIcon = otherItem.querySelector('.fa-chevron-down');
+                        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // 切換當前項目的狀態
+                item.classList.toggle(CLASS_ACTIVE);
+                
+                // 旋轉箭頭圖標
+                if (icon) {
+                    icon.style.transform = item.classList.contains(CLASS_ACTIVE) ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+            } else {
+                // 桌面模式下，如果是 L1 下拉連結，應允許跳轉
+                if (item.classList.contains(CLASS_ACTIVE)) {
+                    // 如果下拉選單是開啟的 (桌面hover通常讓它開啟)，點擊應跳轉
+                    window.location.href = dropdownLink.href;
+                }
+            }
+        }
+
+        // --- 事件監聽 ---
 
         mobileMenuBtn.addEventListener('click', () => toggleMobileMenu());
         
-        // 1.2 點擊選單項目後自動關閉
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                // 僅在行動模式且選單開啟時處理
-                if (window.innerWidth <= MOBILE_BREAKPOINT && mainNav.classList.contains(CLASS_ACTIVE)) { 
-                    // 如果是 L1 下拉連結，跳過，交給手風琴邏輯處理
-                    if (link.closest('.has-dropdown')?.parentElement.classList.contains('has-dropdown')) {
-                        return; 
-                    }
-                    // 非下拉子項目，點擊後關閉選單
-                    setTimeout(() => toggleMobileMenu(false), 0);
+        // 1.3 點擊選單項目後自動關閉（使用事件委派優化）
+        mainNav.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (!link) return;
+            
+            // 僅在行動模式且選單開啟時處理
+            if (window.innerWidth <= MOBILE_BREAKPOINT && mainNav.classList.contains(CLASS_ACTIVE)) { 
+                const parentDropdown = link.closest('.has-dropdown');
+                
+                // 如果是下拉選單的 L1 連結，跳過（交給手風琴邏輯處理）
+                if (parentDropdown && parentDropdown === link.parentElement) {
+                    return; 
                 }
-            });
+                
+                // 非下拉子項目或 L2/L3 項目，點擊後關閉選單
+                setTimeout(() => toggleMobileMenu(false), 0);
+            }
         });
         
-        // 1.3 頁面導航高亮邏輯
-        highlightActiveLink(navLinks);
-        
-        // 1.4 行動端下拉選單 (手風琴) 邏輯
+        // 1.4 行動端下拉選單事件
         dropdownItems.forEach(item => {
             const dropdownLink = item.querySelector('a');
             const icon = item.querySelector('.fa-chevron-down');
-
-            dropdownLink.addEventListener('click', function(e) {
-                // 僅在行動模式下啟用手風琴效果
-                if (window.innerWidth <= MOBILE_BREAKPOINT) {
-                    e.preventDefault(); 
-
-                    // 實作單一展開模式 (收合其他已開啟的項目)
-                    dropdownItems.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains(CLASS_ACTIVE)) {
-                            otherItem.classList.remove(CLASS_ACTIVE);
-                            const otherIcon = otherItem.querySelector('.fa-chevron-down');
-                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-                        }
-                    });
-
-                    // 切換當前項目的狀態
-                    item.classList.toggle(CLASS_ACTIVE);
-                    
-                    // 旋轉箭頭圖標
-                    if (icon) {
-                        icon.style.transform = item.classList.contains(CLASS_ACTIVE) ? 'rotate(180deg)' : 'rotate(0deg)';
-                    }
-                }
-            });
+            
+            if (dropdownLink) {
+                 dropdownLink.addEventListener('click', (e) => handleMobileDropdown(e, item, dropdownLink, icon));
+            }
         });
 
-        // 1.5 螢幕尺寸調整優化：切換桌面/手機模式時重置狀態
+        // 1.5 螢幕尺寸調整優化
         window.addEventListener('resize', () => {
-            if (window.innerWidth > MOBILE_BREAKPOINT) {
-                if (mainNav.classList.contains(CLASS_ACTIVE)) {
-                    toggleMobileMenu(false); // 桌面模式下確保選單關閉
-                }
-                // 清除所有手機手風琴狀態
-                dropdownItems.forEach(item => {
-                    item.classList.remove(CLASS_ACTIVE);
-                    const icon = item.querySelector('.fa-chevron-down');
-                    if (icon) icon.style.transform = 'rotate(0deg)';
-                });
+            if (window.innerWidth > MOBILE_BREAKPOINT && mainNav.classList.contains(CLASS_ACTIVE)) {
+                toggleMobileMenu(false); // 桌面模式下確保選單關閉
             }
+            // 清除所有手機手風琴狀態 (避免桌面模式下殘留樣式)
+            dropdownItems.forEach(item => {
+                item.classList.remove(CLASS_ACTIVE);
+                const icon = item.querySelector('.fa-chevron-down');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            });
         });
 
         // 1.6 無障礙性： ESC 鍵關閉選單
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && mainNav.classList.contains(CLASS_ACTIVE)) {
+                e.preventDefault(); // 阻止其他潛在行為
                 toggleMobileMenu(false);
             }
         });
-    }
-    
-    /**
-     * 根據當前 URL 匹配並高亮導航連結
-     * @param {NodeList} navLinks - 所有導航連結元素
-     */
-    function highlightActiveLink(navLinks) {
-        const { CLASS_ACTIVE } = CONSTANTS;
-        // Helper: 清理 URL 
-        const cleanPath = (url) => url?.split('?')[0].split('#')[0] || 'index.html';
-        const currentPath = cleanPath(window.location.pathname.split('/').pop() || 'index.html'); 
         
-        navLinks.forEach(item => {
-            const itemHref = cleanPath(item.getAttribute('href'));
-            
-            item.classList.remove(CLASS_ACTIVE);
-
-            // 精確匹配當前頁面
-            if (itemHref === currentPath) {
-                 item.classList.add(CLASS_ACTIVE);
-            // 模糊匹配：如果當前頁面是子頁面 (e.g., 'service-detail.html')，高亮父連結 (e.g., 'service.html')
-            } else if (itemHref && currentPath.startsWith(itemHref.replace('.html', ''))) {
-                const parentLi = item.closest('.has-dropdown');
-                if (parentLi) {
-                    item.classList.add(CLASS_ACTIVE); 
-                }
-            }
-        });
+        // 1.7 頁面導航高亮
+        highlightActiveLink(navLinks);
     }
 
 
     // ===========================================
     // 區塊 2: 喪禮花禮訂購表單互動邏輯 (Order Form)
     // ===========================================
-
-    // --- 模擬殯儀館檔期資料庫 (結構精簡) ---
-    const mockScheduleDB = {
-        '台北市立第二殯儀館': {
-            '2025-12-10': [{ hall: '至真二廳', deceased: '李府老夫人 李○○' }, { hall: '至善二廳', deceased: '張公大人 張○○' }],
-            '2025-12-11': [{ hall: '至真二廳', deceased: '王公大人 王○○' }, { hall: '至善一廳', deceased: '林公大人 林○○' }],
-            '2025-12-12': []
-        },
-        '台北市立第一殯儀館': { '2025-12-10': [{ hall: '景行廳', deceased: '陳府老夫人 陳○○' }] },
-        '新北市立板橋殯儀館': { '2025-12-11': [{ hall: '追遠廳', deceased: '周公大人 周○○' }] }
-    };
     
     function initializeOrderForm() {
         const { QUERY_DELAY_MS, LINE_UNIVERSAL_URL } = CONSTANTS;
@@ -195,11 +206,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化：設置最小日期為今天，禁用日期輸入直到選擇場館
         const today = new Date().toISOString().split('T')[0];
         hallDateInput.setAttribute('min', today);
-        hallDateInput.disabled = (funeralHallSelect.value === ''); 
+        
+        if (funeralHallSelect.value === '') {
+            hallDateInput.disabled = true; 
+        } else {
+             toggleOfficialQueryButton(funeralHallSelect.value);
+        }
         
         if(officialQueryButton) {
             officialQueryButton.setAttribute('data-initial-text', officialQueryButton.innerHTML);
-            toggleOfficialQueryButton(funeralHallSelect.value);
         }
 
         /** 根據選定的殯儀館切換官方查詢按鈕的顯示狀態 (只顯示二殯的連結) */
@@ -236,7 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
                  hallSelect.innerHTML = options;
                  hallSelect.value = '手動輸入';
                  deceasedNameInput.focus();
-                 return; 
             } else {
                  // 尚未選擇場館或日期
                  options = '<option value="">-- 請先選擇日期 --</option>';
@@ -273,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (officialQueryButton) {
                     officialQueryButton.classList.remove('loading-state');
                     officialQueryButton.innerHTML = officialQueryButton.getAttribute('data-initial-text');
-                    officialQueryButton.disabled = false; 
+                    toggleOfficialQueryButton(funeralHallSelect.value); // 確保在非台北二殯時按鈕仍隱藏
                 }
             }, QUERY_DELAY_MS);
         });
@@ -303,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 const externalUrl = this.getAttribute('href'); 
                 if (externalUrl) {
-                    window.open(externalUrl, '_blank'); 
+                    window.open(externalUrl, '_blank', 'noopener,noreferrer'); // 新增安全屬性
                 }
             });
         }
@@ -317,6 +331,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const senderPhoneValue = senderPhone?.value.trim() || '';
             const hallValue = funeralHallSelect.value.trim();
             const dateValue = hallDateInput.value.trim();
+            // 如果禮廳選擇 '手動輸入'，則使用輸入框的值；否則，使用下拉選單的值
+            const hallDisplayValue = hallSelect.value === '手動輸入' ? deceasedNameInput.value.trim() + ' (禮廳手動輸入)' : hallSelect.value;
             const deceasedValue = deceasedNameInput.value.trim();
             const productValue = productSelect?.value.trim() || '未選擇花禮/罐頭塔';
             const remarkValue = remarkInput?.value.trim() || '無';
@@ -340,10 +356,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                     `\n--- 告別式資訊 ---\n` +
                                     `* 場館：${hallValue}\n` +
                                     `* 日期：${dateValue}\n` +
+                                    `* 禮廳：${hallDisplayValue}\n` + // 修正：應傳送選定的禮廳
                                     `* 逝者：${deceasedValue}\n` +
                                     `* 備註：${remarkValue}`;
                 
-                // 查找 LINE 連結
+                // 查找 LINE 連結 (優化：直接使用 data 屬性或統一的設定)
                 const lineLinkElement = document.querySelector('.floating-cta a[href*="line"], a[href*="line.me/ti/p"]');
                 const encodedMessage = encodeURIComponent(lineMessage);
 
@@ -370,27 +387,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const { CLASS_ACTIVE, ACCORDION_ITEM_SELECTOR } = CONSTANTS;
         const accordionHeaders = document.querySelectorAll('.accordion-header');
 
+        /** 設置或清除內容區塊的高度 (用於觸發 CSS 過渡動畫) */
+        function setContentHeight(element, shouldExpand) {
+             if (shouldExpand) {
+                 // 展開：確保瀏覽器在計算 scrollHeight 前完成渲染
+                 requestAnimationFrame(() => {
+                     element.style.maxHeight = element.scrollHeight + "px"; 
+                 });
+             } else {
+                 // 關閉
+                 element.style.maxHeight = '0px'; 
+             }
+        }
+
         accordionHeaders.forEach(header => {
             const currentItem = header.closest(ACCORDION_ITEM_SELECTOR);
             const content = header.nextElementSibling; 
             
             if (!currentItem || !content) return;
 
-            /** 設置或清除內容區塊的高度 (用於觸發 CSS 過渡動畫) */
-            function setContentHeight(element, shouldExpand) {
-                 if (shouldExpand) {
-                     // 展開：使用 requestAnimationFrame 確保瀏覽器在計算 scrollHeight 前完成渲染
-                     requestAnimationFrame(() => {
-                         element.style.maxHeight = element.scrollHeight + "px"; 
-                     });
-                 } else {
-                     // 關閉：必須設置 '0px' 才能觸發收合動畫
-                     element.style.maxHeight = '0px'; 
-                 }
-            }
-
             // 3.1 確保初始狀態正確 (設置初始高度)
             const isInitiallyExpanded = currentItem.classList.contains(CLASS_ACTIVE);
+            // 修正：初始時，必須在 CSS 中設置 content 預設為 max-height: 0; overflow: hidden;
             content.style.maxHeight = isInitiallyExpanded ? content.scrollHeight + "px" : '0px';
             header.setAttribute('aria-expanded', isInitiallyExpanded);
             
@@ -416,6 +434,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 header.setAttribute('aria-expanded', isExpanding);
                 setContentHeight(content, isExpanding);
             });
+            
+            // 3.3 A11Y 強化: 處理鍵盤 Enter/Space
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    header.click();
+                }
+            });
         });
     }
 
@@ -423,8 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 區塊 4: 隱私與智慧財產保護
     // ===========================================
     function initializeCopyrightProtection() {
-        // 設定版權聲明文字
-        const COPYRIGHT_TEXT = "\n\n--- 聲明 ---\n© 版權所有 祥安生命有限公司。請尊重智慧財產權。";
+        const { COPYRIGHT_TEXT } = CONSTANTS;
         
         document.addEventListener('copy', function(e) {
             const selection = document.getSelection();
@@ -438,25 +463,31 @@ document.addEventListener('DOMContentLoaded', function() {
                  // 將原始文字加上版權聲明後寫入剪貼簿
                  e.clipboardData.setData('text/plain', originalText + COPYRIGHT_TEXT);
             }
-            console.info("© 版權所有 祥安生命有限公司。請尊重智慧財產權。");
+            console.info(COPYRIGHT_TEXT.replace('\n\n--- 聲明 ---\n', '')); // 控制台輸出較精簡
         });
-    }
-    
-    // ===========================================
-    // 區塊 5: 初始化所有功能
-    // ===========================================
-    try {
-        initializeNavigation();
-        initializeOrderForm();
-        initializeAccordion();
-        initializeCopyrightProtection();
         
         // 頁面底部的版權年份動態更新
         const currentYearIndex = document.getElementById('current-year-index');
         if (currentYearIndex) {
             currentYearIndex.textContent = new Date().getFullYear();
         }
-    } catch (error) {
-         console.error("祥安生命核心腳本初始化失敗:", error);
     }
-});
+    
+    // ===========================================
+    // 區塊 5: 初始化所有功能
+    // ===========================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            initializeNavigation();
+            initializeOrderForm();
+            initializeAccordion();
+            initializeCopyrightProtection();
+            
+            console.log("祥安生命核心腳本 (V6.0) 初始化完成。");
+        } catch (error) {
+             console.error("祥安生命核心腳本初始化失敗:", error);
+        }
+    });
+
+})(); // 結束 IIFE
