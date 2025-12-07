@@ -47,23 +47,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====================================================
-    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
-    // (無變動)
-    // ====================================================
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener('click', function() {
-            const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
-            
-            this.setAttribute('aria-expanded', !isExpanded);
-            mainNav.classList.toggle('active');
-            body.classList.toggle('no-scroll');
-            
-            if (!isExpanded) {
-                closeAllMobileSubmenus(); 
-            } 
-        });
-    }
-    
+  // ====================================================
+// 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
+// ====================================================
+if (menuToggle && mainNav) {
+    menuToggle.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
+        
+        // 【關鍵】確保這裡能切換狀態
+        this.setAttribute('aria-expanded', !isExpanded);
+        mainNav.classList.toggle('active');
+        body.classList.toggle('no-scroll');
+        
+        if (!isExpanded) {
+            closeAllMobileSubmenus(); 
+        } 
+    });
+}
+
     // ====================================================
     // 3. 桌面 Dropdown A11Y (Focus-Within 模擬 Hover)
     // (無變動)
@@ -87,29 +88,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ====================================================
-    /    // ====================================================
-    // 4. 手機導航手風琴選單 (Mobile Navigation Accordion)
-    // ====================================================
-    if (mainNav) {
-        mainNav.addEventListener('click', function(e) {
-            if (window.innerWidth <= mobileBreakpoint) { // 確保只在手機版執行
-                let targetLink = e.target.closest('#main-nav ul li.dropdown > a');
+  // ====================================================
+// 4. 手機導航手風琴選單 (Mobile Navigation Accordion)
+// ====================================================
+if (mainNav) {
+    mainNav.addEventListener('click', function(e) {
+        if (window.innerWidth <= mobileBreakpoint) { 
+            // 【關鍵】確保點擊對象是 li.dropdown > a
+            let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
 
-                if (targetLink) {
-                    e.preventDefault(); // 阻止跳轉
-                    
-                    const parentLi = targetLink.closest('li.dropdown');
-                    
-                    if (parentLi.classList.contains('active')) {
-                        parentLi.classList.remove('active');
-                    } else {
-                        closeAllMobileSubmenus(); // 關閉其他
-                        parentLi.classList.add('active'); // 展開當前
-                    }
+            if (targetLink) {
+                e.preventDefault(); 
+                
+                const parentLi = targetLink.closest('li.dropdown');
+                
+                if (parentLi.classList.contains('active')) {
+                    parentLi.classList.remove('active');
+                } else {
+                    closeAllMobileSubmenus(); 
+                    parentLi.classList.add('active');
                 }
             }
-        });
-    }
+        }
+    });
+}
+
 
     // ====================================================
     // 5. 通用手風琴 (Accordion Component Logic) - 強化版
