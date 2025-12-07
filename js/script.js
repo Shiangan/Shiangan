@@ -79,6 +79,7 @@
         const dropdownItems = document.querySelectorAll(DROPDOWN_SELECTOR); 
 
         /**
+                 /**
          * 1.1 行動選單切換邏輯
          * @param {boolean} isToggling - true: 開啟, false: 關閉, null/undefined: 切換
          */
@@ -95,29 +96,22 @@
 
              // 關閉主選單時，收合所有子選單 (清爽化狀態)
              if (!shouldOpen) {
+                // 修正：確保在主選單關閉時，所有下拉手風琴狀態被清除
                 dropdownItems.forEach(item => {
                     item.classList.remove(CLASS_ACTIVE);
                     const icon = item.querySelector('.fa-chevron-down');
                     if (icon) icon.style.transform = 'rotate(0deg)';
                 });
+                
+                // 額外保險：如果 CSS 有設定 overflow-y: auto，這裡強制覆寫
+                mainNav.style.overflowY = 'hidden'; 
+                
+             } else {
+                 // 展開時允許滾動
+                 mainNav.style.overflowY = 'auto';
              }
         }
-        
-        // 1.2 行動端下拉選單 (手風琴) 邏輯
-        function handleMobileDropdown(e, item, dropdownLink, icon) {
-            // 僅在行動模式下啟用手風琴效果
-            if (window.innerWidth <= MOBILE_BREAKPOINT) {
-                // 如果是下拉連結，我們需要阻止預設行為 (阻止跳轉) 來開啟手風琴
-                e.preventDefault(); 
-
-                // 實作單一展開模式 (收合其他已開啟的項目)
-                dropdownItems.forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains(CLASS_ACTIVE)) {
-                        otherItem.classList.remove(CLASS_ACTIVE);
-                        const otherIcon = otherItem.querySelector('.fa-chevron-down');
-                        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-                    }
-                });
+            
 
                 // 切換當前項目的狀態
                 item.classList.toggle(CLASS_ACTIVE);
