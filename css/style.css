@@ -381,6 +381,9 @@ header {
 /* ==================================================== */
 /* Hero & CTA (保持原樣，確保高質感) */
 /* ==================================================== */
+/* ==================================================== */
+/* Hero & CTA (保持原樣，確保高質感) */
+/* ==================================================== */
 .hero-section {
     height: 70vh; 
     min-height: 500px;
@@ -407,12 +410,27 @@ header {
     backdrop-filter: blur(2px); 
     z-index: var(--z-base); 
 }
+
+/* 【修正】 Hero 內容容器：讓 h1 和 p 內容不會貼邊 */
 .hero-content {
     position: relative;
     z-index: calc(var(--z-base) + 1);
-    padding: var(--spacing-md);
-    max-width: 900px;
+    
+    /* 核心修正：讓內容使用與 .container 一致的安全區域 */
+    width: 100%; 
+    max-width: 900px; /* 內容最大寬度限制 */
+    margin-left: auto; /* 居中 */
+    margin-right: auto; /* 居中 */
+    
+    /* 使用變數來確保左右有安全邊距，並兼容手機安全區域 */
+    padding-left: max(var(--safe-area-pad-h), env(safe-area-inset-left));
+    padding-right: max(var(--safe-area-pad-h), env(safe-area-inset-right));
+    
+    /* 保持垂直方向的填充 */
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
 }
+
 .hero-content h1 {
     font-size: clamp(2.5rem, 6vw, 4.5rem); 
     color: white;
@@ -426,6 +444,7 @@ header {
     font-weight: 300;
     letter-spacing: 1px;
 }
+
 
 /* CTA 按鈕組件化 */
 .cta-button {
