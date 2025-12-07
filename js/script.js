@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // **修正開始：抗閃爍機制**
+    // 移除 body 上的 js-loading class，讓 CSS 開始顯示內容
     document.body.classList.remove('js-loading');
     
     // ====================================================
@@ -16,15 +17,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainNav = document.getElementById('main-nav');
     const body = document.body;
     const dropdowns = document.querySelectorAll('.dropdown');
-    const mobileBreakpoint = 900; 
+    const mobileBreakpoint = 900; // 統一 RWD 斷點為 900px
     const accordionContainer = document.querySelector('.accordion-container');
+    const currentYearSpan = document.getElementById('current-year');
+
 
     // 輔助函數：關閉所有手機子菜單
     function closeAllMobileSubmenus() {
+        // 移除所有下拉選單上的 active 類別
         document.querySelectorAll('#main-nav ul li.dropdown.active').forEach(li => {
             li.classList.remove('active');
         });
     }
+    
+    // 輔助函數：處理 RWD 調整時的狀態清理
+    function handleResize() {
+         if (window.innerWidth > mobileBreakpoint) {
+             // 如果回到桌面版，確保菜單和滾動狀態被重置
+             if (mainNav.classList.contains('active')) {
+                 mainNav.classList.remove('active');
+                 menuToggle.setAttribute('aria-expanded', 'false');
+                 body.classList.remove('no-scroll');
+                 closeAllMobileSubmenus();
+             }
+         }
+    }
+    
+    window.addEventListener('resize', handleResize);
+
 
     // ====================================================
     // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
@@ -38,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (header) {
-        handleScroll(); 
+        handleScroll(); // 載入時執行一次
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
-
+    
     // ====================================================
     // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
     // ====================================================
@@ -50,8 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
             
             this.setAttribute('aria-expanded', !isExpanded);
-            mainNav.classList.toggle('active');
-            body.classList.toggle('no-scroll');
+            mainNav.classList.toggle('active'); // 切換主選單 CSS 類別
+            body.classList.toggle('no-scroll'); // 鎖定背景滾動
             
             if (!isExpanded) {
                 // 如果是開啟選單，關閉所有子選單
@@ -72,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         dropdown.addEventListener('focusout', function() {
             setTimeout(() => {
+                // 檢查失去焦點後，焦點是否仍在下拉選單或其子元素內
                 if (window.innerWidth > mobileBreakpoint && !this.contains(document.activeElement)) {
                     this.classList.remove('focus-within');
                 }
@@ -97,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (parentLi.classList.contains('active')) {
                         parentLi.classList.remove('active');
                     } else {
-                        closeAllMobileSubmenus(); 
-                        parentLi.classList.add('active');
+                        closeAllMobileSubmenus(); // 關閉其他已開啟的子選單
+                        parentLi.classList.add('active'); // 展開當前子選單
                     }
                 }
             }
@@ -123,11 +144,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                  const isActive = item.classList.contains('active');
 
-                 // 確保內容收合 (利用 JS 確保初始 max-height 正確)
-                 content.style.maxHeight = isActive ? content.scrollHeight + 30 + "px" : 0;
+                 // 確保內容收合或展開時 max-height 正確
+                 // 這裡需要計算 padding (CSS 設為 15px 上下，共 30px)
+                 const contentHeight = content.scrollHeight; 
+                 content.style.maxHeight = isActive ? contentHeight + "px" : 0;
                  
                  header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-                 header.setAttribute('tabindex', '0'); 
+                 header.setAttribute('tabindex', '0'); // 確保可以被鍵盤選中
              }
         });
 
@@ -159,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
                     // 展開時
-                    content.style.maxHeight = content.scrollHeight + 30 + "px"; // 確保 +30px 留給 CSS padding
+                    content.style.maxHeight = content.scrollHeight + "px"; 
                     header.setAttribute('aria-expanded', 'true');
                 } else {
                     // 收合時
@@ -171,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====================================================
-    // 6. 圖片延遲載入 (Image Lazy Loading)
+    // 6. 圖片延遲載入 (Image Lazy Loading) - **注意: HTML 需使用 data-src**
     // ====================================================
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
@@ -211,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // ====================================================
-    // 7. 平滑滾動至錨點 (Smooth Scrolling)
+    // 7. 平滑滾動至錨點 (Smooth Scrolling) - 精確計算 Header 高度
     // ====================================================
     if (header) { 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -226,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (targetElement) {
                      // 關閉手機菜單
                      if (mainNav && mainNav.classList.contains('active')) {
-                         menuToggle.click(); 
+                         menuToggle.click(); // 模擬點擊關閉菜單
                      }
                     
                      // 計算滾動位置，減去固定 Header 的高度
@@ -240,5 +263,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    }
+    
+    // ====================================================
+    // 8. 自動更新版權年份
+    // ====================================================
+    if (currentYearSpan) {
+        const currentYear = new Date().getFullYear();
+        currentYearSpan.textContent = currentYear;
     }
 });
