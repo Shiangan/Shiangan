@@ -1,5 +1,5 @@
 // --------------------------------------------------------
-// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終極致版 V6.0 (優化版)
+// 祥安生命有限公司 - 核心腳本 (js/script.js) - 最終極致版 V6.1 (修正版)
 // --------------------------------------------------------
 
 /**
@@ -12,9 +12,11 @@
     // 統一管理 CSS Class 名稱與選擇器 (集中化管理)
     const CONSTANTS = {
         CLASS_ACTIVE: 'active', 
-        ACCORDION_ITEM_SELECTOR: '.accordion-item',
+        // 修正：FAQ 使用的是 HTML <details> 標籤，不使用這些傳統類名
+        FAQ_ITEM_SELECTOR: '.faq-item', 
+        DROPDOWN_SELECTOR: '.dropdown', // 修正: 與 HTML 保持一致
         MOBILE_BREAKPOINT: 900, // 與 CSS @media 斷點一致
-        QUERY_DELAY_MS: 800,    // 模擬 API 查詢延遲時間
+        QUERY_DELAY_MS: 800,    
         LINE_UNIVERSAL_URL: 'https://line.me/R/oa/lineLink',
         COPYRIGHT_TEXT: "\n\n--- 聲明 ---\n© 版權所有 祥安生命有限公司。請尊重智慧財產權。",
     };
@@ -39,7 +41,6 @@
      */
     function highlightActiveLink(navLinks) {
         const { CLASS_ACTIVE } = CONSTANTS;
-        // Helper: 清理 URL 
         const cleanPath = (url) => url?.split('?')[0].split('#')[0] || 'index.html';
         const currentPath = cleanPath(window.location.pathname.split('/').pop() || 'index.html'); 
         
@@ -47,24 +48,35 @@
             const itemHref = cleanPath(item.getAttribute('href'));
             item.classList.remove(CLASS_ACTIVE);
 
-            // 精確匹配 (e.g., index.html) 或 子頁面模糊匹配 (e.g., service.html 匹配 service-detail.html)
+            // 精確匹配 或 子頁面模糊匹配 
             if (itemHref === currentPath || 
                 (itemHref && currentPath.startsWith(itemHref.replace('.html', '')) && currentPath !== itemHref)) {
-                 item.classList.add(CLASS_ACTIVE);
+                 // 修正：移除 L1 連結的 active 狀態，只將 li 加上 active，由 CSS 控制 li 樣式
+                 const parentLi = item.closest('li');
+                 if (parentLi && !parentLi.classList.contains(CONSTANTS.DROPDOWN_SELECTOR)) {
+                    item.classList.add(CLASS_ACTIVE); 
+                 } else if (parentLi && parentLi.classList.contains(CONSTANTS.DROPDOWN_SELECTOR)) {
+                    // 如果是下拉 L1 連結，只在當前頁面是該服務/知識庫頁面時高亮
+                    if (currentPath === itemHref) {
+                        item.classList.add(CLASS_ACTIVE); 
+                    }
+                 }
             }
         });
     }
 
     function initializeNavigation() {
-        const { CLASS_ACTIVE, MOBILE_BREAKPOINT } = CONSTANTS;
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const { CLASS_ACTIVE, MOBILE_BREAKPOINT, DROPDOWN_SELECTOR } = CONSTANTS;
+        // 修正: 使用 .menu-toggle 類名
+        const mobileMenuBtn = document.querySelector('.menu-toggle'); 
         const mainNav = document.getElementById('main-nav');
         
         if (!mobileMenuBtn || !mainNav) return; 
 
         const initialBtnHtml = mobileMenuBtn.innerHTML;
         const navLinks = mainNav.querySelectorAll('a');
-        const dropdownItems = document.querySelectorAll('.has-dropdown');
+        // 修正: 使用 .dropdown 類名
+        const dropdownItems = document.querySelectorAll(DROPDOWN_SELECTOR); 
 
         /**
          * 1.1 行動選單切換邏輯
@@ -74,9 +86,8 @@
              const shouldOpen = isToggling ?? !mainNav.classList.contains(CLASS_ACTIVE); 
 
              mainNav.classList.toggle(CLASS_ACTIVE, shouldOpen);
-             document.body.classList.toggle('menu-open', shouldOpen); // 鎖定 body 滾動
+             document.body.classList.toggle('menu-open', shouldOpen); 
              
-             // 更新按鈕圖標和 ARIA 屬性
              mobileMenuBtn.innerHTML = shouldOpen 
                  ? '<i class="fas fa-times"></i> 關閉' 
                  : initialBtnHtml;
@@ -96,9 +107,10 @@
         function handleMobileDropdown(e, item, dropdownLink, icon) {
             // 僅在行動模式下啟用手風琴效果
             if (window.innerWidth <= MOBILE_BREAKPOINT) {
+                // 如果是下拉連結，我們需要阻止預設行為 (阻止跳轉) 來開啟手風琴
                 e.preventDefault(); 
 
-                // 實作單一展開模式
+                // 實作單一展開模式 (收合其他已開啟的項目)
                 dropdownItems.forEach(otherItem => {
                     if (otherItem !== item && otherItem.classList.contains(CLASS_ACTIVE)) {
                         otherItem.classList.remove(CLASS_ACTIVE);
@@ -110,16 +122,13 @@
                 // 切換當前項目的狀態
                 item.classList.toggle(CLASS_ACTIVE);
                 
-                // 旋轉箭頭圖標
+                // 旋轉箭頭圖標 (CSS 會處理 max-height 的過渡)
                 if (icon) {
                     icon.style.transform = item.classList.contains(CLASS_ACTIVE) ? 'rotate(180deg)' : 'rotate(0deg)';
                 }
             } else {
-                // 桌面模式下，如果是 L1 下拉連結，應允許跳轉
-                if (item.classList.contains(CLASS_ACTIVE)) {
-                    // 如果下拉選單是開啟的 (桌面hover通常讓它開啟)，點擊應跳轉
-                    window.location.href = dropdownLink.href;
-                }
+                // 桌面模式：點擊 L1 連結允許跳轉 (讓用戶點擊連結本身導航)
+                // 這裡無需額外處理，因為預設行為就是導航。
             }
         }
 
@@ -134,14 +143,15 @@
             
             // 僅在行動模式且選單開啟時處理
             if (window.innerWidth <= MOBILE_BREAKPOINT && mainNav.classList.contains(CLASS_ACTIVE)) { 
-                const parentDropdown = link.closest('.has-dropdown');
+                // 修正: 使用 .dropdown 類名
+                const parentDropdown = link.closest(DROPDOWN_SELECTOR);
                 
-                // 如果是下拉選單的 L1 連結，跳過（交給手風琴邏輯處理）
-                if (parentDropdown && parentDropdown === link.parentElement) {
+                // 如果是 L1 連結本身，則跳過（交給手風琴邏輯處理）
+                if (parentDropdown && parentDropdown === link.parentElement.closest(DROPDOWN_SELECTOR)) {
                     return; 
                 }
                 
-                // 非下拉子項目或 L2/L3 項目，點擊後關閉選單
+                // L2 或 L3 連結，點擊後關閉選單
                 setTimeout(() => toggleMobileMenu(false), 0);
             }
         });
@@ -172,7 +182,7 @@
         // 1.6 無障礙性： ESC 鍵關閉選單
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && mainNav.classList.contains(CLASS_ACTIVE)) {
-                e.preventDefault(); // 阻止其他潛在行為
+                e.preventDefault(); 
                 toggleMobileMenu(false);
             }
         });
@@ -184,6 +194,7 @@
 
     // ===========================================
     // 區塊 2: 喪禮花禮訂購表單互動邏輯 (Order Form)
+    // (此區塊邏輯良好，僅微調選取器與註釋)
     // ===========================================
     
     function initializeOrderForm() {
@@ -317,7 +328,7 @@
                 e.preventDefault();
                 const externalUrl = this.getAttribute('href'); 
                 if (externalUrl) {
-                    window.open(externalUrl, '_blank', 'noopener,noreferrer'); // 新增安全屬性
+                    window.open(externalUrl, '_blank', 'noopener,noreferrer');
                 }
             });
         }
@@ -331,7 +342,6 @@
             const senderPhoneValue = senderPhone?.value.trim() || '';
             const hallValue = funeralHallSelect.value.trim();
             const dateValue = hallDateInput.value.trim();
-            // 如果禮廳選擇 '手動輸入'，則使用輸入框的值；否則，使用下拉選單的值
             const hallDisplayValue = hallSelect.value === '手動輸入' ? deceasedNameInput.value.trim() + ' (禮廳手動輸入)' : hallSelect.value;
             const deceasedValue = deceasedNameInput.value.trim();
             const productValue = productSelect?.value.trim() || '未選擇花禮/罐頭塔';
@@ -356,16 +366,15 @@
                                     `\n--- 告別式資訊 ---\n` +
                                     `* 場館：${hallValue}\n` +
                                     `* 日期：${dateValue}\n` +
-                                    `* 禮廳：${hallDisplayValue}\n` + // 修正：應傳送選定的禮廳
+                                    `* 禮廳：${hallDisplayValue}\n` + 
                                     `* 逝者：${deceasedValue}\n` +
                                     `* 備註：${remarkValue}`;
                 
-                // 查找 LINE 連結 (優化：直接使用 data 屬性或統一的設定)
                 const lineLinkElement = document.querySelector('.floating-cta a[href*="line"], a[href*="line.me/ti/p"]');
                 const encodedMessage = encodeURIComponent(lineMessage);
 
                 if (lineLinkElement) {
-                    // 使用 LINE 通用 API，確保訊息能被正確傳遞
+                    // 使用 LINE 通用 API
                     const finalLineLink = `${LINE_UNIVERSAL_URL}?text=${encodedMessage}`;
                      
                     alert('訂單已暫存！即將引導至 LINE 專員，請將預設訊息發送給我們，以確認最終訂購細節與付款。');
@@ -380,69 +389,38 @@
 
 
     // ===========================================
-    // 區塊 3: 手風琴 (Accordion) 功能
+    // 區塊 3: 手風琴 (Accordion) 功能 (修正為匹配 <details> 結構)
     // ===========================================
     
     function initializeAccordion() {
-        const { CLASS_ACTIVE, ACCORDION_ITEM_SELECTOR } = CONSTANTS;
-        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        const { FAQ_ITEM_SELECTOR } = CONSTANTS;
+        // 修正: 選擇所有 <details> 元素作為 FAQ 項目
+        const faqItems = document.querySelectorAll(FAQ_ITEM_SELECTOR); 
 
-        /** 設置或清除內容區塊的高度 (用於觸發 CSS 過渡動畫) */
-        function setContentHeight(element, shouldExpand) {
-             if (shouldExpand) {
-                 // 展開：確保瀏覽器在計算 scrollHeight 前完成渲染
-                 requestAnimationFrame(() => {
-                     element.style.maxHeight = element.scrollHeight + "px"; 
-                 });
-             } else {
-                 // 關閉
-                 element.style.maxHeight = '0px'; 
-             }
-        }
-
-        accordionHeaders.forEach(header => {
-            const currentItem = header.closest(ACCORDION_ITEM_SELECTOR);
-            const content = header.nextElementSibling; 
-            
-            if (!currentItem || !content) return;
-
-            // 3.1 確保初始狀態正確 (設置初始高度)
-            const isInitiallyExpanded = currentItem.classList.contains(CLASS_ACTIVE);
-            // 修正：初始時，必須在 CSS 中設置 content 預設為 max-height: 0; overflow: hidden;
-            content.style.maxHeight = isInitiallyExpanded ? content.scrollHeight + "px" : '0px';
-            header.setAttribute('aria-expanded', isInitiallyExpanded);
-            
-            // 3.2 點擊事件 (單一展開模式)
-            header.addEventListener('click', () => {
-                
-                // 收合所有其他已展開的項目
-                document.querySelectorAll(ACCORDION_ITEM_SELECTOR).forEach(item => {
-                    const otherHeader = item.querySelector('.accordion-header');
-                    const otherContent = item.querySelector('.accordion-content');
-
-                    if (item !== currentItem && item.classList.contains(CLASS_ACTIVE)) {
-                        item.classList.remove(CLASS_ACTIVE);
-                        if (otherContent) setContentHeight(otherContent, false); 
-                        if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
-                    }
-                });
-
-                // 切換當前項目的狀態
-                currentItem.classList.toggle(CLASS_ACTIVE);
-                const isExpanding = currentItem.classList.contains(CLASS_ACTIVE);
-                
-                header.setAttribute('aria-expanded', isExpanding);
-                setContentHeight(content, isExpanding);
-            });
-            
-            // 3.3 A11Y 強化: 處理鍵盤 Enter/Space
-            header.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    header.click();
+        // 由於您使用的是 <details> 元素，它本身已經具備原生開合功能和 A11Y 支援。
+        // 我們只需要添加單一展開 (Single-Expand) 的邏輯，如果需要的話。
+        
+        faqItems.forEach(currentItem => {
+            // 3.1 處理單一展開模式 (當一個打開時，關閉其他的)
+            currentItem.addEventListener('toggle', (e) => {
+                if (currentItem.open) {
+                    faqItems.forEach(otherItem => {
+                        // 如果其他項目不是當前項目且是打開的，則關閉它
+                        if (otherItem !== currentItem && otherItem.open) {
+                            otherItem.open = false; 
+                        }
+                    });
                 }
             });
+            
+            // 3.2 A11Y 強化: 確保 summary 元素是可聚焦的 (通常原生支援)
+            const summary = currentItem.querySelector('summary');
+            if (summary) {
+                summary.setAttribute('tabindex', '0');
+            }
         });
+
+        // 備註：使用 <details>/<summary> 已經大幅簡化了 JS，無需處理 max-height 和 aria-expanded。
     }
 
     // ===========================================
@@ -455,19 +433,17 @@
             const selection = document.getSelection();
             
             if (selection && selection.toString().length > 0) {
-                 e.preventDefault(); // 阻止瀏覽器預設的複製行為
+                 e.preventDefault(); 
                  
-                 // 獲取原始純文字內容
                  const originalText = selection.toString();
-                 
-                 // 將原始文字加上版權聲明後寫入剪貼簿
                  e.clipboardData.setData('text/plain', originalText + COPYRIGHT_TEXT);
             }
-            console.info(COPYRIGHT_TEXT.replace('\n\n--- 聲明 ---\n', '')); // 控制台輸出較精簡
+            console.info(COPYRIGHT_TEXT.replace('\n\n--- 聲明 ---\n', '')); 
         });
         
         // 頁面底部的版權年份動態更新
-        const currentYearIndex = document.getElementById('current-year-index');
+        // 修正: 假設您的 HTML 中有 <span id="current-year">2025</span>
+        const currentYearIndex = document.getElementById('current-year');
         if (currentYearIndex) {
             currentYearIndex.textContent = new Date().getFullYear();
         }
@@ -484,7 +460,7 @@
             initializeAccordion();
             initializeCopyrightProtection();
             
-            console.log("祥安生命核心腳本 (V6.0) 初始化完成。");
+            console.log("祥安生命核心腳本 (V6.1) 初始化完成。");
         } catch (error) {
              console.error("祥安生命核心腳本初始化失敗:", error);
         }
