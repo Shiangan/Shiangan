@@ -199,6 +199,8 @@ p { margin-bottom: 1em; }
     list-style: none;
     padding: 10px 0;
     z-index: 10;
+    
+    /* 🚀 關鍵修正：強制使用 Flexbox 並設定垂直方向，確保垂直排列 */
     display: flex; 
     flex-direction: column; 
     
@@ -219,8 +221,11 @@ p { margin-bottom: 1em; }
 }
 
 .submenu li {
-    padding: 0px;
+    padding: 0px; /* 確保 padding 數值寫法正確 */
     width: 100%;
+    /* 輔助修正：防止 li 被 Flexbox 擠壓或拉伸 */
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .submenu a {
@@ -730,11 +735,17 @@ footer {
         display: none; 
     }
     
+    /* 確保手機版子選單也是垂直排列 */
     .submenu {
         position: static; /* 取消絕對定位，允許內容堆疊 */
         width: 100%;
         box-shadow: none;
         border-top: none;
+        
+        /* 確保手機版也使用垂直 Flexbox，增加穩定性 */
+        display: flex;
+        flex-direction: column;
+        
         /* 移除底邊距，讓 max-height 精準控制高度 */
         padding: 0 0 0 20px; 
         transform: none;
