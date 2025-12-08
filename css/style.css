@@ -1,4 +1,3 @@
-
 /* --- 字體導入 (Font Loading) --- */
 @font-face {
     font-family: 'ChenYu';
@@ -20,19 +19,19 @@
 
 :root {
     /* 顏色定義 */
-    --primary-color: #A31E21;       /* 主要品牌色 (深紅/酒紅) */
-    --primary-dark: #7D181A;        /* 主要品牌色深色 (Hover) */
-    --secondary-color: #333333;     /* 次要顏色 (深灰/文字) */
-    --accent-color: #C1995D;        /* 強調色/輔助色 (金色/米色，用於重點和聯繫) */
-    --bg-light: #F7F7F7;            /* 淺色背景 */
-    --text-dark: #333333;           /* 深色文字 */
-    --text-light: #FFFFFF;          /* 淺色文字 */
-    --border-color: #E0E0E0;        /* 邊框顏色 */
-    --shadow-color: rgba(0, 0, 0, 0.08); /* 陰影 */
+    --primary-color: #A31E21;       
+    --primary-dark: #7D181A;        
+    --secondary-color: #333333;     
+    --accent-color: #C1995D;        
+    --bg-light: #F7F7F7;            
+    --text-dark: #333333;           
+    --text-light: #FFFFFF;          
+    --border-color: #E0E0E0;        
+    --shadow-color: rgba(0, 0, 0, 0.08); 
     
     /* 字體定義 */
-    --font-serif: 'Iansui, 'Noto Serif TC', serif; /* 襯線字體 (標題) */
-    --font-sans: 'Iansui, 'Noto Sans TC', sans-serif; /* 非襯線字體 (內文) */
+    --font-serif: 'Iansui', 'Noto Serif TC', serif; 
+    --font-sans: 'Iansui', 'Noto Sans TC', sans-serif; 
     
     /* 尺寸定義 */
     --header-height: 80px;
@@ -57,16 +56,18 @@ body {
     line-height: 1.7;
     color: var(--text-dark);
     background-color: var(--text-light);
-    transition: opacity 0.3s ease-in; /* 讓抗閃爍效果更平滑 */
+    transition: opacity 0.3s ease-in; 
 }
 
-/* 🚀 新增: 抗閃爍與滾動鎖定樣式 */
+/* 🚀 修正: 抗閃爍與滾動鎖定樣式 */
 .js-loading {
-    opacity: 0; /* 頁面載入時隱藏內容 */
+    opacity: 0; 
 }
 
 body.no-scroll {
-    overflow: hidden; /* 手機菜單展開時鎖定背景滾動 */
+    overflow: hidden; 
+    position: fixed; /* 修正 iOS 鎖定滾動問題 */
+    width: 100%;
 }
 
 /* 圖片與連結重置 */
@@ -141,7 +142,7 @@ p { margin-bottom: 1em; }
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-/* 🚀 新增: Header 滾動樣式 (JS 依賴) */
+/* Header 滾動樣式 (JS 依賴) */
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -264,11 +265,17 @@ p { margin-bottom: 1em; }
     font-weight: 700;
 }
 
+/* 🚀 新增: 手機圖示切換的視覺樣式 (配合 JS 實現切換) */
+.menu-toggle i {
+    transition: transform 0.3s ease-in-out; /* 讓圖示切換更流暢 */
+    font-size: 1.3rem; /* 讓圖示更明顯 */
+    vertical-align: middle;
+}
+
 /* -------------------------------------------
  * 2. CTA 按鈕與共通元件 (CTA Buttons & Common)
  * ------------------------------------------- */
 
-/* ... (CTA 按鈕樣式保持不變) ... */
 .cta-button {
     display: inline-block;
     padding: 12px 30px;
@@ -317,7 +324,6 @@ p { margin-bottom: 1em; }
 /* -------------------------------------------
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
-/* ... (Hero, Card Grid, Flow Chart 樣式保持不變) ... */
 
 .hero-section {
     position: relative;
@@ -477,7 +483,7 @@ p { margin-bottom: 1em; }
 
 
 /* -------------------------------------------
- * 4. FAQ 手風琴樣式 (Accordion) - 🚀 替換為 JS max-height 邏輯
+ * 4. FAQ 手風琴樣式 (Accordion) 
  * ------------------------------------------- */
 
 .accordion-container {
@@ -485,7 +491,6 @@ p { margin-bottom: 1em; }
     margin: 40px auto 0;
 }
 
-/* 替換原 .faq-item */
 .accordion-item { 
     background-color: var(--text-light);
     border: 1px solid var(--border-color);
@@ -504,13 +509,12 @@ p { margin-bottom: 1em; }
     font-size: 1.05rem;
     color: var(--secondary-color);
     transition: background-color 0.3s;
-    /* 讓 header 成為焦點時更明顯 */
     outline-offset: -2px; 
 }
 
 .accordion-header:hover, .accordion-header:focus {
     background-color: #f0f0f0;
-    outline: 2px solid var(--accent-color); /* 增加焦點樣式 */
+    outline: 2px solid var(--accent-color); 
 }
 
 .accordion-header i {
@@ -518,7 +522,6 @@ p { margin-bottom: 1em; }
     margin-right: 10px;
 }
 
-/* 展開時的樣式變化 (JS 切換 .active) */
 .accordion-item.active > .accordion-header {
     background-color: var(--primary-color);
     color: var(--text-light);
@@ -531,25 +534,23 @@ p { margin-bottom: 1em; }
 
 /* 內容區塊 - 核心動畫: 使用 max-height 實現平滑過渡 */
 .accordion-content {
-    /* 初始狀態 */
     max-height: 0; 
     overflow: hidden;
     padding: 0 20px; 
     background-color: var(--text-light);
     border-top: 1px solid var(--border-color);
-    transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1); /* 調整為更流暢的過渡曲線 */
+    transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1); 
 }
 
 .accordion-content p {
     margin-bottom: 0;
-    padding-top: 15px; /* 內容上方的填充 */
-    padding-bottom: 15px; /* 內容下方的填充 */
+    padding-top: 15px; 
+    padding-bottom: 15px; 
 }
 
 /* -------------------------------------------
  * 5. 頁尾 (Footer)
  * ------------------------------------------- */
-/* ... (Footer, 浮動 CTA 樣式保持不變) ... */
 
 footer {
     background-color: var(--secondary-color);
@@ -662,7 +663,7 @@ footer {
 
 
 /* -------------------------------------------
- * 6. 響應式設計 (Media Queries) - 🚀 斷點統一為 900px
+ * 6. 響應式設計 (Media Queries) - 🚀 核心 RWD 修正
  * ------------------------------------------- */
 
 /* 平板電腦和手機 (最大寬度 900px) */
@@ -674,7 +675,7 @@ footer {
     }
 
     .menu-toggle {
-        display: block; /* 顯示漢堡選單按鈕 */
+        display: block; 
     }
 
     .main-nav {
@@ -684,14 +685,16 @@ footer {
         width: 100%;
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
-        height: 0; /* 預設收合 */
+        
+        /* 🚀 核心修正: 使用 max-height 實現平滑過渡 */
+        max-height: 0; 
         overflow: hidden;
-        transition: height 0.3s ease-in-out;
+        transition: max-height 0.3s ease-in-out; 
     }
     
-    /* 🚀 配合 JS 邏輯，使用 .active class */
     .main-nav.active {
-        height: auto; 
+        /* 使用一個足夠大的數值，確保選單內容完全展開 */
+        max-height: 80vh; 
         padding-bottom: 10px;
     }
 
@@ -725,14 +728,15 @@ footer {
         width: 100%;
         box-shadow: none;
         border-top: none;
-        padding: 0 0 15px 20px; /* 僅保留底部和左側 padding */
+        padding: 0 0 15px 20px; 
         transform: none;
         opacity: 1; 
         visibility: visible;
-        display: none; /* 預設隱藏，由 JS 控制 */
+        display: none; 
+        transition: none; /* 移除過渡，防止干擾 JS 邏輯 */
     }
 
-    /* 🚀 配合 JS 邏輯，使用 .active class 控制子選單展開 */
+    /* 配合 JS 邏輯，使用 .active class 控制子選單展開 */
     .dropdown.active > .submenu {
         display: block;
     }
@@ -756,7 +760,6 @@ footer {
         width: 100%;
         text-align: center;
     }
-
 
     /* Hero 區塊調整 */
     .hero-section {
@@ -787,7 +790,7 @@ footer {
 
     /* 網格佈局調整 */
     .flow-chart li {
-        flex-basis: calc(50% - 20px); /* 平板每行 2 個 */
+        flex-basis: calc(50% - 20px); 
         min-width: unset;
     }
     
@@ -796,11 +799,11 @@ footer {
 /* 純手機版 (較窄螢幕，例如 576px) */
 @media (max-width: 576px) {
     .flow-chart li {
-        flex-basis: 100%; /* 手機版單欄 */
+        flex-basis: 100%; 
     }
     
     .footer-grid {
-        grid-template-columns: 1fr; /* 頁尾改為單欄 */
+        grid-template-columns: 1fr; 
         padding: 0 15px 40px;
     }
     
@@ -815,7 +818,6 @@ footer {
 
 /* 確保第一個區塊不會被 Header 遮蓋 */
 .first-section {
-    margin-top: -80px; 
+    margin-top: calc(-1 * var(--header-height)); 
     padding-top: var(--header-height); 
 }
-
