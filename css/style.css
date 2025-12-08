@@ -395,6 +395,11 @@ p { margin-bottom: 1em; }
  * ------------------------------------------- */
 
 /* ⭐️ Hero 區塊樣式 (星星動畫) */
+@keyframes blink {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.3; }
+}
+
 @keyframes move-star {
     from {
         transform: translate(0, 0);
@@ -421,32 +426,61 @@ p { margin-bottom: 1em; }
     padding-top: var(--header-height); 
 }
 
-/* 第一層星星 (遠處/速度慢) */
+
+/* 第一層星星 (遠處/速度慢/密度低) */
 #stars {
     position: absolute;
     top: 0;
     left: 0;
     width: 300vw;
     height: 300vh;
-    /* 隨機生成 1px x 1px 的白色點作為星星 */
-    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0z'/%3E%3Cpath fill='%23ffffff' d='M10 10h1v1H10z'/%3E%3Cpath fill='%23ffffff' d='M25 25h1v1H25z'/%3E%3Cpath fill='%23ffffff' d='M50 50h1v1H50z'/%3E%3C/svg%3E") repeat;
-    background-size: 100px 100px; 
-    animation: move-star 120s linear infinite;
+    /* 調整星星大小 (點更大 2px x 2px) 與密度 (背景圖間距拉大) */
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h2v2H0z'/%3E%3Cpath fill='%23ffffff' d='M15 15h2v2H15z'/%3E%3Cpath fill='%23ffffff' d='M40 40h2v2H40z'/%3E%3Cpath fill='%23ffffff' d='M70 70h2v2H70z'/%3E%3C/svg%3E") repeat;
+    background-size: 150px 150px; /* 控制星星密度：稀疏一些 */
+    
+    /* 調整動畫：速度慢、加入隨機閃爍 */
+    animation: move-star 200s linear infinite, 
+               blink 3s infinite alternate; /* 慢速閃爍 */
+    animation-delay: 0.5s; /* 隨機延遲 */
     z-index: 1;
 }
 
-/* 第二層星星 (近處/速度快/密度低) */
+/* 第二層星星 (近處/速度快/密度高/更亮) */
 #stars2 {
     position: absolute;
     top: 0;
     left: 0;
     width: 300vw;
     height: 300vh;
-    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h2v2H0z'/%3E%3Cpath fill='%23ffffff' d='M30 30h2v2H30z'/%3E%3C/svg%3E") repeat;
-    background-size: 200px 200px; 
-    animation: move-star 200s linear infinite reverse;
+    /* 調整星星大小 (點 1.5px x 1.5px) 與密度 (背景圖間距密集) */
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h1.5v1.5H0z'/%3E%3Cpath fill='%23ffffff' d='M20 20h1.5v1.5H20z'/%3E%3Cpath fill='%23ffffff' d='M5 5h1.5v1.5H5z'/%3E%3C/svg%3E") repeat;
+    background-size: 80px 80px; /* 控制星星密度：密集一些 */
+    
+    /* 調整動畫：速度快、方向反轉、加入隨機閃爍 */
+    animation: move-star 150s linear infinite reverse,
+               blink 2s infinite alternate; /* 快速閃爍 */
+    animation-delay: 1.2s; /* 隨機延遲 */
     z-index: 1;
 }
+
+/* 🚀 新增：第三層星星 (最亮/最快/最不規律) */
+#stars3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300vw;
+    height: 300vh;
+    /* 點狀更小 1px x 1px，但密度極高，模擬銀河塵埃 */
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0z'/%3E%3Cpath fill='%23ffffff' d='M10 10h1v1H10z'/%3E%3Cpath fill='%23ffffff' d='M5 5h1v1H5z'/%3E%3C/svg%3E") repeat;
+    background-size: 60px 60px; 
+    
+    /* 調整動畫：速度最快、方向正向、加入隨機閃爍 */
+    animation: move-star 100s linear infinite,
+               blink 1.5s infinite alternate; /* 最快閃爍 */
+    animation-delay: 0s; /* 隨機延遲 */
+    z-index: 1;
+}
+
 
 /* 確保覆蓋層在星星之上，文字之下 */
 .hero-section::before {
