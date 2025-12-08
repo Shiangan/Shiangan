@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.3 色彩質感優化版)
+   程式夥伴 - 網站核心 CSS (V20.4 頂級質感修正版)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -22,21 +22,21 @@
  * ------------------------------------------- */
 
 :root {
-    /* 🏆 品牌色系 - 質感優化 */
-    --primary-color: #2b4570; /* 沉穩海軍藍 (取代 #3b5998，更深沉，穩定感強) */
-    --primary-dark: #1f3355; /* 極深藍 */
-    --accent-color: #c49a4f; /* **低飽和度暖金色** (取代 #d4a757，提升高級感和溫潤度) */
-    --secondary-color: #6d4c41; /* **深咖啡棕** (取代 #795548，更具泥土的沉穩和歷史感) */
+    /* 🏆 品牌色系 - 最終質感優化 */
+    --primary-color: #26406e; /* 沉穩海軍藍 (略深，增加權威感) */
+    --primary-dark: #1e3151;  /* 極深藍 (提供更暗的陰影和 hover 效果) */
+    --accent-color: #d4a757;  /* **優雅的暖金色** (略微提高飽和度，增強點綴效果) */
+    --secondary-color: #5c3c31; /* **深咖啡棕** (略深，增加大地的穩重和歷史感) */
 
     /* 文字色系 */
-    --text-dark: #3c3c3c; /* 略微柔和的深灰，非純黑 */
+    --text-dark: #3c3c3c; 
     --text-light: #ffffff;
     
     /* 背景與邊界 */
-    --bg-light: #f5f5f5; /* 略帶溫暖的淺灰 */
-    --bg-dark: #000005; /* **極致夜空黑** (比 #00000a 更接近純黑，為星空提供深度) */
+    --bg-light: #f5f5f5; 
+    --bg-dark: #000005; /* 極致夜空黑 */
     --border-color: #e0e0e0;
-    --shadow-color: rgba(0, 0, 0, 0.08); /* 柔和陰影 */
+    --shadow-color: rgba(0, 0, 0, 0.08); 
 
     
     /* 字體定義 */
@@ -46,11 +46,11 @@
     /* 尺寸定義 */
     --header-height: 80px;
     --content-max-width: 1200px;
-    --padding-section-v: 80px; /* 統一區塊垂直內距 */
+    --padding-section-v: 80px; 
 }
 
 
-/* 基本重置 */
+/* 基本重置 (無變動) */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -70,7 +70,7 @@ body {
     transition: opacity 0.3s ease-in; 
 }
 
-/* 抗閃爍與滾動鎖定樣式 */
+/* 抗閃爍與滾動鎖定樣式 (無變動) */
 .js-loading {
     opacity: 0; 
 }
@@ -81,7 +81,7 @@ body.no-scroll {
     width: 100%;
 }
 
-/* 圖片與連結重置 */
+/* 圖片與連結重置 (無變動) */
 img {
     max-width: 100%;
     height: auto;
@@ -99,7 +99,7 @@ a:hover, a:focus {
     opacity: 0.9; 
 }
 
-/* 標題樣式 */
+/* 標題樣式 (無變動) */
 h1, h2, h3, h4 {
     font-family: var(--font-serif);
     line-height: 1.3;
@@ -108,7 +108,7 @@ h1, h2, h3, h4 {
     font-weight: 700;
 }
 
-/* 🏆 H1 響應式自適應縮放： (手機最小1.8rem, 建議5.5vw, 桌面最大4.0rem) */
+/* 🏆 H1 響應式自適應縮放 (無變動) */
 h1 { 
     font-size: clamp(1.8rem, 5.5vw, 4.0rem); 
     text-align: center; 
@@ -118,7 +118,7 @@ h1 {
     margin-bottom: 1.5em; 
 }
 
-/* 🏆 H2 響應式自適應縮放： (手機最小1.6rem, 建議4vw, 桌面最大2.5rem) */
+/* 🏆 H2 響應式自適應縮放 (無變動) */
 h2 { 
     font-size: clamp(1.6rem, 4vw, 2.5rem); 
     margin-top: 1.5em; 
@@ -126,28 +126,28 @@ h2 {
     
     /* ✅ 【最終優化】：為 H2 增加點綴分隔線 */
     position: relative;
-    padding-bottom: 20px; /* 為分隔線留出空間 */
+    padding-bottom: 20px; 
 }
 
-/* H2 分隔線樣式 */
+/* H2 分隔線樣式 (無變動) */
 h2::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px; /* 基礎寬度略增 */
-    height: 4px; /* 固定的高度 */
+    width: 80px; 
+    height: 4px; 
     background-color: var(--accent-color);
     border-radius: 2px;
-    transition: width 0.3s; /* 增加過渡 */
+    transition: width 0.3s; 
 }
 
 h3 { font-size: 1.5rem; }
 
 p { margin-bottom: 0.5em; }
 
-/* 容器與通用佈局 */
+/* 容器與通用佈局 (無變動) */
 .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
@@ -170,7 +170,7 @@ p { margin-bottom: 0.5em; }
 }
 
 /* -------------------------------------------
- * 1. 導覽列與頁首 (Header & Nav)
+ * 1. 導覽列與頁首 (Header & Nav) (無變動)
  * ------------------------------------------- */
 
 .main-header {
@@ -361,7 +361,7 @@ p { margin-bottom: 0.5em; }
 }
 
 /* -------------------------------------------
- * 2. CTA 按鈕與共通元件 (CTA Buttons & Common)
+ * 2. CTA 按鈕與共通元件 (CTA Buttons & Common) (無變動)
  * ------------------------------------------- */
 
 .cta-button {
@@ -421,7 +421,7 @@ p { margin-bottom: 0.5em; }
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
-/* ⭐️ Hero 區塊樣式 (星星動畫 - 增強動畫感) */
+/* ⭐️ Hero 區塊樣式 (星星動畫) (無變動) */
 @keyframes blink {
     0%, 100% { opacity: 0.8; }
     25% { opacity: 0.3; }
@@ -436,7 +436,7 @@ p { margin-bottom: 0.5em; }
     100% { transform: translate(-150vw, -150vh); } 
 }
 
-/* 🚀 流星隨機軌跡動畫 (配合 JS 變數) */
+/* 🚀 流星隨機軌跡動畫 (配合 JS 變數) (無變動) */
 @keyframes shooting-star-random {
     0% { 
         /* 0% 狀態，流星在起始點 (0,0) 旋轉 var(--rotation) */
@@ -453,14 +453,14 @@ p { margin-bottom: 0.5em; }
     }
 }
 
-/* 輔助 Keyframes：讓流星頭部有呼吸閃爍感 */
+/* 輔助 Keyframes：讓流星頭部有呼吸閃爍感 (無變動) */
 @keyframes meteor-glow {
     0% { transform: scale(1); }
     100% { transform: scale(1.1); }
 }
 
 
-/* 確保星星 div 覆蓋整個區域，用於容納流星 */
+/* 確保星星 div 覆蓋整個區域，用於容納流星 (無變動) */
 #stars, #stars2, #stars3 {
     position: absolute;
     top: 0;
@@ -470,7 +470,7 @@ p { margin-bottom: 0.5em; }
     pointer-events: none; 
 }
 
-/* 第一層星星 (遠處/速度最慢) */
+/* 第一層星星 (遠處/速度最慢) (無變動) */
 #stars {
     animation: move-star 300s linear infinite reverse, 
                blink 5s infinite alternate; 
@@ -478,11 +478,10 @@ p { margin-bottom: 0.5em; }
     z-index: 1;
 }
 #stars::before {
-    content: ""; /* 必須有 content 才能應用 box-shadow */
+    content: ""; 
     position: absolute;
     width: 1px;
     height: 1px;
-    /* 大量白色小點模擬遠處星辰 (顏色略微偏冷白 #d0d0d0) */
     box-shadow: 
         100vw 200vh #d0d0d0, 250vw 120vh #d0d0d0, -50vw 150vh #d0d0d0, 30vw 100vh #d0d0d0, 
         -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0, -10vw 80vh #d0d0d0, 
@@ -495,7 +494,7 @@ p { margin-bottom: 0.5em; }
 }
 
 
-/* 第二層星星 (中距/速度中) */
+/* 第二層星星 (中距/速度中) (無變動) */
 #stars2 {
     animation: move-star 200s linear infinite, 
                blink 3s infinite alternate; 
@@ -503,7 +502,7 @@ p { margin-bottom: 0.5em; }
     z-index: 1;
 }
 #stars2::before {
-    content: ""; /* 必須有 content 才能應用 box-shadow */
+    content: ""; 
     position: absolute;
     width: 2px;
     height: 2px;
@@ -515,7 +514,7 @@ p { margin-bottom: 0.5em; }
         240vw 30vh #ffffff, 60vw 20vh #ffffff, 10vw 10vh #ffffff, 290vw 150vh #ffffff;
 }
 
-/* 🚀 第三層星星 (最近/最快/金色光暈) */
+/* 🚀 第三層星星 (最近/最快/金色光暈) (無變動) */
 #stars3 {
     animation: move-star 100s linear infinite reverse,
                blink 1.5s infinite alternate; 
@@ -523,7 +522,7 @@ p { margin-bottom: 0.5em; }
     z-index: 1;
 }
 #stars3::before {
-    content: ""; /* 必須有 content 才能應用 box-shadow */
+    content: ""; 
     position: absolute;
     width: 3px;
     height: 3px;
@@ -531,28 +530,30 @@ p { margin-bottom: 0.5em; }
     /* 🏆 優化：使用 Accent Color 加上高斯光暈，強化暖星質感 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 4px 2px rgba(196, 154, 79, 0.9), /* Accent Color (高斯陰影) */
-        50vw 50vh 4px 2px rgba(196, 154, 79, 0.9),
-        -50vw 100vh 4px 2px rgba(196, 154, 79, 0.9), 280vw 10vh var(--accent-color), 
-        150vw 250vh var(--accent-color), 90vw 180vh 4px 2px rgba(196, 154, 79, 0.9);
+        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9), /* 使用新的 Accent Color */
+        50vw 50vh 4px 2px rgba(212, 167, 87, 0.9),
+        -50vw 100vh 4px 2px rgba(212, 167, 87, 0.9), 280vw 10vh var(--accent-color), 
+        150vw 250vh var(--accent-color), 90vw 180vh 4px 2px rgba(212, 167, 87, 0.9);
 }
 
 
-/* ✅ 【流星本體 - 核心視覺修正 - 拖尾優化】 */
+/* ✅ 【流星本體 - 核心視覺修正 - 最終光學強化】 */
 .meteor {
     position: absolute;
     width: 4px; 
     height: 4px; 
     border-radius: 50%;
-    background-color: #f0f8ff; 
+    /* 核心光源：純白 */
+    background-color: #ffffff; 
     
-    /* 🏆 光暈優化：使用略帶淺藍的白光，模擬流星經過大氣層的電離光學效果 */
+    /* 🏆 最終光暈優化：層次分明，模擬高溫燃燒和電離氣體 */
     box-shadow: 
-        0 0 8px 1px rgba(255, 255, 255, 1),     /* 最內層極亮白 */
-        0 0 15px 6px rgba(180, 220, 255, 0.7); /* **淺藍光暈** */
+        0 0 4px 1px rgba(255, 255, 255, 1),      /* 內核：極亮白 (高溫) */
+        0 0 10px 4px rgba(255, 220, 180, 0.9),   /* **中層：極暖黃/金光** (燃燒物質的微粒) */
+        0 0 20px 8px rgba(180, 220, 255, 0.5);   /* 外層：柔和的電離淺藍 (氣體擴散) */
     
     opacity: 0; 
-    transform-origin: 0% 50%; 
+    transform-origin: 0% 50%; /* 確保方向邏輯正確 */
     z-index: 5;
     
     animation: meteor-glow 4s ease-in-out infinite alternate;
@@ -566,19 +567,20 @@ p { margin-bottom: 0.5em; }
     width: 400px; 
     height: 3px; 
     
-    /* 🏆 拖尾優化：使用更柔和的漸變，顏色略帶冷色調以符合流星速度感 */
+    /* 🏆 拖尾最終優化：漸變更柔和，增加霧化感 */
     background: linear-gradient(to right, 
-        rgba(220, 240, 255, 0.9) 0%,     
-        rgba(180, 220, 255, 0.4) 50%,    
+        rgba(255, 255, 255, 0.7) 0%,     /* 接近頭部：較透明的白光 */
+        rgba(150, 190, 255, 0.4) 30%,    /* 中段：更明顯的冷藍色 (煙霧) */
         rgba(255, 255, 255, 0) 100%      
     );
     
     transform: translateY(-50%); 
-    filter: blur(4px); /* 增加模糊度，使拖尾更具煙霧質感 */
+    /* 增加模糊度，使拖尾更具煙霧質感 */
+    filter: blur(6px); 
 }
 
 
-/* 🌠 Hero Section 結構與夜空基底 (必須配置) */
+/* 🌠 Hero Section 結構與夜空基底 (無變動) */
 .hero-section {
     position: relative;
     height: 100vh; 
@@ -594,7 +596,7 @@ p { margin-bottom: 0.5em; }
 }
 
 
-/* ✅ 【夜空漸層覆蓋層 - 核心視覺修正：增強底部細節與深度】 */
+/* ✅ 【夜空漸層覆蓋層 - 核心視覺修正】 (無變動) */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -665,7 +667,7 @@ p { margin-bottom: 0.5em; }
 
 .card-item:hover {
     transform: translateY(-6px); 
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Hover 時陰影加深，有漂浮感 */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
 }
 
 .card-item .icon {
@@ -720,7 +722,7 @@ p { margin-bottom: 0.5em; }
 .emergency-contact .cta-button {
     margin-top: 20px;
     background-color: var(--accent-color);
-    color: var(--primary-dark); /* 搭配 Primary Dark，創造對比 */
+    color: var(--primary-dark); 
     font-weight: 700;
 }
 
@@ -773,7 +775,7 @@ p { margin-bottom: 0.5em; }
     text-align: center;
     
     background-color: var(--accent-color);
-    color: var(--primary-dark); /* 🏆 顏色優化：數字使用深藍，與暖金色底對比強烈 */
+    color: var(--primary-dark); 
     font-weight: 700;
     font-size: 1.1rem;
     border: 3px solid var(--text-light); 
@@ -799,7 +801,7 @@ p { margin-bottom: 0.5em; }
 
 
 /* -------------------------------------------
- * 4. FAQ 手風琴樣式 (Accordion) 
+ * 4. FAQ 手風琴樣式 (Accordion) (無變動)
  * ------------------------------------------- */
 
 .accordion-container {
@@ -868,7 +870,7 @@ p { margin-bottom: 0.5em; }
 
 
 /* -------------------------------------------
- * 5. 頁尾 (Footer)
+ * 5. 頁尾 (Footer) (無變動)
  * ------------------------------------------- */
 
 footer {
@@ -997,7 +999,7 @@ footer {
 
 
 /* -------------------------------------------
- * 6. 響應式設計 (Media Queries)
+ * 6. 響應式設計 (Media Queries) (無變動)
  * ------------------------------------------- */
 
 /* 平板電腦和手機 (最大寬度 900px) */
