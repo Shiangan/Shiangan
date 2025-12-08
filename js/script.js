@@ -15,12 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.getElementById('main-nav');
     const body = document.body;
+    // 根據您的 CSS 設定，使用 900px 作為手機/桌面切換點
     const mobileBreakpoint = 900; 
     const accordionContainer = document.querySelector('.accordion-container');
     const currentYearSpan = document.getElementById('current-year');
     
     // 輔助函數： Debounce (去抖動) - 優化性能
-    function debounce(func, delay = 150) { // 延遲時間微調
+    function debounce(func, delay = 150) { 
         let timeoutId;
         return function(...args) {
             clearTimeout(timeoutId);
@@ -48,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
                  if (menuToggle) {
                      menuToggle.setAttribute('aria-expanded', 'false');
                      
-                     // 避免在 resize 時重複呼叫 classList.replace() 造成錯誤
                      const menuIcon = menuToggle.querySelector('i');
                      if (menuIcon && menuIcon.classList.contains('fa-times')) {
                          menuIcon.classList.replace('fa-times', 'fa-bars');
@@ -141,14 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                  const isActive = item.classList.contains('active');
                  
-                 // 確保初始狀態的 max-height 是正確的 (使用 requestAnimationFrame 確保 DOM 穩定)
                  requestAnimationFrame(() => {
-                     // 由於 CSS 使用 max-height: 0/auto 的平滑過渡，初始狀態必須精確設置
-                     content.style.maxHeight = isActive ? content.scrollHeight + "px" : ''; // 展開時設為實際高度，收合時設為空字串或 0
+                     // 展開時設為實際高度，收合時設為 0
+                     content.style.maxHeight = isActive ? content.scrollHeight + "px" : '0px'; 
                  });
 
                  header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
                  header.setAttribute('role', 'button'); 
+                 header.setAttribute('tabindex', '0'); // 允許鍵盤導航
              }
         });
 
@@ -161,11 +161,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const content = item.querySelector('.accordion-content');
                 const isCurrentlyActive = item.classList.contains('active');
                 
-                // 關閉其他項目 (單開模式)
+                // 1. 關閉其他項目 (單開模式)
                 document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
                     if (activeItem !== item) {
                         activeItem.classList.remove('active');
-                        activeItem.querySelector('.accordion-content').style.maxHeight = 0;
+                        activeItem.querySelector('.accordion-content').style.maxHeight = '0px';
                         activeItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
                     }
                 });
@@ -173,23 +173,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 2. 切換當前項目的狀態
                 item.classList.toggle('active');
 
-                // 3. 實作平滑過渡 (使用 setTimeout 確保 CSS 讀取了 max-height: 0 的過渡起點)
+                // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
                     // 展開時
                     header.setAttribute('aria-expanded', 'true');
-                    // 核心強化: 設置高度前，使用 requestAnimationFrame 確保 scrollHeight 計算精確
                     requestAnimationFrame(() => {
+                        // 設置為 scrollHeight 觸發 CSS max-height: auto 過渡
                         content.style.maxHeight = content.scrollHeight + "px"; 
                     });
                 } else {
                     // 收合時
                     header.setAttribute('aria-expanded', 'false');
-                    // 核心強化: 必須先設定一個精確的高度值 ( content.scrollHeight )，
-                    // 然後在下一個 tick 設為 0，才能觸發正確的收合動畫。
+                    // 核心強化: 必須先設定一個精確的高度值，然後在下一個 tick 設為 0
                     content.style.maxHeight = content.scrollHeight + "px";
                     setTimeout(() => {
-                        content.style.maxHeight = 0;
-                    }, 10); // 確保瀏覽器有時間讀取到正確的初始高度
+                        content.style.maxHeight = '0px'; // 設為 0px 觸發 CSS 收合過渡
+                    }, 10); 
                 }
             }
         });
@@ -236,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling) - 完整性強化
     // ====================================================
     if (header) { 
+        // 排除單獨的 href="#" 連結 (通常用於回到頂部或菜單佔位)
         document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 
@@ -245,20 +245,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                     // 點擊錨點連結後，關閉手機菜單 (模擬點擊)
+                     // 點擊錨點連結後，關閉手機菜單 (如果開啟的話)
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
                          menuToggle.click(); 
                      }
                     
                      const headerHeight = header.offsetHeight;
                      
-                     // **核心強化**: 檢查目標元素是否為頁面頂部 (e.g., #top 或第一個 section)
-                     // 如果目標位置已經在視窗內，則無需考慮 headerHeight，直接滾動到目標頂部
                      const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
                      const targetPosition = targetTop - headerHeight;
                      
                      window.scrollTo({
-                         // 使用 Math.max 確保滾動位置不會小於 0 (避免滾動到頁面頂部上方的負值)
                          top: Math.max(0, targetPosition),
                          behavior: 'smooth'
                      });
@@ -266,9 +263,55 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
     
     // ====================================================
-    // 7. 自動更新版權年份 (Footer Copyright Year)
+    // 7. 動態生成不規則流星 (Meteor Generation Logic) 
+    // ====================================================
+    // 獲取流星的容器元素 (使用 #stars 作為流星容器)
+    const starsContainer = document.getElementById('stars');
+    
+    // 確保容器存在
+    if (starsContainer) { 
+        const numMeteors = 10; // 設置在畫面中同時存在的流星總數
+
+        function createMeteor() {
+            const meteor = document.createElement('div');
+            meteor.classList.add('meteor');
+
+            // 1. 隨機初始位置 (不規則的起點)
+            const startX = Math.random() * 30 + 100; // 100vw 到 130vw (右方畫面外)
+            const startY = Math.random() * 40 - 10; // -10vh 到 30vh (頂部畫面外/內)
+
+            // 2. 隨機動畫時間 (不規則的速度: 3 到 8 秒)
+            const duration = Math.random() * 5 + 3; 
+
+            // 3. 隨機動畫延遲 (不規則的出現時間: 0 到 15 秒)
+            const delay = Math.random() * 15; 
+
+            // 應用樣式和動畫屬性
+            meteor.style.left = `${startX}vw`;
+            meteor.style.top = `${startY}vh`;
+            
+            // 應用 CSS Keyframe (名稱: shooting-star-anim)
+            meteor.style.animationName = 'shooting-star-anim';
+            meteor.style.animationDuration = `${duration}s`;
+            meteor.style.animationDelay = `${delay}s`;
+            meteor.style.animationTimingFunction = 'linear';
+            meteor.style.animationIterationCount = 'infinite'; 
+
+            starsContainer.appendChild(meteor);
+        }
+
+        // 動態生成指定數量的流星
+        for (let i = 0; i < numMeteors; i++) {
+            createMeteor();
+        }
+    }
+
+
+    // ====================================================
+    // 8. 自動更新版權年份 (Footer Copyright Year)
     // ====================================================
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
