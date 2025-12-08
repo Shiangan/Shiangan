@@ -437,6 +437,7 @@ p { margin-bottom: 0.5em; }
 /* 🚀 流星隨機軌跡動畫 (配合 JS 變數) */
 @keyframes shooting-star-random {
     0% { 
+        /* 0% 狀態，流星在起始點 (0,0) 旋轉 var(--rotation) */
         transform: translate(0, 0) rotate(var(--rotation, -45deg)); 
         opacity: 0; 
     }
@@ -444,7 +445,7 @@ p { margin-bottom: 0.5em; }
         opacity: 1; /* 瞬間出現 */
     }
     100% { 
-        /* 使用 JS 傳入的 --travel-x 和 --travel-y 變數來確定移動終點 */
+        /* 100% 狀態，流星移動到 JS 傳入的終點並保持旋轉 */
         transform: translate(var(--travel-x, -150vw), var(--travel-y, 150vh)) rotate(var(--rotation, -45deg)); 
         opacity: 0; 
     }
