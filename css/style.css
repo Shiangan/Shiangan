@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.2 最終完整性與夜空優化版)
+   程式夥伴 - 網站核心 CSS (V20.3 色彩質感優化版)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -22,23 +22,22 @@
  * ------------------------------------------- */
 
 :root {
-    /* 品牌色系 */
-    --primary-color: #3b5998; /* 深藍色 (作為基礎和行動按鈕背景) */
-    --primary-dark: #2d4373;
-    --accent-color: #d4a757; /* 溫暖金色/米色 (作為重點和流星光暈) */
-    --secondary-color: #795548; /* 棕色 (輔助色) */
+    /* 🏆 品牌色系 - 質感優化 */
+    --primary-color: #2b4570; /* 沉穩海軍藍 (取代 #3b5998，更深沉，穩定感強) */
+    --primary-dark: #1f3355; /* 極深藍 */
+    --accent-color: #c49a4f; /* **低飽和度暖金色** (取代 #d4a757，提升高級感和溫潤度) */
+    --secondary-color: #6d4c41; /* **深咖啡棕** (取代 #795548，更具泥土的沉穩和歷史感) */
 
     /* 文字色系 */
-    --text-dark: #333333;
+    --text-dark: #3c3c3c; /* 略微柔和的深灰，非純黑 */
     --text-light: #ffffff;
     
     /* 背景與邊界 */
-    --bg-light: #f9f9f9;
-    --bg-dark: #00000a; /* 極深藍黑，夜空基底 */
-    --border-color: #eeeeee;
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --bg-light: #f5f5f5; /* 略帶溫暖的淺灰 */
+    --bg-dark: #000005; /* **極致夜空黑** (比 #00000a 更接近純黑，為星空提供深度) */
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.08); /* 柔和陰影 */
 
-  
     
     /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
@@ -181,7 +180,8 @@ p { margin-bottom: 0.5em; }
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px var(--shadow-color);
+    /* 🏆 陰影優化：更柔和，質感更佳 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -192,7 +192,8 @@ p { margin-bottom: 0.5em; }
 /* Header 滾動樣式 (JS 依賴) */
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    /* 🏆 陰影優化：滾動時陰影略增，增加浮動感 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12); 
 }
 
 /* Logo 樣式 */
@@ -384,13 +385,14 @@ p { margin-bottom: 0.5em; }
 .cta-button.primary {
     background-color: var(--primary-color);
     color: var(--text-light);
-    box-shadow: 0 4px 10px rgba(26, 55, 90, 0.4);
+    /* 🏆 陰影優化：使用更深的陰影顏色，增加立體感 */
+    box-shadow: 0 4px 10px rgba(43, 69, 112, 0.4);
 }
 
 .cta-button.primary:hover {
     background-color: var(--primary-dark);
     transform: translateY(-3px); 
-    box-shadow: 0 8px 18px rgba(26, 55, 90, 0.7); 
+    box-shadow: 0 8px 18px rgba(31, 51, 85, 0.7); 
 }
 
 .cta-button.secondary {
@@ -480,16 +482,16 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     width: 1px;
     height: 1px;
-    /* 大量白色小點模擬遠處星辰 (此處使用您的客製化 box-shadow) */
+    /* 大量白色小點模擬遠處星辰 (顏色略微偏冷白 #d0d0d0) */
     box-shadow: 
-        100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0, -50vw 150vh #e0e0e0, 30vw 100vh #e0e0e0, 
-        -20vw 50vh #e0e0e0, 200vw 250vh #e0e0e0, 150vw 50vh #e0e0e0, -10vw 80vh #e0e0e0, 
-        120vw 180vh #e0e0e0, 70vw 220vh #e0e0e0, 180vw 30vh #e0e0e0, 50vw 280vh #e0e0e0, 
-        220vw 10vh #e0e0e0, 80vw 140vh #e0e0e0, 10vw 210vh #e0e0e0, 160vw 60vh #e0e0e0, 
-        -30vw 90vh #e0e0e0, 270vw 110vh #e0e0e0, 90vw 260vh #e0e0e0, 140vw 10vh #e0e0e0, 
-        20vw 160vh #e0e0e0, 230vw 70vh #e0e0e0, -80vw 230vh #e0e0e0, 110vw 40vh #e0e0e0,
-        300vw 50vh #e0e0e0, 10vw 10vh #e0e0e0, 150vw 250vh #e0e0e0, 80vw 50vh #e0e0e0,
-        250vw 20vh #e0e0e0, 20vw 180vh #e0e0e0, 190vw 290vh #e0e0e0, 20vw 20vh #e0e0e0;
+        100vw 200vh #d0d0d0, 250vw 120vh #d0d0d0, -50vw 150vh #d0d0d0, 30vw 100vh #d0d0d0, 
+        -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0, -10vw 80vh #d0d0d0, 
+        120vw 180vh #d0d0d0, 70vw 220vh #d0d0d0, 180vw 30vh #d0d0d0, 50vw 280vh #d0d0d0, 
+        220vw 10vh #d0d0d0, 80vw 140vh #d0d0d0, 10vw 210vh #d0d0d0, 160vw 60vh #d0d0d0, 
+        -30vw 90vh #d0d0d0, 270vw 110vh #d0d0d0, 90vw 260vh #d0d0d0, 140vw 10vh #d0d0d0, 
+        20vw 160vh #d0d0d0, 230vw 70vh #d0d0d0, -80vw 230vh #d0d0d0, 110vw 40vh #d0d0d0,
+        300vw 50vh #d0d0d0, 10vw 10vh #d0d0d0, 150vw 250vh #d0d0d0, 80vw 50vh #d0d0d0,
+        250vw 20vh #d0d0d0, 20vw 180vh #d0d0d0, 190vw 290vh #d0d0d0, 20vw 20vh #d0d0d0;
 }
 
 
@@ -526,30 +528,30 @@ p { margin-bottom: 0.5em; }
     width: 3px;
     height: 3px;
     opacity: 1;
-    /* 加入金色光暈和略微的模糊，模擬較近的星體 */
+    /* 🏆 優化：使用 Accent Color 加上高斯光暈，強化暖星質感 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 50vw 50vh 3px 1px rgba(212, 167, 87, 0.8),
-        -50vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 280vw 10vh var(--accent-color), 
-        150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
+        100vw 100vh 4px 2px rgba(196, 154, 79, 0.9), /* Accent Color (高斯陰影) */
+        50vw 50vh 4px 2px rgba(196, 154, 79, 0.9),
+        -50vw 100vh 4px 2px rgba(196, 154, 79, 0.9), 280vw 10vh var(--accent-color), 
+        150vw 250vh var(--accent-color), 90vw 180vh 4px 2px rgba(196, 154, 79, 0.9);
 }
 
 
 /* ✅ 【流星本體 - 核心視覺修正 - 拖尾優化】 */
 .meteor {
     position: absolute;
-    width: 4px; /* 流星頭部調小一點 */
+    width: 4px; 
     height: 4px; 
     border-radius: 50%;
-    background-color: #f0f8ff; /* 略帶微藍的白色 */
+    background-color: #f0f8ff; 
     
-    /* 核心優化 1: 柔和且有層次感的光暈 */
+    /* 🏆 光暈優化：使用略帶淺藍的白光，模擬流星經過大氣層的電離光學效果 */
     box-shadow: 
-        0 0 10px 1px rgba(255, 255, 255, 1),     /* 最內層極亮白 */
-        0 0 20px 8px rgba(173, 216, 230, 0.5); /* 外層柔和淺藍光 */
+        0 0 8px 1px rgba(255, 255, 255, 1),     /* 最內層極亮白 */
+        0 0 15px 6px rgba(180, 220, 255, 0.7); /* **淺藍光暈** */
     
     opacity: 0; 
-    /* 配合 JS 軌跡修正：旋轉原點從 100% 0 (右下角) 改為 0% 50% (左側中心) */
     transform-origin: 0% 50%; 
     z-index: 5;
     
@@ -560,30 +562,29 @@ p { margin-bottom: 0.5em; }
     content: '';
     position: absolute;
     top: 50%; 
-    left: 100%; /* 從流星頭部向右延伸，但在 rotate 後看起來是向後 */
-    width: 400px; /* 尾巴拉長，讓漸變更平滑 */
-    height: 3px; /* 尾巴變細 */
+    left: 100%; 
+    width: 400px; 
+    height: 3px; 
     
-    /* 核心優化 2: 使用線性漸變 + 柔化濾鏡，創造柔和拖尾 */
+    /* 🏆 拖尾優化：使用更柔和的漸變，顏色略帶冷色調以符合流星速度感 */
     background: linear-gradient(to right, 
-        rgba(255, 255, 255, 0.8) 0%,     /* 尾部接近流星頭部最亮 */
-        rgba(255, 255, 255, 0.3) 50%,    
-        rgba(255, 255, 255, 0) 100%      /* 尾巴末端完全透明 */
+        rgba(220, 240, 255, 0.9) 0%,     
+        rgba(180, 220, 255, 0.4) 50%,    
+        rgba(255, 255, 255, 0) 100%      
     );
     
-    /* 核心優化 3: 柔化濾鏡 */
     transform: translateY(-50%); 
-    filter: blur(3px); /* 增加模糊，消除實體感 */
+    filter: blur(4px); /* 增加模糊度，使拖尾更具煙霧質感 */
 }
 
 
 /* 🌠 Hero Section 結構與夜空基底 (必須配置) */
 .hero-section {
     position: relative;
-    height: 100vh; /* 確保佔滿整個視窗高度 */
+    height: 100vh; 
     min-height: 650px;
-    overflow: hidden; /* 確保流星和星星不會溢出 */
-    background-color: var(--bg-dark); /* 使用定義的極深藍黑色基底 */
+    overflow: hidden; 
+    background-color: var(--bg-dark); /* 極致夜空黑 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -602,19 +603,19 @@ p { margin-bottom: 0.5em; }
     right: 0;
     bottom: 0;
    
-    /* 核心優化：使用三個顏色點的線性漸層 (Top to Bottom)，模擬天空深度的變化 */
+    /* 🏆 漸層優化：使用極深的藍黑，讓夜空看起來更深邃、更有宇宙感 */
     background-image: 
-        /* 第一層：徑向漸變，增加中心景深，但透明度低 */
-        radial-gradient(circle at center, rgba(3, 3, 30, 0.2) 0%, transparent 80%),
-        /* 第二層：線性漸變，控制上下邊緣的顏色和不透明度 */
+        /* 第一層：徑向漸變，增加中心景深 */
+        radial-gradient(circle at center, rgba(3, 3, 20, 0.2) 0%, transparent 80%),
+        /* 第二層：線性漸變，控制上下邊緣的深度 */
         linear-gradient(
             to bottom, 
-            rgba(0, 0, 10, 0.95) 0%,      /* 頂部：極深的藍黑色 (95% 不透明) */
-            rgba(3, 3, 30, 0.4) 50%,      /* 中央：略為明亮的深藍色 (40% 不透明) */
-            rgba(0, 0, 15, 1) 100%        /* 底部：略微加深的藍黑色 (100% 不透明，消除單調死黑) */
+            rgba(0, 0, 0, 0.98) 0%,      /* 頂部：接近純黑，無限深邃感 */
+            rgba(5, 5, 25, 0.4) 50%,      /* 中央：略微帶藍色的深藍 (增加色相層次) */
+            rgba(0, 0, 5, 1) 100%        /* 底部：略微加深的藍黑色 (避免單調) */
         );
     
-    background-blend-mode: overlay; /* 使用 overlay 模式混合兩種漸變，增加豐富度 */
+    background-blend-mode: overlay; 
 
     z-index: 2;
     pointer-events: none; 
@@ -651,7 +652,8 @@ p { margin-bottom: 0.5em; }
     background-color: var(--text-light);
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px var(--shadow-color);
+    /* 🏆 陰影優化：柔和且向下的陰影，模擬真實光線 */
+    box-shadow: 0 6px 15px var(--shadow-color);
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
     border: 1px solid var(--border-color);
@@ -663,7 +665,7 @@ p { margin-bottom: 0.5em; }
 
 .card-item:hover {
     transform: translateY(-6px); 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Hover 時陰影加深，有漂浮感 */
 }
 
 .card-item .icon {
@@ -718,12 +720,12 @@ p { margin-bottom: 0.5em; }
 .emergency-contact .cta-button {
     margin-top: 20px;
     background-color: var(--accent-color);
-    color: var(--text-dark);
+    color: var(--primary-dark); /* 搭配 Primary Dark，創造對比 */
     font-weight: 700;
 }
 
 .emergency-contact .cta-button:hover {
-    background-color: var(--text-light);
+    background-color: var(--bg-light);
     color: var(--primary-dark);
     box-shadow: none;
     transform: scale(1.05);
@@ -771,7 +773,7 @@ p { margin-bottom: 0.5em; }
     text-align: center;
     
     background-color: var(--accent-color);
-    color: var(--text-dark);
+    color: var(--primary-dark); /* 🏆 顏色優化：數字使用深藍，與暖金色底對比強烈 */
     font-weight: 700;
     font-size: 1.1rem;
     border: 3px solid var(--text-light); 
@@ -827,7 +829,7 @@ p { margin-bottom: 0.5em; }
 }
 
 .accordion-header:hover, .accordion-header:focus {
-    background-color: #f0f0f0;
+    background-color: var(--bg-light);
     outline: 2px solid var(--accent-color); 
 }
 
