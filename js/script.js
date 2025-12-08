@@ -289,10 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // ====================================================
-    // ====================================================
-        // ====================================================
-       // ====================================================
-    // ====================================================
     // 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫與隨機性
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
@@ -324,12 +320,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const rotation = Math.random() * 30 - 60; 
             
             // 2. 隨機位移距離 (確保劃過大半個螢幕)
-            // 位移X：從 -120vw 到 -200vw
+            // 位移X：從 -120vw 到 -200vw (向左下移動)
             const travelX = -(120 + Math.random() * 80); 
-            // 位移Y：從 120vh 到 200vh
+            // 位移Y：從 120vh 到 200vh (向下移動)
             const travelY = 120 + Math.random() * 80; 
 
-            // 將隨機參數設定為 CSS 變數
+            // 將隨機參數設定為 CSS 變數 (供 CSS @keyframes 使用)
             meteor.style.setProperty('--rotation', `${rotation}deg`);
             meteor.style.setProperty('--travel-x', `${travelX}vw`);
             meteor.style.setProperty('--travel-y', `${travelY}vh`);
@@ -337,15 +333,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // **核心優化：循環生成**
             meteor.addEventListener('animationend', () => {
                  meteor.remove();
-                 // 重新生成時加入隨機間隔，讓出現時機更自然
-                 setTimeout(createMeteor, Math.random() * 3000 + 500); // 0.5s 到 3.5s 後再生
+                 // 重新生成時加入隨機間隔，讓出現時機更自然 (0.5s 到 3.5s 後再生)
+                 setTimeout(createMeteor, Math.random() * 3000 + 500); 
             });
 
             // ⭐️ 【核心修正：套用正確的動畫名稱】
             meteor.style.animationName = 'shooting-star-random';
             meteor.style.animationDuration = `${duration}s`;
             meteor.style.animationDelay = `${delay}s`;
-            meteor.style.animationTimingFunction = 'linear';
+            meteor.style.animationTimingFunction = 'linear'; // 線性移動，保持速度一致
 
             heroSection.appendChild(meteor);
         }
@@ -356,9 +352,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(createMeteor, Math.random() * 5000); 
         }
     }
-
-
-    // ====================================================
 
 
     // ====================================================
