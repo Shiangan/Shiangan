@@ -406,11 +406,11 @@ p { margin-bottom: 0.5em; }
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
-/* ⭐️ Hero 區塊樣式 (星星動畫 - 已優化為不規則、質感星空) */
+/* ⭐️ Hero 區塊樣式 (星星動畫 - 增強動畫感) */
 @keyframes blink {
-    /* 優化：加入更多中間態，讓閃爍更隨機、不規律 */
-    0%, 100% { opacity: 0.9; }
-    25% { opacity: 0.4; }
+    /* 優化：增強隨機性 */
+    0%, 100% { opacity: 0.8; }
+    25% { opacity: 0.3; }
     50% { opacity: 0.6; }
     75% { opacity: 0.2; }
 }
@@ -421,10 +421,26 @@ p { margin-bottom: 0.5em; }
         transform: translate(0, 0);
     }
     to {
-        /* 讓星星向下緩慢移動，模擬夜空變化，移動幅度大於視窗，避免畫面跳動 */
+        /* 讓星星向下緩慢移動 */
         transform: translate(-100vw, 100vh); 
     }
 }
+
+/* 🚀 新增流星動畫：從右上角斜向滑落 */
+@keyframes shooting-star-anim {
+    0% { 
+        transform: translate(100vw, -10vh) rotate(-45deg); 
+        opacity: 0; 
+    }
+    1% { 
+        opacity: 1; /* 瞬間出現 */
+    }
+    100% { 
+        transform: translate(-50vw, 100vh) rotate(-45deg); 
+        opacity: 0; 
+    }
+}
+
 
 .hero-section {
     position: relative;
@@ -442,70 +458,60 @@ p { margin-bottom: 0.5em; }
     padding-top: var(--header-height); 
 }
 
-/* 🏆 星星生成技巧：使用 box-shadow 模擬大量不規則的星星 (取代 SVG 點陣圖) */
+/* 🏆 星星生成技巧：使用 box-shadow 模擬大量不規則的星星 */
 .star-layer {
     position: absolute;
     top: 0;
     left: 0;
-    /* 初始將元素移動到視窗外 */
-    transform: translate(100vw, 100vh); 
+    /* 為了配合移動動畫，將尺寸和位置設得很大 */
+    width: 300vw;
+    height: 300vh;
+    transform: translate(-100vw, -100vh); /* 讓中心在 100vw/100vh */
     z-index: 1;
 }
 
 /* 核心技巧：利用 box-shadow 產生大量隨機位置的星點 */
-/* 實際應用中，box-shadow 的值應手動擴充到數百組，以確保星點分佈夠密集和隨機。 */
 .star-layer::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    /* 這裡只是一個示例，需要擴展 box-shadow 列表以實現高密度星空 */
-    box-shadow: 
-        100vw 200vh, 250vw 120vh, -50vw 150vh, 30vw 100vh, 
-        -20vw 50vh, 200vw 250vh, 150vw 50vh, -10vw 80vh, 
-        120vw 180vh, 70vw 220vh, 180vw 30vh, 50vw 280vh, 
-        /* 為了演示，我們添加一些基礎陰影，實際請擴充 */
-        220vw 10vh, 80vw 140vh, 10vw 210vh, 160vw 60vh, 
-        -30vw 90vh, 270vw 110vh, 90vw 260vh, 140vw 10vh, 
-        20vw 160vh, 230vw 70vh, -80vw 230vh, 110vw 40vh;
     width: 1px; 
     height: 1px;
     border-radius: 50%;
 }
 
-
-/* 第一層星星 (遠處/速度慢/密度低/淡色) */
+/* 第一層星星 (遠處/速度慢/淡色) */
 #stars {
-    width: 1px;
-    height: 1px;
     opacity: 0.7;
     background: #e0e0e0;
-    /* 調整 box-shadow 的顏色和尺寸 */
-    box-shadow: 100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0; 
-                
-    /* 調整動畫：速度慢、方向反轉、慢速閃爍 */
+    /* 擴充 box-shadow 列表 (範例：盡量擴充，實際請用程式生成) */
     animation: move-star 250s linear infinite reverse, 
                blink 5s infinite alternate; 
     animation-delay: 0.5s; 
     z-index: 1;
 }
 #stars::before {
-    width: 1px;
-    height: 1px;
-    box-shadow: /* 這裡的顏色繼承自 background 顏色 */
-        -100vw 300vh #e0e0e0, 50vw 150vh #e0e0e0,
-        30vw 100vh #e0e0e0, 200vw 250vh #e0e0e0;
+    /* 更多的星點 */
+    box-shadow: 
+        100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0, -50vw 150vh #e0e0e0, 30vw 100vh #e0e0e0, 
+        -20vw 50vh #e0e0e0, 200vw 250vh #e0e0e0, 150vw 50vh #e0e0e0, -10vw 80vh #e0e0e0, 
+        120vw 180vh #e0e0e0, 70vw 220vh #e0e0e0, 180vw 30vh #e0e0e0, 50vw 280vh #e0e0e0, 
+        220vw 10vh #e0e0e0, 80vw 140vh #e0e0e0, 10vw 210vh #e0e0e0, 160vw 60vh #e0e0e0, 
+        -30vw 90vh #e0e0e0, 270vw 110vh #e0e0e0, 90vw 260vh #e0e0e0, 140vw 10vh #e0e0e0, 
+        20vw 160vh #e0e0e0, 230vw 70vh #e0e0e0, -80vw 230vh #e0e0e0, 110vw 40vh #e0e0e0,
+        300vw 50vh #e0e0e0, 10vw 10vh #e0e0e0, 150vw 250vh #e0e0e0, 80vw 50vh #e0e0e0,
+        250vw 20vh #e0e0e0, 20vw 180vh #e0e0e0, 190vw 290vh #e0e0e0, 20vw 20vh #e0e0e0;
 }
 
 
-/* 第二層星星 (近處/速度中/密度中/亮白色) */
+/* 第二層星星 (近處/速度中/亮白色) */
 #stars2 {
     width: 2px;
     height: 2px;
     opacity: 0.9;
     background: #ffffff;
-    box-shadow: 200vw 250vh #ffffff, 100vw 100vh #ffffff;
-                
+    
     /* 調整動畫：速度中、方向正向、中速閃爍 */
     animation: move-star 150s linear infinite,
                blink 3s infinite alternate; 
@@ -515,24 +521,21 @@ p { margin-bottom: 0.5em; }
 #stars2::before {
     width: 2px;
     height: 2px;
-    box-shadow: /* 這裡的顏色繼承自 background 顏色 */
-        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 
-        150vw 50vh #ffffff, 70vw 220vh #ffffff;
+    /* 更多的星點 */
+    box-shadow: 
+        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff,
+        200vw 250vh #ffffff, 100vw 100vh #ffffff, 180vw 10vh #ffffff, 50vw 280vh #ffffff,
+        130vw 170vh #ffffff, -20vw 130vh #ffffff, 280vw 230vh #ffffff, 10vw 100vh #ffffff,
+        240vw 30vh #ffffff, 60vw 20vh #ffffff, 10vw 10vh #ffffff, 290vw 150vh #ffffff;
 }
 
-/* 🚀 第三層星星 (最亮/最快/最高質感/金色光暈) */
+/* 🚀 第三層星星 (最亮/最快/金色光暈) */
 #stars3 {
     width: 3px;
     height: 3px;
     opacity: 1;
-    
-    /* 採用金色/點綴色，增加質感 */
     background: var(--accent-color); 
-    /* 核心：加入 box-shadow 模糊值，模擬光暈效果 */
-    box-shadow: 
-        0 0 5px 2px rgba(212, 167, 87, 0.6), /* 中心星點的光暈 */
-        150vw 200vh var(--accent-color);
-                
+    
     /* 調整動畫：速度最快、方向反轉、快速閃爍 */
     animation: move-star 100s linear infinite reverse,
                blink 1.5s infinite alternate; 
@@ -544,12 +547,39 @@ p { margin-bottom: 0.5em; }
     height: 3px;
     box-shadow: 
         /* 隨機位置的金色星點 */
-        -200vw 100vh var(--accent-color),
-        10vw 250vh var(--accent-color),
-        /* 個別星點的光暈效果 */
-        100vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 
-        50vw 50vh 3px 1px rgba(212, 167, 87, 0.8),
-        -50vw 100vh 3px 1px rgba(212, 167, 87, 0.8);
+        -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
+        100vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 50vw 50vh 3px 1px rgba(212, 167, 87, 0.8),
+        -50vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 280vw 10vh var(--accent-color), 
+        150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
+}
+
+/* ⭐ 流星體 (Shooting Star) - 請在 HTML 中加入 <div id="shooting-star"></div> */
+#shooting-star {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px; /* 流星頭部寬度 */
+    height: 4px; 
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8); /* 頭部光暈 */
+    
+    /* 模擬尾巴：使用 ::after 偽元素 */
+    z-index: 5;
+    animation: shooting-star-anim 10s linear infinite; /* 10 秒執行一次 */
+    animation-delay: 5s; /* 隨機延遲 5 秒後出現 */
+}
+
+#shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* 產生長拖尾效果 */
+    width: 100px; /* 尾巴長度 */
+    height: 2px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+    transform: translateX(-100%); /* 將尾巴置於流星後方 */
 }
 
 
