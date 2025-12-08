@@ -130,10 +130,11 @@ h2::after {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px; /* 固定的寬度 */
+    width: 80px; /* 基礎寬度略增 */
     height: 4px; /* 固定的高度 */
     background-color: var(--accent-color);
     border-radius: 2px;
+    transition: width 0.3s; /* 增加過渡 */
 }
 
 h3 { font-size: 1.5rem; }
@@ -715,18 +716,19 @@ p { margin-bottom: 0.5em; }
 }
 
 /* 服務流程圖樣式 */
+/* 服務流程圖樣式 */
 .flow-chart ol {
     list-style: none;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    counter-reset: step-counter;
+    counter-reset: step-counter; /* 重設計數器 */
 }
 
 .flow-chart li {
     background-color: var(--text-light);
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--border-color); /* 調整邊框顏色，讓數字顏色突出 */
     padding: 20px; 
     margin: 10px;
     border-radius: 8px;
@@ -736,13 +738,50 @@ p { margin-bottom: 0.5em; }
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     transition: transform 0.3s, box-shadow 0.3s;
+    
+    counter-increment: step-counter; /* 遞增計數器 */
+    padding-top: 35px; /* 為數字留出空間 */
+}
+
+/* 🏆 【修正】：新增自動編號樣式 */
+.flow-chart li::before {
+    content: counter(step-counter); /* 顯示數字 */
+    position: absolute;
+    top: -15px; /* 移到卡片上方 */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    
+    background-color: var(--accent-color);
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: 3px solid var(--text-light); /* 製作一個白色的邊框效果 */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .flow-chart li strong {
     font-weight: 700;
     color: var(--primary-dark); 
     margin-right: 5px;
+    display: block; /* 讓標題獨佔一行 */
+    margin-bottom: 5px;
 }
+/* 移除這裡的手動編號標籤，因為已經用 ::before 處理了 */
+.flow-chart li strong[aria-label]::before {
+    content: ''; /* 確保 HTML 裡的手動編號不再顯示，只留下文字 */
+}
+
+.flow-chart li:hover {
+    transform: translateY(-3px); 
+    border-color: var(--accent-color);
+}
+
 
 
 /* -------------------------------------------
@@ -948,6 +987,11 @@ footer {
     
     :root {
          --padding-section-v: 50px; 
+    }
+
+     /* 【優化】H2 分隔線在平板上縮短 */
+    h2::after {
+        width: 60px;
     }
 
     /* 導覽列調整 */
