@@ -406,18 +406,22 @@ p { margin-bottom: 0.5em; }
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
-/* ⭐️ Hero 區塊樣式 (星星動畫) */
+/* ⭐️ Hero 區塊樣式 (星星動畫 - 已優化為不規則、質感星空) */
 @keyframes blink {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.3; }
+    /* 優化：加入更多中間態，讓閃爍更隨機、不規律 */
+    0%, 100% { opacity: 0.9; }
+    25% { opacity: 0.4; }
+    50% { opacity: 0.6; }
+    75% { opacity: 0.2; }
 }
 
 @keyframes move-star {
     from {
+        /* 將起始位置設在左上角 (0, 0) */
         transform: translate(0, 0);
     }
     to {
-        /* 使星星向下緩慢移動，模擬夜空變化 */
+        /* 讓星星向下緩慢移動，模擬夜空變化，移動幅度大於視窗，避免畫面跳動 */
         transform: translate(-100vw, 100vh); 
     }
 }
@@ -438,59 +442,114 @@ p { margin-bottom: 0.5em; }
     padding-top: var(--header-height); 
 }
 
+/* 🏆 星星生成技巧：使用 box-shadow 模擬大量不規則的星星 (取代 SVG 點陣圖) */
+.star-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* 初始將元素移動到視窗外 */
+    transform: translate(100vw, 100vh); 
+    z-index: 1;
+}
 
-/* 第一層星星 (遠處/速度慢/密度低) */
+/* 核心技巧：利用 box-shadow 產生大量隨機位置的星點 */
+/* 實際應用中，box-shadow 的值應手動擴充到數百組，以確保星點分佈夠密集和隨機。 */
+.star-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* 這裡只是一個示例，需要擴展 box-shadow 列表以實現高密度星空 */
+    box-shadow: 
+        100vw 200vh, 250vw 120vh, -50vw 150vh, 30vw 100vh, 
+        -20vw 50vh, 200vw 250vh, 150vw 50vh, -10vw 80vh, 
+        120vw 180vh, 70vw 220vh, 180vw 30vh, 50vw 280vh, 
+        /* 為了演示，我們添加一些基礎陰影，實際請擴充 */
+        220vw 10vh, 80vw 140vh, 10vw 210vh, 160vw 60vh, 
+        -30vw 90vh, 270vw 110vh, 90vw 260vh, 140vw 10vh, 
+        20vw 160vh, 230vw 70vh, -80vw 230vh, 110vw 40vh;
+    width: 1px; 
+    height: 1px;
+    border-radius: 50%;
+}
+
+
+/* 第一層星星 (遠處/速度慢/密度低/淡色) */
 #stars {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 300vw;
-    height: 300vh;
-    /* 調整星星大小 (點更大 2px x 2px) 與密度 (背景圖間距拉大) */
-    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h2v2H0z'/%3E%3Cpath fill='%23ffffff' d='M15 15h2v2H15z'/%3E%3Cpath fill='%23ffffff' d='M40 40h2v2H40z'/%3E%3Cpath fill='%23ffffff' d='M70 70h2v2H70z'/%3E%3C/svg%3E") repeat;
-    background-size: 150px 150px; /* 控制星星密度：稀疏一些 */
-    
-    /* 調整動畫：速度慢、加入隨機閃爍 */
-    animation: move-star 200s linear infinite, 
-               blink 3s infinite alternate; /* 慢速閃爍 */
-    animation-delay: 0.5s; /* 隨機延遲 */
+    width: 1px;
+    height: 1px;
+    opacity: 0.7;
+    background: #e0e0e0;
+    /* 調整 box-shadow 的顏色和尺寸 */
+    box-shadow: 100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0; 
+                
+    /* 調整動畫：速度慢、方向反轉、慢速閃爍 */
+    animation: move-star 250s linear infinite reverse, 
+               blink 5s infinite alternate; 
+    animation-delay: 0.5s; 
     z-index: 1;
 }
+#stars::before {
+    width: 1px;
+    height: 1px;
+    box-shadow: /* 這裡的顏色繼承自 background 顏色 */
+        -100vw 300vh #e0e0e0, 50vw 150vh #e0e0e0,
+        30vw 100vh #e0e0e0, 200vw 250vh #e0e0e0;
+}
 
-/* 第二層星星 (近處/速度快/密度高/更亮) */
+
+/* 第二層星星 (近處/速度中/密度中/亮白色) */
 #stars2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 300vw;
-    height: 300vh;
-    /* 調整星星大小 (點 1.5px x 1.5px) 與密度 (背景圖間距密集) */
-    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h1.5v1.5H0z'/%3E%3Cpath fill='%23ffffff' d='M20 20h1.5v1.5H20z'/%3E%3Cpath fill='%23ffffff' d='M5 5h1.5v1.5H5z'/%3E%3C/svg%3E") repeat;
-    background-size: 80px 80px; /* 控制星星密度：密集一些 */
-    
-    /* 調整動畫：速度快、方向反轉、加入隨機閃爍 */
-    animation: move-star 150s linear infinite reverse,
-               blink 2s infinite alternate; /* 快速閃爍 */
-    animation-delay: 1.2s; /* 隨機延遲 */
+    width: 2px;
+    height: 2px;
+    opacity: 0.9;
+    background: #ffffff;
+    box-shadow: 200vw 250vh #ffffff, 100vw 100vh #ffffff;
+                
+    /* 調整動畫：速度中、方向正向、中速閃爍 */
+    animation: move-star 150s linear infinite,
+               blink 3s infinite alternate; 
+    animation-delay: 1.2s; 
     z-index: 1;
 }
+#stars2::before {
+    width: 2px;
+    height: 2px;
+    box-shadow: /* 這裡的顏色繼承自 background 顏色 */
+        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 
+        150vw 50vh #ffffff, 70vw 220vh #ffffff;
+}
 
-/* 🚀 新增：第三層星星 (最亮/最快/最不規律) */
+/* 🚀 第三層星星 (最亮/最快/最高質感/金色光暈) */
 #stars3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 300vw;
-    height: 300vh;
-    /* 點狀更小 1px x 1px，但密度極高，模擬銀河塵埃 */
-    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0z'/%3E%3Cpath fill='%23ffffff' d='M10 10h1v1H10z'/%3E%3Cpath fill='%23ffffff' d='M5 5h1v1H5z'/%3E%3C/svg%3E") repeat;
-    background-size: 60px 60px; 
+    width: 3px;
+    height: 3px;
+    opacity: 1;
     
-    /* 調整動畫：速度最快、方向正向、加入隨機閃爍 */
-    animation: move-star 100s linear infinite,
-               blink 1.5s infinite alternate; /* 最快閃爍 */
-    animation-delay: 0s; /* 隨機延遲 */
+    /* 採用金色/點綴色，增加質感 */
+    background: var(--accent-color); 
+    /* 核心：加入 box-shadow 模糊值，模擬光暈效果 */
+    box-shadow: 
+        0 0 5px 2px rgba(212, 167, 87, 0.6), /* 中心星點的光暈 */
+        150vw 200vh var(--accent-color);
+                
+    /* 調整動畫：速度最快、方向反轉、快速閃爍 */
+    animation: move-star 100s linear infinite reverse,
+               blink 1.5s infinite alternate; 
+    animation-delay: 0s; 
     z-index: 1;
+}
+#stars3::before {
+    width: 3px;
+    height: 3px;
+    box-shadow: 
+        /* 隨機位置的金色星點 */
+        -200vw 100vh var(--accent-color),
+        10vw 250vh var(--accent-color),
+        /* 個別星點的光暈效果 */
+        100vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 
+        50vw 50vh 3px 1px rgba(212, 167, 87, 0.8),
+        -50vw 100vh 3px 1px rgba(212, 167, 87, 0.8);
 }
 
 
@@ -502,7 +561,8 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2); 
+    /* 略為提高透明度，增加夜空深邃感 */
+    background-color: rgba(0, 0, 0, 0.3); 
     z-index: 2;
 }
 
