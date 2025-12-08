@@ -407,6 +407,7 @@ p { margin-bottom: 0.5em; }
 }
 
 /* -------------------------------------------
+/* -------------------------------------------
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
@@ -424,23 +425,28 @@ p { margin-bottom: 0.5em; }
     100% { transform: translate(-150vw, -150vh); } 
 }
 
-/* 🚀 流星動畫：從右上方斜向滑落 (最終優化：相對位移) */
-@keyframes shooting-star-anim {
+/* 🚀 【最終修正】：由 JS 變數控制隨機方向與角度 (配合 JS 區塊 7) */
+@keyframes shooting-star-random {
     0% { 
-        /* 讓 JS 設定的 left/top 成為起始點，這裡只需設定旋轉 */
-        transform: translate(0, 0) rotate(-45deg); 
+        /* 讓 JS 設定的 left/top 成為起始點，這裡只需套用旋轉變數 */
+        transform: translate(0, 0) rotate(var(--rotation, -45deg)); 
         opacity: 0; 
     }
     1% { 
         opacity: 1; /* 瞬間出現 */
     }
     100% { 
-        /* 相對於起始點位移 X 軸 -150vw, Y 軸 +150vh (斜向下) */
-        transform: translate(-150vw, 150vh) rotate(-45deg); 
+        /* 使用 JS 傳入的 --travel-x 和 --travel-y 變數來確定移動終點 */
+        transform: translate(var(--travel-x, -150vw), var(--travel-y, 150vh)) rotate(var(--rotation, -45deg)); 
         opacity: 0; 
     }
 }
 
+/* 輔助 Keyframes：讓流星頭部有呼吸閃爍感 */
+@keyframes meteor-glow {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
 
 
 .hero-section {
@@ -554,31 +560,46 @@ p { margin-bottom: 0.5em; }
         150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
 }
 
-/* ✅ 【最終優化：流星光暈與尾巴】 */
+/* ✅ 【最終優化：流星光暈與尾巴 - 增強真實感與拖尾效果】 */
 .meteor {
     position: absolute;
-    width: 4px; /* 頭部縮小一點，更像光點 */
-    height: 4px; 
+    width: 6px; /* 頭部稍微放大，更像中心亮點 */
+    height: 6px; 
     border-radius: 50%;
-    background-color: #fff;
-    /* 核心：增強頭部光暈，更柔和 */
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.9), /* 極亮內層 */
-                0 0 20px 5px rgba(100, 100, 255, 0.3); /* 柔和藍光外層 */
+    background-color: #f0f8ff; /* 略帶微藍的白色 */
+    
+    /* 核心優化 1: 增強頭部光暈，柔和且有層次感 */
+    box-shadow: 
+        0 0 15px 3px rgba(255, 255, 255, 1),      /* 最內層極亮白 */
+        0 0 30px 10px rgba(173, 216, 230, 0.5); /* 外層柔和淺藍光 */
+    
     opacity: 0; 
-    transform-origin: 100% 0; 
+    transform-origin: 100% 0; /* 旋轉中心在流星頭部 */
     z-index: 5;
+    
+    /* 增加一個極微小的縮放動畫，使其看起來更閃爍 */
+    animation: meteor-glow 4s ease-in-out infinite alternate;
 }
 
 .meteor::after {
     content: '';
     position: absolute;
-    top: 50%; /* 確保尾巴在流星中心 */
+    top: 50%; 
     left: 0;
-    width: 180px; /* 尾巴更長，劃過感更強 */
-    height: 2px; /* 尾巴更細緻 */
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent);
-    transform: translateX(-100%) translateY(-50%); /* 尾巴向左延伸，位於流星後方並居中 */
-    filter: blur(1.2px); /* 尾巴更柔和 */
+    width: 300px; /* 尾巴更長，劃過感更強 */
+    height: 4px; /* 尾巴略寬一點 */
+    
+    /* 核心優化 2: 使用徑向漸層來模擬光線中心向外擴散的樣子 */
+    /* 尾巴中心是高亮的白，向兩側快速過渡到透明 */
+    background: radial-gradient(ellipse at center, 
+        rgba(255, 255, 255, 0.9) 0%,     /* 尾巴中心極亮 */
+        rgba(255, 255, 255, 0.5) 10%,    /* 過渡層 */
+        rgba(255, 255, 255, 0) 60%      /* 快速淡出 */
+    );
+    
+    /* 核心優化 3: 尾巴向後延伸，使用 blur 柔化 */
+    transform: translateX(-100%) translateY(-50%); 
+    filter: blur(2px); /* 模糊度增加，視覺上更柔和自然 */
 }
 
 
@@ -612,7 +633,6 @@ p { margin-bottom: 0.5em; }
     font-weight: 300;
     margin-bottom: 40px; 
 }
-
 
 /* 卡片網格通用樣式 */
 .card-grid {
