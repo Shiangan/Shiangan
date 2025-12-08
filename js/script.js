@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V20.0 最終完整性與穩定版 - 最佳化)
+   程式夥伴 - 網站核心 JavaScript (V20.1 最終優化版 - 流星速度修正)
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -300,8 +300,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const meteor = document.createElement('div');
             meteor.classList.add('meteor');
             
-            // 隨機動畫時間 (速度: 3.5 到 8.5 秒)
-            const duration = Math.random() * 5 + 3.5; 
+            // ⭐️ 【核心修正：將速度範圍調整為 10.0s 到 20.0s，使其更自然】
+            const duration = Math.random() * 10 + 10; 
             // 隨機延遲時間 (0 到 8 秒)，讓出現更頻繁
             const delay = Math.random() * 8; 
             
