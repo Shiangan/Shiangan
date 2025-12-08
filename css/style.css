@@ -187,7 +187,7 @@ p { margin-bottom: 1em; }
     color: var(--primary-color);
 }
 
-/* 下拉選單 (Submenu) 樣式 */
+/* 💻 桌面版下拉選單 (Submenu) 樣式 - 經典 Hover/垂直展開 */
 .submenu {
     position: absolute;
     top: 100%;
@@ -199,13 +199,15 @@ p { margin-bottom: 1em; }
     list-style: none;
     padding: 10px 0;
     z-index: 10;
+    
+    /* 桌面版預設隱藏 - 使用 opacity/transform 實現展開動畫 */
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
 }
 
-/* 桌面版 - Hover/Focus 展開 (JS 輔助 focus-within 類別) */
+/* 桌面版 - Hover/Focus 展開 */
 .dropdown:hover > .submenu,
 .dropdown:focus-within > .submenu,
 .dropdown.focus-within > .submenu { 
@@ -267,8 +269,8 @@ p { margin-bottom: 1em; }
 
 /* 🚀 新增: 手機圖示切換的視覺樣式 (配合 JS 實現切換) */
 .menu-toggle i {
-    transition: transform 0.3s ease-in-out; /* 讓圖示切換更流暢 */
-    font-size: 1.3rem; /* 讓圖示更明顯 */
+    transition: transform 0.3s ease-in-out; 
+    font-size: 1.3rem; 
     vertical-align: middle;
 }
 
@@ -532,7 +534,7 @@ p { margin-bottom: 1em; }
     color: var(--accent-color); 
 }
 
-/* 內容區塊 - 核心動畫: 使用 max-height 實現平滑過渡 */
+/* 內容區塊 - 核心動畫: 使用 max-height 實現平滑過渡 (CSS 處理，JS 計算高度) */
 .accordion-content {
     max-height: 0; 
     overflow: hidden;
@@ -686,16 +688,17 @@ footer {
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
         
-        /* 🚀 核心修正: 使用 max-height 實現平滑過渡 */
+        /* 核心修正: 使用 max-height 實現平滑過渡 (主選單展開) */
         max-height: 0; 
         overflow: hidden;
         transition: max-height 0.3s ease-in-out; 
     }
     
     .main-nav.active {
-        /* 使用一個足夠大的數值，確保選單內容完全展開 */
+        /* 設定一個足夠大的高度，並允許內部滾動 */
         max-height: 80vh; 
         padding-bottom: 10px;
+        overflow-y: auto; 
     }
 
     .main-nav ul {
@@ -718,27 +721,33 @@ footer {
         padding: 12px 0;
     }
     
-    /* 手機版下拉選單調整 */
+    /* 🚀 手機版下拉選單 (手風琴動畫) 調整 - 核心修正在這裡 */
     .dropdown > a i {
         display: none; 
     }
     
     .submenu {
-        position: static; 
+        position: static; /* 取消絕對定位，允許內容堆疊 */
         width: 100%;
         box-shadow: none;
         border-top: none;
-        padding: 0 0 15px 20px; 
+        /* 移除底邊距，讓 max-height 精準控制高度 */
+        padding: 0 0 0 20px; 
         transform: none;
         opacity: 1; 
         visibility: visible;
-        display: none; 
-        transition: none; /* 移除過渡，防止干擾 JS 邏輯 */
+        
+        /* 核心優化：使用 max-height 實現手風琴平滑過渡 */
+        max-height: 0; 
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out; 
     }
 
     /* 配合 JS 邏輯，使用 .active class 控制子選單展開 */
     .dropdown.active > .submenu {
-        display: block;
+        /* 設定一個足夠大的數值，確保內容完全展開 (500px 通常足夠) */
+        max-height: 500px; 
+        padding-bottom: 15px; /* 展開時再加入底部內距 */
     }
 
     .submenu a {
