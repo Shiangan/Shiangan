@@ -18,9 +18,9 @@
  * ------------------------------------------- */
 
 :root {
-    /* 顏色定義 */
-    --primary-color: #991B1F;       /* 祥安紅 (主色調，莊嚴穩重) */
-    --primary-dark: #751417;        /* 祥安深紅 (Hover/深層背景) */
+    /* ⭐️ 顏色定義 (紅改藍) */
+    --primary-color: #1A375A;       /* 深藍色 (主色調，沉穩、專業) */
+    --primary-dark: #0F2038;        /* 更深的藍 (Hover/深層背景) */
     --secondary-color: #1C2229;     /* 深灰色 (文本/頁尾背景) */
     --accent-color: #D4A757;        /* 金色/土黃色 (點綴色/重點強調) */
     --bg-light: #F9F7F5;            /* 淺灰色 (區塊背景) */
@@ -30,7 +30,6 @@
     --shadow-color: rgba(0, 0, 0, 0.08); /* 輕微陰影 */
     
     /* 字體定義 */
-    /* 確保自定義字體優先於 Noto 字體 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', sans-serif; 
     
@@ -68,7 +67,7 @@ body {
 
 body.no-scroll {
     overflow: hidden; 
-    position: fixed; /* 修正 iOS 鎖定滾動問題 */
+    position: fixed; 
     width: 100%;
 }
 
@@ -80,14 +79,16 @@ img {
 }
 
 a {
+    /* 確保所有連結顏色為新的主色 */
     color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s, background-color 0.3s, opacity 0.3s; /* 強化連結過渡 */
+    transition: color 0.3s, background-color 0.3s, opacity 0.3s; 
 }
 
 a:hover, a:focus {
+    /* 確保所有連結 Hover 顏色為新的深色 */
     color: var(--primary-dark);
-    opacity: 0.9; /* 微調透明度增加質感 */
+    opacity: 0.9; 
 }
 
 /* 標題樣式 */
@@ -99,8 +100,19 @@ h1, h2, h3, h4 {
     font-weight: 700;
 }
 
-h1 { font-size: 2.5rem; text-align: center; }
-h2 { font-size: 2rem; margin-top: 1.5em; text-align: center; }
+/* 🏆 H1 響應式自適應縮放： (手機最小1.8rem, 建議5vw, 桌面最大3.2rem) */
+h1 { 
+    font-size: clamp(1.8rem, 5vw, 3.2rem); 
+    text-align: center; 
+}
+
+/* 🏆 H2 響應式自適應縮放： (手機最小1.6rem, 建議4vw, 桌面最大2.5rem) */
+h2 { 
+    font-size: clamp(1.6rem, 4vw, 2.5rem); 
+    margin-top: 1.5em; 
+    text-align: center; 
+}
+
 h3 { font-size: 1.5rem; }
 p { margin-bottom: 1em; }
 
@@ -108,7 +120,7 @@ p { margin-bottom: 1em; }
 .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
-    padding: 0 20px; /* 統一左右內距 */
+    padding: 0 20px; 
 }
 
 .container-v-padding {
@@ -148,7 +160,7 @@ p { margin-bottom: 1em; }
 /* Header 滾動樣式 (JS 依賴) */
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* 陰影加深，更有懸浮感 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
 }
 
 /* Logo 樣式 */
@@ -160,7 +172,7 @@ p { margin-bottom: 1em; }
     text-decoration: none;
     text-indent: -9999px; 
     display: block;
-    width: 140px; /* 增加寬度讓 Logo 視覺更突出 */
+    width: 140px; 
     height: 40px; 
     background: url('../images/logo.png') no-repeat center center;
     background-size: contain;
@@ -180,13 +192,14 @@ p { margin-bottom: 1em; }
 }
 
 .main-nav a {
-    display: flex; /* 讓連結內元素 (如圖示) 垂直置中 */
+    display: flex; 
     align-items: center;
     padding: 10px 0;
     color: var(--secondary-color);
-    font-weight: 500; /* 略微加粗，提升可讀性 */
+    font-weight: 500; 
 }
 
+/* 顏色已更新為新的 primary-color */
 .main-nav a:hover, .main-nav a:focus {
     color: var(--primary-color);
 }
@@ -203,10 +216,10 @@ p { margin-bottom: 1em; }
     position: absolute;
     top: 100%;
     left: 0;
-    min-width: 220px; /* 略微增加寬度 */
+    min-width: 220px; 
     background-color: var(--text-light);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* 調整陰影 */
-    border-top: 4px solid var(--accent-color); /* 改用點綴色，更具設計感 */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
+    border-top: 4px solid var(--accent-color); 
     list-style: none;
     padding: 10px 0;
     z-index: 10;
@@ -249,19 +262,20 @@ p { margin-bottom: 1em; }
     display: block; 
     color: var(--text-dark);
 }
+/* 顏色已更新為新的 primary-color */
 .submenu a:hover {
-    background-color: var(--bg-light); /* 增加背景色 Hover 效果 */
+    background-color: var(--bg-light); 
     color: var(--primary-color);
 }
 
-
+/* 顏色已更新為新的 primary-color */
 .submenu-title {
     font-weight: 700;
     color: var(--primary-color);
     padding: 8px 20px 4px;
     font-size: 0.85rem;
     cursor: default;
-    opacity: 0.7; /* 標題略微透明，區分於連結 */
+    opacity: 0.7; 
 }
 
 .submenu-separator {
@@ -279,17 +293,18 @@ p { margin-bottom: 1em; }
     border-radius: 5px;
     font-weight: 700;
     margin-left: 20px;
-    /* 移除 display: block 確保 inline 效果，或確認父層 li 的樣式 */
     display: inline-flex; 
     align-items: center;
 }
 
+/* 顏色已更新為新的 primary-dark */
 .contact-nav a:hover {
     background-color: var(--primary-dark);
-    color: var(--text-light); /* 修正 hover 時文字顏色不變 */
+    color: var(--text-light); 
 }
 
 /* 手機選單切換按鈕 (預設隱藏) */
+/* 顏色已更新為新的 primary-color */
 .menu-toggle {
     display: none;
     background: none;
@@ -299,19 +314,20 @@ p { margin-bottom: 1em; }
     color: var(--primary-color);
     padding: 5px 10px;
     font-weight: 700;
-    border: 1px solid var(--primary-color); /* 增加邊框質感 */
+    border: 1px solid var(--primary-color); 
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
+/* 顏色已更新為新的 primary-color rgba 透明度 */
 .menu-toggle:hover {
-    background-color: rgba(163, 30, 33, 0.1);
+    background-color: rgba(26, 55, 90, 0.1);
 }
 
 /* 手機圖示切換的視覺樣式 */
 .menu-toggle i {
     transition: transform 0.3s ease-in-out; 
-    font-size: 1.2rem; /* 略微縮小，與文字更協調 */
+    font-size: 1.2rem; 
     vertical-align: middle;
 }
 
@@ -320,7 +336,7 @@ p { margin-bottom: 1em; }
  * ------------------------------------------- */
 
 .cta-button {
-    display: inline-flex; /* 確保內容 (如圖示) 垂直置中 */
+    display: inline-flex; 
     align-items: center;
     justify-content: center;
     padding: 12px 30px;
@@ -337,16 +353,18 @@ p { margin-bottom: 1em; }
     margin-left: 8px;
 }
 
+/* 顏色已更新為新的 primary-color 及 box-shadow 顏色 */
 .cta-button.primary {
     background-color: var(--primary-color);
     color: var(--text-light);
-    box-shadow: 0 4px 10px rgba(163, 30, 33, 0.4);
+    box-shadow: 0 4px 10px rgba(26, 55, 90, 0.4);
 }
 
+/* 顏色已更新為新的 primary-dark 及 box-shadow 顏色 */
 .cta-button.primary:hover {
     background-color: var(--primary-dark);
-    transform: translateY(-3px); /* 輕微增加提升高度 */
-    box-shadow: 0 8px 18px rgba(163, 30, 33, 0.7); /* 強化陰影 */
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 18px rgba(26, 55, 90, 0.7); 
 }
 
 .cta-button.secondary {
@@ -355,10 +373,11 @@ p { margin-bottom: 1em; }
     border-color: var(--primary-color);
 }
 
+/* 顏色已更新為新的 primary-color */
 .cta-button.secondary:hover {
     background-color: var(--primary-color);
     color: var(--text-light);
-    transform: translateY(-1px); /* 保持一致性，有微幅提升 */
+    transform: translateY(-1px); 
 }
 
 .cta-button.large {
@@ -375,6 +394,17 @@ p { margin-bottom: 1em; }
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
+/* ⭐️ Hero 區塊樣式 (星星動畫) */
+@keyframes move-star {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        /* 使星星向下緩慢移動，模擬夜空變化 */
+        transform: translate(-100vw, 100vh); 
+    }
+}
+
 .hero-section {
     position: relative;
     height: 600px; 
@@ -382,13 +412,43 @@ p { margin-bottom: 1em; }
     align-items: center;
     justify-content: center;
     text-align: center;
+    /* 新的深色背景 */
+    background-color: var(--primary-dark); 
     background-size: cover;
     background-position: center center;
-    background-attachment: fixed; /* 視覺優化: 視差滾動效果 */
+    background-attachment: scroll; 
     overflow: hidden;
     padding-top: var(--header-height); 
 }
 
+/* 第一層星星 (遠處/速度慢) */
+#stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300vw;
+    height: 300vh;
+    /* 隨機生成 1px x 1px 的白色點作為星星 */
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0z'/%3E%3Cpath fill='%23ffffff' d='M10 10h1v1H10z'/%3E%3Cpath fill='%23ffffff' d='M25 25h1v1H25z'/%3E%3Cpath fill='%23ffffff' d='M50 50h1v1H50z'/%3E%3C/svg%3E") repeat;
+    background-size: 100px 100px; 
+    animation: move-star 120s linear infinite;
+    z-index: 1;
+}
+
+/* 第二層星星 (近處/速度快/密度低) */
+#stars2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300vw;
+    height: 300vh;
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%230F2038'/%3E%3Cpath fill='%23ffffff' d='M0 0h2v2H0z'/%3E%3Cpath fill='%23ffffff' d='M30 30h2v2H30z'/%3E%3C/svg%3E") repeat;
+    background-size: 200px 200px; 
+    animation: move-star 200s linear infinite reverse;
+    z-index: 1;
+}
+
+/* 確保覆蓋層在星星之上，文字之下 */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -396,27 +456,27 @@ p { margin-bottom: 1em; }
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.55); /* 略微加深覆蓋層，提升文字對比 */
-    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.2); 
+    z-index: 2;
 }
 
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 3; 
     color: var(--text-light);
     max-width: 800px;
     padding: 20px;
 }
 
 .hero-content h1 {
-    font-size: 3.2rem; /* 標題稍微放大 */
+    /* 讓 clamp() 自動控制 H1 大小 */
     color: var(--text-light);
     margin-bottom: 20px;
-    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); /* 強化陰影，讓文字更突出 */
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); 
 }
 
 .hero-content p {
-    font-size: 1.3rem; /* 內文稍微放大 */
+    font-size: 1.3rem; 
     margin-bottom: 40px;
     font-weight: 300;
 }
@@ -437,18 +497,18 @@ p { margin-bottom: 1em; }
     transition: transform 0.3s, box-shadow 0.3s;
     border: 1px solid var(--border-color);
     height: 100%; 
-    display: flex; /* 使用 Flexbox 確保內容在不同高度卡片中垂直排列 */
+    display: flex; 
     flex-direction: column;
     justify-content: flex-start;
 }
 
 .card-item:hover {
-    transform: translateY(-6px); /* 提升高度微調 */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* 強化陰影 */
+    transform: translateY(-6px); 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); 
 }
 
 .card-item .icon {
-    font-size: 3.2rem; /* 放大圖示 */
+    font-size: 3.2rem; 
     color: var(--accent-color);
     margin-bottom: 15px;
 }
@@ -456,8 +516,9 @@ p { margin-bottom: 1em; }
 .card-item h3 {
     margin-top: 0;
     margin-bottom: 10px;
+    /* 顏色已更新為新的 primary-color */
     color: var(--primary-color);
-    font-family: var(--font-serif); /* 改用 Serif 標題字體，增加專業感 */
+    font-family: var(--font-serif); 
     font-weight: 700;
 }
 
@@ -479,14 +540,14 @@ p { margin-bottom: 1em; }
 }
 
 /* 緊急聯繫卡片樣式 */
+/* 顏色已更新為新的 primary-color */
 .emergency-contact {
     background-color: var(--primary-color);
     color: var(--text-light);
-    /* 保持 Flex 垂直佈局 */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 35px; /* 增加內距 */
+    padding: 35px; 
 }
 
 .emergency-contact .icon {
@@ -504,6 +565,7 @@ p { margin-bottom: 1em; }
     font-weight: 700;
 }
 
+/* 顏色已更新為新的 primary-dark */
 .emergency-contact .cta-button:hover {
     background-color: var(--text-light);
     color: var(--primary-dark);
@@ -524,19 +586,21 @@ p { margin-bottom: 1em; }
 .flow-chart li {
     background-color: var(--text-light);
     border: 2px solid var(--accent-color);
-    padding: 20px; /* 增加內距 */
+    padding: 20px; 
     margin: 10px;
     border-radius: 8px;
     font-weight: 400;
     flex-basis: calc(33.33% - 20px); 
     min-width: 280px;
     position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 強化陰影 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .flow-chart li strong {
     font-weight: 700;
-    color: var(--primary-dark); /* 使用深紅，更突出 */
+    /* 顏色已更新為新的 primary-dark */
+    color: var(--primary-dark); 
     margin-right: 5px;
 }
 
@@ -553,7 +617,7 @@ p { margin-bottom: 1em; }
 .accordion-item { 
     background-color: var(--text-light);
     border: 1px solid var(--border-color);
-    border-radius: 8px; /* 圓角微調 */
+    border-radius: 8px; 
     margin-bottom: 15px;
     box-shadow: 0 4px 10px var(--shadow-color);
     overflow: hidden;
@@ -562,7 +626,7 @@ p { margin-bottom: 1em; }
 .accordion-header {
     display: flex;
     align-items: center;
-    padding: 18px 25px; /* 調整內距 */
+    padding: 18px 25px; 
     font-weight: 700;
     cursor: pointer;
     font-size: 1.05rem;
@@ -576,28 +640,29 @@ p { margin-bottom: 1em; }
     outline: 2px solid var(--accent-color); 
 }
 
+/* 顏色已更新為新的 primary-color */
 .accordion-header i {
     color: var(--primary-color);
     margin-right: 12px;
     transition: transform 0.3s;
 }
 
+/* 顏色已更新為新的 primary-color */
 .accordion-item.active > .accordion-header {
     background-color: var(--primary-color);
     color: var(--text-light);
-    /* 移除多餘的 border-bottom */
 }
 
 .accordion-item.active > .accordion-header i {
     color: var(--accent-color); 
-    transform: rotate(90deg); /* 展開時圖示旋轉，增加回饋 */
+    transform: rotate(90deg); 
 }
 
 /* 內容區塊 - 核心動畫: 使用 max-height 實現平滑過渡 */
 .accordion-content {
     max-height: 0; 
     overflow: hidden;
-    padding: 0 25px; /* 調整內距與 Header 一致 */
+    padding: 0 25px; 
     background-color: var(--text-light);
     border-top: 1px solid var(--border-color);
     transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1); 
@@ -607,7 +672,7 @@ p { margin-bottom: 1em; }
     margin-bottom: 0;
     padding-top: 15px; 
     padding-bottom: 15px; 
-    line-height: 1.8; /* 增加行高，提升閱讀舒適度 */
+    line-height: 1.8; 
 }
 
 
@@ -626,7 +691,6 @@ footer {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     padding-bottom: 40px;
-    /* 確保頁尾內容也在容器內 */
     max-width: var(--content-max-width);
     margin: 0 auto;
     padding-left: 20px;
@@ -651,7 +715,7 @@ footer {
 }
 
 .footer-block a {
-    color: rgba(255, 255, 255, 0.75); /* 略微變白 */
+    color: rgba(255, 255, 255, 0.75); 
     font-size: 0.95rem;
 }
 
@@ -679,6 +743,7 @@ footer {
     margin-right: 15px;
 }
 
+/* 顏色已更新為新的 primary-dark */
 .footer-copyright {
     background-color: var(--primary-dark);
     padding: 15px 0;
@@ -712,18 +777,19 @@ footer {
 }
 
 .floating-cta a {
-    width: 60px; /* 略微放大 */
+    width: 60px; 
     height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem; /* 放大圖示 */
+    font-size: 1.5rem; 
     color: var(--text-light);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* 強化陰影 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
     transition: transform 0.3s, opacity 0.3s;
 }
 
+/* 顏色已更新為新的 primary-color */
 .floating-cta a:first-child { 
     background-color: var(--primary-color); 
 }
@@ -745,7 +811,7 @@ footer {
 @media (max-width: 900px) {
     
     :root {
-         --padding-section-v: 50px; /* 手機版區塊內距縮小 */
+         --padding-section-v: 50px; 
     }
 
     /* 導覽列調整 */
@@ -765,20 +831,17 @@ footer {
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
         
-        /* 核心修正: 使用 max-height 實現平滑過渡 (主選單展開) */
         max-height: 0; 
         overflow: hidden;
         transition: max-height 0.3s ease-in-out; 
     }
     
     .main-nav.active {
-        /* 設定一個足夠大的高度，並允許內部滾動 */
         max-height: 80vh; 
         padding-bottom: 10px;
         overflow-y: auto; 
     }
 
-    /* 確保手機版選單圖示在展開時旋轉 (配合 JS 邏輯) */
     .menu-toggle.active i {
         transform: rotate(90deg);
     }
@@ -792,7 +855,7 @@ footer {
     .main-nav li {
         width: 100%;
         padding: 0;
-        border-bottom: 1px solid var(--border-color); /* 調整線條顏色 */
+        border-bottom: 1px solid var(--border-color); 
     }
     
     .main-nav li:last-child {
@@ -805,7 +868,6 @@ footer {
     
     /* 手機版下拉選單 (手風琴動畫) 調整 */
     .dropdown > a {
-        /* 確保連結本身是可點擊的，用來觸發展開/收合 */
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -813,12 +875,10 @@ footer {
     }
 
     .dropdown > a i {
-        /* 手機版下拉箭頭獨立出來，方便點擊和旋轉 */
         margin-left: auto;
         font-size: 0.9rem;
     }
     
-    /* 配合 JS 邏輯，在手機版控制箭頭旋轉 */
     .dropdown.active > a i {
         transform: rotate(180deg);
     }
@@ -833,20 +893,17 @@ footer {
         display: flex;
         flex-direction: column;
         
-        padding: 0 0 0 25px; /* 增加左側縮進，區分層次 */
+        padding: 0 0 0 25px; 
         transform: none;
         opacity: 1; 
         visibility: visible;
         
-        /* 核心優化：使用 max-height 實現手風琴平滑過渡 */
         max-height: 0; 
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
     }
 
-    /* 配合 JS 邏輯，使用 .active class 控制子選單展開 */
     .dropdown.active > .submenu {
-        /* 設定一個足夠大的數值，確保內容完全展開 (500px 通常足夠) */
         max-height: 500px; 
         padding-bottom: 15px; 
     }
@@ -871,20 +928,12 @@ footer {
         height: 500px;
         background-attachment: scroll; 
     }
-
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
     
     .hero-content p {
         font-size: 1.1rem;
     }
     
-    /* 內文區塊調整 */
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.6rem; }
-
-    /* 網格佈局調整 */
+    /* 網格佈局調整 - 流程卡片 */
     .flow-chart li {
         flex-basis: calc(50% - 20px); 
         min-width: unset;
@@ -895,12 +944,14 @@ footer {
 /* 純手機版 (較窄螢幕，例如 576px) */
 @media (max-width: 576px) {
     
-    .hero-content h1 {
-        font-size: 1.8rem;
-    }
-
+    /* 網格佈局調整 - 流程卡片改為單欄 */
     .flow-chart li {
         flex-basis: 100%; 
+    }
+    
+    /* 網格佈局調整 - 其他卡片也改為單欄或彈性調整 */
+    .religion-grid, .commitment-grid, .trust-section .card-grid {
+        grid-template-columns: 1fr;
     }
     
     .footer-grid {
@@ -922,6 +973,13 @@ footer {
     .floating-cta {
         bottom: 15px;
         right: 15px;
+        gap: 10px; 
+    }
+
+    .floating-cta a {
+        width: 50px; 
+        height: 50px;
+        font-size: 1.3rem;
     }
 }
 
