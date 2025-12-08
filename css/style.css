@@ -22,16 +22,23 @@
  * ------------------------------------------- */
 
 :root {
-    /* ⭐️ 顏色定義 (深藍與金色) */
-    --primary-color: #1A375A;       /* 深藍色 (主色調，沉穩、專業) */
-    --primary-dark: #0F2038;        /* 更深的藍 (Hover/深層背景) */
-    --secondary-color: #1C2229;     /* 深灰色 (文本/頁尾背景) */
-    --accent-color: #D4A757;        /* 金色/土黃色 (點綴色/重點強調) */
-    --bg-light: #F9F7F5;            /* 淺灰色 (區塊背景) */
-    --text-dark: #1C2229;           /* 主要深色文字 */
-    --text-light: #FFFFFF;          /* 主要淺色文字 */
-    --border-color: #EBE0D9;        /* 邊框/分隔線 */
-    --shadow-color: rgba(0, 0, 0, 0.08); /* 輕微陰影 */
+    /* 品牌色系 */
+    --primary-color: #3b5998; /* 深藍色 (作為基礎和行動按鈕背景) */
+    --primary-dark: #2d4373;
+    --accent-color: #d4a757; /* 溫暖金色/米色 (作為重點和流星光暈) */
+    --secondary-color: #795548; /* 棕色 (輔助色) */
+
+    /* 文字色系 */
+    --text-dark: #333333;
+    --text-light: #ffffff;
+    
+    /* 背景與邊界 */
+    --bg-light: #f9f9f9;
+    --bg-dark: #00000a; /* 極深藍黑，夜空基底 */
+    --border-color: #eeeeee;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+  
     
     /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
@@ -427,6 +434,25 @@ p { margin-bottom: 0.5em; }
 }
 
 /* 🚀 流星隨機軌跡動畫 (配合 JS 變數) */
+/* 3. 區塊樣式 (Sections)
+ * ------------------------------------------- */
+
+/* ⭐️ Hero 區塊樣式 (星星動畫 - 增強動畫感) */
+@keyframes blink {
+    0%, 100% { opacity: 0.8; }
+    25% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+    75% { opacity: 0.2; }
+}
+
+@keyframes move-star {
+    /* 景深效果：遠處慢速，近處快速 */
+    0% { transform: translate(0, 0); } 
+    /* 景深移動距離，確保星星緩慢移動增加層次感 */
+    100% { transform: translate(-150vw, -150vh); } 
+}
+
+/* 🚀 流星隨機軌跡動畫 (配合 JS 變數) */
 @keyframes shooting-star-random {
     0% { 
         transform: translate(0, 0) rotate(var(--rotation, -45deg)); 
@@ -449,24 +475,6 @@ p { margin-bottom: 0.5em; }
 }
 
 
-.hero-section {
-    position: relative;
-    height: 600px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-    padding-top: var(--header-height); 
-    
-    /* 1. 【核心底色】：極深藍黑 */
-    background-color: #00000a; 
-    background-size: cover;
-    background-position: center center;
-    background-attachment: scroll; 
-}
-
-
 /* 確保星星 div 覆蓋整個區域，用於容納流星 */
 #stars, #stars2, #stars3 {
     position: absolute;
@@ -485,7 +493,11 @@ p { margin-bottom: 0.5em; }
     z-index: 1;
 }
 #stars::before {
-    /* 大量白色小點模擬遠處星辰 */
+    content: ""; /* 必須有 content 才能應用 box-shadow */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    /* 大量白色小點模擬遠處星辰 (此處使用您的客製化 box-shadow) */
     box-shadow: 
         100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0, -50vw 150vh #e0e0e0, 30vw 100vh #e0e0e0, 
         -20vw 50vh #e0e0e0, 200vw 250vh #e0e0e0, 150vw 50vh #e0e0e0, -10vw 80vh #e0e0e0, 
@@ -506,6 +518,8 @@ p { margin-bottom: 0.5em; }
     z-index: 1;
 }
 #stars2::before {
+    content: ""; /* 必須有 content 才能應用 box-shadow */
+    position: absolute;
     width: 2px;
     height: 2px;
     opacity: 0.9;
@@ -524,6 +538,8 @@ p { margin-bottom: 0.5em; }
     z-index: 1;
 }
 #stars3::before {
+    content: ""; /* 必須有 content 才能應用 box-shadow */
+    position: absolute;
     width: 3px;
     height: 3px;
     opacity: 1;
@@ -534,6 +550,7 @@ p { margin-bottom: 0.5em; }
         -50vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 280vw 10vh var(--accent-color), 
         150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
 }
+
 
 /* ✅ 【流星本體 - 核心視覺修正】 */
 .meteor {
@@ -573,6 +590,22 @@ p { margin-bottom: 0.5em; }
     /* 核心優化 3: 向後延伸並使用 blur 柔化 */
     transform: translateX(-100%) translateY(-50%); 
     filter: blur(2px); 
+}
+
+
+/* 🌠 Hero Section 結構與夜空基底 (必須配置) */
+.hero-section {
+    position: relative;
+    height: 100vh; /* 確保佔滿整個視窗高度 */
+    min-height: 650px;
+    overflow: hidden; /* 確保流星和星星不會溢出 */
+    background-color: var(--bg-dark); /* 使用定義的極深藍黑色基底 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+    z-index: 1; 
 }
 
 
