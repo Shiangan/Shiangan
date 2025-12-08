@@ -268,39 +268,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 7. 動態生成不規則流星 (Meteor Generation Logic) 
     // ====================================================
-    // 獲取流星的容器元素 (使用 #stars 作為流星容器)
-    const starsContainer = document.getElementById('stars');
+    // 獲取流星的容器元素 (使用 #stars 作為流星容器，雖然 CSS 邏輯中流星是獨立的)
+    const heroSection = document.querySelector('.hero-section');
     
     // 確保容器存在
-    if (starsContainer) { 
+    if (heroSection) { 
         const numMeteors = 10; // 設置在畫面中同時存在的流星總數
 
         function createMeteor() {
             const meteor = document.createElement('div');
             meteor.classList.add('meteor');
-
-            // 1. 隨機初始位置 (不規則的起點)
-            const startX = Math.random() * 30 + 100; // 100vw 到 130vw (右方畫面外)
-            const startY = Math.random() * 40 - 10; // -10vh 到 30vh (頂部畫面外/內)
-
-            // 2. 隨機動畫時間 (不規則的速度: 3 到 8 秒)
-            const duration = Math.random() * 5 + 3; 
-
-            // 3. 隨機動畫延遲 (不規則的出現時間: 0 到 15 秒)
-            const delay = Math.random() * 15; 
-
-            // 應用樣式和動畫屬性
-            meteor.style.left = `${startX}vw`;
-            meteor.style.top = `${startY}vh`;
             
-            // 應用 CSS Keyframe (名稱: shooting-star-anim)
+            // 由於 CSS Keyframe 已定義動畫路徑，這裡主要設置速度和延遲
+            
+            // 1. 隨機動畫時間 (不規則的速度: 3.5 到 8.5 秒)
+            const duration = Math.random() * 5 + 3.5; 
+
+            // 2. 隨機動畫延遲 (不規則的出現時間: 0 到 15 秒)
+            const delay = Math.random() * 15; 
+            
+            // 3. 確保流星動畫重播 (在動畫結束後重新創建)
+            meteor.addEventListener('animationend', () => {
+                 meteor.remove();
+                 createMeteor(); // 重新生成一個流星以保持數量穩定
+            });
+
+
+            // 應用動畫屬性
+            // 由於 CSS 已經有 .meteor 樣式，這裡只需要注入時間參數
             meteor.style.animationName = 'shooting-star-anim';
             meteor.style.animationDuration = `${duration}s`;
             meteor.style.animationDelay = `${delay}s`;
             meteor.style.animationTimingFunction = 'linear';
-            meteor.style.animationIterationCount = 'infinite'; 
+            
+            // 【優化】移除 animationIterationCount = 'infinite'，改用 animationend 確保重設位置和速度
+            // meteor.style.animationIterationCount = 'infinite'; 
 
-            starsContainer.appendChild(meteor);
+            heroSection.appendChild(meteor);
         }
 
         // 動態生成指定數量的流星
