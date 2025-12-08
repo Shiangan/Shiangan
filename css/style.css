@@ -424,20 +424,23 @@ p { margin-bottom: 0.5em; }
     100% { transform: translate(-150vw, -150vh); } 
 }
 
-/* 🚀 流星動畫：從右上方斜向滑落 */
+/* 🚀 流星動畫：從右上方斜向滑落 (最終優化：相對位移) */
 @keyframes shooting-star-anim {
     0% { 
-        transform: translate(100vw, -10vh) rotate(-45deg); 
+        /* 讓 JS 設定的 left/top 成為起始點，這裡只需設定旋轉 */
+        transform: translate(0, 0) rotate(-45deg); 
         opacity: 0; 
     }
     1% { 
         opacity: 1; /* 瞬間出現 */
     }
     100% { 
-        transform: translate(-50vw, 100vh) rotate(-45deg); 
+        /* 相對於起始點位移 X 軸 -150vw, Y 軸 +150vh (斜向下) */
+        transform: translate(-150vw, 150vh) rotate(-45deg); 
         opacity: 0; 
     }
 }
+
 
 
 .hero-section {
