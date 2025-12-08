@@ -406,6 +406,10 @@ p { margin-bottom: 0.5em; }
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
+/* -------------------------------------------
+ * 3. 區塊樣式 (Sections)
+ * ------------------------------------------- */
+
 /* ⭐️ Hero 區塊樣式 (星星動畫 - 增強動畫感) */
 @keyframes blink {
     /* 優化：增強隨機性 */
@@ -416,19 +420,15 @@ p { margin-bottom: 0.5em; }
 }
 
 @keyframes move-star {
-    from {
-        /* 將起始位置設在左上角 (0, 0) */
-        transform: translate(0, 0);
-    }
-    to {
-        /* 讓星星向下緩慢移動 */
-        transform: translate(-100vw, 100vh); 
-    }
+    /* 【修正】讓星空緩慢向左上角移動，模擬視差效果，與流星方向協調 */
+    0% { transform: translate(0, 0); } 
+    100% { transform: translate(-150vw, -150vh); } 
 }
 
-/* 🚀 新增流星動畫：從右上角斜向滑落 */
+/* 🚀 流星動畫：從右上方斜向滑落 */
 @keyframes shooting-star-anim {
     0% { 
+        /* 100vw, -10vh 讓流星從右上方畫面外開始 */
         transform: translate(100vw, -10vh) rotate(-45deg); 
         opacity: 0; 
     }
@@ -436,6 +436,7 @@ p { margin-bottom: 0.5em; }
         opacity: 1; /* 瞬間出現 */
     }
     100% { 
+        /* -50vw, 100vh 讓流星劃過整個畫面 */
         transform: translate(-50vw, 100vh) rotate(-45deg); 
         opacity: 0; 
     }
@@ -449,13 +450,15 @@ p { margin-bottom: 0.5em; }
     align-items: center;
     justify-content: center;
     text-align: center;
-    /* 新的深色背景 */
-    background-color: #000020; 
+    overflow: hidden;
+    padding-top: var(--header-height); 
+    
+    /* 【優化：背景漸層】 實現「中間有漸層自然的感覺」 */
+    background-color: #00000a; /* 接近純黑的深藍色 */
+    background-image: radial-gradient(circle at center, rgba(3, 3, 30, 0.4) 0%, rgba(0, 0, 10, 0.95) 100%);
     background-size: cover;
     background-position: center center;
     background-attachment: scroll; 
-    overflow: hidden;
-    padding-top: var(--header-height); 
 }
 
 /* 🏆 星星生成技巧：使用 box-shadow 模擬大量不規則的星星 */
@@ -493,16 +496,14 @@ p { margin-bottom: 0.5em; }
 
 /* 第一層星星 (遠處/速度慢/淡色) */
 #stars {
-    opacity: 0.7;
-    background: #e0e0e0;
-    /* 擴充 box-shadow 列表 (範例：盡量擴充，實際請用程式生成) */
+    /* 移除無效的 background 屬性 */
     animation: move-star 250s linear infinite reverse, 
                blink 5s infinite alternate; 
     animation-delay: 0.5s; 
     z-index: 1;
 }
 #stars::before {
-    /* 更多的星點 */
+    /* 更多的星點 (使用 ::before 統一設置 box-shadow) */
     box-shadow: 
         100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0, -50vw 150vh #e0e0e0, 30vw 100vh #e0e0e0, 
         -20vw 50vh #e0e0e0, 200vw 250vh #e0e0e0, 150vw 50vh #e0e0e0, -10vw 80vh #e0e0e0, 
@@ -517,12 +518,7 @@ p { margin-bottom: 0.5em; }
 
 /* 第二層星星 (近處/速度中/亮白色) */
 #stars2 {
-    width: 2px;
-    height: 2px;
-    opacity: 0.9;
-    background: #ffffff;
-    
-    /* 調整動畫：速度中、方向正向、中速閃爍 */
+    /* 移除無效的 width/height/opacity/background 屬性 */
     animation: move-star 150s linear infinite,
                blink 3s infinite alternate; 
     animation-delay: 1.2s; 
@@ -531,7 +527,7 @@ p { margin-bottom: 0.5em; }
 #stars2::before {
     width: 2px;
     height: 2px;
-    /* 更多的星點 */
+    opacity: 0.9;
     box-shadow: 
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff,
         200vw 250vh #ffffff, 100vw 100vh #ffffff, 180vw 10vh #ffffff, 50vw 280vh #ffffff,
@@ -541,12 +537,7 @@ p { margin-bottom: 0.5em; }
 
 /* 🚀 第三層星星 (最亮/最快/金色光暈) */
 #stars3 {
-    width: 3px;
-    height: 3px;
-    opacity: 1;
-    background: var(--accent-color); 
-    
-    /* 調整動畫：速度最快、方向反轉、快速閃爍 */
+    /* 移除無效的 width/height/opacity/background 屬性 */
     animation: move-star 100s linear infinite reverse,
                blink 1.5s infinite alternate; 
     animation-delay: 0s; 
@@ -555,6 +546,7 @@ p { margin-bottom: 0.5em; }
 #stars3::before {
     width: 3px;
     height: 3px;
+    opacity: 1;
     box-shadow: 
         /* 隨機位置的金色星點 */
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
@@ -563,16 +555,19 @@ p { margin-bottom: 0.5em; }
         150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
 }
 
+/* 【修正：流星光暈】 實現更強的流星感 */
 .meteor {
     position: absolute;
-    width: 4px; /* 流星頭部寬度 */
-    height: 4px; 
+    width: 5px; /* 流星頭部稍大 */
+    height: 5px; 
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8); /* 頭部光暈 */
+    background-color: #fff;
+    /* 核心：增強頭部光暈，模擬圖中亮度 */
+    box-shadow: 0 0 15px 3px rgba(255, 255, 255, 1), /* 內層極亮光暈 */
+                0 0 20px 5px rgba(100, 100, 255, 0.5); /* 外層藍色微光 */
     opacity: 0; 
+    transform-origin: 100% 0; /* 確保旋轉從流星頭開始 */
     z-index: 5;
-    /* 確保動畫屬性由 JS 注入：animation: shooting-star-anim 隨機時間 linear infinite; */
 }
 
 .meteor::after {
@@ -580,12 +575,12 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px; /* 尾巴長度 */
-    height: 2px;
+    width: 150px; /* 尾巴更長，以增強流星感 */
+    height: 3px; /* 尾巴略粗 */
     /* 確保流星尾巴從頭部延伸到透明 */
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), transparent);
     transform: translateX(-100%); /* 尾巴向左延伸，位於流星後方 */
-    filter: blur(1px);
+    filter: blur(1.5px); /* 讓尾巴更柔和自然 */
 }
 
 
@@ -597,8 +592,8 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-    /* 略為提高透明度，增加夜空深邃感 */
-    background-color: rgba(0, 0, 0, 0.3); 
+    /* 略為提高透明度，讓背景漸層更明顯 */
+    background-color: rgba(0, 0, 0, 0.1); 
     z-index: 2;
 }
 
@@ -611,18 +606,16 @@ p { margin-bottom: 0.5em; }
 }
 
 .hero-content h1 {
-    /* 讓 clamp() 自動控制 H1 大小 */
     color: var(--text-light);
-    /* 這裡由通用 hx 樣式控制 margin-bottom */
-    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); 
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); /* 強化文字陰影 */
 }
 
 .hero-content p {
     font-size: 1.3rem; 
-    /* 這裡由通用 p 樣式控制 margin-bottom，使其緊湊 */
     font-weight: 300;
-    margin-bottom: 40px; /* 確保最後一個 p 和按鈕之間有足夠空間 */
+    margin-bottom: 40px; 
 }
+
 
 /* 卡片網格通用樣式 */
 .card-grid {
