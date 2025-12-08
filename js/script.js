@@ -1,12 +1,10 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V15.0 最終質感精修版 - 強化版)
-   優化項目：通用手風琴 (Accordion) A11Y 強化、載入閃爍處理 & 手機選單圖示切換
+   程式夥伴 - 網站核心 JavaScript (V15.0 最終質感精修版 - 強化圖示切換)
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
     
     // **修正開始：抗閃爍機制**
-    // 移除 body 上的 js-loading class，讓 CSS 開始顯示內容
     document.body.classList.remove('js-loading');
     
     // ====================================================
@@ -17,14 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainNav = document.getElementById('main-nav');
     const body = document.body;
     const dropdowns = document.querySelectorAll('.dropdown');
-    const mobileBreakpoint = 900; // 統一 RWD 斷點為 900px
+    const mobileBreakpoint = 900; 
     const accordionContainer = document.querySelector('.accordion-container');
     const currentYearSpan = document.getElementById('current-year');
 
 
     // 輔助函數：關閉所有手機子菜單
     function closeAllMobileSubmenus() {
-        // 移除所有下拉選單上的 active 類別
         document.querySelectorAll('#main-nav ul li.dropdown.active').forEach(li => {
             li.classList.remove('active');
         });
@@ -40,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
                  body.classList.remove('no-scroll');
                  closeAllMobileSubmenus();
                  
-                 // 🚀 額外清理：確保桌面版圖示為 'fa-bars' (如果曾被切換過)
+                 // 🚀 額外清理：確保桌面版圖示為 'fa-bars' 
                  const menuIcon = menuToggle.querySelector('i');
-                 if (menuIcon.classList.contains('fa-times')) {
+                 if (menuIcon && menuIcon.classList.contains('fa-times')) {
                      menuIcon.classList.remove('fa-times');
                      menuIcon.classList.add('fa-bars');
                  }
@@ -65,34 +62,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (header) {
-        handleScroll(); // 載入時執行一次
+        handleScroll(); 
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
     // ====================================================
-    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle) - 【已增加圖示切換】
+    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle) - 🚀 核心圖示切換
     // ====================================================
     if (menuToggle && mainNav) {
-        // 🚀 新增：獲取圖示元素，它是 menuToggle 的第一個子元素 <i>
         const menuIcon = menuToggle.querySelector('i'); 
 
         menuToggle.addEventListener('click', function() {
             const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
             
             this.setAttribute('aria-expanded', !isExpanded);
-            mainNav.classList.toggle('active'); // 切換主選單 CSS 類別
-            body.classList.toggle('no-scroll'); // 鎖定背景滾動
+            mainNav.classList.toggle('active'); 
+            body.classList.toggle('no-scroll'); 
             
             // 🚀 核心邏輯：切換圖示 Class (fa-bars <-> fa-times)
-            if (!isExpanded) {
-                // 開啟選單：從 'fa-bars' (漢堡) 換成 'fa-times' (叉叉)
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
-                closeAllMobileSubmenus(); 
-            } else {
-                // 關閉選單：從 'fa-times' (叉叉) 換回 'fa-bars' (漢堡)
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
+            if (menuIcon) {
+                if (!isExpanded) {
+                    // 開啟選單
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-times');
+                    closeAllMobileSubmenus(); 
+                } else {
+                    // 關閉選單
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+            } else if (!isExpanded) {
+                // 如果沒有 icon，只執行清理子選單
+                closeAllMobileSubmenus();
             }
         });
     }
@@ -109,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         dropdown.addEventListener('focusout', function() {
             setTimeout(() => {
-                // 檢查失去焦點後，焦點是否仍在下拉選單或其子元素內
                 if (window.innerWidth > mobileBreakpoint && !this.contains(document.activeElement)) {
                     this.classList.remove('focus-within');
                 }
@@ -124,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mainNav) {
         mainNav.addEventListener('click', function(e) {
             if (window.innerWidth <= mobileBreakpoint) { 
-                // 確保點擊對象是 li.dropdown > a
                 let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
 
                 if (targetLink) {
@@ -135,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (parentLi.classList.contains('active')) {
                         parentLi.classList.remove('active');
                     } else {
-                        closeAllMobileSubmenus(); // 關閉其他已開啟的子選單
-                        parentLi.classList.add('active'); // 展開當前子選單
+                        closeAllMobileSubmenus(); 
+                        parentLi.classList.add('active'); 
                     }
                 }
             }
@@ -144,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====================================================
-    // 5. 通用手風琴 (Accordion Component Logic) - 強化版
+    // 5. 通用手風琴 (Accordion Component Logic)
     // ====================================================
     if (accordionContainer) {
         
@@ -155,19 +154,17 @@ document.addEventListener('DOMContentLoaded', function() {
              
              if (header && content) {
                  const uniqueId = `acc-item-${index}`;
-                 
                  content.id = `${uniqueId}-content`;
                  header.setAttribute('aria-controls', content.id);
 
                  const isActive = item.classList.contains('active');
-
-                 // 確保內容收合或展開時 max-height 正確
-                 // 這裡需要計算 padding (CSS 設為 15px 上下，共 30px)
+                 
+                 // 設置初始 max-height
                  const contentHeight = content.scrollHeight; 
                  content.style.maxHeight = isActive ? contentHeight + "px" : 0;
                  
                  header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-                 header.setAttribute('tabindex', '0'); // 確保可以被鍵盤選中
+                 header.setAttribute('tabindex', '0'); 
              }
         });
 
@@ -186,8 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
                         if (activeItem !== item) {
                             activeItem.classList.remove('active');
-                            const activeContent = activeItem.querySelector('.accordion-content');
-                            activeContent.style.maxHeight = 0;
+                            activeItem.querySelector('.accordion-content').style.maxHeight = 0;
                             activeItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
                         }
                     });
@@ -199,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
                     // 展開時
-                    // 必須先計算 content.scrollHeight，然後設置 max-height
                     content.style.maxHeight = content.scrollHeight + "px"; 
                     header.setAttribute('aria-expanded', 'true');
                 } else {
@@ -212,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====================================================
-    // 6. 圖片延遲載入 (Image Lazy Loading) - **注意: HTML 需使用 data-src**
+    // 6. 圖片延遲載入 (Image Lazy Loading)
     // ====================================================
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
@@ -252,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // ====================================================
-    // 7. 平滑滾動至錨點 (Smooth Scrolling) - 精確計算 Header 高度
+    // 7. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
     if (header) { 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -265,12 +260,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                     // 關閉手機菜單
+                     // 關閉手機菜單 (模擬點擊，會觸發圖示切換)
                      if (mainNav && mainNav.classList.contains('active')) {
-                         menuToggle.click(); // 模擬點擊關閉菜單
+                         menuToggle.click(); 
                      }
                     
-                     // 計算滾動位置，減去固定 Header 的高度
                      const headerHeight = header.offsetHeight;
                      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
                     
