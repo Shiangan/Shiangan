@@ -291,7 +291,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // ====================================================
         // ====================================================
-    // 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫
+       // ====================================================
+    // ====================================================
+    // 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫與隨機性
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
     
@@ -307,14 +309,30 @@ document.addEventListener('DOMContentLoaded', function() {
             // 隨機延遲時間 (0 到 8 秒)，讓出現更頻繁
             const delay = Math.random() * 8; 
             
-            // ⭐️ 【手機顯示優化】：動態設定流星的起始點
-            // 確保流星從螢幕右側 (80vw~150vw) 和頂部 (-10vh~20vh) 隨機開始，
-            // 讓它在手機上更容易從視口邊緣劃入。
-            const initialLeft = 80 + Math.random() * 70; 
-            const initialTop = -10 + Math.random() * 30; 
+            // ⭐️ 【起始點隨機化】：
+            // 讓流星從視圖外的不同邊緣開始，增強不規則性
+            // 視圖外的右上方隨機位置
+            const initialLeft = 80 + Math.random() * 100; // 80vw 到 180vw
+            const initialTop = -20 + Math.random() * 40;  // -20vh 到 20vh
 
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
+            
+            // ⭐️ 【核心修正：設定隨機移動參數 (配合 CSS 變數) 】
+            
+            // 1. 隨機旋轉角度 (-30deg 到 -60deg，確保斜下劃落)
+            const rotation = Math.random() * 30 - 60; 
+            
+            // 2. 隨機位移距離 (確保劃過大半個螢幕)
+            // 位移X：從 -120vw 到 -200vw
+            const travelX = -(120 + Math.random() * 80); 
+            // 位移Y：從 120vh 到 200vh
+            const travelY = 120 + Math.random() * 80; 
+
+            // 將隨機參數設定為 CSS 變數
+            meteor.style.setProperty('--rotation', `${rotation}deg`);
+            meteor.style.setProperty('--travel-x', `${travelX}vw`);
+            meteor.style.setProperty('--travel-y', `${travelY}vh`);
             
             // **核心優化：循環生成**
             meteor.addEventListener('animationend', () => {
@@ -323,8 +341,8 @@ document.addEventListener('DOMContentLoaded', function() {
                  setTimeout(createMeteor, Math.random() * 3000 + 500); // 0.5s 到 3.5s 後再生
             });
 
-            // 應用動畫屬性 (CSS keyframes 負責相對位移)
-            meteor.style.animationName = 'shooting-star-anim';
+            // ⭐️ 【核心修正：套用正確的動畫名稱】
+            meteor.style.animationName = 'shooting-star-random';
             meteor.style.animationDuration = `${duration}s`;
             meteor.style.animationDelay = `${delay}s`;
             meteor.style.animationTimingFunction = 'linear';
@@ -338,6 +356,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(createMeteor, Math.random() * 5000); 
         }
     }
+
+
+    // ====================================================
 
 
     // ====================================================
