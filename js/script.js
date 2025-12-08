@@ -1,6 +1,6 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V15.0 最終質感精修版)
-   優化項目：通用手風琴 (Accordion) A11Y 強化與載入閃爍處理
+   程式夥伴 - 網站核心 JavaScript (V15.0 最終質感精修版 - 強化版)
+   優化項目：通用手風琴 (Accordion) A11Y 強化、載入閃爍處理 & 手機選單圖示切換
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -39,6 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
                  menuToggle.setAttribute('aria-expanded', 'false');
                  body.classList.remove('no-scroll');
                  closeAllMobileSubmenus();
+                 
+                 // 🚀 額外清理：確保桌面版圖示為 'fa-bars' (如果曾被切換過)
+                 const menuIcon = menuToggle.querySelector('i');
+                 if (menuIcon.classList.contains('fa-times')) {
+                     menuIcon.classList.remove('fa-times');
+                     menuIcon.classList.add('fa-bars');
+                 }
              }
          }
     }
@@ -63,9 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ====================================================
-    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
+    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle) - 【已增加圖示切換】
     // ====================================================
     if (menuToggle && mainNav) {
+        // 🚀 新增：獲取圖示元素，它是 menuToggle 的第一個子元素 <i>
+        const menuIcon = menuToggle.querySelector('i'); 
+
         menuToggle.addEventListener('click', function() {
             const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
             
@@ -73,10 +83,17 @@ document.addEventListener('DOMContentLoaded', function() {
             mainNav.classList.toggle('active'); // 切換主選單 CSS 類別
             body.classList.toggle('no-scroll'); // 鎖定背景滾動
             
+            // 🚀 核心邏輯：切換圖示 Class (fa-bars <-> fa-times)
             if (!isExpanded) {
-                // 如果是開啟選單，關閉所有子選單
+                // 開啟選單：從 'fa-bars' (漢堡) 換成 'fa-times' (叉叉)
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
                 closeAllMobileSubmenus(); 
-            } 
+            } else {
+                // 關閉選單：從 'fa-times' (叉叉) 換回 'fa-bars' (漢堡)
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
         });
     }
 
@@ -182,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
                     // 展開時
+                    // 必須先計算 content.scrollHeight，然後設置 max-height
                     content.style.maxHeight = content.scrollHeight + "px"; 
                     header.setAttribute('aria-expanded', 'true');
                 } else {
