@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 輔助函數：處理 RWD 調整時的狀態清理
     function handleResizeCleanup() {
          if (window.innerWidth > mobileBreakpoint) {
+             // 確保在切換到桌面模式時，手機菜單被關閉，並移除 no-scroll
              if (mainNav && mainNav.classList.contains('active')) {
                  
                  mainNav.classList.remove('active');
@@ -66,13 +67,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
     // ====================================================
     function handleScroll() {
+        // 在滾動時為 Header 增加或移除 'scrolled' 類別
         if (header) {
             header.classList.toggle('scrolled', window.scrollY > 0);
         }
     }
     
     if (header) {
-        handleScroll(); 
+        handleScroll(); // 首次載入檢查
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
@@ -84,14 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         menuToggle.addEventListener('click', function() {
             const isExpanded = mainNav.classList.toggle('active'); 
-            body.classList.toggle('no-scroll'); 
+            body.classList.toggle('no-scroll'); // 鎖定背景滾動
             
             this.setAttribute('aria-expanded', isExpanded);
             
             if (menuIcon) {
                 if (isExpanded) {
                     menuIcon.classList.replace('fa-bars', 'fa-times');
-                    closeAllMobileSubmenus(); 
+                    closeAllMobileSubmenus(); // 展開菜單時，先關閉所有子菜單
                 } else {
                     menuIcon.classList.replace('fa-times', 'fa-bars');
                 }
@@ -104,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     if (mainNav) {
         mainNav.addEventListener('click', function(e) {
+            // 僅在手機模式下觸發
             if (window.innerWidth <= mobileBreakpoint) { 
                 let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
 
@@ -115,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (parentLi.classList.contains('active')) {
                         parentLi.classList.remove('active');
                     } else {
-                        closeAllMobileSubmenus(); 
+                        closeAllMobileSubmenus(); // 關閉其他已展開的子菜單
                         parentLi.classList.add('active'); 
                     }
                 }
@@ -131,14 +134,15 @@ document.addEventListener('DOMContentLoaded', function() {
          const content = item.querySelector('.accordion-content');
          
          if (header && content) {
+             // 輔助無障礙設計 (A11y)
              const uniqueId = `acc-item-${index}`;
              content.id = `${uniqueId}-content`;
              header.setAttribute('aria-controls', content.id);
 
              const isActive = item.classList.contains('active');
              
+             // 初始狀態設置 max-height
              requestAnimationFrame(() => {
-                 // 展開時設為實際高度，收合時設為 0
                  content.style.maxHeight = isActive ? content.scrollHeight + "px" : '0px'; 
              });
 
@@ -146,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
              header.setAttribute('role', 'button'); 
              header.setAttribute('tabindex', '0'); // 允許鍵盤導航
              
-             // 【優化點 1】：將點擊事件直接綁定到 Header，取代父層監聽 (更精確高效)
+             // 點擊事件
              header.addEventListener('click', function(e) {
                 
                 const item = this.closest('.accordion-item');
@@ -168,11 +172,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 2. 切換當前項目的狀態
                 item.classList.toggle('active');
 
-                // 3. 實作平滑過渡
+                // 3. 實作平滑過渡 (關鍵：確保 max-height 觸發 CSS transition)
                 if (!isCurrentlyActive) {
                     // 展開時
                     this.setAttribute('aria-expanded', 'true');
                     requestAnimationFrame(() => {
+                        // 設置為實際高度，觸發展開動畫
                         content.style.maxHeight = content.scrollHeight + "px"; 
                     });
                 } else {
@@ -202,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
         const observerOptions = {
-            rootMargin: '0px 0px 200px 0px' 
+            rootMargin: '0px 0px 200px 0px' // 提前 200px 載入
         };
 
         const imageObserver = new IntersectionObserver(function(entries, observer) {
@@ -226,6 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
             imageObserver.observe(img);
         });
     } else {
+        // Fallback for 舊版瀏覽器
         document.querySelectorAll('img[data-src]').forEach(img => {
             img.src = img.dataset.src;
             img.alt = img.dataset.alt || img.alt || '';
@@ -237,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling) - 完整性強化
     // ====================================================
     if (header) { 
+        // 排除單獨的 href="#" 連結
         document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 
@@ -246,16 +253,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                     // 點擊錨點連結後，關閉手機菜單 (如果開啟的話)
+                     // 點擊錨點連結後，關閉手機菜單 (優化用戶體驗)
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
-                         menuToggle.click(); 
+                         menuToggle.click(); // 模擬點擊漢堡圖標，觸發關閉邏輯
                      }
                     
-                     // 【優化點 2】：支援老舊瀏覽器的 fallback 機制
+                     // 使用現代 API 進行平滑滾動，並考慮 Header 高度
                      if (typeof window.scrollTo === 'function' && targetElement.getBoundingClientRect) {
                          
                          const headerHeight = header.offsetHeight;
                          const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+                         // 減去 Header 高度以避免內容被遮擋
                          const targetPosition = targetTop - headerHeight;
                          
                          window.scrollTo({
@@ -281,12 +289,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // ====================================================
-    // 7. 動態生成不規則流星 (Meteor Generation Logic) 
+    // 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
     
     if (heroSection) { 
-        // 增加同時存在的流星數量 (25)
         const numMeteors = 25; 
 
         function createMeteor() {
@@ -296,13 +303,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // 隨機動畫時間 (速度: 3.5 到 8.5 秒)
             const duration = Math.random() * 5 + 3.5; 
 
-            // 縮短最大延遲時間 (0 到 8 秒)，讓出現更頻繁
+            // 隨機延遲時間 (0 到 8 秒)，讓出現更頻繁
             const delay = Math.random() * 8; 
             
-            // 確保流星動畫重播 (在動畫結束後重新創建)
+            // **核心優化：循環生成**
             meteor.addEventListener('animationend', () => {
                  meteor.remove();
-                 createMeteor(); // 重新生成一個流星以保持數量穩定
+                 createMeteor(); // 重新生成一個流星以保持數量穩定和動畫持續
             });
 
             // 應用動畫屬性
@@ -316,7 +323,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 動態生成指定數量的流星
         for (let i = 0; i < numMeteors; i++) {
-            createMeteor();
+            // 使用 setTimeout 確保初始流星不會同時出現
+            setTimeout(createMeteor, Math.random() * 5000); 
         }
     }
 
