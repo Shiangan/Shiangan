@@ -1,3 +1,7 @@
+/* ====================================================
+   程式夥伴 - 網站核心 CSS (V20.0 最終最佳化完整版)
+   ==================================================== */
+
 /* --- 字體導入 (Font Loading) --- */
 @font-face {
     font-family: 'uwen';
@@ -18,7 +22,7 @@
  * ------------------------------------------- */
 
 :root {
-    /* ⭐️ 顏色定義 (紅改藍) */
+    /* ⭐️ 顏色定義 (深藍與金色) */
     --primary-color: #1A375A;       /* 深藍色 (主色調，沉穩、專業) */
     --primary-dark: #0F2038;        /* 更深的藍 (Hover/深層背景) */
     --secondary-color: #1C2229;     /* 深灰色 (文本/頁尾背景) */
@@ -79,14 +83,12 @@ img {
 }
 
 a {
-    /* 確保所有連結顏色為新的主色 */
     color: var(--primary-color);
     text-decoration: none;
     transition: color 0.3s, background-color 0.3s, opacity 0.3s; 
 }
 
 a:hover, a:focus {
-    /* 確保所有連結 Hover 顏色為新的深色 */
     color: var(--primary-dark);
     opacity: 0.9; 
 }
@@ -95,7 +97,6 @@ a:hover, a:focus {
 h1, h2, h3, h4 {
     font-family: var(--font-serif);
     line-height: 1.3;
-    /* 【優化 #3】：將所有標題下方間距加大，讓 H1 與下方 P 距離變大 */
     margin-bottom: 1.5em; 
     color: var(--secondary-color);
     font-weight: 700;
@@ -103,15 +104,11 @@ h1, h2, h3, h4 {
 
 /* 🏆 H1 響應式自適應縮放： (手機最小1.8rem, 建議5.5vw, 桌面最大4.0rem) */
 h1 { 
-    /* 【優化 #1】：調整 H1 尺寸，使其在大螢幕上更大，並減少跳行機率 */
     font-size: clamp(1.8rem, 5.5vw, 4.0rem); 
     text-align: center; 
     word-break: break-word; 
-    /* 【新增】：讓 H1 行間距更緊湊，減少跳行機率 */
     line-height: 1.2; 
-    /* 【新增】：稍微收緊字元間距，讓長標題更緊湊 */
     letter-spacing: -0.02em; 
-    /* 覆寫通用 hx 樣式，只對 H1 應用額外調整 */
     margin-bottom: 1.5em; 
 }
 
@@ -120,11 +117,27 @@ h2 {
     font-size: clamp(1.6rem, 4vw, 2.5rem); 
     margin-top: 1.5em; 
     text-align: center; 
+    
+    /* ✅ 【最終優化】：為 H2 增加點綴分隔線 */
+    position: relative;
+    padding-bottom: 20px; /* 為分隔線留出空間 */
+}
+
+/* H2 分隔線樣式 */
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; /* 固定的寬度 */
+    height: 4px; /* 固定的高度 */
+    background-color: var(--accent-color);
+    border-radius: 2px;
 }
 
 h3 { font-size: 1.5rem; }
 
-/* 【優化 #2】：縮小 P 標籤下方的間距，讓段落彼此更靠近 */
 p { margin-bottom: 0.5em; }
 
 /* 容器與通用佈局 */
@@ -210,7 +223,6 @@ p { margin-bottom: 0.5em; }
     font-weight: 500; 
 }
 
-/* 顏色已更新為新的 primary-color */
 .main-nav a:hover, .main-nav a:focus {
     color: var(--primary-color);
 }
@@ -273,13 +285,12 @@ p { margin-bottom: 0.5em; }
     display: block; 
     color: var(--text-dark);
 }
-/* 顏色已更新為新的 primary-color */
+
 .submenu a:hover {
     background-color: var(--bg-light); 
     color: var(--primary-color);
 }
 
-/* 顏色已更新為新的 primary-color */
 .submenu-title {
     font-weight: 700;
     color: var(--primary-color);
@@ -308,14 +319,12 @@ p { margin-bottom: 0.5em; }
     align-items: center;
 }
 
-/* 顏色已更新為新的 primary-dark */
 .contact-nav a:hover {
     background-color: var(--primary-dark);
     color: var(--text-light); 
 }
 
 /* 手機選單切換按鈕 (預設隱藏) */
-/* 顏色已更新為新的 primary-color */
 .menu-toggle {
     display: none;
     background: none;
@@ -330,7 +339,6 @@ p { margin-bottom: 0.5em; }
     transition: background-color 0.3s;
 }
 
-/* 顏色已更新為新的 primary-color rgba 透明度 */
 .menu-toggle:hover {
     background-color: rgba(26, 55, 90, 0.1);
 }
@@ -364,14 +372,12 @@ p { margin-bottom: 0.5em; }
     margin-left: 8px;
 }
 
-/* 顏色已更新為新的 primary-color 及 box-shadow 顏色 */
 .cta-button.primary {
     background-color: var(--primary-color);
     color: var(--text-light);
     box-shadow: 0 4px 10px rgba(26, 55, 90, 0.4);
 }
 
-/* 顏色已更新為新的 primary-dark 及 box-shadow 顏色 */
 .cta-button.primary:hover {
     background-color: var(--primary-dark);
     transform: translateY(-3px); 
@@ -384,17 +390,15 @@ p { margin-bottom: 0.5em; }
     border-color: var(--primary-color);
 }
 
-/* 顏色已更新為新的 primary-color */
 .cta-button.secondary:hover {
     background-color: var(--primary-color);
     color: var(--text-light);
     transform: translateY(-1px); 
 }
 
-/* 【優化 #4】：調整 .large 按鈕尺寸，使其更小 */
 .cta-button.large {
-    font-size: 1.05rem; /* 字體略小 */
-    padding: 12px 30px; /* padding 縮小 */
+    font-size: 1.05rem; 
+    padding: 12px 30px; 
 }
 
 .cta-button.small {
@@ -406,13 +410,8 @@ p { margin-bottom: 0.5em; }
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
-/* -------------------------------------------
- * 3. 區塊樣式 (Sections)
- * ------------------------------------------- */
-
 /* ⭐️ Hero 區塊樣式 (星星動畫 - 增強動畫感) */
 @keyframes blink {
-    /* 優化：增強隨機性 */
     0%, 100% { opacity: 0.8; }
     25% { opacity: 0.3; }
     50% { opacity: 0.6; }
@@ -420,7 +419,7 @@ p { margin-bottom: 0.5em; }
 }
 
 @keyframes move-star {
-    /* 【修正】讓星空緩慢向左上角移動，模擬視差效果，與流星方向協調 */
+    /* 景深效果：遠處慢速，近處快速 */
     0% { transform: translate(0, 0); } 
     100% { transform: translate(-150vw, -150vh); } 
 }
@@ -428,7 +427,6 @@ p { margin-bottom: 0.5em; }
 /* 🚀 流星動畫：從右上方斜向滑落 */
 @keyframes shooting-star-anim {
     0% { 
-        /* 100vw, -10vh 讓流星從右上方畫面外開始 */
         transform: translate(100vw, -10vh) rotate(-45deg); 
         opacity: 0; 
     }
@@ -436,7 +434,6 @@ p { margin-bottom: 0.5em; }
         opacity: 1; /* 瞬間出現 */
     }
     100% { 
-        /* -50vw, 100vh 讓流星劃過整個畫面 */
         transform: translate(-50vw, 100vh) rotate(-45deg); 
         opacity: 0; 
     }
@@ -453,8 +450,9 @@ p { margin-bottom: 0.5em; }
     overflow: hidden;
     padding-top: var(--header-height); 
     
-    /* 【優化：背景漸層】 實現「中間有漸層自然的感覺」 */
-    background-color: #00000a; /* 接近純黑的深藍色 */
+    /* ✅ 【最終優化】：底部有漸層像星空的感覺 */
+    background-color: #00000a; 
+    /* 由中央的深藍色透明漸變到邊緣的深藍黑色 */
     background-image: radial-gradient(circle at center, rgba(3, 3, 30, 0.4) 0%, rgba(0, 0, 10, 0.95) 100%);
     background-size: cover;
     background-position: center center;
@@ -466,14 +464,13 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     top: 0;
     left: 0;
-    /* 為了配合移動動畫，將尺寸和位置設得很大 */
-    width: 300vw;
+    /* 確保有足夠的區域來移動星星，避免空白 */
+    width: 300vw; 
     height: 300vh;
-    transform: translate(-100vw, -100vh); /* 讓中心在 100vw/100vh */
+    transform: translate(-100vw, -100vh); 
     z-index: 1;
 }
 
-/* 核心技巧：利用 box-shadow 產生大量隨機位置的星點 */
 .star-layer::before {
     content: '';
     position: absolute;
@@ -491,19 +488,19 @@ p { margin-bottom: 0.5em; }
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* 讓點擊穿透到下面的內容 */
+    pointer-events: none; 
 }
 
-/* 第一層星星 (遠處/速度慢/淡色) */
+/* 第一層星星 (遠處/速度最慢/淡色) */
 #stars {
-    /* 移除無效的 background 屬性 */
-    animation: move-star 250s linear infinite reverse, 
+    /* ✅ 【最終優化】：速度最慢 (300s)，增強景深 */
+    animation: move-star 300s linear infinite reverse, 
                blink 5s infinite alternate; 
     animation-delay: 0.5s; 
     z-index: 1;
 }
 #stars::before {
-    /* 更多的星點 (使用 ::before 統一設置 box-shadow) */
+    /* box-shadow 保持原樣 */
     box-shadow: 
         100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0, -50vw 150vh #e0e0e0, 30vw 100vh #e0e0e0, 
         -20vw 50vh #e0e0e0, 200vw 250vh #e0e0e0, 150vw 50vh #e0e0e0, -10vw 80vh #e0e0e0, 
@@ -516,10 +513,10 @@ p { margin-bottom: 0.5em; }
 }
 
 
-/* 第二層星星 (近處/速度中/亮白色) */
+/* 第二層星星 (中距/速度中/亮白色) */
 #stars2 {
-    /* 移除無效的 width/height/opacity/background 屬性 */
-    animation: move-star 150s linear infinite,
+    /* ✅ 【最終優化】：速度中等 (200s) */
+    animation: move-star 200s linear infinite, 
                blink 3s infinite alternate; 
     animation-delay: 1.2s; 
     z-index: 1;
@@ -535,9 +532,9 @@ p { margin-bottom: 0.5em; }
         240vw 30vh #ffffff, 60vw 20vh #ffffff, 10vw 10vh #ffffff, 290vw 150vh #ffffff;
 }
 
-/* 🚀 第三層星星 (最亮/最快/金色光暈) */
+/* 🚀 第三層星星 (最近/最快/金色光暈) */
 #stars3 {
-    /* 移除無效的 width/height/opacity/background 屬性 */
+    /* ✅ 【最終優化】：速度最快 (100s) */
     animation: move-star 100s linear infinite reverse,
                blink 1.5s infinite alternate; 
     animation-delay: 0s; 
@@ -548,39 +545,37 @@ p { margin-bottom: 0.5em; }
     height: 3px;
     opacity: 1;
     box-shadow: 
-        /* 隨機位置的金色星點 */
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 50vw 50vh 3px 1px rgba(212, 167, 87, 0.8),
         -50vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 280vw 10vh var(--accent-color), 
         150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
 }
 
-/* 【修正：流星光暈】 實現更強的流星感 */
+/* ✅ 【最終優化：流星光暈與尾巴】 */
 .meteor {
     position: absolute;
-    width: 5px; /* 流星頭部稍大 */
-    height: 5px; 
+    width: 4px; /* 頭部縮小一點，更像光點 */
+    height: 4px; 
     border-radius: 50%;
     background-color: #fff;
-    /* 核心：增強頭部光暈，模擬圖中亮度 */
-    box-shadow: 0 0 15px 3px rgba(255, 255, 255, 1), /* 內層極亮光暈 */
-                0 0 20px 5px rgba(100, 100, 255, 0.5); /* 外層藍色微光 */
+    /* 核心：增強頭部光暈，更柔和 */
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.9), /* 極亮內層 */
+                0 0 20px 5px rgba(100, 100, 255, 0.3); /* 柔和藍光外層 */
     opacity: 0; 
-    transform-origin: 100% 0; /* 確保旋轉從流星頭開始 */
+    transform-origin: 100% 0; 
     z-index: 5;
 }
 
 .meteor::after {
     content: '';
     position: absolute;
-    top: 0;
+    top: 50%; /* 確保尾巴在流星中心 */
     left: 0;
-    width: 150px; /* 尾巴更長，以增強流星感 */
-    height: 3px; /* 尾巴略粗 */
-    /* 確保流星尾巴從頭部延伸到透明 */
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), transparent);
-    transform: translateX(-100%); /* 尾巴向左延伸，位於流星後方 */
-    filter: blur(1.5px); /* 讓尾巴更柔和自然 */
+    width: 180px; /* 尾巴更長，劃過感更強 */
+    height: 2px; /* 尾巴更細緻 */
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent);
+    transform: translateX(-100%) translateY(-50%); /* 尾巴向左延伸，位於流星後方並居中 */
+    filter: blur(1.2px); /* 尾巴更柔和 */
 }
 
 
@@ -592,8 +587,7 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-    /* 略為提高透明度，讓背景漸層更明顯 */
-    background-color: rgba(0, 0, 0, 0.1); 
+    background-color: rgba(0, 0, 0, 0.15); /* 略為提高透明度 */
     z-index: 2;
 }
 
@@ -607,7 +601,7 @@ p { margin-bottom: 0.5em; }
 
 .hero-content h1 {
     color: var(--text-light);
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); /* 強化文字陰影 */
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); 
 }
 
 .hero-content p {
@@ -652,7 +646,6 @@ p { margin-bottom: 0.5em; }
 .card-item h3 {
     margin-top: 0;
     margin-bottom: 10px;
-    /* 顏色已更新為新的 primary-color */
     color: var(--primary-color);
     font-family: var(--font-serif); 
     font-weight: 700;
@@ -676,7 +669,6 @@ p { margin-bottom: 0.5em; }
 }
 
 /* 緊急聯繫卡片樣式 */
-/* 顏色已更新為新的 primary-color */
 .emergency-contact {
     background-color: var(--primary-color);
     color: var(--text-light);
@@ -701,7 +693,6 @@ p { margin-bottom: 0.5em; }
     font-weight: 700;
 }
 
-/* 顏色已更新為新的 primary-dark */
 .emergency-contact .cta-button:hover {
     background-color: var(--text-light);
     color: var(--primary-dark);
@@ -735,7 +726,6 @@ p { margin-bottom: 0.5em; }
 
 .flow-chart li strong {
     font-weight: 700;
-    /* 顏色已更新為新的 primary-dark */
     color: var(--primary-dark); 
     margin-right: 5px;
 }
@@ -767,7 +757,7 @@ p { margin-bottom: 0.5em; }
     cursor: pointer;
     font-size: 1.05rem;
     color: var(--secondary-color);
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s; /* 添加顏色過渡 */
     outline-offset: -2px; 
 }
 
@@ -776,14 +766,12 @@ p { margin-bottom: 0.5em; }
     outline: 2px solid var(--accent-color); 
 }
 
-/* 顏色已更新為新的 primary-color */
 .accordion-header i {
     color: var(--primary-color);
     margin-right: 12px;
-    transition: transform 0.3s;
+    transition: transform 0.3s, color 0.3s; /* 添加顏色過渡 */
 }
 
-/* 顏色已更新為新的 primary-color */
 .accordion-item.active > .accordion-header {
     background-color: var(--primary-color);
     color: var(--text-light);
@@ -879,7 +867,6 @@ footer {
     margin-right: 15px;
 }
 
-/* 顏色已更新為新的 primary-dark */
 .footer-copyright {
     background-color: var(--primary-dark);
     padding: 15px 0;
@@ -925,7 +912,6 @@ footer {
     transition: transform 0.3s, opacity 0.3s;
 }
 
-/* 顏色已更新為新的 primary-color */
 .floating-cta a:first-child { 
     background-color: var(--primary-color); 
 }
@@ -1002,7 +988,7 @@ footer {
         padding: 12px 0;
     }
     
-    /* 手機版下拉選單 (手風琴動畫) 調整 */
+    /* ✅ 【最終優化】手機版下拉選單 (手風琴動畫) 調整 */
     .dropdown > a {
         display: flex;
         justify-content: space-between;
@@ -1034,6 +1020,7 @@ footer {
         opacity: 1; 
         visibility: visible;
         
+        /* 核心：使用 max-height 實現手風琴動畫 */
         max-height: 0; 
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
