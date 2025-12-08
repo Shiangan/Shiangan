@@ -13,7 +13,8 @@
     <meta property="og:description" content="祥安生命有限公司提供台北、新北、桃園地區 24 小時專業生命禮儀服務。國家認證禮儀師團隊，承諾喪葬費用方案完整公開透明。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://24hour.台灣/Shiangan/index.html">
-    <meta property="og:image" content="images/logo.png"> <meta property="og:locale" content="zh_TW">
+    <meta property="og:image" content="images/logo.png"> 
+    <meta property="og:locale" content="zh_TW">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
     <script>
@@ -89,7 +90,7 @@
     }
     </script>
 </head>
-<body> 
+<body class="js-loading"> 
     
     <header class="main-header" role="banner">
         <div class="logo">
@@ -99,7 +100,7 @@
         <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
             <ul>
                 <li><a href="index.html" title="回到首頁">首頁</a></li>
-                <li><a href="about.html" title="了解祥安生命的理念、專業證照與甲級立案證明">關於我們 (專業認證)</a></li> 
+                <li><a href="about.html" title="了解祥安生命的理念、專業證照與甲級立案證明 (E-E-A-T)">關於我們 (專業認證)</a></li> 
                 
                 <li class="dropdown">
                     <a href="services.html" aria-expanded="false" aria-haspopup="true" title="了解所有生命禮儀服務">專業生命禮儀服務 <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
@@ -154,10 +155,9 @@
         <section class="hero-section first-section" aria-label="星星夜景背景下的專業生命禮儀服務">
             <div id="stars"></div>
             <div id="stars2"></div>
-            
-            <div class="hero-content">
+            <div id="stars3"></div> <div class="hero-content">
                 <h1>祥安生命有限公司</h1>
-                <p><srong>喪葬費用公開透明，24H溫馨陪伴</srong></p>
+                <p><strong>喪葬費用公開透明，24H溫馨陪伴</strong></p>
                 <p>讓愛與思念，成為此刻唯一的重量。</p>
                 <a href="plans.html" class="cta-button primary large" title="查看所有公開透明的喪葬費用方案">查看所有公開透明費用方案</a>
             </div>
@@ -390,18 +390,22 @@
                 <h4 style="margin-bottom: 5px;">24H 禮儀師 陳妍如 專線</h4>
                 <p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
                     📞 <a href="tel:+886978583699" itemprop="telephone" title="點擊撥打 24小時緊急專線">0978-583-699</a>
-                    <meta itemprop="priceRange" content="$$$"> <meta itemprop="openingHours" content="Mo-Su 00:00-23:59">
-                    <meta itemprop="areaServed" content="台北"> <meta itemprop="areaServed" content="新北"> <meta itemprop="areaServed" content="桃園">
+                    <meta itemprop="priceRange" content="$$$"> 
+                    <meta itemprop="openingHours" content="Mo-Su 00:00-23:59">
+                    <meta itemprop="areaServed" content="台北"> 
+                    <meta itemprop="areaServed" content="新北"> 
+                    <meta itemprop="areaServed" content="桃園">
                 </p>
                 
                 <h4>公司資訊與服務範圍</h4>
                 <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                     <p>
-                        主要聯絡地址：<span itemprop="streetAddress">**新北市板橋區雙十路二段30號**</span> <meta itemprop="addressLocality" content="新北">
+                        主要聯絡地址：<span itemprop="streetAddress"><strong>新北市板橋區雙十路二段30號</strong></span> 
+                        <meta itemprop="addressLocality" content="新北">
                         <meta itemprop="addressRegion" content="TW">
                     </p>
                 </address>
-                <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (**雙北/桃園**即時)</p>
+                <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (<strong>雙北/桃園</strong>即時)</p>
                 
                 <p style="margin-top: 15px;">線上聯繫：</p>
                 <div class="footer-social-links">
@@ -427,5 +431,14 @@
     </div>
 
     <script src="js/script.js" defer></script>
+    <script>
+        // 確保年份自動更新
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // 移除 body 上的 js-loading class (此處應該在 script.js 中處理，但為了確保功能，暫時放在此)
+        window.addEventListener('load', () => {
+            document.body.classList.remove('js-loading');
+        });
+    </script>
 </body>
 </html>
