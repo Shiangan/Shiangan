@@ -289,69 +289,79 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // ====================================================
-    // 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫與隨機性
-    // ====================================================
-    const heroSection = document.querySelector('.hero-section');
-    
-    if (heroSection) { 
-        const numMeteors = 25; 
+  // ====================================================
+// 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫與隨機性
+// ====================================================
+const heroSection = document.querySelector('.hero-section');
 
-        function createMeteor() {
-            const meteor = document.createElement('div');
-            meteor.classList.add('meteor');
-            
-            // ⭐️ 【核心修正：將速度範圍調整為 10.0s 到 20.0s，使其更自然】
-            const duration = Math.random() * 10 + 10; 
-            // 隨機延遲時間 (0 到 8 秒)，讓出現更頻繁
-            const delay = Math.random() * 8; 
-            
-            // ⭐️ 【起始點隨機化】：
-            // 讓流星從視圖外的不同邊緣開始，增強不規則性
-            // 視圖外的右上方隨機位置
-            const initialLeft = 80 + Math.random() * 100; // 80vw 到 180vw
-            const initialTop = -20 + Math.random() * 40;  // -20vh 到 20vh
+if (heroSection) { 
+    const numMeteors = 25; 
 
-            meteor.style.left = `${initialLeft}vw`;
-            meteor.style.top = `${initialTop}vh`;
-            
-            // ⭐️ 【核心修正：設定隨機移動參數 (配合 CSS 變數) 】
-            
-            // 1. 隨機旋轉角度 (-30deg 到 -60deg，確保斜下劃落)
-            const rotation = Math.random() * 30 - 60; 
-            
-            // 2. 隨機位移距離 (確保劃過大半個螢幕)
-            // 位移X：從 -120vw 到 -200vw (向左下移動)
-            const travelX = -(120 + Math.random() * 80); 
-            // 位移Y：從 120vh 到 200vh (向下移動)
-            const travelY = 120 + Math.random() * 80; 
-
-            // 將隨機參數設定為 CSS 變數 (供 CSS @keyframes 使用)
-            meteor.style.setProperty('--rotation', `${rotation}deg`);
-            meteor.style.setProperty('--travel-x', `${travelX}vw`);
-            meteor.style.setProperty('--travel-y', `${travelY}vh`);
-            
-            // **核心優化：循環生成**
-            meteor.addEventListener('animationend', () => {
-                 meteor.remove();
-                 // 重新生成時加入隨機間隔，讓出現時機更自然 (0.5s 到 3.5s 後再生)
-                 setTimeout(createMeteor, Math.random() * 3000 + 500); 
-            });
-
-            // ⭐️ 【核心修正：套用正確的動畫名稱】
-            meteor.style.animationName = 'shooting-star-random';
-            meteor.style.animationDuration = `${duration}s`;
-            meteor.style.animationDelay = `${delay}s`;
-            meteor.style.animationTimingFunction = 'linear'; // 線性移動，保持速度一致
-
-            heroSection.appendChild(meteor);
+    function createMeteor() {
+        const meteor = document.createElement('div');
+        meteor.classList.add('meteor');
+        
+        // 速度範圍 (10.0s 到 20.0s，慢速自然)
+        const duration = Math.random() * 10 + 10; 
+        const delay = Math.random() * 8; 
+        
+        // ⭐️ 【核心修正 1：起始點從畫面上緣/右緣開始 (夜空頂部感) 】
+        
+        // 1. 隨機決定從左上、頂上或右上邊緣開始
+        const edgeStart = Math.random(); 
+        let initialLeft, initialTop;
+        
+        if (edgeStart < 0.3) {
+             // 30% 機率從頂部邊緣開始 (x 軸隨機)
+             initialTop = -5; // 視圖外一點
+             initialLeft = Math.random() * 100; // 0vw 到 100vw
+        } else {
+             // 70% 機率從右側邊緣開始 (y 軸隨機)
+             initialLeft = 105; // 視圖外一點
+             initialTop = Math.random() * 80 - 20; // -20vh 到 60vh
         }
 
-        // 動態生成指定數量的流星
-        for (let i = 0; i < numMeteors; i++) {
-            // 使用 setTimeout 確保初始流星不會同時出現
-            setTimeout(createMeteor, Math.random() * 5000); 
-        }
+        meteor.style.left = `${initialLeft}vw`;
+        meteor.style.top = `${initialTop}vh`;
+        
+        // ⭐️ 【核心修正 2：設定向左下方的移動參數】
+        
+        // 1. 隨機旋轉角度 (-100deg 到 -140deg，模擬從上向下/斜向劃落)
+        const rotation = Math.random() * 40 - 140; 
+        
+        // 2. 隨機位移距離 (確保劃過大半個螢幕，向左下角移動)
+        // 位移X：從 -100vw 到 -180vw (向左移動，所以是負值)
+        const travelX = -(100 + Math.random() * 80); 
+        // 位移Y：從 80vh 到 160vh (向下移動，所以是正值)
+        const travelY = 80 + Math.random() * 80; 
+
+        // 將隨機參數設定為 CSS 變數 (供 CSS @keyframes 使用)
+        meteor.style.setProperty('--rotation', `${rotation}deg`);
+        meteor.style.setProperty('--travel-x', `${travelX}vw`);
+        meteor.style.setProperty('--travel-y', `${travelY}vh`);
+        
+        // **核心優化：循環生成**
+        meteor.addEventListener('animationend', () => {
+             meteor.remove();
+             // 重新生成時加入隨機間隔，讓出現時機更自然 (0.5s 到 3.5s 後再生)
+             setTimeout(createMeteor, Math.random() * 3000 + 500); 
+        });
+
+        // ⭐️ 【核心修正：套用正確的動畫名稱】
+        meteor.style.animationName = 'shooting-star-random';
+        meteor.style.animationDuration = `${duration}s`;
+        meteor.style.animationDelay = `${delay}s`;
+        meteor.style.animationTimingFunction = 'linear'; // 線性移動，保持速度一致
+
+        heroSection.appendChild(meteor);
     }
+
+    // 動態生成指定數量的流星
+    for (let i = 0; i < numMeteors; i++) {
+        // 使用 setTimeout 確保初始流星不會同時出現
+        setTimeout(createMeteor, Math.random() * 5000); 
+    }
+}
 
 
     // ====================================================
