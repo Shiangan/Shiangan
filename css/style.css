@@ -199,6 +199,7 @@ p { margin-bottom: 0.5em; }
     display: block;
     width: 140px; 
     height: 40px; 
+    /* 這裡假定您有 logo 圖片，路徑是正確的 */
     background: url('../images/logo.png') no-repeat center center;
     background-size: contain;
 }
@@ -408,8 +409,6 @@ p { margin-bottom: 0.5em; }
 }
 
 /* -------------------------------------------
-/* -------------------------------------------
-/* -------------------------------------------
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
 
@@ -427,10 +426,9 @@ p { margin-bottom: 0.5em; }
     100% { transform: translate(-150vw, -150vh); } 
 }
 
-/* 🚀 【最終修正】：由 JS 變數控制隨機方向與角度 (配合 JS 區塊 7) */
+/* 🚀 流星隨機軌跡動畫 (配合 JS 變數) */
 @keyframes shooting-star-random {
     0% { 
-        /* 讓 JS 設定的 left/top 成為起始點，這裡只需套用旋轉變數 */
         transform: translate(0, 0) rotate(var(--rotation, -45deg)); 
         opacity: 0; 
     }
@@ -461,7 +459,7 @@ p { margin-bottom: 0.5em; }
     overflow: hidden;
     padding-top: var(--header-height); 
     
-    /* 1. 【優化】：只保留最底層的深黑背景色 */
+    /* 1. 【核心底色】：極深藍黑 */
     background-color: #00000a; 
     background-size: cover;
     background-position: center center;
@@ -479,16 +477,15 @@ p { margin-bottom: 0.5em; }
     pointer-events: none; 
 }
 
-/* 第一層星星 (遠處/速度最慢/淡色) */
+/* 第一層星星 (遠處/速度最慢) */
 #stars {
-    /* ✅ 【最終優化】：速度最慢 (300s)，增強景深 */
     animation: move-star 300s linear infinite reverse, 
                blink 5s infinite alternate; 
     animation-delay: 0.5s; 
     z-index: 1;
 }
 #stars::before {
-    /* box-shadow 保持原樣 */
+    /* 大量白色小點模擬遠處星辰 */
     box-shadow: 
         100vw 200vh #e0e0e0, 250vw 120vh #e0e0e0, -50vw 150vh #e0e0e0, 30vw 100vh #e0e0e0, 
         -20vw 50vh #e0e0e0, 200vw 250vh #e0e0e0, 150vw 50vh #e0e0e0, -10vw 80vh #e0e0e0, 
@@ -501,9 +498,8 @@ p { margin-bottom: 0.5em; }
 }
 
 
-/* 第二層星星 (中距/速度中/亮白色) */
+/* 第二層星星 (中距/速度中) */
 #stars2 {
-    /* ✅ 【最終優化】：速度中等 (200s) */
     animation: move-star 200s linear infinite, 
                blink 3s infinite alternate; 
     animation-delay: 1.2s; 
@@ -522,7 +518,6 @@ p { margin-bottom: 0.5em; }
 
 /* 🚀 第三層星星 (最近/最快/金色光暈) */
 #stars3 {
-    /* ✅ 【最終優化】：速度最快 (100s) */
     animation: move-star 100s linear infinite reverse,
                blink 1.5s infinite alternate; 
     animation-delay: 0s; 
@@ -532,6 +527,7 @@ p { margin-bottom: 0.5em; }
     width: 3px;
     height: 3px;
     opacity: 1;
+    /* 加入金色光暈和略微的模糊，模擬較近的星體 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 3px 1px rgba(212, 167, 87, 0.8), 50vw 50vh 3px 1px rgba(212, 167, 87, 0.8),
@@ -539,15 +535,15 @@ p { margin-bottom: 0.5em; }
         150vw 250vh var(--accent-color), 90vw 180vh 3px 1px rgba(212, 167, 87, 0.8);
 }
 
-/* ✅ 【最終優化：流星光暈與尾巴 - 增強真實感與拖尾效果】 */
+/* ✅ 【流星本體 - 核心視覺修正】 */
 .meteor {
     position: absolute;
-    width: 6px; /* 頭部稍微放大，更像中心亮點 */
+    width: 6px; 
     height: 6px; 
     border-radius: 50%;
     background-color: #f0f8ff; /* 略帶微藍的白色 */
     
-    /* 核心優化 1: 增強頭部光暈，柔和且有層次感 */
+    /* 核心優化 1: 柔和且有層次感的光暈 */
     box-shadow: 
         0 0 15px 3px rgba(255, 255, 255, 1),      /* 最內層極亮白 */
         0 0 30px 10px rgba(173, 216, 230, 0.5); /* 外層柔和淺藍光 */
@@ -556,7 +552,6 @@ p { margin-bottom: 0.5em; }
     transform-origin: 100% 0; /* 旋轉中心在流星頭部 */
     z-index: 5;
     
-    /* 增加一個極微小的縮放動畫，使其看起來更閃爍 */
     animation: meteor-glow 4s ease-in-out infinite alternate;
 }
 
@@ -565,24 +560,23 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     top: 50%; 
     left: 0;
-    width: 300px; /* 尾巴更長，劃過感更強 */
-    height: 4px; /* 尾巴略寬一點 */
+    width: 300px; /* 尾巴更長 */
+    height: 4px; 
     
-    /* 核心優化 2: 使用徑向漸層來模擬光線中心向外擴散的樣子 */
-    /* 尾巴中心是高亮的白，向兩側快速過渡到透明 */
+    /* 核心優化 2: 徑向漸層模擬光線中心向外擴散的樣子 */
     background: radial-gradient(ellipse at center, 
-        rgba(255, 255, 255, 0.9) 0%,     /* 尾巴中心極亮 */
-        rgba(255, 255, 255, 0.5) 10%,    /* 過渡層 */
-        rgba(255, 255, 255, 0) 60%      /* 快速淡出 */
+        rgba(255, 255, 255, 0.9) 0%,     
+        rgba(255, 255, 255, 0.5) 10%,    
+        rgba(255, 255, 255, 0) 60%      
     );
     
-    /* 核心優化 3: 尾巴向後延伸，使用 blur 柔化 */
+    /* 核心優化 3: 向後延伸並使用 blur 柔化 */
     transform: translateX(-100%) translateY(-50%); 
-    filter: blur(2px); /* 模糊度增加，視覺上更柔和自然 */
+    filter: blur(2px); 
 }
 
 
-/* 確保覆蓋層在星星之上，文字之下 */
+/* ✅ 【夜空漸層覆蓋層 - 核心視覺修正】 */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -590,20 +584,12 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-   /* 從中央的深藍色透明漸變到邊緣的深藍黑色 */
+   /* 從中央的深藍色透明漸變到邊緣的深藍黑色，創造深邃景深 */
     background-image: radial-gradient(circle at center, rgba(3, 3, 30, 0.4) 0%, rgba(0, 0, 10, 0.95) 100%);
     /* 疊加一層輕微的黑色透明度，讓所有元素（包括流星）看起來更柔和地融入夜色 */
     background-color: rgba(0, 0, 0, 0.15); 
     z-index: 2;
-    pointer-events: none; /* 確保不影響內容點擊 */
-}
-
-.hero-content {
-    position: relative;
-    z-index: 3; 
-    color: var(--text-light);
-    max-width: 800px;
-    padding: 20px;
+    pointer-events: none; 
 }
 
 .hero-content {
@@ -626,7 +612,7 @@ p { margin-bottom: 0.5em; }
 }
    
 
-/* 卡片網格通用樣式 */
+/* 卡片網格通用樣式 (略) */
 .card-grid {
     display: grid;
     gap: 30px;
@@ -716,19 +702,18 @@ p { margin-bottom: 0.5em; }
 }
 
 /* 服務流程圖樣式 */
-/* 服務流程圖樣式 */
 .flow-chart ol {
     list-style: none;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    counter-reset: step-counter; /* 重設計數器 */
+    counter-reset: step-counter; 
 }
 
 .flow-chart li {
     background-color: var(--text-light);
-    border: 2px solid var(--border-color); /* 調整邊框顏色，讓數字顏色突出 */
+    border: 2px solid var(--border-color); 
     padding: 20px; 
     margin: 10px;
     border-radius: 8px;
@@ -739,15 +724,15 @@ p { margin-bottom: 0.5em; }
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     transition: transform 0.3s, box-shadow 0.3s;
     
-    counter-increment: step-counter; /* 遞增計數器 */
-    padding-top: 35px; /* 為數字留出空間 */
+    counter-increment: step-counter; 
+    padding-top: 35px; 
 }
 
-/* 🏆 【修正】：新增自動編號樣式 */
+/* 🏆 自動編號樣式 */
 .flow-chart li::before {
-    content: counter(step-counter); /* 顯示數字 */
+    content: counter(step-counter); 
     position: absolute;
-    top: -15px; /* 移到卡片上方 */
+    top: -15px; 
     left: 50%;
     transform: translateX(-50%);
     
@@ -761,7 +746,7 @@ p { margin-bottom: 0.5em; }
     color: var(--text-dark);
     font-weight: 700;
     font-size: 1.1rem;
-    border: 3px solid var(--text-light); /* 製作一個白色的邊框效果 */
+    border: 3px solid var(--text-light); 
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -769,12 +754,11 @@ p { margin-bottom: 0.5em; }
     font-weight: 700;
     color: var(--primary-dark); 
     margin-right: 5px;
-    display: block; /* 讓標題獨佔一行 */
+    display: block; 
     margin-bottom: 5px;
 }
-/* 移除這裡的手動編號標籤，因為已經用 ::before 處理了 */
 .flow-chart li strong[aria-label]::before {
-    content: ''; /* 確保 HTML 裡的手動編號不再顯示，只留下文字 */
+    content: ''; 
 }
 
 .flow-chart li:hover {
@@ -810,7 +794,7 @@ p { margin-bottom: 0.5em; }
     cursor: pointer;
     font-size: 1.05rem;
     color: var(--secondary-color);
-    transition: background-color 0.3s, color 0.3s; /* 添加顏色過渡 */
+    transition: background-color 0.3s, color 0.3s; 
     outline-offset: -2px; 
 }
 
@@ -822,7 +806,7 @@ p { margin-bottom: 0.5em; }
 .accordion-header i {
     color: var(--primary-color);
     margin-right: 12px;
-    transition: transform 0.3s, color 0.3s; /* 添加顏色過渡 */
+    transition: transform 0.3s, color 0.3s; 
 }
 
 .accordion-item.active > .accordion-header {
