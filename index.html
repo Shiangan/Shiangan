@@ -157,6 +157,8 @@
         <div id="stars2" class="star-layer"></div>
         <div id="stars3" class="star-layer"></div> 
         
+        <div id="meteor-container"></div>
+        
         <div class="hero-content">
             <h1>祥安生命有限公司</h1>
             <p><strong>喪葬費用公開透明，24H溫馨陪伴</strong></p>
@@ -436,15 +438,5 @@
     </div>
 
     <script src="js/script.js" defer></script>
-    <script>
-        // 確保年份自動更新 (這是備用方案，腳本中也已處理)
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        
-        // 移除 body 上的 js-loading class 
-        // 最佳實踐是在 script.js 的 DOMContentLoaded 中移除，此處作為確保
-        window.addEventListener('load', () => {
-            document.body.classList.remove('js-loading');
-        });
-    </script>
-</body>
+    </body>
 </html>
