@@ -460,36 +460,13 @@ p { margin-bottom: 0.5em; }
     overflow: hidden;
     padding-top: var(--header-height); 
     
-    /* ✅ 【最終優化】：底部有漸層像星空的感覺 */
+    /* 1. 【優化】：只保留最底層的深黑背景色 */
     background-color: #00000a; 
-    /* 由中央的深藍色透明漸變到邊緣的深藍黑色 */
-    background-image: radial-gradient(circle at center, rgba(3, 3, 30, 0.4) 0%, rgba(0, 0, 10, 0.95) 100%);
     background-size: cover;
     background-position: center center;
     background-attachment: scroll; 
 }
 
-/* 🏆 星星生成技巧：使用 box-shadow 模擬大量不規則的星星 */
-.star-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    /* 確保有足夠的區域來移動星星，避免空白 */
-    width: 300vw; 
-    height: 300vh;
-    transform: translate(-100vw, -100vh); 
-    z-index: 1;
-}
-
-.star-layer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px; 
-    height: 1px;
-    border-radius: 50%;
-}
 
 /* 確保星星 div 覆蓋整個區域，用於容納流星 */
 #stars, #stars2, #stars3 {
@@ -612,8 +589,20 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.15); /* 略為提高透明度 */
+   /* 從中央的深藍色透明漸變到邊緣的深藍黑色 */
+    background-image: radial-gradient(circle at center, rgba(3, 3, 30, 0.4) 0%, rgba(0, 0, 10, 0.95) 100%);
+    /* 疊加一層輕微的黑色透明度，讓所有元素（包括流星）看起來更柔和地融入夜色 */
+    background-color: rgba(0, 0, 0, 0.15); 
     z-index: 2;
+    pointer-events: none; /* 確保不影響內容點擊 */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3; 
+    color: var(--text-light);
+    max-width: 800px;
+    padding: 20px;
 }
 
 .hero-content {
@@ -634,6 +623,7 @@ p { margin-bottom: 0.5em; }
     font-weight: 300;
     margin-bottom: 40px; 
 }
+   
 
 /* 卡片網格通用樣式 */
 .card-grid {
