@@ -290,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ====================================================
     // ====================================================
+        // ====================================================
     // 7. 動態生成不規則流星 (Meteor Generation Logic) - 確保持續動畫
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
@@ -306,24 +307,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // 隨機延遲時間 (0 到 8 秒)，讓出現更頻繁
             const delay = Math.random() * 8; 
             
-            // ⭐️ 【手機顯示優化】：調整流星的初始生成位置
-            // 流星的動畫 (shooting-star-anim) 是從 (100vw, -10vh) 開始，斜向劃過
-            // 在手機上，讓流星更靠近中央開始，以確保它在較小的螢幕上可見。
-            
-            // 隨機設定初始的 top 和 left 位置 (以 VH/VW 單位)
-            // 確保流星從視口右側或上方開始
-            const initialTop = Math.random() * 20; // 0vh 到 20vh (螢幕上半部)
-            // 在 CSS 已經設定從 100vw 開始動畫，這裡我們只需要隨機 Y 座標
-            // 並隨機調整起始 X 座標，避免所有流星都從同一個點開始
-            const initialLeft = 100 + Math.random() * 50; // 100vw 到 150vw 之間
-            
+            // ⭐️ 【手機顯示優化】：動態設定流星的起始點
+            // 確保流星從螢幕右側 (80vw~150vw) 和頂部 (-10vh~20vh) 隨機開始，
+            // 讓它在手機上更容易從視口邊緣劃入。
+            const initialLeft = 80 + Math.random() * 70; 
+            const initialTop = -10 + Math.random() * 30; 
+
+            meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
-            // 注意：由於 CSS 中的 @keyframes 已經定義了 X 軸的起始位置是 100vw，
-            // 這裡我們不再設定 left 屬性，而是讓 @keyframes 的 0% 定位接管，
-            // 除非我們需要讓流星從更遠的隨機位置開始。
-            
-            // 讓流星從右側更遠處開始，並在 CSS 動畫中接管
-            meteor.style.left = `${initialLeft}vw`; 
             
             // **核心優化：循環生成**
             meteor.addEventListener('animationend', () => {
@@ -332,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  setTimeout(createMeteor, Math.random() * 3000 + 500); // 0.5s 到 3.5s 後再生
             });
 
-            // 應用動畫屬性
+            // 應用動畫屬性 (CSS keyframes 負責相對位移)
             meteor.style.animationName = 'shooting-star-anim';
             meteor.style.animationDuration = `${duration}s`;
             meteor.style.animationDelay = `${delay}s`;
