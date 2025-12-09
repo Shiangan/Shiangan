@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.5 最終性能與質感優化版)
+   程式夥伴 - 網站核心 CSS (V20.6 流星動畫方向與配色最終優化版)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -418,7 +418,7 @@ p { margin-bottom: 0.5em; }
     75% { opacity: 0.2; }
 }
 
-/* 讓星星圖層緩慢移動，模擬視差 */
+/* 讓星星圖層緩慢移動，模擬視差 (修正方向：往左上方移動，與流星視覺協調) */
 @keyframes move-star {
     0% { transform: translate3d(0, 0, 0); } 
     100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, -100px), 0); } 
@@ -440,9 +440,10 @@ p { margin-bottom: 0.5em; }
     will-change: transform, opacity; 
 }
 
+/* 圖層 1: 慢速移動，往左上 */
 #stars {
     --travel-x-end: -20px; --travel-y-end: -20px; 
-    animation: move-star 300s linear infinite reverse, 
+    animation: move-star 300s linear infinite, 
                blink 5s infinite alternate; 
     animation-delay: 0.5s; 
     z-index: 1;
@@ -452,14 +453,15 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     width: 1px;
     height: 1px;
-    box-shadow: /* 這裡省略了大量的星點，但邏輯不變 */
+    box-shadow: /* 星點分佈 */
         100vw 200vh #d0d0d0, 250vw 120vh #d0d0d0, -50vw 150vh #d0d0d0, 30vw 100vh #d0d0d0, 
         -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0;
 }
 
+/* 圖層 2: 中速移動，往左上 (使用 reverse 造成反向位移，提供另一層視差感) */
 #stars2 {
     --travel-x-end: -50px; --travel-y-end: -50px;
-    animation: move-star 200s linear infinite, 
+    animation: move-star 200s linear infinite reverse, 
                blink 3s infinite alternate; 
     animation-delay: 1.2s; 
     z-index: 1;
@@ -474,9 +476,10 @@ p { margin-bottom: 0.5em; }
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
 
+/* 圖層 3: 快速移動，往左上 */
 #stars3 {
     --travel-x-end: -80px; --travel-y-end: -80px;
-    animation: move-star 100s linear infinite reverse,
+    animation: move-star 100s linear infinite,
                blink 1.5s infinite alternate; 
     animation-delay: 0s; 
     z-index: 1;
@@ -487,23 +490,19 @@ p { margin-bottom: 0.5em; }
     width: 3px;
     height: 3px;
     opacity: 1;
+    /* 增加金色星點 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 4px 2px rgba(212, 167, 87, 0.9); 
 }
 
-/* 流星本體 - 核心視覺修正 (如果不需要 JS 隨機流星，此區塊保留作為概念) */
-/*
-.meteor { ... }
-.meteor::after { ... }
-*/
 
 .hero-section {
     position: relative;
     height: 100vh; 
     min-height: 650px;
     overflow: hidden; 
-    background-color: var(--primary-dark); /* 使用極深藍作為背景色，比純黑更有層次 */
+    background-color: var(--primary-dark); 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -513,7 +512,7 @@ p { margin-bottom: 0.5em; }
 }
 
 
-/* ✅ 夜空漸層覆蓋層 - 增加深度 */
+/* ✅ 夜空漸層覆蓋層 - 增加深度與質感 */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -521,13 +520,13 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-    /* 加入星雲般的深藍色漸變 */
+    /* 調整夜空漸變層，增加深邃感 */
     background-image: 
-        radial-gradient(circle at center, rgba(30, 58, 106, 0.2) 0%, transparent 80%),
+        radial-gradient(circle at center, rgba(30, 58, 106, 0.3) 0%, transparent 60%),
         linear-gradient(
             to bottom, 
-            rgba(0, 0, 0, 0.98) 0%,      
-            rgba(5, 5, 25, 0.4) 50%,      
+            rgba(0, 0, 0, 0.9) 0%,      
+            rgba(18, 33, 59, 0.6) 60%,   
             var(--primary-dark) 100%       
         );
     background-blend-mode: overlay; 
@@ -545,7 +544,8 @@ p { margin-bottom: 0.5em; }
 
 .hero-content h1 {
     color: var(--text-light);
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9); /* 更重的陰影 */
+    /* 優化文字陰影，更突出 */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1); 
 }
 
 .hero-content strong {
@@ -557,7 +557,7 @@ p { margin-bottom: 0.5em; }
     font-size: 1.3rem; 
     font-weight: 300;
     margin-bottom: 40px; 
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
    
 /* 卡片網格通用樣式 - 質感提升 */
