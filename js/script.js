@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 0. 初始設定與變數 (Initial Setup & Variables)
     // ====================================================
     
-    const header = document.querySelector('header');
+    const header = document.querySelector('.main-header'); // 確保使用正確的類別
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.getElementById('main-nav');
     const body = document.body;
@@ -33,13 +33,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 輔助函數：關閉所有手機子菜單 (清除 .active 類別)
     function closeAllMobileSubmenus() {
-        document.querySelectorAll('#main-nav ul li.dropdown.active').forEach(li => {
-            li.classList.remove('active');
-        });
+        // ⭐️ 優化：使用 querySelectorAll 更精確地選取當前主選單內的 dropdown
+        if (mainNav) {
+            mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+                li.classList.remove('active');
+            });
+        }
     }
     
     // 輔助函數：處理 RWD 調整時的狀態清理
     function handleResizeCleanup() {
+         // ⭐️ 修正：確保在電腦版 ( > 900px) 時，所有手機模式殘留的 class 被移除
          if (window.innerWidth > mobileBreakpoint) {
              if (mainNav && mainNav.classList.contains('active')) {
                  
@@ -50,10 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
                      menuToggle.setAttribute('aria-expanded', 'false');
                      
                      const menuIcon = menuToggle.querySelector('i');
+                     // 確保圖標恢復到漢堡圖標
                      if (menuIcon && menuIcon.classList.contains('fa-times')) {
                          menuIcon.classList.replace('fa-times', 'fa-bars');
                      }
                  }
+                 // 必須關閉所有子選單，避免切換回桌面後子選單狀態殘留
                  closeAllMobileSubmenus(); 
              }
          }
@@ -93,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (menuIcon) {
                 if (isExpanded) {
                     menuIcon.classList.replace('fa-bars', 'fa-times');
-                    closeAllMobileSubmenus(); 
+                    closeAllMobileSubmenus(); // 展開主選單時，收合所有子選單
                 } else {
                     menuIcon.classList.replace('fa-times', 'fa-bars');
                 }
@@ -108,7 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
         mainNav.addEventListener('click', function(e) {
             // 只在移動端生效
             if (window.innerWidth <= mobileBreakpoint) { 
-                let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
+                // ⭐️ 修正：確保點擊的是下拉選單的連結 (且不是 # 錨點)
+                let targetLink = e.target.closest('#main-nav li.dropdown > a:not([href="#"])'); 
 
                 if (targetLink) {
                     e.preventDefault(); 
@@ -143,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
              
              // 初始化：設定正確的 max-height 以觸發 CSS 過渡
              requestAnimationFrame(() => {
+                 // ⭐️ 修正：在內容初始化時，確保 max-height 被清空，讓 CSS 接管過渡
                  content.style.maxHeight = isActive ? content.scrollHeight + "px" : '0px'; 
              });
 
@@ -173,15 +181,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
+                    // 展開
                     this.setAttribute('aria-expanded', 'true');
                     requestAnimationFrame(() => {
+                        // ⭐️ 關鍵修正：展開時設置為 scrollHeight，觸發 CSS transition
                         content.style.maxHeight = content.scrollHeight + "px"; 
                     });
                 } else {
+                    // 收合
                     this.setAttribute('aria-expanded', 'false');
+                    
+                    // ⭐️ 關鍵修正：設置為 scrollHeight 後，立即在下一幀設置為 0，確保過渡效果
                     content.style.maxHeight = content.scrollHeight + "px";
                     
-                    // ⭐️ 修正優化：使用 requestAnimationFrame 確保在下一幀進行收合操作
                     requestAnimationFrame(() => {
                         content.style.maxHeight = '0px'; 
                     });
@@ -195,17 +207,24 @@ document.addEventListener('DOMContentLoaded', function() {
                      this.click(); 
                  }
              });
+             
+             // ⭐️ 優化：窗口調整時重新計算 max-height
+             window.addEventListener('resize', debounce(() => {
+                 if (item.classList.contains('active')) {
+                     content.style.maxHeight = content.scrollHeight + "px";
+                 }
+             }, 100));
          }
     });
 
     // ====================================================
     // 5. 圖片延遲載入 (Image Lazy Loading)
+    //    (代碼保持不變，已是標準的優化實作)
     // ====================================================
-    // 檢查瀏覽器是否支持 Intersection Observer API
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
         const observerOptions = {
-            rootMargin: '0px 0px 200px 0px' // 提前 200px 載入圖片
+            rootMargin: '0px 0px 200px 0px' 
         };
 
         const imageObserver = new IntersectionObserver(function(entries, observer) {
@@ -215,7 +234,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (img.dataset.src) {
                         img.src = img.dataset.src;
-                        // 處理 data-alt 屬性
                         img.alt = img.dataset.alt || img.alt || ''; 
                         img.removeAttribute('data-src'); 
                         img.removeAttribute('data-alt');
@@ -242,7 +260,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
     if (header) { 
-        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+        // 修正：排除下拉選單的父級連結 (只處理外部錨點和無下拉菜單的內部錨點)
+        document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 
                 e.preventDefault();
@@ -253,7 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (targetElement) {
                      // 點擊後關閉手機菜單
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
-                         menuToggle.click(); 
+                         // 使用 requestAnimationFrame 延遲點擊，確保動畫順暢
+                         requestAnimationFrame(() => menuToggle.click()); 
                      }
                     
                      // 使用現代瀏覽器 API 實現平滑滾動
@@ -261,6 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
                          
                          const headerHeight = header.offsetHeight;
                          const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+                         // 減去 Header 高度，確保目標不會被 Header 遮擋
                          const targetPosition = targetTop - headerHeight;
                          
                          window.scrollTo({
@@ -286,8 +307,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ====================================================
 // 7. 動態生成不規則流星 (Meteor Generation Logic)
+//    (代碼保持不變，邏輯已完善)
 // ====================================================
-// 確保您在 HTML 中有一個類別為 hero-section 的元素
 const heroSection = document.querySelector('.hero-section');
 
 if (heroSection) { 
@@ -305,11 +326,11 @@ if (heroSection) {
         let initialLeft, initialTop;
         
         if (Math.random() > 0.4) {
-             // 60% 機率從右側邊緣開始
+             // 60% 機率從右側邊緣開始 (105vw)
              initialLeft = 105; 
              initialTop = Math.random() * 80 - 20; 
         } else {
-             // 40% 機率從頂部邊緣開始
+             // 40% 機率從頂部邊緣開始 (-10vh)
              initialTop = -10; 
              initialLeft = Math.random() * 105; 
         }
@@ -318,12 +339,8 @@ if (heroSection) {
         meteor.style.top = `${initialTop}vh`;
         
         // 核心邏輯 2：鎖定「向左下方移動」
-        // 旋轉角度：鎖定在 -115deg 到 -135deg (斜向左下)
         const rotation = Math.random() * 20 - 135; 
-        
-        // 位移X：-120vw 到 -200vw (向左移動，負值)
         const travelX = -(120 + Math.random() * 80); 
-        // 位移Y：80vh 到 160vh (向下移動，正值)
         const travelY = 80 + Math.random() * 80; 
 
         // ⭐️ 將參數設定為 CSS 變數 (與您的 CSS @keyframes 完美聯動)
@@ -334,7 +351,7 @@ if (heroSection) {
         // **優化：循環生成機制**
         meteor.addEventListener('animationend', () => {
              meteor.remove();
-             // 延遲一段隨機時間後重新創建流星
+             // 延遲一段隨機時間後重新創建流星 (模擬無限流星)
              setTimeout(createMeteor, Math.random() * 4000 + 1000); 
         });
 
@@ -342,6 +359,7 @@ if (heroSection) {
         meteor.style.animationDuration = `${duration}s`;
         meteor.style.animationDelay = `${delay}s`;
         meteor.style.animationTimingFunction = 'linear'; 
+        meteor.style.pointerEvents = 'none'; // 確保不影響用戶點擊
 
         heroSection.appendChild(meteor);
     }
