@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.7 最終穩定聯動版 - 佈局與響應式修正)
+   程式夥伴 - 網站核心 CSS (V20.8 最終穩定聯動版 - 佈局與響應式修正)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -117,7 +117,7 @@ h1 {
 
 h2 { 
     font-size: clamp(1.6rem, 4vw, 2.5rem); 
-    margin-top: 0.5em; /* 修正：減少區塊開頭的間距 */
+    margin-top: 0.5em; 
     text-align: center; 
     position: relative;
     padding-bottom: 20px; 
@@ -176,10 +176,10 @@ p { margin-bottom: 0.5em; }
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color); 
     transition: background-color 0.3s, box-shadow 0.3s;
-    will-change: box-shadow; /* 修正：精確優化 box-shadow 屬性 */
+    will-change: box-shadow; 
 }
 
-/* 【修正】Header 內部 Flex 容器：確保電腦版 Logo 和 Nav 嚴格對齊 */
+/* 【優化】Header 內部 Flex 容器 */
 .header-container {
     display: flex;
     align-items: center;
@@ -190,13 +190,15 @@ p { margin-bottom: 0.5em; }
 
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.98); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12); 
+    /* 柔和的深色陰影，模擬浮動感 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    backdrop-filter: blur(2px); /* 輕微的毛玻璃效果 (現代瀏覽器支持) */
 }
 
 .logo {
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* 防止 Logo 被擠壓 */
+    flex-shrink: 0; 
 }
 
 .logo a {
@@ -209,7 +211,6 @@ p { margin-bottom: 0.5em; }
     display: block;
     width: 140px; 
     height: 40px; 
-    /* 假設 logo.png 位於 ../images/logo.png */
     background: url('../images/logo.png') no-repeat center center;
     background-size: contain;
 }
@@ -230,7 +231,7 @@ p { margin-bottom: 0.5em; }
     display: flex; 
     align-items: center;
     padding: 10px 0;
-    color: var(--secondary-color); /* 沉穩藍灰色 */
+    color: var(--secondary-color); 
     font-weight: 500; 
     letter-spacing: 0.5px;
 }
@@ -317,7 +318,7 @@ p { margin-bottom: 0.5em; }
 
 /* 聯繫導覽按鈕 */
 .contact-nav {
-    display: flex; /* 確保按鈕能與 Nav 項目對齊 */
+    display: flex; 
     align-items: center;
 }
 
@@ -351,7 +352,7 @@ p { margin-bottom: 0.5em; }
     border: 1px solid var(--primary-color); 
     border-radius: 4px;
     transition: background-color 0.3s;
-    z-index: 1001; /* 確保在選單上方 */
+    z-index: 1001; 
 }
 
 .menu-toggle:hover {
@@ -812,7 +813,7 @@ p { margin-bottom: 0.5em; }
     font-weight: 700;
     cursor: pointer;
     font-size: 1.05rem;
-    color: var(--secondary-color); /* 沉穩藍灰色 */
+    color: var(--secondary-color); 
     transition: background-color 0.3s, color 0.3s; 
     outline-offset: -2px; 
     position: relative;
@@ -878,7 +879,7 @@ p { margin-bottom: 0.5em; }
  * ------------------------------------------- */
 
 footer {
-    background-color: var(--secondary-color); /* 沉穩藍灰色 */
+    background-color: var(--secondary-color); 
     color: var(--text-light);
     padding-top: 50px;
 }
@@ -949,7 +950,6 @@ footer {
 }
 
 .footer-copyright {
-    /* 讓版權條使用更深的夜空藍，與頁尾色區分 */
     background-color: var(--primary-dark); 
     padding: 15px 0;
 }
@@ -1025,7 +1025,6 @@ footer {
     }
 }
 
-
 /* -------------------------------------------
  * 6. 響應式設計 (Media Queries)
  * ------------------------------------------- */
@@ -1053,14 +1052,14 @@ footer {
     
     /* 點擊 Toggle 後，導覽列必須顯示 */
     .main-nav.active {
-        display: block; /* 修正：讓主選單在手機版展開 */
+        display: block; 
         position: absolute;
         top: var(--header-height);
         left: 0;
         width: 100%;
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
-        max-height: calc(100vh - var(--header-height)); /* 修正：確保不會溢出視窗底部 */
+        max-height: calc(100vh - var(--header-height)); 
         overflow-y: auto; 
         transition: max-height 0.3s ease-in-out; 
     }
@@ -1112,7 +1111,7 @@ footer {
     }
 
     .submenu {
-        position: static; /* 讓下拉選單在手機版堆疊 */
+        position: static; 
         width: 100%;
         box-shadow: none;
         border-top: none;
@@ -1122,13 +1121,13 @@ footer {
         transform: none;
         opacity: 1; 
         visibility: visible;
-        max-height: 0; /* 初始隱藏，依賴 JS 展開 */
+        max-height: 0; 
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
     }
 
     .dropdown.active > .submenu {
-        max-height: 500px; /* 展開高度，需配合 JS 邏輯 */
+        max-height: 500px; 
         padding-bottom: 15px; 
     }
     
@@ -1180,6 +1179,11 @@ footer {
     .religion-grid, .commitment-grid, .trust-section .card-grid {
         grid-template-columns: 1fr;
     }
+
+    /* 確保里程碑在手機上單列顯示 */
+    .milestone-grid {
+        grid-template-columns: 1fr;
+    }
     
     .footer-grid {
         grid-template-columns: 1fr; 
@@ -1211,10 +1215,54 @@ footer {
 
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
 :target {
-    /* 確保所有錨點目標在滾動到位時，距離頂部有一個 Header 高度間距 */
     scroll-margin-top: var(--header-height);
 }
 
-.first-section {
-    /* (通常不需要修正，保留原始註解) */
+
+/* -------------------------------------------
+ * 7. 里程碑數字滾動樣式 (Milestones) - [新增]
+ * ------------------------------------------- */
+
+.milestone-section {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: var(--padding-section-v) 0;
+}
+
+.milestone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.milestone-item {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.08); /* 半透明背景 */
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background-color 0.3s;
+}
+
+.milestone-item:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.milestone-item .counter {
+    /* 數字核心樣式 - 放大、使用品牌色、陰影 */
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--accent-color); 
+    margin-bottom: 5px;
+    line-height: 1.1;
+    text-shadow: 0 0 10px rgba(206, 157, 74, 0.7);
+    display: block;
+}
+
+.milestone-item p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
 }
