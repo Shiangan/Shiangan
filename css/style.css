@@ -1,9 +1,364 @@
+好的，我理解您的意思。您是想確認 JavaScript (V20.7) 和 CSS (V20.7) 這兩個最終版本放在一起時，是否能達到您想要的完美協同運作，並且沒有任何遺漏或衝突。
+您的 CSS (V20.7 最終聯動修正版) 已經在我前一個回答中提供，並且包含了流星動畫的關鍵樣式。
+現在，我們將重新組合並完整確認這兩個最終聯動修正版本。
+🛠️ 最終程式碼修正確認 (V20.7)
+以下是確保流星動畫、RWD 菜單、平滑滾動和手風琴邏輯能夠完全且正確運作的兩個檔案的最終版本。
+1. 核心 JavaScript (V20.7 最終聯動修正版)
+請將以下程式碼儲存為您的 JavaScript 檔案（例如 script.js）：
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.6 流星動畫方向與配色最終優化版)
+   程式夥伴 - 網站核心 JavaScript (V20.7 最終聯動修正版 - 配合 CSS 變數)
+   ==================================================== */
+
+// 1. **抗閃爍機制 (SEO/UX 優化)**
+//    此處確保 'js-loading' 類別在 DOM 結構準備好時被快速移除。
+document.body.classList.remove('js-loading');
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ====================================================
+    // 0. 初始設定與變數 (Initial Setup & Variables)
+    // ====================================================
+    
+    const header = document.querySelector('header');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    const body = document.body;
+    const mobileBreakpoint = 900; 
+    const currentYearSpan = document.getElementById('current-year');
+    
+    // 輔助函數： Debounce (去抖動) - 優化性能
+    function debounce(func, delay = 150) { 
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
+
+    // 輔助函數：關閉所有手機子菜單 (清除 .active 類別)
+    function closeAllMobileSubmenus() {
+        document.querySelectorAll('#main-nav ul li.dropdown.active').forEach(li => {
+            li.classList.remove('active');
+        });
+    }
+    
+    // 輔助函數：處理 RWD 調整時的狀態清理
+    function handleResizeCleanup() {
+         if (window.innerWidth > mobileBreakpoint) {
+             if (mainNav && mainNav.classList.contains('active')) {
+                 
+                 mainNav.classList.remove('active');
+                 body.classList.remove('no-scroll');
+                 
+                 if (menuToggle) {
+                     menuToggle.setAttribute('aria-expanded', 'false');
+                     
+                     const menuIcon = menuToggle.querySelector('i');
+                     if (menuIcon && menuIcon.classList.contains('fa-times')) {
+                         menuIcon.classList.replace('fa-times', 'fa-bars');
+                     }
+                 }
+                 closeAllMobileSubmenus(); 
+             }
+         }
+    }
+    
+    window.addEventListener('resize', debounce(handleResizeCleanup, 150));
+
+
+    // ====================================================
+    // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
+    // ====================================================
+    function handleScroll() {
+        if (header) {
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        }
+    }
+    
+    if (header) {
+        handleScroll(); 
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    // ====================================================
+    // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
+    // ====================================================
+    if (menuToggle && mainNav) {
+        const menuIcon = menuToggle.querySelector('i'); 
+
+        menuToggle.addEventListener('click', function() {
+            const isExpanded = mainNav.classList.toggle('active'); 
+            body.classList.toggle('no-scroll'); 
+            
+            this.setAttribute('aria-expanded', isExpanded);
+            
+            if (menuIcon) {
+                if (isExpanded) {
+                    menuIcon.classList.replace('fa-bars', 'fa-times');
+                    closeAllMobileSubmenus(); 
+                } else {
+                    menuIcon.classList.replace('fa-times', 'fa-bars');
+                }
+            }
+        });
+    }
+
+    // ====================================================
+    // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion)
+    // ====================================================
+    if (mainNav) {
+        mainNav.addEventListener('click', function(e) {
+            if (window.innerWidth <= mobileBreakpoint) { 
+                let targetLink = e.target.closest('#main-nav ul li.dropdown > a'); 
+
+                if (targetLink) {
+                    e.preventDefault(); 
+                    
+                    const parentLi = targetLink.closest('li.dropdown');
+                    
+                    if (parentLi.classList.contains('active')) {
+                        parentLi.classList.remove('active');
+                    } else {
+                        closeAllMobileSubmenus(); 
+                        parentLi.classList.add('active'); 
+                    }
+                }
+            }
+        });
+    }
+
+    // ====================================================
+    // 4. 通用手風琴 (FAQ Accordion Component Logic)
+    // ====================================================
+    document.querySelectorAll('.accordion-item').forEach((item, index) => {
+         const header = item.querySelector('.accordion-header');
+         const content = item.querySelector('.accordion-content');
+         
+         if (header && content) {
+             const uniqueId = `acc-item-${index}`;
+             content.id = `${uniqueId}-content`;
+             header.setAttribute('aria-controls', content.id);
+
+             const isActive = item.classList.contains('active');
+             
+             requestAnimationFrame(() => {
+                 content.style.maxHeight = isActive ? content.scrollHeight + "px" : '0px'; 
+             });
+
+             header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+             header.setAttribute('role', 'button'); 
+             header.setAttribute('tabindex', '0'); 
+             
+             header.addEventListener('click', function(e) {
+                
+                const item = this.closest('.accordion-item');
+                const content = item.querySelector('.accordion-content');
+                const isCurrentlyActive = item.classList.contains('active');
+                
+                // 1. 關閉其他項目 (單開模式)
+                document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                    if (activeItem !== item) {
+                        const otherContent = activeItem.querySelector('.accordion-content');
+                        const otherHeader = activeItem.querySelector('.accordion-header');
+                        
+                        activeItem.classList.remove('active');
+                        otherContent.style.maxHeight = '0px';
+                        otherHeader.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // 2. 切換當前項目的狀態
+                item.classList.toggle('active');
+
+                // 3. 實作平滑過渡 (關鍵：確保 max-height 觸發 CSS transition)
+                if (!isCurrentlyActive) {
+                    this.setAttribute('aria-expanded', 'true');
+                    requestAnimationFrame(() => {
+                        content.style.maxHeight = content.scrollHeight + "px"; 
+                    });
+                } else {
+                    this.setAttribute('aria-expanded', 'false');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    setTimeout(() => {
+                        content.style.maxHeight = '0px'; 
+                    }, 10); 
+                }
+             });
+             
+             header.addEventListener('keydown', function(e) {
+                 if (e.key === 'Enter' || e.key === ' ') {
+                     e.preventDefault();
+                     this.click(); 
+                 }
+             });
+         }
+    });
+
+    // ====================================================
+    // 5. 圖片延遲載入 (Image Lazy Loading)
+    // ====================================================
+    if ('IntersectionObserver' in window) {
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const observerOptions = {
+            rootMargin: '0px 0px 200px 0px' 
+        };
+
+        const imageObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.alt = img.dataset.alt || img.alt || ''; 
+                        img.removeAttribute('data-src'); 
+                        img.removeAttribute('data-alt');
+                    }
+                    
+                    observer.unobserve(img);
+                }
+            });
+        }, observerOptions);
+
+        lazyImages.forEach(function(img) {
+            imageObserver.observe(img);
+        });
+    } else {
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            img.src = img.dataset.src;
+            img.alt = img.dataset.alt || img.alt || '';
+        });
+    }
+
+    
+    // ====================================================
+    // 6. 平滑滾動至錨點 (Smooth Scrolling)
+    // ====================================================
+    if (header) { 
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                     if (mainNav && menuToggle && mainNav.classList.contains('active')) {
+                         menuToggle.click(); 
+                     }
+                    
+                     if (typeof window.scrollTo === 'function' && targetElement.getBoundingClientRect) {
+                         
+                         const headerHeight = header.offsetHeight;
+                         const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+                         const targetPosition = targetTop - headerHeight;
+                         
+                         window.scrollTo({
+                             top: Math.max(0, targetPosition),
+                             behavior: 'smooth'
+                         });
+                         
+                     } else {
+                         targetElement.scrollIntoView({
+                             block: 'start',
+                             inline: 'nearest',
+                             behavior: 'instant' 
+                         });
+                         window.scrollBy(0, -header.offsetHeight);
+                     }
+                }
+            });
+        });
+    }
+
+    
+
+// ====================================================
+// 7. 動態生成不規則流星 (Meteor Generation Logic) - 核心邏輯確認
+// ====================================================
+const heroSection = document.querySelector('.hero-section');
+
+if (heroSection) { 
+    const numMeteors = 15; 
+
+    function createMeteor() {
+        const meteor = document.createElement('div');
+        meteor.classList.add('meteor');
+        
+        // 速度 (持續時間)
+        const duration = Math.random() * 10 + 10; // 10s 到 20s
+        const delay = Math.random() * 8; 
+        
+        // 核心邏輯 1：定義「從右上方進入」
+        let initialLeft, initialTop;
+        
+        if (Math.random() > 0.4) {
+             // 60% 機率從右側邊緣開始
+             initialLeft = 105; 
+             initialTop = Math.random() * 80 - 20; 
+        } else {
+             // 40% 機率從頂部邊緣開始
+             initialTop = -10; 
+             initialLeft = Math.random() * 105; 
+        }
+
+        meteor.style.left = `${initialLeft}vw`;
+        meteor.style.top = `${initialTop}vh`;
+        
+        // 核心邏輯 2：鎖定「向左下方移動」
+        // 旋轉角度：鎖定在 -115deg 到 -135deg (斜向左下)
+        const rotation = Math.random() * 20 - 135; 
+        
+        // 位移X：-120vw 到 -200vw (向左移動，負值)
+        const travelX = -(120 + Math.random() * 80); 
+        // 位移Y：80vh 到 160vh (向下移動，正值)
+        const travelY = 80 + Math.random() * 80; 
+
+        // ⭐️ 將參數設定為 CSS 變數 (與您的 CSS @keyframes 完美聯動)
+        meteor.style.setProperty('--rotation', `${rotation}deg`);
+        meteor.style.setProperty('--travel-x', `${travelX}vw`);
+        meteor.style.setProperty('--travel-y', `${travelY}vh`);
+        
+        // **優化：循環生成機制**
+        meteor.addEventListener('animationend', () => {
+             meteor.remove();
+             setTimeout(createMeteor, Math.random() * 4000 + 1000); 
+        });
+
+        meteor.style.animationName = 'shooting-star-random';
+        meteor.style.animationDuration = `${duration}s`;
+        meteor.style.animationDelay = `${delay}s`;
+        meteor.style.animationTimingFunction = 'linear'; 
+
+        heroSection.appendChild(meteor);
+    }
+
+    // 初始生成指定數量的流星
+    for (let i = 0; i < numMeteors; i++) {
+        setTimeout(createMeteor, Math.random() * 5000); 
+    }
+}
+
+
+    // ====================================================
+    // 8. 自動更新版權年份 (Footer Copyright Year)
+    // ====================================================
+    if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+    }
+});
+
+2. 核心 CSS (V20.7 最終聯動修正版)
+請使用您提供的這段 CSS 程式碼作為您的樣式檔案（例如 style.css），它已包含所有必要的流星動畫 (.meteor 和 @keyframes shooting-star-random) 和網站樣式。
+/* ====================================================
+   程式夥伴 - 網站核心 CSS (V20.7 最終聯動修正版 - 配合 JS 變數)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
-/* 使用 font-display: swap; 確保文字快速顯示 (FOUC 最小化) */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
@@ -23,31 +378,36 @@
  * ------------------------------------------- */
 
 :root {
-    /* 🏆 品牌色系 - 最終質感與對比度優化 */
-    --primary-color: #1e3a6a;  /* 沉穩海軍藍：專業、信任 */
-    --primary-dark: #12213b;   /* 極深藍：頁尾背景與按鈕 Hover */
-    --accent-color: #ce9d4a;   /* 優雅的暖金色/古銅色：突出重點、儀式感 */
-    --secondary-color: #55352c; /* 深咖啡棕：標題與強調文字，增加歷史感 */
+    /* 🏆 品牌色系 - 最終質感與對比度優化 (保持不變) */
+    --primary-color: #1e3a6a;  
+    --primary-dark: #12213b;   
+    --accent-color: #ce9d4a;   
+    --secondary-color: #55352c; 
 
-    /* 文字色系 */
+    /* 文字色系 (保持不變) */
     --text-dark: #333333; 
     --text-light: #ffffff;
     
-    /* 背景與邊界 */
+    /* 背景與邊界 (保持不變) */
     --bg-light: #f9f9f9; 
-    --bg-dark: #000005; /* Hero 背景，接近純黑 */
+    --bg-dark: #000005; 
     --border-color: #e8e8e8; 
     --shadow-color: rgba(0, 0, 0, 0.05); 
 
     
-    /* 字體定義 */
+    /* 字體定義 (保持不變) */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', sans-serif; 
     
-    /* 尺寸定義 */
+    /* 尺寸定義 (保持不變) */
     --header-height: 80px;
     --content-max-width: 1200px;
     --padding-section-v: 80px; 
+    
+    /* ⭐️ 新增：流星動畫變數 (由 JS 設定預設值) */
+    --rotation: -135deg; 
+    --travel-x: -150vw; 
+    --travel-y: 120vh;
 }
 
 
@@ -68,7 +428,7 @@ body {
     line-height: 1.7;
     color: var(--text-dark);
     background-color: var(--text-light);
-    transition: opacity 0.3s ease-in; 
+    /* 移除多餘的 transition */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -89,7 +449,7 @@ a {
 a:hover, a:focus {
     color: var(--primary-dark);
     opacity: 0.95; 
-    outline: 2px solid var(--accent-color); /* 提高可訪問性 */
+    outline: 2px solid var(--accent-color); 
     outline-offset: 2px;
 }
 
@@ -180,12 +540,11 @@ p { margin-bottom: 0.5em; }
 }
 
 .main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.98); /* 稍微透明 */
+    background-color: rgba(255, 255, 255, 0.98); 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12); 
 }
 
 .logo a {
-    /* 假設 logo 是一個背景圖片 */
     font-family: var(--font-serif);
     font-size: 1.4rem;
     font-weight: 700;
@@ -217,7 +576,6 @@ p { margin-bottom: 0.5em; }
     padding: 10px 0;
     color: var(--secondary-color);
     font-weight: 500; 
-    /* 增加導航項目的間距，提高易讀性 */
     letter-spacing: 0.5px;
 }
 
@@ -236,9 +594,9 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     top: 100%;
     left: 0;
-    min-width: 240px; /* 增加寬度 */
+    min-width: 240px; 
     background-color: var(--text-light);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* 更深的陰影 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
     border-top: 5px solid var(--accent-color); 
     list-style: none;
     padding: 10px 0;
@@ -249,7 +607,7 @@ p { margin-bottom: 0.5em; }
     visibility: hidden;
     transform: translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    border-radius: 0 0 8px 8px; /* 底部圓角 */
+    border-radius: 0 0 8px 8px; 
 }
 
 .dropdown:hover > .submenu,
@@ -279,7 +637,7 @@ p { margin-bottom: 0.5em; }
 }
 
 .submenu a:hover {
-    background-color: var(--primary-color); /* 修正 hover 色塊 */
+    background-color: var(--primary-color); 
     color: var(--text-light);
 }
 
@@ -290,7 +648,7 @@ p { margin-bottom: 0.5em; }
     font-size: 0.85rem;
     cursor: default;
     opacity: 1; 
-    background-color: rgba(30, 58, 106, 0.1); /* 淺藍背景 */
+    background-color: rgba(30, 58, 106, 0.1); 
 }
 
 .submenu-separator {
@@ -305,7 +663,7 @@ p { margin-bottom: 0.5em; }
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     padding: 8px 15px;
-    border-radius: 50px; /* 改為圓角膠囊 */
+    border-radius: 50px; 
     font-weight: 700;
     margin-left: 20px;
     display: inline-flex; 
@@ -350,7 +708,7 @@ p { margin-bottom: 0.5em; }
     display: inline-flex; 
     align-items: center;
     justify-content: center;
-    padding: 14px 35px; /* 增加內邊距 */
+    padding: 14px 35px; 
     border-radius: 50px;
     text-align: center;
     font-weight: 700;
@@ -358,7 +716,7 @@ p { margin-bottom: 0.5em; }
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     border: 2px solid transparent;
     will-change: transform, box-shadow; 
-    margin: 10px; /* 增加間距 */
+    margin: 10px; 
 }
 
 .cta-button .fas {
@@ -368,18 +726,18 @@ p { margin-bottom: 0.5em; }
 .cta-button.primary {
     background-color: var(--primary-color);
     color: var(--text-light);
-    box-shadow: 0 6px 15px rgba(30, 58, 106, 0.6); /* 更強烈的陰影 */
+    box-shadow: 0 6px 15px rgba(30, 58, 106, 0.6); 
 }
 
 .cta-button.primary:hover {
     background-color: var(--primary-dark);
-    transform: translateY(-4px); /* 提升動態感 */
+    transform: translateY(-4px); 
     box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9); 
 }
 
 .cta-button.secondary {
     background-color: transparent;
-    color: var(--accent-color); /* 次要按鈕使用金色 */
+    color: var(--accent-color); 
     border-color: var(--accent-color);
 }
 
@@ -424,17 +782,12 @@ p { margin-bottom: 0.5em; }
     100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, -100px), 0); } 
 }
 
-@keyframes meteor-glow {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
-}
-
 
 #stars, #stars2, #stars3 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 200%; /* 增加圖層大小，避免邊界出現 */
+    width: 200%; 
     height: 200%;
     pointer-events: none; 
     will-change: transform, opacity; 
@@ -520,7 +873,6 @@ p { margin-bottom: 0.5em; }
     left: 0;
     right: 0;
     bottom: 0;
-    /* 調整夜空漸變層，增加深邃感 */
     background-image: 
         radial-gradient(circle at center, rgba(30, 58, 106, 0.3) 0%, transparent 60%),
         linear-gradient(
@@ -544,7 +896,6 @@ p { margin-bottom: 0.5em; }
 
 .hero-content h1 {
     color: var(--text-light);
-    /* 優化文字陰影，更突出 */
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1); 
 }
 
@@ -560,6 +911,55 @@ p { margin-bottom: 0.5em; }
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
    
+/* ⭐️ 核心：流星軌跡樣式與動畫定義 (配合 JS) */
+.meteor {
+    position: absolute;
+    width: 2px;
+    height: 2px; /* 初始點大小 */
+    background: white;
+    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8), 
+                0 0 40px 10px rgba(206, 157, 74, 0.8); /* 柔和白光與金色尾焰效果 */
+    border-radius: 50%;
+    transform: rotate(var(--rotation)); /* 旋轉角度由 JS 設定 */
+    z-index: 4; /* 在內容與星點之間 */
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* 流星尾巴效果 */
+.meteor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -100px; /* 尾巴長度 */
+    width: 100px;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.6));
+    /* 加入金色尾巴漸變 */
+    background-image: 
+        linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.6) 50%, var(--accent-color) 100%);
+    opacity: 0.8;
+}
+
+/* ⭐️ 核心：流星動畫關鍵幀 (配合 JS 中的 shooting-star-random) */
+@keyframes shooting-star-random {
+    0% { 
+        /* 初始位置由 JS 設定 */
+        transform: rotate(var(--rotation)) translate3d(0, 0, 0); 
+        opacity: 0.8;
+    }
+    5% {
+        opacity: 1; /* 剛開始閃亮 */
+    }
+    100% {
+        /* 移動到 JS 設定的目標位置 */
+        transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0); 
+        opacity: 0.2; /* 結束時逐漸消失 */
+    }
+}
+
+
 /* 卡片網格通用樣式 - 質感提升 */
 .card-grid {
     display: grid;
@@ -570,8 +970,8 @@ p { margin-bottom: 0.5em; }
 .card-item {
     background-color: var(--text-light);
     padding: 30px;
-    border-radius: 12px; /* 略大的圓角 */
-    box-shadow: 0 8px 20px var(--shadow-color); /* 更有層次的陰影 */
+    border-radius: 12px; 
+    box-shadow: 0 8px 20px var(--shadow-color); 
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
     border: 1px solid var(--border-color);
@@ -583,15 +983,14 @@ p { margin-bottom: 0.5em; }
 }
 
 .card-item:hover {
-    transform: translateY(-8px); /* 輕微上浮 */
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18); /* 凸顯立體感 */
+    transform: translateY(-8px); 
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18); 
 }
 
 .card-item .icon {
-    font-size: 3.5rem; /* 放大圖標 */
+    font-size: 3.5rem; 
     color: var(--accent-color);
     margin-bottom: 15px;
-    /* 增加微光效果 */
     text-shadow: 0 0 5px rgba(206, 157, 74, 0.5); 
 }
 
@@ -677,11 +1076,11 @@ p { margin-bottom: 0.5em; }
 .flow-chart li {
     background-color: var(--text-light);
     border: 1px solid var(--border-color); 
-    padding: 25px; /* 增加內邊距 */
-    margin: 15px; /* 增加外邊距 */
+    padding: 25px; 
+    margin: 15px; 
     border-radius: 10px;
     font-weight: 400;
-    flex-basis: calc(33.33% - 30px); /* 調整以適應新外邊距 */
+    flex-basis: calc(33.33% - 30px); 
     min-width: 280px;
     position: relative;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
@@ -694,10 +1093,10 @@ p { margin-bottom: 0.5em; }
 .flow-chart li::before {
     content: counter(step-counter); 
     position: absolute;
-    top: -18px; /* 調整位置 */
+    top: -18px; 
     left: 50%;
     transform: translateX(-50%);
-    width: 36px; /* 放大數字圓圈 */
+    width: 36px; 
     height: 36px;
     line-height: 36px;
     border-radius: 50%;
@@ -706,7 +1105,7 @@ p { margin-bottom: 0.5em; }
     color: var(--primary-dark); 
     font-weight: 700;
     font-size: 1.2rem;
-    border: 4px solid var(--bg-light); /* 使用背景色作為邊框 */
+    border: 4px solid var(--bg-light); 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
@@ -737,7 +1136,7 @@ p { margin-bottom: 0.5em; }
 .accordion-item { 
     background-color: var(--text-light);
     border: 1px solid var(--border-color);
-    border-radius: 10px; /* 圓角 */
+    border-radius: 10px; 
     margin-bottom: 12px;
     box-shadow: 0 4px 12px var(--shadow-color);
     overflow: hidden;
@@ -746,7 +1145,7 @@ p { margin-bottom: 0.5em; }
 .accordion-header {
     display: flex;
     align-items: center;
-    padding: 20px 25px; /* 增加內邊距 */
+    padding: 20px 25px; 
     font-weight: 700;
     cursor: pointer;
     font-size: 1.05rem;
@@ -754,12 +1153,11 @@ p { margin-bottom: 0.5em; }
     transition: background-color 0.3s, color 0.3s; 
     outline-offset: -2px; 
     position: relative;
-    /* 增加指示箭頭 */
     user-select: none;
 }
 
 .accordion-header::after {
-    content: '\f078'; /* FontAwesome Chevron-down */
+    content: '\f078'; 
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     margin-left: auto;
@@ -790,7 +1188,7 @@ p { margin-bottom: 0.5em; }
 
 .accordion-item.active > .accordion-header i {
     color: var(--accent-color); 
-    transform: rotate(360deg); /* 視覺上旋轉一圈 */
+    transform: rotate(360deg); 
 }
 
 .accordion-content {
@@ -807,7 +1205,7 @@ p { margin-bottom: 0.5em; }
     padding-top: 15px; 
     padding-bottom: 15px; 
     line-height: 1.8; 
-    border-top: 1px dashed var(--border-color); /* 內部虛線分隔 */
+    border-top: 1px dashed var(--border-color); 
     margin-top: -1px;
 }
 
@@ -853,7 +1251,7 @@ footer {
 }
 
 .footer-block a {
-    color: rgba(255, 255, 255, 0.85); /* 提高對比度 */
+    color: rgba(255, 255, 255, 0.85); 
     font-size: 0.95rem;
 }
 
@@ -924,7 +1322,7 @@ footer {
 }
 
 .floating-cta a {
-    width: 65px; /* 略大 */
+    width: 65px; 
     height: 65px;
     border-radius: 50%;
     display: flex;
@@ -939,7 +1337,7 @@ footer {
 
 .floating-cta a:first-child { 
     background-color: var(--primary-color); 
-    animation: pulse 1.5s infinite; /* 電話脈衝動畫 */
+    animation: pulse 1.5s infinite; 
 }
 
 .floating-cta a:last-child { 
@@ -987,7 +1385,6 @@ footer {
     }
 
     .main-nav {
-        /* 使用絕對定位，且隱藏在屏幕外 */
         position: absolute;
         top: var(--header-height);
         left: 0;
@@ -1141,8 +1538,15 @@ footer {
     }
 }
 
+/* 確保錨點滾動時，Header 下方的內容不被遮擋 */
+:target {
+    padding-top: var(--header-height); 
+    margin-top: calc(-1 * var(--header-height)); 
+}
+
 /* 確保第一個區塊緊貼 Header */
 .first-section {
     margin-top: calc(-1 * var(--header-height)); 
     padding-top: var(--header-height); 
 }
+
