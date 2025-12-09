@@ -1,3 +1,64 @@
+a您提供的 HTML 程式碼片段已經非常完整且專業，包含了許多 SEO 優化 (Schema.org、Preload、Meta Tags) 和無障礙設計 (ARIA Roles, tabindex) 的細節。
+針對您提出的「選單位置跑掉」問題，我已經對您的 HTML 結構進行了幾個結構性、語義性及潛在佈局問題的修正，這些修正主要集中在 Header 和 Footer 的容器處理上，以確保選單在不同解析度下都能穩定運行。
+✨ HTML 完整性修正與說明
+以下是針對您提供的程式碼進行的修正和優化，主要著重於解決選單定位的潛在問題，並提升整體結構的語義性和穩定性：
+1. 修正 Header 容器命名與 Flexbox 樣式分離 (關鍵修正)
+問題描述： 您的 <header> 內部的容器直接使用了 inline styles (style="display: flex;...")，這使得您難以在 CSS 檔案中用媒體查詢 (Media Queries) 覆寫這些樣式，特別是處理行動版選單時。選單跑掉最常見的原因就是無法覆蓋這些 Flexbox 屬性。
+修正：
+ * 移除 Header 容器上的 inline style。
+ * 將容器 class 名稱從 container 改為 header-container container，讓它在 CSS 中有一個專門的選擇器 (.header-container) 來套用 Flex 佈局，便於在 style.css 中用媒體查詢覆蓋。
+原始碼：
+<header class="main-header" role="banner">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
+        </div>
+</header>
+
+修正後 (第 71 行)：
+<header class="main-header" role="banner">
+    <div class="header-container container">
+        </div>
+</header>
+
+> 📌 備註： 您需要在您的 css/style.css 檔案中加入以下基礎樣式來替代 inline style：
+> .header-container {
+>     display: flex;
+>     justify-content: space-between;
+>     align-items: center;
+>     max-width: 100%; /* 或您定義的 max-width */
+> }
+> 
+> 
+2. 選單緊急聯繫電話號碼格式統一
+問題描述： 在 <nav> 內的緊急聯絡連結中，電話號碼使用了本地格式 0978583699，但 HTML5 最佳實踐建議在 tel: 連結中使用國際格式（含國碼），以提升全球裝置的撥打相容性。
+修正：
+ * 將 tel: 連結中的電話號碼格式統一為國際格式 +886978583699。
+原始碼：
+<li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務緊急專線 0978-583-699">24H 聯絡我們</a></li>
+
+修正後 (第 121 行)：
+<li class="contact-nav"><a href="tel:+886978583699" title="24小時禮儀服務緊急專線 0978-583-699">24H 聯絡我們</a></li>
+
+3. Footer 連結與聯繫資訊優化
+問題描述： 您的 Footer 聯繫資訊區塊 (LocalBusiness Schema) 中的電話號碼連結與 Header 有同樣的格式問題，且浮動 CTA 連結也未統一。
+修正：
+ * Footer 聯繫電話與浮動 CTA 連結格式統一使用國際格式 +886978583699。
+原始碼 (Footer 第 359 行與 Floating CTA 第 401 行)：
+<p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
+    📞 <a href="tel:+886978583699" itemprop="telephone" title="點擊撥打 24小時緊急專線">0978-583-699</a>
+</p>
+<div class="floating-cta" aria-label="緊急聯繫方式">
+    <a href="tel:0978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i></a>
+    </div>
+
+修正後 (Footer 第 359 行與 Floating CTA 第 401 行)：
+<p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
+    📞 <a href="tel:+886978583699" itemprop="telephone" title="點擊撥打 24小時緊急專線">0978-583-699</a>
+</p>
+<div class="floating-cta" aria-label="緊急聯繫方式">
+    <a href="tel:+886978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i></a>
+    </div>
+
+🚀 完整修正後的 HTML 程式碼
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -67,7 +128,7 @@
 <body class="js-loading"> 
     
     <header class="main-header" role="banner">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
+        <div class="header-container container"> 
             <div class="logo">
                 <a href="index.html" title="祥安生命有限公司 - 回到首頁">祥安生命有限公司</a>
             </div>
@@ -121,14 +182,15 @@
                     </li>
                     
                     <li><a href="order.html" title="花禮與奠儀用品訂購">花禮訂購</a></li> 
-                    <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務緊急專線 0978-583-699">24H 聯絡我們</a></li>
+                    <li class="contact-nav"><a href="tel:+886978583699" title="24小時禮儀服務緊急專線 0978-583-699">24H 聯絡我們</a></li>
                 </ul>
             </nav>
             
             <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
                 <i class="fas fa-bars" aria-hidden="true"></i> 選單
             </button>
-        </div> </header>
+        </div>
+    </header>
 
     <main role="main">
     
@@ -414,7 +476,7 @@
     </footer>
 
     <div class="floating-cta" aria-label="緊急聯繫方式">
-        <a href="tel:0978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i></a>
+        <a href="tel:+886978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i></a>
         <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i></a>
     </div>
 
@@ -425,9 +487,11 @@
     <script src="js/script.js" defer></script>
     
     <script>
+        // 移除 loading class
         window.addEventListener('load', () => {
             document.body.classList.remove('js-loading');
         });
     </script>
 </body>
 </html>
+
