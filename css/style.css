@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.7 最終聯動修正版 - 配合 JS 變數)
+   程式夥伴 - 網站核心 CSS (V20.7 最終聯動修正版 - 配色優化：使用藍灰色替代咖啡色)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -22,14 +22,14 @@
  * ------------------------------------------- */
 
 :root {
-    /* 🏆 品牌色系 - 最終質感與對比度優化 (保持不變) */
-    --primary-color: #1e3a6a;  
-    --primary-dark: #12213b;   
-    --accent-color: #ce9d4a;   
-    --secondary-color: #55352c; 
+    /* 🏆 品牌色系 - 最終質感與對比度優化 */
+    --primary-color: #1e3a6a;  /* 深藍/藏青 */
+    --primary-dark: #12213b;   /* 極深藍/夜空 */
+    --accent-color: #ce9d4a;   /* 金黃/流星色 */
+    --secondary-color: #4a5c78; /* ✅ 修正：由深咖啡 #55352c 改為沉穩的藍灰色 */
 
-    /* 文字色系 (保持不變) */
-    --text-dark: #333333; 
+    /* 文字色系 (配合調整) */
+    --text-dark: #2c2c2c; /* ✅ 修正：由 #333333 改為更深的冷黑色，增加對比度 */
     --text-light: #ffffff;
     
     /* 背景與邊界 (保持不變) */
@@ -70,7 +70,7 @@ html {
 body {
     font-family: var(--font-sans);
     line-height: 1.7;
-    color: var(--text-dark);
+    color: var(--text-dark); /* 使用修正後的深黑色 */
     background-color: var(--text-light);
     /* 移除多餘的 transition */
     -webkit-font-smoothing: antialiased;
@@ -102,7 +102,7 @@ h1, h2, h3, h4 {
     font-family: var(--font-serif);
     line-height: 1.3;
     margin-bottom: 1.5em; 
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* ✅ 修正：使用沉穩藍灰色作為標題色 */
     font-weight: 700;
 }
 
@@ -218,7 +218,7 @@ p { margin-bottom: 0.5em; }
     display: flex; 
     align-items: center;
     padding: 10px 0;
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* ✅ 修正：使用沉穩藍灰色作為導航文字色 */
     font-weight: 500; 
     letter-spacing: 0.5px;
 }
@@ -793,7 +793,7 @@ p { margin-bottom: 0.5em; }
     font-weight: 700;
     cursor: pointer;
     font-size: 1.05rem;
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* ✅ 修正：使用沉穩藍灰色作為 Header 文字色 */
     transition: background-color 0.3s, color 0.3s; 
     outline-offset: -2px; 
     position: relative;
@@ -859,7 +859,7 @@ p { margin-bottom: 0.5em; }
  * ------------------------------------------- */
 
 footer {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color); /* ✅ 修正：使用沉穩藍灰色作為頁尾背景 */
     color: var(--text-light);
     padding-top: 50px;
 }
@@ -930,7 +930,8 @@ footer {
 }
 
 .footer-copyright {
-    background-color: var(--primary-dark);
+    /* 讓版權條使用更深的夜空藍，與頁尾色區分 */
+    background-color: var(--primary-dark); 
     padding: 15px 0;
 }
 
