@@ -1,6 +1,5 @@
-
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.7 最終聯動修正版 - 配色優化：使用藍灰色替代咖啡色)
+   程式夥伴 - 網站核心 CSS (V20.7 最終穩定聯動版 - 佈局與響應式修正)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -28,29 +27,29 @@
     --primary-color: #1e3a6a;  /* 深藍/藏青 */
     --primary-dark: #12213b;   /* 極深藍/夜空 */
     --accent-color: #ce9d4a;   /* 金黃/流星色 */
-    --secondary-color: #4a5c78; /* ✅ 修正：由深咖啡 #55352c 改為沉穩的藍灰色 */
+    --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
 
     /* 文字色系 (配合調整) */
-    --text-dark: #2c2c2c; /* ✅ 修正：由 #333333 改為更深的冷黑色，增加對比度 */
+    --text-dark: #2c2c2c; /* 更深的冷黑色，增加對比度 */
     --text-light: #ffffff;
     
-    /* 背景與邊界 (保持不變) */
+    /* 背景與邊界 */
     --bg-light: #f9f9f9; 
     --bg-dark: #000005; 
     --border-color: #e8e8e8; 
     --shadow-color: rgba(0, 0, 0, 0.05); 
 
     
-    /* 字體定義 (保持不變) */
+    /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', sans-serif; 
     
-    /* 尺寸定義 (保持不變) */
+    /* 尺寸定義 */
     --header-height: 80px;
     --content-max-width: 1200px;
     --padding-section-v: 80px; 
     
-    /* ⭐️ 新增：流星動畫變數 (由 JS 設定預設值) */
+    /* ⭐️ 流星動畫變數 */
     --rotation: -135deg; 
     --travel-x: -150vw; 
     --travel-y: 120vh;
@@ -79,7 +78,7 @@ body {
 }
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
-.js-loading { opacity: 0; transition: opacity 0.5s; } /* 增加過渡讓載入更平滑 */
+.js-loading { opacity: 0; transition: opacity 0.5s; }
 body.no-scroll { overflow: hidden; position: fixed; width: 100%; }
 
 img { max-width: 100%; height: auto; vertical-align: middle; }
@@ -118,7 +117,7 @@ h1 {
 
 h2 { 
     font-size: clamp(1.6rem, 4vw, 2.5rem); 
-    margin-top: 0.5em; /* 【修正】減少區塊開頭的間距 */
+    margin-top: 0.5em; /* 修正：減少區塊開頭的間距 */
     text-align: center; 
     position: relative;
     padding-bottom: 20px; 
@@ -176,20 +175,17 @@ p { margin-bottom: 0.5em; }
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color); 
-    /* 【修正】移除 Flex 設置，交給 .header-container 處理 */
-    /* display: flex; align-items: center; justify-content: space-between; padding: 0 20px; */
     transition: background-color 0.3s, box-shadow 0.3s;
-    will-change: box-shadow; /* 【修正】will-change 精確指向 box-shadow */
+    will-change: box-shadow; /* 修正：精確優化 box-shadow 屬性 */
 }
 
-/* 【新增】配合 HTML 內部的容器，實現 Header 內元素 Flex 佈局 */
+/* 【修正】Header 內部 Flex 容器：確保電腦版 Logo 和 Nav 嚴格對齊 */
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%; 
     height: 100%;
-    /* 繼承 .container 確保最大寬度，這裡只用於確保內邊距 */
 }
 
 .main-header.scrolled {
@@ -198,8 +194,9 @@ p { margin-bottom: 0.5em; }
 }
 
 .logo {
-    display: flex; /* 確保 Logo 容器本身對齊 */
+    display: flex;
     align-items: center;
+    flex-shrink: 0; /* 防止 Logo 被擠壓 */
 }
 
 .logo a {
@@ -215,7 +212,6 @@ p { margin-bottom: 0.5em; }
     /* 假設 logo.png 位於 ../images/logo.png */
     background: url('../images/logo.png') no-repeat center center;
     background-size: contain;
-    flex-shrink: 0;
 }
 
 .main-nav ul {
@@ -320,6 +316,11 @@ p { margin-bottom: 0.5em; }
 }
 
 /* 聯繫導覽按鈕 */
+.contact-nav {
+    display: flex; /* 確保按鈕能與 Nav 項目對齊 */
+    align-items: center;
+}
+
 .contact-nav a {
     background-color: var(--accent-color);
     color: var(--primary-dark); 
@@ -330,6 +331,7 @@ p { margin-bottom: 0.5em; }
     display: inline-flex; 
     align-items: center;
     box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
+    flex-shrink: 0;
 }
 
 .contact-nav a:hover {
@@ -349,6 +351,7 @@ p { margin-bottom: 0.5em; }
     border: 1px solid var(--primary-color); 
     border-radius: 4px;
     transition: background-color 0.3s;
+    z-index: 1001; /* 確保在選單上方 */
 }
 
 .menu-toggle:hover {
@@ -595,7 +598,7 @@ p { margin-bottom: 0.5em; }
     width: 100px;
     height: 2px;
     transform: translateY(-50%);
-    /* 加入金色尾巴漸變 (優化：將白色尾巴合併到金色漸變中，效果更簡潔) */
+    /* 加入金色尾巴漸變 */
     background-image: 
         linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.6) 50%, var(--accent-color) 100%);
     opacity: 0.8;
@@ -1036,31 +1039,35 @@ footer {
     h2::after {
         width: 60px;
     }
-
-    /* 【修正】移除 main-header 的 padding，交給 .container 處理 */
-    /* .main-header { padding: 0 15px; } */
-
-    .menu-toggle {
-        display: block; 
+    
+    /* 調整 Header 容器：讓導覽列和按鈕消失，只顯示 Logo 和 Toggle */
+    .header-container {
+        justify-content: space-between;
+        padding: 0 15px; /* 增加手機邊距 */
     }
 
-    .main-nav {
+    /* 隱藏桌面版導覽列和聯絡按鈕，只在需要時出現 */
+    .main-nav, .contact-nav {
+        display: none;
+    }
+    
+    /* 點擊 Toggle 後，導覽列必須顯示 */
+    .main-nav.active {
+        display: block; /* 修正：讓主選單在手機版展開 */
         position: absolute;
         top: var(--header-height);
         left: 0;
         width: 100%;
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
-        max-height: 0; 
-        overflow: hidden;
+        max-height: calc(100vh - var(--header-height)); /* 修正：確保不會溢出視窗底部 */
+        overflow-y: auto; 
         transition: max-height 0.3s ease-in-out; 
     }
-    
-    .main-nav.active {
-        /* 【修正】確保手機版選單不會溢出視窗底部 */
-        max-height: calc(100vh - var(--header-height)); 
-        padding-bottom: 10px;
-        overflow-y: auto; 
+
+    /* 漢堡按鈕必須顯示 */
+    .menu-toggle {
+        display: block; 
     }
 
     .menu-toggle.active i {
@@ -1105,7 +1112,7 @@ footer {
     }
 
     .submenu {
-        position: static; 
+        position: static; /* 讓下拉選單在手機版堆疊 */
         width: 100%;
         box-shadow: none;
         border-top: none;
@@ -1115,13 +1122,13 @@ footer {
         transform: none;
         opacity: 1; 
         visibility: visible;
-        max-height: 0; 
+        max-height: 0; /* 初始隱藏，依賴 JS 展開 */
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
     }
 
     .dropdown.active > .submenu {
-        max-height: 500px; /* 增加一個足夠大的值來保證所有內容顯示 */
+        max-height: 500px; /* 展開高度，需配合 JS 邏輯 */
         padding-bottom: 15px; 
     }
     
@@ -1129,15 +1136,18 @@ footer {
         display: none; 
     }
     
-    .contact-nav {
+    /* 手機版聯絡按鈕 */
+    .main-nav.active .contact-nav {
+        display: block;
         margin-top: 10px;
         padding: 10px 0;
     }
     
-    .contact-nav a {
+    .main-nav.active .contact-nav a {
         margin-left: 0;
         width: 100%;
         text-align: center;
+        display: flex;
     }
 
     .hero-section {
@@ -1200,15 +1210,11 @@ footer {
 }
 
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
-/* 使用 scroll-margin-top 現代屬性替換複雜的 :target 邏輯 */
 :target {
     /* 確保所有錨點目標在滾動到位時，距離頂部有一個 Header 高度間距 */
     scroll-margin-top: var(--header-height);
 }
 
-/* 修正第一個區塊的定位，確保其緊貼 Header，且不受滾動影響 */
 .first-section {
-    /* margin-top: calc(-1 * var(--header-height)); */
-    /* padding-top: var(--header-height); */
+    /* (通常不需要修正，保留原始註解) */
 }
-
