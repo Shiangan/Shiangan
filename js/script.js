@@ -1,9 +1,10 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V20.7 最終聯動修正版 - 完整優化)
+   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 完整優化)
+   包含性能、RWD、A11y、平滑滾動，以及新增的里程碑數字滾動功能。
    ==================================================== */
 
 // 1. **抗閃爍機制 (SEO/UX 優化)**
-//    此處確保 'js-loading' 類別在 DOM 結構準備好時被快速移除。
+//    此處確保 'js-loading' 類別在 DOM 結構準備好時被快速移除，優於在 DOMContentLoaded 內執行。
 document.body.classList.remove('js-loading');
 
 
@@ -33,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 輔助函數：關閉所有手機子菜單 (清除 .active 類別)
     function closeAllMobileSubmenus() {
-        // ⭐️ 優化：使用 querySelectorAll 更精確地選取當前主選單內的 dropdown
         if (mainNav) {
             mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                 li.classList.remove('active');
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 輔助函數：處理 RWD 調整時的狀態清理
     function handleResizeCleanup() {
-         // ⭐️ 修正：確保在電腦版 ( > 900px) 時，所有手機模式殘留的 class 被移除
+         // 確保在電腦版 ( > 900px) 時，所有手機模式殘留的 class 被移除
          if (window.innerWidth > mobileBreakpoint) {
              if (mainNav && mainNav.classList.contains('active')) {
                  
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mainNav.addEventListener('click', function(e) {
             // 只在移動端生效
             if (window.innerWidth <= mobileBreakpoint) { 
-                // ⭐️ 修正：確保點擊的是下拉選單的連結 (且不是 # 錨點)
+                // 確保點擊的是下拉選單的連結 (且不是 # 錨點)
                 let targetLink = e.target.closest('#main-nav li.dropdown > a:not([href="#"])'); 
 
                 if (targetLink) {
@@ -150,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
              
              // 初始化：設定正確的 max-height 以觸發 CSS 過渡
              requestAnimationFrame(() => {
-                 // ⭐️ 修正：在內容初始化時，確保 max-height 被清空，讓 CSS 接管過渡
                  content.style.maxHeight = isActive ? content.scrollHeight + "px" : '0px'; 
              });
 
@@ -184,14 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 展開
                     this.setAttribute('aria-expanded', 'true');
                     requestAnimationFrame(() => {
-                        // ⭐️ 關鍵修正：展開時設置為 scrollHeight，觸發 CSS transition
                         content.style.maxHeight = content.scrollHeight + "px"; 
                     });
                 } else {
                     // 收合
                     this.setAttribute('aria-expanded', 'false');
                     
-                    // ⭐️ 關鍵修正：設置為 scrollHeight 後，立即在下一幀設置為 0，確保過渡效果
                     content.style.maxHeight = content.scrollHeight + "px";
                     
                     requestAnimationFrame(() => {
@@ -208,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  }
              });
              
-             // ⭐️ 優化：窗口調整時重新計算 max-height
+             // 窗口調整時重新計算 max-height
              window.addEventListener('resize', debounce(() => {
                  if (item.classList.contains('active')) {
                      content.style.maxHeight = content.scrollHeight + "px";
@@ -219,7 +216,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ====================================================
     // 5. 圖片延遲載入 (Image Lazy Loading)
-    //    (代碼保持不變，已是標準的優化實作)
     // ====================================================
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
@@ -260,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
     if (header) { 
-        // 修正：排除下拉選單的父級連結 (只處理外部錨點和無下拉菜單的內部錨點)
+        // 排除下拉選單的父級連結 (只處理外部錨點和無下拉菜單的內部錨點)
         document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 
@@ -272,11 +268,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (targetElement) {
                      // 點擊後關閉手機菜單
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
-                         // 使用 requestAnimationFrame 延遲點擊，確保動畫順暢
                          requestAnimationFrame(() => menuToggle.click()); 
                      }
                     
-                     // 使用現代瀏覽器 API 實現平滑滾動
                      if (typeof window.scrollTo === 'function' && targetElement.getBoundingClientRect) {
                          
                          const headerHeight = header.offsetHeight;
@@ -304,77 +298,126 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     
+    // ====================================================
+    // 7. 動態生成不規則流星 (Meteor Generation Logic)
+    // ====================================================
+    const heroSection = document.querySelector('.hero-section');
 
-// ====================================================
-// 7. 動態生成不規則流星 (Meteor Generation Logic)
-//    (代碼保持不變，邏輯已完善)
-// ====================================================
-const heroSection = document.querySelector('.hero-section');
+    if (heroSection) { 
+        const numMeteors = 15; 
 
-if (heroSection) { 
-    const numMeteors = 15; 
+        function createMeteor() {
+            const meteor = document.createElement('div');
+            meteor.classList.add('meteor');
+            
+            // 速度 (持續時間)
+            const duration = Math.random() * 10 + 10; // 10s 到 20s
+            const delay = Math.random() * 8; 
+            
+            // 核心邏輯 1：定義「從右上方進入」
+            let initialLeft, initialTop;
+            
+            if (Math.random() > 0.4) {
+                 // 60% 機率從右側邊緣開始 (105vw)
+                 initialLeft = 105; 
+                 initialTop = Math.random() * 80 - 20; 
+            } else {
+                 // 40% 機率從頂部邊緣開始 (-10vh)
+                 initialTop = -10; 
+                 initialLeft = Math.random() * 105; 
+            }
 
-    function createMeteor() {
-        const meteor = document.createElement('div');
-        meteor.classList.add('meteor');
-        
-        // 速度 (持續時間)
-        const duration = Math.random() * 10 + 10; // 10s 到 20s
-        const delay = Math.random() * 8; 
-        
-        // 核心邏輯 1：定義「從右上方進入」
-        let initialLeft, initialTop;
-        
-        if (Math.random() > 0.4) {
-             // 60% 機率從右側邊緣開始 (105vw)
-             initialLeft = 105; 
-             initialTop = Math.random() * 80 - 20; 
-        } else {
-             // 40% 機率從頂部邊緣開始 (-10vh)
-             initialTop = -10; 
-             initialLeft = Math.random() * 105; 
+            meteor.style.left = `${initialLeft}vw`;
+            meteor.style.top = `${initialTop}vh`;
+            
+            // 核心邏輯 2：鎖定「向左下方移動」
+            const rotation = Math.random() * 20 - 135; 
+            const travelX = -(120 + Math.random() * 80); 
+            const travelY = 80 + Math.random() * 80; 
+
+            // 將參數設定為 CSS 變數 (與您的 CSS @keyframes 完美聯動)
+            meteor.style.setProperty('--rotation', `${rotation}deg`);
+            meteor.style.setProperty('--travel-x', `${travelX}vw`);
+            meteor.style.setProperty('--travel-y', `${travelY}vh`);
+            
+            // **優化：循環生成機制**
+            meteor.addEventListener('animationend', () => {
+                 meteor.remove();
+                 // 延遲一段隨機時間後重新創建流星 (模擬無限流星)
+                 setTimeout(createMeteor, Math.random() * 4000 + 1000); 
+            });
+
+            meteor.style.animationName = 'shooting-star-random';
+            meteor.style.animationDuration = `${duration}s`;
+            meteor.style.animationDelay = `${delay}s`;
+            meteor.style.animationTimingFunction = 'linear'; 
+            meteor.style.pointerEvents = 'none'; // 確保不影響用戶點擊
+
+            heroSection.appendChild(meteor);
         }
 
-        meteor.style.left = `${initialLeft}vw`;
-        meteor.style.top = `${initialTop}vh`;
-        
-        // 核心邏輯 2：鎖定「向左下方移動」
-        const rotation = Math.random() * 20 - 135; 
-        const travelX = -(120 + Math.random() * 80); 
-        const travelY = 80 + Math.random() * 80; 
-
-        // ⭐️ 將參數設定為 CSS 變數 (與您的 CSS @keyframes 完美聯動)
-        meteor.style.setProperty('--rotation', `${rotation}deg`);
-        meteor.style.setProperty('--travel-x', `${travelX}vw`);
-        meteor.style.setProperty('--travel-y', `${travelY}vh`);
-        
-        // **優化：循環生成機制**
-        meteor.addEventListener('animationend', () => {
-             meteor.remove();
-             // 延遲一段隨機時間後重新創建流星 (模擬無限流星)
-             setTimeout(createMeteor, Math.random() * 4000 + 1000); 
-        });
-
-        meteor.style.animationName = 'shooting-star-random';
-        meteor.style.animationDuration = `${duration}s`;
-        meteor.style.animationDelay = `${delay}s`;
-        meteor.style.animationTimingFunction = 'linear'; 
-        meteor.style.pointerEvents = 'none'; // 確保不影響用戶點擊
-
-        heroSection.appendChild(meteor);
+        // 初始生成指定數量的流星
+        for (let i = 0; i < numMeteors; i++) {
+            setTimeout(createMeteor, Math.random() * 5000); 
+        }
     }
 
-    // 初始生成指定數量的流星
-    for (let i = 0; i < numMeteors; i++) {
-        setTimeout(createMeteor, Math.random() * 5000); 
-    }
-}
-
-
+    
     // ====================================================
     // 8. 自動更新版權年份 (Footer Copyright Year)
     // ====================================================
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
+
+
+    // ====================================================
+    // 9. 數字滾動動畫 (Counter Up for Milestones) - [新增的視覺衝擊優化]（about.html)
+    // ====================================================
+    function startCounter(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.dataset.count);
+                let current = 0;
+                
+                // 處理百分比 (100%) 或加號 (+) 後綴
+                const isPercentage = counter.textContent.includes('%');
+                const suffix = isPercentage ? '%' : (counter.textContent.includes('+') ? '+' : (counter.textContent.includes('mins') ? ' mins' : ''));
+                
+                const duration = 1500; // 1.5 秒
+                const step = (target / duration) * 10; 
+
+                const interval = setInterval(() => {
+                    current += step;
+                    
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    
+                    // 格式化顯示 (確保數字不會有逗號)
+                    let displayValue = isPercentage ? Math.floor(current) : Math.round(current);
+                    
+                    counter.textContent = displayValue.toLocaleString(undefined, { maximumFractionDigits: 0 }) + suffix; 
+                    
+                }, 10); // 每 10 毫秒更新一次
+
+                observer.unobserve(counter); // 確保只運行一次
+            }
+        });
+    }
+
+    const counters = document.querySelectorAll('.milestone-item .counter');
+    if (counters.length > 0 && 'IntersectionObserver' in window) {
+        const counterObserver = new IntersectionObserver(startCounter, {
+            root: null,
+            threshold: 0.5 // 50% 進入可視區時觸發
+        });
+
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+    }
+    
 });
