@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const mobileBreakpoint = 900;
     const currentYearSpan = document.getElementById('current-year');
-    const backToTopButton = document.querySelector('.back-to-top'); // 新增 Back-to-Top
+    const backToTopButton = document.querySelector('.back-to-top'); 
     const lazyImages = document.querySelectorAll('img[data-src]');
 
 
     // 輔助函數： Debounce (去抖動) - 優化性能
-    function debounce(func, delay = 150) {
+    function debounce(func, delay = 50) { // 💥 優化：將延遲從 150ms 降至 50ms，提高響應速度
         let timeoutId;
         return function(...args) {
             clearTimeout(timeoutId);
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const submenu = li.querySelector('.submenu');
                 li.classList.remove('active');
                 if (submenu) {
-                    // 修正點 1：徹底清除 max-height 確保狀態重置
+                    // 修正：徹底清除 max-height 確保狀態重置
                     submenu.style.maxHeight = '0px'; 
                 }
             });
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  if (menuToggle) {
                      menuToggle.setAttribute('aria-expanded', 'false');
                      const menuIcon = menuToggle.querySelector('i');
-                     if (menuIcon && menuIcon.classList.contains('fa-times')) {
+                     if (menuIcon) {
                          menuIcon.classList.replace('fa-times', 'fa-bars');
                      }
                  }
@@ -67,12 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
              // 確保桌面模式下，submenu 不受 max-height 限制
              if (mainNav) {
                  mainNav.querySelectorAll('.submenu').forEach(submenu => {
-                     // 移除手機模式下設置的任何內聯 max-height 樣式，讓桌面 CSS (hover/focus) 接管
+                     // 移除手機模式下設置的任何內聯 max-height 樣式
                      submenu.style.maxHeight = ''; 
                  });
              }
              
-             // 【✅ 新增優化：清理桌面模式下的鍵盤輔助類別】
+             // 【✅ 優化：清理桌面模式下的鍵盤輔助類別】
              document.querySelectorAll('.dropdown.focus-within').forEach(dropdown => {
                  dropdown.classList.remove('focus-within');
              });
@@ -82,8 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  const content = item.querySelector('.accordion-content');
                  if (content) {
                      // 確保內容能完整顯示
-                     content.style.maxHeight = 'fit-content';
-                     content.style.maxHeight = content.scrollHeight + "px";
+                     content.style.maxHeight = `${content.scrollHeight}px`;
                  }
              });
          }
@@ -97,14 +96,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     function updateHeaderScrollClass() {
         if (header) {
+            // 💥 性能優化：使用 scroll-y > 10 代替 > 0，避免頂部微小晃動
             requestAnimationFrame(() => {
-                 header.classList.toggle('scrolled', window.scrollY > 0);
+                 header.classList.toggle('scrolled', window.scrollY > 10);
             });
         }
         
         // 【✅ 補強：Back-to-Top 顯示/隱藏】
         if (backToTopButton) {
-            // 滾動超過 300px 時顯示按鈕
             backToTopButton.style.display = window.scrollY > 300 ? 'flex' : 'none';
         }
     }
@@ -135,6 +134,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     menuIcon.classList.replace('fa-times', 'fa-bars');
                     closeAllMobileSubmenus(); 
                 }
+            }
+        });
+        
+        // 【✅ 新增：點擊菜單外部時關閉菜單 (極端情況穩定性優化)】
+        document.addEventListener('click', function(e) {
+            // 檢查是否點擊了菜單開關按鈕或導航菜單本身
+            const isMenuClick = mainNav.contains(e.target) || menuToggle.contains(e.target);
+            
+            if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active') && !isMenuClick) {
+                // 模擬點擊開關來關閉菜單 (觸發所有關閉邏輯)
+                menuToggle.click();
             }
         });
     }
@@ -178,9 +188,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         parentLi.classList.add('active');
                         // 關鍵：手動計算並設定 max-height
                         if (submenu) {
-                            // 修正點 2：使用 requestAnimationFrame 確保 DOM 渲染穩定
                             requestAnimationFrame(() => {
-                                submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                                // 修正：使用 setTimeout 0ms 來確保 scrollHeight 精確計算
+                                setTimeout(() => {
+                                   submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                                }, 0);
                             });
                         }
                     } 
@@ -189,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // 點擊菜單中的連結後，自動關閉主菜單
-        mainNav.querySelectorAll('a').forEach(link => {
+        mainNav.querySelectorAll('a[href^="#"], a:not([href])').forEach(link => { 
              // 排除作為手風琴開關的父連結
              if (!link.closest('.dropdown')) {
                  link.addEventListener('click', () => {
@@ -237,7 +249,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         const otherHeader = activeItem.querySelector('.accordion-header');
 
                         activeItem.classList.remove('active');
-                        otherContent.style.maxHeight = '0px';
+                        // 修正: 關閉時也必須執行兩步，確保平滑收合
+                        otherContent.style.maxHeight = `${otherContent.scrollHeight}px`; 
+                        requestAnimationFrame(() => {
+                            otherContent.style.maxHeight = '0px';
+                        });
                         otherHeader.setAttribute('aria-expanded', 'false');
                     }
                 });
@@ -317,7 +333,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
     if (header) {
-        document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
+        // 修正: 擴大選擇器範圍，包含所有以 # 開頭的錨點 (除了單獨的 #)
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+             // 排除在手機模式下作為手風琴開關的父連結
+             if (anchor.closest('.dropdown') && window.innerWidth <= mobileBreakpoint) {
+                 return; // 手機模式下，下拉菜單父連結不應觸發滾動
+             }
+             
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
 
@@ -435,18 +457,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 9. 移除初始載入類別 (FOUC 修正)
     // ====================================================
-    // 確保頁面載入完成後移除 js-loading 類別，防止閃爍
-    const loadingElement = document.documentElement.classList.contains('js-loading') ? document.documentElement : document.body;
+    // 💥 修正: 確保在頁面完全 ready 後移除 js-loading
+    const removeLoadingClass = () => {
+        const rootElements = [document.documentElement, document.body];
+        rootElements.forEach(el => {
+            if (el && el.classList.contains('js-loading')) {
+                el.classList.remove('js-loading');
+            }
+        });
+    };
     
-    // 使用 requestAnimationFrame 確保在下次重繪前移除類別
-    requestAnimationFrame(() => {
-        if (loadingElement) {
-            loadingElement.classList.remove('js-loading');
-        }
-    });
-
-    // 額外的優化：確保 html 標籤上也有 js-loading，以覆蓋 body 設置
-    if (document.documentElement.classList.contains('js-loading')) {
-         document.documentElement.classList.remove('js-loading');
-    }
+    // 使用 load 事件確保所有資源（包括圖片）都載入完成，減少閃爍風險
+    window.addEventListener('load', removeLoadingClass);
+    // 額外確保 DOMContentLoaded 後也能移除（以防萬一）
+    removeLoadingClass(); 
 });
