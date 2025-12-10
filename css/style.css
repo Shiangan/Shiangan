@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.8 最終穩定聯動版 - 佈局與響應式修正)
+   程式夥伴 - 網站核心 CSS (V20.8 最終穩定聯動版 - 佈局與響應式修正 + 青色主題)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -26,7 +26,8 @@
     /* 🏆 品牌色系 - 最終質感與對比度優化 */
     --primary-color: #1e3a6a;  /* 深藍/藏青 (專業、沉穩) */
     --primary-dark: #12213b;   /* 極深藍/夜空 (背景色) */
-    --accent-color: #ce9d4a;   /* 金黃/流星色 (溫暖、重點強調) */
+    /* **【修正點 1】** 土黃色替換為專業青色 (Teal/Cyan) */
+    --accent-color: #00a9c6;   /* 專業青色 (現代、重點強調) */ 
     --secondary-color: #4a5c78; /* 沉穩的藍灰色 (輔助用色) */
 
     /* 文字色系 (配合調整) */
@@ -38,7 +39,8 @@
     --bg-dark: #000005; /* 備用深色背景 */
     --border-color: #e8e8e8; 
     --shadow-color: rgba(0, 0, 0, 0.05); 
-    --shadow-heavy: rgba(0, 0, 0, 0.18); /* 新增重陰影變數 */
+    --shadow-heavy: rgba(0, 0, 0, 0.18); 
+
     
     /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
@@ -67,7 +69,6 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px; 
-    /* **【修正/優化點 1】** 讓 html 繼承 body 的字體，確保一致性 */
     font-family: var(--font-sans);
 }
 
@@ -77,14 +78,11 @@ body {
     background-color: var(--text-light);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* **【優化點】** 確保整個頁面在任何設備上都不會產生水平滾動條 */
     overflow-x: hidden; 
 }
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
 .js-loading { opacity: 0; transition: opacity 0.5s; }
-
-/* **【修正/優化點 2】** 修正手機鎖定捲動問題：使用 position: fixed 結合 width/height: 100% 確保全屏鎖定 */
 body.no-scroll { 
     overflow: hidden; 
     position: fixed; 
@@ -92,7 +90,6 @@ body.no-scroll {
     height: 100%; 
     top: 0; 
     left: 0; 
-    /* 確保鎖定時沒有視覺上的跳動 */
     right: 0;
     bottom: 0;
 }
@@ -109,12 +106,12 @@ a {
 a:hover, a:focus {
     color: var(--primary-dark);
     opacity: 0.95; 
-    /* 保持焦點樣式，提升可訪問性 */
+    /* **【配色修正 2】** 焦點線改用青色 */
     outline: 2px solid var(--accent-color); 
     outline-offset: 2px;
 }
 
-/* 標題樣式 - 使用 serif 字體增加莊重感 */
+/* 標題樣式 */
 h1, h2, h3, h4 {
     font-family: var(--font-serif); 
     line-height: 1.3;
@@ -151,6 +148,7 @@ h2::after {
     transform: translateX(-50%);
     width: 80px; 
     height: 4px; 
+    /* **【配色修正 3】** 裝飾線改用青色 */
     background-color: var(--accent-color);
     border-radius: 2px;
     transition: width 0.3s; 
@@ -174,7 +172,6 @@ p {
 }
 
 .container-v-padding {
-    /* **【優化點 3】** 確保在手機上也能使用較小的垂直間距 */
     padding: var(--padding-section-v) 0;
 }
 
@@ -286,6 +283,7 @@ p {
     min-width: 240px; 
     background-color: var(--text-light);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+    /* **【配色修正 4】** 下拉選單邊框改用青色 */
     border-top: 5px solid var(--accent-color); 
     list-style: none;
     padding: 10px 0;
@@ -334,6 +332,7 @@ p {
 
 .submenu-title {
     font-weight: 700;
+    /* **【配色修正 5】** 下拉選單標題改用青色 */
     color: var(--accent-color);
     padding: 8px 20px 4px;
     font-size: 0.85rem;
@@ -356,6 +355,7 @@ p {
 }
 
 .contact-nav a {
+    /* **【配色修正 6】** 聯繫按鈕背景改用青色 */
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     padding: 8px 15px;
@@ -364,7 +364,8 @@ p {
     margin-left: 20px;
     display: inline-flex; 
     align-items: center;
-    box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
+    /* **【配色修正 7】** 聯繫按鈕陰影改用青色陰影 */
+    box-shadow: 0 2px 8px rgba(0, 169, 198, 0.4); 
     flex-shrink: 0;
 }
 
@@ -433,21 +434,25 @@ p {
     background-color: var(--primary-dark);
     transform: translateY(-4px); 
     box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9); 
+    /* **【配色修正 8】** 主要按鈕焦點改用青色 */
     outline: 2px solid var(--accent-color); 
     outline-offset: 4px;
 }
 
 .cta-button.secondary {
     background-color: transparent;
+    /* **【配色修正 9】** 次要按鈕邊框及文字改用青色 */
     color: var(--accent-color); 
     border-color: var(--accent-color);
 }
 
 .cta-button.secondary:hover {
+    /* **【配色修正 10】** 次要按鈕懸停改用青色背景 */
     background-color: var(--accent-color);
     color: var(--primary-dark);
     transform: translateY(-1px); 
-    box-shadow: 0 4px 10px rgba(206, 157, 74, 0.4);
+    /* **【配色修正 11】** 次要按鈕懸停陰影改用青色陰影 */
+    box-shadow: 0 4px 10px rgba(0, 169, 198, 0.4);
 }
 
 .cta-button.secondary:focus {
@@ -491,8 +496,7 @@ p {
     pointer-events: none; 
     will-change: transform, opacity; 
 }
-
-/* 圖層 1: 慢速移動，往左上 */
+/* 星星圖層樣式不變 */
 #stars {
     --travel-x-end: -20px; --travel-y-end: -20px; 
     animation: move-star 300s linear infinite, 
@@ -509,8 +513,6 @@ p {
         100vw 200vh #d0d0d0, 250vw 120vh #d0d0d0, -50vw 150vh #d0d0d0, 30vw 100vh #d0d0d0, 
         -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0;
 }
-
-/* 圖層 2: 中速移動，往左上 (使用 reverse 造成反向位移，提供另一層視差感) */
 #stars2 {
     --travel-x-end: -50px; --travel-y-end: -50px;
     animation: move-star 200s linear infinite reverse, 
@@ -527,8 +529,6 @@ p {
     box-shadow: 
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
-
-/* 圖層 3: 快速移動，往左上 */
 #stars3 {
     --travel-x-end: -80px; --travel-y-end: -80px;
     animation: move-star 100s linear infinite,
@@ -542,16 +542,15 @@ p {
     width: 3px;
     height: 3px;
     opacity: 1;
-    /* 增加金色星點 */
+    /* **【配色修正 12】** 金色星點改用青色 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9); 
+        100vw 100vh 4px 2px rgba(0, 169, 198, 0.9); 
 }
 
 
 .hero-section {
     position: relative;
-    /* **【修正/優化點 4】** 確保內容足夠高，並使用 min-height 確保在手機上不會過短，但允許內容超出自適應滾動 */
     min-height: calc(100vh - var(--header-height)); 
     padding: 100px 0; 
     overflow: hidden; 
@@ -600,6 +599,7 @@ p {
 }
 
 .hero-content strong {
+    /* **【配色修正 13】** Hero 文字重點改用青色 */
     color: var(--accent-color);
     font-weight: 700;
 }
@@ -617,8 +617,9 @@ p {
     width: 2px;
     height: 2px; 
     background: white;
+    /* **【配色修正 14】** 流星陰影改用青色 */
     box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8), 
-                0 0 40px 10px rgba(206, 157, 74, 0.8); 
+                0 0 40px 10px rgba(0, 169, 198, 0.8); 
     border-radius: 50%;
     transform: rotate(var(--rotation)); 
     z-index: 4; 
@@ -635,6 +636,7 @@ p {
     width: 100px;
     height: 2px;
     transform: translateY(-50%);
+    /* **【配色修正 15】** 流星尾巴漸層末端改用青色 */
     background-image: 
         linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.6) 50%, var(--accent-color) 100%);
     opacity: 0.8;
@@ -680,15 +682,17 @@ p {
 
 .card-item:hover {
     transform: translateY(-8px); 
-    box-shadow: 0 16px 40px var(--shadow-heavy); /* 使用新增的重陰影變數 */
+    box-shadow: 0 16px 40px var(--shadow-heavy); 
 }
 
 /* 確保 Font Awesome 圖標能正確顯示 */
 .card-item .fas, .card-item .fab, .card-item .icon {
     font-size: 3.5rem; 
+    /* **【配色修正 16】** 卡片圖標改用青色 */
     color: var(--accent-color);
     margin-bottom: 15px;
-    text-shadow: 0 0 5px rgba(206, 157, 74, 0.5); 
+    /* **【配色修正 17】** 卡片圖標陰影改用青色陰影 */
+    text-shadow: 0 0 5px rgba(0, 169, 198, 0.5); 
 }
 
 .card-item h3 {
@@ -706,10 +710,6 @@ p {
     word-break: break-word;
 }
 
-/* **【修正/優化點 5】** 網格定義優化：使用 auto-fit 確保在任何設備上都有良好的響應式佈局 */
-.religion-grid, .commitment-grid, .trust-grid, .milestone-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-}
 .religion-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .commitment-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
 .trust-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
@@ -717,6 +717,7 @@ p {
 
 /* 核心承諾卡片特殊樣式 */
 .primary-highlight {
+    /* **【配色修正 18】** 突出卡片邊框改用青色 */
     border: 2px solid var(--accent-color);
     background: linear-gradient(to bottom right, var(--text-light), var(--bg-light));
 }
@@ -734,10 +735,11 @@ p {
     justify-content: space-between;
     padding: 35px; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    border-radius: 12px; /* 統一圓角 */
+    border-radius: 12px;
 }
 
 .emergency-contact .fas, .emergency-contact .fab, .emergency-contact .icon {
+    /* **【配色修正 19】** 緊急聯繫圖標改用青色 */
     color: var(--accent-color);
 }
 
@@ -747,6 +749,7 @@ p {
 
 .emergency-contact .cta-button {
     margin-top: 20px;
+    /* **【配色修正 20】** 緊急聯繫 CTA 背景改用青色 */
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     font-weight: 700;
@@ -756,6 +759,7 @@ p {
 .emergency-contact .cta-button:hover {
     background-color: var(--text-light);
     color: var(--primary-dark);
+    /* **【配色修正 21】** 緊急聯繫 CTA 陰影改用青色陰影 */
     box-shadow: 0 0 15px var(--accent-color); 
     transform: scale(1.03);
 }
@@ -764,7 +768,6 @@ p {
 .flow-chart ol {
     list-style: none;
     padding: 0;
-    /* **【修正/優化點 6】** 確保在不同寬度下擁有更穩定的佈局 (最小寬度可堆疊) */
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
     gap: 30px; 
@@ -797,6 +800,7 @@ p {
     line-height: 36px;
     border-radius: 50%;
     text-align: center;
+    /* **【配色修正 22】** 流程編號背景改用青色 */
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     font-weight: 700;
@@ -840,6 +844,7 @@ p {
 }
 
 .team-member .title {
+    /* **【配色修正 23】** 團隊職位文字改用青色 */
     color: var(--accent-color);
     font-weight: 700;
     font-size: 1rem;
@@ -890,31 +895,16 @@ p {
     word-break: break-word; 
 }
 
-.accordion-header::after {
-    content: '\f078'; 
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    margin-left: auto;
-    font-size: 0.8em;
-    transition: transform 0.3s ease;
-    flex-shrink: 0; 
-    padding-left: 10px;
-}
-
 .accordion-item.active > .accordion-header::after {
     transform: rotate(180deg);
+    /* **【配色修正 24】** FAQ 箭頭改用青色 */
     color: var(--accent-color);
 }
 
 .accordion-header:hover, .accordion-header:focus {
     background-color: var(--bg-light);
+    /* **【配色修正 25】** FAQ 焦點輪廓改用青色 */
     outline: 2px solid var(--accent-color); 
-}
-
-.accordion-header i {
-    color: var(--primary-color);
-    margin-right: 12px;
-    transition: transform 0.3s, color 0.3s; 
 }
 
 .accordion-item.active > .accordion-header {
@@ -923,6 +913,7 @@ p {
 }
 
 .accordion-item.active > .accordion-header i {
+    /* **【配色修正 26】** FAQ 展開圖標改用青色 */
     color: var(--accent-color); 
     transform: rotate(360deg); 
 }
@@ -958,7 +949,6 @@ footer {
 
 .footer-grid {
     display: grid;
-    /* **【優化點 7】** 更好的響應式，當空間不足時自動換行 */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
     gap: 40px;
     padding-bottom: 40px;
@@ -969,11 +959,13 @@ footer {
 }
 
 .footer-block h4 {
+    /* **【配色修正 27】** 頁尾標題改用青色 */
     color: var(--accent-color);
     font-size: 1.15rem;
     margin-bottom: 15px;
     font-family: var(--font-serif);
     font-weight: 700;
+    /* **【配色修正 28】** 頁尾標題邊框改用青色 */
     border-left: 3px solid var(--accent-color);
     padding-left: 10px;
 }
@@ -994,6 +986,7 @@ footer {
 }
 
 .footer-block a:hover {
+    /* **【配色修正 29】** 頁尾連結懸停改用青色 */
     color: var(--accent-color);
 }
 
@@ -1003,6 +996,7 @@ footer {
 }
 
 .footer-contact p a {
+    /* **【配色修正 30】** 頁尾聯繫資訊連結改用青色 */
     color: var(--accent-color);
     font-weight: 700;
     letter-spacing: 1px;
@@ -1016,6 +1010,7 @@ footer {
 .footer-social-links a {
     font-size: 1.2rem;
     margin-right: 20px;
+    /* **【配色修正 31】** 頁尾社交圖標改用青色 */
     color: var(--accent-color);
 }
 
@@ -1074,12 +1069,12 @@ footer {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
     transition: transform 0.3s, opacity 0.3s;
     will-change: transform; 
-    /* **【優化點 8】** 確保在 iOS Safari 上不會被底部工具列遮擋 */
     z-index: 1001; 
 }
 
 .floating-cta a:first-child { 
     background-color: var(--primary-color); 
+    /* **【配色修正 32】** 脈動陰影改用主色陰影 */
     animation: pulse 1.5s infinite; 
 }
 
@@ -1119,7 +1114,6 @@ footer {
 @media (max-width: 900px) {
     
     :root {
-         /* **【優化點 9】** 手機版縮小垂直間距 */
          --padding-section-v: 50px; 
     }
 
@@ -1135,7 +1129,6 @@ footer {
         display: none;
     }
     
-    /* **【修正/優化點 10】** 手機導航列優化：使用固定寬度，確保內容區域的 100% 寬度，並修正最大高度計算 */
     .main-nav.active {
         display: block; 
         position: absolute;
@@ -1144,11 +1137,8 @@ footer {
         width: 100%;
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
-        /* 確保選單在手機上可捲動，且不會佔滿整個視窗 */
         max-height: calc(100vh - var(--header-height)); 
         overflow-y: auto; 
-        /* 移除 transition: max-height 0.3s ease-in-out; 以避免視覺閃爍 */
-        /* transition: max-height 0.3s ease-in-out; */ 
     }
 
     .menu-toggle {
@@ -1179,7 +1169,6 @@ footer {
         padding: 12px 0;
     }
     
-    /* 手機版下拉選單 (手風琴效果) */
     .dropdown > a {
         display: flex;
         justify-content: space-between;
@@ -1204,8 +1193,6 @@ footer {
         display: flex;
         flex-direction: column;
         padding: 0 0 0 25px; 
-        /* 修正了 transform: none; !important 導致的過渡問題，直接移除不必要的 transform */
-        /* transform: none !important; */ 
         opacity: 1; 
         visibility: visible;
         max-height: 0; 
@@ -1214,7 +1201,6 @@ footer {
     }
 
     .dropdown.active > .submenu {
-        /* **【修正/優化點 11】** 確保足以包含所有內容，使用一個更大的值以覆蓋所有內容 */
         max-height: 800px; 
         padding-bottom: 15px; 
     }
@@ -1223,7 +1209,6 @@ footer {
         display: none; 
     }
     
-    /* 手機版聯絡按鈕 */
     .main-nav.active .contact-nav {
         display: block;
         margin: 10px 0 20px 0; 
@@ -1248,7 +1233,6 @@ footer {
         font-size: 1.1rem;
     }
     
-    /* **【修正/優化點 12】** 移除流程圖 li 上的無用/衝突的 flex-basis/min-width 屬性 */
     .flow-chart li {
         flex-basis: auto; 
         min-width: auto; 
@@ -1264,12 +1248,10 @@ footer {
 
 @media (max-width: 576px) {
     
-    /* **【修正/優化點 13】** 確保在極小螢幕上，流程圖是垂直堆疊的 */
     .flow-chart ol {
         grid-template-columns: 1fr;
     }
     
-    /* **【修正/優化點 14】** 確保所有卡片網格在極小螢幕上都變成單欄 */
     .religion-grid, .commitment-grid, .trust-grid, .milestone-grid { 
         grid-template-columns: 1fr;
     }
@@ -1327,7 +1309,6 @@ footer {
 
 .milestone-grid {
     display: grid;
-    /* **【修正/優化點 15】** 統一使用 auto-fit/minmax 確保響應式一致性 */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
     text-align: center;
@@ -1341,7 +1322,7 @@ footer {
     border: 1px solid var(--border-color);
     transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 10px var(--shadow-color);
-    height: 100%; /* 確保網格項目高度一致 */
+    height: 100%; 
 }
 
 .milestone-item:hover {
@@ -1353,10 +1334,12 @@ footer {
     font-family: var(--font-serif);
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
+    /* **【配色修正 33】** 里程碑數字改用青色 */
     color: var(--accent-color); 
     margin-bottom: 5px;
     line-height: 1.1;
-    text-shadow: 0 0 5px rgba(206, 157, 74, 0.4); 
+    /* **【配色修正 34】** 里程碑數字陰影改用青色陰影 */
+    text-shadow: 0 0 5px rgba(0, 169, 198, 0.4); 
     display: block;
 }
 
