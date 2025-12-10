@@ -1,13 +1,12 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V24.0 極致夜空奢華版 - 深黑 X 頂級高雅金)
+   程式夥伴 - 網站核心 CSS (V25.0 經典夜空深藍奢華版 - 藏青 X 高雅金)
    
-   - 主題：極致黑 (專業、深邃、夜空背景) + 高雅金 (現代奢華、卓越強調色)
-   - 特色：沉浸式夜空 Hero 區塊，搭配全站高對比金屬光澤的互動元素。
-   - 移除：徹底移除所有藍色/藏青色調。
+   - 主題：夜空深藍/藏青 (經典、專業、背景) + 高雅金 (現代奢華、卓越強調色)
+   - 特色：恢復經典夜空感，強調深藍與金色對比。
+   - 修正：確保導覽列和下拉選單功能在行動裝置上正常運作。
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
-/* 請確保 '../fonts/' 路徑是正確的 */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
@@ -27,26 +26,26 @@
  * ------------------------------------------- */
 
 :root {
-    /* 🏆 品牌色系 - 專業、極致黑、奢華 */
-    --primary-color: #2c2c2c;     /* ⭐️ 極深灰 (主要用色) */
-    --primary-dark: #080808;      /* ⭐️ 接近純黑 (夜空背景/最深色) */
+    /* 🏆 品牌色系 - 經典夜空、奢華 */
+    --primary-color: #1c3144;     /* ⭐️ 恢復：夜空藏青 (主要用色) */
+    --primary-dark: #0f1d2b;      /* ⭐️ 恢復：極深藏青 (最深色背景/懸停色) */
     --accent-color: #b8860b;      /* 高雅金 (現代、重點強調、高對比) */
-    --secondary-color: #666666;   /* ⭐️ 較深中性灰 (輔助用色，增加層次) */
+    --secondary-color: #7a8d9f;   /* ⭐️ 調整：中性藍灰 (輔助用色，增加層次) */
 
     /* 文字色系 */
-    --text-dark: #111111;         /* 純粹的深黑色 */
+    --text-dark: #202020;         
     --text-light: #ffffff;
     
     /* 背景與邊界 */
-    --bg-light: #fafafa;          
-    --bg-main: #f0f0f0;           /* 極淺灰色，用於區隔白色區塊 */
-    --border-color: #e0e0e0;      /* 邊框更淺，與深色主體對比 */
+    --bg-light: #f9f9f9;          
+    --bg-main: #eeeeee;           /* 極淺灰色，用於區隔白色區塊 */
+    --border-color: #d0d0d0;      /* 邊框略深，更清晰 */
     
-    /* ⭐️ 金屬質感陰影變數 (強化) */
-    --shadow-subtle: 0 4px 10px rgba(0, 0, 0, 0.05); 
+    /* ⭐️ 金屬質感陰影變數 (藏青調整) */
+    --shadow-subtle: 0 4px 10px rgba(0, 0, 0, 0.08); 
     --shadow-panel: 0 16px 40px rgba(0, 0, 0, 0.25); 
-    --shadow-gold-heavy: 0 0 25px rgba(184, 134, 11, 1.0); /* 高雅金光暈更亮、範圍更廣 */
-    --shadow-dark-heavy: 0 15px 35px rgba(0, 0, 0, 0.9); /* 深色按鈕陰影更重 */
+    --shadow-gold-heavy: 0 0 25px rgba(184, 134, 11, 0.9); 
+    --shadow-dark-heavy: 0 15px 35px rgba(28, 49, 68, 0.8); /* 調整為藏青陰影 */
 
     /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
@@ -58,10 +57,10 @@
     --padding-section-v: 120px; 
     --padding-container-h: 30px; 
     
-    /* ⭐️ 流星動畫變數 (極致夜空) */
+    /* 流星動畫變數 (為 Hero 區塊保留夜空感) */
     --rotation: -135deg; 
     --travel-x: -180vw; 
-    --travel-y: 150vh;
+    --travel-y: 150vh;  
 }
 
 
@@ -112,7 +111,6 @@ a:hover {
 }
 
 a:focus, button:focus {
-    /* 焦點輪廓使用金色 */
     outline: 3px solid var(--accent-color); 
     outline-offset: 4px; 
 }
@@ -183,7 +181,7 @@ p {
 }
 
 .bg-section {
-    background-color: var(--text-light); /* 純白作為區塊背景 */
+    background-color: var(--text-light); 
     box-shadow: var(--shadow-subtle); 
 }
 
@@ -246,7 +244,7 @@ p {
     display: block;
     width: 160px; 
     height: 45px; 
-    /* 實際專案需替換為深灰/金色 Logo 圖片 */
+    /* 實際專案需替換為深藍/金色 Logo 圖片 */
     /* background: url('../images/logo-dark-gold.png') no-repeat center center; */
     background-size: contain;
 }
@@ -274,7 +272,7 @@ p {
 .main-nav a:hover, 
 .main-nav a:focus,
 .main-nav a.active { 
-    color: var(--primary-dark);
+    color: var(--primary-dark); 
 }
 
 .main-nav a .fas {
@@ -291,7 +289,7 @@ p {
     min-width: 250px; 
     background-color: var(--text-light);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); 
-    border-top: 6px solid var(--accent-color); /* 金色邊框 */
+    border-top: 6px solid var(--accent-color); 
     list-style: none;
     padding: 10px 0;
     z-index: 10;
@@ -332,8 +330,8 @@ p {
 
 .submenu a:hover,
 .submenu a:focus { 
-    background-color: var(--primary-color); /* 深灰背景 */
-    color: var(--accent-color); /* 金色文字 */
+    background-color: var(--primary-color); 
+    color: var(--accent-color); 
     outline: none; 
 }
 
@@ -343,8 +341,8 @@ p {
     padding: 8px 20px 4px;
     font-size: 0.85rem;
     cursor: default;
+    background-color: rgba(28, 49, 68, 0.1); 
     opacity: 1; 
-    background-color: rgba(51, 51, 51, 0.1); 
 }
 
 .submenu-separator {
@@ -398,7 +396,7 @@ p {
 }
 
 .menu-toggle:hover {
-    background-color: rgba(44, 44, 44, 0.1);
+    background-color: rgba(28, 49, 68, 0.1);
 }
 
 .menu-toggle i {
@@ -439,9 +437,9 @@ p {
 }
 
 .cta-button.primary:hover, .cta-button.primary:focus {
-    background-color: var(--primary-dark);
+    background-color: var(--primary-dark); 
     transform: translateY(-5px); 
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 1.0); 
+    box-shadow: 0 18px 40px rgba(15, 29, 43, 1.0); 
     outline: 2px solid var(--accent-color); 
     outline-offset: 4px;
 }
@@ -475,7 +473,7 @@ p {
  * 3. 區塊樣式 (Sections)
  * ------------------------------------------- */
  
-/* ⭐️ Hero 區塊樣式 (極致夜空質感) - [核心強化] */
+/* ⭐️ Hero 區塊樣式 (恢復夜空深藍質感) */
 @keyframes move-star {
     0% { transform: translate3d(0, 0, 0); } 
     100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, -100px), 0); } 
@@ -544,7 +542,6 @@ p {
     width: 3px;
     height: 3px;
     opacity: 1;
-    /* 強化：將所有星點的陰影都加上強烈金色光暈 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 6px 3px rgba(184, 134, 11, 1.0), 
@@ -552,13 +549,13 @@ p {
 }
 
 
-/* ⭐️ 核心變更：背景色使用接近純黑 */
+/* ⭐️ 核心變更：背景色恢復為深藍藏青 */
 .hero-section {
     position: relative;
     min-height: calc(100vh - var(--header-height)); 
     padding: 100px 0; 
     overflow: hidden; 
-    background-color: var(--primary-dark); /* 極致黑 #080808 */
+    background-color: var(--primary-dark); /* 極深藏青 #0f1d2b */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -568,7 +565,7 @@ p {
 }
 
 
-/* ✅ 深色漸層覆蓋層 - 模擬銀河/宇宙深度 */
+/* ✅ 深色漸層覆蓋層 - 模擬夜空深度 */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -577,13 +574,12 @@ p {
     right: 0;
     bottom: 0;
     background-image: 
-        /* 強化：中心點放射狀光暈，模擬銀河核心光點 */
-        radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
-        /* 強化：極致黑到略淺黑的深度漸層 */
+        /* 藏青色光暈和漸層 */
+        radial-gradient(circle at center, rgba(38, 59, 80, 0.2) 0%, transparent 60%),
         linear-gradient(
             to bottom, 
-            rgba(0, 0, 0, 1.0) 0%,      
-            rgba(8, 8, 8, 0.8) 60%,   
+            rgba(0, 0, 0, 0.6) 0%,      
+            rgba(15, 29, 43, 0.6) 60%,   
             var(--primary-dark) 100%       
         );
     z-index: 2;
@@ -600,12 +596,12 @@ p {
 
 .hero-content h1 {
     color: var(--text-light);
-    text-shadow: 0 0 15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 255, 255, 0.1); 
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.1); 
     margin-bottom: 0.8em; 
 }
 
 .hero-content strong {
-    color: var(--accent-color); /* 金色重點 */
+    color: var(--accent-color); 
     font-weight: 700;
 }
 
@@ -616,15 +612,14 @@ p {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
    
-/* ⭐️ 核心：流星軌跡樣式與動畫定義 (強化) */
+/* ⭐️ 核心：流星軌跡樣式與動畫定義 (藏青夜空) */
 .meteor {
     position: absolute;
-    width: 3px; /* 流星本體更明顯 */
+    width: 3px; 
     height: 3px; 
     background: var(--text-light);
-    /* 強化：流星光暈效果 */
     box-shadow: 0 0 15px 2px var(--text-light), 
-                0 0 50px 15px rgba(184, 134, 11, 1.0); /* 強化：金色追光 */
+                0 0 50px 15px rgba(184, 134, 11, 1.0); 
     border-radius: 50%;
     transform: rotate(var(--rotation)); 
     z-index: 4; 
@@ -632,22 +627,21 @@ p {
     will-change: transform, opacity;
 }
 
-/* 流星尾巴效果 (強化) */
+/* 流星尾巴效果 */
 .meteor::after {
     content: '';
     position: absolute;
     top: 50%;
-    left: -150px; /* 尾巴更長 */
+    left: -150px; 
     width: 150px;
     height: 3px;
     transform: translateY(-50%);
-    /* 強化：漸層顏色從透明到白色再到金色 */
     background-image: 
         linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.8) 50%, var(--accent-color) 100%);
     opacity: 0.9;
 }
 
-/* ⭐️ 核心：流星動畫關鍵幀 (配合 JS 中的 shooting-star-random) */
+/* 流星動畫關鍵幀 (配合 JS) */
 @keyframes shooting-star-random {
     0% { 
         transform: rotate(var(--rotation)) translate3d(0, 0, 0, 0); 
@@ -663,7 +657,7 @@ p {
 }
 
 
-/* 卡片網格通用樣式 - 金色光暈強化 */
+/* 卡片網格通用樣式 */
 .card-grid {
     display: grid;
     gap: 35px;
@@ -686,17 +680,15 @@ p {
 }
 
 .card-item:hover {
-    transform: translateY(-10px); /* 提升懸停立體感 */
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2), 0 0 10px rgba(184, 134, 11, 0.3); /* 增加金色外圍光暈 */
+    transform: translateY(-10px); 
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2), 0 0 10px rgba(184, 134, 11, 0.3); 
 }
 
-/* 確保 Font Awesome 圖標能正確顯示 */
 .card-item .fas, .card-item .fab, .card-item .icon {
     font-size: 4rem; 
     color: var(--accent-color);
     margin-bottom: 20px;
-    /* 強化：圖標的金屬光澤陰影更明顯 */
-    text-shadow: 0 0 15px rgba(184, 134, 11, 1.0), 0 0 5px rgba(0, 0, 0, 0.5); 
+    text-shadow: 0 0 15px rgba(184, 134, 11, 1.0), 0 0 5px rgba(0, 0, 0, 0.3); 
 }
 
 .card-item h3 {
@@ -725,19 +717,19 @@ p {
     background: linear-gradient(to bottom right, var(--text-light), var(--bg-light));
 }
 .primary-highlight:hover {
-    border-color: var(--primary-color);
+    border-color: var(--primary-color); 
 }
 
 
-/* 緊急聯繫卡片樣式 - 極致黑與金色對比 */
+/* 緊急聯繫卡片樣式 - 藏青夜空與金色對比 */
 .emergency-contact {
-    background-color: var(--primary-dark); /* 極致黑 */
+    background-color: var(--primary-dark); 
     color: var(--text-light);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 40px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 10px 30px rgba(15, 29, 43, 0.8);
     border-radius: 15px;
 }
 
@@ -820,7 +812,7 @@ p {
 
 .flow-chart li:hover {
     transform: translateY(-8px); 
-    border-color: var(--accent-color); /* 懸停時邊框改用金色 */
+    border-color: var(--accent-color); 
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -899,7 +891,7 @@ p {
 }
 
 .accordion-header::after {
-    content: '\f078'; /* Font Awesome Chevron-down */
+    content: '\f078'; 
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
     margin-left: auto; 
@@ -920,8 +912,8 @@ p {
 }
 
 .accordion-item.active > .accordion-header {
-    background-color: var(--primary-dark); /* 展開時極深灰背景 */
-    color: var(--accent-color); /* 展開時金色文字 */
+    background-color: var(--primary-dark); 
+    color: var(--accent-color); 
 }
 
 .accordion-item.active > .accordion-header i {
@@ -954,7 +946,7 @@ p {
  * ------------------------------------------- */
 
 footer {
-    background-color: var(--primary-color); /* 極深灰頁尾 */
+    background-color: var(--primary-color); 
     color: var(--text-light);
     padding-top: 60px;
 }
@@ -978,7 +970,6 @@ footer {
     font-weight: 700;
     border-left: 4px solid var(--accent-color);
     padding-left: 15px;
-    /* 強化：頁尾標題增加金色文字陰影 */
     text-shadow: 0 0 5px rgba(184, 134, 11, 0.5);
 }
 
@@ -1027,7 +1018,7 @@ footer {
 }
 
 .footer-copyright {
-    background-color: var(--primary-dark); /* 極致黑 */
+    background-color: var(--primary-dark); 
     padding: 20px 0;
 }
 
@@ -1054,7 +1045,7 @@ footer {
     color: var(--text-light);
 }
 
-/* 浮動 CTA 按鈕 - 極致夜空下凸顯 */
+/* 浮動 CTA 按鈕 - 藏青色脈動 */
 .floating-cta {
     position: fixed;
     bottom: 30px; 
@@ -1082,7 +1073,7 @@ footer {
 }
 
 .floating-cta a:first-child { 
-    background-color: var(--primary-color); /* 極深灰 */
+    background-color: var(--primary-color); 
     animation: pulse-dark-heavy 1.8s infinite; 
 }
 
@@ -1101,13 +1092,13 @@ footer {
 
 @keyframes pulse-dark-heavy {
     0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); 
+        box-shadow: 0 0 0 0 rgba(28, 49, 68, 0.7); 
     }
     70% {
-        box-shadow: 0 0 0 25px rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 25px rgba(28, 49, 68, 0);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(28, 49, 68, 0);
     }
 }
 .pulse-animation {
@@ -1116,7 +1107,7 @@ footer {
 
 
 /* -------------------------------------------
- * 6. 響應式設計 (Media Queries)
+ * 6. 響應式設計 (Media Queries) - 選單修正
  * ------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -1134,17 +1125,19 @@ footer {
         padding: 0 var(--padding-container-h); 
     }
 
+    /* 桌面端隱藏 */
     .main-nav, .contact-nav {
         display: none;
     }
     
+    /* 手機菜單展開狀態 */
     .main-nav.active {
         display: block; 
         position: absolute;
         top: var(--header-height);
         left: 0;
         width: 100%;
-        background-color: var(--bg-light); /* 手機菜單使用淺色背景 */
+        background-color: var(--bg-light); 
         box-shadow: 0 2px 5px var(--shadow-subtle);
         max-height: calc(100vh - var(--header-height)); 
         overflow-y: auto; 
@@ -1181,6 +1174,7 @@ footer {
         width: 100%;
     }
     
+    /* ⭐️ 關鍵修正：確保下拉選單在手機模式下能正確顯示內容 */
     .submenu {
         position: static; 
         width: 100%;
@@ -1191,20 +1185,26 @@ footer {
         padding: 0 0 0 30px; 
         opacity: 1; 
         visibility: visible;
-        max-height: 0; 
+        max-height: 0; /* 預設收合 */
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
+        transform: translateY(0); 
+        border-radius: 0;
     }
-
+    
+    /* ⭐️ 關鍵修正：當父層被激活時，展開 submenu */
     .dropdown.active > .submenu {
         max-height: 800px; 
         padding-bottom: 15px; 
     }
     
-    .submenu-title, .submenu-separator {
-        display: none; 
+    /* 覆蓋桌面端的 hover 效果，防止與 active 衝突 */
+    .dropdown:hover > .submenu,
+    .dropdown:focus-within > .submenu,
+    .dropdown.focus-within > .submenu {
+        max-height: 0; 
     }
-    
+
     .main-nav.active .contact-nav {
         display: block;
         margin: 15px 0 25px 0; 
@@ -1291,9 +1291,9 @@ footer {
 
 
 /* -------------------------------------------
- * 7. 里程碑數字滾動樣式 (Milestones) - [強化]
+ * 7. 里程碑數字滾動樣式 (Milestones) - [保留金色元素]
  * ------------------------------------------- */
-
+ 
 .milestone-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1324,7 +1324,6 @@ footer {
     color: var(--accent-color); 
     margin-bottom: 8px;
     line-height: 1.1;
-    /* 強化：里程碑數字的金色光暈更強烈 */
     text-shadow: 0 0 15px rgba(184, 134, 11, 1.0), 0 0 5px rgba(255, 255, 255, 0.5); 
     display: block;
 }
