@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const mobileBreakpoint = 900;
     const currentYearSpan = document.getElementById('current-year');
-    
-    // 圖片延遲載入的選擇器
+    const backToTopButton = document.querySelector('.back-to-top'); // 新增 Back-to-Top
     const lazyImages = document.querySelectorAll('img[data-src]');
 
 
@@ -36,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
             mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                 const submenu = li.querySelector('.submenu');
                 li.classList.remove('active');
-                // 確保內聯樣式被清理，以配合 CSS 過渡
                 if (submenu) {
                     // 修正點 1：徹底清除 max-height 確保狀態重置
                     submenu.style.maxHeight = '0px'; 
@@ -63,17 +61,21 @@ document.addEventListener('DOMContentLoaded', function() {
                  }
              }
              
-             // 【✅ 修正區域：移除錯誤的選單點擊邏輯】
-             // 無論導航列是否 active，都要清理所有 dropdown active 狀態，防止佈局錯誤
+             // 清理所有手機子菜單 active 狀態
              closeAllMobileSubmenus(); 
              
              // 確保桌面模式下，submenu 不受 max-height 限制
              if (mainNav) {
                  mainNav.querySelectorAll('.submenu').forEach(submenu => {
-                     // 移除手機模式下設置的任何內聯 max-height 樣式，讓桌面 CSS (hover) 接管
+                     // 移除手機模式下設置的任何內聯 max-height 樣式，讓桌面 CSS (hover/focus) 接管
                      submenu.style.maxHeight = ''; 
                  });
              }
+             
+             // 【✅ 新增優化：清理桌面模式下的鍵盤輔助類別】
+             document.querySelectorAll('.dropdown.focus-within').forEach(dropdown => {
+                 dropdown.classList.remove('focus-within');
+             });
 
              // 窗口調整時，重新計算 FAQ 的 max-height
              document.querySelectorAll('.accordion-item.active').forEach(item => {
@@ -95,16 +97,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     function updateHeaderScrollClass() {
         if (header) {
-            // 使用 requestAnimationFrame 優化視覺更新
             requestAnimationFrame(() => {
                  header.classList.toggle('scrolled', window.scrollY > 0);
             });
+        }
+        
+        // 【✅ 補強：Back-to-Top 顯示/隱藏】
+        if (backToTopButton) {
+            // 滾動超過 300px 時顯示按鈕
+            backToTopButton.style.display = window.scrollY > 300 ? 'flex' : 'none';
         }
     }
 
     if (header) {
         updateHeaderScrollClass();
-        window.addEventListener('scroll', debounce(updateHeaderScrollClass, 50), { passive: true });
+        // 降低 debounce 延遲，讓滾動樣式更即時
+        window.addEventListener('scroll', debounce(updateHeaderScrollClass, 30), { passive: true });
     }
 
     // ====================================================
@@ -125,21 +133,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     menuIcon.classList.replace('fa-bars', 'fa-times');
                 } else {
                     menuIcon.classList.replace('fa-times', 'fa-bars');
-                    // 關閉主選單時，收合所有子菜單，確保視覺一致性
                     closeAllMobileSubmenus(); 
                 }
             }
         });
     }
+    
+    // 【✅ 補強：桌面下拉選單的鍵盤訪問性 (A11Y)】
+    if (mainNav) {
+        mainNav.querySelectorAll('li.dropdown').forEach(dropdown => {
+            dropdown.addEventListener('focusin', function() {
+                if (window.innerWidth > mobileBreakpoint) {
+                    this.classList.add('focus-within');
+                }
+            });
+            dropdown.addEventListener('focusout', function(e) {
+                 if (window.innerWidth > mobileBreakpoint && !this.contains(e.relatedTarget)) {
+                    this.classList.remove('focus-within');
+                }
+            });
+        });
+    }
 
     // ====================================================
     // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion)
-    // 【✅ 修正區域：移除多餘的 else 區塊】
     // ====================================================
     if (mainNav) {
         mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
             targetLink.addEventListener('click', function(e) {
-                // 僅在手機模式下，且主菜單展開時觸發手風琴邏輯
+                // 僅在手機模式下觸發手風琴邏輯
                 if (window.innerWidth <= mobileBreakpoint) {
                     e.preventDefault();
 
@@ -156,14 +178,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         parentLi.classList.add('active');
                         // 關鍵：手動計算並設定 max-height
                         if (submenu) {
-                            // 暫時將 max-height 設置為 fit-content 以獲得準確的 scrollHeight
-                            submenu.style.maxHeight = 'fit-content';
-                            const height = submenu.scrollHeight;
-                            submenu.style.maxHeight = `${height}px`;
+                            // 修正點 2：使用 requestAnimationFrame 確保 DOM 渲染穩定
+                            requestAnimationFrame(() => {
+                                submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                            });
                         }
                     } 
-                    // 移除原本的 else 區塊：當 isCurrentlyActive 為 true 時，
-                    // closeAllMobileSubmenus() 已經將它收合。
                 }
             });
         });
@@ -173,9 +193,12 @@ document.addEventListener('DOMContentLoaded', function() {
              // 排除作為手風琴開關的父連結
              if (!link.closest('.dropdown')) {
                  link.addEventListener('click', () => {
-                     // 確保在滾動前關閉主菜單
                      if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active')) {
-                         menuToggle.click(); // 模擬點擊漢堡按鈕關閉選單
+                         // 使用 setTimeout 確保滾動完成後再關閉
+                         setTimeout(() => {
+                             menuToggle.click(); 
+                             body.classList.remove('no-scroll');
+                         }, 350); 
                      }
                  });
              }
@@ -228,9 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.setAttribute('aria-expanded', 'true');
                     requestAnimationFrame(() => {
                         // 確保 scrollHeight 計算準確
-                        content.style.maxHeight = 'fit-content';
-                        const height = content.scrollHeight;
-                        content.style.maxHeight = `${height}px`;
+                        content.style.maxHeight = `${content.scrollHeight}px`;
                     });
                 } else {
                     // 收合
@@ -294,7 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // ====================================================
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
-    // **修正：避免在非手機模式下不必要的延遲**
     // ====================================================
     if (header) {
         document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
@@ -318,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         behavior: 'smooth'
                     });
                     
-                    // 延遲關閉手機菜單
+                    // 延遲關閉手機菜單，避免滾動卡頓
                     if (isMobileMenuOpen) {
                          setTimeout(() => menuToggle.click(), 350); 
                     }
@@ -326,11 +346,21 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+    
+    // 【✅ 補強：Back-to-Top 按鈕的滾動邏輯】
+    if (backToTopButton) {
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
 
     // ====================================================
     // 7. 動態生成不規則流星 (Meteor Generation Logic)
-    // **優化：使用 CSS 無限循環動畫，減少 DOM 銷毀與創建**
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
 
@@ -372,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.height = `${size}px`;
 
             // 核心邏輯 2：鎖定「向左下方移動」
-            const rotation = Math.random() * 20 - 135;
+            const rotation = -135 + Math.random() * 20; // 鎖定在 -135deg 附近
             const travelX = -(120 + Math.random() * 80);
             const travelY = 80 + Math.random() * 80;
 
@@ -396,8 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====================================================
-    // 8. 自動更新版權年份 (Footer Copyright Year) - 完整實作
-    // **優化：使用 textContent 以提升安全性**
+    // 8. 自動更新版權年份 (Footer Copyright Year)
     // ====================================================
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getUTCFullYear();
@@ -407,8 +436,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 9. 移除初始載入類別 (FOUC 修正)
     // ====================================================
     // 確保頁面載入完成後移除 js-loading 類別，防止閃爍
-    const loadingElement = document.querySelector('.js-loading');
-    if (loadingElement) {
-        loadingElement.classList.remove('js-loading');
+    const loadingElement = document.documentElement.classList.contains('js-loading') ? document.documentElement : document.body;
+    
+    // 使用 requestAnimationFrame 確保在下次重繪前移除類別
+    requestAnimationFrame(() => {
+        if (loadingElement) {
+            loadingElement.classList.remove('js-loading');
+        }
+    });
+
+    // 額外的優化：確保 html 標籤上也有 js-loading，以覆蓋 body 設置
+    if (document.documentElement.classList.contains('js-loading')) {
+         document.documentElement.classList.remove('js-loading');
     }
 });
