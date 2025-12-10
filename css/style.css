@@ -82,7 +82,8 @@ ul, ol {
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
 .js-loading { opacity: 0; transition: opacity 0.5s; }
-body.no-scroll { overflow: hidden; position: fixed; width: 100%; }
+/* 修正: 使用 top/left/right/bottom 鎖定 body，確保在 iOS 上也能穩定防止滾動 */
+body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; } 
 
 img { max-width: 100%; height: auto; vertical-align: middle; }
 
@@ -96,7 +97,8 @@ a {
 a:hover, a:focus {
     color: var(--primary-dark);
     opacity: 0.95;
-    outline: 2px solid var(--accent-color);
+    /* 修正: 確保 focus 輪廓線清晰可見 */
+    outline: 2px solid var(--accent-color); 
     outline-offset: 2px;
 }
 
@@ -181,7 +183,8 @@ p { margin-bottom: 1em; }
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: background-color 0.3s, box-shadow 0.3s;
-    will-change: box-shadow;
+    /* 💥 性能優化：加入 will-change 確保動畫流暢 */
+    will-change: background-color, box-shadow; 
 }
 
 /* 修正: Header 固定後，需要為主要內容增加 padding-top */
@@ -200,6 +203,8 @@ main {
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* 修正: 確保在不同瀏覽器上都能穩定執行 */
+    -webkit-backdrop-filter: blur(2px); 
     backdrop-filter: blur(2px);
 }
 
@@ -267,21 +272,23 @@ main {
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
-    /* 確保桌面模式下不受 RWD max-height 影響 */
-    max-height: none !important; 
+    /* 💥 優化：移除 !important，確保 JS 清理內聯樣式即可 */
+    max-height: unset; 
 }
 
 /* 桌面版展開狀態 (Hover/Focus-within A11Y) */
 .dropdown:hover > .submenu,
 .dropdown:focus-within > .submenu,
-.dropdown.focus-within > .submenu {
+/* 關鍵聯動：JS 在鍵盤導航時新增的類別 */
+.dropdown.focus-within > .submenu { 
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
 .dropdown:hover > a .fas,
-.dropdown:focus-within > a .fas {
+.dropdown:focus-within > a .fas,
+.dropdown.focus-within > a .fas { 
     transform: rotate(180deg);
 }
 
@@ -458,7 +465,8 @@ main {
     width: 150%;
     height: 150%;
     pointer-events: none;
-    will-change: transform;
+    /* 💥 性能優化：明確指定將變動的屬性 */
+    will-change: transform, opacity;
 }
 
 /* 圖層 1: 慢速移動，往左上 */
@@ -1111,11 +1119,15 @@ footer {
         width: 100%;
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
-        max-height: calc(100vh - var(--header-height));
+        /* 修正: 確保在 iOS 地址欄消失時也能完全覆蓋 */
+        max-height: 100vh; 
         overflow-y: auto;
         transform: translateX(100%); /* 初始隱藏在右側 */
         transition: transform 0.4s ease-out; /* 使用 transform 過渡更流暢 */
         padding: 20px 0;
+        /* 💥 性能優化：使用 translate 屬性 */
+        will-change: transform; 
+        z-index: 999;
     }
     .main-nav.active {
         transform: translateX(0); /* 點擊後顯示 */
@@ -1183,7 +1195,8 @@ footer {
         width: 100%;
         opacity: 1;
         visibility: visible;
-        max-height: 0 !important; 
+        /* 核心：由 JS 控制計算 max-height */
+        max-height: 0; 
         overflow: hidden;
         transition: max-height 0.4s ease-in-out;
         transform: none; 
