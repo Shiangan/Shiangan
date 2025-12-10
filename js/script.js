@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const header = document.querySelector('.main-header'); // 確保使用正確的類別
     const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.getElementById('main-nav');
+    // [修正] 使用 querySelector 保持一致性
+    const mainNav = document.querySelector('#main-nav'); 
     const body = document.body;
     const mobileBreakpoint = 900; 
     const currentYearSpan = document.getElementById('current-year');
@@ -62,6 +63,14 @@ document.addEventListener('DOMContentLoaded', function() {
                  // 必須關閉所有子選單，避免切換回桌面後子選單狀態殘留
                  closeAllMobileSubmenus(); 
              }
+             
+             // [新增] 窗口調整時，如果 FAQ 是打開的，重新計算 max-height
+             document.querySelectorAll('.accordion-item.active').forEach(item => {
+                 const content = item.querySelector('.accordion-content');
+                 if (content) {
+                     content.style.maxHeight = content.scrollHeight + "px";
+                 }
+             });
          }
     }
     
@@ -71,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
     // ====================================================
-    function handleScroll() {
+    function updateHeaderScrollClass() {
         if (header) {
             // 使用 window.scrollY > 0 檢查滾動位置
             header.classList.toggle('scrolled', window.scrollY > 0);
@@ -79,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (header) {
-        handleScroll(); 
-        // 使用 { passive: true } 提升滾動性能
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        updateHeaderScrollClass(); 
+        // [優化] 使用 debounce 處理滾動事件
+        window.addEventListener('scroll', debounce(updateHeaderScrollClass, 50), { passive: true });
     }
     
     // ====================================================
@@ -94,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const isExpanded = mainNav.classList.toggle('active'); 
             body.classList.toggle('no-scroll'); // 鎖定背景滾動
             
-            this.setAttribute('aria-expanded', isExpanded);
+            // [A11y 優化] 確保 aria 狀態更新
+            this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
             
             if (menuIcon) {
                 if (isExpanded) {
@@ -114,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
         mainNav.addEventListener('click', function(e) {
             // 只在移動端生效
             if (window.innerWidth <= mobileBreakpoint) { 
-                // 確保點擊的是下拉選單的連結 (且不是 # 錨點)
-                let targetLink = e.target.closest('#main-nav li.dropdown > a:not([href="#"])'); 
+                // [優化] 精確鎖定點擊目標：li.dropdown > a，並且該連結沒有 'submenu' 的類別 (如果有的話)
+                let targetLink = e.target.closest('li.dropdown > a:not([href="#"])'); 
 
                 if (targetLink) {
                     e.preventDefault(); 
@@ -189,7 +199,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 收合
                     this.setAttribute('aria-expanded', 'false');
                     
-                    content.style.maxHeight = content.scrollHeight + "px";
+                    // [修正] 收合時只需設定為 '0px'
+                    // content.style.maxHeight = content.scrollHeight + "px"; // 移除多餘的設置
                     
                     requestAnimationFrame(() => {
                         content.style.maxHeight = '0px'; 
@@ -233,6 +244,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         img.alt = img.dataset.alt || img.alt || ''; 
                         img.removeAttribute('data-src'); 
                         img.removeAttribute('data-alt');
+                        // [優化] 增加一個類別標記，用於 CSS 動畫（可選）
+                        img.classList.add('lazy-loaded'); 
                     }
                     
                     observer.unobserve(img);
@@ -266,9 +279,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                     // 點擊後關閉手機菜單
+                     // [優化] 延遲關閉手機菜單，讓滾動計算在菜單關閉後發生
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
-                         requestAnimationFrame(() => menuToggle.click()); 
+                         // 使用 setTimeout 確保關閉動畫完成後再計算滾動
+                         setTimeout(() => menuToggle.click(), 350); 
                      }
                     
                      if (typeof window.scrollTo === 'function' && targetElement.getBoundingClientRect) {
@@ -290,6 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                              inline: 'nearest',
                              behavior: 'instant' 
                          });
+                         // 舊瀏覽器需手動修正位置
                          window.scrollBy(0, -header.offsetHeight);
                      }
                 }
@@ -330,6 +345,11 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
             
+            // [新增] 流星尺寸的隨機性 (2px 到 4px)
+            const size = Math.random() * 2 + 2; 
+            meteor.style.width = `${size}px`;
+            meteor.style.height = `${size}px`;
+
             // 核心邏輯 2：鎖定「向左下方移動」
             const rotation = Math.random() * 20 - 135; 
             const travelX = -(120 + Math.random() * 80); 
@@ -367,26 +387,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // 8. 自動更新版權年份 (Footer Copyright Year)
     // ====================================================
     if (currentYearSpan) {
-        currentYearSpan.textContent = new Date().getFullYear();
+        // [優化] 使用 getUTCFullYear() 以確保時區獨立性 (雖然影響不大，但更嚴謹)
+        currentYearSpan.textContent = new Date().getUTCFullYear();
     }
 
 
     // ====================================================
-    // 9. 數字滾動動畫 (Counter Up for Milestones) - [新增的視覺衝擊優化]（about.html)
+    // 9. 數字滾動動畫 (Counter Up for Milestones) - [新增的視覺衝擊優化]
     // ====================================================
     function startCounter(entries, observer) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const counter = entry.target;
-                const target = parseInt(counter.dataset.count);
+                
+                // 原始文字 (e.g., "100+", "95%", "15 mins")
+                const originalText = counter.textContent.trim();
+                
+                // 提取目標數值
+                const targetMatch = originalText.match(/\d+/);
+                const target = targetMatch ? parseInt(targetMatch[0]) : 0;
+                
+                // 提取後綴 (e.g., "+", "%", " mins")
+                const suffix = originalText.replace(targetMatch[0], '').trim();
+
                 let current = 0;
-                
-                // 處理百分比 (100%) 或加號 (+) 後綴
-                const isPercentage = counter.textContent.includes('%');
-                const suffix = isPercentage ? '%' : (counter.textContent.includes('+') ? '+' : (counter.textContent.includes('mins') ? ' mins' : ''));
-                
                 const duration = 1500; // 1.5 秒
                 const step = (target / duration) * 10; 
+                const intervalTime = 10;
 
                 const interval = setInterval(() => {
                     current += step;
@@ -396,12 +423,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         clearInterval(interval);
                     }
                     
-                    // 格式化顯示 (確保數字不會有逗號)
-                    let displayValue = isPercentage ? Math.floor(current) : Math.round(current);
+                    // 格式化顯示 (確保數字沒有小數點)
+                    let displayValue = Math.round(current);
                     
-                    counter.textContent = displayValue.toLocaleString(undefined, { maximumFractionDigits: 0 }) + suffix; 
+                    // [修正] 使用 toLocaleString 增加千位分隔符，並保留後綴
+                    counter.textContent = displayValue.toLocaleString() + (suffix ? ' ' + suffix : ''); 
                     
-                }, 10); // 每 10 毫秒更新一次
+                }, intervalTime);
 
                 observer.unobserve(counter); // 確保只運行一次
             }
