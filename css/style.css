@@ -192,7 +192,8 @@ p { margin-bottom: 0.5em; }
     background-color: rgba(255, 255, 255, 0.98); 
     /* 柔和的深色陰影，模擬浮動感 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    backdrop-filter: blur(2px); /* 輕微的毛玻璃效果 (現代瀏覽器支持) */
+    /* 輕微的毛玻璃效果 (現代瀏覽器支持) */
+    backdrop-filter: blur(2px); 
 }
 
 .logo {
@@ -455,7 +456,7 @@ p { margin-bottom: 0.5em; }
     width: 200%; 
     height: 200%;
     pointer-events: none; 
-    will-change: transform, opacity; 
+    will-change: transform; /* 針對大型元素的移動優化 */
 }
 
 /* 圖層 1: 慢速移動，往左上 */
@@ -587,10 +588,10 @@ p { margin-bottom: 0.5em; }
     transform: rotate(var(--rotation)); /* 旋轉角度由 JS 設定 */
     z-index: 4; /* 在內容與星點之間 */
     pointer-events: none;
-    will-change: transform, opacity;
+    will-change: transform; /* 核心動畫優化 */
 }
 
-/* 流星尾巴效果 */
+/* 流星尾巴效果 - 修正漸層方向與顏色過渡 */
 .meteor::after {
     content: '';
     position: absolute;
@@ -599,9 +600,9 @@ p { margin-bottom: 0.5em; }
     width: 100px;
     height: 2px;
     transform: translateY(-50%);
-    /* 加入金色尾巴漸變 */
+    /* 修正：從左側透明到中間白色，再到最右側金色 */
     background-image: 
-        linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.6) 50%, var(--accent-color) 100%);
+        linear-gradient(to left, var(--accent-color) 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
     opacity: 0.8;
 }
 
@@ -751,7 +752,7 @@ p { margin-bottom: 0.5em; }
     transition: transform 0.3s, box-shadow 0.3s;
     counter-increment: step-counter; 
     padding-top: 40px; 
-    will-change: transform, border-color; 
+    will-change: transform; 
 }
 
 .flow-chart li::before {
@@ -809,6 +810,15 @@ p { margin-bottom: 0.5em; }
 .accordion-header {
     display: flex;
     align-items: center;
+    /* 修正: 使用 <button> 元素時，需要重置瀏覽器默認樣式 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    
     padding: 20px 25px; 
     font-weight: 700;
     cursor: pointer;
@@ -836,8 +846,14 @@ p { margin-bottom: 0.5em; }
 
 .accordion-header:hover, .accordion-header:focus {
     background-color: var(--bg-light);
-    outline: 2px solid var(--accent-color); 
+    /* 修正: 移除 hover 上的 outline，保留 focus 的可訪問性標記 */
+    outline: none; 
 }
+.accordion-header:focus-visible { /* 僅鍵盤導航時顯示焦點 */
+    outline: 2px solid var(--accent-color); 
+    outline-offset: 2px;
+}
+
 
 .accordion-header i {
     color: var(--primary-color);
@@ -848,6 +864,8 @@ p { margin-bottom: 0.5em; }
 .accordion-item.active > .accordion-header {
     background-color: var(--primary-color);
     color: var(--text-light);
+    /* 修正: 點擊展開時移除藍色外框，避免與 focus 混淆 */
+    outline: none; 
 }
 
 .accordion-item.active > .accordion-header i {
@@ -869,8 +887,15 @@ p { margin-bottom: 0.5em; }
     padding-top: 15px; 
     padding-bottom: 15px; 
     line-height: 1.8; 
-    border-top: 1px dashed var(--border-color); 
-    margin-top: -1px;
+    /* 修正: 僅在有內容時顯示邊框，並將其定位在內容底部 */
+    border-top: none; 
+    border-bottom: 1px dashed var(--border-color); 
+    margin-top: 0;
+}
+
+/* 確保最後一個 FAQ 內容的底部邊框被 item 邊框取代 */
+.accordion-item:last-child .accordion-content p {
+    border-bottom: none;
 }
 
 
@@ -1060,7 +1085,8 @@ footer {
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
         max-height: calc(100vh - var(--header-height)); 
-        overflow-y: auto; 
+        /* 移除 overflow-y: auto; 以便在 .dropdown.active 中單獨控制 */
+        overflow: hidden; 
         transition: max-height 0.3s ease-in-out; 
     }
 
@@ -1125,6 +1151,12 @@ footer {
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
     }
+    /* 修正：在 .main-nav.active 時啟用滾動條 */
+    .main-nav.active ul {
+        max-height: calc(100vh - var(--header-height));
+        overflow-y: auto; 
+    }
+
 
     .dropdown.active > .submenu {
         max-height: 500px; 
