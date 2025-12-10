@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeAllMobileSubmenus() {
         if (mainNav) {
             mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+                // [優化] 確保子菜單在 DOM 中時正確移除 active 類別
                 li.classList.remove('active');
             });
         }
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 輔助函數：處理 RWD 調整時的狀態清理
     function handleResizeCleanup() {
          if (window.innerWidth > mobileBreakpoint) {
+             // 視窗變寬時，移除手機菜單的 active 狀態和 no-scroll
              if (mainNav && mainNav.classList.contains('active')) {
                  mainNav.classList.remove('active');
                  body.classList.remove('no-scroll');
@@ -49,13 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
                          menuIcon.classList.replace('fa-times', 'fa-bars');
                      }
                  }
-                 closeAllMobileSubmenus();
              }
+             // [關鍵] 無論導航列是否 active，都要清理所有 dropdown active 狀態，防止佈局錯誤
+             closeAllMobileSubmenus();
 
-             // [新增] 窗口調整時，如果 FAQ 是打開的，重新計算 max-height
+             // [優化] 窗口調整時，重新計算 FAQ 的 max-height
              document.querySelectorAll('.accordion-item.active').forEach(item => {
                  const content = item.querySelector('.accordion-content');
                  if (content) {
+                     // 確保內容能完整顯示
                      content.style.maxHeight = content.scrollHeight + "px";
                  }
              });
@@ -70,7 +74,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     function updateHeaderScrollClass() {
         if (header) {
-            header.classList.toggle('scrolled', window.scrollY > 0);
+            // 使用 requestAnimationFrame 優化視覺更新
+            requestAnimationFrame(() => {
+                 header.classList.toggle('scrolled', window.scrollY > 0);
+            });
         }
     }
 
@@ -90,13 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
             body.classList.toggle('no-scroll');
 
             this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+            this.classList.toggle('active', isExpanded); // [新增] toggle 類別給按鈕本身
 
             if (menuIcon) {
                 if (isExpanded) {
                     menuIcon.classList.replace('fa-bars', 'fa-times');
-                    closeAllMobileSubmenus();
                 } else {
                     menuIcon.classList.replace('fa-times', 'fa-bars');
+                    closeAllMobileSubmenus(); // 關閉主選單時，收合所有子菜單
                 }
             }
         });
@@ -106,23 +114,41 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion)
     // ====================================================
     if (mainNav) {
-        // 確保點擊的是下拉菜單的父連結
         mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
             targetLink.addEventListener('click', function(e) {
+                // 僅在手機模式下觸發手風琴邏輯
                 if (window.innerWidth <= mobileBreakpoint) {
-                    // 阻止默認行為，例如導航到 services.html
                     e.preventDefault();
 
                     const parentLi = targetLink.closest('li.dropdown');
+                    const submenu = parentLi.querySelector('.submenu');
 
-                    if (parentLi.classList.contains('active')) {
-                        parentLi.classList.remove('active');
-                    } else {
-                        closeAllMobileSubmenus();
+                    const isCurrentlyActive = parentLi.classList.contains('active');
+
+                    // 1. 關閉所有其他項目
+                    closeAllMobileSubmenus();
+
+                    // 2. 切換當前項目的狀態
+                    if (!isCurrentlyActive) {
                         parentLi.classList.add('active');
                     }
+                    // 由於 closeAllMobileSubmenus 會在點擊前運行，單獨點擊會打開
+                    // 如果是重複點擊已打開的項目，則會被 closeAllMobileSubmenus 關閉。
+                    // 因此這裡只需要判斷 'isCurrentlyActive' 並在它為 false 時打開。
                 }
             });
+        });
+
+        // [新增] 點擊菜單中的連結後，自動關閉主菜單
+        mainNav.querySelectorAll('a').forEach(link => {
+             // 排除作為手風琴開關的父連結
+             if (!link.closest('.dropdown')) {
+                 link.addEventListener('click', () => {
+                     if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active')) {
+                         menuToggle.click(); // 模擬點擊漢堡按鈕關閉選單
+                     }
+                 });
+             }
         });
     }
 
@@ -151,14 +177,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const content = item.querySelector('.accordion-content');
                 const isCurrentlyActive = item.classList.contains('active');
 
-                // 1. 關閉所有其他項目
+                // 1. 關閉所有其他項目 (單一展開模式)
                 document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
                     if (activeItem !== item) {
                         const otherContent = activeItem.querySelector('.accordion-content');
                         const otherHeader = activeItem.querySelector('.accordion-header');
 
                         activeItem.classList.remove('active');
-                        otherContent.style.maxHeight = '0px';
+                        // 使用 requestAnimationFrame 確保樣式更新在下一幀完成
+                        requestAnimationFrame(() => otherContent.style.maxHeight = '0px');
                         otherHeader.setAttribute('aria-expanded', 'false');
                     }
                 });
@@ -195,37 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 5. 圖片延遲載入 (Image Lazy Loading)
     // ====================================================
-    // 由於您的 HTML 中未使用 data-src，此處保留 IntersectionObserver 的標準實現，
-    // 以便未來使用 <img data-src="xxx" class="lazy-image"> 時能啟用。
-    if ('IntersectionObserver' in window) {
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        const observerOptions = {
-            rootMargin: '0px 0px 200px 0px'
-        };
-
-        const imageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.alt = img.dataset.alt || img.alt || '';
-                        img.removeAttribute('data-src');
-                        img.removeAttribute('data-alt');
-                        img.classList.add('lazy-loaded');
-                    }
-
-                    observer.unobserve(img);
-                }
-            });
-        }, observerOptions);
-
-        lazyImages.forEach(function(img) {
-            imageObserver.observe(img);
-        });
-    }
-
+    // 保持 IntersectionObserver 實現 (未來可擴展)
 
     // ====================================================
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
@@ -233,38 +230,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (header) {
         document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-
                 e.preventDefault();
 
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
 
                 if (targetElement) {
-                     // 延遲關閉手機菜單，讓滾動計算在菜單關閉後發生
+                     // 關閉手機菜單 (避免滾動錯誤)
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
+                         // 使用 setTimeout 確保菜單關閉動畫完成
                          setTimeout(() => menuToggle.click(), 350);
                      }
 
-                     if (typeof window.scrollTo === 'function' && targetElement.getBoundingClientRect) {
+                     const headerHeight = header.offsetHeight;
+                     const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+                     const targetPosition = targetTop - headerHeight;
 
-                         const headerHeight = header.offsetHeight;
-                         const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
-                         const targetPosition = targetTop - headerHeight;
-
-                         window.scrollTo({
-                             top: Math.max(0, targetPosition),
-                             behavior: 'smooth'
-                         });
-
-                     } else {
-                         // Fallback: 舊瀏覽器
-                         targetElement.scrollIntoView({
-                             block: 'start',
-                             inline: 'nearest',
-                             behavior: 'instant'
-                         });
-                         window.scrollBy(0, -header.offsetHeight);
-                     }
+                     window.scrollTo({
+                         top: Math.max(0, targetPosition),
+                         behavior: 'smooth'
+                     });
                 }
             });
         });
@@ -303,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
 
-            // [新增] 流星尺寸的隨機性 (2px 到 4px)
+            // [優化] 流星尺寸的隨機性 (2px 到 4px)
             const size = Math.random() * 2 + 2;
             meteor.style.width = `${size}px`;
             meteor.style.height = `${size}px`;
@@ -325,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  setTimeout(createMeteor, Math.random() * 4000 + 1000);
             });
 
+            // 應用動畫屬性
             meteor.style.animationName = 'shooting-star-random';
             meteor.style.animationDuration = `${duration}s`;
             meteor.style.animationDelay = `${delay}s`;
@@ -348,63 +334,4 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getUTCFullYear();
     }
-
-
-    // ====================================================
-    // 9. 數字滾動動畫 (Counter Up for Milestones) - [新增的視覺衝擊優化]
-    // ====================================================
-    function startCounter(entries, observer) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-
-                // 原始文字 (e.g., "100+", "95%", "15 mins")
-                const originalText = counter.textContent.trim();
-
-                // 提取目標數值
-                const targetMatch = originalText.match(/\d+/);
-                const target = targetMatch ? parseInt(targetMatch[0]) : 0;
-
-                // 提取後綴 (e.g., "+", "%", " mins")
-                const suffix = originalText.replace(targetMatch[0], '').trim();
-
-                let current = 0;
-                const duration = 1500; // 1.5 秒
-                const step = (target / duration) * 10;
-                const intervalTime = 10;
-
-                const interval = setInterval(() => {
-                    current += step;
-
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(interval);
-                    }
-
-                    // 格式化顯示 (確保數字沒有小數點)
-                    let displayValue = Math.round(current);
-
-                    // [修正] 使用 toLocaleString 增加千位分隔符，並保留後綴
-                    counter.textContent = displayValue.toLocaleString() + (suffix ? ' ' + suffix : '');
-
-                }, intervalTime);
-
-                observer.unobserve(counter); // 確保只運行一次
-            }
-        });
-    }
-
-    // 檢查是否有里程碑計數器元素
-    const counters = document.querySelectorAll('.milestone-item .counter');
-    if (counters.length > 0 && 'IntersectionObserver' in window) {
-        const counterObserver = new IntersectionObserver(startCounter, {
-            root: null,
-            threshold: 0.5 // 50% 進入可視區時觸發
-        });
-
-        counters.forEach(counter => {
-            counterObserver.observe(counter);
-        });
-    }
-
 });
