@@ -258,6 +258,7 @@ p { margin-bottom: 1em; }
     border-radius: 0 0 8px 8px;
     opacity: 0;
     visibility: hidden;
+    overflow: hidden; /* [優化] 桌面下拉菜單溢出隱藏 */
 }
 
 /* 桌面版展開狀態 */
@@ -600,14 +601,17 @@ p { margin-bottom: 1em; }
 @keyframes shooting-star-random {
     0% {
         transform: rotate(var(--rotation)) translate3d(0, 0, 0);
-        opacity: 0.8;
+        opacity: 0; /* [優化] 確保起始時隱藏 */
     }
     5% {
         opacity: 1;
     }
+    95% { /* 保持可見時間長度 */
+        opacity: 1;
+    }
     100% {
         transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
-        opacity: 0.2;
+        opacity: 0; /* [優化] 確保結束時平滑消失 */
     }
 }
 
@@ -1124,10 +1128,15 @@ footer {
         max-height: 0; /* 關鍵: 初始為 0 */
         overflow: hidden;
         transition: max-height 0.4s ease-in-out;
+        /* 移除桌面樣式覆蓋 */
+        transform: none; 
+        box-shadow: none;
+        border-top: none;
+        border-radius: 0;
     }
 
     .dropdown.active > .submenu {
-        max-height: 500px; /* 關鍵: 展開時足夠大 */
+        max-height: 500px; /* 關鍵: 展開時足夠大，觸發動畫 */
         padding-bottom: 15px;
     }
 
