@@ -1890,8 +1890,64 @@ footer {
     width: 100% !important;
 }
 
+
+    /* 流程圖在平板電腦下顯示 3 欄 (維持舊有規則) */
+    .flow-chart li {
+        flex-basis: calc(33.33% - 30px);
+        min-width: unset;
+    }
+
+    /* 確保手機模式下，導覽列中的 .contact-nav 元素正常顯示和樣式 */
+    /* ... (其他導覽列 RWD 規則) ... */
+
+    /* 自然葬區塊 - 平板/手機橫向優化 【✅ 新增優化】*/
+    .two-columns-layout {
+        grid-template-columns: 1fr; /* 900px 以下變為一欄 */
+    }
+
+    /* 步驟流程 - 900px 以下變為一欄 【✅ 新增優化】*/
+    .step-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .step-item {
+        padding-top: 0;
+        padding-left: 50px;
+        text-align: left;
+    }
+    
+    /* 步驟數字靠左對齊 */
+    .step-number {
+        left: 0;
+        top: 0;
+        transform: none;
+    }
+    
+    .styled-list li {
+        font-size: 0.9rem;
+    }
+    
+    .floating-cta a {
+        width: 55px;
+        height: 55px;
+        font-size: 1.4rem;
+    }
+    
+    /* Back-to-Top 手機版調整 */
+    .back-to-top {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        bottom: 80px; /* 避開 floating-cta */
+        right: 15px;
+    }
+}
+/* ... 繼續其他 RWD 規則 ... */
+
+
 /* ====================================================
-   [#eco-burial] 專屬樣式與優化
+/* ====================================================
+   [#eco-burial] 專屬樣式與優化 (最終整合版)
    ==================================================== */
 
 /* 1. 服務類型卡片佈局優化 */
@@ -1906,6 +1962,8 @@ footer {
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* 覆寫 .card-item 通用樣式，確保文字靠左 */
+    text-align: left; 
 }
 
 .two-columns-layout .card-item:hover {
@@ -1969,13 +2027,14 @@ footer {
     height: 40px;
     border-radius: 50%;
     color: var(--text-light);
+    background-color: var(--primary-color); /* 使用變數 */
     font-weight: 700;
     font-size: 1.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
-    border: 3px solid var(--bg-white, #fff); /* 增加白色邊框突出 */
+    border: 3px solid var(--text-light); /* 使用變數 */
 }
 
 .step-item h4 {
@@ -1986,14 +2045,14 @@ footer {
 
 .step-item p {
     font-size: 0.9rem;
-    color: var(--text-muted);
+    color: var(--secondary-color); /* 使用變數 */
 }
 
 /* 3. 簡潔 FAQ 樣式 (simple-faq) */
 .accordion-group .simple-faq .accordion-header {
     background-color: var(--bg-light); /* 淺色背景 */
     padding: 15px 20px;
-    border-bottom: 1px solid var(--border-color, #eee);
+    border-bottom: 1px solid var(--border-color);
     font-weight: 600;
     color: var(--text-dark);
     cursor: pointer;
@@ -2001,71 +2060,64 @@ footer {
     border-radius: 8px 8px 0 0;
     display: flex;
     align-items: center;
+    /* 確保與 V20.8 的通用 accordion-header 區分 */
+    position: relative; 
+}
+/* 移除向下箭頭，保持簡潔 */
+.accordion-group .simple-faq .accordion-header::after {
+    content: none; 
 }
 
 .accordion-group .simple-faq.active .accordion-header,
 .accordion-group .simple-faq .accordion-header:hover {
-    background-color: var(--bg-lighter, #f9f9f9);
+    background-color: var(--bg-light);
     color: var(--secondary-color);
 }
+/* 確保 active 狀態沒有背景色，維持簡潔 */
+.accordion-group .simple-faq.active .accordion-header {
+    background-color: var(--bg-light); 
+}
+
 
 .accordion-group .simple-faq .accordion-content {
-    background-color: var(--bg-white, #fff);
+    background-color: var(--text-light);
     padding: 0 20px;
     transition: max-height 0.3s ease-in-out;
     overflow: hidden;
     border-radius: 0 0 8px 8px;
+    /* 覆寫 V20.8 的 content 邊界，使用自己的簡潔邊界 */
+    border-top: none;
+    border-bottom: 1px solid var(--border-color);
 }
+.accordion-group .simple-faq:last-child .accordion-content {
+    border-bottom: none; /* 最後一個不留邊界 */
+}
+
 
 .accordion-group .simple-faq.active .accordion-content {
     padding-top: 10px;
     padding-bottom: 20px;
+    /* 確保內文的 p 樣式被覆蓋，保持一致 */
+    border-bottom: none !important; 
+}
+.accordion-group .simple-faq.active .accordion-content p {
+    border-bottom: none !important; 
+    padding-top: 0;
 }
 
-/* 4. 響應式調整 (RWD) */
-@media (max-width: 992px) {
-    .two-columns-layout {
-        grid-template-columns: 1fr; /* 中型螢幕變為一欄 */
-    }
-}
 
-@media (max-width: 768px) {
-    .step-grid {
-        grid-template-columns: 1fr; /* 手機螢幕變為一欄 */
-    }
-    
-    .step-item {
-        padding-top: 0;
-        padding-left: 50px;
-        text-align: left;
-    }
-    
-    /* 步驟數字靠左對齊 */
-    .step-number {
-        left: 0;
-        top: 0;
-        transform: none;
-    }
-
-    .styled-list li {
-        font-size: 0.9rem;
-    }
-}
-
-/* 其他雜項 */
+/* 4. 其他雜項 (使用 V20.8 變數) */
 .shadow-soft {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     border-radius: 12px;
 }
 .bg-white {
-    background-color: var(--bg-white, #fff);
+    background-color: var(--text-light);
 }
 .note-info {
     font-size: 0.95rem;
     padding: 15px;
     border: 1px dashed var(--secondary-color);
-    background-color: var(--bg-lighter, #f9f9f9);
+    background-color: var(--bg-light);
     border-radius: 8px;
 }
-
-
