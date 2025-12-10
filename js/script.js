@@ -30,20 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // 輔助函數：關閉所有手機子菜單 (清除 .active 類別及內聯樣式)
-    function closeAllMobileSubmenus() {
-        if (mainNav) {
-            mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
-                const submenu = li.querySelector('.submenu');
-                li.classList.remove('active');
-                // 確保內聯樣式被清理，以配合 CSS 過渡
-                if (submenu) {
-                    // 🚀 修正點 1：徹底清除 max-height 確保狀態重置
-                    submenu.style.maxHeight = '0px'; 
-                }
-            });
-        }
+function closeAllMobileSubmenus() {
+    if (mainNav) {
+        mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+            const submenu = li.querySelector('.submenu');
+            li.classList.remove('active');
+            // 確保內聯樣式被清理，以配合 CSS 過渡
+            if (submenu) {
+                // 🚀 修正點 1：徹底清除 max-height 確保狀態重置
+                submenu.style.maxHeight = '0px'; 
+            }
+        });
     }
+}
+
 
     // 輔助函數：處理 RWD 調整時的狀態清理
     function handleResizeCleanup() {
