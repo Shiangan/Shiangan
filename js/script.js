@@ -30,19 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-function closeAllMobileSubmenus() {
-    if (mainNav) {
-        mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
-            const submenu = li.querySelector('.submenu');
-            li.classList.remove('active');
-            // 確保內聯樣式被清理，以配合 CSS 過渡
-            if (submenu) {
-                // 🚀 修正點 1：徹底清除 max-height 確保狀態重置
-                submenu.style.maxHeight = '0px'; 
-            }
-        });
+    // 輔助函數：關閉所有手機子菜單 (清除 .active 類別及內聯樣式)
+    function closeAllMobileSubmenus() {
+        if (mainNav) {
+            mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+                const submenu = li.querySelector('.submenu');
+                li.classList.remove('active');
+                // 確保內聯樣式被清理，以配合 CSS 過渡
+                if (submenu) {
+                    // 修正點 1：徹底清除 max-height 確保狀態重置
+                    submenu.style.maxHeight = '0px'; 
+                }
+            });
+        }
     }
-}
 
 
     // 輔助函數：處理 RWD 調整時的狀態清理
@@ -61,21 +62,12 @@ function closeAllMobileSubmenus() {
                      }
                  }
              }
-             // 無論導航列是否 active，都要清理所有 dropdown active 狀態，防止佈局錯誤
-             // 1. 關閉所有其他項目 (單一展開模式)
-               closeAllMobileSubmenus(); // <-- 每次點擊都會強制收合所有已開啟的子選單
-
-             // 2. 切換當前項目的狀態
-               if (!isCurrentlyActive) {
-               parentLi.classList.add('active');
-               // ... 展開邏輯
-            } else {
-     // 重複點擊已打開的項目，在 closeAllMobileSubmenus 中已經被關閉
-     if (submenu) submenu.style.maxHeight = '0px';
-}
-
              
-             // 🚀 修正點 2：確保桌面模式下，submenu 不受 max-height 限制
+             // 【✅ 修正區域：移除錯誤的選單點擊邏輯】
+             // 無論導航列是否 active，都要清理所有 dropdown active 狀態，防止佈局錯誤
+             closeAllMobileSubmenus(); 
+             
+             // 確保桌面模式下，submenu 不受 max-height 限制
              if (mainNav) {
                  mainNav.querySelectorAll('.submenu').forEach(submenu => {
                      // 移除手機模式下設置的任何內聯 max-height 樣式，讓桌面 CSS (hover) 接管
@@ -142,6 +134,7 @@ function closeAllMobileSubmenus() {
 
     // ====================================================
     // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion)
+    // 【✅ 修正區域：移除多餘的 else 區塊】
     // ====================================================
     if (mainNav) {
         mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
@@ -158,7 +151,7 @@ function closeAllMobileSubmenus() {
                     // 1. 關閉所有其他項目 (單一展開模式)
                     closeAllMobileSubmenus();
 
-                    // 2. 切換當前項目的狀態
+                    // 2. 切換當前項目的狀態：只有當前項目原本是關閉時才開啟它
                     if (!isCurrentlyActive) {
                         parentLi.classList.add('active');
                         // 關鍵：手動計算並設定 max-height
@@ -168,10 +161,9 @@ function closeAllMobileSubmenus() {
                             const height = submenu.scrollHeight;
                             submenu.style.maxHeight = `${height}px`;
                         }
-                    } else {
-                         // 重複點擊已打開的項目，在 closeAllMobileSubmenus 中已經被關閉
-                         if (submenu) submenu.style.maxHeight = '0px';
-                    }
+                    } 
+                    // 移除原本的 else 區塊：當 isCurrentlyActive 為 true 時，
+                    // closeAllMobileSubmenus() 已經將它收合。
                 }
             });
         });
