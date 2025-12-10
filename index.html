@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
+<html lang="zh-Hant" class="js-loading"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,19 +32,26 @@
       "image": "https://24hour.台灣/Shiangan/images/logo.png", 
       "telephone": "+886978583699",
       "priceRange": "$$$",
-      "openingHours": "Mo-Su 00:00-23:59",
+      "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "00:00",
+          "closes": "23:59"
+      },
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "新北市板橋區雙十路二段30號",
         "addressLocality": "新北",
-        "addressRegion": "台灣"
+        "addressRegion": "台灣",
+        "postalCode": "220"
       },
       "areaServed": ["台北", "新北", "桃園", "台灣全區"],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+886978583699", 
         "contactType": "customer service",
-        "areaServed": ["台北", "新北", "桃園"]
+        "areaServed": ["台北", "新北", "桃園"],
+        "availableLanguage": ["zh-Hant"]
       }
     }
     </script>
@@ -82,9 +88,7 @@
     }
     </script>
 </head>
-<body class="js-loading"> 
-    
-    <header class="main-header" role="banner">
+<body class="js-loading"> <header class="main-header" role="banner">
         <div class="header-container container"> 
             <div class="logo">
                 <a href="index.html" title="祥安生命有限公司 - 國家認證禮儀師服務">祥安生命有限公司</a>
@@ -246,8 +250,8 @@
         <div class="container">
             <h2 id="process-heading">治喪服務**七大安心流程**：步驟清晰透明，由我們專業引導</h2>
             
-            <div class="flow-chart" role="list"> 
-                <ol>
+            <div class="flow-chart"> 
+                <ol role="list">
                     <li role="listitem"><strong aria-label="步驟一 24H 諮詢與接體啟動">1. 24H 諮詢與接體啟動</strong> 立即撥打專線，禮儀師即時出發。</li>
                     <li role="listitem"><strong aria-label="步驟二 專業會談與方案確認">2. 專業會談與方案確認</strong> 一對一溝通需求，簽訂公開透明契約。</li>
                     <li role="listitem"><strong aria-label="步驟三 治喪細節與場地準備">3. 治喪細節與場地準備</strong> 確認公/私立會場，安排各項禮儀用品。</li>
@@ -418,7 +422,7 @@
                 <h4>公司資訊與服務範圍</h4>
                 <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                     <p>
-                        主要聯絡地址：<span itemprop="streetAddress"><strong>新北市板橋區雙十路二段30號</strong></span> 
+                        主要聯絡地址：<span itemprop="streetAddress"><strong>新北市三重區永福街135巷13號</strong></span> 
                         <meta itemprop="addressLocality" content="新北">
                         <meta itemprop="addressRegion" content="台灣"> 
                     </p>
@@ -449,11 +453,16 @@
     </div>
 
     <script>
-        // 初始移除 loading class，提升感知載入速度
-        document.body.classList.remove('js-loading');
+        // 0. **抗閃爍機制 (SEO/UX 優化)** - 立即執行
+        document.documentElement.classList.remove('js-loading');
         
         // 確保 current-year 始終更新 (提升專業度)
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        });
     </script>
     <script src="js/script.js" defer></script> 
 </body>
