@@ -472,3 +472,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // 額外確保 DOMContentLoaded 後也能移除（以防萬一）
     removeLoadingClass(); 
 });
+
+
+    // ====================================================
+    // 10. 表單驗證與 UX 強化 (Form Validation & UX)
+    // ====================================================
+    const contactForm = document.querySelector('.contact-form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            const phoneInput = document.getElementById('phone');
+            const privacyCheckbox = document.getElementById('privacy');
+            let isValid = true;
+
+            // 1. 電話號碼基本驗證
+            // 允許格式：09XX-XXX-XXX 或 09XXXXXXXX (10 碼數字)
+            const phoneRegex = /^09\d{8}$|^09\d{2}-\d{3}-\d{3}$/;
+            const normalizedPhone = phoneInput.value.replace(/[\s-]/g, '');
+
+            if (!phoneRegex.test(normalizedPhone)) {
+                e.preventDefault();
+                alert('請檢查您的聯繫電話格式，應為 10 碼數字 (例如：09XX-XXX-XXX)。');
+                phoneInput.focus();
+                isValid = false;
+            }
+
+            // 2. 隱私權條款驗證
+            if (isValid && !privacyCheckbox.checked) {
+                e.preventDefault();
+                alert('請務必勾選同意隱私權條款才能送出表單。');
+                privacyCheckbox.focus();
+                isValid = false;
+            }
+
+            if (isValid) {
+                // 如果所有驗證通過，可以在此處進行額外的 AJAX 提交邏輯
+                // 這裡保持預設的 POST 提交到 submit_form.php
+                // alert('表單已成功送出，禮儀師將盡快與您聯繫！');
+            }
+        });
+    }
+
+    // 確保所有邏輯已完全載入
+    // ... 其他初始化邏輯 ...
+
