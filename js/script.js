@@ -409,4 +409,3 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingElement.classList.remove('js-loading');
     }
 });
-
