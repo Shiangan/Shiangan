@@ -77,6 +77,11 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* [修正] 顯式重置列表樣式，確保跨瀏覽器一致性 */
+ul, ol {
+    list-style: none; 
+}
+
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
 .js-loading { opacity: 0; transition: opacity 0.5s; }
 body.no-scroll { overflow: hidden; position: fixed; width: 100%; }
@@ -139,7 +144,8 @@ h2::after {
 
 h3 { font-size: 1.5rem; }
 
-p { margin-bottom: 0.5em; }
+/* [修正] 略微增加段落間距 */
+p { margin-bottom: 1em; }
 
 /* 容器與通用佈局 */
 .container {
@@ -214,6 +220,8 @@ p { margin-bottom: 0.5em; }
     height: 40px; 
     background: url('../images/logo.png') no-repeat center center;
     background-size: contain;
+    /* [優化] 確保 Logo 圖片載入失敗時文字被隱藏，避免跑版 */
+    overflow: hidden; 
 }
 
 .main-nav ul {
@@ -261,9 +269,8 @@ p { margin-bottom: 0.5em; }
     z-index: 10;
     display: flex; 
     flex-direction: column; 
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
+    /* 移除 opacity/visibility 保持過渡流暢 */
+    transform: translateY(10px); 
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     border-radius: 0 0 8px 8px; 
 }
@@ -453,8 +460,8 @@ p { margin-bottom: 0.5em; }
     position: absolute;
     top: 0;
     left: 0;
-    width: 200%; 
-    height: 200%;
+    width: 150%; /* [修正] 從 200% 調整為 150%，減少渲染壓力 */
+    height: 150%; /* [修正] 從 200% 調整為 150%，減少渲染壓力 */
     pointer-events: none; 
     will-change: transform; /* 針對大型元素的移動優化 */
 }
@@ -730,7 +737,7 @@ p { margin-bottom: 0.5em; }
 
 /* 服務流程圖樣式 - 流程質感優化 */
 .flow-chart ol {
-    list-style: none;
+    /* [修正] 移除 list-style: none; 以便使用 CSS Counter */
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -844,9 +851,9 @@ p { margin-bottom: 0.5em; }
     color: var(--accent-color);
 }
 
-.accordion-header:hover, .accordion-header:focus {
+.accordion-header:hover {
     background-color: var(--bg-light);
-    /* 修正: 移除 hover 上的 outline，保留 focus 的可訪問性標記 */
+    /* 移除 hover 上的 outline */
     outline: none; 
 }
 .accordion-header:focus-visible { /* 僅鍵盤導航時顯示焦點 */
@@ -1085,8 +1092,7 @@ footer {
         background-color: var(--bg-light);
         box-shadow: 0 2px 5px var(--shadow-color);
         max-height: calc(100vh - var(--header-height)); 
-        /* 移除 overflow-y: auto; 以便在 .dropdown.active 中單獨控制 */
-        overflow: hidden; 
+        overflow: hidden; /* 保持這個，讓 ul 內的滾動條生效 */
         transition: max-height 0.3s ease-in-out; 
     }
 
@@ -1103,6 +1109,9 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         padding: 0 20px;
+        /* [修正] 在行動版導覽列激活時啟用滾動條 */
+        max-height: calc(100vh - var(--header-height));
+        overflow-y: auto; 
     }
 
     .main-nav li {
@@ -1151,12 +1160,6 @@ footer {
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
     }
-    /* 修正：在 .main-nav.active 時啟用滾動條 */
-    .main-nav.active ul {
-        max-height: calc(100vh - var(--header-height));
-        overflow-y: auto; 
-    }
-
 
     .dropdown.active > .submenu {
         max-height: 500px; 
@@ -1261,6 +1264,11 @@ footer {
     padding: var(--padding-section-v) 0;
 }
 
+/* [修正] 確保標題在深色背景中顏色正確 */
+.milestone-section h2 {
+    color: var(--accent-color); 
+}
+
 .milestone-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1289,7 +1297,8 @@ footer {
     color: var(--accent-color); 
     margin-bottom: 5px;
     line-height: 1.1;
-    text-shadow: 0 0 10px rgba(206, 157, 74, 0.7);
+    /* [優化] 增加陰影強度，提升視覺衝擊力 */
+    text-shadow: 0 0 15px rgba(206, 157, 74, 1);
     display: block;
 }
 
