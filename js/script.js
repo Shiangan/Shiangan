@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 輔助函數： Debounce (去抖動) - 優化性能
-    function debounce(func, delay = 50) { // 💥 優化：將延遲從 150ms 降至 50ms，提高響應速度
+    function debounce(func, delay = 50) { 
         let timeoutId;
         return function(...args) {
             clearTimeout(timeoutId);
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     function updateHeaderScrollClass() {
         if (header) {
-            // 💥 性能優化：使用 scroll-y > 10 代替 > 0，避免頂部微小晃動
+            // 性能優化：使用 requestAnimationFrame 確保 DOM 操作在瀏覽器繪製前完成
             requestAnimationFrame(() => {
                  header.classList.toggle('scrolled', window.scrollY > 10);
             });
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (header) {
         updateHeaderScrollClass();
-        // 降低 debounce 延遲，讓滾動樣式更即時
+        // 使用 { passive: true } 提升滾動性能
         window.addEventListener('scroll', debounce(updateHeaderScrollClass, 30), { passive: true });
     }
 
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ====================================================
-    // 5. 圖片延遲載入 (Image Lazy Loading) - 完整實作
+    // 5. 圖片延遲載入 (Image Lazy Loading) - 增加 IntersectionObserver 錯誤處理
     // ====================================================
     
     // 載入圖片的函數
@@ -303,32 +303,41 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             img.removeAttribute('data-src');
             img.removeAttribute('data-srcset');
+            // 【✅ 補強：觸發圖片載入完成的 CSS 過渡（可搭配 CSS 實現淡入）】
+            img.classList.add('loaded');
         }
     }
 
     if ('IntersectionObserver' in window) {
-        const observerOptions = {
-            root: null, // 視口 (viewport)
-            rootMargin: '0px 0px 100px 0px', // 提前 100px 載入
-            threshold: 0.01 // 圖片進入視口 1% 即載入
-        };
+        try {
+            const observerOptions = {
+                root: null, // 視口 (viewport)
+                rootMargin: '0px 0px 100px 0px', // 提前 100px 載入
+                threshold: 0.01 // 圖片進入視口 1% 即載入
+            };
 
-        const imgObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    loadImage(entry.target);
-                    observer.unobserve(entry.target); // 載入後停止觀察
-                }
+            const imgObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadImage(entry.target);
+                        observer.unobserve(entry.target); // 載入後停止觀察
+                    }
+                });
+            }, observerOptions);
+
+            lazyImages.forEach(img => {
+                imgObserver.observe(img);
             });
-        }, observerOptions);
-
-        lazyImages.forEach(img => {
-            imgObserver.observe(img);
-        });
+        } catch (error) {
+            // 在極少數情況下，Observer 建立失敗的錯誤處理
+            console.error("Intersection Observer 初始化失敗，直接載入圖片。", error);
+            lazyImages.forEach(loadImage);
+        }
     } else {
         // Fallback for older browsers (直接載入所有圖片，犧牲性能)
         lazyImages.forEach(loadImage);
     }
+
     // ====================================================
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
@@ -382,68 +391,67 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ====================================================
-    // 7. 動態生成不規則流星 (Meteor Generation Logic)
+    // 7. 動態生成不規則流星 (Meteor Generation Logic) - 強化生命週期管理
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
 
     if (heroSection) {
-        const numMeteors = 15;
+        // 降低數量，提升性能，並讓每次出現都更稀有
+        const numMeteors = window.innerWidth > mobileBreakpoint ? 10 : 5; 
         
-        // 只在初始化時運行一次，創建所有流星
-        function initializeMeteors() {
-            for (let i = 0; i < numMeteors; i++) {
-                // 使用 setTimeout 錯開初始延遲
-                setTimeout(() => createMeteor(), Math.random() * 5000); 
-            }
-        }
-
         function createMeteor() {
             const meteor = document.createElement('div');
             meteor.classList.add('meteor');
 
             // 速度 (持續時間)
             const duration = Math.random() * 10 + 10; // 10s 到 20s
-            const delay = Math.random() * 8; // 初始延遲
-
-            // 核心邏輯 1：定義「從右上方進入」
-            let initialLeft, initialTop;
-            if (Math.random() > 0.4) {
-                 initialLeft = 105;
-                 initialTop = Math.random() * 80 - 20;
-            } else {
-                 initialTop = -10;
-                 initialLeft = Math.random() * 105;
-            }
+            
+            // 核心邏輯 1：定義「從右上方進入」 (與 CSS 變數呼應)
+            let initialLeft = Math.random() * 50 + 80; // 80vw - 130vw
+            let initialTop = Math.random() * 50 - 10;  // -10vh - 40vh
 
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
 
             // 尺寸隨機性
-            const size = Math.random() * 2 + 2;
+            const size = Math.random() * 1.5 + 1.5;
             meteor.style.width = `${size}px`;
             meteor.style.height = `${size}px`;
 
-            // 核心邏輯 2：鎖定「向左下方移動」
-            const rotation = -135 + Math.random() * 20; // 鎖定在 -135deg 附近
+            // 核心邏輯 2：鎖定「向左下方移動」 (與 CSS 變數呼應)
+            const rotation = -135 + (Math.random() * 30 - 15); // -150deg 到 -120deg
             const travelX = -(120 + Math.random() * 80);
             const travelY = 80 + Math.random() * 80;
 
-            // 將參數設定為 CSS 變數
             meteor.style.setProperty('--rotation', `${rotation}deg`);
             meteor.style.setProperty('--travel-x', `${travelX}vw`);
             meteor.style.setProperty('--travel-y', `${travelY}vh`);
 
-            // 應用動畫屬性
+            // 應用動畫屬性 (使用更真實的動畫命名，並只執行一次)
             meteor.style.animationName = 'shooting-star-random';
             meteor.style.animationDuration = `${duration}s`;
-            meteor.style.animationDelay = `${delay}s`;
+            meteor.style.animationDelay = `${Math.random() * 8}s`;
             meteor.style.animationTimingFunction = 'linear';
-            meteor.style.animationIterationCount = 'infinite'; // 關鍵：讓動畫無限循環
+            meteor.style.animationIterationCount = '1'; // 關鍵：只執行一次
             meteor.style.pointerEvents = 'none';
 
             heroSection.appendChild(meteor);
+
+            // 🌟 關鍵優化：監聽動畫結束事件，並刪除元素
+            meteor.addEventListener('animationend', () => {
+                meteor.remove();
+                // 在流星消失後，延遲一段時間重新創建一個新的，實現無限但間歇的流星雨
+                setTimeout(createMeteor, Math.random() * 10000); // 0s 到 10s 後再次出現
+            }, { once: true }); // 確保事件監聽器只運行一次
         }
         
+        // 初始生成邏輯
+        function initializeMeteors() {
+             for (let i = 0; i < numMeteors; i++) {
+                 // 錯開初始延遲
+                 setTimeout(() => createMeteor(), Math.random() * 15000); 
+             }
+        }
         initializeMeteors(); 
     }
 
@@ -457,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 9. 移除初始載入類別 (FOUC 修正)
     // ====================================================
-    // 💥 修正: 確保在頁面完全 ready 後移除 js-loading
+    // 確保在頁面完全 ready 後移除 js-loading
     const removeLoadingClass = () => {
         const rootElements = [document.documentElement, document.body];
         rootElements.forEach(el => {
@@ -471,7 +479,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('load', removeLoadingClass);
     // 額外確保 DOMContentLoaded 後也能移除（以防萬一）
     removeLoadingClass(); 
-});
 
 
     // ====================================================
@@ -515,4 +522,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 確保所有邏輯已完全載入
     // ... 其他初始化邏輯 ...
-
+});
