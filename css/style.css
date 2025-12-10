@@ -1301,3 +1301,175 @@ footer {
 :target {
     scroll-margin-top: var(--header-height);
 }
+
+/* ============================================
+   7. 聯繫頁面 (Contact Page) 專屬樣式
+   ============================================ */
+
+/* 確保 required 欄位提示使用者 */
+.required-asterisk {
+    color: var(--accent-color);
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+/* 聯繫頁面網格佈局 */
+.contact-grid-2col {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* 表單佔比略大 */
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* 表單樣式 */
+.contact-form-wrap {
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    background-color: var(--text-light);
+}
+
+.contact-form fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.contact-form legend {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="tel"],
+.contact-form input[type="email"],
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: var(--font-sans);
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(206, 157, 74, 0.2);
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+/* 隱私權確認 */
+.privacy-note {
+    margin: 20px 0;
+    font-size: 0.9rem;
+    padding: 10px;
+    border: 1px dashed var(--border-color);
+    border-radius: 4px;
+}
+
+.privacy-note a {
+    font-weight: 700;
+}
+
+/* 聯繫資訊區塊 */
+.contact-info-block {
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info-card h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.contact-info-card p,
+.contact-info-card address {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.contact-info-card p strong {
+    font-weight: 700;
+    margin-right: 5px;
+}
+
+.contact-info-card .icon {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-right: 12px;
+    flex-shrink: 0;
+    padding-top: 3px;
+}
+
+.contact-info-card a {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.contact-info-card a:hover {
+    color: var(--accent-color);
+}
+
+.contact-info-card hr {
+    background-color: rgba(255, 255, 255, 0.2);
+    height: 1px;
+    border: none;
+}
+
+/* 地圖容器 */
+.map-container {
+    flex-grow: 1; /* 地圖佔據剩餘空間 */
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 250px;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* RWD 調整 */
+@media (max-width: 900px) {
+    .contact-grid-2col {
+        grid-template-columns: 1fr; /* 單欄佈局 */
+        gap: 30px;
+    }
+    
+    .contact-form-wrap {
+        padding: 20px;
+    }
+}
+
