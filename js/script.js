@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileBreakpoint = 900;
     const currentYearSpan = document.getElementById('current-year');
     
-    // [新增] 圖片延遲載入的選擇器
+    // 圖片延遲載入的選擇器
     const lazyImages = document.querySelectorAll('img[data-src]');
 
 
@@ -282,6 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // ====================================================
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
+    // **修正：避免在非手機模式下不必要的延遲**
     // ====================================================
     if (header) {
         document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
@@ -292,20 +293,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
 
                 if (targetElement) {
-                     // 關閉手機菜單 (避免滾動錯誤)
-                     if (mainNav && menuToggle && mainNav.classList.contains('active')) {
-                         // 使用 setTimeout 確保菜單關閉動畫完成
-                         setTimeout(() => menuToggle.click(), 350);
-                     }
+                    const headerHeight = header.offsetHeight;
+                    const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+                    const targetPosition = targetTop - headerHeight;
 
-                     const headerHeight = header.offsetHeight;
-                     const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
-                     const targetPosition = targetTop - headerHeight;
+                    // 判斷是否為手機菜單開啟狀態
+                    const isMobileMenuOpen = mainNav && menuToggle && mainNav.classList.contains('active');
 
-                     window.scrollTo({
-                         top: Math.max(0, targetPosition),
-                         behavior: 'smooth'
-                     });
+                    // 執行滾動
+                    window.scrollTo({
+                        top: Math.max(0, targetPosition),
+                        behavior: 'smooth'
+                    });
+                    
+                    // 延遲關閉手機菜單
+                    if (isMobileMenuOpen) {
+                         setTimeout(() => menuToggle.click(), 350); 
+                    }
                 }
             });
         });
@@ -314,11 +318,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ====================================================
     // 7. 動態生成不規則流星 (Meteor Generation Logic)
+    // **優化：使用 CSS 無限循環動畫，減少 DOM 銷毀與創建**
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
 
     if (heroSection) {
         const numMeteors = 15;
+        
+        // 只在初始化時運行一次，創建所有流星
+        function initializeMeteors() {
+            for (let i = 0; i < numMeteors; i++) {
+                // 使用 setTimeout 錯開初始延遲
+                setTimeout(() => createMeteor(), Math.random() * 5000); 
+            }
+        }
 
         function createMeteor() {
             const meteor = document.createElement('div');
@@ -326,17 +339,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 速度 (持續時間)
             const duration = Math.random() * 10 + 10; // 10s 到 20s
-            const delay = Math.random() * 8;
+            const delay = Math.random() * 8; // 初始延遲
 
             // 核心邏輯 1：定義「從右上方進入」
             let initialLeft, initialTop;
-
             if (Math.random() > 0.4) {
-                 // 60% 機率從右側邊緣開始 (105vw)
                  initialLeft = 105;
                  initialTop = Math.random() * 80 - 20;
             } else {
-                 // 40% 機率從頂部邊緣開始 (-10vh)
                  initialTop = -10;
                  initialLeft = Math.random() * 105;
             }
@@ -344,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
 
-            // 優化：流星尺寸的隨機性 (2px 到 4px)
+            // 尺寸隨機性
             const size = Math.random() * 2 + 2;
             meteor.style.width = `${size}px`;
             meteor.style.height = `${size}px`;
@@ -359,32 +369,23 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.setProperty('--travel-x', `${travelX}vw`);
             meteor.style.setProperty('--travel-y', `${travelY}vh`);
 
-            // **優化：循環生成機制**
-            meteor.addEventListener('animationend', () => {
-                 meteor.remove();
-                 // 延遲一段隨機時間後重新創建流星 (模擬無限流星)
-                 setTimeout(createMeteor, Math.random() * 4000 + 1000);
-            });
-
             // 應用動畫屬性
             meteor.style.animationName = 'shooting-star-random';
             meteor.style.animationDuration = `${duration}s`;
             meteor.style.animationDelay = `${delay}s`;
             meteor.style.animationTimingFunction = 'linear';
+            meteor.style.animationIterationCount = 'infinite'; // 關鍵：讓動畫無限循環
             meteor.style.pointerEvents = 'none';
 
             heroSection.appendChild(meteor);
         }
-
-        // 初始生成指定數量的流星
-        for (let i = 0; i < numMeteors; i++) {
-            // 隨機延遲，避免流星同時出現
-            setTimeout(createMeteor, Math.random() * 5000);
-        }
+        
+        initializeMeteors(); 
     }
 
     // ====================================================
     // 8. 自動更新版權年份 (Footer Copyright Year) - 完整實作
+    // **優化：使用 textContent 以提升安全性**
     // ====================================================
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getUTCFullYear();
