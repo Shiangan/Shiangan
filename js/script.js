@@ -1,10 +1,10 @@
 /* ====================================================
    程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 完整優化)
-   包含性能、RWD、A11y、平滑滾動，以及新增的里程碑數字滾動功能。
+   包含性能、RWD、A11y、平滑滾動，以及新增的里程碑數字滾動、
+   智慧 CTA 隱藏與輕微視差滾動。
    ==================================================== */
 
 // 0. **抗閃爍機制 (SEO/UX 優化)**
-//    此處確保 'js-loading' 類別在 DOM 結構準備好時被快速移除。
 document.body.classList.remove('js-loading');
 
 
@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const mobileBreakpoint = 900; 
     const currentYearSpan = document.getElementById('current-year');
+    const floatingCta = document.querySelector('.floating-cta'); // 新增：浮動 CTA
+    const footer = document.querySelector('footer'); // 新增：頁尾
+
     
     // 輔助函數： Debounce (去抖動) - 優化性能
     function debounce(func, delay = 150) { 
@@ -61,6 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
                  // 必須關閉所有子選單，避免切換回桌面後子選單狀態殘留
                  closeAllMobileSubmenus(); 
              }
+         }
+         
+         // 調整窗口時重新檢查 CTA 狀態（若有 footer 變動）
+         if (floatingCta && footer) {
+             handleFloatingCta();
          }
     }
     
@@ -105,21 +113,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====================================================
-    // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion) - **邏輯修正**
+    // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion)
     // ====================================================
     if (mainNav) {
         mainNav.addEventListener('click', function(e) {
             // 只在移動端生效
             if (window.innerWidth <= mobileBreakpoint) { 
                 
-                // 修正：確保只處理點擊 li.dropdown > a，並且該 li 內有 submenu
                 const targetLink = e.target.closest('li.dropdown > a'); 
 
                 if (targetLink) {
                     const parentLi = targetLink.closest('li.dropdown');
                     const hasSubmenu = parentLi.querySelector('.submenu');
                     
-                    // 修正核心邏輯：如果存在 submenu，則觸發手風琴，並阻止跳轉。
                     if (hasSubmenu) {
                          
                         e.preventDefault(); 
@@ -127,19 +133,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (parentLi.classList.contains('active')) {
                             parentLi.classList.remove('active');
                         } else {
-                            // 確保只有一個子菜單展開
                             closeAllMobileSubmenus(); 
                             parentLi.classList.add('active'); 
                         }
                     } else if (mainNav.classList.contains('active')) {
-                        // 如果是沒有下拉菜單的連結 (例如: 首頁、花禮訂購)，在菜單開啟時點擊，則導航後關閉菜單
-                        // 讓連結執行其預設行為 (跳轉頁面)，然後關閉主菜單
-                        setTimeout(() => menuToggle.click(), 50); // 模擬點擊關閉菜單
-                        // 不需 e.preventDefault()，讓瀏覽器處理跳轉
+                        // 點擊無下拉菜單的連結，導航後關閉菜單
+                        setTimeout(() => menuToggle.click(), 50); 
                     }
                 }
             }
-            // 桌面版無需額外處理，因為已經通過 CSS :hover 處理
         });
     }
 
@@ -157,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
              const isActive = item.classList.contains('active');
              
-             // 初始化：設定正確的 max-height 以觸發 CSS 過渡
              const initialMaxHeight = isActive ? content.scrollHeight + "px" : '0px';
              content.style.maxHeight = initialMaxHeight;
 
@@ -183,21 +184,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 
-                // 2. 切換當前項目的狀態
+                // 2. 切換當前項目的狀態與高度
                 currentItem.classList.toggle('active', !isCurrentlyActive);
 
-                // 3. 實作平滑過渡
                 if (!isCurrentlyActive) {
-                    // 展開
                     this.setAttribute('aria-expanded', 'true');
                     requestAnimationFrame(() => {
                         currentContent.style.maxHeight = currentContent.scrollHeight + "px"; 
                     });
                 } else {
-                    // 收合
                     this.setAttribute('aria-expanded', 'false');
                     
-                    // 為了確保 CSS 過渡能生效，必須先設定高度再設為 0
                     currentContent.style.maxHeight = currentContent.scrollHeight + "px";
                     
                     requestAnimationFrame(() => {
@@ -267,7 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
     if (header) { 
-        // 排除下拉選單的父級連結 (只處理外部錨點和無下拉菜單的內部錨點)
         document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 
@@ -277,7 +273,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                     // 點擊後關閉手機菜單
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
                          setTimeout(() => menuToggle.click(), 50); 
                      }
@@ -364,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ====================================================
-    // 9. 數字滾動動畫 (Counter Up for Milestones) - **修正：後綴處理**
+    // 9. 數字滾動動畫 (Counter Up for Milestones)
     // ====================================================
     function startCounter(entries, observer) {
         entries.forEach(entry => {
@@ -373,12 +368,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const target = parseInt(counter.dataset.count);
                 let current = 0;
                 
-                // 修正：先取出並判斷後綴，確保 .toLocaleString 不會覆蓋它
                 const originalText = counter.textContent.trim();
-                const suffixMatch = originalText.match(/[^0-9\s]+$/); // 匹配末尾非數字、非空白字符
+                const suffixMatch = originalText.match(/[^0-9\s]+$/); 
                 const suffix = suffixMatch ? suffixMatch[0] : '';
                 
-                const duration = 1500; // 1.5 秒
+                const duration = 1500; 
                 const step = (target / duration) * 10; 
 
                 const interval = setInterval(() => {
@@ -389,15 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         clearInterval(interval);
                     }
                     
-                    // 格式化數字 (數字部分使用逗號分隔)
                     let displayValue = Math.round(current).toLocaleString(undefined, { maximumFractionDigits: 0 });
                     
-                    // 重新拼接數字與後綴
                     counter.textContent = displayValue + suffix; 
                     
-                }, 10); // 每 10 毫秒更新一次
+                }, 10); 
 
-                observer.unobserve(counter); // 確保只運行一次
+                observer.unobserve(counter); 
             }
         });
     }
@@ -410,14 +402,73 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         counters.forEach(counter => {
-            // 初始設定 data-count 屬性，用於動畫目標
             if (!counter.dataset.count) {
-                 // 由於您已經在 HTML 中設置了初始值，這裡只需確保它可以被解析
                  const initialValue = parseInt(counter.textContent.replace(/[^0-9]/g, '')) || 0;
                  counter.dataset.count = initialValue; 
             }
             counterObserver.observe(counter);
         });
     }
+
+
+    // ====================================================
+    // 10. 浮動 CTA 按鈕的智慧顯示/隱藏 (UX 優化)
+    // ====================================================
+    if (floatingCta && footer) {
+        
+        const offset = 100; // 提前隱藏的距離
+        
+        function handleFloatingCta() {
+            // 獲取當前滾動到的視窗底部位置
+            const scrollBottom = window.scrollY + window.innerHeight;
+            // 獲取頁尾的頂部位置
+            const footerTop = footer.offsetTop;
+            
+            if (scrollBottom > footerTop + offset) {
+                // 隱藏 (使用 CSS 屬性觸發平滑過渡)
+                floatingCta.style.opacity = '0';
+                floatingCta.style.visibility = 'hidden';
+                floatingCta.style.transform = 'translateY(10px)';
+            } else {
+                // 顯示
+                floatingCta.style.opacity = '1';
+                floatingCta.style.visibility = 'visible';
+                floatingCta.style.transform = 'translateY(0)';
+            }
+        }
+        
+        handleFloatingCta();
+        // 將滾動和調整大小事件附加到 Debounce
+        window.addEventListener('scroll', debounce(handleFloatingCta, 50), { passive: true });
+        // 由於 resizeCleanup 已經處理了 debounce 和 resize，這裡不需要重複添加 resize
+    }
+    
+    // ====================================================
+    // 11. 輕微視差滾動效果 (Parallax Scroll)
+    // ====================================================
+    const parallaxElements = [
+        // 假設您的星空背景分為三個層次，並帶有 ID: #stars, #stars2, #stars3
+        { selector: '#stars', speed: 0.05 },
+        { selector: '#stars2', speed: 0.1 },
+        { selector: '#stars3', speed: 0.15 }
+    ];
+
+    function handleParallax() {
+        const scrolled = window.scrollY;
+        
+        if (scrolled === 0) return; 
+        
+        parallaxElements.forEach(item => {
+            const element = document.querySelector(item.selector);
+            if (element) {
+                // 使用 translate3d 提升 GPU 渲染性能
+                const yPos = scrolled * item.speed;
+                element.style.transform = `translate3d(0, ${yPos}px, 0)`;
+            }
+        });
+    }
+
+    // 只需要在滾動時執行，保持輕量
+    window.addEventListener('scroll', debounce(handleParallax, 50), { passive: true });
     
 });
