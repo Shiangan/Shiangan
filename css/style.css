@@ -1,5 +1,8 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.8 最終穩定聯動版 - 佈局與響應式修正 + 專業青色主題)
+   程式夥伴 - 網站核心 CSS (V21.0 最終穩定聯動版 - 高質感「藏青 X 高雅金」主題)
+   
+   - 主題：藏青 (沉穩專業) + 高雅金 (現代奢華、卓越強調色)
+   - 特色：沉浸式夜空、專業字體、高對比金屬質感互動元素。
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -26,8 +29,8 @@
     /* 🏆 品牌色系 - 專業、沉穩、現代 */
     --primary-color: #1e3a6a;  /* 深藍/藏青 (專業、沉穩、主要用色) */
     --primary-dark: #12213b;   /* 極深藍/夜空 (背景色，極高對比) */
-    /* **【配色修正 1】** 專業青色 (現代、重點強調、高亮度) */
-    --accent-color: #00a9c6;   
+    /* 🎨 【關鍵變更】將青色替換為高雅金 */
+    --accent-color: #b8860b;   /* 高雅金 (現代、重點強調、高對比) */
     --secondary-color: #4a5c78; /* 沉穩的藍灰色 (輔助用色，增加層次) */
 
     /* 文字色系 (配合調整) */
@@ -106,7 +109,7 @@ a {
 a:hover, a:focus {
     color: var(--primary-dark);
     opacity: 0.95; 
-    /* **【配色修正 2】** 焦點線改用青色 */
+    /* 【配色修正 2】焦點線改用金色 */
     outline: 2px solid var(--accent-color); 
     outline-offset: 2px;
 }
@@ -148,7 +151,7 @@ h2::after {
     transform: translateX(-50%);
     width: 80px; 
     height: 4px; 
-    /* **【配色修正 3】** 裝飾線改用青色 */
+    /* 【配色修正 3】裝飾線改用金色 */
     background-color: var(--accent-color);
     border-radius: 2px;
     transition: width 0.3s; 
@@ -283,7 +286,7 @@ p {
     min-width: 240px; 
     background-color: var(--text-light);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
-    /* **【配色修正 4】** 下拉選單邊框改用青色 */
+    /* 【配色修正 4】下拉選單邊框改用金色 */
     border-top: 5px solid var(--accent-color); 
     list-style: none;
     padding: 10px 0;
@@ -332,7 +335,7 @@ p {
 
 .submenu-title {
     font-weight: 700;
-    /* **【配色修正 5】** 下拉選單標題改用青色 */
+    /* 【配色修正 5】下拉選單標題改用金色 */
     color: var(--accent-color);
     padding: 8px 20px 4px;
     font-size: 0.85rem;
@@ -355,7 +358,7 @@ p {
 }
 
 .contact-nav a {
-    /* **【配色修正 6】** 聯繫按鈕背景改用青色 */
+    /* 【配色修正 6】聯繫按鈕背景改用金色 */
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     padding: 8px 15px;
@@ -364,8 +367,8 @@ p {
     margin-left: 20px;
     display: inline-flex; 
     align-items: center;
-    /* **【配色修正 7】** 聯繫按鈕陰影改用青色陰影 */
-    box-shadow: 0 2px 8px rgba(0, 169, 198, 0.4); 
+    /* 【配色修正 7】聯繫按鈕陰影改用金色陰影 */
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.6); 
     flex-shrink: 0;
 }
 
@@ -434,25 +437,25 @@ p {
     background-color: var(--primary-dark);
     transform: translateY(-4px); 
     box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9); 
-    /* **【配色修正 8】** 主要按鈕焦點改用青色 */
+    /* 【配色修正 8】主要按鈕焦點改用金色 */
     outline: 2px solid var(--accent-color); 
     outline-offset: 4px;
 }
 
 .cta-button.secondary {
     background-color: transparent;
-    /* **【配色修正 9】** 次要按鈕邊框及文字改用青色 */
+    /* 【配色修正 9】次要按鈕邊框及文字改用金色 */
     color: var(--accent-color); 
     border-color: var(--accent-color);
 }
 
 .cta-button.secondary:hover {
-    /* **【配色修正 10】** 次要按鈕懸停改用青色背景 */
+    /* 【配色修正 10】次要按鈕懸停改用金色背景 */
     background-color: var(--accent-color);
     color: var(--primary-dark);
     transform: translateY(-1px); 
-    /* **【配色修正 11】** 次要按鈕懸停陰影改用青色陰影 */
-    box-shadow: 0 4px 10px rgba(0, 169, 198, 0.4);
+    /* 【配色修正 11】次要按鈕懸停陰影改用金色陰影 */
+    box-shadow: 0 4px 10px rgba(184, 134, 11, 0.4);
 }
 
 .cta-button.secondary:focus {
@@ -496,7 +499,7 @@ p {
     pointer-events: none; 
     will-change: transform, opacity; 
 }
-/* 星星圖層樣式不變 */
+/* 星星圖層樣式 */
 #stars {
     --travel-x-end: -20px; --travel-y-end: -20px; 
     animation: move-star 300s linear infinite, 
@@ -542,10 +545,10 @@ p {
     width: 3px;
     height: 3px;
     opacity: 1;
-    /* **【配色修正 12】** 金色星點改用青色 */
+    /* 【配色修正 12】星點改用金色 */
     box-shadow: 
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 4px 2px rgba(0, 169, 198, 0.9); 
+        100vw 100vh 4px 2px rgba(184, 134, 11, 0.9); 
 }
 
 
@@ -599,7 +602,7 @@ p {
 }
 
 .hero-content strong {
-    /* **【配色修正 13】** Hero 文字重點改用青色 */
+    /* 【配色修正 13】Hero 文字重點改用金色 */
     color: var(--accent-color);
     font-weight: 700;
 }
@@ -616,10 +619,10 @@ p {
     position: absolute;
     width: 2px;
     height: 2px; 
-    background: white;
-    /* **【配色修正 14】** 流星陰影改用青色 */
+    background: var(--text-light);
+    /* 【配色修正 14】流星陰影改用金色 */
     box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8), 
-                0 0 40px 10px rgba(0, 169, 198, 0.8); 
+                0 0 40px 10px rgba(184, 134, 11, 0.8); 
     border-radius: 50%;
     transform: rotate(var(--rotation)); 
     z-index: 4; 
@@ -636,7 +639,7 @@ p {
     width: 100px;
     height: 2px;
     transform: translateY(-50%);
-    /* **【配色修正 15】** 流星尾巴漸層末端改用青色 */
+    /* 【配色修正 15】流星尾巴漸層末端改用金色 */
     background-image: 
         linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.6) 50%, var(--accent-color) 100%);
     opacity: 0.8;
@@ -645,7 +648,7 @@ p {
 /* ⭐️ 核心：流星動畫關鍵幀 (配合 JS 中的 shooting-star-random) */
 @keyframes shooting-star-random {
     0% { 
-        transform: rotate(var(--rotation)) translate3d(0, 0, 0, 0); /* Added 3D for performance */
+        transform: rotate(var(--rotation)) translate3d(0, 0, 0, 0); 
         opacity: 0.8;
     }
     5% {
@@ -688,11 +691,11 @@ p {
 /* 確保 Font Awesome 圖標能正確顯示 */
 .card-item .fas, .card-item .fab, .card-item .icon {
     font-size: 3.5rem; 
-    /* **【配色修正 16】** 卡片圖標改用青色 */
+    /* 【配色修正 16】卡片圖標改用金色 */
     color: var(--accent-color);
     margin-bottom: 15px;
-    /* **【配色修正 17】** 卡片圖標陰影改用青色陰影 */
-    text-shadow: 0 0 5px rgba(0, 169, 198, 0.5); 
+    /* 【配色修正 17】卡片圖標陰影改用金色陰影 */
+    text-shadow: 0 0 5px rgba(184, 134, 11, 0.5); 
 }
 
 .card-item h3 {
@@ -717,7 +720,7 @@ p {
 
 /* 核心承諾卡片特殊樣式 */
 .primary-highlight {
-    /* **【配色修正 18】** 突出卡片邊框改用青色 */
+    /* 【配色修正 18】突出卡片邊框改用金色 */
     border: 2px solid var(--accent-color);
     background: linear-gradient(to bottom right, var(--text-light), var(--bg-light));
 }
@@ -739,7 +742,7 @@ p {
 }
 
 .emergency-contact .fas, .emergency-contact .fab, .emergency-contact .icon {
-    /* **【配色修正 19】** 緊急聯繫圖標改用青色 */
+    /* 【配色修正 19】緊急聯繫圖標改用金色 */
     color: var(--accent-color);
 }
 
@@ -749,7 +752,7 @@ p {
 
 .emergency-contact .cta-button {
     margin-top: 20px;
-    /* **【配色修正 20】** 緊急聯繫 CTA 背景改用青色 */
+    /* 【配色修正 20】緊急聯繫 CTA 背景改用金色 */
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     font-weight: 700;
@@ -759,7 +762,7 @@ p {
 .emergency-contact .cta-button:hover {
     background-color: var(--text-light);
     color: var(--primary-dark);
-    /* **【配色修正 21】** 緊急聯繫 CTA 陰影改用青色陰影 */
+    /* 【配色修正 21】緊急聯繫 CTA 陰影改用金色陰影 */
     box-shadow: 0 0 15px var(--accent-color); 
     transform: scale(1.03);
 }
@@ -800,7 +803,7 @@ p {
     line-height: 36px;
     border-radius: 50%;
     text-align: center;
-    /* **【配色修正 22】** 流程編號背景改用青色 */
+    /* 【配色修正 22】流程編號背景改用金色 */
     background-color: var(--accent-color);
     color: var(--primary-dark); 
     font-weight: 700;
@@ -844,7 +847,7 @@ p {
 }
 
 .team-member .title {
-    /* **【配色修正 23】** 團隊職位文字改用青色 */
+    /* 【配色修正 23】團隊職位文字改用金色 */
     color: var(--accent-color);
     font-weight: 700;
     font-size: 1rem;
@@ -908,13 +911,13 @@ p {
 
 .accordion-item.active > .accordion-header::after {
     transform: rotate(180deg);
-    /* **【配色修正 24】** FAQ 箭頭改用青色 */
+    /* 【配色修正 24】FAQ 箭頭改用金色 */
     color: var(--accent-color);
 }
 
 .accordion-header:hover, .accordion-header:focus {
     background-color: var(--bg-light);
-    /* **【配色修正 25】** FAQ 焦點輪廓改用青色 */
+    /* 【配色修正 25】FAQ 焦點輪廓改用金色 */
     outline: 2px solid var(--accent-color); 
 }
 
@@ -924,7 +927,7 @@ p {
 }
 
 .accordion-item.active > .accordion-header i {
-    /* **【配色修正 26】** FAQ 展開圖標改用青色 */
+    /* 【配色修正 26】FAQ 展開圖標改用金色 */
     color: var(--accent-color); 
     transform: rotate(360deg); 
 }
@@ -970,13 +973,13 @@ footer {
 }
 
 .footer-block h4 {
-    /* **【配色修正 27】** 頁尾標題改用青色 */
+    /* 【配色修正 27】頁尾標題改用金色 */
     color: var(--accent-color);
     font-size: 1.15rem;
     margin-bottom: 15px;
     font-family: var(--font-serif);
     font-weight: 700;
-    /* **【配色修正 28】** 頁尾標題邊框改用青色 */
+    /* 【配色修正 28】頁尾標題邊框改用金色 */
     border-left: 3px solid var(--accent-color);
     padding-left: 10px;
 }
@@ -997,7 +1000,7 @@ footer {
 }
 
 .footer-block a:hover {
-    /* **【配色修正 29】** 頁尾連結懸停改用青色 */
+    /* 【配色修正 29】頁尾連結懸停改用金色 */
     color: var(--accent-color);
 }
 
@@ -1007,7 +1010,7 @@ footer {
 }
 
 .footer-contact p a {
-    /* **【配色修正 30】** 頁尾聯繫資訊連結改用青色 */
+    /* 【配色修正 30】頁尾聯繫資訊連結改用金色 */
     color: var(--accent-color);
     font-weight: 700;
     letter-spacing: 1px;
@@ -1021,7 +1024,7 @@ footer {
 .footer-social-links a {
     font-size: 1.2rem;
     margin-right: 20px;
-    /* **【配色修正 31】** 頁尾社交圖標改用青色 */
+    /* 【配色修正 31】頁尾社交圖標改用金色 */
     color: var(--accent-color);
 }
 
@@ -1066,6 +1069,7 @@ footer {
     display: flex;
     flex-direction: column; 
     gap: 15px; 
+    transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
 }
 
 .floating-cta a {
@@ -1085,12 +1089,12 @@ footer {
 
 .floating-cta a:first-child { 
     background-color: var(--primary-color); 
-    /* **【配色修正 32】** 脈動陰影改用主色陰影 */
+    /* 【配色修正 32】脈動陰影改用主色陰影 */
     animation: pulse 1.5s infinite; 
 }
 
 .floating-cta a:last-child:not(.back-to-top) { 
-    background-color: #00B900; 
+    background-color: #00B900; /* 標準綠色 for WhatsApp/Line */
 }
 
 .floating-cta .back-to-top {
@@ -1345,12 +1349,12 @@ footer {
     font-family: var(--font-serif);
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    /* **【配色修正 33】** 里程碑數字改用青色 */
+    /* 【配色修正 33】里程碑數字改用金色 */
     color: var(--accent-color); 
     margin-bottom: 5px;
     line-height: 1.1;
-    /* **【配色修正 34】** 里程碑數字陰影改用青色陰影 */
-    text-shadow: 0 0 5px rgba(0, 169, 198, 0.4); 
+    /* 【配色修正 34】里程碑數字陰影改用金色陰影 */
+    text-shadow: 0 0 5px rgba(184, 134, 11, 0.6); 
     display: block;
 }
 
