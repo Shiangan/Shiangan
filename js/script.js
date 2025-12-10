@@ -1,7 +1,9 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 完整優化)
-   包含性能、RWD、A11y、平滑滾動，以及新增的里程碑數字滾動、
-   智慧 CTA 隱藏與輕微視差滾動。
+   程式夥伴 - 網站核心 JavaScript (V21.0 最終聯動穩定版 - 配合高雅金設計主題)
+   
+   - 包含：Header滾動、RWD菜單、通用手風琴、圖片延遲載入、平滑滾動、
+     高性能流星動畫、里程碑數字滾動、智慧 CTA 隱藏、輕微視差滾動。
+   - 優化：使用高性能API (requestAnimationFrame, IntersectionObserver, translate3d)。
    ==================================================== */
 
 // 0. **抗閃爍機制 (SEO/UX 優化)**
@@ -20,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const mobileBreakpoint = 900; 
     const currentYearSpan = document.getElementById('current-year');
-    const floatingCta = document.querySelector('.floating-cta'); // 新增：浮動 CTA
-    const footer = document.querySelector('footer'); // 新增：頁尾
+    const floatingCta = document.querySelector('.floating-cta'); 
+    const footer = document.querySelector('footer'); 
+    const heroSection = document.querySelector('.hero-section');
 
     
     // 輔助函數： Debounce (去抖動) - 優化性能
@@ -66,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
              }
          }
          
-         // 調整窗口時重新檢查 CTA 狀態（若有 footer 變動）
+         // 調整窗口時重新檢查 CTA 狀態
          if (floatingCta && footer) {
              handleFloatingCta();
          }
@@ -78,15 +81,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
     // ====================================================
-    function handleScroll() {
+    // 使用 requestAnimationFrame 優化滾動事件性能
+    let isScrolling = false;
+    
+    function updateScrollState() {
         if (header) {
-            header.classList.toggle('scrolled', window.scrollY > 0);
+            const scrolled = window.scrollY > 0;
+            header.classList.toggle('scrolled', scrolled);
+        }
+        
+        // 觸發視差滾動
+        handleParallax();
+        
+        // 觸發 CTA 隱藏
+        if (floatingCta && footer) {
+            handleFloatingCta();
+        }
+        
+        isScrolling = false;
+    }
+    
+    function scrollHandler() {
+        if (!isScrolling) {
+            isScrolling = true;
+            requestAnimationFrame(updateScrollState);
         }
     }
     
     if (header) {
-        handleScroll(); 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        // 初始檢查狀態
+        updateScrollState(); 
+        window.addEventListener('scroll', scrollHandler, { passive: true });
     }
     
     // ====================================================
@@ -130,12 +155,18 @@ document.addEventListener('DOMContentLoaded', function() {
                          
                         e.preventDefault(); 
                         
+                        // 處理子選單的展開/收合
+                        parentLi.classList.toggle('active');
+                        
+                        // 如果展開，收合其他的
                         if (parentLi.classList.contains('active')) {
-                            parentLi.classList.remove('active');
-                        } else {
-                            closeAllMobileSubmenus(); 
-                            parentLi.classList.add('active'); 
+                             mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+                                if (li !== parentLi) {
+                                     li.classList.remove('active');
+                                }
+                             });
                         }
+                        
                     } else if (mainNav.classList.contains('active')) {
                         // 點擊無下拉菜單的連結，導航後關閉菜單
                         setTimeout(() => menuToggle.click(), 50); 
@@ -159,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
              const isActive = item.classList.contains('active');
              
+             // 初始化高度
              const initialMaxHeight = isActive ? content.scrollHeight + "px" : '0px';
              content.style.maxHeight = initialMaxHeight;
 
@@ -166,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
              header.setAttribute('role', 'button'); 
              header.setAttribute('tabindex', '0'); 
              
-             header.addEventListener('click', function(e) {
+             header.addEventListener('click', function() {
                 
                 const currentItem = this.closest('.accordion-item');
                 const currentContent = currentItem.querySelector('.accordion-content');
@@ -195,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     this.setAttribute('aria-expanded', 'false');
                     
+                    // 確保收合動畫流暢
                     currentContent.style.maxHeight = currentContent.scrollHeight + "px";
                     
                     requestAnimationFrame(() => {
@@ -226,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[data-src]');
         const observerOptions = {
-            rootMargin: '0px 0px 200px 0px' 
+            rootMargin: '0px 0px 200px 0px' // 在圖片進入視窗前 200px 就開始載入
         };
 
         const imageObserver = new IntersectionObserver(function(entries, observer) {
@@ -236,7 +269,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (img.dataset.src) {
                         img.src = img.dataset.src;
-                        img.alt = img.dataset.alt || img.alt || ''; 
+                        // 優化：確保 alt 屬性設置
+                        img.alt = img.dataset.alt || img.alt || '網站圖片'; 
                         img.removeAttribute('data-src'); 
                         img.removeAttribute('data-alt');
                     }
@@ -253,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fallback for older browsers
         document.querySelectorAll('img[data-src]').forEach(img => {
             img.src = img.dataset.src;
-            img.alt = img.dataset.alt || img.alt || '';
+            img.alt = img.dataset.alt || img.alt || '網站圖片';
             img.removeAttribute('data-src');
             img.removeAttribute('data-alt');
         });
@@ -264,6 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. 平滑滾動至錨點 (Smooth Scrolling)
     // ====================================================
     if (header) { 
+        // 排除掉不應該平滑滾動的項目：例如只有 # 的、或帶有下拉菜單的父連結
         document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.dropdown > a)').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 
@@ -273,12 +308,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
+                     // 如果在手機模式下，先關閉菜單
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
                          setTimeout(() => menuToggle.click(), 50); 
                      }
                     
                      const headerHeight = header.offsetHeight;
                      const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+                     // 減去 Header 高度，避免內容被遮擋
                      const targetPosition = targetTop - headerHeight;
                          
                      window.scrollTo({
@@ -295,8 +332,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================================
     // 7. 動態生成不規則流星 (Meteor Generation Logic)
     // ====================================================
-    const heroSection = document.querySelector('.hero-section');
-
     if (heroSection) { 
         const numMeteors = 15; 
         let meteorIndex = 0;
@@ -306,15 +341,17 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.classList.add('meteor');
             meteor.id = `meteor-${meteorIndex++}`;
             
-            const duration = Math.random() * 10 + 10; 
-            const delay = Math.random() * 8; 
+            const duration = Math.random() * 10 + 10; // 10s - 20s
+            const delay = Math.random() * 8; // 0s - 8s 初始延遲
             
             let initialLeft, initialTop;
             
-            if (Math.random() > 0.4) {
-                 initialLeft = 105; 
-                 initialTop = Math.random() * 80 - 20; 
+            // 70% 機率從右上方進入 (更常見的流星角度)
+            if (Math.random() > 0.3) {
+                 initialLeft = 105; // 稍稍超出右邊界
+                 initialTop = Math.random() * 80 - 20; // -20vh 到 60vh
             } else {
+                 // 30% 機率從上方進入
                  initialTop = -10; 
                  initialLeft = Math.random() * 105; 
             }
@@ -322,16 +359,19 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
             
-            const rotation = Math.random() * 20 - 135; 
-            const travelX = -(120 + Math.random() * 80); 
+            // 調整角度和軌跡
+            const rotation = Math.random() * 20 - 135; // 集中在 -115deg 到 -135deg
+            const travelX = -(120 + Math.random() * 80); // 離開範圍
             const travelY = 80 + Math.random() * 80; 
 
             meteor.style.setProperty('--rotation', `${rotation}deg`);
             meteor.style.setProperty('--travel-x', `${travelX}vw`);
             meteor.style.setProperty('--travel-y', `${travelY}vh`);
             
+            // 動畫結束後移除並重新生成
             meteor.addEventListener('animationend', () => {
                  meteor.remove();
+                 // 隨機延遲後再次生成，確保不規則
                  setTimeout(() => requestAnimationFrame(createMeteor), Math.random() * 4000 + 1000); 
             }, { once: true }); 
 
@@ -345,6 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         for (let i = 0; i < numMeteors; i++) {
+            // 初始時分散生成
             setTimeout(() => requestAnimationFrame(createMeteor), Math.random() * 5000); 
         }
     }
@@ -368,11 +409,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const target = parseInt(counter.dataset.count);
                 let current = 0;
                 
+                // 保留數字後面的單位或符號
                 const originalText = counter.textContent.trim();
                 const suffixMatch = originalText.match(/[^0-9\s]+$/); 
                 const suffix = suffixMatch ? suffixMatch[0] : '';
                 
-                const duration = 1500; 
+                const duration = 1500; // 滾動時間 1.5s
                 const step = (target / duration) * 10; 
 
                 const interval = setInterval(() => {
@@ -383,6 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         clearInterval(interval);
                     }
                     
+                    // 使用 toLocaleString 添加千分位分隔符
                     let displayValue = Math.round(current).toLocaleString(undefined, { maximumFractionDigits: 0 });
                     
                     counter.textContent = displayValue + suffix; 
@@ -398,10 +441,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (counters.length > 0 && 'IntersectionObserver' in window) {
         const counterObserver = new IntersectionObserver(startCounter, {
             root: null,
-            threshold: 0.5 
+            threshold: 0.5 // 元素一半進入視窗時觸發
         });
 
         counters.forEach(counter => {
+            // 確保目標數字被儲存在 data 屬性中
             if (!counter.dataset.count) {
                  const initialValue = parseInt(counter.textContent.replace(/[^0-9]/g, '')) || 0;
                  counter.dataset.count = initialValue; 
@@ -424,8 +468,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 獲取頁尾的頂部位置
             const footerTop = footer.offsetTop;
             
+            // 如果視窗底部超過 Footer 頂部 + 偏移量
             if (scrollBottom > footerTop + offset) {
-                // 隱藏 (使用 CSS 屬性觸發平滑過渡)
+                // 隱藏
                 floatingCta.style.opacity = '0';
                 floatingCta.style.visibility = 'hidden';
                 floatingCta.style.transform = 'translateY(10px)';
@@ -438,16 +483,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         handleFloatingCta();
-        // 將滾動和調整大小事件附加到 Debounce
-        window.addEventListener('scroll', debounce(handleFloatingCta, 50), { passive: true });
-        // 由於 resizeCleanup 已經處理了 debounce 和 resize，這裡不需要重複添加 resize
+        // 滾動事件已在 1. Header 區塊被 requestAnimationFrame 優化處理
     }
     
     // ====================================================
     // 11. 輕微視差滾動效果 (Parallax Scroll)
     // ====================================================
     const parallaxElements = [
-        // 假設您的星空背景分為三個層次，並帶有 ID: #stars, #stars2, #stars3
         { selector: '#stars', speed: 0.05 },
         { selector: '#stars2', speed: 0.1 },
         { selector: '#stars3', speed: 0.15 }
@@ -468,7 +510,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 只需要在滾動時執行，保持輕量
-    window.addEventListener('scroll', debounce(handleParallax, 50), { passive: true });
+    // 滾動事件已在 1. Header 區塊被 requestAnimationFrame 優化處理
     
 });
