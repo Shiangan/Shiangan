@@ -38,7 +38,7 @@
     --bg-dark: #000005; /* 備用深色背景 */
     --border-color: #e8e8e8; 
     --shadow-color: rgba(0, 0, 0, 0.05); 
-
+    --shadow-heavy: rgba(0, 0, 0, 0.18); /* 新增重陰影變數 */
     
     /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', serif; 
@@ -46,9 +46,9 @@
     
     /* 尺寸定義 */
     --header-height: 80px;
-    --content-max-width: 1280px; /* 增加最大寬度，讓大螢幕更有空間感 */
+    --content-max-width: 1280px; 
     --padding-section-v: 80px; 
-    --padding-container-h: 20px; /* 統一容器左右邊距 */
+    --padding-container-h: 20px; 
     
     /* ⭐️ 流星動畫變數 */
     --rotation: -135deg; 
@@ -67,13 +67,11 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px; 
-    /* **【修正點 A】** 確保在移動設備上不會因視口變化導致尺寸錯誤 */
-    /* 統一視口單位 */
-    /* 保持原樣，但在 Hero Section 進行 min-height 修正 */
+    /* **【修正/優化點 1】** 讓 html 繼承 body 的字體，確保一致性 */
+    font-family: var(--font-sans);
 }
 
 body {
-    font-family: var(--font-sans);
     line-height: 1.7;
     color: var(--text-dark); 
     background-color: var(--text-light);
@@ -85,8 +83,19 @@ body {
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
 .js-loading { opacity: 0; transition: opacity 0.5s; }
-/* **【優化點】** 修正手機鎖定捲動問題：使用 position: fixed 搭配 top/bottom/left/right 確保鎖定範圍 */
-body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; }
+
+/* **【修正/優化點 2】** 修正手機鎖定捲動問題：使用 position: fixed 結合 width/height: 100% 確保全屏鎖定 */
+body.no-scroll { 
+    overflow: hidden; 
+    position: fixed; 
+    width: 100%; 
+    height: 100%; 
+    top: 0; 
+    left: 0; 
+    /* 確保鎖定時沒有視覺上的跳動 */
+    right: 0;
+    bottom: 0;
+}
 
 img { max-width: 100%; height: auto; vertical-align: middle; }
 
@@ -100,6 +109,7 @@ a {
 a:hover, a:focus {
     color: var(--primary-dark);
     opacity: 0.95; 
+    /* 保持焦點樣式，提升可訪問性 */
     outline: 2px solid var(--accent-color); 
     outline-offset: 2px;
 }
@@ -111,17 +121,16 @@ h1, h2, h3, h4 {
     margin-bottom: 1.5em; 
     color: var(--primary-color); 
     font-weight: 700;
-    /* **【優化點】** 確保中文排版不溢出容器 */
     overflow-wrap: break-word; 
     word-break: break-word;
 }
 
 h1 { 
-    font-size: clamp(2rem, 5.5vw, 4.0rem); /* 最小 2rem，確保手機上不過小 */
+    font-size: clamp(2rem, 5.5vw, 4.0rem); 
     text-align: center; 
     line-height: 1.2; 
     letter-spacing: -0.02em; 
-    margin-bottom: 1em; /* 略微減少 H1 下邊距 */
+    margin-bottom: 1em; 
 }
 
 h2 { 
@@ -150,21 +159,22 @@ h2::after {
 h3 { 
     font-size: 1.5rem; 
     color: var(--primary-color); 
-    line-height: 1.5; /* 增加行高，提升閱讀性 */
+    line-height: 1.5; 
 }
 
 p { 
-    margin-bottom: 1em; /* **【優化點】** 增加段落間距，提升閱讀舒適度 */
+    margin-bottom: 1em; 
 }
 
 /* 容器與通用佈局 */
 .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
-    padding: 0 var(--padding-container-h); /* 使用變數統一左右邊距 */
+    padding: 0 var(--padding-container-h); 
 }
 
 .container-v-padding {
+    /* **【優化點 3】** 確保在手機上也能使用較小的垂直間距 */
     padding: var(--padding-section-v) 0;
 }
 
@@ -180,7 +190,7 @@ p {
     font-size: 1.1rem;
     color: var(--secondary-color); 
     max-width: 700px;
-    margin: 0 auto 40px; /* **【優化點】** 增加與下一區塊的間距 */
+    margin: 0 auto 40px; 
     font-weight: 300;
 }
 
@@ -406,7 +416,6 @@ p {
     border: 2px solid transparent;
     will-change: transform, box-shadow; 
     margin: 10px; 
-    /* **【優化點】** 確保文字不會在按鈕內換行導致怪異佈局 */
     white-space: nowrap; 
 }
 
@@ -542,7 +551,7 @@ p {
 
 .hero-section {
     position: relative;
-    /* **【修正點 B】** 確保內容足夠高，並使用 min-height 確保在手機上不會過長或過短 */
+    /* **【修正/優化點 4】** 確保內容足夠高，並使用 min-height 確保在手機上不會過短，但允許內容超出自適應滾動 */
     min-height: calc(100vh - var(--header-height)); 
     padding: 100px 0; 
     overflow: hidden; 
@@ -671,7 +680,7 @@ p {
 
 .card-item:hover {
     transform: translateY(-8px); 
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18); 
+    box-shadow: 0 16px 40px var(--shadow-heavy); /* 使用新增的重陰影變數 */
 }
 
 /* 確保 Font Awesome 圖標能正確顯示 */
@@ -693,22 +702,18 @@ p {
 .card-item p {
     font-size: 0.95rem;
     margin-bottom: 0;
-    /* **【優化點】** 確保卡片內的段落文字不會溢出 */
     overflow-wrap: break-word; 
     word-break: break-word;
 }
 
-.religion-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+/* **【修正/優化點 5】** 網格定義優化：使用 auto-fit 確保在任何設備上都有良好的響應式佈局 */
+.religion-grid, .commitment-grid, .trust-grid, .milestone-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
 }
+.religion-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.commitment-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.trust-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
-.commitment-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.trust-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
 
 /* 核心承諾卡片特殊樣式 */
 .primary-highlight {
@@ -729,6 +734,7 @@ p {
     justify-content: space-between;
     padding: 35px; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-radius: 12px; /* 統一圓角 */
 }
 
 .emergency-contact .fas, .emergency-contact .fab, .emergency-contact .icon {
@@ -758,9 +764,9 @@ p {
 .flow-chart ol {
     list-style: none;
     padding: 0;
-    /* **【優化點】** 使用 grid 搭配 auto-fit/minmax，在不同寬度下擁有更穩定的佈局 */
+    /* **【修正/優化點 6】** 確保在不同寬度下擁有更穩定的佈局 (最小寬度可堆疊) */
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
     gap: 30px; 
     justify-content: center;
     counter-reset: step-counter; 
@@ -772,7 +778,6 @@ p {
     padding: 25px; 
     border-radius: 10px;
     font-weight: 400;
-    /* flex-basis 移除，交由 grid 控制 */
     position: relative;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
     transition: transform 0.3s, box-shadow 0.3s;
@@ -882,7 +887,6 @@ p {
     outline-offset: -2px; 
     position: relative;
     user-select: none;
-    /* **【優化點】** 確保文字不會在標題中亂換行 */
     word-break: break-word; 
 }
 
@@ -893,7 +897,6 @@ p {
     margin-left: auto;
     font-size: 0.8em;
     transition: transform 0.3s ease;
-    /* **【優化點】** 確保箭頭不會被文字擠壓 */
     flex-shrink: 0; 
     padding-left: 10px;
 }
@@ -955,7 +958,7 @@ footer {
 
 .footer-grid {
     display: grid;
-    /* **【優化點】** 更好的響應式，當空間不足時自動換行 */
+    /* **【優化點 7】** 更好的響應式，當空間不足時自動換行 */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
     gap: 40px;
     padding-bottom: 40px;
@@ -987,7 +990,6 @@ footer {
 .footer-block a {
     color: rgba(255, 255, 255, 0.85); 
     font-size: 0.95rem;
-    /* **【優化點】** 確保文字不會溢出 */
     word-break: break-word;
 }
 
@@ -1031,20 +1033,17 @@ footer {
     justify-content: space-between;
     align-items: center;
     font-size: 0.85rem;
-    /* **【優化點】** 確保版權資訊不會在極端情況下溢出 */
     flex-wrap: wrap; 
 }
 
 .footer-logo {
     color: var(--text-light);
-    /* **【優化點】** 確保在換行時版權資訊在最左邊 */
     margin-right: auto;
 }
 
 .footer-meta a {
     color: rgba(255, 255, 255, 0.7);
     margin-left: 15px;
-    /* **【優化點】** 確保在換行時連結仍能正常顯示 */
     white-space: nowrap; 
 }
 
@@ -1075,7 +1074,7 @@ footer {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
     transition: transform 0.3s, opacity 0.3s;
     will-change: transform; 
-    /* **【優化點】** 確保在 iOS Safari 上不會被底部工具列遮擋 (需要更穩定的 z-index) */
+    /* **【優化點 8】** 確保在 iOS Safari 上不會被底部工具列遮擋 */
     z-index: 1001; 
 }
 
@@ -1117,10 +1116,10 @@ footer {
  * 6. 響應式設計 (Media Queries)
  * ------------------------------------------- */
 
-/* 【修正：確保手機導航的穩定性與滾動問題】 */
 @media (max-width: 900px) {
     
     :root {
+         /* **【優化點 9】** 手機版縮小垂直間距 */
          --padding-section-v: 50px; 
     }
 
@@ -1136,7 +1135,7 @@ footer {
         display: none;
     }
     
-    /* **【修正點 C】** 手機導航列：使用固定寬度，確保內容區域的 100% 寬度 */
+    /* **【修正/優化點 10】** 手機導航列優化：使用固定寬度，確保內容區域的 100% 寬度，並修正最大高度計算 */
     .main-nav.active {
         display: block; 
         position: absolute;
@@ -1148,7 +1147,8 @@ footer {
         /* 確保選單在手機上可捲動，且不會佔滿整個視窗 */
         max-height: calc(100vh - var(--header-height)); 
         overflow-y: auto; 
-        transition: max-height 0.3s ease-in-out; 
+        /* 移除 transition: max-height 0.3s ease-in-out; 以避免視覺閃爍 */
+        /* transition: max-height 0.3s ease-in-out; */ 
     }
 
     .menu-toggle {
@@ -1204,18 +1204,17 @@ footer {
         display: flex;
         flex-direction: column;
         padding: 0 0 0 25px; 
-        transform: none;
+        /* 修正了 transform: none; !important 導致的過渡問題，直接移除不必要的 transform */
+        /* transform: none !important; */ 
         opacity: 1; 
         visibility: visible;
         max-height: 0; 
         overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
-        /* **【修正點 D】** 手機下拉選單不應再有變形 */
-        transform: none !important; 
     }
 
     .dropdown.active > .submenu {
-        /* **【修正點 E】** 確保足以包含所有內容，避免裁剪 */
+        /* **【修正/優化點 11】** 確保足以包含所有內容，使用一個更大的值以覆蓋所有內容 */
         max-height: 800px; 
         padding-bottom: 15px; 
     }
@@ -1227,7 +1226,7 @@ footer {
     /* 手機版聯絡按鈕 */
     .main-nav.active .contact-nav {
         display: block;
-        margin: 10px 0 20px 0; /* 增加底部間距 */
+        margin: 10px 0 20px 0; 
         padding: 0 0;
     }
     
@@ -1236,12 +1235,11 @@ footer {
         width: 100%;
         text-align: center;
         display: flex;
-        /* **【優化點】** 讓手機上的聯絡按鈕佔滿寬度 */
         justify-content: center; 
     }
 
     .hero-section {
-        min-height: 500px; /* 略微增加高度，但不使用 100vh */
+        min-height: 500px; 
         padding: 80px 0;
         background-attachment: scroll; 
     }
@@ -1250,13 +1248,10 @@ footer {
         font-size: 1.1rem;
     }
     
-    /* **【修正點 F】** 移除流程圖對 flex-basis 的依賴，使用 media query 處理 */
-    .flow-chart ol {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
+    /* **【修正/優化點 12】** 移除流程圖 li 上的無用/衝突的 flex-basis/min-width 屬性 */
     .flow-chart li {
-        flex-basis: auto; /* 重置 */
-        min-width: auto; /* 重置 */
+        flex-basis: auto; 
+        min-width: auto; 
         margin: 0;
     }
     
@@ -1269,11 +1264,12 @@ footer {
 
 @media (max-width: 576px) {
     
-    /* **【修正點 G】** 確保在極小螢幕上，流程圖是垂直堆疊的 */
+    /* **【修正/優化點 13】** 確保在極小螢幕上，流程圖是垂直堆疊的 */
     .flow-chart ol {
         grid-template-columns: 1fr;
     }
     
+    /* **【修正/優化點 14】** 確保所有卡片網格在極小螢幕上都變成單欄 */
     .religion-grid, .commitment-grid, .trust-grid, .milestone-grid { 
         grid-template-columns: 1fr;
     }
@@ -1287,7 +1283,7 @@ footer {
     
     .footer-copyright .container {
         flex-direction: column;
-        align-items: flex-start; /* **【優化點】** 手機版版權資訊靠左對齊 */
+        align-items: flex-start; 
     }
     
     .footer-logo {
@@ -1296,7 +1292,6 @@ footer {
 
     .footer-meta {
         margin-top: 5px;
-        /* **【優化點】** 確保 Meta 連結不會擠在一起 */
         display: flex; 
         flex-wrap: wrap;
     }
@@ -1332,6 +1327,7 @@ footer {
 
 .milestone-grid {
     display: grid;
+    /* **【修正/優化點 15】** 統一使用 auto-fit/minmax 確保響應式一致性 */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
     text-align: center;
@@ -1345,6 +1341,7 @@ footer {
     border: 1px solid var(--border-color);
     transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 10px var(--shadow-color);
+    height: 100%; /* 確保網格項目高度一致 */
 }
 
 .milestone-item:hover {
