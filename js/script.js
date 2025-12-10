@@ -62,7 +62,18 @@ function closeAllMobileSubmenus() {
                  }
              }
              // 無論導航列是否 active，都要清理所有 dropdown active 狀態，防止佈局錯誤
-             closeAllMobileSubmenus();
+             // 1. 關閉所有其他項目 (單一展開模式)
+               closeAllMobileSubmenus(); // <-- 每次點擊都會強制收合所有已開啟的子選單
+
+             // 2. 切換當前項目的狀態
+               if (!isCurrentlyActive) {
+               parentLi.classList.add('active');
+               // ... 展開邏輯
+            } else {
+     // 重複點擊已打開的項目，在 closeAllMobileSubmenus 中已經被關閉
+     if (submenu) submenu.style.maxHeight = '0px';
+}
+
              
              // 🚀 修正點 2：確保桌面模式下，submenu 不受 max-height 限制
              if (mainNav) {
