@@ -1,4 +1,3 @@
-
 /* ====================================================
    程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 完整優化)
    包含性能、RWD、A11y、平滑滾動，以及新增的里程碑數字滾動功能。
@@ -36,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 輔助函數：關閉所有手機子菜單 (清除 .active 類別)
     function closeAllMobileSubmenus() {
         if (mainNav) {
-            // 由於 submenu 是 li.dropdown 的子元素，我們只需移除父級 li 的 active 即可
             mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                 li.classList.remove('active');
             });
@@ -121,8 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const parentLi = targetLink.closest('li.dropdown');
                     const hasSubmenu = parentLi.querySelector('.submenu');
                     
-                    // 只有當存在 submenu 且 href 為 '#' 或目標是當前頁面時才觸發手風琴
-                    if (hasSubmenu && (targetLink.getAttribute('href') === '#' || targetLink.pathname === window.location.pathname)) {
+                    // 修正核心邏輯：如果存在 submenu，則觸發手風琴，並阻止跳轉。
+                    if (hasSubmenu) {
                          
                         e.preventDefault(); 
                         
@@ -134,11 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             parentLi.classList.add('active'); 
                         }
                     } else if (mainNav.classList.contains('active')) {
-                        // 如果點擊的是有實際連結的項目，且菜單是打開的，則導航後關閉菜單
-                        menuToggle.click(); // 模擬點擊關閉菜單
+                        // 如果是沒有下拉菜單的連結 (例如: 首頁、花禮訂購)，在菜單開啟時點擊，則導航後關閉菜單
+                        // 讓連結執行其預設行為 (跳轉頁面)，然後關閉主菜單
+                        setTimeout(() => menuToggle.click(), 50); // 模擬點擊關閉菜單
+                        // 不需 e.preventDefault()，讓瀏覽器處理跳轉
                     }
                 }
             }
+            // 桌面版無需額外處理，因為已經通過 CSS :hover 處理
         });
     }
 
@@ -189,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!isCurrentlyActive) {
                     // 展開
                     this.setAttribute('aria-expanded', 'true');
-                    // **優化：確保 content.scrollHeight 是最新的**
                     requestAnimationFrame(() => {
                         currentContent.style.maxHeight = currentContent.scrollHeight + "px"; 
                     });
@@ -217,7 +217,6 @@ document.addEventListener('DOMContentLoaded', function() {
              // 窗口調整時重新計算 max-height
              window.addEventListener('resize', debounce(() => {
                  if (item.classList.contains('active')) {
-                     // **優化：只在 active 狀態下重新計算**
                      content.style.maxHeight = content.scrollHeight + "px";
                  }
              }, 100));
@@ -240,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (img.dataset.src) {
                         img.src = img.dataset.src;
-                        // 優化：優先使用 dataset.alt，若無則使用現有 alt，最後才為空
                         img.alt = img.dataset.alt || img.alt || ''; 
                         img.removeAttribute('data-src'); 
                         img.removeAttribute('data-alt');
@@ -281,17 +279,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (targetElement) {
                      // 點擊後關閉手機菜單
                      if (mainNav && menuToggle && mainNav.classList.contains('active')) {
-                         // 使用 setTimeout 確保菜單關閉流程完成
                          setTimeout(() => menuToggle.click(), 50); 
                      }
                     
                      const headerHeight = header.offsetHeight;
                      const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
-                     // 減去 Header 高度，確保目標不會被 Header 遮擋
                      const targetPosition = targetTop - headerHeight;
                          
                      window.scrollTo({
-                         top: Math.max(0, targetPosition), // 確保不會滾動到負值
+                         top: Math.max(0, targetPosition), 
                          behavior: 'smooth'
                      });
                      
@@ -302,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // ====================================================
-    // 7. 動態生成不規則流星 (Meteor Generation Logic) - **優化：DOM 移除與循環**
+    // 7. 動態生成不規則流星 (Meteor Generation Logic)
     // ====================================================
     const heroSection = document.querySelector('.hero-section');
 
@@ -315,19 +311,15 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.classList.add('meteor');
             meteor.id = `meteor-${meteorIndex++}`;
             
-            // 速度 (持續時間)
-            const duration = Math.random() * 10 + 10; // 10s 到 20s
+            const duration = Math.random() * 10 + 10; 
             const delay = Math.random() * 8; 
             
-            // 核心邏輯 1：定義「從右上方進入」
             let initialLeft, initialTop;
             
             if (Math.random() > 0.4) {
-                 // 60% 機率從右側邊緣開始 (105vw)
                  initialLeft = 105; 
                  initialTop = Math.random() * 80 - 20; 
             } else {
-                 // 40% 機率從頂部邊緣開始 (-10vh)
                  initialTop = -10; 
                  initialLeft = Math.random() * 105; 
             }
@@ -335,22 +327,18 @@ document.addEventListener('DOMContentLoaded', function() {
             meteor.style.left = `${initialLeft}vw`;
             meteor.style.top = `${initialTop}vh`;
             
-            // 核心邏輯 2：鎖定「向左下方移動」
             const rotation = Math.random() * 20 - 135; 
             const travelX = -(120 + Math.random() * 80); 
             const travelY = 80 + Math.random() * 80; 
 
-            // 將參數設定為 CSS 變數
             meteor.style.setProperty('--rotation', `${rotation}deg`);
             meteor.style.setProperty('--travel-x', `${travelX}vw`);
             meteor.style.setProperty('--travel-y', `${travelY}vh`);
             
-            // **優化：循環生成機制**
             meteor.addEventListener('animationend', () => {
                  meteor.remove();
-                 // 使用 requestAnimationFrame 讓重新生成更平滑，並增加隨機延遲
                  setTimeout(() => requestAnimationFrame(createMeteor), Math.random() * 4000 + 1000); 
-            }, { once: true }); // 確保監聽器只觸發一次
+            }, { once: true }); 
 
             meteor.style.animationName = 'shooting-star-random';
             meteor.style.animationDuration = `${duration}s`;
@@ -361,9 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
             heroSection.appendChild(meteor);
         }
 
-        // 初始生成指定數量的流星
         for (let i = 0; i < numMeteors; i++) {
-            // 初始生成使用 requestAnimationFrame 確保在下一幀繪製
             setTimeout(() => requestAnimationFrame(createMeteor), Math.random() * 5000); 
         }
     }
@@ -435,4 +421,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 });
-
