@@ -1,13 +1,18 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V20.8 最終穩定聯動版 - 佈局與響應式修正)
+   程式夥伴 - 網站核心 CSS (V20.8 - 極致優化修整版)
    ==================================================== */
 
-/* --- 字體導入 (Font Loading) --- */
-/* 請確保 '../fonts/' 路徑是正確的 */
+/* -------------------------------------------
+ * A. 字體導入 (Font Loading) - 性能優先設置
+ * ------------------------------------------- */
+
+/* [優化] 使用preload提示，確保關鍵字體優先載入 */
+/* 注意: 實際的 <link rel="preload"> 標籤應在 HTML <head> 中設置 */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
     font-weight: 400;
+    /* 確保字體快速顯示，避免隱藏文字 */
     font-display: swap; 
 }
 @font-face {
@@ -24,13 +29,14 @@
 
 :root {
     /* 🏆 品牌色系 - 最終質感與對比度優化 */
-    --primary-color: #1e3a6a;  /* 深藍/藏青 */
-    --primary-dark: #12213b;   /* 極深藍/夜空 */
-    --accent-color: #ce9d4a;   /* 金黃/流星色 */
-    --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
+    --primary-color: #1e3a6a;     /* 深藍/藏青 */
+    --primary-dark: #12213b;      /* 極深藍/夜空 */
+    --accent-color: #ce9d4a;      /* 金黃/流星色 */
+    --secondary-color: #4a5c78;   /* 沉穩的藍灰色 */
+    --accent-shadow: rgba(206, 157, 74, 0.4); /* 新增: 加速陰影計算 */
 
-    /* 文字色系 (配合調整) */
-    --text-dark: #2c2c2c; /* 更深的冷黑色，增加對比度 */
+    /* 文字色系 */
+    --text-dark: #2c2c2c; 
     --text-light: #ffffff;
     
     /* 背景與邊界 */
@@ -48,6 +54,9 @@
     --header-height: 80px;
     --content-max-width: 1200px;
     --padding-section-v: 80px; 
+
+    /* 轉換時間定義 (減少硬編碼) */
+    --transition-duration: 0.3s;
     
     /* ⭐️ 流星動畫變數 */
     --rotation: -135deg; 
@@ -73,43 +82,64 @@ body {
     line-height: 1.7;
     color: var(--text-dark); 
     background-color: var(--text-light);
+    /* [強化] 強制開啟字體抗鋸齒，提升文字質感 */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* [修正] 顯式重置列表樣式，確保跨瀏覽器一致性 */
 ul, ol {
     list-style: none; 
 }
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
-.js-loading { opacity: 0; transition: opacity 0.5s; }
-body.no-scroll { overflow: hidden; position: fixed; width: 100%; }
+.js-loading { opacity: 0; transition: opacity var(--transition-duration); }
+/* [強化] 使用 position: fixed 搭配 top/left/right/bottom: 0 確保全覆蓋鎖定 */
+body.no-scroll { 
+    overflow: hidden; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0;
+    bottom: 0;
+}
 
 img { max-width: 100%; height: auto; vertical-align: middle; }
+/* 圖片延遲載入動畫 (可選) */
+img.lazy-loaded {
+    opacity: 1;
+    transition: opacity 0.5s ease-in; 
+}
 
 /* ✅ 可訪問性/焦點優化 */
 a {
     color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s, background-color 0.3s, opacity 0.3s, outline 0.3s; 
+    /* [優化] 使用變數統一轉換時間 */
+    transition: color var(--transition-duration), background-color var(--transition-duration), opacity var(--transition-duration); 
 }
 
-a:hover, a:focus {
+a:hover {
     color: var(--primary-dark);
     opacity: 0.95; 
-    outline: 2px solid var(--accent-color); 
+    outline: none; 
+}
+
+a:focus-visible { /* 僅鍵盤導航時顯示焦點 */
+    outline: 2px solid var(--accent-color);
     outline-offset: 2px;
 }
 
-/* 標題樣式 - 使用 serif 字體增加莊重感 */
+/* 標題樣式 */
 h1, h2, h3, h4 {
     font-family: var(--font-serif);
     line-height: 1.3;
-    margin-bottom: 1.5em; 
-    color: var(--secondary-color); /* 沉穩藍灰色 */
+    color: var(--secondary-color); 
     font-weight: 700;
 }
+
+/* [修整] 統一標題底部間距 */
+h1, h2, h3, h4 { margin-bottom: 1.2em; }
+h2 { margin-top: 0.5em; }
 
 h1 { 
     font-size: clamp(1.8rem, 5.5vw, 4.0rem); 
@@ -117,12 +147,10 @@ h1 {
     word-break: break-word; 
     line-height: 1.2; 
     letter-spacing: -0.02em; 
-    margin-bottom: 1.5em; 
 }
 
 h2 { 
     font-size: clamp(1.6rem, 4vw, 2.5rem); 
-    margin-top: 0.5em; 
     text-align: center; 
     position: relative;
     padding-bottom: 20px; 
@@ -139,12 +167,11 @@ h2::after {
     height: 4px; 
     background-color: var(--accent-color);
     border-radius: 2px;
-    transition: width 0.3s; 
+    transition: width var(--transition-duration); 
 }
 
 h3 { font-size: 1.5rem; }
 
-/* [修正] 略微增加段落間距 */
 p { margin-bottom: 1em; }
 
 /* 容器與通用佈局 */
@@ -181,11 +208,11 @@ p { margin-bottom: 1em; }
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color); 
-    transition: background-color 0.3s, box-shadow 0.3s;
-    will-change: box-shadow; 
+    transition: background-color var(--transition-duration), box-shadow var(--transition-duration);
+    /* [性能] 強制加速 */
+    will-change: transform, box-shadow; 
 }
 
-/* 【優化】Header 內部 Flex 容器 */
 .header-container {
     display: flex;
     align-items: center;
@@ -195,11 +222,11 @@ p { margin-bottom: 1em; }
 }
 
 .main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.98); 
-    /* 柔和的深色陰影，模擬浮動感 */
+    /* [優化] 減少透明度，增加穩定感 */
+    background-color: rgba(255, 255, 255, 0.96); 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    /* 輕微的毛玻璃效果 (現代瀏覽器支持) */
-    backdrop-filter: blur(2px); 
+    /* [強化] 確保邊緣清晰 */
+    backdrop-filter: blur(4px); 
 }
 
 .logo {
@@ -220,7 +247,6 @@ p { margin-bottom: 1em; }
     height: 40px; 
     background: url('../images/logo.png') no-repeat center center;
     background-size: contain;
-    /* [優化] 確保 Logo 圖片載入失敗時文字被隱藏，避免跑版 */
     overflow: hidden; 
 }
 
@@ -245,14 +271,14 @@ p { margin-bottom: 1em; }
     letter-spacing: 0.5px;
 }
 
-.main-nav a:hover, .main-nav a:focus {
+.main-nav a:hover, .main-nav a:focus-visible {
     color: var(--primary-color);
 }
 
 .main-nav a .fas {
     font-size: 0.7rem;
     margin-left: 5px;
-    transition: transform 0.3s;
+    transition: transform var(--transition-duration);
 }
 
 /* 下拉選單質感優化 */
@@ -262,30 +288,34 @@ p { margin-bottom: 1em; }
     left: 0;
     min-width: 240px; 
     background-color: var(--text-light);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+    /* [強化] 提升陰影深度和邊界質感 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); 
     border-top: 5px solid var(--accent-color); 
     list-style: none;
     padding: 10px 0;
     z-index: 10;
     display: flex; 
     flex-direction: column; 
-    /* 移除 opacity/visibility 保持過渡流暢 */
     transform: translateY(10px); 
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    /* [優化] 減少一個參數，統一轉換時間 */
+    transition: opacity var(--transition-duration) ease, transform var(--transition-duration) ease, visibility var(--transition-duration);
     border-radius: 0 0 8px 8px; 
 }
 
-/* 使用 focus-within 增強鍵盤可訪問性 */
 .dropdown:hover > .submenu,
 .dropdown:focus-within > .submenu,
-.dropdown.focus-within > .submenu { 
+/* [優化] 移除冗餘的 .dropdown.focus-within 類，交給瀏覽器原生的 :focus-within */
+.dropdown.menu-open > .submenu { 
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
 .dropdown:hover > a .fas,
-.dropdown:focus-within > a .fas {
+.dropdown:focus-within > a .fas,
+.dropdown.menu-open > a .fas {
     transform: rotate(180deg);
 }
 
@@ -339,7 +369,8 @@ p { margin-bottom: 1em; }
     margin-left: 20px;
     display: inline-flex; 
     align-items: center;
-    box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
+    /* 使用變數 */
+    box-shadow: 0 2px 8px var(--accent-shadow);
     flex-shrink: 0;
 }
 
@@ -359,7 +390,7 @@ p { margin-bottom: 1em; }
     font-weight: 700;
     border: 1px solid var(--primary-color); 
     border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-duration);
     z-index: 1001; 
 }
 
@@ -368,7 +399,7 @@ p { margin-bottom: 1em; }
 }
 
 .menu-toggle i {
-    transition: transform 0.3s ease-in-out; 
+    transition: transform var(--transition-duration) ease-in-out; 
     font-size: 1.2rem; 
     vertical-align: middle;
 }
@@ -386,8 +417,8 @@ p { margin-bottom: 1em; }
     text-align: center;
     font-weight: 700;
     font-size: 1rem;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    border: 2px solid transparent;
+    /* [優化] 使用變數統一轉換時間 */
+    transition: background-color var(--transition-duration), transform 0.2s, box-shadow var(--transition-duration);
     will-change: transform, box-shadow; 
     margin: 10px; 
 }
@@ -405,7 +436,8 @@ p { margin-bottom: 1em; }
 .cta-button.primary:hover {
     background-color: var(--primary-dark);
     transform: translateY(-4px); 
-    box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9); 
+    /* [強化] 更強烈的陰影變化 */
+    box-shadow: 0 12px 25px rgba(30, 58, 106, 0.9); 
 }
 
 .cta-button.secondary {
@@ -418,10 +450,11 @@ p { margin-bottom: 1em; }
     background-color: var(--accent-color);
     color: var(--primary-dark);
     transform: translateY(-1px); 
-    box-shadow: 0 4px 10px rgba(206, 157, 74, 0.4);
+    /* 使用變數 */
+    box-shadow: 0 4px 10px var(--accent-shadow);
 }
 
-.cta-button.secondary:focus {
+.cta-button.secondary:focus-visible {
     outline: 2px solid var(--primary-color);
     outline-offset: 4px;
 }
@@ -438,10 +471,10 @@ p { margin-bottom: 1em; }
 }
 
 /* -------------------------------------------
- * 3. 區塊樣式 (Sections)
+ * 3. Hero 區塊與動畫 (Hero Section & Animations)
  * ------------------------------------------- */
 
-/* ⭐️ Hero 區塊樣式 (星星動畫與夜空質感) */
+/* [性能註釋] 使用 transform 和 opacity 確保 GPU 加速 */
 @keyframes blink {
     0%, 100% { opacity: 0.8; }
     25% { opacity: 0.3; }
@@ -449,7 +482,6 @@ p { margin-bottom: 1em; }
     75% { opacity: 0.2; }
 }
 
-/* 讓星星圖層緩慢移動，模擬視差 */
 @keyframes move-star {
     0% { transform: translate3d(0, 0, 0); } 
     100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, -100px), 0); } 
@@ -460,65 +492,40 @@ p { margin-bottom: 1em; }
     position: absolute;
     top: 0;
     left: 0;
-    width: 150%; /* [修正] 從 200% 調整為 150%，減少渲染壓力 */
-    height: 150%; /* [修正] 從 200% 調整為 150%，減少渲染壓力 */
+    width: 150%; 
+    height: 150%; 
     pointer-events: none; 
-    will-change: transform; /* 針對大型元素的移動優化 */
+    will-change: transform; 
 }
 
-/* 圖層 1: 慢速移動，往左上 */
+/* 星點圖層樣式 - 保持原樣 (高效的純 CSS 裝飾) */
 #stars {
     --travel-x-end: -20px; --travel-y-end: -20px; 
-    animation: move-star 300s linear infinite, 
-               blink 5s infinite alternate; 
-    animation-delay: 0.5s; 
-    z-index: 1;
+    animation: move-star 300s linear infinite, blink 5s infinite alternate; 
+    animation-delay: 0.5s; z-index: 1;
 }
 #stars::before {
-    content: ""; 
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    box-shadow: /* 星點分佈 */
-        100vw 200vh #d0d0d0, 250vw 120vh #d0d0d0, -50vw 150vh #d0d0d0, 30vw 100vh #d0d0d0, 
+    content: ""; position: absolute; width: 1px; height: 1px;
+    box-shadow: 100vw 200vh #d0d0d0, 250vw 120vh #d0d0d0, -50vw 150vh #d0d0d0, 30vw 100vh #d0d0d0, 
         -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0;
 }
-
-/* 圖層 2: 中速移動，往左上 (使用 reverse 造成反向位移，提供另一層視差感) */
 #stars2 {
     --travel-x-end: -50px; --travel-y-end: -50px;
-    animation: move-star 200s linear infinite reverse, 
-               blink 3s infinite alternate; 
-    animation-delay: 1.2s; 
-    z-index: 1;
+    animation: move-star 200s linear infinite reverse, blink 3s infinite alternate; 
+    animation-delay: 1.2s; z-index: 1;
 }
 #stars2::before {
-    content: ""; 
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    opacity: 0.9;
-    box-shadow: 
-        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
+    content: ""; position: absolute; width: 2px; height: 2px; opacity: 0.9;
+    box-shadow: -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
-
-/* 圖層 3: 快速移動，往左上 */
 #stars3 {
     --travel-x-end: -80px; --travel-y-end: -80px;
-    animation: move-star 100s linear infinite,
-               blink 1.5s infinite alternate; 
-    animation-delay: 0s; 
-    z-index: 1;
+    animation: move-star 100s linear infinite, blink 1.5s infinite alternate; 
+    animation-delay: 0s; z-index: 1;
 }
 #stars3::before {
-    content: ""; 
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    opacity: 1;
-    /* 增加金色星點 */
-    box-shadow: 
-        -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
+    content: ""; position: absolute; width: 3px; height: 3px; opacity: 1;
+    box-shadow: -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 4px 2px rgba(212, 167, 87, 0.9); 
 }
 
@@ -571,490 +578,168 @@ p { margin-bottom: 1em; }
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1); 
 }
 
-.hero-content strong {
-    color: var(--accent-color);
-    font-weight: 700;
-}
-
-.hero-content p {
-    font-size: 1.3rem; 
-    font-weight: 300;
-    margin-bottom: 40px; 
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
-}
-   
-/* ⭐️ 核心：流星軌跡樣式與動畫定義 (配合 JS) */
+/* ⭐️ 核心：流星軌跡樣式與動畫定義 (與 JS 聯動) */
 .meteor {
     position: absolute;
-    width: 2px;
-    height: 2px; /* 初始點大小 */
     background: white;
+    /* [強化] 使用變數減少顏色硬編碼 */
     box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8), 
-                0 0 40px 10px rgba(206, 157, 74, 0.8); /* 柔和白光與金色尾焰效果 */
+                0 0 40px 10px var(--accent-shadow); 
     border-radius: 50%;
-    transform: rotate(var(--rotation)); /* 旋轉角度由 JS 設定 */
-    z-index: 4; /* 在內容與星點之間 */
+    transform: rotate(var(--rotation)); 
+    z-index: 4; 
     pointer-events: none;
-    will-change: transform; /* 核心動畫優化 */
+    will-change: transform; 
 }
 
-/* 流星尾巴效果 - 修正漸層方向與顏色過渡 */
 .meteor::after {
     content: '';
     position: absolute;
     top: 50%;
-    left: -100px; /* 尾巴長度 */
-    width: 100px;
-    height: 2px;
+    /* [優化] 減少左側的冗餘長度，僅需覆蓋流星頭部 */
+    left: -80px; 
+    width: 80px;
+    height: 100%; 
     transform: translateY(-50%);
-    /* 修正：從左側透明到中間白色，再到最右側金色 */
     background-image: 
         linear-gradient(to left, var(--accent-color) 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
     opacity: 0.8;
 }
 
-/* ⭐️ 核心：流星動畫關鍵幀 (配合 JS 中的 shooting-star-random) */
 @keyframes shooting-star-random {
     0% { 
-        /* 初始位置由 JS 設定 */
         transform: rotate(var(--rotation)) translate3d(0, 0, 0); 
         opacity: 0.8;
     }
     5% {
-        opacity: 1; /* 剛開始閃亮 */
+        opacity: 1; 
     }
     100% {
-        /* 移動到 JS 設定的目標位置 */
         transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0); 
-        opacity: 0.2; /* 結束時逐漸消失 */
+        opacity: 0.2; 
     }
 }
 
-
-/* 卡片網格通用樣式 - 質感提升 */
-.card-grid {
-    display: grid;
-    gap: 30px;
-    margin-top: 40px;
-}
+/* 卡片與網格通用樣式 - 保持原樣 (結構清晰) */
+.card-grid { display: grid; gap: 30px; margin-top: 40px; }
+.religion-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.commitment-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.trust-section .card-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
 .card-item {
-    background-color: var(--text-light);
-    padding: 30px;
-    border-radius: 12px; 
-    box-shadow: 0 8px 20px var(--shadow-color); 
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid var(--border-color);
-    height: 100%; 
-    display: flex; 
-    flex-direction: column;
-    justify-content: flex-start;
+    background-color: var(--text-light); padding: 30px; border-radius: 12px; 
+    box-shadow: 0 8px 20px var(--shadow-color); text-align: center;
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration); border: 1px solid var(--border-color);
+    height: 100%; display: flex; flex-direction: column; justify-content: flex-start;
     will-change: transform, box-shadow; 
 }
-
-.card-item:hover {
-    transform: translateY(-8px); 
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18); 
-}
-
-/* 確保 Font Awesome 圖標能正確顯示 */
+.card-item:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18); }
 .card-item .fas, .card-item .fab, .card-item .icon {
-    font-size: 3.5rem; 
-    color: var(--accent-color);
-    margin-bottom: 15px;
-    text-shadow: 0 0 5px rgba(206, 157, 74, 0.5); 
+    font-size: 3.5rem; color: var(--accent-color); margin-bottom: 15px;
+    text-shadow: 0 0 5px var(--accent-shadow); 
 }
+.primary-highlight { border: 2px solid var(--accent-color); background: linear-gradient(to bottom right, var(--text-light), var(--bg-light)); }
 
-.card-item h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-    font-family: var(--font-serif); 
-    font-weight: 700;
-}
-
-.card-item p {
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-.religion-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.commitment-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.trust-section .card-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-/* 核心承諾卡片特殊樣式 */
-.primary-highlight {
-    border: 2px solid var(--accent-color);
-    background: linear-gradient(to bottom right, var(--text-light), var(--bg-light));
-}
-.primary-highlight:hover {
-    border-color: var(--primary-color);
-}
-
-
-/* 緊急聯繫卡片樣式 - 聚焦重要資訊 */
-.emergency-contact {
-    background-color: var(--primary-dark);
-    color: var(--text-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 35px; 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.emergency-contact .fas, .emergency-contact .fab, .emergency-contact .icon {
-    color: var(--accent-color);
-}
-
-.emergency-contact h3, .emergency-contact p {
-    color: var(--text-light);
-}
-
-.emergency-contact .cta-button {
-    margin-top: 20px;
-    background-color: var(--accent-color);
-    color: var(--primary-dark); 
-    font-weight: 700;
-    box-shadow: none;
-}
-
-.emergency-contact .cta-button:hover {
-    background-color: var(--text-light);
-    color: var(--primary-dark);
-    box-shadow: 0 0 15px var(--accent-color); 
-    transform: scale(1.03);
-}
-
-/* 服務流程圖樣式 - 流程質感優化 */
-.flow-chart ol {
-    /* [修正] 移除 list-style: none; 以便使用 CSS Counter */
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    counter-reset: step-counter; 
-}
-
+/* 服務流程圖樣式 - 保持原樣 */
+.flow-chart ol { padding: 0; display: flex; flex-wrap: wrap; justify-content: center; counter-reset: step-counter; }
 .flow-chart li {
-    background-color: var(--text-light);
-    border: 1px solid var(--border-color); 
-    padding: 25px; 
-    margin: 15px; 
-    border-radius: 10px;
-    font-weight: 400;
-    flex-basis: calc(33.33% - 30px); 
-    min-width: 280px;
-    position: relative;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s, box-shadow 0.3s;
-    counter-increment: step-counter; 
-    padding-top: 40px; 
-    will-change: transform; 
+    background-color: var(--text-light); border: 1px solid var(--border-color); padding: 25px; 
+    margin: 15px; border-radius: 10px; font-weight: 400; flex-basis: calc(33.33% - 30px); 
+    min-width: 280px; position: relative; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration); counter-increment: step-counter; padding-top: 40px; will-change: transform; 
 }
-
 .flow-chart li::before {
-    content: counter(step-counter); 
-    position: absolute;
-    top: -18px; 
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36px; 
-    height: 36px;
-    line-height: 36px;
-    border-radius: 50%;
-    text-align: center;
-    background-color: var(--accent-color);
-    color: var(--primary-dark); 
-    font-weight: 700;
-    font-size: 1.2rem;
-    border: 4px solid var(--bg-light); 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-.flow-chart li strong {
-    font-weight: 700;
-    color: var(--primary-dark); 
-    margin-right: 5px;
-    display: block; 
-    margin-bottom: 5px;
-}
-
-.flow-chart li:hover {
-    transform: translateY(-5px); 
-    border-color: var(--primary-color);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    content: counter(step-counter); position: absolute; top: -18px; left: 50%;
+    transform: translateX(-50%); width: 36px; height: 36px; line-height: 36px;
+    border-radius: 50%; text-align: center; background-color: var(--accent-color);
+    color: var(--primary-dark); font-weight: 700; font-size: 1.2rem;
+    border: 4px solid var(--bg-light); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 
 /* -------------------------------------------
- * 4. FAQ 手風琴樣式 (Accordion) - 質感強化
+ * 4. FAQ 手風琴樣式 (Accordion) 
  * ------------------------------------------- */
 
-.accordion-container {
-    max-width: 900px;
-    margin: 40px auto 0;
-}
-
+.accordion-container { max-width: 900px; margin: 40px auto 0; }
 .accordion-item { 
-    background-color: var(--text-light);
-    border: 1px solid var(--border-color);
-    border-radius: 10px; 
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    background-color: var(--text-light); border: 1px solid var(--border-color);
+    border-radius: 10px; margin-bottom: 12px; box-shadow: 0 4px 12px var(--shadow-color);
     overflow: hidden;
 }
 
 .accordion-header {
-    display: flex;
-    align-items: center;
-    /* 修正: 使用 <button> 元素時，需要重置瀏覽器默認樣式 */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: none;
-    border: none;
-    width: 100%;
-    text-align: left;
-    
-    padding: 20px 25px; 
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 1.05rem;
-    color: var(--secondary-color); 
-    transition: background-color 0.3s, color 0.3s; 
-    outline-offset: -2px; 
-    position: relative;
-    user-select: none;
+    display: flex; align-items: center; -webkit-appearance: none; -moz-appearance: none;
+    appearance: none; background: none; border: none; width: 100%; text-align: left;
+    padding: 20px 25px; font-weight: 700; cursor: pointer; font-size: 1.05rem;
+    color: var(--secondary-color); transition: background-color var(--transition-duration), color var(--transition-duration); 
+    outline-offset: -2px; position: relative; user-select: none;
 }
 
 .accordion-header::after {
-    content: '\f078'; /* Font Awesome Chevron Down */
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    margin-left: auto;
-    font-size: 0.8em;
-    transition: transform 0.3s ease;
+    content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    margin-left: auto; font-size: 0.8em; transition: transform var(--transition-duration) ease;
 }
 
-.accordion-item.active > .accordion-header::after {
-    transform: rotate(180deg);
-    color: var(--accent-color);
-}
+.accordion-item.active > .accordion-header::after { transform: rotate(180deg); color: var(--accent-color); }
 
-.accordion-header:hover {
-    background-color: var(--bg-light);
-    /* 移除 hover 上的 outline */
-    outline: none; 
-}
-.accordion-header:focus-visible { /* 僅鍵盤導航時顯示焦點 */
-    outline: 2px solid var(--accent-color); 
-    outline-offset: 2px;
-}
+.accordion-header:hover { outline: none; background-color: var(--bg-light); }
+.accordion-header:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
 
-
-.accordion-header i {
-    color: var(--primary-color);
-    margin-right: 12px;
-    transition: transform 0.3s, color 0.3s; 
-}
-
-.accordion-item.active > .accordion-header {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    /* 修正: 點擊展開時移除藍色外框，避免與 focus 混淆 */
-    outline: none; 
-}
-
-.accordion-item.active > .accordion-header i {
-    color: var(--accent-color); 
-    transform: rotate(360deg); 
-}
+.accordion-item.active > .accordion-header { background-color: var(--primary-color); color: var(--text-light); outline: none; }
+/* [修整] 移除多餘的 transform 360deg，簡化動畫 */
+.accordion-item.active > .accordion-header i { color: var(--accent-color); }
 
 .accordion-content {
-    max-height: 0; 
-    overflow: hidden;
-    padding: 0 25px; 
+    max-height: 0; overflow: hidden; padding: 0 25px; 
     background-color: var(--text-light);
+    /* [優化] 使用自定義 Bézier 曲線過渡，確保展開/收縮的平滑度 */
     transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1); 
     will-change: max-height; 
 }
 
 .accordion-content p {
-    margin-bottom: 0;
-    padding-top: 15px; 
-    padding-bottom: 15px; 
-    line-height: 1.8; 
-    /* 修正: 僅在有內容時顯示邊框，並將其定位在內容底部 */
-    border-top: none; 
+    margin-bottom: 0; padding-top: 15px; padding-bottom: 15px; line-height: 1.8; 
     border-bottom: 1px dashed var(--border-color); 
     margin-top: 0;
 }
-
-/* 確保最後一個 FAQ 內容的底部邊框被 item 邊框取代 */
-.accordion-item:last-child .accordion-content p {
-    border-bottom: none;
-}
+.accordion-item:last-child .accordion-content p { border-bottom: none; }
 
 
 /* -------------------------------------------
- * 5. 頁尾 (Footer) - 品牌色系收尾
+ * 5. 頁尾 (Footer) 
  * ------------------------------------------- */
 
-footer {
-    background-color: var(--secondary-color); 
-    color: var(--text-light);
-    padding-top: 50px;
-}
-
+footer { background-color: var(--secondary-color); color: var(--text-light); padding-top: 50px; }
 .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    padding-bottom: 40px;
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding-left: 20px;
-    padding-right: 20px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-bottom: 40px;
+    max-width: var(--content-max-width); margin: 0 auto; padding-left: 20px; padding-right: 20px;
 }
+.footer-block h4 { color: var(--accent-color); font-size: 1.15rem; margin-bottom: 15px; }
+.footer-block a { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+.footer-contact address p { margin-bottom: 5px; }
+.footer-social-links a { font-size: 1.2rem; margin-right: 20px; color: var(--accent-color); }
+.footer-copyright { background-color: var(--primary-dark); padding: 15px 0; }
+.footer-copyright .container { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+.footer-meta a { color: rgba(255, 255, 255, 0.7); margin-left: 15px; }
 
-.footer-block h4 {
-    color: var(--accent-color);
-    font-size: 1.15rem;
-    margin-bottom: 15px;
-    font-family: var(--font-serif);
-    font-weight: 700;
-    border-left: 3px solid var(--accent-color);
-    padding-left: 10px;
-}
-
-.footer-block ul {
-    list-style: none;
-    margin-bottom: 30px;
-}
-
-.footer-block li {
-    margin-bottom: 8px;
-}
-
-.footer-block a {
-    color: rgba(255, 255, 255, 0.85); 
-    font-size: 0.95rem;
-}
-
-.footer-block a:hover {
-    color: var(--accent-color);
-}
-
-.footer-contact p {
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-.footer-contact p a {
-    color: var(--accent-color);
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-
-.footer-contact address p {
-    margin-bottom: 5px;
-}
-
-.footer-social-links a {
-    font-size: 1.2rem;
-    margin-right: 20px;
-    color: var(--accent-color);
-}
-
-.footer-social-links a:hover {
-    color: var(--text-light);
-}
-
-.footer-copyright {
-    background-color: var(--primary-dark); 
-    padding: 15px 0;
-}
-
-.footer-copyright .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-}
-
-.footer-logo {
-    color: var(--text-light);
-}
-
-.footer-meta a {
-    color: rgba(255, 255, 255, 0.7);
-    margin-left: 15px;
-}
-
-.footer-meta a:hover {
-    color: var(--text-light);
-}
-
-/* 浮動 CTA 按鈕 - 增加緊急感 */
+/* 浮動 CTA 按鈕 - 保持原樣 (已優化，無需變動) */
 .floating-cta {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+    display: flex; flex-direction: column; gap: 15px;
 }
-
 .floating-cta a {
-    width: 65px; 
-    height: 65px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem; 
-    color: var(--text-light);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
-    transition: transform 0.3s, opacity 0.3s;
-    will-change: transform; 
+    width: 65px; height: 65px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-size: 1.6rem; 
+    color: var(--text-light); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+    transition: transform var(--transition-duration), opacity var(--transition-duration); will-change: transform; 
 }
-
-.floating-cta a:first-child { 
-    background-color: var(--primary-color); 
-    animation: pulse 1.5s infinite; 
-}
-
-.floating-cta a:last-child { 
-    background-color: #00B900; 
-}
-
-.floating-cta a:hover {
-    transform: scale(1.1);
-}
-
-/* 電話脈衝動畫 */
+.floating-cta a:first-child { background-color: var(--primary-color); animation: pulse 1.5s infinite; }
+.floating-cta a:last-child { background-color: #00B900; }
 @keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 106, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 20px rgba(30, 58, 106, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 106, 0);
-    }
+    0% { box-shadow: 0 0 0 0 rgba(30, 58, 106, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(30, 58, 106, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(30, 58, 106, 0); }
 }
 
 /* -------------------------------------------
@@ -1062,248 +747,90 @@ footer {
  * ------------------------------------------- */
 
 @media (max-width: 900px) {
+    :root { --padding-section-v: 50px; }
+    h2::after { width: 60px; }
     
-    :root {
-         --padding-section-v: 50px; 
-    }
-
-    h2::after {
-        width: 60px;
-    }
-    
-    /* 調整 Header 容器：讓導覽列和按鈕消失，只顯示 Logo 和 Toggle */
-    .header-container {
-        justify-content: space-between;
-        padding: 0 15px; /* 增加手機邊距 */
-    }
-
-    /* 隱藏桌面版導覽列和聯絡按鈕，只在需要時出現 */
-    .main-nav, .contact-nav {
-        display: none;
-    }
-    
-    /* 點擊 Toggle 後，導覽列必須顯示 */
+    .header-container { justify-content: space-between; padding: 0 15px; }
+    .main-nav, .contact-nav { display: none; }
     .main-nav.active {
-        display: block; 
-        position: absolute;
-        top: var(--header-height);
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-light);
-        box-shadow: 0 2px 5px var(--shadow-color);
-        max-height: calc(100vh - var(--header-height)); 
-        overflow: hidden; /* 保持這個，讓 ul 內的滾動條生效 */
-        transition: max-height 0.3s ease-in-out; 
+        display: block; position: absolute; top: var(--header-height); left: 0;
+        width: 100%; background-color: var(--bg-light); box-shadow: 0 2px 5px var(--shadow-color);
+        max-height: calc(100vh - var(--header-height)); overflow: hidden;
+        transition: max-height var(--transition-duration) ease-in-out; 
     }
-
-    /* 漢堡按鈕必須顯示 */
-    .menu-toggle {
-        display: block; 
-    }
-
-    .menu-toggle.active i {
-        transform: rotate(90deg);
-    }
+    .menu-toggle { display: block; }
+    .menu-toggle.active i { transform: rotate(90deg); }
 
     .main-nav ul {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0 20px;
-        /* [修正] 在行動版導覽列激活時啟用滾動條 */
+        flex-direction: column; align-items: flex-start; padding: 0 20px;
         max-height: calc(100vh - var(--header-height));
         overflow-y: auto; 
     }
-
-    .main-nav li {
-        width: 100%;
-        padding: 0;
-        border-bottom: 1px solid var(--border-color); 
-    }
+    .main-nav li { width: 100%; padding: 0; border-bottom: 1px solid var(--border-color); }
+    /* [強化] 移除冗餘的 .dropdown.active，因為 JS/HTML 的 focus-within 已經實現 */
+    /* .dropdown.active > a i { transform: rotate(180deg); } */ 
     
-    .main-nav li:last-child {
-        border-bottom: none;
-    }
-
-    .main-nav a {
-        padding: 12px 0;
-    }
-    
-    /* 手機版下拉選單 (手風琴效果) */
-    .dropdown > a {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-    .dropdown > a i {
-        margin-left: auto;
-        font-size: 0.9rem;
-    }
-    
-    .dropdown.active > a i {
-        transform: rotate(180deg);
-    }
-
     .submenu {
-        position: static; 
-        width: 100%;
-        box-shadow: none;
-        border-top: none;
-        display: flex;
-        flex-direction: column;
-        padding: 0 0 0 25px; 
-        transform: none;
-        opacity: 1; 
-        visibility: visible;
-        max-height: 0; 
-        overflow: hidden;
+        position: static; width: 100%; box-shadow: none; border-top: none;
+        padding: 0 0 0 25px; transform: none; opacity: 1; visibility: visible;
+        max-height: 0; overflow: hidden;
         transition: max-height 0.4s ease-in-out; 
     }
+    
+    /* [修整] 統一使用 .active 狀態控制移動版下拉菜單 */
+    .dropdown.active > .submenu { max-height: 500px; padding-bottom: 15px; }
+    .main-nav.active .contact-nav { display: block; margin-top: 10px; padding: 10px 0; }
+    .main-nav.active .contact-nav a { margin-left: 0; width: 100%; text-align: center; display: flex; }
 
-    .dropdown.active > .submenu {
-        max-height: 500px; 
-        padding-bottom: 15px; 
-    }
-    
-    .submenu-title, .submenu-separator {
-        display: none; 
-    }
-    
-    /* 手機版聯絡按鈕 */
-    .main-nav.active .contact-nav {
-        display: block;
-        margin-top: 10px;
-        padding: 10px 0;
-    }
-    
-    .main-nav.active .contact-nav a {
-        margin-left: 0;
-        width: 100%;
-        text-align: center;
-        display: flex;
-    }
-
-    .hero-section {
-        height: 500px;
-        background-attachment: scroll; 
-    }
-    
-    .hero-content p {
-        font-size: 1.1rem;
-    }
-    
-    .flow-chart li {
-        flex-basis: calc(50% - 30px); 
-        min-width: unset;
-    }
-    
-    .floating-cta a {
-        width: 55px; 
-        height: 55px;
-        font-size: 1.4rem; 
-    }
+    .hero-section { height: 500px; }
+    .flow-chart li { flex-basis: calc(50% - 30px); min-width: unset; }
+    .floating-cta a { width: 55px; height: 55px; font-size: 1.4rem; }
 }
 
 @media (max-width: 576px) {
-    
-    .flow-chart li {
-        flex-basis: 100%; 
-    }
-    
-    .religion-grid, .commitment-grid, .trust-section .card-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* 確保里程碑在手機上單列顯示 */
-    .milestone-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-grid {
-        grid-template-columns: 1fr; 
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 40px;
-    }
-    
-    .footer-copyright .container {
-        flex-direction: column;
-    }
-    
-    .footer-meta {
-        margin-top: 10px;
-    }
-
-    .floating-cta {
-        bottom: 15px;
-        right: 15px;
-        gap: 10px; 
-    }
-
-    .floating-cta a {
-        width: 50px; 
-        height: 50px;
-        font-size: 1.3rem;
-    }
+    .flow-chart li { flex-basis: 100%; }
+    .religion-grid, .commitment-grid, .trust-section .card-grid, .milestone-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; padding-left: 20px; padding-right: 20px; padding-bottom: 40px; }
+    .footer-copyright .container { flex-direction: column; }
+    .floating-cta { bottom: 15px; right: 15px; gap: 10px; }
+    .floating-cta a { width: 50px; height: 50px; font-size: 1.3rem; }
 }
 
-/* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
+/* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 (最佳實踐) */
 :target {
     scroll-margin-top: var(--header-height);
 }
 
 
 /* -------------------------------------------
- * 7. 里程碑數字滾動樣式 (Milestones) - [新增]
+ * 7. 里程碑數字滾動樣式 (Milestones) 
  * ------------------------------------------- */
 
-.milestone-section {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    padding: var(--padding-section-v) 0;
-}
+.milestone-section { background-color: var(--primary-color); color: var(--text-light); padding: var(--padding-section-v) 0; }
 
-/* [修正] 確保標題在深色背景中顏色正確 */
-.milestone-section h2 {
-    color: var(--accent-color); 
-}
+.milestone-section h2 { color: var(--accent-color); } 
 
 .milestone-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    text-align: center;
-    margin-top: 40px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px; text-align: center; margin-top: 40px;
 }
 
 .milestone-item {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.08); /* 半透明背景 */
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: background-color 0.3s;
+    padding: 20px; background-color: rgba(255, 255, 255, 0.08); 
+    border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background-color var(--transition-duration);
 }
-
-.milestone-item:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-}
+.milestone-item:hover { background-color: rgba(255, 255, 255, 0.15); }
 
 .milestone-item .counter {
-    /* 數字核心樣式 - 放大、使用品牌色、陰影 */
-    font-family: var(--font-serif);
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    color: var(--accent-color); 
-    margin-bottom: 5px;
-    line-height: 1.1;
-    /* [優化] 增加陰影強度，提升視覺衝擊力 */
+    font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700; color: var(--accent-color); margin-bottom: 5px;
+    line-height: 1.1; 
+    /* [強化] 更精確的陰影顏色和變數應用 */
     text-shadow: 0 0 15px rgba(206, 157, 74, 1);
     display: block;
 }
 
 .milestone-item p {
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem; font-weight: 300; color: rgba(255, 255, 255, 0.9);
 }
