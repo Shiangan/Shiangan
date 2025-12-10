@@ -1,4 +1,71 @@
-   // ====================================================
+/* ====================================================
+   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 完整優化)
+   ==================================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ====================================================
+    // 0. 初始設定與變數 (Initial Setup & Variables)
+    // ====================================================
+
+    const header = document.querySelector('.main-header');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('#main-nav');
+    const body = document.body;
+    const mobileBreakpoint = 900;
+    const currentYearSpan = document.getElementById('current-year');
+
+    // 輔助函數： Debounce (去抖動) - 優化性能
+    function debounce(func, delay = 150) {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
+
+    // 輔助函數：關閉所有手機子菜單 (清除 .active 類別)
+    function closeAllMobileSubmenus() {
+        if (mainNav) {
+            mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+                li.classList.remove('active');
+            });
+        }
+    }
+
+    // 輔助函數：處理 RWD 調整時的狀態清理
+    function handleResizeCleanup() {
+         if (window.innerWidth > mobileBreakpoint) {
+             if (mainNav && mainNav.classList.contains('active')) {
+                 mainNav.classList.remove('active');
+                 body.classList.remove('no-scroll');
+
+                 if (menuToggle) {
+                     menuToggle.setAttribute('aria-expanded', 'false');
+                     const menuIcon = menuToggle.querySelector('i');
+                     if (menuIcon && menuIcon.classList.contains('fa-times')) {
+                         menuIcon.classList.replace('fa-times', 'fa-bars');
+                     }
+                 }
+                 closeAllMobileSubmenus();
+             }
+
+             // [新增] 窗口調整時，如果 FAQ 是打開的，重新計算 max-height
+             document.querySelectorAll('.accordion-item.active').forEach(item => {
+                 const content = item.querySelector('.accordion-content');
+                 if (content) {
+                     content.style.maxHeight = content.scrollHeight + "px";
+                 }
+             });
+         }
+    }
+
+    window.addEventListener('resize', debounce(handleResizeCleanup, 150));
+
+
+    // ====================================================
     // 1. Header & 滾動樣式處理 (Sticky Header & Scroll Class)
     // ====================================================
     function updateHeaderScrollClass() {
@@ -341,4 +408,3 @@
     }
 
 });
-
