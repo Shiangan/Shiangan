@@ -1,15 +1,9 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V25.0 完美聯動版 - 配合夜空深藍主題)
-   
-   - 核心功能：Header滾動、RWD菜單、通用手風琴、圖片延遲載入 (IO)、
-     平滑滾動、流星動畫、里程碑數字滾動 (IO)、智慧 CTA 隱藏 (IO)、
-     輕微視差滾動 (RAF)。
-   - 優化：全面採用高性能API (requestAnimationFrame, IntersectionObserver, translate3d)。
-   - 結構：採用 IIFE 封裝，防止全域變數污染。
+   程式夥伴 - 網站核心 JavaScript (V25.1 菜單穩定修復版)
    ==================================================== */
 
 // 0. **抗閃爍機制 (SEO/UX 優化)**
-document.body.classList.remove('js-loading');
+document.documentElement.classList.remove('js-loading');
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -29,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentYearSpan = document.getElementById('current-year');
         const floatingCta = document.querySelector('.floating-cta'); 
         const footer = document.querySelector('footer'); 
-        // 修正 Hero 選擇器，使用 Hero 區塊的類名
         const heroSection = document.querySelector('.hero-section'); 
         
         // 性能優化標記
@@ -52,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (mainNav) {
                 mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                     li.classList.remove('active');
+                    // 確保 ARIA 狀態被正確更新
+                    const link = li.querySelector('li.dropdown > a');
+                    if (link) {
+                        link.setAttribute('aria-expanded', 'false');
+                    }
                 });
             }
         }
@@ -62,8 +60,17 @@ document.addEventListener('DOMContentLoaded', function() {
              if (window.innerWidth > mobileBreakpoint) {
                  if (mainNav && mainNav.classList.contains('active')) {
                      
-                     // 執行關閉菜單的邏輯
-                     menuToggle.click(); // 使用模擬點擊來觸發菜單的關閉邏輯
+                     // 執行關閉菜單的邏輯，避免殘留
+                     mainNav.classList.remove('active');
+                     body.classList.remove('no-scroll');
+                     
+                     if (menuToggle) {
+                         menuToggle.setAttribute('aria-expanded', 'false');
+                         const menuIcon = menuToggle.querySelector('i');
+                         if (menuIcon) {
+                             menuIcon.classList.replace('fa-times', 'fa-bars');
+                         }
+                     }
                  }
                  // 確保所有子選單狀態被重置
                  closeAllMobileSubmenus(); 
@@ -88,15 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateScrollState() {
             const scrolled = window.scrollY > 0;
             if (header) {
-                // 減少直接操作 DOM 次數
                 if (header.classList.contains('scrolled') !== scrolled) {
                     header.classList.toggle('scrolled', scrolled);
                 }
             }
             
-            // 觸發視差滾動
             handleParallax();
-            
             isScrolling = false;
         }
         
@@ -108,13 +112,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (header) {
-            // 初始檢查狀態
             updateScrollState(); 
             window.addEventListener('scroll', scrollHandler, { passive: true });
         }
         
         // ====================================================
-        // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
+        // 2. ⭐️ RWD 手機菜單切換 (Hamburger Menu Toggle) - 修復核心
         // ====================================================
         if (menuToggle && mainNav) {
             const menuIcon = menuToggle.querySelector('i'); 
@@ -138,14 +141,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // ====================================================
-        // 3. ⭐️ 響應式導航手風琴選單 (Mobile Navigation Accordion) - 核心修正
+        // 3. ⭐️ 響應式導航手風琴選單 (Mobile Navigation Accordion) - 修復核心
         // ====================================================
         if (mainNav) {
             mainNav.addEventListener('click', function(e) {
-                // 只在移動端生效 (當主菜單展開時才處理)
+                
+                // 必須在手機模式且主菜單展開時才處理子菜單點擊
                 if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active')) { 
                     
-                    // 確保點擊的是帶有下拉菜單的頂層連結
+                    // 找到點擊的目標連結 (必須是 li.dropdown 的直屬 a)
                     const targetLink = e.target.closest('li.dropdown > a'); 
 
                     if (targetLink) {
@@ -163,32 +167,39 @@ document.addEventListener('DOMContentLoaded', function() {
                                 mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                                     if (li !== parentLi) {
                                         li.classList.remove('active');
+                                        li.querySelector('li.dropdown > a').setAttribute('aria-expanded', 'false');
                                     }
                                 });
                             }
                             
                             // 2. 切換當前項目的狀態
                             parentLi.classList.toggle('active');
+                            targetLink.setAttribute('aria-expanded', !isCurrentlyActive);
 
-                            // 確保選單箭頭圖標在點擊時也能旋轉
-                            const icon = targetLink.querySelector('.fas');
+                            // 確保選單箭頭圖標在點擊時也能旋轉 (假設箭頭在 targetLink 內)
+                            const icon = targetLink.querySelector('.fa-chevron-down');
                             if (icon) {
                                 icon.style.transform = parentLi.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
                             }
                             
-                        } else if (mainNav.classList.contains('active')) {
-                            // 點擊無下拉菜單的連結，導航後關閉菜單 
+                        } else {
+                            // 點擊無下拉菜單的頂層連結，導航後關閉菜單 
                             setTimeout(() => menuToggle.click(), 50); 
                         }
                     }
-                    // 確保點擊 submenu 內的連結後，整個主選單關閉
-                    if (e.target.closest('.submenu a') && mainNav.classList.contains('active')) {
+                    // 點擊子菜單 (.submenu a) 內的連結，導航後關閉整個主選單
+                    else if (e.target.closest('.submenu a')) {
                         setTimeout(() => menuToggle.click(), 50);
                     }
                 }
+                // 處理桌面模式下的 tabindex="0" 導致的點擊事件（如果需要）
+                else if (window.innerWidth > mobileBreakpoint) {
+                    // 在桌面版，點擊帶有 submenu 的 a 連結不應該阻止預設行為 (因為 CSS 已經處理懸浮下拉)
+                    // 但如果點擊的是 li.dropdown 本身，則不做任何處理
+                }
             });
         }
-
+        
         // ====================================================
         // 4. 通用手風琴 (FAQ Accordion Component Logic)
         // ====================================================
@@ -201,8 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
                  content.id = `${uniqueId}-content`;
                  header.setAttribute('aria-controls', content.id);
 
-                 // 初始化狀態檢查
                  const isActive = item.classList.contains('active');
+                 // 確保初始高度設定正確
                  content.style.maxHeight = isActive ? content.scrollHeight + "px" : '0px';
 
                  header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
@@ -231,13 +242,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     if (!isCurrentlyActive) {
                         this.setAttribute('aria-expanded', 'true');
-                        // ⭐️ 修正：確保在下一幀計算並設定展開高度
                         requestAnimationFrame(() => {
                             currentContent.style.maxHeight = currentContent.scrollHeight + "px"; 
                         });
                     } else {
                         this.setAttribute('aria-expanded', 'false');
-                        // ⭐️ 修正：為了實現平滑收合動畫
                         currentContent.style.maxHeight = currentContent.scrollHeight + "px";
                         
                         requestAnimationFrame(() => {
@@ -253,14 +262,13 @@ document.addEventListener('DOMContentLoaded', function() {
                  header.addEventListener('keydown', function(e) {
                      if (e.key === 'Enter' || e.key === ' ') {
                          e.preventDefault();
-                         toggleAccordion.call(this); // 使用 call 確保 this 指向 header
+                         toggleAccordion.call(this);
                      }
                  });
                  
                  // 窗口調整時重新計算 max-height
                  window.addEventListener('resize', debounce(() => {
                      if (item.classList.contains('active')) {
-                         // 僅在 active 時才需要重新計算高度
                          content.style.maxHeight = content.scrollHeight + "px";
                      }
                  }, 100));
@@ -268,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // ====================================================
-        // 5. 圖片延遲載入 (Image Lazy Loading) - 使用 IO
+        // 5. 圖片延遲載入 (Image Lazy Loading)
         // ====================================================
         const lazyImages = document.querySelectorAll('img[data-src], source[data-srcset]');
         
@@ -282,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (entry.isIntersecting) {
                         const target = entry.target;
                         
-                        // 處理 img 標籤
                         if (target.tagName === 'IMG' && target.dataset.src) {
                             target.src = target.dataset.src;
                             target.alt = target.dataset.alt || target.alt || '網站圖片'; 
@@ -290,7 +297,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             target.removeAttribute('data-alt');
                         }
                         
-                        // 處理 source 標籤 (適用於 <picture> 內部)
                         if (target.tagName === 'SOURCE' && target.dataset.srcset) {
                             target.srcset = target.dataset.srcset;
                             target.removeAttribute('data-srcset');
@@ -306,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
         } else {
-            // Fallback for older browsers (同步載入)
+            // Fallback for older browsers
             lazyImages.forEach(el => {
                 if (el.tagName === 'IMG' && el.dataset.src) {
                     el.src = el.dataset.src;
@@ -341,7 +347,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                      const headerHeight = header ? header.offsetHeight : 0;
                      const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
-                     // 減去 Header 高度，避免內容被遮擋
                      const targetPosition = targetTop - headerHeight;
                          
                      window.scrollTo({
@@ -349,7 +354,6 @@ document.addEventListener('DOMContentLoaded', function() {
                          behavior: 'smooth'
                      });
                      
-                     // 讓焦點回到目標元素，提升無障礙體驗
                      targetElement.setAttribute('tabindex', '-1');
                      targetElement.focus();
                 }
@@ -374,12 +378,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 let initialLeft, initialTop;
                 
-                // ⭐️ 優化：70% 機率從右上方進入 (更常見的流星角度)
                 if (Math.random() > 0.3) {
                      initialLeft = 105; 
                      initialTop = Math.random() * 80 - 20; 
                 } else {
-                     // 30% 機率從上方進入
                      initialTop = -10; 
                      initialLeft = Math.random() * 105; 
                 }
@@ -387,20 +389,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 meteor.style.left = `${initialLeft}vw`;
                 meteor.style.top = `${initialTop}vh`;
                 
-                // 調整角度和軌跡
                 const rotation = Math.random() * 20 - 135; 
                 const travelX = -(120 + Math.random() * 80); 
                 const travelY = 80 + Math.random() * 80; 
 
-                // 使用 CSS 變數來控制動畫，性能最佳
                 meteor.style.setProperty('--rotation', `${rotation}deg`);
                 meteor.style.setProperty('--travel-x', `${travelX}vw`);
                 meteor.style.setProperty('--travel-y', `${travelY}vh`);
                 
-                // 動畫結束後移除並重新生成
                 meteor.addEventListener('animationend', () => {
                      meteor.remove();
-                     // 隨機延遲後再次生成，確保不規則
                      setTimeout(() => requestAnimationFrame(createMeteor), Math.random() * 4000 + 1000); 
                 }, { once: true }); 
 
@@ -409,13 +407,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 meteor.style.animationDelay = `${delay}s`;
                 meteor.style.animationTimingFunction = 'linear'; 
                 meteor.style.pointerEvents = 'none'; 
-                meteor.style.willChange = 'transform, opacity'; // 性能優化
+                meteor.style.willChange = 'transform, opacity';
 
                 heroSection.appendChild(meteor);
             }
 
             for (let i = 0; i < numMeteors; i++) {
-                // 初始時分散生成
                 setTimeout(() => requestAnimationFrame(createMeteor), Math.random() * 5000); 
             }
         }
@@ -434,12 +431,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // ====================================================
         function startCounter(entries, observer) {
             entries.forEach(entry => {
-                // 確保只在元素進入視窗且可見時觸發
                 if (entry.isIntersecting && entry.intersectionRatio > 0) { 
                     const counter = entry.target;
                     const targetText = counter.dataset.count;
                     
-                    // ⭐️ 修正：強健地提取目標數字和後綴
                     const targetMatch = targetText.match(/^-?[\d\s,.]+/);
                     const target = targetMatch ? parseInt(targetMatch[0].replace(/[^0-9]/g, '')) : 0;
 
@@ -447,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const suffix = suffixMatch ? suffixMatch[0] : '';
                     
                     let current = 0;
-                    const duration = 1500; // 滾動時間 1.5s
+                    const duration = 1500; 
                     const startTime = performance.now();
 
                     function animateCount(timestamp) {
@@ -455,7 +450,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         const progress = Math.min(1, elapsed / duration);
                         current = target * progress;
                         
-                        // 使用 toLocaleString 添加千分位分隔符
                         let displayValue = Math.round(current).toLocaleString(undefined, { maximumFractionDigits: 0 });
                         
                         counter.textContent = displayValue + suffix; 
@@ -480,11 +474,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             counters.forEach(counter => {
-                // 確保目標數字被儲存在 data 屬性中
                 if (counter.textContent && !counter.dataset.count) {
                     counter.dataset.count = counter.textContent; 
                 }
-                // 在開始觀察前，將計數器歸零（或設為 0），避免閃爍
                 counter.textContent = '0'; 
                 counterObserver.observe(counter);
             });
@@ -514,7 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }, {
                 root: null,
-                // ⭐️ 修正：使用固定的負值作為根邊距，讓 CTA 在 Footer 頂部**到達視窗底部前**就開始隱藏
                 rootMargin: `0px 0px -${offset}px 0px`, 
                 threshold: 0 
             });
@@ -534,9 +525,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const speed = parseFloat(element.dataset.speed) || 0.1; 
                 const yPos = scrolled * speed;
                 
-                // 使用 translate3d 提升 GPU 渲染性能
                 element.style.transform = `translate3d(0, ${yPos}px, 0)`;
-                element.style.willChange = 'transform'; // 性能優化
+                element.style.willChange = 'transform';
             });
         }
         
