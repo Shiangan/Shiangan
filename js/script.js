@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 完整優化)
+   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 選單穩定加強版)
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -30,15 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // 輔助函數：關閉所有手機子菜單 (清除 .active 類別)
+    // 輔助函數：關閉所有手機子菜單 (清除 .active 類別及內聯樣式)
     function closeAllMobileSubmenus() {
         if (mainNav) {
             mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                 const submenu = li.querySelector('.submenu');
                 li.classList.remove('active');
-                // 確保內聯樣式也被清理，以配合 CSS 過渡
+                // 確保內聯樣式被清理，以配合 CSS 過渡
                 if (submenu) {
-                    submenu.style.maxHeight = '0px';
+                    // 🚀 修正點 1：徹底清除 max-height 確保狀態重置
+                    submenu.style.maxHeight = '0px'; 
                 }
             });
         }
@@ -62,6 +63,14 @@ document.addEventListener('DOMContentLoaded', function() {
              }
              // 無論導航列是否 active，都要清理所有 dropdown active 狀態，防止佈局錯誤
              closeAllMobileSubmenus();
+             
+             // 🚀 修正點 2：確保桌面模式下，submenu 不受 max-height 限制
+             if (mainNav) {
+                 mainNav.querySelectorAll('.submenu').forEach(submenu => {
+                     // 移除手機模式下設置的任何內聯 max-height 樣式，讓桌面 CSS (hover) 接管
+                     submenu.style.maxHeight = ''; 
+                 });
+             }
 
              // 窗口調整時，重新計算 FAQ 的 max-height
              document.querySelectorAll('.accordion-item.active').forEach(item => {
