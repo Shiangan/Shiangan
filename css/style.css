@@ -1890,3 +1890,182 @@ footer {
     width: 100% !important;
 }
 
+/* ====================================================
+   [#eco-burial] 專屬樣式與優化
+   ==================================================== */
+
+/* 1. 服務類型卡片佈局優化 */
+.two-columns-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 桌面兩欄 */
+    gap: 30px;
+}
+
+.two-columns-layout .card-item {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.two-columns-layout .card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.two-columns-layout .card-item h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.two-columns-layout .card-item .subtitle {
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+}
+
+/* 列表樣式 */
+.styled-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.styled-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.styled-list .list-icon {
+    margin-right: 10px;
+    color: var(--secondary-color); /* 使用第二色強調圖標 */
+    margin-top: 3px;
+    min-width: 18px; /* 確保對齊 */
+}
+
+
+/* 2. 步驟流程 Grid 樣式 */
+.step-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.step-item {
+    text-align: center;
+    position: relative;
+    padding-top: 50px; /* 為數字留出空間 */
+}
+
+.step-number {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border: 3px solid var(--bg-white, #fff); /* 增加白色邊框突出 */
+}
+
+.step-item h4 {
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+}
+
+.step-item p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* 3. 簡潔 FAQ 樣式 (simple-faq) */
+.accordion-group .simple-faq .accordion-header {
+    background-color: var(--bg-light); /* 淺色背景 */
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color, #eee);
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.accordion-group .simple-faq.active .accordion-header,
+.accordion-group .simple-faq .accordion-header:hover {
+    background-color: var(--bg-lighter, #f9f9f9);
+    color: var(--secondary-color);
+}
+
+.accordion-group .simple-faq .accordion-content {
+    background-color: var(--bg-white, #fff);
+    padding: 0 20px;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    border-radius: 0 0 8px 8px;
+}
+
+.accordion-group .simple-faq.active .accordion-content {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+/* 4. 響應式調整 (RWD) */
+@media (max-width: 992px) {
+    .two-columns-layout {
+        grid-template-columns: 1fr; /* 中型螢幕變為一欄 */
+    }
+}
+
+@media (max-width: 768px) {
+    .step-grid {
+        grid-template-columns: 1fr; /* 手機螢幕變為一欄 */
+    }
+    
+    .step-item {
+        padding-top: 0;
+        padding-left: 50px;
+        text-align: left;
+    }
+    
+    /* 步驟數字靠左對齊 */
+    .step-number {
+        left: 0;
+        top: 0;
+        transform: none;
+    }
+
+    .styled-list li {
+        font-size: 0.9rem;
+    }
+}
+
+/* 其他雜項 */
+.shadow-soft {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+}
+.bg-white {
+    background-color: var(--bg-white, #fff);
+}
+.note-info {
+    font-size: 0.95rem;
+    padding: 15px;
+    border: 1px dashed var(--secondary-color);
+    background-color: var(--bg-lighter, #f9f9f9);
+    border-radius: 8px;
+}
+
+
