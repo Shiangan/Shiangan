@@ -1,5 +1,5 @@
 /* ====================================================
-   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 選單穩定加強版)
+   程式夥伴 - 網站核心 JavaScript (V20.8 最終聯動修正版 - 選單穩定加強版 + FitText)
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }, delay);
         };
     }
+    
+    // 【✅ 輔助函數： Debounce (去抖動) - 專門用於 Fit Text，允許更長的等待】
+    const debounceFitText = (func) => debounce(func, 80);
+
 
     // 輔助函數：關閉所有手機子菜單 (清除 .active 類別及內聯樣式)
     function closeAllMobileSubmenus() {
@@ -86,6 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
                  }
              });
          }
+         
+         // 【⭐ 觸發 Fit Text 重新計算】
+         // 雖然 Fit Text 內部有自己的 ResizeObserver，但在全域 resize 事件中觸發一次也是好的。
+         fitAll();
     }
 
     window.addEventListener('resize', debounce(handleResizeCleanup, 150));
@@ -519,25 +527,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // 確保所有邏輯已完全載入
-    // ... 其他初始化邏輯 ...
-});
-
-
-// ====================================================
-// 11. 動態文字適應 (Fit Text Logic) - 【✅ 調整為全頁面適用】
-// ====================================================
-(function () {
+    
+    
+    // ====================================================
+    // 11. 動態文字適應 (Fit Text Logic) - 【✅ 調整為全頁面適用】
+    // ====================================================
+    
     // 設定：最大、最小字級（px），以及精度（px）
     const MAX_FONT = 22;   
     const MIN_FONT = 8;    
     const PRECISION = 0.2; 
     
     // 【💡 關鍵變更 1：定義目標元素選擇器】
+    // 使用這個類別標記所有您希望自動調整大小的文字元素
     const TARGET_SELECTOR = '.fit-text-line'; 
-    // 為了清晰和避免與其他樣式衝突，建議您使用一個新的、更具體的類別，例如：.fit-text-line
-    // (如果堅持使用 .footer-text .fit-text，您需要在所有需要適應的元素上套用這兩個類別)
 
 
     // 量測並讓單一元素 fit 父容器
@@ -547,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const containerWidth = parent.clientWidth; 
         if (containerWidth <= 0) return;
 
-        // 二分搜尋邏輯 (保持不變)
+        // 二分搜尋邏輯
         let low = MIN_FONT;
         let high = MAX_FONT;
         
@@ -555,6 +558,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let w = el.getBoundingClientRect().width;
         
         if (w <= containerWidth) {
+            // 如果在最大字級下仍能適應，則直接使用最大字級
             return;
         }
 
@@ -573,7 +577,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 【💡 關鍵變更 2：套用到頁內所有目標元素】
     function fitAll() {
-        // 使用新的目標選擇器
         const nodes = document.querySelectorAll(TARGET_SELECTOR);
         nodes.forEach(el => fitOne(el));
     }
@@ -584,13 +587,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 【💡 關鍵變更 3：ResizeObserver 觀察全頁面所有目標元素的父容器】
         if (window.ResizeObserver) {
-            // 嘗試找到所有目標元素的直接父級容器，並觀察它們。
-            // 為了簡化，您可以觀察一個固定的、不會變動的頂層容器，例如 #main 或 .content-wrap
+            // 由於目標可能散佈在頁面各處，我們需要為每個目標元素的父級建立一個觀察者。
+            // 為了避免重複觀察同一個父級，我們將父級元素存儲在 Set 中。
+            const observedParents = new Set();
+            
             document.querySelectorAll(TARGET_SELECTOR).forEach(el => {
-                 if (el.parentElement) {
-                      // 觀察父元素，確保當父元素寬度變化時能觸發
+                 const parent = el.parentElement;
+                 if (parent && !observedParents.has(parent)) {
+                      // 建立觀察者
                       const ro = new ResizeObserver(debounceFitText(fitAll));
-                      ro.observe(el.parentElement);
+                      ro.observe(parent);
+                      observedParents.add(parent);
                  }
             });
         }
@@ -603,8 +610,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(startFitText).catch(startFitText);
     } else {
+        // fallback: 在頁面完全載入後啟動
         window.addEventListener('load', startFitText);
     }
-})();
-// ====================================================
+    
+    // Fit Text 邏輯結束
+    // ====================================================
 
+
+    // 確保所有邏輯已完全載入
+    // ... 其他初始化邏輯 ...
+});
