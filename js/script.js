@@ -523,3 +523,88 @@ document.addEventListener('DOMContentLoaded', function() {
     // 確保所有邏輯已完全載入
     // ... 其他初始化邏輯 ...
 });
+
+
+// ====================================================
+// 11. 動態文字適應 (Fit Text Logic) - 【✅ 調整為全頁面適用】
+// ====================================================
+(function () {
+    // 設定：最大、最小字級（px），以及精度（px）
+    const MAX_FONT = 22;   
+    const MIN_FONT = 8;    
+    const PRECISION = 0.2; 
+    
+    // 【💡 關鍵變更 1：定義目標元素選擇器】
+    const TARGET_SELECTOR = '.fit-text-line'; 
+    // 為了清晰和避免與其他樣式衝突，建議您使用一個新的、更具體的類別，例如：.fit-text-line
+    // (如果堅持使用 .footer-text .fit-text，您需要在所有需要適應的元素上套用這兩個類別)
+
+
+    // 量測並讓單一元素 fit 父容器
+    function fitOne(el) {
+        if (!el || !el.parentElement) return;
+        const parent = el.parentElement;
+        const containerWidth = parent.clientWidth; 
+        if (containerWidth <= 0) return;
+
+        // 二分搜尋邏輯 (保持不變)
+        let low = MIN_FONT;
+        let high = MAX_FONT;
+        
+        el.style.fontSize = high + "px";
+        let w = el.getBoundingClientRect().width;
+        
+        if (w <= containerWidth) {
+            return;
+        }
+
+        while (high - low > PRECISION) {
+            const mid = (low + high) / 2;
+            el.style.fontSize = mid + "px";
+            w = el.getBoundingClientRect().width;
+            if (w > containerWidth) {
+                high = mid;
+            } else {
+                low = mid;
+            }
+        }
+        el.style.fontSize = Math.max(MIN_FONT, low) + "px";
+    }
+
+    // 【💡 關鍵變更 2：套用到頁內所有目標元素】
+    function fitAll() {
+        // 使用新的目標選擇器
+        const nodes = document.querySelectorAll(TARGET_SELECTOR);
+        nodes.forEach(el => fitOne(el));
+    }
+
+    // 啟動邏輯
+    function startFitText() {
+        fitAll();
+        
+        // 【💡 關鍵變更 3：ResizeObserver 觀察全頁面所有目標元素的父容器】
+        if (window.ResizeObserver) {
+            // 嘗試找到所有目標元素的直接父級容器，並觀察它們。
+            // 為了簡化，您可以觀察一個固定的、不會變動的頂層容器，例如 #main 或 .content-wrap
+            document.querySelectorAll(TARGET_SELECTOR).forEach(el => {
+                 if (el.parentElement) {
+                      // 觀察父元素，確保當父元素寬度變化時能觸發
+                      const ro = new ResizeObserver(debounceFitText(fitAll));
+                      ro.observe(el.parentElement);
+                 }
+            });
+        }
+        
+        // 保留 window resize 兼容 (使用核心 debounce)
+        window.addEventListener('resize', debounceFitText(fitAll)); 
+    }
+
+    // 預先等待字型載入
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(startFitText).catch(startFitText);
+    } else {
+        window.addEventListener('load', startFitText);
+    }
+})();
+// ====================================================
+
