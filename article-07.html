@@ -2,74 +2,146 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>在地化：台北/新北殯儀館規費與冰存天數限制 | 殯葬百科 | 祥安生命</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【最新收費】台北二殯/新北板殯規費計算器 | 冰存費、禮廳費用比較 | 祥安生命</title>
     
-    <meta name="description" content="在地化資訊：祥安生命整理台北市第二殯儀館（二殯）、新北市板橋殯儀館等地的最新規費標準（市民/非市民）與遺體冰存天數限制，協助家屬精準預算殯儀館成本。">
+    <meta name="description" content="在地化資訊：祥安生命整理雙北（台北二殯、新北板殯）最新規費標準，提供**冰櫃費用線上計算器**，即時估算市民/非市民遺體冰存天數與成本，協助家屬精準預算殯儀館費用。">
 
     <link rel="canonical" href="https://24hour.台灣/Shiangan/article-07.html"> 
     
+    <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" as="style" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .calculator-box {
+            background-color: #fff9e6; /* 淡黃色背景 */
+            border: 2px solid #ffcc00;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        .calculator-box h2 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid #ffcc00;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .calculator-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .calculator-box input[type="date"], 
+        .calculator-box select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .calculator-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .calculator-result p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
 
- <header role="banner">
-    <div class="logo">
-        <a href="index.html" title="祥安生命有限公司 - 回到首頁">祥安生命有限公司</a>
-    </div>
-    
-    <nav id="main-nav" role="navigation" aria-label="主要網站導覽">
-        <ul>
-            <li><a href="index.html" class="active" aria-current="page">首頁</a></li>
-            <li><a href="about.html">關於我們 (E-E-A-T)</a></li>
-            
-            <li class="has-dropdown">
-                <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+ <header class="main-header" role="banner">
+    <div class="header-container container"> 
+        <div class="logo">
+            <a href="index.html" title="祥安生命有限公司 - 回到首頁">
+                <img src="images/logo.png" alt="祥安生命有限公司 Logo" class="site-logo"> 
+            </a>
+        </div>
+        
+        <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
+            <ul>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="about.html">關於我們 (E-E-A-T)</a></li>
                 
-                <ul class="submenu">
-                    <li class="submenu-title">服務項目分類</li>
-                    <li><a href="services.html#buddhist-taoist">依宗教分類 (佛/道)</a></li>
-                    <li><a href="services.html#christian">依宗教分類 (基督/天主)</a></li>
-                    <li class="submenu-separator"></li>
-                    <li><a href="plans.html#premium">尊榮方案 (高質感)</a></li>
-                    <li><a href="plans.html#economic">經濟型方案 (實惠)</a></li>
-                    <li class="submenu-separator"></li>
-                    <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
-                </ul>
-            </li>
-            
-            <li><a href="plans.html">喪葬費用公開方案</a></li>
-            
-            <li class="has-dropdown">
-                <a href="blog.html" aria-expanded="false" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
+                <li class="dropdown">
+                    <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+                    
+                    <ul class="submenu">
+                        <li class="submenu-title">依宗教分類</li>
+                        <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道)</a></li>
+                        <li><a href="services.html#Western-etiquette">西式禮儀 (基督/天主)</a></li>
+                        <li><a href="services.html#Japanese-etiquette">日式禮儀 (日蓮正宗等)</a></li>
+                        <li class="submenu-separator"></li>
+                        <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
+                    </ul>
+                </li>
                 
-                <ul class="submenu">
-                    <li class="submenu-title">常見問答與流程</li>
-                    <li><a href="blog.html#first-step">臨終/初終處理</a></li>
-                    <li><a href="blog.html#faq-process">治喪流程與細節問答</a></li>
-                    <li><a href="blog.html#law-guide">法規與補助指南</a></li>
-                    <li class="submenu-separator"></li>
-                    <li><a href="blog.html#items-guide">儀式用品解析 (棺木/骨灰罈)</a></li>
-                </ul>
-            </li>
-            
-            <li><a href="order.html">花籃訂購</a></li>
-            <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線">24H 聯絡我們</a></li>
-        </ul>
-    </nav>
+                <li><a href="plans.html">喪葬費用公開方案</a></li>
+                
+                <li class="dropdown">
+                    <a href="blog.html" class="active" aria-expanded="true" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
+                    
+                    <ul class="submenu">
+                        <li class="submenu-title">常見問答與流程</li>
+                        <li><a href="blog.html#first-step">臨終/初終處理</a></li>
+                        <li><a href="blog.html#faq-process">治喪流程與細節問答</a></li>
+                        <li><a href="blog.html#law-guide">法規與補助指南</a></li>
+                        <li class="submenu-separator"></li>
+                        <li><a href="blog.html#items-guide">儀式用品解析</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="order.html">花禮訂購</a></li>
+                <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線">24H 聯絡我們</a></li>
+            </ul>
+        </nav>
 
-    <button class="mobile-menu-btn" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-        <i class="fas fa-bars"></i> 選單
-    </button>
+        <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
+            <i class="fas fa-bars"></i> 選單
+        </button>
+    </div>
 </header>
 
 
 <main role="main">
-    <section class="container blog-page-layout">
+    <div class="container small-v-padding">
+        <nav aria-label="麵包屑">
+            <ol class="breadcrumb">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="blog.html">殯葬百科知識</a></li>
+                <li aria-current="page">在地化規費與冰存費用</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="container article-main-layout container-v-padding">
         
-        <aside class="sidebar blog-sidebar" role="complementary">
+        <aside class="sidebar article-sidebar" role="complementary">
+            
+            <div class="sidebar-block table-of-contents shadow-soft bg-white">
+                <h4><i class="fas fa-list-ul"></i> 文章目錄：快速查詢</h4>
+                <nav id="toc" aria-label="文章內容目錄">
+                    <ol>
+                        <li><a href="#calculator">冰存費用線上計算器</a></li>
+                        <li><a href="#taipei-fee">臺北市二殯規費重點</a></li>
+                        <li><a href="#newtaipei-fee">新北市板殯規費與限制</a></li>
+                        <li><a href="#strategy">降低規費的應對策略</a></li>
+                    </ol>
+                </nav>
+            </div>
+            
             <h3>文章分類導航</h3>
             <ul class="category-list">
                 <li><a href="blog.html#flow-articles"><i class="fas fa-sitemap"></i> 治喪流程與法規</a></li>
@@ -77,28 +149,61 @@
                 <li><a href="blog.html#culture-articles"><i class="fas fa-church"></i> 宗教與文化習俗</a></li>
                 <li><a href="blog.html#cases-articles"><i class="fas fa-users"></i> 服務案例與回顧</a></li>
                 <li><a href="blog.html#aftercare-articles"><i class="fas fa-compass"></i> 後續關懷與服務</a></li>
-                <li><a href="blog.html#local-articles" class="active"><i class="fas fa-map-marked-alt"></i> **在地化資訊 (台北/新北)**</a></li>
+                <li class="active"><a href="blog.html#local-articles"><i class="fas fa-map-marked-alt"></i> **在地化資訊 (雙北)**</a></li>
             </ul>
 
-            <div class="contact-promo" style="margin-top: 30px; padding: 15px; background-color: var(--bg-accent-light); border-radius: 8px;">
+            <div class="contact-promo shadow-soft" style="margin-top: 30px; padding: 20px; background-color: var(--bg-accent-light); border-radius: 8px;">
                 <h4>在地規費試算</h4>
                 <p>告訴我們您的需求與場館，我們為您精算殯儀館費用。</p>
-                <a href="tel:0978583699" class="cta-button primary small" rel="nofollow">📞 24H 費用諮詢</a>
+                <a href="tel:0978583699" class="cta-button primary small full-width-btn" rel="nofollow">📞 24H 費用諮詢</a>
+            </div>
+             <div class="contact-promo emergency-contact-box primary-highlight shadow-soft" style="margin-top: 20px;">
+                <h4><i class="fas fa-headset"></i> **24H 禮儀師即時服務**</h4>
+                <p>需要緊急移體或規劃治喪期嗎？請立即聯繫我們。</p>
+                <a href="tel:0978583699" class="cta-button primary small full-width-btn">📞 緊急專線：0978-583-699</a>
             </div>
         </aside>
 
-        <div class="article-list article-detail">
+        <article class="article-body" role="article">
             
             <p class="meta-info">發布日期：2025-12-01 | 分類：在地法規 | 撰寫：國家認證禮儀師 陳妍如</p>
-            <h1><i class="fas fa-map-marked-alt"></i> 在地化：**台北/新北**殯儀館規費與冰存天數限制</h1>
+            <h1><i class="fas fa-map-marked-alt"></i> 在地化：**雙北殯儀館規費**與冰存天數限制（附試算）</h1>
             
-            <img src="images/article-07-main.jpg" alt="台北與新北殯儀館外觀" title="雙北殯儀館規費比較" loading="lazy">
+            <img src="images/article-07-main.jpg" alt="台北與新北殯儀館外觀，象徵雙北殯葬服務" title="雙北殯儀館規費比較與計算" class="article-main-image" loading="lazy">
             
-            <p>在臺北與新北地區治喪，家屬需特別注意地方政府對殯儀館設施收取的「規費」與「使用天數限制」。規費通常分為**市民價**與**非市民價**，價差可能非常大。祥安為您整理雙北主要場館的重點資訊。</p>
+            <p class="lead-paragraph">在臺北與新北地區治喪，家屬需特別注意地方政府對殯儀館設施收取的「規費」與「使用天數限制」。規費通常分為**市民價**與**非市民價**，價差可能非常大。祥安為您整理雙北主要場館的重點資訊。</p>
 
-            <h2>臺北市第二殯儀館 (二殯) 規費重點</h2>
+            <h2 id="calculator"><i class="fas fa-calculator"></i> 冰櫃費用線上試算計算機 (以臺北市二殯為例)</h2>
             
-            <p>臺北市二殯是目前北部使用率最高的場館，規費差異主要依據逝者或申請人是否為**設籍市民**而定。</p>
+            <p>殯儀館冰存費用是規費中最容易產生大額支出的項目。使用下方計算機，您可以快速估算這部分的成本。此計算機以**臺北市二殯標準冰櫃**（市民價 $300/日，非市民價 $1,500/日）為基準計算。</p>
+
+            <div class="calculator-box">
+                <form id="fee-calculator">
+                    <label for="date-deceased">離世日期：</label>
+                    <input type="date" id="date-deceased" required>
+
+                    <label for="date-funeral">預計出殯日期：</label>
+                    <input type="date" id="date-funeral" required>
+
+                    <label for="is-citizen">設籍狀況 (逝者或直系親屬)：</label>
+                    <select id="is-citizen" required>
+                        <option value="citizen">設籍市民 (台北市/新北市)</option>
+                        <option value="non-citizen">非設籍市民 (外縣市)</option>
+                    </select>
+
+                    <button type="submit" class="cta-button primary small full-width-btn" style="margin-top: 15px;">計算冰存費用估值</button>
+                </form>
+
+                <div id="result" class="calculator-result" style="display: none;">
+                    <p>總計冰存天數：<span id="days-count">0</span> 天</p>
+                    <p>預估冰櫃總規費：<span id="estimated-fee">NT$ 0</span></p>
+                    <p style="font-size: 0.85rem; margin-top: 10px;">*此為標準冰櫃參考值，實際費用以官方收據為準。</p>
+                </div>
+            </div>
+
+            <h2 id="taipei-fee"><i class="fas fa-city"></i> 臺北市第二殯儀館 (二殯) 規費重點</h2>
+            
+            <p>臺北市二殯規費差異極大，主要依據逝者或申請人是否為**設籍市民**而定。**非市民價格通常是市民價格的 5 倍以上。**</p>
             
             <div class="table-wrapper" style="margin: 20px 0;">
                 <table>
@@ -107,23 +212,27 @@
                             <th>項目</th>
                             <th>市民 (設籍台北市)</th>
                             <th>非市民 (外縣市)</th>
+                            <th>重要說明</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>冰存費 (每日)</td>
-                            <td>$300 - $600 (依櫃體)</td>
-                            <td>$1,500 - $3,000 (依櫃體，價差 5 倍)</td>
+                            <td>**冰存費 (每日)**</td>
+                            <td>約 $300 - $600</td>
+                            <td>約 $1,500 - $3,000</td>
+                            <td>依櫃體大小/類型而定，是規費中差異最大的項目。</td>
                         </tr>
                         <tr>
-                            <td>禮廳使用費</td>
-                            <td>小型約 $3,000 - $5,000</td>
-                            <td>小型約 $15,000 - $30,000</td>
+                            <td>禮廳使用費 (小型)</td>
+                            <td>約 $3,000 - $5,000</td>
+                            <td>約 $15,000 - $30,000</td>
+                            <td>場次價格，禮廳越大價差越大。</td>
                         </tr>
                         <tr>
                             <td>火化費</td>
                             <td>約 $2,000 - $4,000</td>
                             <td>約 $8,000 - $16,000</td>
+                            <td>依火化爐具等級而定。</td>
                         </tr>
                     </tbody>
                 </table>
@@ -133,74 +242,131 @@
                 「所有規費皆須支付給殯葬處，費用標準公開。禮儀公司僅提供代辦服務。」
             </blockquote>
 
-            <h2>新北市板橋殯儀館 規費與天數限制</h2>
+            <h2 id="newtaipei-fee"><i class="fas fa-road"></i> 新北市板橋、三峽殯儀館 規費與天數限制</h2>
 
-            <p>新北市的場館，如板橋、三峽等地，同樣有市民與非市民的收費標準，但新北市更嚴格限制**冰存天數**。</p>
+            <p>新北市的場館（如板橋、三峽）同樣有市民與非市民的收費標準，但新北市更嚴格限制**冰存天數**。雖然新北的市民/非市民價差通常略小於台北，但其規費總額仍是治喪預算中的一大支出。</p>
             
-            <p class="final-reminder" style="text-align: left; font-size: 1.05rem;">
-                <i class="fas fa-stopwatch"></i> **重要限制：** 新北市部分公立殯儀館有明確規定遺體冰存上限，例如**不得超過 15 天**。家屬需提前規劃告別式日期，避免超期。
+            <p class="key-point-box secondary-tip">
+                <i class="fas fa-stopwatch"></i> **重要限制：** 新北市部分公立殯儀館有明確規定遺體冰存上限，例如**不得超過 15 天**。若超過限制，家屬可能需繳納罰款或強制移出。因此，**精準擇日**至關重要。
             </p>
 
-            <h3>規費差異與應對策略</h3>
-            <ol class="check-list">
-                <li><i class="fas fa-check"></i> **設籍確認：** 務必確認逝者或家屬設籍地點，若能申請市民價，能大幅降低殯儀館規費。</li>
-                <li><i class="fas fa-check"></i> **冰存天數控制：** 治喪期越長，規費越高。專業禮儀師會協助家屬精準擇日，將治喪期控制在最短時間內。</li>
-                <li><i class="fas fa-check"></i> **場館選擇：** 有時跨縣市租用私人或公立場館，總成本可能更低。祥安會為您進行全方位比較。</li>
+            <h2 id="strategy"><i class="fas fa-lightbulb"></i> 降低規費的應對策略與專業建議</h2>
+
+            <ol class="check-list styled-list">
+                <li><i class="fas fa-check-circle"></i> **設籍地點優先：** 務必確認逝者或**直系親屬**設籍地點，若能申請市民價，能大幅降低殯儀館規費。</li>
+                <li><i class="fas fa-check-circle"></i> **冰存天數控制：** 治喪期越長，規費越高。專業禮儀師會協助家屬精準擇日，並在不影響儀式圓滿的前提下，將治喪期控制在最短天數內。</li>
+                <li><i class="fas fa-check-circle"></i> **跨區場館比較：** 對於**非市民**而言，跨區選擇價格較低的私人會館或公立場館，總成本可能更低。祥安會為您進行全方位比較。</li>
+                <li><i class="fas fa-check-circle"></i> **選擇小型禮廳：** 禮廳費用差異極大，如非必要，建議選擇小型或中型禮廳，或在不使用禮廳的狀況下辦理告別式。</li>
             </ol>
 
-            <div style="margin-top: 50px; padding: 25px; border-top: 2px solid var(--border-color); border-bottom: 2px solid var(--border-color);">
-                <h3><i class="fas fa-book-reader"></i> 相關服務連結</h3>
-                <ul class="check-list">
-                    <li><i class="fas fa-check"></i> <a href="article-04.html">FAQ：殯葬費用高低差在哪？（含規費說明）</a></li>
-                    <li><i class="fas fa-check"></i> <a href="article-01.html">治喪流程懶人包：了解如何規劃治喪期長度</a></li>
-                </ul>
+            <div class="article-end-cta shadow-soft" style="margin-top: 50px;">
+                <h3>面對複雜的在地規費，讓祥安為您精算。</h3>
+                <p>我們提供最新的規費標準諮詢，協助您避免不必要的超額支出。</p>
+                <a href="tel:0978583699" class="cta-button primary large">📞 立即撥打 24H 規費與擇日諮詢</a>
             </div>
             
-        </div>
+        </article>
         
     </section>
     
-    <section class="container text-center cta-section" style="margin-top: 50px;">
-        <p style="font-size: 1.2rem; font-weight: 700;">面對複雜的在地規費，讓祥安為您精算。</p>
-        <a href="tel:0978583699" class="cta-button secondary large" rel="nofollow">📞 24H 規費與擇日諮詢</a>
-    </section>
 </main>
 
 <footer role="contentinfo">
-    <div class="container footer-grid">
-        <div class="footer-logo">祥安生命有限公司 © 2025</div>
-        <div class="footer-links">
+    <div class="container footer-grid wide-footer-grid">
+        <div class="footer-block footer-logo-info">
+            <div class="footer-logo">祥安生命有限公司 © <span id="current-year">2025</span></div>
+            <div class="footer-meta" style="margin-top: 5px;">
+                <a href="about.html">關於我們 (E-E-A-T)</a> | <a href="privacy.html">隱私權政策</a>
+            </div>
+        </div>
+        <div class="footer-block footer-links">
             <h4>快速連結</h4>
             <ul>
                 <li><a href="about.html">核心承諾 (E-E-A-T)</a></li>
                 <li><a href="plans.html">喪葬費用透明</a></li>
                 <li><a href="blog.html">殯葬百科知識</a></li>
-                <li><a href="order.html">訂購花籃</a></li>
+                <li><a href="order.html">花禮訂購</a></li>
             </ul>
         </div>
-        <div class="footer-links">
+        <div class="footer-block footer-links">
             <h4>服務據點與專業範圍</h4>
             <p style="color: var(--secondary-color);"><strong>服務地區：台北、新北、桃園</strong>，全台服務請洽專線。</p>
-            <address>地址：[請填寫公司地址]</address>
-            <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
-                熱門主題: 治喪流程, 喪葬補助, 台北殯儀館規費, 樹葬海葬, 告別式禁忌
-            </p>
+            <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                 地址：<span itemprop="streetAddress">新北市板橋區雙十路二段30號</span>
+            </address>
         </div>
-        <div class="footer-social">
+        <div class="footer-block footer-contact" itemscope itemtype="https://schema.org/LocalBusiness">
             <h4>24H 禮儀師陳妍如 專線</h4>
-            <p style="font-size: 1.5rem; color: var(--accent-color);">📞 <a href="tel:0978583699" rel="nofollow">0978-583-699</a></p>
-            <p>聯繫我們：</p>
-            <a href="https://line.me/ti/p/[您的LINE ID]?utm_source=website&utm_medium=footer&utm_campaign=contact" target="_blank" rel="noopener noreferrer" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
-            <a href="[您的 Facebook 專頁網址]" target="_blank" rel="noopener noreferrer" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
+            <p style="font-size: 1.5rem; color: var(--accent-color);">📞 <a href="tel:0978583699" itemprop="telephone">0978-583-699</a></p>
+            <p>線上聯繫：</p>
+            <div class="footer-social-links">
+                <a href="https://line.me/ti/p/ID-LINE-SERVICE" target="_blank" rel="noopener noreferrer external" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
+                <a href="[您的 Facebook 專頁網址]" target="_blank" rel="noopener noreferrer external" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
+            </div>
         </div>
     </div>
 </footer>
 
 <div class="floating-cta">
-    <a href="tel:0978583699" title="24H 電話諮詢" rel="nofollow"><i class="fas fa-phone"></i></a>
-    <a href="https://line.me/ti/p/[您的LINE ID]?utm_source=website&utm_medium=floating&utm_campaign=contact" target="_blank" rel="noopener noreferrer" title="LINE 即時諮詢"><i class="fab fa-line"></i></a>
+    <a href="tel:0978583699" title="24H 電話諮詢"><i class="fas fa-phone"></i></a>
+     <a href="https://line.me/ti/p/ID-LINE-SERVICE" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢"><i class="fab fa-line"></i></a>
 </div>
 
-<script src="js/script.js"></script>
+<button class="back-to-top" aria-label="回到頁面頂部" title="回到頂部"><i class="fas fa-arrow-up"></i></button>
+
+<script src="js/script.js" defer></script>
+<script>
+    document.getElementById('fee-calculator').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const dateDeceased = document.getElementById('date-deceased').value;
+        const dateFuneral = document.getElementById('date-funeral').value;
+        const isCitizen = document.getElementById('is-citizen').value;
+        const resultDiv = document.getElementById('result');
+        const daysCountSpan = document.getElementById('days-count');
+        const estimatedFeeSpan = document.getElementById('estimated-fee');
+
+        if (!dateDeceased || !dateFuneral) {
+            alert('請填寫離世日期和預計出殯日期。');
+            return;
+        }
+
+        const start = new Date(dateDeceased);
+        const end = new Date(dateFuneral);
+
+        // 計算天數：出殯當天不計算冰存費，因此是 (出殯日 - 離世日)
+        // 將毫秒轉換為天數
+        const timeDiff = end.getTime() - start.getTime();
+        let days = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+        
+        if (days < 0) {
+            // 如果出殯日期早於離世日期
+            days = 0;
+            estimatedFeeSpan.textContent = 'NT$ 0';
+            daysCountSpan.textContent = days;
+            resultDiv.style.display = 'block';
+            alert('出殯日期不能早於離世日期，請重新輸入。');
+            return;
+        }
+        
+        // 冰存費用標準 (臺北市二殯標準冰櫃參考)
+        const CITIZEN_DAILY_RATE = 300; 
+        const NON_CITIZEN_DAILY_RATE = 1500;
+        
+        let dailyRate = 0;
+        if (isCitizen === 'citizen') {
+            dailyRate = CITIZEN_DAILY_RATE;
+        } else {
+            dailyRate = NON_CITIZEN_DAILY_RATE;
+        }
+        
+        const estimatedFee = days * dailyRate;
+
+        daysCountSpan.textContent = days;
+        // 使用toLocaleString格式化數字為貨幣
+        estimatedFeeSpan.textContent = 'NT$ ' + estimatedFee.toLocaleString('en-US'); 
+        resultDiv.style.display = 'block';
+    });
+</script>
 </body>
 </html>
