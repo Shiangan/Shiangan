@@ -24,10 +24,10 @@
 
 :root {
     /* 🏆 品牌色系 - 最終質感與對比度優化 */
-    --primary-color: #1e3a6a;  /* 深藍/藏青 */
-    --primary-dark: #12213b;   /* 極深藍/夜空 */
-    --accent-color: #ce9d4a;   /* 金黃/流星色 */
-    --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
+    --primary-color: #1e3a6a;  /* 深藍/藏青 (Primary Blue) */
+    --primary-dark: #12213b;   /* 極深藍/夜空 (Darkest Blue) */
+    --accent-color: #ce9d4a;   /* 金黃/流星色 (Accent Gold) */
+    --secondary-color: #4a5c78; /* 沉穩的藍灰色 (Muted Slate) */
     
     /* 文字色系 */
     --text-dark: #2c2c2c;
@@ -49,12 +49,9 @@
     --content-max-width: 1200px;
     --padding-section-v: 80px;
 
-    /* ⭐️ 流星動畫變數 (從 JS 獲取) */
-    --rotation: -135deg;
-    --travel-x: -150vw;
-    --travel-y: 120vh;
-    --breakpoint-mobile: 576px; /* 統一使用 */
-    --breakpoint-tablet: 900px; /* 統一使用 */
+    /* ⭐️ 斷點定義 (統一管理 RWD) */
+    --breakpoint-mobile: 576px; 
+    --breakpoint-tablet: 900px; 
 }
 
 
@@ -68,6 +65,8 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    /* 💥 RWD 優化：防止在某些手機上的字體大小調整 */
+    -webkit-text-size-adjust: 100%; 
 }
 
 body {
@@ -87,33 +86,42 @@ ul, ol {
 .js-loading { opacity: 0; transition: opacity 0.5s; }
 body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; } 
 
-img { max-width: 100%; height: auto; vertical-align: middle; }
+img { 
+    max-width: 100%; 
+    height: auto; 
+    vertical-align: middle; 
+    /* 避免 img 導致的水平滾動 */
+    display: block; 
+}
 
-/* 可訪問性/焦點優化 */
+/* 可訪問性/焦點優化 - 統一 :focus-visible 樣式 */
 a {
     color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s, background-color 0.3s, opacity 0.3s, outline 0.3s;
+    transition: color 0.3s, background-color 0.3s, opacity 0.3s;
 }
 
-a:hover, a:focus {
+a:hover {
     color: var(--primary-dark);
     opacity: 0.95;
-    outline: 2px solid var(--accent-color); 
+}
+
+a:focus-visible { /* 強化可訪問性 */
+    outline: 3px solid var(--accent-color); 
     outline-offset: 2px;
 }
 
-/* 標題樣式 */
-h1, h2, h3, h4, h5, h6 { /* 統一標題族群定義 */
+/* 標題樣式 - 使用 clamp 實現流體排版 */
+h1, h2, h3, h4, h5, h6 { 
     font-family: var(--font-serif);
     line-height: 1.3;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.5rem; /* 統一使用 rem 單位 */
     color: var(--secondary-color);
     font-weight: 700;
 }
 
 h1 {
-    /* 修正：RWD 單位調整，確保下限與上限穩定 */
+    /* 🏆 流體排版：確保下限 (1.8rem) 與上限 (4.0rem) 穩定 */
     font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
     text-align: center;
     word-break: break-word;
@@ -123,7 +131,7 @@ h1 {
 }
 
 h2 {
-    /* 修正：RWD 單位調整，確保下限與上限穩定 */
+    /* 🏆 流體排版 */
     font-size: clamp(1.6rem, 3.5vmin, 2.5rem);
     margin-top: 0.5em;
     text-align: center;
@@ -148,7 +156,7 @@ h2::after {
 }
 
 h3 { 
-    /* 修正：RWD 單位調整 */
+    /* 🏆 流體排版 */
     font-size: clamp(1.3rem, 3vmin, 1.8rem); 
     color: var(--primary-color); 
     margin-bottom: 0.8em;
@@ -175,18 +183,18 @@ h6 {
     margin-bottom: 0.5em;
 }
 
-p { margin-bottom: 1em; }
+p { margin-bottom: 1rem; } /* 統一使用 rem */
 
 /* 基礎內容元素優化 */
 table, blockquote, pre, figure {
-    margin: 1.5em 0;
+    margin: 1.5rem 0; /* 統一使用 rem */
 }
 
-/* 程式碼區塊樣式 (Code Block) - 使用變數統一顏色 */
+/* 程式碼區塊樣式 (Code Block) */
 pre {
     background-color: var(--primary-dark);
     color: var(--code-color);
-    padding: 15px;
+    padding: 1rem;
     border-radius: 6px;
     overflow-x: auto;
     font-family: 'Consolas', 'Courier New', monospace;
@@ -252,7 +260,7 @@ blockquote {
     margin-right: auto;
 }
 
-/* 自動調整單行文字 */
+/* 自動調整單行文字 (fit-text-line) */
 .text-line-container {
   display: block;
   overflow: hidden; 
@@ -279,7 +287,7 @@ blockquote {
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: background-color 0.3s, box-shadow 0.3s;
-    /* 效能優化：強制提升為獨立圖層，優化滾動性能 */
+    /* 🏆 效能優化：強制提升為獨立圖層，優化滾動性能 */
     will-change: transform, background-color, box-shadow; 
     transform: translateZ(0); 
 }
@@ -301,6 +309,7 @@ main {
     /* 強化滾動效果的透明度與陰影 */
     background-color: rgba(255, 255, 255, 0.95); 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    /* 強化質感：玻璃模糊效果 */
     -webkit-backdrop-filter: blur(5px); 
     backdrop-filter: blur(5px);
 }
@@ -338,7 +347,7 @@ main {
     letter-spacing: 0.5px;
 }
 
-.main-nav a:hover, .main-nav a:focus, .main-nav a.active {
+.main-nav a:hover, .main-nav a:focus-visible, .main-nav a.active {
     color: var(--primary-color);
 }
 
@@ -349,6 +358,10 @@ main {
 }
 
 /* 下拉選單質感優化 (桌面版) */
+.dropdown {
+    position: relative;
+}
+
 .submenu {
     position: absolute;
     top: 100%;
@@ -368,9 +381,10 @@ main {
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
-    max-height: unset; 
+    max-height: 400px;
+    overflow-y: auto; 
 }
-
+    
 .dropdown:hover > .submenu,
 .dropdown:focus-within > .submenu,
 .dropdown.focus-within > .submenu { 
@@ -469,6 +483,7 @@ main {
     vertical-align: middle;
 }
 
+
 /* -------------------------------------------
  * 2. CTA 按鈕與共通元件
  * ------------------------------------------- */
@@ -517,7 +532,7 @@ main {
     box-shadow: 0 4px 10px rgba(206, 157, 74, 0.4);
 }
 
-.cta-button.secondary:focus {
+.cta-button.secondary:focus-visible { /* 強化可訪問性 */
     outline: 2px solid var(--primary-color);
     outline-offset: 4px;
 }
@@ -687,23 +702,13 @@ main {
 }
 
 
-/* ⭐️ 流星動畫關鍵幀 (性能優化：調整為 2 幀) */
 @keyframes shooting-star-random {
-    0% {
-        transform: rotate(var(--rotation)) translate3d(0, 0, 0);
-        opacity: 0; 
-    }
-    1% {
-        opacity: 1; 
-    }
-    99% { 
-        opacity: 1;
-    }
-    100% {
-        transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
-        opacity: 0; 
-    }
+    0% { transform: rotate(var(--rotation)) translate3d(0, 0, 0); opacity: 0; }
+    1% { opacity: 1; } /* 🌟 確保瞬間顯示 */
+    99% { opacity: 1; }
+    100% { transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0); opacity: 0; }
 }
+
 
 .meteor {
     position: absolute;
@@ -940,8 +945,8 @@ main {
     margin: 15px;
     border-radius: 10px;
     font-weight: 400;
-    /* RWD 依據斷點調整 */
-    flex-basis: calc(100% / 7 - 30px); 
+    /* RWD 依據斷點調整：桌面版預設 4 欄，讓視覺更舒適 */
+    flex-basis: calc(25% - 30px); 
     min-width: 200px;
     position: relative;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -1004,6 +1009,7 @@ main {
     overflow: hidden;
 }
 
+/* 修正：使用 button 語義化，並加入 :focus-visible 強化可訪問性 */
 .accordion-header {
     display: flex;
     align-items: center;
@@ -1043,8 +1049,8 @@ main {
     background-color: var(--bg-light);
     outline: none;
 }
-.accordion-header:focus-visible {
-    outline: 2px solid var(--accent-color);
+.accordion-header:focus-visible { /* 🏆 焦點強化 */
+    outline: 3px solid var(--accent-color);
     outline-offset: 2px;
 }
 
@@ -1066,6 +1072,7 @@ main {
     transform: rotate(360deg);
 }
 
+/* 修正：使用 max-height 過渡實現平滑展開 */
 .accordion-content {
     max-height: 0;
     overflow: hidden;
@@ -1102,7 +1109,8 @@ footer {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* 修正：統一使用 minmax 避免 RWD 變形 */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 40px;
     padding-bottom: 40px;
     max-width: var(--content-max-width);
@@ -1244,16 +1252,16 @@ footer {
 
 /* Back-to-Top 按鈕樣式 - 已從 floating-cta 分離，單獨設置位置 */
 .back-to-top {
-    position: fixed; /* 確保它不會被其他元素影響 */
+    position: fixed; 
     /* 修正：位置上移，確保不與浮動 CTA 衝突 */
     bottom: 110px; 
-    right: 25px; /* 與 floating-cta 保持一致 */
+    right: 25px; 
     background-color: var(--accent-color);
     color: var(--primary-dark);
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    display: none; 
+    display: none; /* 初始隱藏，由 JS 控制顯示 */
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
@@ -1274,8 +1282,7 @@ footer {
  * ------------------------------------------- */
 
 .article-main-layout {
-    display: grid;
-    grid-template-columns: 1fr 3fr; /* 側邊欄與內容區比例 */
+    grid-template-columns: 1fr 3fr; 
     gap: 40px;
 }
 
@@ -1312,6 +1319,47 @@ footer {
     margin-right: 8px;
 }
 
+/* --- 文章內文細節調整 --- */
+
+/* 修正：確保 .article-body 內 h2 具有步驟徽章時的對齊 */
+.article-body h2 {
+    display: flex;
+    align-items: center;
+}
+
+/* 修正：確保 TOC 滾動條在 macOS/Windows 上視覺更佳 */
+.article-sidebar {
+    /* 移除原生滾動條視覺，若需要可使用 JS 替換 */
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--bg-light);
+}
+
+.article-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.article-sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+.article-sidebar::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+/* 內嵌連結視覺差異化 */
+.article-body a:not(.cta-button):not(.category-tag) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--accent-color);
+    transition: all 0.2s;
+}
+
+.article-body a:hover:not(.cta-button):not(.category-tag) {
+    text-decoration-color: var(--primary-color);
+    background-color: rgba(206, 157, 74, 0.1);
+}
+
+
 /* 文章目錄 (TOC) */
 .table-of-contents ul, .table-of-contents ol {
     list-style: none;
@@ -1325,7 +1373,7 @@ footer {
     display: block;
     color: var(--secondary-color);
     padding: 3px 0;
-    border-left: 3px solid transparent; /* 預留空間 */
+    border-left: 3px solid transparent; 
     transition: all 0.2s;
 }
 /* TOC 激活狀態優化 */
@@ -1339,7 +1387,7 @@ footer {
 
 /* 緊急聯繫側邊欄塊 - 更名為 sidebar-cta (語義化) */
 .sidebar-cta {
-    background-color: var(--primary-dark); /* 修正為 primary-dark (更沉穩) */
+    background-color: var(--primary-dark); 
     color: var(--text-light);
     border: none;
     padding: 25px;
@@ -1444,6 +1492,7 @@ footer {
     margin-bottom: 20px;
     padding-bottom: 0;
     border-bottom: none;
+    /* 🏆 流體排版 */
     font-size: clamp(1.4rem, 3vmin, 2rem);
     color: var(--primary-dark);
 }
@@ -1623,7 +1672,7 @@ footer {
 
 
 /* -------------------------------------------
-   9. 自然葬區塊 (Services)
+   9. 服務區塊 (Services)
    ------------------------------------------- */
 
 /* 1. 服務類型卡片佈局優化 */
@@ -1768,7 +1817,7 @@ footer {
 }
 
 .page-hero-content h1 {
-    /* 修正：RWD 單位調整 */
+    /* 🏆 流體排版 */
     font-size: clamp(1.8rem, 3.5vmin, 2.8rem);
     color: var(--text-light); 
     margin-bottom: 20px;
@@ -1814,7 +1863,8 @@ footer {
 /* 突出【最受歡迎】卡片 */
 .price-plan.featured {
     border-color: var(--accent-color);
-    transform: scale(1.03); 
+    /* 🏆 修正：將 scale 縮小一點，使其在 RWD 上的影響最小化 */
+    transform: scale(1.02); 
     box-shadow: 0 0 0 4px var(--accent-color), 0 10px 30px rgba(0, 0, 0, 0.2); 
 }
 
@@ -1906,6 +1956,8 @@ footer {
 
 .comparison-table {
     width: 100%;
+    /* 確保在小屏幕上有最小寬度，以利橫向滾動 */
+    min-width: 700px; 
     border-collapse: separate; 
     border-spacing: 0;
     margin-top: 30px;
@@ -2049,7 +2101,8 @@ footer {
 
 .contact-grid-2col {
     display: grid;
-    grid-template-columns: 1.5fr 1fr; 
+    /* 修正：優化比例為 2:1，讓表單有更多空間 */
+    grid-template-columns: 2fr 1fr; 
     gap: 40px;
     align-items: flex-start;
 }
@@ -2105,6 +2158,12 @@ footer {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(206, 157, 74, 0.2);
     outline: none;
+}
+.contact-form input:focus-visible, /* 🏆 可訪問性強化 */
+.contact-form select:focus-visible, 
+.contact-form textarea:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
 }
 
 .contact-form textarea {
@@ -2199,9 +2258,9 @@ footer {
 
 /* 1. 平板與小型筆電 (Max-width: 1400px - 901px) */
 @media (max-width: 1400px) {
-    /* 流程圖從 7 欄縮減為 4 欄 */
+    /* 流程圖從 4 欄縮減為 3 欄 */
     .flow-chart li {
-        flex-basis: calc(25% - 30px);
+        flex-basis: calc(33.33% - 30px);
     }
 }
 
@@ -2248,7 +2307,7 @@ footer {
         top: var(--header-height);
         left: 0;
         width: 100%;
-        background-color: var(--bg-light); /* 修正：RWD 選單背景顏色 */
+        background-color: var(--bg-light); 
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         max-height: calc(100vh - var(--header-height)); 
         overflow-y: auto;
@@ -2317,7 +2376,7 @@ footer {
         transform: rotate(180deg);
     }
 
-    /* 修正：平板/手機下拉菜單最大高度的過渡邏輯，以實現平滑展開 */
+    /* 🏆 修正：平板/手機下拉菜單使用 max-height 過渡，實現平滑展開 */
     .submenu {
         position: static; 
         width: 100%;
@@ -2330,10 +2389,10 @@ footer {
         box-shadow: none;
         border-top: none;
         border-radius: 0;
-        padding: 0 0; /* 修正：初始 padding 為 0 */
+        padding: 0 0; 
     }
     .dropdown.active > .submenu {
-        /* JS 應設置 max-height: 500px (或足夠大)，這裡只是視覺效果 */
+        /* JS 應設置 max-height: 500px (或足夠大)，讓 CSS 負責過渡 */
         max-height: 500px; 
         padding: 10px 0; 
     }
@@ -2348,7 +2407,7 @@ footer {
         background-attachment: scroll;
     }
 
-    /* 流程圖在平板電腦下顯示 3 欄 (修正原邏輯) */
+    /* 流程圖在平板電腦下顯示 3 欄 */
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         min-width: unset;
@@ -2410,8 +2469,8 @@ footer {
         right: 20px;
     }
     .back-to-top {
-        bottom: 150px; 
-        right: 20px; /* 統一與 CTA 對齊 */
+        bottom: 100px; /* 修正位置：在 900px 下，應比 CTA 高 1 個間距 + CTA 高度 */
+        right: 20px; 
     }
 
     /* 方案卡片 RWD 調整 */
@@ -2436,7 +2495,7 @@ footer {
         text-align: left; 
     }
     
-    .footer-block:nth-child(3) {
+    .footer-block:last-child {
         /* 將聯繫資訊放在最後一欄（第二列），佔滿兩格 */
         grid-column: span 2; 
     }
@@ -2468,10 +2527,6 @@ footer {
     .flow-chart ol {
         padding: 0 10px; 
     }
-
-    .religion-grid, .commitment-grid, .trust-section .card-grid {
-        grid-template-columns: 1fr;
-    }
     
     .price-card-grid {
         grid-template-columns: 1fr;
@@ -2484,7 +2539,7 @@ footer {
         padding-right: 20px;
         padding-bottom: 40px;
     }
-    .footer-block:nth-child(3) {
+    .footer-block:last-child {
         grid-column: span 1; 
     }
 
@@ -2517,7 +2572,9 @@ footer {
     /* Back-to-Top 最終位置 */
     .back-to-top {
         right: 15px;
-        bottom: 120px; /* 避開垂直堆疊的 CTA */
+        bottom: 90px; /* 修正：避開垂直堆疊的 CTA */
+        width: 40px;
+        height: 40px;
     }
     
     /* 表格 RWD 確保橫向滾動 */
@@ -2526,15 +2583,17 @@ footer {
         -webkit-overflow-scrolling: touch;
     }
 
+    /* 確保表格在極小螢幕下有最小寬度 */
     .comparison-table {
-        min-width: 700px; 
+        min-width: 600px; 
     }
 }
 
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
 :target {
-    scroll-margin-top: var(--header-height);
+    scroll-margin-top: calc(var(--header-height) + 20px); /* 增加額外空間，視覺更好 */
 }
+
 
 /* -------------------------------------------
  * 13. 網站互動與工具類 (Utility & Animation)
@@ -2550,7 +2609,7 @@ footer {
     box-shadow: 0 4px 15px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s;
     will-change: transform;
-    height: 100%; /* 確保網格佈局中高度一致 */
+    height: 100%; 
 }
 
 .base-card:hover {
@@ -2580,7 +2639,7 @@ footer {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    will-change: opacity, transform;
+    will-change: opacity, transform; /* 🏆 效能優化 */
 }
 
 /* 滾動進入視口時，由 JS 加上此類別 */
@@ -2627,4 +2686,55 @@ footer {
 .color-accent { color: var(--accent-color) !important; }
 .font-serif { font-family: var(--font-serif) !important; }
 .font-bold { font-weight: 700 !important; }
-.text-justify { text-align: justify !important; }
+.text-justify { text-align: justify !important; } /* 修正缺少 !important */
+
+
+/* -------------------------------------------
+ * 14. 最終優化與細節 (Final Polish & Utilities)
+ * ------------------------------------------- */
+
+/* --- 表單/可訪問性強化 --- */
+
+/* 🏆 確保所有焦點元素的可訪問性樣式一致 */
+input:focus-visible, 
+select:focus-visible, 
+textarea:focus-visible,
+button:focus-visible,
+.cta-button:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* 禁用時的視覺反饋 */
+:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    filter: grayscale(100%);
+}
+
+/* --- 工具類：Flex 佈局 --- */
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* --- RWD 邊緣案例 (防止水平滾動) --- */
+
+@media (max-width: 900px) {
+    /* 確保所有寬度設置為 100% 的元素不會導致水平滾動 */
+    .hero-section,
+    .main-header,
+    footer,
+    body { /* 確保 body 也處理了潛在的溢出 */
+        overflow-x: hidden;
+    }
+}
