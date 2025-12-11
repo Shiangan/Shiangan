@@ -2,6 +2,7 @@
    程式夥伴 - 網站核心 CSS (V22.0 極致質感與高性能聯動版)
    - 包含文章、方案、聯繫頁面所有優化
    - 強化 RWD、A11Y 及流暢動畫性能
+   - By Gemini (AI Assistant)
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -114,6 +115,8 @@ h1, h2, h3, h4 {
     color: var(--color-secondary);
     font-weight: 700;
     word-break: break-word; /* 避免長單詞溢出 */
+    /* 確保標題不會被固定元素遮擋 (用於跳轉錨點) */
+    scroll-margin-top: calc(var(--header-height) + 10px); 
 }
 
 h1 {
@@ -146,6 +149,7 @@ h2::after {
 }
 
 h3 { font-size: 1.6rem; }
+h4 { font-size: 1.3rem; } /* 強化 H4 區塊標題 */
 
 p { margin-bottom: 1.2em; }
 
@@ -181,12 +185,9 @@ p { margin-bottom: 1.2em; }
 .js-loading { opacity: 0; transition: opacity 0.5s; }
 
 body.no-scroll { 
+    /* 修正: 為了防止移動端鎖定時的內容跳動，使用絕對定位 */
     overflow: hidden; 
-    position: fixed; 
-    width: 100%; 
-    height: 100%; 
-    top: 0; 
-    left: 0; 
+    position: relative; 
 } 
 
 /* 新增樣式: 自動調整單行文字 (自適應標題/口號) */
@@ -375,8 +376,8 @@ main {
 /* 手機菜單按鈕 */
 .menu-toggle {
     display: none;
-    background: var(--color-bg-light);
-    border: 2px solid var(--color-primary);
+    background: transparent; /* 改為透明，讓背景色由 header 決定 */
+    border: none; /* 移除邊框 */
     border-radius: 8px;
     padding: 8px 12px;
     transition: all 0.3s;
@@ -384,16 +385,21 @@ main {
 }
 
 .menu-toggle:hover {
-    background-color: var(--color-primary);
-    color: var(--color-text-light);
+    background-color: var(--color-bg-light); /* Hover 時的背景色 */
+    color: var(--color-primary);
 }
 
 .menu-toggle i {
     transition: transform 0.3s ease-in-out;
     font-size: 1.4rem;
-    color: inherit;
+    color: var(--color-primary); /* 預設顏色使用主色 */
 }
 .menu-toggle:hover i {
+    color: var(--color-accent);
+}
+
+.menu-toggle.active i {
+    transform: rotate(90deg);
     color: var(--color-accent);
 }
 
@@ -471,7 +477,8 @@ main {
     position: absolute;
     top: 0;
     left: 0;
-    width: 200%; /* 增加尺寸以覆蓋視口滾動時的空白區域 */
+    /* 增加尺寸以覆蓋視口滾動時的空白區域 (已包含在原程式碼中) */
+    width: 200%; 
     height: 200%;
     pointer-events: none;
     will-change: transform, opacity;
@@ -598,8 +605,11 @@ main {
 
 /* --- RWD 優化: Hero 內容字體縮小 --- */
 @media (max-width: 768px) {
+    .hero-section {
+        min-height: 500px; /* 修正原程式碼中 hero-section 的 rwd 調整位置 */
+    }
     .hero-content h1 {
-        font-size: 2.2rem;
+        font-size: clamp(2.0rem, 7vw, 2.8rem); /* 強化 RWD 標題縮放 */
     }
     .hero-content p {
         font-size: 1.1rem;
@@ -733,7 +743,7 @@ main {
 }
 
 @media (max-width: 1200px) {
-    /* 較大的平板/筆電：改為 3 或 4 列 */
+    /* 較大的平板/筆電：改為 3 列 */
     .flow-chart li {
         flex-basis: calc(100% / 3 - 30px);
     }
@@ -743,6 +753,10 @@ main {
     /* 平板/中型手機：改為 2 列 */
     .flow-chart li {
         flex-basis: calc(50% - 30px);
+        margin: 10px; /* 修正: 768px 以下使用 10px 間距更緊湊 */
+    }
+    .flow-chart ol {
+        padding: 0 10px; /* 修正: 確保 ol 容器有邊距 */
     }
 }
 
@@ -1099,11 +1113,17 @@ footer {
     display: block;
     color: var(--color-secondary);
     padding: 3px 0;
+    transition: all 0.2s; /* 增加過渡效果 */
 }
-.table-of-contents a:hover {
+.table-of-contents a:hover,
+.table-of-contents a.active { /* 強化 active 樣式 */
     color: var(--color-primary-dark);
     padding-left: 5px;
     border-left: 3px solid var(--color-accent);
+}
+/* TOC 的子列表縮進 */
+.table-of-contents ul ul {
+    padding-left: 15px;
 }
 
 
@@ -1301,6 +1321,11 @@ footer {
     margin-bottom: 15px;
     border-bottom: 1px solid var(--color-border);
 }
+
+/* 使用 <details> 和 <summary> 實現 */
+.faq-item details {
+    border: none;
+}
 .faq-item summary {
     display: flex;
     align-items: center;
@@ -1311,6 +1336,7 @@ footer {
     color: var(--color-primary-dark);
     user-select: none;
     position: relative;
+    list-style: none; /* 移除預設標記 */
 }
 .faq-item summary::-webkit-details-marker {
     display: none;
@@ -1324,7 +1350,7 @@ footer {
     color: var(--color-accent);
     transition: transform 0.3s ease;
 }
-.faq-item[open] summary::before {
+.faq-item details[open] summary::before { /* 修正: 使用 details[open] 選擇器 */
     content: '\f078'; /* Angle Down */
     transform: rotate(180deg);
 }
@@ -1392,6 +1418,7 @@ footer {
 .two-columns-layout .card-item h3 {
     margin-top: 15px;
     margin-bottom: 5px;
+    color: var(--color-primary); /* 服務標題使用主色 */
 }
 
 .two-columns-layout .card-item .subtitle {
@@ -1657,6 +1684,7 @@ footer {
     overflow: hidden; 
     border-radius: 8px;
     border: 1px solid var(--color-border);
+    min-width: 700px; /* 確保內容不會被擠壓 */
 }
 
 .comparison-table thead th {
@@ -1783,6 +1811,7 @@ footer {
 
 #excluded-fees .cta-button.primary:hover {
     background-color: var(--color-text-light);
+    color: var(--color-primary-dark); /* 修正: hover 時確保文字顏色不變 */
     box-shadow: 0 6px 20px rgba(206, 157, 74, 1);
 }
 
@@ -1994,7 +2023,7 @@ footer {
         background-color: var(--color-text-light);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         /* 確保在 iOS 地址欄消失時也能完全覆蓋 */
-        max-height: calc(100vh - var(--header-height)); 
+        height: calc(100vh - var(--header-height)); /* 使用 height: 100vh 確保覆蓋底部 */
         overflow-y: auto;
         transform: translateX(100%); /* 初始隱藏在右側 */
         transition: transform 0.4s ease-out; /* 使用 transform 過渡更流暢 */
@@ -2010,10 +2039,7 @@ footer {
         display: block;
     }
 
-    .menu-toggle.active i {
-        transform: rotate(90deg);
-        color: var(--color-accent);
-    }
+    /* .menu-toggle.active i 移至上方 1. 導覽列區塊 */
 
     .main-nav ul {
         flex-direction: column;
@@ -2025,6 +2051,10 @@ footer {
         width: 100%;
         padding: 0;
         border-bottom: 1px solid var(--color-border);
+    }
+    
+    .main-nav li:last-of-type { /* 修正: 確保最後一個 li 沒有底線，因為 contact-nav 也要底線 */
+        border-bottom: none; 
     }
 
     .main-nav a {
@@ -2043,7 +2073,7 @@ footer {
     .main-nav .contact-nav {
         display: block;
         padding: 15px 20px;
-        border-bottom: 1px solid var(--color-border);
+        border-top: 1px solid var(--color-border); /* 在底部添加頂部分隔線 */
     }
     .main-nav .contact-nav a {
         margin: 0;
@@ -2092,12 +2122,13 @@ footer {
         padding: 10px 30px; 
     }
 
-    .submenu-title, .submenu-separator {
+    .submenu-title {
+        /* 手機版隱藏標題，節省空間 */
         display: none;
     }
 
     .hero-section {
-        height: 500px;
+        /* 原本已修正為 500px */
         background-attachment: scroll;
     }
 
@@ -2185,7 +2216,7 @@ footer {
 
 @media (max-width: 576px) {
 
-    /* 流程圖在手機直屏下顯示 1 欄 */
+    /* 流程圖在手機直屏下顯示 1 欄 (已在原程式碼中) */
     .flow-chart li {
         flex-basis: 100%;
     }
@@ -2222,17 +2253,13 @@ footer {
         bottom: 70px; /* 避開 floating-cta */
     }
     
-    .responsive-table-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
     .comparison-table {
         min-width: 700px; /* 確保在手機上內容不被擠壓 */
     }
 }
 
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
+/* 修正: 使用 :target 偽類，目標區塊會自動滾動到適當位置 */
 :target {
     scroll-margin-top: calc(var(--header-height) + 10px); /* 增加 10px 額外空間 */
 }
