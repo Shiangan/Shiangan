@@ -2331,3 +2331,97 @@ footer {
 :target {
     scroll-margin-top: var(--header-height);
 }
+
+/* -------------------------------------------
+ * 12. 網站互動與工具類 (Utility & Animation)
+ * ------------------------------------------- */
+
+/* --- 12.1 通用卡片組件 (Card Component) --- */
+
+.base-card {
+    background-color: var(--text-light);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+    will-change: transform;
+    height: 100%; /* 確保網格佈局中高度一致 */
+}
+
+.base-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.card-title {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+
+/* --- 12.2 滾動動畫基礎 (Scroll Animation Base) --- */
+
+/* 核心：將動畫移出視口，準備好在滾動時顯示 */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+
+/* 滾動進入視口時，由 JS 加上此類別 */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 替換動畫：左滑入 */
+.animate-on-scroll.from-left {
+    transform: translateX(-50px);
+}
+.animate-on-scroll.from-left.is-visible {
+    transform: translateX(0);
+}
+
+/* 替換動畫：縮放入 */
+.animate-on-scroll.scale-in {
+    transform: scale(0.8);
+}
+.animate-on-scroll.scale-in.is-visible {
+    transform: scale(1);
+}
+
+/* 延遲 (由 JS 設置 data-delay) */
+.animate-delay-1 { transition-delay: 0.1s; }
+.animate-delay-2 { transition-delay: 0.2s; }
+.animate-delay-3 { transition-delay: 0.3s; }
+/* ...更多延遲類... */
+
+
+/* --- 12.3 語義化工具類 (Semantic Utilities) --- */
+
+/* 間距輔助：將間距與變數綁定 */
+.mb-lg { margin-bottom: 40px !important; }
+.mb-md { margin-bottom: 25px !important; }
+.mb-sm { margin-bottom: 15px !important; }
+.mt-lg { margin-top: 40px !important; }
+.mt-md { margin-top: 25px !important; }
+.mt-sm { margin-top: 15px !important; }
+
+/* 顏色/字體輔助 */
+.color-primary { color: var(--primary-color) !important; }
+.color-accent { color: var(--accent-color) !important; }
+.font-serif { font-family: var(--font-serif) !important; }
+.font-bold { font-weight: 700 !important; }
+.text-justify { text-align: justify !important; }
+
