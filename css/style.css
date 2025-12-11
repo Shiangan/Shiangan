@@ -468,11 +468,13 @@ main {
 /* -------------------------------------------
  /*
  * -------------------------------------------
+ /*
+ * -------------------------------------------
  * 3. 區塊樣式 (Sections)
  * -------------------------------------------
  */
 
-/* ⭐️ Hero 區塊樣式 (星星動畫與夜空質感) */
+/* 核心動畫：閃爍 (Blink) */
 @keyframes blink {
     0%, 100% { opacity: 0.8; }
     25% { opacity: 0.3; }
@@ -480,10 +482,11 @@ main {
     75% { opacity: 0.2; }
 }
 
+/* 核心動畫：統一星星移動方向 (從右上向左下) */
 @keyframes move-star {
     0% { transform: translate3d(0, 0, 0); }
-    /* 優化：統一星星移動距離，創造景深錯覺 */
-    100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, -100px), 0); }
+    /* X: 負值 (向左)；Y: 正值 (向下) */
+    100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, 100px), 0); } 
 }
 
 
@@ -491,15 +494,16 @@ main {
     position: absolute;
     top: 0;
     left: 0;
-    width: 150%;
+    /* 增加尺寸以覆蓋視口滾動時的空白區域 */
+    width: 150%; 
     height: 150%;
     pointer-events: none;
     will-change: transform, opacity;
 }
 
-/* 圖層 1: 慢速移動，往左上 (最遠處) */
+/* 圖層 1: 慢速移動 (最遠處) - 向左下 */
 #stars {
-    --travel-x-end: -20px; --travel-y-end: -20px;
+    --travel-x-end: -20px; --travel-y-end: 20px; 
     animation: move-star 300s linear infinite,
                blink 5s infinite alternate;
     animation-delay: 0.5s;
@@ -515,10 +519,10 @@ main {
         -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0;
 }
 
-/* 圖層 2: 中速移動，往左上 (中間層) */
+/* 圖層 2: 中速移動 (中間層) - 向左下 */
 #stars2 {
-    --travel-x-end: -60px; --travel-y-end: -60px; /* 優化：速度略增 */
-    animation: move-star 150s linear infinite reverse, /* 調整為 150s */
+    --travel-x-end: -60px; --travel-y-end: 60px; 
+    animation: move-star 150s linear infinite, /* 移除 reverse */
                blink 3s infinite alternate;
     animation-delay: 1.2s;
     z-index: 1;
@@ -533,10 +537,10 @@ main {
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
 
-/* 圖層 3: 快速移動，往左上 (最前景) */
+/* 圖層 3: 快速移動 (最前景) - 向左下 */
 #stars3 {
-    --travel-x-end: -100px; --travel-y-end: -100px; /* 優化：速度再增 */
-    animation: move-star 80s linear infinite, /* 調整為 80s */
+    --travel-x-end: -100px; --travel-y-end: 100px; 
+    animation: move-star 80s linear infinite,
                blink 1.5s infinite alternate;
     animation-delay: 0s;
     z-index: 1;
@@ -552,6 +556,7 @@ main {
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
 }
+
 
 .hero-section {
     position: relative;
@@ -613,7 +618,7 @@ main {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* --- 手機版優化: Hero 內容字體縮小 --- */
+/* --- RWD 優化: Hero 內容字體縮小 --- */
 @media (max-width: 768px) {
     .hero-content h1 {
         font-size: 2.2rem;
@@ -625,19 +630,21 @@ main {
 
 
 /* ⭐️ 流星軌跡樣式與動畫定義 (最終優化) */
+/* 流星本體短暫閃爍，模擬劃過瞬間的亮度變化 */
 @keyframes flash-core {
     0% { transform: scale(0.5); }
-    50% { transform: scale(1.5); } /* 瞬間放大增亮 */
+    50% { transform: scale(1.5); } 
     100% { transform: scale(1); }
 }
 
+/* 核心：流星動畫關鍵幀 (方向由 JS 變量控制) */
 @keyframes shooting-star-random {
     0% {
         transform: rotate(var(--rotation)) translate3d(0, 0, 0);
         opacity: 0; 
     }
     1% {
-        opacity: 1; /* 瞬間達到最大透明度 */
+        opacity: 1; 
     }
     90% { 
         opacity: 1;
@@ -650,10 +657,10 @@ main {
 
 .meteor {
     position: absolute;
-    width: 1px; /* 流星本體更小 */
+    width: 1px; 
     height: 1px;
     background: #ffffff;
-    /* 增加強烈的「核心」白光與「外圍」金色光暈 */
+    /* 核心白光與外圍金色光暈 */
     box-shadow: 
         0 0 10px 1px rgba(255, 255, 255, 1), 
         0 0 40px 15px var(--accent-color), 
@@ -663,7 +670,7 @@ main {
     z-index: 4;
     pointer-events: none;
     will-change: transform, opacity;
-    animation: flash-core 0.1s ease-out; /* 短暫閃爍動畫 */
+    animation: flash-core 0.1s ease-out; 
 }
 
 /* 流星尾巴效果 */
@@ -671,11 +678,11 @@ main {
     content: '';
     position: absolute;
     top: 50%;
-    left: -200px; /* 尾巴更長 */
-    width: 200px;
-    height: 1px; /* 尾巴更細 */
+    left: -200px; 
+    width: 200px; 
+    height: 1px; 
     transform: translateY(-50%);
-    /* 顏色漸變調整為更真實的衰減效果：金色到透明 */
+    /* 顏色漸變調整為從亮白/金過渡到透明 */
     background: linear-gradient(
         to left, 
         rgba(255, 255, 255, 1) 0%, 
@@ -689,128 +696,7 @@ main {
 
 /*
  * -------------------------------------------
- * 區塊通用卡片樣式 (Card Grid)
- * -------------------------------------------
- */
-
-.card-grid {
-    display: grid;
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.card-item {
-    background-color: var(--text-light);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px var(--shadow-color);
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid var(--border-color);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    will-change: transform, box-shadow;
-}
-
-.card-item:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-}
-
-.card-item .fas, .card-item .fab, .card-item .icon {
-    font-size: 3.5rem;
-    color: var(--accent-color);
-    margin-bottom: 15px;
-    text-shadow: 0 0 5px rgba(206, 157, 74, 0.5);
-}
-
-.card-item h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-    font-family: var(--font-serif);
-    font-weight: 700;
-}
-
-.card-item p {
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-/* 網格佈局定義 */
-.religion-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.commitment-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.trust-section .card-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-/* --- 手機版優化: 卡片網格改為單列 --- */
-@media (max-width: 600px) {
-    .card-grid {
-        gap: 20px;
-    }
-    .religion-grid,
-    .commitment-grid,
-    .trust-section .card-grid {
-        /* 手機強制一列，避免卡片過窄 */
-        grid-template-columns: 1fr; 
-    }
-}
-
-
-/* 核心承諾卡片特殊樣式 */
-.primary-highlight {
-    border: 2px solid var(--accent-color);
-    background: linear-gradient(to bottom right, var(--text-light), var(--bg-light));
-}
-.primary-highlight:hover {
-    border-color: var(--primary-color);
-}
-
-
-/* 緊急聯繫卡片樣式 */
-.emergency-contact {
-    background-color: var(--primary-dark);
-    color: var(--text-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 35px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.emergency-contact .fas, .emergency-contact .fab, .emergency-contact .icon {
-    color: var(--accent-color);
-}
-
-.emergency-contact h3, .emergency-contact p {
-    color: var(--text-light);
-}
-
-.emergency-contact .cta-button {
-    margin-top: 20px;
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    font-weight: 700;
-    box-shadow: none;
-}
-
-.emergency-contact .cta-button:hover {
-    background-color: var(--text-light);
-    color: var(--primary-dark);
-    box-shadow: 0 0 15px var(--accent-color);
-    transform: scale(1.03);
-}
-
-/*
+ /*
  * -------------------------------------------
  * 服務流程圖樣式 (Flow Chart)
  * -------------------------------------------
@@ -831,7 +717,7 @@ main {
     margin: 15px;
     border-radius: 10px;
     font-weight: 400;
-    /* 讓流程圖項目寬度平均，7 項時為 100/7 */
+    /* 電腦版：目標是 7 個項目，所以佔用約 1/7 的寬度 */
     flex-basis: calc(100% / 7 - 30px); 
     min-width: 200px;
     position: relative;
@@ -876,30 +762,127 @@ main {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* --- 手機版優化: 流程圖改為兩列或一列 --- */
+/* --- RWD 優化: 流程圖響應式佈局 --- */
+
 @media (max-width: 1200px) {
-    /* 螢幕較小時，改為 3 或 4 列 */
+    /* 較大的平板/筆電：改為 3 或 4 列 */
     .flow-chart li {
         flex-basis: calc(100% / 3 - 30px);
     }
 }
 
 @media (max-width: 768px) {
-    /* 平板橫向時，改為 2 列 */
+    /* 平板/中型手機：改為 2 列 */
     .flow-chart li {
         flex-basis: calc(50% - 30px);
     }
 }
 
 @media (max-width: 480px) {
-    /* 手機強制一列，堆疊顯示 */
+    /* 小型手機：強制一列，堆疊顯示 */
     .flow-chart li {
         flex-basis: 100%;
         margin-left: 0;
         margin-right: 0;
     }
     .flow-chart ol {
-        padding: 0 10px; /* 增加邊距 */
+        padding: 0 10px; 
+    }
+}
+
+/*
+ * -------------------------------------------
+ /*
+ * -------------------------------------------
+ * 服務流程圖樣式 (Flow Chart)
+ * -------------------------------------------
+ */
+
+.flow-chart ol {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    counter-reset: step-counter;
+}
+
+.flow-chart li {
+    background-color: var(--text-light);
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    margin: 15px;
+    border-radius: 10px;
+    font-weight: 400;
+    /* 電腦版：目標是 7 個項目，所以佔用約 1/7 的寬度 */
+    flex-basis: calc(100% / 7 - 30px); 
+    min-width: 200px;
+    position: relative;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    counter-increment: step-counter;
+    padding-top: 40px;
+    will-change: transform;
+    text-align: center;
+}
+
+.flow-chart li::before {
+    content: counter(step-counter);
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: 4px solid var(--bg-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.flow-chart li strong {
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-right: 5px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.flow-chart li:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* --- RWD 優化: 流程圖響應式佈局 --- */
+
+@media (max-width: 1200px) {
+    /* 較大的平板/筆電：改為 3 或 4 列 */
+    .flow-chart li {
+        flex-basis: calc(100% / 3 - 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    /* 平板/中型手機：改為 2 列 */
+    .flow-chart li {
+        flex-basis: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    /* 小型手機：強制一列，堆疊顯示 */
+    .flow-chart li {
+        flex-basis: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .flow-chart ol {
+        padding: 0 10px; 
     }
 }
 
