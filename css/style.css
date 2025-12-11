@@ -466,8 +466,11 @@ main {
 
 
 /* -------------------------------------------
+ /*
+ * -------------------------------------------
  * 3. 區塊樣式 (Sections)
- * ------------------------------------------- */
+ * -------------------------------------------
+ */
 
 /* ⭐️ Hero 區塊樣式 (星星動畫與夜空質感) */
 @keyframes blink {
@@ -479,6 +482,7 @@ main {
 
 @keyframes move-star {
     0% { transform: translate3d(0, 0, 0); }
+    /* 優化：統一星星移動距離，創造景深錯覺 */
     100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, -100px), 0); }
 }
 
@@ -490,11 +494,10 @@ main {
     width: 150%;
     height: 150%;
     pointer-events: none;
-    /* 💥 性能優化：明確指定將變動的屬性 */
     will-change: transform, opacity;
 }
 
-/* 圖層 1: 慢速移動，往左上 */
+/* 圖層 1: 慢速移動，往左上 (最遠處) */
 #stars {
     --travel-x-end: -20px; --travel-y-end: -20px;
     animation: move-star 300s linear infinite,
@@ -512,10 +515,10 @@ main {
         -20vw 50vh #d0d0d0, 200vw 250vh #d0d0d0, 150vw 50vh #d0d0d0;
 }
 
-/* 圖層 2: 中速移動，往左上 */
+/* 圖層 2: 中速移動，往左上 (中間層) */
 #stars2 {
-    --travel-x-end: -50px; --travel-y-end: -50px;
-    animation: move-star 200s linear infinite reverse,
+    --travel-x-end: -60px; --travel-y-end: -60px; /* 優化：速度略增 */
+    animation: move-star 150s linear infinite reverse, /* 調整為 150s */
                blink 3s infinite alternate;
     animation-delay: 1.2s;
     z-index: 1;
@@ -530,10 +533,10 @@ main {
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
 
-/* 圖層 3: 快速移動，往左上 */
+/* 圖層 3: 快速移動，往左上 (最前景) */
 #stars3 {
-    --travel-x-end: -80px; --travel-y-end: -80px;
-    animation: move-star 100s linear infinite,
+    --travel-x-end: -100px; --travel-y-end: -100px; /* 優化：速度再增 */
+    animation: move-star 80s linear infinite, /* 調整為 80s */
                blink 1.5s infinite alternate;
     animation-delay: 0s;
     z-index: 1;
@@ -549,7 +552,6 @@ main {
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
 }
-
 
 .hero-section {
     position: relative;
@@ -611,19 +613,57 @@ main {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* ⭐️ 流星軌跡樣式與動畫定義 (配合 JS) */
+/* --- 手機版優化: Hero 內容字體縮小 --- */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+}
+
+
+/* ⭐️ 流星軌跡樣式與動畫定義 (最終優化) */
+@keyframes flash-core {
+    0% { transform: scale(0.5); }
+    50% { transform: scale(1.5); } /* 瞬間放大增亮 */
+    100% { transform: scale(1); }
+}
+
+@keyframes shooting-star-random {
+    0% {
+        transform: rotate(var(--rotation)) translate3d(0, 0, 0);
+        opacity: 0; 
+    }
+    1% {
+        opacity: 1; /* 瞬間達到最大透明度 */
+    }
+    90% { 
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
+        opacity: 0; 
+    }
+}
+
 .meteor {
     position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8),
-                0 0 40px 10px rgba(206, 157, 74, 0.8);
+    width: 1px; /* 流星本體更小 */
+    height: 1px;
+    background: #ffffff;
+    /* 增加強烈的「核心」白光與「外圍」金色光暈 */
+    box-shadow: 
+        0 0 10px 1px rgba(255, 255, 255, 1), 
+        0 0 40px 15px var(--accent-color), 
+        0 0 80px 30px rgba(206, 157, 74, 0.3);
     border-radius: 50%;
     transform: rotate(var(--rotation));
     z-index: 4;
     pointer-events: none;
-    will-change: transform;
+    will-change: transform, opacity;
+    animation: flash-core 0.1s ease-out; /* 短暫閃爍動畫 */
 }
 
 /* 流星尾巴效果 */
@@ -631,35 +671,28 @@ main {
     content: '';
     position: absolute;
     top: 50%;
-    left: -100px;
-    width: 100px;
-    height: 2px;
+    left: -200px; /* 尾巴更長 */
+    width: 200px;
+    height: 1px; /* 尾巴更細 */
     transform: translateY(-50%);
-    background-image:
-        linear-gradient(to left, var(--accent-color) 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
-    opacity: 0.8;
-}
-
-/* ⭐️ 核心：流星動畫關鍵幀 (配合 JS 中的 shooting-star-random) */
-@keyframes shooting-star-random {
-    0% {
-        transform: rotate(var(--rotation)) translate3d(0, 0, 0);
-        opacity: 0; /* 確保起始時隱藏 */
-    }
-    5% {
-        opacity: 1;
-    }
-    95% { /* 保持可見時間長度 */
-        opacity: 1;
-    }
-    100% {
-        transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
-        opacity: 0; /* 確保結束時平滑消失 */
-    }
+    /* 顏色漸變調整為更真實的衰減效果：金色到透明 */
+    background: linear-gradient(
+        to left, 
+        rgba(255, 255, 255, 1) 0%, 
+        var(--accent-color) 10%, 
+        rgba(255, 255, 255, 0.5) 30%,
+        transparent 100%
+    );
+    opacity: 0.9;
 }
 
 
-/* 卡片網格通用樣式 */
+/*
+ * -------------------------------------------
+ * 區塊通用卡片樣式 (Card Grid)
+ * -------------------------------------------
+ */
+
 .card-grid {
     display: grid;
     gap: 30px;
@@ -706,6 +739,7 @@ main {
     margin-bottom: 0;
 }
 
+/* 網格佈局定義 */
 .religion-grid {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
@@ -717,6 +751,20 @@ main {
 .trust-section .card-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
+/* --- 手機版優化: 卡片網格改為單列 --- */
+@media (max-width: 600px) {
+    .card-grid {
+        gap: 20px;
+    }
+    .religion-grid,
+    .commitment-grid,
+    .trust-section .card-grid {
+        /* 手機強制一列，避免卡片過窄 */
+        grid-template-columns: 1fr; 
+    }
+}
+
 
 /* 核心承諾卡片特殊樣式 */
 .primary-highlight {
@@ -762,7 +810,12 @@ main {
     transform: scale(1.03);
 }
 
-/* 服務流程圖樣式 - 流程質感優化 */
+/*
+ * -------------------------------------------
+ * 服務流程圖樣式 (Flow Chart)
+ * -------------------------------------------
+ */
+
 .flow-chart ol {
     padding: 0;
     display: flex;
@@ -778,7 +831,8 @@ main {
     margin: 15px;
     border-radius: 10px;
     font-weight: 400;
-    flex-basis: calc(100% / 7 - 30px);
+    /* 讓流程圖項目寬度平均，7 項時為 100/7 */
+    flex-basis: calc(100% / 7 - 30px); 
     min-width: 200px;
     position: relative;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -822,6 +876,32 @@ main {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* --- 手機版優化: 流程圖改為兩列或一列 --- */
+@media (max-width: 1200px) {
+    /* 螢幕較小時，改為 3 或 4 列 */
+    .flow-chart li {
+        flex-basis: calc(100% / 3 - 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    /* 平板橫向時，改為 2 列 */
+    .flow-chart li {
+        flex-basis: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    /* 手機強制一列，堆疊顯示 */
+    .flow-chart li {
+        flex-basis: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .flow-chart ol {
+        padding: 0 10px; /* 增加邊距 */
+    }
+}
 
 /* -------------------------------------------
  * 4. FAQ 手風琴樣式 (Accordion) - 質感強化
