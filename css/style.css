@@ -1,6 +1,6 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V21.0 最終修正與完美版)
-   - 包含所有優化、去重、及 RWD 細節調整
+   程式夥伴 - 網站核心 CSS (V21.2 最終修正與完美整合版)
+   - 包含所有優化、RWD 細節調整、及新增 HTML 結構樣式
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -28,10 +28,11 @@
     --primary-dark: #12213b;   /* 極深藍/夜空 */
     --accent-color: #ce9d4a;   /* 金黃/流星色 */
     --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
-
+    
     /* 文字色系 */
     --text-dark: #2c2c2c;
     --text-light: #ffffff;
+    --code-color: #f8f8f2; /* 程式碼文字色 */
 
     /* 背景與邊界 */
     --bg-light: #f9f9f9;
@@ -40,7 +41,6 @@
     --shadow-color: rgba(0, 0, 0, 0.05);
 
     /* 字體定義 */
-    /* ✅ 修正：增加常用字體備援 */
     --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
@@ -89,7 +89,7 @@ body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; t
 
 img { max-width: 100%; height: auto; vertical-align: middle; }
 
-/* ✅ 可訪問性/焦點優化 */
+/* 可訪問性/焦點優化 */
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -113,7 +113,8 @@ h1, h2, h3, h4, h5, h6 { /* 統一標題族群定義 */
 }
 
 h1 {
-    font-size: clamp(1.8rem, 5.5vw, 4.0rem);
+    /* 修正：RWD 單位調整，確保下限與上限穩定 */
+    font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
     text-align: center;
     word-break: break-word;
     line-height: 1.2;
@@ -122,7 +123,8 @@ h1 {
 }
 
 h2 {
-    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    /* 修正：RWD 單位調整，確保下限與上限穩定 */
+    font-size: clamp(1.6rem, 3.5vmin, 2.5rem);
     margin-top: 0.5em;
     text-align: center;
     position: relative;
@@ -141,11 +143,13 @@ h2::after {
     height: 4px;
     background-color: var(--accent-color);
     border-radius: 2px;
-    transition: width 0.3s;
+    /* 效能優化：改用 transform 進行動畫，減少重繪 */
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); 
 }
 
 h3 { 
-    font-size: clamp(1.3rem, 3vw, 1.8rem); /* 讓 h3 在 RWD 更好適應 */
+    /* 修正：RWD 單位調整 */
+    font-size: clamp(1.3rem, 3vmin, 1.8rem); 
     color: var(--primary-color); 
     margin-bottom: 0.8em;
 }
@@ -178,10 +182,10 @@ table, blockquote, pre, figure {
     margin: 1.5em 0;
 }
 
-/* ✅ 程式碼區塊樣式 (Code Block) */
+/* 程式碼區塊樣式 (Code Block) - 使用變數統一顏色 */
 pre {
     background-color: var(--primary-dark);
-    color: #f8f8f2;
+    color: var(--code-color);
     padding: 15px;
     border-radius: 6px;
     overflow-x: auto;
@@ -205,11 +209,11 @@ code {
 
 pre code {
     background: none;
-    color: #f8f8f2;
+    color: var(--code-color);
     padding: 0;
 }
 
-/* ✅ 確保 blockquote 有質感 */
+/* 確保 blockquote 有質感 */
 blockquote {
     border-left: 5px solid var(--accent-color);
     padding: 10px 20px;
@@ -248,7 +252,7 @@ blockquote {
     margin-right: auto;
 }
 
-/* 自動調整單行文字 (來自使用者需求) */
+/* 自動調整單行文字 */
 .text-line-container {
   display: block;
   overflow: hidden; 
@@ -275,7 +279,9 @@ blockquote {
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: background-color 0.3s, box-shadow 0.3s;
-    will-change: background-color, box-shadow; 
+    /* 效能優化：強制提升為獨立圖層，優化滾動性能 */
+    will-change: transform, background-color, box-shadow; 
+    transform: translateZ(0); 
 }
 
 /* 修正: Header 固定後，需要為主要內容增加 padding-top */
@@ -574,7 +580,7 @@ main {
     position: absolute;
     width: 1px;
     height: 1px;
-    /* ✅ 修正：使用淺色 RGBA 增加穿透感 */
+    /* 修正：使用淺色 RGBA 增加穿透感 */
     box-shadow:
         100vw 200vh rgba(255, 255, 255, 0.2), 
         250vw 120vh rgba(255, 255, 255, 0.2), 
@@ -714,8 +720,6 @@ main {
     z-index: 4;
     pointer-events: none;
     will-change: transform, opacity;
-    /* 移除 flash-core，改用關鍵幀控制出現/消失 */
-    /* animation: flash-core 0.1s ease-out; */ 
 }
 
 /* 修正：流星尾巴效果（使尾部更長更細） */
@@ -739,8 +743,186 @@ main {
 
 
 /* -------------------------------------------
- * 4. 服務流程圖樣式 (Flow Chart)
- * (已刪除重複的 Flow Chart 區塊)
+ * 4. 新增的內容區塊樣式 (New HTML Structures)
+ * ------------------------------------------- */
+
+/* --- 4.1 核心 Hero 區塊的子元素 --- */
+
+/* 確保 Hero 內容上方的子標題和描述 */
+.hero-header-box {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.hero-header-box .tagline {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.hero-header-box p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.hero-cta-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* --- 4.2 特色網格 (Features Grid) --- */
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-item {
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    background-color: var(--text-light);
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.feature-item:hover .feature-icon {
+    color: var(--primary-color);
+}
+
+.feature-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: var(--primary-dark);
+    font-family: var(--font-serif);
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin-bottom: 0;
+}
+
+/* --- 4.3 客戶見證區塊 (Testimonial Section) --- */
+
+.testimonial-section {
+    background-color: var(--primary-color); 
+    color: var(--text-light);
+}
+
+.testimonial-section h2 {
+    color: var(--text-light);
+}
+.testimonial-section h2::after {
+    background-color: var(--accent-color);
+}
+
+.testimonial-section p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.testimonial-card {
+    background-color: var(--primary-dark);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(18, 33, 59, 0.9);
+}
+
+.quote-icon {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 3rem;
+    color: rgba(206, 157, 74, 0.2); 
+    z-index: 1;
+}
+
+.testimonial-text {
+    font-style: italic;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    line-height: 1.8;
+    color: var(--text-light);
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid var(--accent-color);
+}
+
+.author-info strong {
+    display: block;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+.author-info span {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* -------------------------------------------
+ * 5. 服務流程圖樣式 (Flow Chart)
  * ------------------------------------------- */
 
 .flow-chart ol {
@@ -764,9 +946,9 @@ main {
     position: relative;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+    will-change: transform;
     counter-increment: step-counter;
     padding-top: 40px;
-    will-change: transform;
     text-align: center;
 }
 
@@ -805,7 +987,7 @@ main {
 
 
 /* -------------------------------------------
- * 5. FAQ 手風琴樣式 (Accordion) - 質感強化
+ * 6. FAQ 手風琴樣式 (Accordion) - 質感強化
  * ------------------------------------------- */
 
 .accordion-container {
@@ -909,7 +1091,7 @@ main {
 
 
 /* -------------------------------------------
- * 6. 頁尾 (Footer) - 品牌色系收尾
+ * 7. 頁尾 (Footer) - 品牌色系收尾
  * ------------------------------------------- */
 
 footer {
@@ -1008,7 +1190,7 @@ footer {
     color: var(--text-light);
 }
 
-/* 浮動 CTA 按鈕 */
+/* 浮動 CTA 按鈕容器 */
 .floating-cta {
     position: fixed;
     bottom: 25px;
@@ -1060,11 +1242,12 @@ footer {
     }
 }
 
-/* Back-to-Top 按鈕樣式 */
+/* Back-to-Top 按鈕樣式 - 已從 floating-cta 分離，單獨設置位置 */
 .back-to-top {
+    position: fixed; /* 確保它不會被其他元素影響 */
     /* 修正：位置上移，確保不與浮動 CTA 衝突 */
     bottom: 110px; 
-    right: 30px;
+    right: 25px; /* 與 floating-cta 保持一致 */
     background-color: var(--accent-color);
     color: var(--primary-dark);
     width: 45px;
@@ -1087,7 +1270,7 @@ footer {
 }
 
 /* -------------------------------------------
- * 7. 文章頁面 (Article Body) 專屬樣式與優化
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化
  * ------------------------------------------- */
 
 .article-main-layout {
@@ -1145,7 +1328,7 @@ footer {
     border-left: 3px solid transparent; /* 預留空間 */
     transition: all 0.2s;
 }
-/* ✅ TOC 激活狀態優化 */
+/* TOC 激活狀態優化 */
 .table-of-contents a:hover,
 .table-of-contents a.active {
     color: var(--primary-dark);
@@ -1261,7 +1444,7 @@ footer {
     margin-bottom: 20px;
     padding-bottom: 0;
     border-bottom: none;
-    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-size: clamp(1.4rem, 3vmin, 2rem);
     color: var(--primary-dark);
 }
 .article-body h2::after {
@@ -1368,7 +1551,6 @@ footer {
     color: var(--accent-color);
 }
 
-
 /* 簡潔 FAQ 樣式 (simple-faq) - 適合文章內嵌 */
 .faq-item {
     border: none;
@@ -1441,7 +1623,7 @@ footer {
 
 
 /* -------------------------------------------
-   8. 自然葬區塊 (Services)
+   9. 自然葬區塊 (Services)
    ------------------------------------------- */
 
 /* 1. 服務類型卡片佈局優化 */
@@ -1548,10 +1730,10 @@ footer {
 }
 
 /* -------------------------------------------
-   9. 方案頁面 (Plans) 最終質感與透明度優化
+   10. 方案頁面 (Plans) 最終質感與透明度優化
    ------------------------------------------- */
 
-/* --- 9.1 方案頁面 Hero Section 覆寫 --- */
+/* --- 10.1 方案頁面 Hero Section 覆寫 --- */
 .page-hero {
     position: relative;
     background-size: cover;
@@ -1586,7 +1768,8 @@ footer {
 }
 
 .page-hero-content h1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    /* 修正：RWD 單位調整 */
+    font-size: clamp(1.8rem, 3.5vmin, 2.8rem);
     color: var(--text-light); 
     margin-bottom: 20px;
     letter-spacing: 1px;
@@ -1602,7 +1785,7 @@ footer {
 }
 
 
-/* --- 9.2 方案價格卡片 ( .price-plan ) 視覺強化 --- */
+/* --- 10.2 方案價格卡片 ( .price-plan ) 視覺強化 --- */
 .price-card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1714,7 +1897,7 @@ footer {
 }
 
 
-/* --- 9.3 方案細項對照表 (Comparison Table) 視覺強化 --- */
+/* --- 10.3 方案細項對照表 (Comparison Table) 視覺強化 --- */
 
 .responsive-table-wrap {
     overflow-x: auto;
@@ -1779,13 +1962,12 @@ footer {
     font-weight: 700;
 }
 
-/* ✅ 樣式 (假設您的 HTML 使用 ✅ 和 ❌) */
-/* 注意: :contains() 是 jQuery 選擇器，非標準 CSS3。在實際專案中，應使用 data-屬性或 class */
-.comparison-table td:not(:first-child):contains('✅') {
+/* 樣式 (替換非標準選擇器，假設您的 HTML 使用 class 或 data- 屬性) */
+.comparison-table .feature-yes {
     color: var(--primary-color);
 }
 
-.comparison-table td:not(:first-child):contains('❌') {
+.comparison-table .feature-no {
     color: var(--secondary-color);
     opacity: 0.7;
     font-weight: 400;
@@ -1795,7 +1977,7 @@ footer {
     background-color: #FAFAFA; 
 }
 
-/* --- 9.4 排除費用清單 (極致透明) 強化 --- */
+/* --- 10.4 排除費用清單 (極致透明) 強化 --- */
 
 #excluded-fees {
     background-color: var(--primary-dark);
@@ -1856,7 +2038,7 @@ footer {
 
 
 /* -------------------------------------------
-   10. 聯繫頁面 (Contact Page) 專屬樣式
+   11. 聯繫頁面 (Contact Page) 專屬樣式
    ------------------------------------------- */
 
 .required-asterisk {
@@ -2012,7 +2194,7 @@ footer {
 
 
 /* -------------------------------------------
- * 11. 響應式設計 (Media Queries)
+ * 12. 響應式設計 (Media Queries)
  * ------------------------------------------- */
 
 /* 1. 平板與小型筆電 (Max-width: 1400px - 901px) */
@@ -2043,6 +2225,15 @@ footer {
     }
     .hero-content p {
         font-size: 1.1rem;
+    }
+    
+    .hero-cta-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .hero-cta-group .cta-button {
+        width: 100%;
+        margin: 0;
     }
 
     /* RWD 導覽列優化 */
@@ -2126,6 +2317,7 @@ footer {
         transform: rotate(180deg);
     }
 
+    /* 修正：平板/手機下拉菜單最大高度的過渡邏輯，以實現平滑展開 */
     .submenu {
         position: static; 
         width: 100%;
@@ -2133,13 +2325,19 @@ footer {
         visibility: visible;
         max-height: 0; 
         overflow: hidden;
-        transition: max-height 0.4s ease-in-out;
+        transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
         transform: none; 
         box-shadow: none;
         border-top: none;
         border-radius: 0;
-        padding: 0;
+        padding: 0 0; /* 修正：初始 padding 為 0 */
     }
+    .dropdown.active > .submenu {
+        /* JS 應設置 max-height: 500px (或足夠大)，這裡只是視覺效果 */
+        max-height: 500px; 
+        padding: 10px 0; 
+    }
+
 
     .submenu a {
         padding: 10px 30px; 
@@ -2204,7 +2402,7 @@ footer {
         font-size: 1.4rem;
     }
     
-    /* 修正：浮動按鈕堆疊，Back-to-Top 需上移 */
+    /* 修正：浮動按鈕堆疊，Back-to-Top 需上移，避免與 CTA 混淆 */
     .floating-cta {
         flex-direction: column;
         gap: 15px;
@@ -2213,7 +2411,7 @@ footer {
     }
     .back-to-top {
         bottom: 150px; 
-        right: 25px;
+        right: 20px; /* 統一與 CTA 對齊 */
     }
 
     /* 方案卡片 RWD 調整 */
@@ -2233,7 +2431,8 @@ footer {
     
     /* Footer RWD 對齊修正 */
     .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
+        /* 修正：使用 minmax 確保在平板上的兩欄佈局穩定 */
+        grid-template-columns: repeat(2, minmax(0, 1fr)); 
         text-align: left; 
     }
     
@@ -2248,6 +2447,11 @@ footer {
     /* 流程圖在平板電腦下顯示 2 欄 */
     .flow-chart li {
         flex-basis: calc(50% - 30px);
+    }
+    
+    /* 特色網格變成 1 欄 */
+    .features-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -2333,10 +2537,10 @@ footer {
 }
 
 /* -------------------------------------------
- * 12. 網站互動與工具類 (Utility & Animation)
+ * 13. 網站互動與工具類 (Utility & Animation)
  * ------------------------------------------- */
 
-/* --- 12.1 通用卡片組件 (Card Component) --- */
+/* --- 13.1 通用卡片組件 (Card Component) --- */
 
 .base-card {
     background-color: var(--text-light);
@@ -2369,7 +2573,7 @@ footer {
 }
 
 
-/* --- 12.2 滾動動畫基礎 (Scroll Animation Base) --- */
+/* --- 13.2 滾動動畫基礎 (Scroll Animation Base) --- */
 
 /* 核心：將動畫移出視口，準備好在滾動時顯示 */
 .animate-on-scroll {
@@ -2408,7 +2612,7 @@ footer {
 /* ...更多延遲類... */
 
 
-/* --- 12.3 語義化工具類 (Semantic Utilities) --- */
+/* --- 13.3 語義化工具類 (Semantic Utilities) --- */
 
 /* 間距輔助：將間距與變數綁定 */
 .mb-lg { margin-bottom: 40px !important; }
@@ -2424,4 +2628,3 @@ footer {
 .font-serif { font-family: var(--font-serif) !important; }
 .font-bold { font-weight: 700 !important; }
 .text-justify { text-align: justify !important; }
-
