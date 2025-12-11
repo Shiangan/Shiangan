@@ -1,178 +1,272 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" class="js-loading">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
-    <title>404 - 找不到頁面 | 祥安生命</title>
+    <title>404 - 找不到頁面：請立即聯繫 24H 專業禮儀師 | 祥安生命</title>
     
-    <meta name="description" content="很抱歉，您要尋找的頁面不存在。請使用下方連結回到首頁或聯絡我們的專業禮儀師。">
-    
-    <link rel="preload" href="css/style.css" as="style">
+    <meta name="description" content="很抱歉，您要尋找的頁面不存在。請立即使用下方 24H 專線聯繫我們的專業禮儀師，或回到首頁。祥安生命提供您即時的協助。">
+    <meta name="robots" content="noindex, follow"> <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-    <header class="main-header" role="banner">
-    <div class="logo">
-        <a href="index.html" title="祥安生命有限公司 - 回到首頁">祥安生命有限公司</a>
-    </div>
-    <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
-        <ul>
-            <li><a href="index.html">首頁</a></li>
-            <li><a href="about.html">關於我們</a></li> 
-            <li class="dropdown">
-                <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
-                <ul class="submenu">
-                    <li class="submenu-title">依宗教分類</li>
-                    <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道)</a></li>
-                    <li><a href="services.html#Western-etiquette">西式禮儀 (基督/天主)</a></li>
-                    <li><a href="services.html#Japanese-etiquette">日式禮儀 (日蓮正宗等)</a></li>
-                    <li class="submenu-separator"></li>
-                    <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="plans.html" aria-expanded="false" aria-haspopup="true">喪葬費用公開方案 <i class="fas fa-chevron-down"></i></a>
-                <ul class="submenu">
-                    <li class="submenu-title">透明化契約方案</li>
-                    <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
-                    <li><a href="plans.html#eighty-eight">中式契約 8.8萬</a></li>
-                    <li><a href="plans.html#eleven-eight">中式契約 11.8萬</a></li>
-                    <li><a href="plans.html#fourteen-eight">中式契約 14.8萬</a></li>
-                    <li><a href="plans.html#seventeen-eight">尊榮契約 17.8萬</a>
-                    <li class="submenu-separator"></li>
-                    <li><a href="plans.html#west">西式契約</a></li>
-                    <li><a href="plans.html#japen">日式契約</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="blog.html" aria-expanded="false" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
-                <ul class="submenu">
-                    <li class="submenu-title">常見問答與流程</li>
-                    <li><a href="blog.html#first-step">臨終/初終處理</a></li>
-                    <li><a href="blog.html#faq-process">治喪流程與細節問答</a></li>
-                    <li><a href="blog.html#law-guide">法規與補助指南</a></li>
-                    <li class="submenu-separator"></li>
-                    <li><a href="blog.html#items-guide">儀式用品解析</a></li>
-                </ul>
-            </li>
-            <li><a href="order.html">花禮訂購</a></li> 
-            <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線">24H 聯絡我們</a></li>
-        </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-        <i class="fas fa-bars"></i> 選單
-    </button>
-</header>
-
+    
     <style>
-        body {
-            background-color: #f7f9fc;
-            text-align: center;
-            font-family: 'Noto Sans TC', sans-serif;
-            padding: 40px;
+        /* 繼承主CSS變數 */
+        :root {
+            --primary-color: #334466; /* 假設這是您的品牌主色 */
+            --accent-color: #a07d42; /* 假設這是您的品牌輔色 */
+            --bg-body: #f7f9fc;
         }
+
+        /* 確保全域佈局 */
+        body {
+            background-color: var(--bg-body, #f7f9fc);
+            font-family: 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* 讓 footer 靠底 */
+            text-align: center;
+        }
+        
+        /* 確保 main 內容區域佔據空間 */
+        main {
+            flex-grow: 1; 
+            padding: 40px 20px;
+        }
+        
         .error-container {
-            max-width: 600px;
-            margin: 80px auto;
+            max-width: 650px;
+            margin: 40px auto;
             background: #fff;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid var(--accent-color);
         }
         .error-code {
             font-size: 8rem;
             font-weight: 700;
-            color: var(--primary-color); 
+            color: var(--primary-color, #334466); 
             margin-bottom: 5px;
             font-family: 'Noto Serif TC', serif;
         }
         .error-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #333;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-bottom: 25px;
         }
         .error-message {
             font-size: 1.1rem;
             color: #666;
             margin-bottom: 30px;
-            line-height: 1.6;
+            line-height: 1.8;
+        }
+        .error-contact-box {
+            background-color: #fff8e1; /* 溫馨提示背景 */
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed #ffd54f;
+            margin-top: 25px;
+        }
+        .error-contact-box h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+        .error-contact-box a {
+            font-size: 1.3rem;
+            font-weight: 700;
         }
         .error-links a {
             display: inline-block;
-            margin: 10px;
+            margin: 8px 10px;
+            font-size: 0.95rem;
+            color: var(--primary-color);
         }
-        .error-logo {
-            margin-top: 30px;
+        .error-links a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
         }
     </style>
+
 </head>
 <body>
 
-<div class="error-container" role="alert" aria-live="polite">
-    
-    <div class="error-code">404</div>
-    <h1 class="error-title">😥 找不到您需要的頁面</h1>
-    <p class="error-message">
-        很抱歉，您嘗試存取的網址可能已變更、移除或輸入錯誤。<br>
-        請允許我們引導您回到網站的主要資訊。
-    </p>
-
-    <div class="error-links">
-        <a href="index.html" class="cta-button primary large" title="回到首頁">
-            <i class="fas fa-home"></i> 回到祥安生命首頁
-        </a>
-        <a href="contact.html" class="cta-button secondary" title="聯絡我們的禮儀師">
-            <i class="fas fa-phone-alt"></i> 24H 聯絡禮儀師
-        </a>
-    </div>
-
-    <div class="error-links" style="margin-top: 20px;">
-        <a href="services.html" title="查看所有服務">生命禮儀服務總覽</a> | 
-        <a href="plans.html" title="查看費用方案">費用公開方案</a> | 
-        <a href="blog.html" title="查看殯葬百科">殯葬百科知識庫</a>
-    </div>
-    
-    <div class="error-logo">
-        <img src="images/logo.png" alt="祥安生命有限公司 Logo" width="100">
-    </div>
-</div>
-    <footer role="contentinfo">
-    <div class="container footer-grid">
-        <div class="footer-logo">祥安生命有限公司 © <span class="current-year-global">2025</span></div>
-        <div class="footer-links">
-            <h4>快速連結</h4>
-            <ul>
-                <li><a href="about.html">核心承諾 (E-E-A-T)</a></li>
-                <li><a href="plans.html">喪葬費用透明</a></li>
-                <li><a href="blog.html">殯葬百科 (常見問答)</a></li>
-                <li><a href="order.html">花禮訂購</a></li>
-            </ul>
+<header class="main-header" role="banner">
+    <div class="header-container container"> 
+        <div class="logo">
+            <a href="index.html" title="祥安生命有限公司 - 專業生命禮儀服務">
+                <img src="images/logo.png" alt="祥安生命有限公司 Logo" class="site-logo">
+            </a>
         </div>
-        <div class="footer-links" itemscope itemtype="https://schema.org/LocalBusiness">
-            <h4>服務據點與專業範圍</h4>
-            <p style="color: var(--secondary-color);">服務地區：<strong itemprop="areaServed">全台服務</strong>（歡迎洽詢全國各地生命禮儀服務）。</p>
-            <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                主要聯絡地址：<span itemprop="streetAddress">[請填寫公司主要聯絡地址]</span>
-            </address>
-            <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
-                主要服務範圍: <strong>全台生命禮儀服務</strong>, <strong>客製化告別式</strong>, 臨終接體, <strong>環保葬</strong>諮詢與代辦。
+        <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
+            <ul>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="about.html">關於我們 (E-E-A-T)</a></li> 
+                <li class="dropdown">
+                    <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="submenu">
+                        <li class="submenu-title">依宗教分類</li>
+                        <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道)</a></li>
+                        <li><a href="services.html#Western-etiquette">西式禮儀 (基督/天主)</a></li>
+                        <li><a href="services.html#Japanese-etiquette">日式禮儀 (日蓮正宗等)</a></li>
+                        <li class="submenu-separator"></li>
+                        <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="plans.html" aria-expanded="false" aria-haspopup="true">喪葬費用公開方案 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="submenu">
+                        <li class="submenu-title">透明化契約方案</li>
+                        <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
+                        <li><a href="plans.html#eighty-eight">中式契約 8.8萬</a></li>
+                        <li><a href="plans.html#eleven-eight">中式契約 11.8萬</a></li>
+                        <li><a href="plans.html#fourteen-eight">中式契約 14.8萬</a></li>
+                        <li><a href="plans.html#seventeen-eight">尊榮契約 17.8萬</a></li>
+                        <li class="submenu-separator"></li>
+                        <li><a href="plans.html#west">西式契約</a></li>
+                        <li><a href="plans.html#japen">日式契約</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="blog.html" aria-expanded="false" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="submenu">
+                        <li class="submenu-title">常見問答與流程</li>
+                        <li><a href="blog.html#first-step">臨終/初終處理</a></li>
+                        <li><a href="blog.html#faq-process">治喪流程與細節問答</a></li>
+                        <li><a href="blog.html#law-guide">法規與補助指南</a></li>
+                        <li class="submenu-separator"></li>
+                        <li><a href="blog.html#items-guide">儀式用品解析</a></li>
+                    </ul>
+                </li>
+                <li><a href="order.html">花禮訂購</a></li> 
+                <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線" class="cta-button primary small">📞 24H 聯絡我們</a></li>
+            </ul>
+        </nav>
+        <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
+            <i class="fas fa-bars"></i> 選單
+        </button>
+    </div>
+</header>
+
+
+<main role="main">
+    <div class="error-container" role="alert" aria-live="polite">
+        
+        <div class="error-code">404</div>
+        <h1 class="error-title">😥 找不到您需要的頁面</h1>
+        <p class="error-message">
+            很抱歉，您嘗試存取的網址可能已變更、移除或輸入錯誤。<br>
+            **若您需要緊急服務**，請立即撥打下方的 24H 專線。
+        </p>
+
+        <div class="error-contact-box">
+            <h3><i class="fas fa-phone-alt"></i> 立即獲取 24H 專業支援</h3>
+            <a href="tel:0978583699" class="cta-button primary large" title="24小時緊急服務專線">
+                📞 0978-583-699
+            </a>
+            <p style="margin-top: 15px; font-size: 0.95rem; color: #666;">
+                無論何時，專業禮儀師皆可為您提供臨終接體與治喪諮詢。
             </p>
         </div>
-        <div class="footer-social">
-            <h4>24H 禮儀師陳妍如 專線</h4>
-            <p style="font-size: 1.5rem; color: var(--accent-color);">📞 <a href="tel:0978583699" itemprop="telephone">0978-583-699</a></p>
-            <p>聯繫我們：</p>
-            <a href="https://line.me/ti/p/[YOUR LINE ID]?utm_source=website&utm_medium=footer&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
-            <a href="[您的 Facebook 專頁網址]" target="_blank" rel="noopener noreferrer external" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
+
+
+        <div class="error-links" style="margin-top: 35px;">
+            <a href="index.html" class="cta-button secondary" title="回到首頁">
+                <i class="fas fa-home"></i> 回到祥安生命首頁
+            </a>
+            
+            <p style="margin-top: 25px; font-weight: 700;">您可能正在找這些重要資訊：</p>
+            <a href="services.html" title="查看所有服務">生命禮儀服務總覽</a> | 
+            <a href="plans.html" title="查看費用方案">費用公開方案</a> | 
+            <a href="blog.html" title="查看殯葬百科">殯葬百科知識庫</a>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <img src="images/logo.png" alt="祥安生命有限公司 Logo" width="120" loading="lazy">
+        </div>
+    </div>
+</main>
+
+
+<footer role="contentinfo">
+    <div class="container footer-grid wide-footer-grid">
+        
+        <div class="footer-block footer-links">
+            <h4>專業生命禮儀服務</h4>
+            <ul>
+                <li><a href="services.html">所有服務總覽</a></li>
+                <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道)</a></li>
+                <li><a href="services.html#Western-etiquette">西式禮儀 (基督/天主)</a></li>
+                <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
+            </ul>
+            
+            <h4>花禮訂購</h4>
+            <ul>
+                <li><a href="order.html">奠儀花禮快速訂購</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-block footer-links">
+            <h4>喪葬費用公開方案</h4>
+            <ul>
+                <li><a href="plans.html">所有方案與價格總覽</a></li>
+                <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
+                <li><a href="plans.html#eightdoteight">中式契約 8.8萬起</a></li>
+                <li><a href="plans.html#west">西式/日式契約</a></li>
+            </ul>
+
+            <h4>殯葬百科知識</h4>
+            <ul>
+                <li><a href="blog.html">常見問題與流程</a></li>
+                <li><a href="blog.html#first-step">臨終/初終處理</a></li>
+                <li><a href="blog.html#law-guide">法規與補助指南</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-block footer-contact" itemscope itemtype="https://schema.org/LocalBusiness">
+            <h4 style="margin-bottom: 5px;">24H 禮儀師陳妍如 專線</h4>
+            <p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
+                📞 <a href="tel:0978583699" itemprop="telephone">0978-583-699</a>
+            </p>
+            
+            <h4>公司資訊與服務範圍</h4>
+            <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                <p>
+                    主要聯絡地址：<span itemprop="streetAddress">[請填寫公司主要聯絡地址]</span>
+                </p>
+            </address>
+            <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (雙北/桃園即時協助)</p>
+            
+            <p style="margin-top: 15px;">線上聯繫：</p>
+            <div class="footer-social-links">
+                <a href="https://line.me/ti/p/[YOUR LINE ID]?utm_source=website&utm_medium=footer&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
+                <a href="[您的 Facebook 專頁網址]" target="_blank" rel="noopener noreferrer external" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
+            </div>
+            <meta itemprop="name" content="祥安生命有限公司">
+            <meta itemprop="url" content="https://24hour.台灣/Shiangan/">
+            <meta itemprop="email" content="[請填寫聯繫Email]">
+        </div>
+    </div>
+    
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="footer-logo">祥安生命有限公司 © <span class="current-year-global">2025</span></div>
+            <div class="footer-meta">
+                <a href="about.html" rel="nofollow">關於我們 (E-E-A-T)</a> | <a href="privacy.html" rel="nofollow">隱私權政策</a>
+            </div>
         </div>
     </div>
 </footer>
 
-<div class="floating-cta">
-    <a href="tel:0978583699" title="24H 電話諮詢"><i class="fas fa-phone"></i></a>
-    <a href="https://line.me/ti/p/[YOUR LINE ID]?utm_source=website&utm_medium=floating&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢"><i class="fab fa-line"></i></a>
+<a href="#top" class="back-to-top" aria-label="返回頁面頂部"><i class="fas fa-chevron-up"></i></a>
+
+<div class="floating-cta" aria-label="快速聯繫方式">
+    <a href="tel:0978583699" title="24H 緊急電話諮詢" aria-label="24小時電話諮詢"><i class="fas fa-phone"></i></a>
+    <a href="https://line.me/ti/p/[YOUR LINE ID]?utm_source=website&utm_medium=floating&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢" aria-label="LINE 即時線上諮詢"><i class="fab fa-line"></i></a>
 </div>
 
 <script>
@@ -182,7 +276,5 @@
     });
 </script>
 <script src="js/script.js" defer></script>
-
-
 </body>
 </html>
