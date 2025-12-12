@@ -203,53 +203,69 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // ====================================================
-        // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion)
-        // ====================================================
-        try {
-            if (mainNav) {
-                mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
-                    targetLink.addEventListener('click', (e) => {
-                        const isDropdownTrigger = targetLink.closest('li.dropdown') && 
-                            (targetLink.getAttribute('href') === '#' || targetLink.getAttribute('href') === null || targetLink.getAttribute('href') === '');
-                        
-                        if (window.innerWidth <= mobileBreakpoint && isDropdownTrigger) {
-                            e.preventDefault();
-                            const parentLi = targetLink.closest('li.dropdown');
-                            const submenu = parentLi.querySelector('.submenu');
-                            const isCurrentlyActive = parentLi.classList.contains('active');
+// ====================================================
+// 3. 響應式導航手風琴選單 (Mobile Navigation Accordion) - 【防禦性修復版】
+// ====================================================
+try {
+    if (mainNav) {
+        mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
+            targetLink.addEventListener('click', (e) => {
+                const parentLi = targetLink.closest('li.dropdown');
+                
+                // 檢查 1：確保它是下拉選單的父級連結
+                if (!parentLi) return; 
 
-                            closeAllMobileSubmenus(); // 關閉其他
+                // 檢查 2：判斷該連結是否為「開關觸發器」
+                // 開關觸發器的特徵：href 為 # 或空 (即不是導航到其他頁面的連結)
+                const isTrigger = (targetLink.getAttribute('href') === '#' || 
+                                   targetLink.getAttribute('href') === null || 
+                                   targetLink.getAttribute('href') === '');
 
-                            if (!isCurrentlyActive) {
-                                parentLi.classList.add('active');
-                                if (submenu) {
-                                    requestAnimationFrame(() => {
-                                        submenu.style.maxHeight = `${submenu.scrollHeight}px`;
-                                    });
-                                }
-                            } 
-                        }
-                    });
-                });
+                // 只有在手機視圖且是開關觸發器時才執行手風琴邏輯
+                if (window.innerWidth <= mobileBreakpoint && isTrigger) {
+                    e.preventDefault();
+                    
+                    // 獲取子選單 (防禦性檢查)
+                    const submenu = parentLi.querySelector('.submenu');
+                    const isCurrentlyActive = parentLi.classList.contains('active');
 
-                // 點擊菜單中的**非手風琴連結**後，自動關閉主菜單
-                mainNav.querySelectorAll('a[href]').forEach(link => { 
-                     // 排除作為手風琴開關的父連結
-                     if (link.closest('.dropdown > a') && (link.getAttribute('href') === '#' || link.getAttribute('href') === null || link.getAttribute('href') === '')) return;
-                     
-                     link.addEventListener('click', () => {
-                         if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active')) {
-                             // 延遲關閉，提供足夠時間進行頁面切換或平滑滾動
-                             setTimeout(() => {
-                                 if (menuToggle) menuToggle.click(); 
-                             }, RWD_TRANSITION_DURATION + 100); 
-                         }
-                     });
-                });
-            }
-        } catch (e) {
-            console.error('Core Logic Failed: Mobile Accordion', e);
-        }
+                    // 確保我們總是可以找到子選單，否則停止執行
+                    if (!submenu) {
+                        console.warn('Mobile Accordion: Submenu element not found for this dropdown.');
+                        return;
+                    }
+
+                    closeAllMobileSubmenus(); // 關閉其他
+
+                    if (!isCurrentlyActive) {
+                        // 執行展開
+                        parentLi.classList.add('active');
+                        requestAnimationFrame(() => {
+                            // 核心：設置正確的 max-height
+                            submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                        });
+                    } 
+                }
+            });
+        });
+
+        // 點擊菜單中的**非手風琴連結**後，自動關閉主菜單 (這段邏輯保持完美)
+        mainNav.querySelectorAll('a[href]').forEach(link => { 
+             // 排除作為手風琴開關的父連結
+             if (link.closest('.dropdown > a') && (link.getAttribute('href') === '#' || link.getAttribute('href') === null || link.getAttribute('href') === '')) return;
+             
+             link.addEventListener('click', () => {
+                 if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active')) {
+                     setTimeout(() => {
+                         if (menuToggle) menuToggle.click(); 
+                     }, RWD_TRANSITION_DURATION + 100); 
+                 }
+             });
+        });
+    }
+} catch (e) {
+    console.error('Core Logic Failed: Mobile Accordion', e);
+}
 
 
         // ====================================================
