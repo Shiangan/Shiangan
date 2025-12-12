@@ -211,7 +211,8 @@ code {
 
 pre code {
     background: none;
-    color: var(--code-color);
+    /* ⭐ 修正：確保在深色背景 (var(--primary-dark)) 上有足夠的對比度 */
+    color: var(--code-color); 
     padding: 0;
     white-space: pre;
 }
@@ -1222,6 +1223,49 @@ main {
     transform: translateY(-5px);
     border-color: var(--primary-color);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ⭐ 修正與增強：流程圖連接線與箭頭 (桌面版) */
+@media (min-width: 901px) {
+    .flow-chart li {
+        margin-right: 50px; /* 為箭頭留出空間 */
+    }
+    
+    .flow-chart li:last-child {
+        margin-right: 15px; /* 最後一個元素不需要留出箭頭空間 */
+    }
+
+    .flow-chart li:not(:last-child)::after {
+        content: '\f061'; /* Font Awesome: 右箭頭 */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: -30px; /* 位於 li 之間 */
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        z-index: 5;
+    }
+
+    /* 處理每行結尾的箭頭 (假設每行 4 個，第 4 個需要處理) */
+    .flow-chart ol li:nth-child(4n)::after {
+        /* 如果有下一行，替換成向下箭頭 */
+        content: '\f078'; /* 向下箭頭 */
+        right: 50%;
+        top: auto;
+        bottom: -30px; /* 放在 li 下方 */
+        transform: translate(50%, 0) rotate(180deg);
+        color: var(--accent-color);
+    }
+    /* 確保真正的最後一個元素沒有箭頭 */
+    .flow-chart ol li:last-child::after {
+        content: none;
+    }
+    /* 如果最後一個元素恰好是 4n，則移除向下箭頭 */
+    .flow-chart ol li:last-child:nth-child(4n)::after {
+        content: none;
+    }
 }
 
 
@@ -2632,6 +2676,10 @@ footer {
         text-align: center;
     }
 
+    /* ⭐ RWD 導航：為 JS 的 max-height 過渡預設結構 */
+    .dropdown {
+        position: relative; 
+    }
     /* 手機版下拉選單 (手風琴效果) */
     .dropdown > a {
         display: flex;
@@ -2665,17 +2713,18 @@ footer {
         visibility: visible; 
         max-height: 0; /* 關鍵：從 0 過渡到 scrollHeight */
         overflow: hidden;
-        transition: max-height var(--rwd-transition-duration) cubic-bezier(0.86, 0, 0.07, 1), padding var(--rwd-transition-duration) cubic-bezier(0.86, 0, 0.07, 1); 
+        /* ⭐ 修正：確保起始/結束的 padding 為 0，由 JS 控制打開時的 padding */
+        padding: 0 0; 
+        transition: max-height var(--rwd-transition-duration) cubic-bezier(0.86, 0, 0.07, 1); 
         transform: none; 
         box-shadow: none;
         border-top: none;
         border-radius: 0;
-        padding: 0 0; 
         pointer-events: auto; 
     }
     .dropdown.active > .submenu {
         /* JS 應將 max-height 設置為 submenu 的 scrollHeight */
-        padding: 10px 0; 
+        padding: 10px 0; /* JS 在添加 active 時，應同時設置這個 padding */
     }
 
     /* 確保子選單內容不會被絕對定位影響 scrollHeight (已在上方的 .submenu 中修正 position: static) */
@@ -2692,6 +2741,14 @@ footer {
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         min-width: unset;
+    }
+    
+    /* 流程圖 RWD 模式下，移除所有桌面版箭頭 */
+    .flow-chart li:not(:last-child)::after {
+        content: none !important;
+    }
+    .flow-chart ol li:nth-child(4n)::after {
+        content: none !important;
     }
 
     /* 文章頁面 RWD */
