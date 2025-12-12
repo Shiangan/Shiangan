@@ -583,4 +583,63 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (finalError) {
         console.error('Fatal Error: Core JS Initialization Failed.', finalError);
     }
+
+    // --- 訂購表單提交處理 (確保互動與提示) ---
+const orderForm = document.getElementById('product-order-form');
+const statusMessage = document.getElementById('form-status-message');
+
+if (orderForm) {
+    orderForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.textContent = '送出中... 請稍候';
+        submitButton.disabled = true;
+        statusMessage.textContent = '';
+        
+        // 確保 action 屬性已替換
+        if (this.action.includes('your_form_endpoint')) {
+             statusMessage.style.color = 'var(--error-color)';
+             statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
+             submitButton.textContent = '確認送出訂購資訊';
+             submitButton.disabled = false;
+             return;
+        }
+
+        try {
+            const formData = new FormData(this);
+            // 使用 fetch API 異步送出表單
+            const response = await fetch(this.action, {
+                method: this.method,
+                body: formData,
+                headers: {
+                    // Formspree 需要這個 header 來確保 JSON 響應
+                    'Accept': 'application/json' 
+                }
+            });
+
+            if (response.ok) {
+                // 成功處理
+                statusMessage.style.color = 'var(--success-color)';
+                statusMessage.textContent = '🎉 訂購資訊已成功送出！請等待專人電話聯繫。';
+                this.reset(); // 清空表單內容
+                submitButton.textContent = '訂購資訊已送出 (請等電話)';
+                // 成功後按鈕保持禁用狀態，防止重複提交
+            } else {
+                // 失敗處理
+                statusMessage.style.color = 'var(--error-color)';
+                statusMessage.textContent = '❗ 表單送出失敗，請直接撥打 24H 專線訂購：0978-583-699';
+                submitButton.textContent = '確認送出訂購資訊';
+                submitButton.disabled = false;
+            }
+        } catch (error) {
+            console.error('Submission Error:', error);
+            statusMessage.style.color = 'var(--error-color)';
+            statusMessage.textContent = '❗ 網路錯誤。請直接撥打 24H 專線訂購：0978-583-699';
+            submitButton.textContent = '確認送出訂購資訊';
+            submitButton.disabled = false;
+        }
+    });
+}
+
 });
