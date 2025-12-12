@@ -514,7 +514,6 @@ main {
 }
 
 /* -------------------------------------------
-/* -------------------------------------------
  * 2. CTA 按鈕與共通元件
  * ------------------------------------------- */
 
@@ -533,22 +532,16 @@ main {
     will-change: transform, box-shadow;
     margin: 10px;
     cursor: pointer; 
-    text-decoration: none; /* 確保作為連結時沒有下劃線 */
 }
 
 .cta-button .fas, .cta-button .fab, .cta-button .fa {
     margin-left: 8px;
-    /* 確保圖標與文字對齊更完美 */
-    margin-right: -2px; 
 }
 
-/* --- Primary (緊急專線/主要行動) --- */
 .cta-button.primary {
     background-color: var(--primary-color);
     color: var(--text-light);
     box-shadow: 0 6px 15px rgba(30, 58, 106, 0.6);
-    /* 增加可訪問性焦點樣式 */
-    outline-color: var(--accent-color); 
 }
 
 .cta-button.primary:hover {
@@ -557,18 +550,10 @@ main {
     box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9);
 }
 
-.cta-button.primary:focus {
-    /* 確保 Tab 導航時，Primary 按鈕的焦點清晰可見 */
-    outline: 3px solid var(--accent-color);
-    outline-offset: 4px;
-}
-
-/* --- Secondary (次要行動/查看詳情) --- */
 .cta-button.secondary {
     background-color: transparent;
     color: var(--accent-color);
     border-color: var(--accent-color);
-    box-shadow: none; /* 輔助按鈕不需要太強的陰影 */
 }
 
 .cta-button.secondary:hover {
@@ -579,12 +564,10 @@ main {
 }
 
 .cta-button.secondary:focus {
-    /* 輔助按鈕的焦點用 Primary 色，形成對比 */
     outline: 2px solid var(--primary-color);
     outline-offset: 4px;
 }
 
-/* --- 尺寸 --- */
 .cta-button.large {
     font-size: 1.1rem;
     padding: 16px 40px;
@@ -600,28 +583,8 @@ main {
     width: 100% !important;
 }
 
-/* --- 【新增】緊急專線按鈕強化 (Hero 區塊的 24H 專線) --- */
-/* 假設 HTML 中 Primary CTA 帶有 .contact-call-btn 類別 */
-.cta-button.primary.contact-call-btn {
-    position: relative;
-    /* 脈衝動畫的基礎陰影 */
-    box-shadow: 0 0 0 0 rgba(206, 157, 74, 0.7); 
-    animation: pulse 2s infinite; 
-}
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(206, 157, 74, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 15px rgba(206, 157, 74, 0); 
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(206, 157, 74, 0);
-    }
-
-
-   /* -------------------------------------------
+/* -------------------------------------------
  * 3. 區塊樣式 (Sections) - Hero 與流星動畫
  * ------------------------------------------- */
 
@@ -654,7 +617,7 @@ main {
 #stars {
     --travel-x-end: -20px; --travel-y-end: 20px; 
     animation: move-star 300s linear infinite,
-               blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
+               blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
     animation-delay: 0.5s;
     z-index: 1;
 }
@@ -663,20 +626,18 @@ main {
     position: absolute;
     width: 1px;
     height: 1px;
-    /* 增加星星的數量和分佈隨機性 */
     box-shadow:
         100vw 200vh rgba(255, 255, 255, 0.2), 
         250vw 120vh rgba(255, 255, 255, 0.2), 
         -50vw 150vh rgba(255, 255, 255, 0.2), 
-        30vw 100vh rgba(255, 255, 255, 0.2),
-        150vw 10vh rgba(255, 255, 255, 0.1);
+        30vw 100vh rgba(255, 255, 255, 0.2);
 }
 
 /* 圖層 2: 中速移動 (中間層) */
 #stars2 {
     --travel-x-end: -60px; --travel-y-end: 60px; 
     animation: move-star 150s linear infinite, 
-               blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
+               blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
     animation-delay: 1.2s;
     z-index: 1;
 }
@@ -686,17 +647,15 @@ main {
     width: 2px;
     height: 2px;
     opacity: 0.9;
-    /* 增加星星的數量和分佈隨機性 */
     box-shadow:
-        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff,
-        20vw 150vh #ffffff, -80vw 50vh #ffffff;
+        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
 
 /* 圖層 3: 快速移動 (最前景) */
 #stars3 {
     --travel-x-end: -100px; --travel-y-end: 100px; 
     animation: move-star 80s linear infinite,
-               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
+               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
     animation-delay: 0s;
     z-index: 1;
 }
@@ -706,41 +665,11 @@ main {
     width: 3px;
     height: 3px;
     opacity: 1;
-    /* 增加星星的數量和分佈隨機性 */
     box-shadow:
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9),
-        -50vw 200vh var(--accent-color), 200vw 50vh var(--accent-color);
+        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
 }
 
-/* --- Hero 內容樣式 (標題大小最終修正) --- */
-#hero .hero-content h1 {
-    /* 確保 h1 遠大於標準 h1 */
-    font-size: 8vw; 
-    line-height: 1.1;
-    color: var(--text-light); /* 修正為統一使用 --text-light */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
-    
-    /* 由於有 Fit-Text 腳本，min-font-size 需在腳本中控制，這裡作為 CSS 基準 */
-    min-height: 100px; /* 確保在任何情況下 h1 區塊有最低高度 */
-}
-
-#hero .hero-content h2.hero-subtitle {
-    font-size: 4.5vw; 
-    font-weight: 700;
-    color: var(--accent-color); 
-    margin-top: 10px; 
-}
-
-/* 確保手機上的尺寸是舒適的 */
-@media (max-width: 768px) {
-    #hero .hero-content h1 {
-        font-size: 12vw; /* 略微加大手機 H1 尺寸，提升衝擊力 */
-    }
-    #hero .hero-content h2.hero-subtitle {
-        font-size: 7vw; /* 略微加大手機 H2 尺寸 */
-    }
-}
 
 .hero-section {
     position: relative;
@@ -754,8 +683,7 @@ main {
     text-align: center;
     color: var(--text-light);
     z-index: 1;
-    /* 確保圖片路徑正確且使用低延遲格式 */
-    background-image: url('../images/hero-bg-default.webp'); 
+    background-image: url('../images/hero-bg-default.jpg'); 
     background-size: cover;
     background-position: center;
 }
@@ -769,9 +697,7 @@ main {
     right: 0;
     bottom: 0;
     background-image:
-        /* 避免中央內容被遮擋，圓形漸變從中心透明擴散 */
-        radial-gradient(circle at center, rgba(30, 58, 106, 0.1) 0%, transparent 50%),
-        /* 底部增加深度，使 Hero 區塊平滑過渡到下一個區塊 */
+        radial-gradient(circle at center, rgba(30, 58, 106, 0.3) 0%, transparent 60%),
         linear-gradient(
             to bottom,
             rgba(0, 0, 0, 0.8) 0%, 
@@ -828,8 +754,8 @@ main {
 
 .meteor {
     position: absolute;
-    width: 2px; /* 調整大小 */
-    height: 2px;
+    width: 1px; 
+    height: 1px;
     background: #ffffff;
     box-shadow: 
         0 0 5px 1px rgba(255, 255, 255, 0.8), 
@@ -847,9 +773,9 @@ main {
     content: '';
     position: absolute;
     top: 50%;
-    left: -600px; /* 調整長度 */
-    width: 600px; 
-    height: 2px; /* 調整高度 */
+    left: -400px; 
+    width: 400px; 
+    height: 1px; 
     transform: translateY(-50%);
     background: linear-gradient(
         to left, 
@@ -858,8 +784,8 @@ main {
         rgba(206, 157, 74, 0.5) 15%,
         transparent 100%
     );
-    opacity: 0.7; /* 略微降低透明度，讓尾巴柔和 */
-    filter: blur(0.5px); 
+    opacity: 0.9;
+    filter: blur(0.5px); /* ⭐ 優化：輕微模糊，讓彗尾更柔和 */
 }
 
 
@@ -899,7 +825,6 @@ main {
     gap: 15px;
     flex-wrap: wrap;
 }
-
 
 /* --- 4.2 特色網格 (Features Grid) --- */
 .features-grid {
