@@ -1099,6 +1099,7 @@ main {
 }
 
 .accordion-content {
+    /* 這裡的 max-height 由 JS 動態設定，CSS 負責過渡效果 */
     max-height: 0;
     overflow: hidden;
     padding: 0 25px;
@@ -2443,6 +2444,11 @@ footer {
         padding: 10px 0; 
     }
 
+    /* 確保子選單內容不會被絕對定位影響 scrollHeight (已在上方的 .submenu 中修正 position: static) */
+    .submenu > li {
+        border-bottom: none; /* 清除 RWD li 的 border-bottom */
+    }
+
     .hero-section {
         height: 500px;
         background-attachment: scroll;
@@ -2503,6 +2509,12 @@ footer {
     
     .footer-block:nth-child(3) {
         grid-column: span 2; 
+    }
+    
+    /* 聯繫頁面 RWD */
+    .contact-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 30px;
     }
 }
 
