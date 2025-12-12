@@ -1,111 +1,390 @@
-<main role="main">
-    <section id="page-hero" class="hero-section subpage-hero" style="background-image: url('images/hero-flowers.jpg'); min-height: 450px;" aria-label="告別式花禮與奠儀用品訂購">
-        <div class="hero-content">
-            <h1 style="font-size: clamp(2rem, 6vw, 4.5rem);">💐 線上快速訂購：告別式花禮、罐頭塔代訂服務</h1>
-            <p style="font-size: 1.2rem;">24H 專業代送，確保您的心意與敬重，準時圓滿送達告別式會場。</p>
-        </div>
-    </section>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    <nav aria-label="breadcrumb" class="container" style="padding-top: 20px;">
-        <ol class="breadcrumb">
-            <li><a href="index.html">首頁</a></li>
-            <li aria-current="page">花禮與奠儀用品訂購</li>
-        </ol>
-    </nav>
+    gtag('config', 'G-445583766'); 
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <section id="online-order-form" class="container-v-padding" aria-labelledby="online-form-heading">
-        <div class="container contact-grid-2col" style="max-width: 1200px;">
-            
-            <div class="contact-form-wrap animate-on-scroll fade-in-up">
-                <h2 id="online-form-heading" class="text-center" style="color: var(--primary-dark); margin-bottom: 30px;">📝 線上訂購與資訊填寫</h2>
-                <p class="lead text-center">請填寫訂購人與收件會場資訊。為避免延誤，緊急訂單請務必來電。</p>
-                
-                <form id="product-order-form" class="contact-form" action="https://formspree.io/f/your_form_endpoint" method="POST">
-                    <fieldset>
-                        <legend>1. 訂購人與聯繫資訊</legend>
-                        <label for="orderer-name">訂購人姓名 <span class="required-asterisk">*</span></label>
-                        <input type="text" id="orderer-name" name="訂購人姓名" required>
+    <title>💐 告別式花禮、罐頭塔、輓聯代訂服務 | 24H 專業代送 - 祥安生命</title>
 
-                        <label for="orderer-phone">聯繫電話 <span class="required-asterisk">*</span></label>
-                        <input type="tel" id="orderer-phone" name="訂購人電話" required>
+    <meta name="description" content="提供專業告別式花禮、鮮花山、罐頭塔、蘭花、羅馬柱花圈等用品訂購服務。24H 全台配送，價格透明，代寫輓聯，讓您心意圓滿傳達。">
+    <link rel="canonical" href="https://24hour.台灣/Shiangan/order.html">
 
-                        <label for="orderer-email">電子郵件 (用於確認信)</label>
-                        <input type="email" id="orderer-email" name="訂購人Email">
-                    </fieldset>
-                    
-                    <fieldset style="margin-top: 30px;">
-                        <legend>2. 訂購商品與會場資訊</legend>
+    <meta property="og:title" content="告別式花禮與奠儀用品代訂 | 祥安生命 24H 服務">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://24hour.台灣/Shiangan/order.html">
+    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/hero-flowers.jpg">
+    <meta property="og:description" content="協助您快速訂購高品質、符合禮儀規範的告別式用品。">
 
-                        <label for="product-select">選擇訂購類型 <span class="required-asterisk">*</span></label>
-                        <select id="product-select" name="訂購產品類型" required>
-                            <option value="">-- 請選擇 (花禮/罐頭塔/其他) --</option>
-                            <optgroup label="鮮花花禮系列 (莊重典雅)">
-                                <option value="鮮花山/主花牆 (45000起)">鮮花山/主花牆 (45,000元起)</option>
-                                <option value="羅馬柱/立體花圈 (3000起)">羅馬柱/立體花圈 (3,000元/對起)</option>
-                                <option value="高品質蘭花盆景 (2500起)">高品質蘭花盆景 (2,500元/盆起)</option>
-                            </optgroup>
-                            <optgroup label="罐頭塔與米塔系列 (傳統心意)">
-                                <option value="傳統罐頭塔 (2800起)">傳統罐頭塔 (2,800元/對起)</option>
-                                <option value="環保白米塔 (3800起)">環保白米塔 (3,800元/對起)</option>
-                                <option value="客製化飲料/酒塔 (電聯報價)">客製化飲料/酒塔 (電聯報價)</option>
-                            </optgroup>
-                            <option value="其他奠儀用品/代辦服務">其他奠儀用品/代辦服務</option>
-                        </select>
-                        
-                        <label for="quantity">數量 (請填寫對/組/盆數) <span class="required-asterisk">*</span></label>
-                        <input type="number" id="quantity" name="訂購數量" required min="1" value="1" style="max-width: 150px;">
-                        
-                        <label for="delivery-location">送達會場名稱與地址 <span class="required-asterisk">*</span></label>
-                        <textarea id="delivery-location" name="送達會場地址" rows="3" placeholder="請填寫完整的會館名稱與地址 (例如：台北市立第二殯儀館 景仰廳)" required></textarea>
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <link rel="preload" href="../fonts/UoqMunThenKhung-1.000.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="../fonts/Iansui-Regular.ttf" as="font" type="font/ttf" crossorigin>
 
-                        <label for="deceased-name">逝者尊稱 (用於輓聯代寫) <span class="required-asterisk">*</span></label>
-                        <input type="text" id="deceased-name" name="逝者尊稱" placeholder="例如：某府OO公 (母) 諱名OO" required>
-                        
-                        <label for="delivery-date">希望送達日期 <span class="required-asterisk">*</span></label>
-                        <input type="date" id="delivery-date" name="希望送達日期" required>
-                        
-                        <label for="notes">備註/輓聯內容要求 (或由專人電聯確認)</label>
-                        <textarea id="notes" name="備註與輓聯要求" rows="3" placeholder="例如：希望輓聯題辭為 [OOO 敬輓]，送禮人為 [OO股份有限公司]"></textarea>
-                    </fieldset>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "首頁",
+          "item": "https://24hour.台灣/Shiangan/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "花禮與奠儀用品訂購",
+          "item": "https://24hour.台灣/Shiangan/order.html"
+        }
+      ]
+    }
+    </script>
+    
+</head>
 
-                    <div class="privacy-note">
-                        <input type="checkbox" id="privacy-agree" required>
-                        <label for="privacy-agree" style="display: inline;">我已閱讀並同意本公司的 <a href="privacy.html" class="color-primary" target="_blank">隱私權政策</a>。</label>
-                    </div>
-                    
-                    <button type="submit" class="cta-button primary large mt-md">確認送出訂購資訊</button>
-                    <div id="form-status-message" style="margin-top: 15px; text-align: center; color: var(--success-color);"></div>
-                </form>
+<body class="js-loading">
+    <header class="main-header" role="banner">
+        <div class="header-container container">
+            <div class="logo">
+                <a href="index.html" title="祥安生命有限公司 - 回到首頁">
+                    <img src="images/logo.png" alt="祥安生命有限公司 Logo - 國家認證禮儀師" class="site-logo">
+                </a>
             </div>
 
-            <div class="contact-info-block animate-on-scroll fade-in-up delay-100">
-                <div class="info-card side-note-box">
-                    <h3 class="text-line-container"><i class="fas fa-exclamation-triangle"></i> 重要訂購提醒</h3>
-                    <ul class="check-list">
-                        <li>**緊急訂單：** 若送達時間在 48 小時內，**請務必直接撥打電話**，以確保花材與運送時間能即時安排。</li>
-                        <li>**輓聯代寫：** 輓聯內容會影響儀式規範，請務必填寫逝者尊稱，由專人提供最合適的題辭建議。</li>
-                        <li>**代送區域：** 表單適用於雙北/桃園地區。其他縣市請先電話確認。</li>
-                    </ul>
-                </div>
+            <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
+                <ul role="menubar">
+                    <li role="menuitem"><a href="index.html" title="回到首頁"><strong>首頁</strong></a></li>
+                    <li role="menuitem"><a href="about.html" title="了解祥安生命的理念、專業證照與甲級立案證明"><strong>關於我們</strong></a></li> 
+
+                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
+                        <a href="services.html" aria-expanded="false" title="了解所有生命禮儀服務"> <strong>專業生命禮儀服務</strong> <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
+                        <div class="submenu-container">
+                            <ul class="submenu" role="menu">
+                                <li class="submenu-title"><strong>依宗教信仰分類</strong></li>
+                                <li role="menuitem"><a href="services.html#buddhist-taoist" title="中式佛/道教禮儀服務"><strong>中式禮儀 (佛教/道教)</strong></a></li>
+                                <li role="menuitem"><a href="services.html#western-etiquette" title="西式基督/天主教禮儀服務"><strong>西式禮儀 (基督教/天主教)</strong></a></li>
+                                <li role="menuitem"><a href="services.html#japanese-etiquette" title="日式宗教禮儀服務"><strong>日式禮儀 (日蓮正宗/創價學會)</strong></a></li>
+                                <li role="menuitem"><a href="services.html#customized-etiquette" title="客製化禮儀"><strong>客製化禮儀</strong></a></li>
+                                <li class="submenu-separator" role="separator"></li>
+                                <li class="submenu-title">環保永續</li>
+                                <li role="menuitem"><a href="services.html#eco-burial" title="環保葬專區"><strong>環保葬/樹葬/花葬/植葬 專區</strong></a></li>
+                                <li role="menuitem"><a href="services.html#special-groups" title="土葬專區"><strong>土葬專區</strong></a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li role="menuitem"><a href="plans.html" title="查看喪葬費用公開透明方案"> <strong>喪葬費用公開方案</strong></a></li>
+
+                    <li role="menuitem"><a href="blog.html" title="查看殯葬相關知識與問答"> <strong>殯葬百科知識</strong></a></li>
+
+                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
+                        <a href="ta-wei-choice-guide.html" aria-expanded="false" title="塔位選擇與晉塔指南"> <strong>塔位晉塔指引</strong> <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
+                        <div class="submenu-container">
+                            <ul class="submenu" role="menu">
+                                <li class="submenu-title"><strong>塔位與安奉指南</strong></li>
+                                <li role="menuitem"><a href="ta-wei-he-fa-xing-query-guide.html" title="塔位合法性與詐騙避險指南">🛡️ <strong>塔位合法性與避險</strong></a></li>
+                                <li role="menuitem"><a href="ta-wei-choice-guide.html" title="靈骨塔位風水與價格選擇指南">🏞️ **塔位選擇指南**</a></li>
+                                <li role="menuitem"><a href="jin-ta-process-details.html" title="圓滿晉塔與安葬流程詳解">🔔 **晉塔與安葬流程**</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li role="menuitem" class="active"><a href="order.html" title="花禮與奠儀用品訂購" aria-current="page"><strong>花禮訂購</strong></a></li>
+                    <li class="contact-nav" role="menuitem"><a href="tel:+886978583699" title="24小時禮儀服務緊急專線 0978-583-699"><strong>24H 聯絡我們</strong></a></li>
+                </ul>
+            </nav>
+
+            <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i> 選單
+            </button>
+        </div>
+    </header>
+    <main role="main">
+        <section id="page-hero" class="hero-section subpage-hero" style="background-image: url('images/hero-flowers.jpg'); min-height: 450px;" aria-label="告別式花禮與奠儀用品訂購">
+            <div class="hero-content">
+                <h1 style="font-size: clamp(2rem, 6vw, 4.5rem);">💐 線上快速訂購：告別式花禮、罐頭塔代訂服務</h1>
+                <p style="font-size: 1.2rem;">24H 專業代送，確保您的心意與敬重，準時圓滿送達告別式會場。</p>
+            </div>
+        </section>
+
+        <nav aria-label="breadcrumb" class="container" style="padding-top: 20px;">
+            <ol class="breadcrumb">
+                <li><a href="index.html">首頁</a></li>
+                <li aria-current="page">花禮與奠儀用品訂購</li>
+            </ol>
+        </nav>
+
+        <section id="product-line-preview" class="container-v-padding" aria-labelledby="product-line-heading" style="padding-bottom: 0;">
+            <div class="container" style="max-width: 1100px;">
+                <h2 id="product-line-heading" class="text-center" style="color: var(--007bff);">📷 產品預覽與 LINE 快速洽詢</h2>
+                <p class="lead text-center">點擊下方產品圖片，可直接在 LINE 上洽詢該品項，方便傳圖或細節確認。</p>
                 
-                <div class="info-card">
-                    <h3 class="text-line-container">📞 24H 洽詢專線</h3>
-                    <p class="large-text" style="font-size: 1.8rem;">
-                        <a href="tel:+886978583699" title="24H 電話洽詢花禮訂購">
-                            <i class="fas fa-phone-volume"></i> 0978-583-699
-                        </a>
-                    </p>
-                    <p>專人將於收到表單後儘快 (約 **5 分鐘內**) 聯繫您確認細節。</p>
+                <h3 style="color: var(--007bff); margin-top: 40px;"><i class="fas fa-heart"></i> 鮮花花禮系列</h3>
+                <div class="card-grid product-grid">
+                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：鮮花山/主花牆，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="flower" title="LINE 洽詢：鮮花山/主花牆">
+                        <img src="images/product-huashan.jpg" alt="告別式鮮花山花禮" loading="lazy">
+                        <h4>鮮花山/主花牆 (極致尊榮)</h4>
+                        <p class="description">高規格會場設計。**點擊圖片立即 LINE 洽詢**</p>
+                        <p class="price">**價格：** 45,000 元起</p>
+                    </a>
+
+                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：羅馬柱/立體花圈，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="flower" title="LINE 洽詢：羅馬柱/立體花圈">
+                        <img src="images/product-luomazhu.jpg" alt="告別式羅馬柱花圈" loading="lazy">
+                        <h4>羅馬柱/立體花圈 (莊重典雅)</h4>
+                        <p class="description">親友致意首選。**點擊圖片立即 LINE 洽詢**</p>
+                        <p class="price">**價格：** 3,000 元 / 對起</p>
+                    </a>
+
+                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：蘭花盆景，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="flower" title="LINE 洽詢：高品質蘭花盆景">
+                        <img src="images/product-lanhua.jpg" alt="告別式蘭花盆景" loading="lazy">
+                        <h4>高品質蘭花盆景 (長久致意)</h4>
+                        <p class="description">適合企業團體。**點擊圖片立即 LINE 洽詢**</p>
+                        <p class="price">**價格：** 2,500 元 / 盆起</p>
+                    </a>
                 </div>
-                
-                <div class="info-card">
-                    <h3 class="text-line-container">📱 LINE 線上傳圖/洽詢</h3>
-                     <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" class="cta-button line-btn large" style="width: 100%;">
-                        <i class="fab fa-line" aria-hidden="true"></i> 點此開啟 LINE 洽詢
+
+                <h3 style="color: var(--ffc107); margin-top: 40px;"><i class="fas fa-beer"></i> 罐頭塔與奠儀米塔系列</h3>
+                <div class="card-grid product-grid">
+                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：傳統雙層/三層罐頭塔，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="tower" title="LINE 洽詢：傳統雙層/三層罐頭塔">
+                        <img src="images/product-guantou.jpg" alt="傳統三層罐頭塔" loading="lazy">
+                        <h4>傳統雙層/三層罐頭塔</h4>
+                        <p class="description">傳統會場奠禮。**點擊圖片立即 LINE 洽詢**</p>
+                        <p class="price">**價格：** 2,800 元 / 對起</p>
+                    </a>
+
+                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：環保白米塔，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="tower" title="LINE 洽詢：環保白米塔">
+                        <img src="images/product-mita.jpg" alt="環保 LED 白米塔" loading="lazy">
+                        <h4>環保白米塔 (愛心公益)</h4>
+                        <p class="description">環保與愛心結合。**點擊圖片立即 LINE 洽詢**</p>
+                        <p class="price">**價格：** 3,800 元 / 對起</p>
+                    </a>
+
+                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：客製化飲料/酒塔，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="tower" title="LINE 洽詢：客製化飲料/酒塔">
+                        <img src="images/product-jiuta.jpg" alt="告別式飲料塔或酒塔" loading="lazy">
+                        <h4>客製化飲料/酒塔</h4>
+                        <p class="description">依逝者喜好客製。**點擊圖片立即 LINE 洽詢**</p>
+                        <p class="price">**價格：** 依內容物實價計算</p>
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        
+        <hr class="container" style="max-width: 1100px;">
+        
+        <section id="online-order-form" class="container-v-padding" aria-labelledby="online-form-heading">
+            <div class="container contact-grid-2col" style="max-width: 1200px;">
+                
+                <div class="contact-form-wrap animate-on-scroll fade-in-up">
+                    <h2 id="online-form-heading" class="text-center" style="color: var(--primary-dark); margin-bottom: 30px;">📝 完整線上訂購表單</h2>
+                    <p class="lead text-center">請填寫詳細資訊，我們將儘快回覆。**緊急訂單請務必來電**。</p>
+                    
+                    <form id="product-order-form" class="contact-form" action="https://formspree.io/f/your_form_endpoint" method="POST">
+                        <fieldset>
+                            <legend>1. 訂購人與聯繫資訊</legend>
+                            <label for="orderer-name">訂購人姓名 <span class="required-asterisk">*</span></label>
+                            <input type="text" id="orderer-name" name="訂購人姓名" required>
 
-</main>
+                            <label for="orderer-phone">聯繫電話 <span class="required-asterisk">*</span></label>
+                            <input type="tel" id="orderer-phone" name="訂購人電話" required>
+
+                            <label for="orderer-email">電子郵件 (用於確認信)</label>
+                            <input type="email" id="orderer-email" name="訂購人Email">
+                        </fieldset>
+                        
+                        <fieldset style="margin-top: 30px;">
+                            <legend>2. 訂購商品與會場資訊</legend>
+
+                            <label for="product-select">選擇訂購類型 <span class="required-asterisk">*</span></label>
+                            <select id="product-select" name="訂購產品類型" required>
+                                <option value="">-- 請選擇訂購產品類型 --</option>
+                                <optgroup label="鮮花花禮系列">
+                                    <option value="鮮花山/主花牆">鮮花山/主花牆</option>
+                                    <option value="羅馬柱/立體花圈">羅馬柱/立體花圈 (對)</option>
+                                    <option value="高品質蘭花盆景">高品質蘭花盆景 (盆)</option>
+                                </optgroup>
+                                <optgroup label="罐頭塔與米塔系列">
+                                    <option value="傳統罐頭塔">傳統罐頭塔 (對)</option>
+                                    <option value="環保白米塔">環保白米塔 (對)</option>
+                                    <option value="客製化飲料/酒塔">客製化飲料/酒塔</option>
+                                </optgroup>
+                                <option value="其他奠儀用品">其他奠儀用品/代辦服務</option>
+                            </select>
+                            
+                            <label for="quantity">數量 (請填寫對/組/盆數) <span class="required-asterisk">*</span></label>
+                            <input type="number" id="quantity" name="訂購數量" required min="1" value="1" style="max-width: 150px;">
+                            
+                            <label for="delivery-location">送達會場名稱與地址 <span class="required-asterisk">*</span></label>
+                            <textarea id="delivery-location" name="送達會場地址" rows="3" placeholder="請填寫完整的會館名稱與地址 (例如：台北市立第二殯儀館 景仰廳)" required></textarea>
+
+                            <label for="deceased-name">逝者尊稱 (用於輓聯代寫) <span class="required-asterisk">*</span></label>
+                            <input type="text" id="deceased-name" name="逝者尊稱" placeholder="例如：某府OO公 (母) 諱名OO" required>
+                            
+                            <label for="delivery-date">希望送達日期 <span class="required-asterisk">*</span></label>
+                            <input type="date" id="delivery-date" name="希望送達日期" required>
+                            
+                            <label for="notes">備註/輓聯內容要求 (或由專人電聯確認)</label>
+                            <textarea id="notes" name="備註與輓聯要求" rows="3" placeholder="例如：希望輓聯題辭為 [OOO 敬輓]，送禮人為 [OO股份有限公司]"></textarea>
+                        </fieldset>
+
+                        <div class="privacy-note">
+                            <input type="checkbox" id="privacy-agree" required>
+                            <label for="privacy-agree" style="display: inline;">我已閱讀並同意本公司的 <a href="privacy.html" class="color-primary" target="_blank">隱私權政策</a>。</label>
+                        </div>
+                        
+                        <button type="submit" class="cta-button primary large mt-md">確認送出訂購資訊</button>
+                        <div id="form-status-message" style="margin-top: 15px; text-align: center;"></div>
+                    </form>
+                </div>
+
+                <div class="contact-info-block animate-on-scroll fade-in-up delay-100">
+                    <div class="info-card side-note-box">
+                        <h3 class="text-line-container"><i class="fas fa-exclamation-triangle"></i> 重要訂購提醒</h3>
+                        <ul class="check-list">
+                            <li>**緊急訂單：** 若送達時間在 **48 小時內**，請務必直接**撥打電話**，以確保花材與運送時間能即時安排。</li>
+                            <li>**輓聯代寫：** 請填寫逝者尊稱，由專人提供最合適的題辭建議。</li>
+                            <li>**代送區域：** 表單適用於雙北/桃園地區。其他縣市請先電話確認。</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3 class="text-line-container">📞 24H 洽詢專線</h3>
+                        <p class="large-text" style="font-size: 1.8rem;">
+                            <a href="tel:+886978583699" title="24H 電話洽詢花禮訂購">
+                                <i class="fas fa-phone-volume"></i> 0978-583-699
+                            </a>
+                        </p>
+                        <p>專人將於收到表單後儘快 (約 5 分鐘內) 聯繫您確認細節。</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3 class="text-line-container">📱 LINE 即時聯繫</h3>
+                         <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" class="cta-button line-btn large" style="width: 100%;">
+                            <i class="fab fa-line" aria-hidden="true"></i> 點此開啟 LINE 洽詢
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container footer-grid wide-footer-grid">
+
+            <div class="footer-block footer-links">
+                <h4>專業生命禮儀服務</h4>
+                <ul>
+                    <li><a href="services.html" title="所有禮儀服務總覽">所有服務總覽</a></li>
+                    <li><a href="services.html#buddhist-taoist" title="中式佛/道教禮儀">中式禮儀 (佛教/道教)</a></li>
+                    <li><a href="services.html#western-etiquette" title="西式基督/天主教禮儀">西式禮儀 (基督教/天主教)</a></li>
+                    <li><a href="services.html#japanese-etiquette" title="日式宗教禮儀服務">日式禮儀（日蓮正宗/創價學會）</a></li>
+                    <li><a href="services.html#eco-burial" title="環保葬、樹葬專區">環保葬/樹葬專區</a></li>
+                    <li><a href="services.html#customized-etiquette" title="客製化服務">客製化服務</a></li>
+                    <li><a href="services.html#special-together" title="聯合奠祭">政府聯合奠祭</a></li>
+                </ul>
+
+                <h4> 塔位與晉塔指引 </h4>
+                <ul>
+                    <li><a href="ta-wei-he-fa-xing-query-guide.html" title="塔位合法性與詐騙避險指南">🛡️ 塔位合法性與詐騙避險</a></li>
+                    <li><a href="ta-wei-choice-guide.html" title="靈骨塔位選擇指南">🏞️ 靈骨塔位選擇指南</a></li>
+                    <li><a href="jin-ta-process-details.html" title="圓滿晉塔與安葬流程詳解">🔔 晉塔與安葬流程</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-block footer-links">
+                <h4>喪葬費用公開方案</h4>
+                <ul>
+                    <li><a href="plans.html" title="所有費用方案與價格總覽">所有方案與價格總覽</a></li>
+                    <li><a href="plans.html#basic" title="國民契約 6.8萬方案">國民契約 6.8萬</a></li>
+                    <li><a href="plans.html#eighty-eight" title="中式契約 8.8萬起方案">中式契約 8.8萬起</a></li>
+                    <li><a href="plans.html#eleven-eight" title="中式契約 11.8萬起方案">中式契約 11.8萬起</a></li>
+                    <li><a href="plans.html#fourteen-eight" title="中式契約 14.8萬起方案">中式契約 14.8萬起</a></li>
+                    <li><a href="plans.html#west" title="西式契約方案">西式契約</a></li>
+                    <li><a href="plans.html#japen" title="日式契約方案">日式契約</a></li>
+                </ul>
+
+                <h4>殯葬百科知識 (補助/法規)</h4>
+                <ul>
+                    <li><a href="blog.html" title="所有常見問題與流程總覽">常見問題與流程</a></li>
+                    <li><a href="blog.html#first-step-detail" title="臨終/初終處理指南">臨終/初終處理</a></li>
+                    <li><a href="blog.html#law-guide-detail" title="殯葬法規與補助指南">法規與補助指南</a></li>
+                    <li><a href="blog.html#subsidy-details-detail" title="勞保/國保/榮民喪葬補助詳情">補助金申請詳情</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-block footer-contact" itemscope itemtype="https://schema.org/LocalBusiness">
+                <h4 style="margin-bottom: 5px;">24H 國家認證禮儀師 陳妍如 專線</h4>
+                <p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
+                    📞 <a href="tel:+886978583699" itemprop="telephone" title="點擊撥打 24小時緊急專線">0978-583-699</a>
+                    <meta itemprop="priceRange" content="$$$">
+                    <meta itemprop="openingHours" content="Mo-Su 00:00-23:59">
+                    <meta itemprop="areaServed" content="台灣全區">
+                </p>
+
+                <h4>公司資訊與服務範圍</h4>
+                <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                    <p>
+                        主要聯絡地址：<span itemprop="streetAddress"><strong>新北市板橋區雙十路二段30號</strong></span>
+                        <meta itemprop="addressLocality" content="新北">
+                        <meta itemprop="addressRegion" content="台灣">
+                    </p>
+                </address>
+                <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (<strong>雙北/桃園</strong>即時服務)</p>
+
+                <p style="margin-top: 15px;">線上聯繫：</p>
+                <div class="footer-social-links">
+                    <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE ID 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a> |
+                    <a href="https://www.facebook.com/ShianganLife" target="_blank" rel="noopener noreferrer nofollow" title="Facebook 粉絲專頁聯繫"><i class="fab fa-facebook" aria-hidden="true"></i> Facebook</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <div class="container">
+                <div class="footer-logo text-line-container">
+                    <span class="fit-text-line" title="祥安生命有限公司版權所有">祥安生命有限公司 © <span id="current-year"></span></span>
+                </div>
+                <div class="footer-meta">
+                     <a href="about.html#team" title="了解祥安的服務理念與團隊">關於我們 (溫暖守護)</a> | <a href="privacy.html" title="隱私權政策與聲明">隱私權政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="floating-cta" aria-label="緊急聯繫方式">
+        <a href="tel:+886978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i></a>
+        <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i></a>
+    </div>
+    
+    <a href="#" class="back-to-top" aria-label="返回頂部">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <script src="js/script.js" defer></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.body.classList.remove('js-loading');
+        
+        // 確保 script.js 中有訂單表單的提交邏輯！
+        // ----------------------------------------------------------------------
+        // 如果您希望訂購成功後，自動跳轉到 LINE：
+        // 請確保您的 script.js 中的訂單成功處理邏輯，包含 window.location.href = '您的LINE連結';
+        // ----------------------------------------------------------------------
+
+    </script>
+</body>
+</html>
