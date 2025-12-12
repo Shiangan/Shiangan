@@ -204,7 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ====================================================
 // ====================================================
-// 3. 響應式導航手風琴選單 (Mobile Navigation Accordion) - 【防禦性修復版】
+// ====================================================
+// 3. 響應式導航手風琴選單 (Mobile Navigation Accordion) - 【最終魯棒性修復版】
 // ====================================================
 try {
     if (mainNav) {
@@ -212,11 +213,10 @@ try {
             targetLink.addEventListener('click', (e) => {
                 const parentLi = targetLink.closest('li.dropdown');
                 
-                // 檢查 1：確保它是下拉選單的父級連結
+                // 檢查 1：確保找到父級 <li>
                 if (!parentLi) return; 
 
-                // 檢查 2：判斷該連結是否為「開關觸發器」
-                // 開關觸發器的特徵：href 為 # 或空 (即不是導航到其他頁面的連結)
+                // 檢查 2：判斷該連結是否為「開關觸發器」（href 為 # 或空）
                 const isTrigger = (targetLink.getAttribute('href') === '#' || 
                                    targetLink.getAttribute('href') === null || 
                                    targetLink.getAttribute('href') === '');
@@ -229,9 +229,9 @@ try {
                     const submenu = parentLi.querySelector('.submenu');
                     const isCurrentlyActive = parentLi.classList.contains('active');
 
-                    // 確保我們總是可以找到子選單，否則停止執行
+                    // 檢查 3：確保我們總是可以找到子選單，否則停止執行
                     if (!submenu) {
-                        console.warn('Mobile Accordion: Submenu element not found for this dropdown.');
+                        console.warn('Mobile Accordion: Submenu element not found for this dropdown. Check HTML class="submenu".');
                         return;
                     }
 
@@ -249,7 +249,7 @@ try {
             });
         });
 
-        // 點擊菜單中的**非手風琴連結**後，自動關閉主菜單 (這段邏輯保持完美)
+        // 點擊菜單中的非手風琴連結後，自動關閉主菜單
         mainNav.querySelectorAll('a[href]').forEach(link => { 
              // 排除作為手風琴開關的父連結
              if (link.closest('.dropdown > a') && (link.getAttribute('href') === '#' || link.getAttribute('href') === null || link.getAttribute('href') === '')) return;
@@ -266,6 +266,7 @@ try {
 } catch (e) {
     console.error('Core Logic Failed: Mobile Accordion', e);
 }
+
 
 
         // ====================================================
