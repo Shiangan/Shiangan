@@ -2977,3 +2977,153 @@ footer {
     transform: translateZ(0);
     will-change: transform, opacity;
 }
+
+/* -------------------------------------------
+ * 14. 分頁切換內容 (Tabs Component) - 高質感優化
+ * ------------------------------------------- */
+
+/* 分頁容器 */
+.tab-component {
+    max-width: var(--content-max-width);
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* 分頁標籤列表 (Tab List) */
+.tab-list {
+    display: flex;
+    flex-wrap: wrap; /* RWD 時允許換行 */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--bg-light); /* 背景略深，突出選中項 */
+    border-radius: 8px 8px 0 0;
+    border-bottom: 3px solid var(--border-color); /* 與內容區塊的分隔線 */
+    overflow: hidden; /* 確保圓角效果 */
+}
+
+/* 單個分頁標籤按鈕 (Tab Button) */
+.tab-list-item {
+    flex-grow: 1; /* 讓標籤均分空間 */
+    min-width: 120px;
+    margin-right: -1px; /* 消除邊界線 */
+}
+
+.tab-button {
+    /* 重置按鈕樣式 */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+    transition: all var(--transition-speed) ease-in-out;
+    position: relative;
+    outline-offset: -2px;
+    text-align: center;
+    user-select: none;
+}
+
+/* 滑鼠懸停效果 */
+.tab-button:hover:not(.active) {
+    background-color: rgba(30, 58, 106, 0.05); /* 淡淡的底色 */
+    color: var(--primary-dark);
+}
+
+/* 選中標籤狀態 (Active State) */
+.tab-button.active {
+    background-color: var(--text-light); /* 凸顯為內容區塊背景色 */
+    color: var(--primary-color);
+    font-weight: 700;
+    box-shadow: 0 -4px 10px var(--shadow-color); /* 增加立體感 */
+    border-top: 3px solid var(--accent-color); /* 金色頂線強調 */
+    transform: translateY(-3px); /* 輕微上抬效果 */
+    z-index: 10;
+}
+
+/* 選中標籤邊框調整：覆蓋 tab-list 的底線 */
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; /* 覆蓋 tab-list 的 border-bottom */
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--text-light); /* 與內容區塊背景色一致 */
+    z-index: 11;
+}
+
+/* 分頁內容區塊 (Tab Content) */
+.tab-content {
+    background-color: var(--text-light);
+    padding: 30px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    border-top: none; /* 讓內容與 tab-list 底部對齊 */
+    /* 初始隱藏，由 JS 控管顯示/隱藏及過渡 */
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    will-change: opacity;
+}
+
+.tab-content.active {
+    display: block;
+    opacity: 1;
+}
+
+.tab-content h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.tab-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+/* RWD 調整 (Max-width: 768px 或更小) */
+@media (max-width: 768px) {
+    .tab-list {
+        flex-direction: column; /* 堆疊顯示 */
+        border-bottom: none;
+        border-radius: 8px;
+        overflow: visible;
+        box-shadow: none;
+    }
+    
+    .tab-list-item {
+        margin-bottom: 5px; /* 增加間距 */
+    }
+
+    .tab-button {
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 2px 5px var(--shadow-color);
+        transform: none;
+        border-top: none;
+    }
+    
+    .tab-button.active {
+        box-shadow: 0 4px 8px rgba(30, 58, 106, 0.2); 
+        border: 1px solid var(--primary-color);
+        background-color: var(--primary-color);
+        color: var(--text-light);
+        border-top: 1px solid var(--primary-color);
+    }
+    
+    .tab-button.active::after {
+        content: none; /* 移除桌面版的底線修正 */
+    }
+    
+    .tab-content {
+        border-radius: 8px;
+        margin-top: 20px; /* 內容與按鈕分開 */
+        border: 1px solid var(--primary-color); /* 用主要色系強調內容區 */
+    }
+}
+
