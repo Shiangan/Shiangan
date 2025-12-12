@@ -1,6 +1,6 @@
 /* ====================================================
-   程式夥伴 - 網站核心 CSS (V22.0 最終修正與完美整合版)
-   - 包含所有優化、RWD 細節調整、及新增 HTML 結構樣式
+   程式夥伴 - 網站核心 CSS (V23.0 最終整合版)
+   - 包含所有優化、RWD 細節調整、及所有新增 HTML 結構樣式
    ==================================================== */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -956,7 +956,7 @@ main {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* --- 團隊成員介紹區塊 (Team Member Section) --- */
+/* --- 4.4 團隊成員介紹區塊 (Team Member Section) --- */
 .team-grid {
     display: grid;
     /* 確保在大螢幕上可以顯示 4 欄，RWD 會在 900px, 680px 調整 */
@@ -1049,10 +1049,63 @@ main {
     outline: none;
 }
 
-/* --- 合作夥伴/客戶 Logo 牆 (Logo Gallery) --- */
+
+/* --- 4.5 數據里程碑區塊 (Stat Counter Section) --- */
+.stat-section {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.stat-grid {
+    display: grid;
+    /* 預設四欄，確保在大螢幕上對齊 */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.stat-item {
+    padding: 20px 10px;
+    border-radius: 8px;
+    /* 增加質感 */
+    background-color: rgba(255, 255, 255, 0.08); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color var(--transition-speed);
+}
+
+.stat-item:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* 核心數字樣式：使用襯線字體，強調權威感 */
+.stat-number {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vmin, 3.5rem);
+    font-weight: 700;
+    color: var(--text-light);
+    line-height: 1.1;
+    margin-bottom: 5px;
+}
+
+.stat-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+}
+
+/* --- 4.6 合作夥伴/客戶 Logo 牆 (Logo Gallery) --- */
 .logo-gallery-section {
     background-color: var(--text-light); 
-    padding: 30px 0; /* 讓此區塊稍微不那麼佔空間 */
+    padding: 30px 0; 
     text-align: center;
 }
 
@@ -1101,25 +1154,6 @@ main {
     filter: none; /* 滑鼠懸停時顯示原色 */
 }
 
-/* RWD 調整 */
-@media (max-width: 900px) {
-    .logo-item {
-        max-width: 120px;
-        height: 50px;
-    }
-}
-
-@media (max-width: 576px) {
-    .logo-gallery-section {
-        padding: 20px 0;
-    }
-    .logo-grid {
-        gap: 20px;
-    }
-    .logo-item {
-        max-width: 100px;
-        height: 40px;
-    }
 
 /* -------------------------------------------
  * 5. 服務流程圖樣式 (Flow Chart)
@@ -2684,6 +2718,12 @@ footer {
         grid-template-columns: 1fr;
         gap: 30px;
     }
+
+    /* 數據里程碑 RWD: 兩欄顯示 */
+    .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 }
 
 /* 3. 中型手機 (Max-width: 680px) */
@@ -2768,6 +2808,27 @@ footer {
     .comparison-table {
         min-width: 700px; 
     }
+
+    /* 數據里程碑 RWD: 單欄顯示 */
+    .stat-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    .stat-text {
+        font-size: 1rem;
+    }
+
+    /* Logo 牆 RWD */
+    .logo-grid {
+        gap: 20px;
+    }
+    .logo-item {
+        max-width: 100px;
+        height: 40px;
+    }
 }
 
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
@@ -2777,6 +2838,7 @@ footer {
 
 /* -------------------------------------------
  * 13. 網站互動與工具類 (Utility & Animation)
+ * ------------------------------------------- */
 
 /* --- 麵包屑導航 (Breadcrumbs) 樣式 --- */
 .breadcrumb {
@@ -2823,8 +2885,6 @@ footer {
     font-weight: 700;
 }
 
-
- * ------------------------------------------- */
 
 /* --- 13.1 通用卡片組件 (Card Component) --- */
 
@@ -2917,4 +2977,3 @@ footer {
     transform: translateZ(0);
     will-change: transform, opacity;
 }
-
