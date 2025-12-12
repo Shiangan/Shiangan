@@ -956,6 +956,100 @@ main {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* --- 團隊成員介紹區塊 (Team Member Section) --- */
+.team-grid {
+    display: grid;
+    /* 確保在大螢幕上可以顯示 4 欄，RWD 會在 900px, 680px 調整 */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-member-card {
+    background-color: var(--text-light);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    will-change: transform, box-shadow;
+    height: 100%;
+}
+
+.team-member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.member-photo-wrap {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 0 5px var(--bg-light), 0 0 0 8px var(--accent-color);
+    transition: box-shadow var(--transition-speed);
+}
+
+.team-member-card:hover .member-photo-wrap {
+    box-shadow: 0 0 0 5px var(--bg-light), 0 0 0 8px var(--primary-color);
+}
+
+.member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+}
+
+.team-member-card:hover .member-photo {
+    transform: scale(1.05);
+}
+
+.member-name {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    margin-bottom: 5px;
+}
+
+.member-title {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.member-bio {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.member-social {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.member-social a {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin: 0 8px;
+    transition: color var(--transition-speed);
+}
+
+.member-social a:hover {
+    color: var(--accent-color);
+    outline: none;
+}
+
+
 
 /* -------------------------------------------
  * 5. 服務流程圖樣式 (Flow Chart)
@@ -2613,6 +2707,53 @@ footer {
 
 /* -------------------------------------------
  * 13. 網站互動與工具類 (Utility & Animation)
+
+/* --- 麵包屑導航 (Breadcrumbs) 樣式 --- */
+.breadcrumb {
+    padding: 15px 0;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.breadcrumb li {
+    display: inline;
+    margin-right: 10px;
+    padding: 0;
+}
+
+.breadcrumb a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+    outline: none; /* 移除 a:hover 的 outline 樣式，避免影響美觀 */
+}
+
+/* 分隔符號 */
+.breadcrumb li + li::before {
+    content: "/"; /* 或使用 Font Awesome 圖標，例如 '\f105' */
+    font-family: 'Font Awesome 6 Free'; 
+    font-weight: 400; /* 對應斜線 */
+    padding-right: 10px;
+    color: var(--border-color);
+}
+
+/* 目前頁面樣式 */
+.breadcrumb li.active {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+
  * ------------------------------------------- */
 
 /* --- 13.1 通用卡片組件 (Card Component) --- */
@@ -2705,50 +2846,5 @@ footer {
 .transform-layer {
     transform: translateZ(0);
     will-change: transform, opacity;
-}
-
-/* --- 麵包屑導航 (Breadcrumbs) 樣式 --- */
-.breadcrumb {
-    padding: 15px 0;
-    margin-bottom: 20px;
-    list-style: none;
-    background-color: transparent;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.breadcrumb li {
-    display: inline;
-    margin-right: 10px;
-    padding: 0;
-}
-
-.breadcrumb a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
-
-.breadcrumb a:hover {
-    color: var(--primary-color);
-    text-decoration: underline;
-    outline: none; /* 移除 a:hover 的 outline 樣式，避免影響美觀 */
-}
-
-/* 分隔符號 */
-.breadcrumb li + li::before {
-    content: "/"; /* 或使用 Font Awesome 圖標，例如 '\f105' */
-    font-family: 'Font Awesome 6 Free'; 
-    font-weight: 400; /* 對應斜線 */
-    padding-right: 10px;
-    color: var(--border-color);
-}
-
-/* 目前頁面樣式 */
-.breadcrumb li.active {
-    color: var(--primary-dark);
-    font-weight: 700;
 }
 
