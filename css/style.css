@@ -1,11 +1,4 @@
-/* ====================================================
-   程式夥伴 - 網站核心 CSS (V23.0 最終整合版)
-   - 包含所有優化、RWD 細節調整、及所有新增 HTML 結構樣式
-   --- 程式碼夥伴最終審閱版 ---
-   ==================================================== */
-
 /* --- 字體導入 (Font Loading) --- */
-/* (保持不變) */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
@@ -47,11 +40,11 @@
     --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
     /* 尺寸定義 */
-    --header-height: 80px;
+    --header-height: 80px; /* 桌面版 Header 高度 */
     --content-max-width: 1200px;
     --padding-section-v: 80px; /* 區塊垂直內邊距 */
     --transition-speed: 0.3s; /* 統一的過渡速度變數 */
-    --transition-fast: 0.15s; /* ⭐ 新增: 快速過渡 (用於 hover/active) */
+    --transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
     --rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
 
     /* ⭐️ 動畫變數 */
@@ -111,7 +104,7 @@ body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; t
 h1, h2, h3, h4, h5, h6 { 
     font-family: var(--font-serif);
     line-height: 1.3;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.5rem; /* 統一使用 rem */
     color: var(--secondary-color);
     font-weight: 700;
     text-rendering: optimizeLegibility; 
@@ -123,7 +116,7 @@ h1 {
     word-break: break-word;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.5rem;
 }
 
 h2 {
@@ -159,13 +152,13 @@ h2::after {
 h3 { 
     font-size: clamp(1.3rem, 3vmin, 1.8rem); 
     color: var(--primary-color); 
-    margin-bottom: 0.8em;
+    margin-bottom: 0.8rem;
 }
 
 h4 { 
     font-size: 1.25rem; 
     color: var(--secondary-color);
-    margin-bottom: 0.7em;
+    margin-bottom: 0.7rem;
     font-weight: 700;
 }
 
@@ -173,21 +166,21 @@ h5 {
     font-size: 1.1rem; 
     font-weight: 500; 
     color: var(--secondary-color);
-    margin-bottom: 0.5em;
+    margin-bottom: 0.5rem;
 }
 
 h6 { 
     font-size: 1rem; 
     font-weight: 400; 
     color: #666;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.5rem;
 }
 
-p { margin-bottom: 1em; }
+p { margin-bottom: 1rem; }
 
 /* 基礎內容元素優化 */
 table, blockquote, pre, figure {
-    margin: 1.5em 0;
+    margin: 1.5rem 0;
 }
 
 /* 程式碼區塊樣式 (Code Block) */
@@ -379,11 +372,11 @@ main {
         display: flex;
         flex-direction: column;
         
-        /* 關鍵：桌面預設隱藏屬性 */
+        /* 關鍵：桌面預設隱藏屬性 (使用 opacity/visibility/transform 過渡) */
         transform: translateY(10px);
         opacity: 0; 
         visibility: hidden; 
-        max-height: unset; 
+        max-height: unset; /* 確保桌面版不被 RWD 的 max-height 影響 */
         pointer-events: none; 
         
         transition: opacity var(--transition-speed) ease, 
@@ -829,6 +822,7 @@ main {
 /* --- 4.2 特色網格 (Features Grid) --- */
 .features-grid {
     display: grid;
+    /* RWD 優化：在大螢幕上最小 300px，確保有 3-4 欄 */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 30px;
     margin-top: 40px;
@@ -1582,6 +1576,7 @@ footer {
 
 .article-main-layout {
     /* 寬度調整：TOC 側邊欄略為縮小，內容區變寬 */
+    display: grid;
     grid-template-columns: minmax(180px, 1fr) 4.5fr; 
     gap: 40px;
 }
@@ -2546,7 +2541,7 @@ footer {
 
     :root {
          --padding-section-v: 50px;
-         --header-height: 60px; 
+         --header-height: 60px; /* 統一手機/平板 Header 高度 */
     }
     
     main {
@@ -2668,7 +2663,7 @@ footer {
         width: 100%;
         opacity: 1; 
         visibility: visible; 
-        max-height: 0; 
+        max-height: 0; /* 關鍵：從 0 過渡到 scrollHeight */
         overflow: hidden;
         transition: max-height var(--rwd-transition-duration) cubic-bezier(0.86, 0, 0.07, 1), padding var(--rwd-transition-duration) cubic-bezier(0.86, 0, 0.07, 1); 
         transform: none; 
@@ -2679,6 +2674,7 @@ footer {
         pointer-events: auto; 
     }
     .dropdown.active > .submenu {
+        /* JS 應將 max-height 設置為 submenu 的 scrollHeight */
         padding: 10px 0; 
     }
 
@@ -2783,6 +2779,11 @@ footer {
     .two-columns-layout {
         grid-template-columns: 1fr; 
     }
+    
+    /* 團隊成員網格優化：至少 1 欄 */
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    }
 }
 
 
@@ -2827,7 +2828,7 @@ footer {
         margin-top: 10px;
     }
     
-    /* ⭐ 優化：手機直屏下隱藏 TOC，給內容更多空間 */
+    /* ⭐ 關鍵優化：手機直屏下隱藏 TOC，給內容更多空間 */
     .article-sidebar .table-of-contents {
         display: none; 
     }
@@ -3133,10 +3134,12 @@ footer {
         border-radius: 8px;
         overflow: visible;
         box-shadow: none;
+        background-color: transparent;
     }
     
     .tab-list-item {
         margin-bottom: 5px; /* 增加間距 */
+        margin-right: 0;
     }
 
     .tab-button {
@@ -3144,7 +3147,7 @@ footer {
         border: 1px solid var(--border-color);
         box-shadow: 0 2px 5px var(--shadow-color);
         transform: none;
-        border-top: none;
+        border-top: 1px solid var(--border-color); /* 修正平板上 border-top: none; 的問題 */
     }
     
     .tab-button.active {
@@ -3152,6 +3155,7 @@ footer {
         border: 1px solid var(--primary-color);
         background-color: var(--primary-color);
         color: var(--text-light);
+        /* 強調選中按鈕 */
         border-top: 1px solid var(--primary-color);
     }
     
