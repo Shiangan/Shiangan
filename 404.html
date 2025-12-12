@@ -7,36 +7,32 @@
     <title>404 - 找不到頁面：請立即聯繫 24H 專業禮儀師 | 祥安生命</title>
     
     <meta name="description" content="很抱歉，您要尋找的頁面不存在。請立即使用下方 24H 專線聯繫我們的專業禮儀師，或回到首頁。祥安生命提供您即時的協助。">
-    <meta name="robots" content="noindex, follow"> <link rel="preload" href="css/style.css" as="style">
+    <meta name="robots" content="noindex, follow"> 
+    
+    <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 繼承主CSS變數 */
         :root {
-            --primary-color: #334466; /* 假設這是您的品牌主色 */
-            --accent-color: #a07d42; /* 假設這是您的品牌輔色 */
+            --primary-color: #334466;
+            --accent-color: #a07d42;
             --bg-body: #f7f9fc;
         }
-
-        /* 確保全域佈局 */
         body {
             background-color: var(--bg-body, #f7f9fc);
             font-family: 'Noto Sans TC', sans-serif;
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* 讓 footer 靠底 */
+            flex-direction: column;
             text-align: center;
         }
-        
-        /* 確保 main 內容區域佔據空間 */
         main {
             flex-grow: 1; 
             padding: 40px 20px;
         }
-        
         .error-container {
             max-width: 650px;
             margin: 40px auto;
@@ -66,7 +62,7 @@
             line-height: 1.8;
         }
         .error-contact-box {
-            background-color: #fff8e1; /* 溫馨提示背景 */
+            background-color: #fff8e1;
             padding: 15px;
             border-radius: 8px;
             border: 1px dashed #ffd54f;
@@ -89,6 +85,14 @@
         .error-links a:hover {
             color: var(--accent-color);
             text-decoration: underline;
+        }
+        /* 確保浮動按鈕在 404 頁面也能正常顯示 */
+        .floating-cta {
+             /* 假設您在 style.css 中定義了此樣式 */
+             position: fixed;
+             bottom: 20px;
+             right: 20px;
+             z-index: 1000;
         }
     </style>
 
@@ -147,7 +151,7 @@
             </ul>
         </nav>
         <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-            <i class="fas fa-bars"></i> 選單
+            <i class="fas fa-bars"></i>
         </button>
     </div>
 </header>
@@ -155,12 +159,11 @@
 
 <main role="main">
     <div class="error-container" role="alert" aria-live="polite">
-        
         <div class="error-code">404</div>
         <h1 class="error-title">😥 找不到您需要的頁面</h1>
         <p class="error-message">
             很抱歉，您嘗試存取的網址可能已變更、移除或輸入錯誤。<br>
-            **若您需要緊急服務**，請立即撥打下方的 24H 專線。
+            <strong>若您需要緊急服務</strong>，請立即撥打下方的 24H 專線。
         </p>
 
         <div class="error-contact-box">
@@ -186,7 +189,7 @@
         </div>
         
         <div style="margin-top: 30px;">
-            <img src="images/logo.png" alt="祥安生命有限公司 Logo" width="120" loading="lazy">
+            <img src="images/logo.png" alt="祥安生命有限公司 Logo - 錯誤頁面提示" width="120" loading="lazy">
         </div>
     </div>
 </main>
@@ -215,7 +218,7 @@
             <ul>
                 <li><a href="plans.html">所有方案與價格總覽</a></li>
                 <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
-                <li><a href="plans.html#eightdoteight">中式契約 8.8萬起</a></li>
+                <li><a href="plans.html#eightyeight">中式契約 8.8萬起</a></li> 
                 <li><a href="plans.html#west">西式/日式契約</a></li>
             </ul>
 
@@ -236,14 +239,15 @@
             <h4>公司資訊與服務範圍</h4>
             <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                 <p>
-                    主要聯絡地址：<span itemprop="streetAddress">[請填寫公司主要聯絡地址]</span>
+                    主要聯絡地址：<span itemprop="streetAddress">新北市板橋區縣民大道一段XXX號</span>
                 </p>
             </address>
+            <p>統一編號：<span itemprop="taxID">[請填寫公司統一編號]</span></p> 
             <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (雙北/桃園即時協助)</p>
             
             <p style="margin-top: 15px;">線上聯繫：</p>
             <div class="footer-social-links">
-                <a href="https://line.me/ti/p/[YOUR LINE ID]?utm_source=website&utm_medium=footer&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
+                <a href="https://line.me/ti/p/[YOUR LINE ID]" target="_blank" rel="noopener noreferrer external" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
                 <a href="[您的 Facebook 專頁網址]" target="_blank" rel="noopener noreferrer external" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
             </div>
             <meta itemprop="name" content="祥安生命有限公司">
@@ -266,15 +270,9 @@
 
 <div class="floating-cta" aria-label="快速聯繫方式">
     <a href="tel:0978583699" title="24H 緊急電話諮詢" aria-label="24小時電話諮詢"><i class="fas fa-phone"></i></a>
-    <a href="https://line.me/ti/p/[YOUR LINE ID]?utm_source=website&utm_medium=floating&utm_campaign=contact" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢" aria-label="LINE 即時線上諮詢"><i class="fab fa-line"></i></a>
+    <a href="https://line.me/ti/p/[YOUR LINE ID]" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢" aria-label="LINE 即時線上諮詢"><i class="fab fa-line"></i></a>
 </div>
 
-<script>
-    // 統一更新所有年份 span
-    document.querySelectorAll('.current-year-global').forEach(span => {
-        span.textContent = new Date().getFullYear();
-    });
-</script>
 <script src="js/script.js" defer></script>
 </body>
 </html>
