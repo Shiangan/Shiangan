@@ -103,10 +103,19 @@
       ]
     }
     </script>
+    
     <style>
         /* 新增樣式來支援優化的內容區塊 */
+        :root {
+            --primary-dark: #2c3e50;
+            --dc3545: #dc3545;
+            --ffc107: #ffc107;
+            --007bff: #007bff;
+            --28a745: #28a745;
+            --accent-color: #e67e22; /* 假設這是您的橘色強調色 */
+        }
         .focus-block {
-            border-left: 5px solid #dc3545; /* 警告紅 */
+            border-left: 5px solid var(--dc3545); /* 警告紅 */
             background-color: #fcebeb;
             padding: 15px;
             border-radius: 4px;
@@ -115,10 +124,10 @@
         .focus-block h4 {
             margin-top: 0;
             margin-bottom: 10px;
-            color: #dc3545;
+            color: var(--dc3545);
         }
         .important-warning {
-            border-left: 5px solid #ffcc00; /* 警告黃 */
+            border-left: 5px solid var(--ffc107); /* 警告黃 */
             background-color: #fff8e1;
             padding: 15px;
             border-radius: 4px;
@@ -128,7 +137,6 @@
             color: #c58f00;
             margin-top: 0;
         }
-        /* 確保 list-style-type for ul.check-list is not overridden */
         ul.check-list {
             list-style: none;
             padding-left: 0;
@@ -142,6 +150,58 @@
             position: absolute;
             left: 0;
         }
+
+        /* ************************************ */
+        /* 視覺化優化新增的 CSS */
+        /* ************************************ */
+        .process-visual-steps {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 20px;
+            /* 讓手機版或寬螢幕都能保持流程感 */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        .process-visual-steps li {
+            background-color: #ffffff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        .process-visual-steps li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+        .step-tag {
+            display: inline-block;
+            background-color: var(--ffc107); /* 流程的顏色 */
+            color: var(--primary-dark);
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .step-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color); /* 輔助色 */
+            margin-bottom: 15px;
+            display: block;
+        }
+        .step-title {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .step-description {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        /* ************************************ */
     </style>
     
 </head>
@@ -284,8 +344,6 @@
             <div class="container" style="max-width: 900px;">
                 <h2 id="first-step-heading" style="color: var(--dc3545);">🚨 臨終/初終處理：當下您必須知道的緊急SOP</h2>
                 <p>當親人生命走到盡頭，家屬往往陷入巨大的悲痛與混亂。此刻，**冷靜、聯繫、文件**是三個關鍵字。以下為您整理醫院與家中離世的緊急處理步驟：</p>
-                
-
                 <h3 style="color: var(--primary-dark); margin-top: 30px;">1. 醫院安寧病房/加護病房離世：</h3>
                 
                 <div class="styled-list-container">
@@ -323,26 +381,36 @@
         <section id="faq-process-detail" class="container-v-padding">
             <div class="container" style="max-width: 900px;">
                 <h2 style="color: var(--ffc107);">📝 治喪流程與細節問答：七日流程精華 (圖解)</h2>
-                <p>治喪期間通常為七至十天，主要可分為四個階段：**接體冰存**、**設置靈堂與豎靈**、**告別奠禮**、**火化/安葬**。</p>
-                
-
+                <p>治喪期間通常為七至十天，主要可分為四個階段：**接體冰存**、**設置靈堂與豎靈**、**告別奠禮**、**火化/安葬**。 </p>
                 <h3 style="color: var(--primary-dark); margin-top: 30px;">完整的治喪流程四階段 (以佛/道教為例)</h3>
-                <ol class="process-steps">
-                    <li>**【首日】接體與豎靈：**
-                        <p>禮儀師辦理死亡證明、接體至殯儀館/自宅冰存。擇日豎立靈位，開始早晚拜飯、誦經，並確定奠禮場地、時間。</p>
+                
+                <ul class="process-visual-steps">
+                    <li>
+                        <div class="step-tag">階段一</div>
+                        <i class="step-icon fas fa-heart-broken" aria-hidden="true"></i>
+                        <h4 class="step-title">【首日】接體與豎靈</h4>
+                        <p class="step-description">禮儀師辦理死亡證明、接體至殯儀館/自宅冰存。擇日豎立靈位，開始早晚拜飯、誦經，並確定奠禮場地、時間。</p>
                     </li>
-                    <li>**【中段】治喪與協調：**
-                        <p>印製訃聞、通知親友。禮儀師協調儀式用品、確認宗教儀軌 (例如頭七、二七)。家屬開始討論塔位/墓地事宜。</p>
+                    <li>
+                        <div class="step-tag">階段二</div>
+                        <i class="step-icon fas fa-scroll" aria-hidden="true"></i>
+                        <h4 class="step-title">【中段】治喪與協調</h4>
+                        <p class="step-description">印製訃聞、通知親友。禮儀師協調儀式用品、確認宗教儀軌 (例如頭七、二七)。家屬開始討論塔位/墓地事宜。</p>
                     </li>
-                    <li>**【終段】告別奠禮：**
-                        <p>大體入殮、移靈至告別式場。舉行公祭/家祭，圓滿告別式。家屬答禮並行瞻仰儀容禮。</p>
+                    <li>
+                        <div class="step-tag">階段三</div>
+                        <i class="step-icon fas fa-church" aria-hidden="true"></i>
+                        <h4 class="step-title">【終段】告別奠禮</h4>
+                        <p class="step-description">大體入殮、移靈至告別式場。舉行公祭/家祭，圓滿告別式。家屬答禮並行瞻仰儀容禮。</p>
                     </li>
-                    <li>**【圓滿】火化與安葬/晉塔：**
-                        <p>告別式後，移靈至火化場。火化後，骨灰放入骨灰罐，晉塔或舉行環保葬。圓滿結束後，歸程進行辭生、除穢等儀式。</p>
+                    <li>
+                        <div class="step-tag">階段四</div>
+                        <i class="step-icon fas fa-mountain" aria-hidden="true"></i>
+                        <h4 class="step-title">【圓滿】火化與安葬/晉塔</h4>
+                        <p class="step-description">告別式後，移靈至火化場。火化後，骨灰放入骨灰罐，晉塔或舉行環保葬。圓滿結束後，歸程進行辭生、除穢等儀式。</p>
                     </li>
-                </ol>
-
-                <h3 style="color: var(--primary-dark); margin-top: 30px;">常見家屬疑問 Q&A</h3>
+                </ul>
+                <h3 style="color: var(--primary-dark); margin-top: 50px;">常見家屬疑問 Q&A</h3>
                 <dl class="faq-list">
                     <dt>Q1: 殯儀館和在家辦理靈堂有什麼差別？</dt>
                     <dd>A: **殯儀館：** 方便集中管理、場地寬敞、法事儀軌限制少。**自宅：** 更貼近傳統、溫馨，但須考量空間、鄰里關係與誦經限制。選擇需根據家庭需求與實際情況而定。</dd>
@@ -397,8 +465,6 @@
             <div class="container" style="max-width: 900px;">
                 <h2 style="color: var(--28a745);">💰 喪葬補助金申請詳情：勞保/國保/榮民</h2>
                 <p>家屬可申請多種喪葬補助金。請注意，**同一事實**通常只能擇一請領，請務必選擇金額最高的項目。 </p>
-                
-
                 <h3 style="color: var(--primary-dark); margin-top: 30px;">三大主要補助金比較與申請指南</h3>
                 
                 <div class="table-responsive">
