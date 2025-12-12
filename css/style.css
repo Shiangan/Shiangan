@@ -326,17 +326,20 @@ main {
 
 .main-nav li {
     position: relative;
-    padding: 0 15px;
+    padding: 0 10px; /* 修正: 縮小水平邊距，節省空間 */
+    white-space: nowrap; /* ⭐ 關鍵修正: 確保單行顯示，不換行 */
 }
+
 
 .main-nav a {
     display: flex;
     align-items: center;
-    padding: 10px 0;
+    padding: 8px 0; /* 修正: 略微減少垂直邊距，讓元素更緊湊 */
     color: var(--secondary-color);
     font-weight: 500;
     letter-spacing: 0.5px;
 }
+
 
 .main-nav a:hover, .main-nav a:focus, .main-nav a.active {
     color: var(--primary-color);
@@ -452,8 +455,9 @@ main {
 
 
 /* 聯繫導覽按鈕 (桌面專用) */
-.contact-nav {
-    display: flex;
+.contact-nav a {
+    margin-left: 15px; /* 修正: 略微減少左邊距 */
+    display: inline-flex;
     align-items: center;
 }
 
