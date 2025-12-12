@@ -86,6 +86,21 @@ document.addEventListener('DOMContentLoaded', () => {
                  closeAllMobileSubmenus(); // 確保子菜單一併清理
              }
          };
+         
+        // ★ 修正 1：點擊外部關閉菜單的處理 ★
+        const handleOutsideClick = (e) => {
+             // 檢查主菜單是否展開中，且點擊目標不是菜單、菜單開關或其子元素
+             if (mainNav && mainNav.classList.contains('active') && 
+                 !mainNav.contains(e.target) && 
+                 !menuToggle.contains(e.target) && 
+                 window.innerWidth <= mobileBreakpoint) {
+                 
+                 closeMainMenu();
+             }
+         };
+         
+         // 註冊點擊外部監聽器
+         document.addEventListener('click', handleOutsideClick);
 
 
         // 輔助函數：處理 RWD 調整時的狀態清理
@@ -101,18 +116,22 @@ document.addEventListener('DOMContentLoaded', () => {
                  document.querySelectorAll('.dropdown.focus-within').forEach(dropdown => {
                      dropdown.classList.remove('focus-within');
                  });
-                 
-                 // FAQ 高度重算 (保持展開狀態的高度正確，避免 resize 造成高度錯誤)
-                 document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
-                     // 延遲更新以確保 DOM 穩定
-                     requestAnimationFrame(() => content.style.maxHeight = `${content.scrollHeight}px`);
-                 });
              } else {
                  // 手機模式下，確保桌面 A11Y 狀態被清除
                  document.querySelectorAll('.dropdown.focus-within').forEach(dropdown => {
                      dropdown.classList.remove('focus-within');
                  });
              }
+             
+             // FAQ 高度重算 (保持展開狀態的高度正確，避免 resize 造成高度錯誤)
+             // ★ 修正 4：將 FAQ 高度重算延遲到最後，確保 DOM 穩定 ★
+             setTimeout(() => {
+                 document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
+                      // 延遲更新以確保 DOM 穩定，並使用 requestAnimationFrame 確保在下一次重繪前執行
+                     requestAnimationFrame(() => content.style.maxHeight = `${content.scrollHeight}px`);
+                 });
+             }, 50); // 短暫延遲
+
              
              // 觸發 Fit Text 重新計算 (如果有載入 Fit Text 模組)
              if (typeof fitAll === 'function') fitAll(); 
@@ -202,11 +221,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             this.classList.add('focus-within');
                         }
                     });
+                    // ★ 修正 3：使用'focusout'監聽，但需要檢查 relatedTarget 以確保焦點真正離開整個 dropdown ★
                     dropdown.addEventListener('focusout', function(e) {
                          // 僅在焦點真正離開此 dropdown 及其子元素時才移除 focus-within
-                         if (window.innerWidth > mobileBreakpoint && !this.contains(e.relatedTarget)) {
-                            this.classList.remove('focus-within');
-                        }
+                         // 使用 setTimeout 確保相關焦點事件 (relatedTarget) 穩定
+                         setTimeout(() => {
+                            if (window.innerWidth > mobileBreakpoint && !this.contains(document.activeElement)) {
+                               this.classList.remove('focus-within');
+                           }
+                         }, 0);
                     });
                 });
             }
@@ -225,11 +248,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         if (!parentLi) return; 
 
+                        const href = targetLink.getAttribute('href');
                         // 判斷該連結是否為「開關觸發器」: 如果 href 是 '#'、空字串或 null
-                        const isTrigger = !targetLink.getAttribute('href') || targetLink.getAttribute('href') === '#';
+                        const isTrigger = !href || href === '#';
+                        
+                        const isMobileView = window.innerWidth <= mobileBreakpoint;
+
+                        // ★ 修正 2：如果不是手風琴觸發器，且在手機模式，則允許導航，但先關閉菜單 ★
+                        if (isMobileView && !isTrigger) {
+                            // 延遲關閉主菜單，確保導航或平滑滾動可以先執行
+                            setTimeout(() => closeMainMenu(), RWD_TRANSITION_DURATION + 100); 
+                            return; // 允許正常導航
+                        }
+
 
                         // 只有在手機視圖且是開關觸發器時才執行手風琴邏輯
-                        if (window.innerWidth <= mobileBreakpoint && isTrigger) {
+                        if (isMobileView && isTrigger) {
                             e.preventDefault();
                             
                             const submenu = parentLi.querySelector('.submenu');
@@ -256,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
 
-                // 點擊菜單中的非手風琴連結後，自動關閉主菜單
+                // 點擊菜單中的非手風琴連結後，自動關閉主菜單 (原始邏輯保留，作為非 dropdown 連結的處理)
                 mainNav.querySelectorAll('a[href]').forEach(link => { 
                      // 排除作為手風琴開關的父連結
                      const isAccordionLink = link.closest('.dropdown > a') && (!link.getAttribute('href') || link.getAttribute('href') === '#');
