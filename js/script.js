@@ -1,4 +1,11 @@
-
+/**
+ * ====================================================
+ * 網站核心 JavaScript (V22.5 - 最終完善修正版 - 企業級優化)
+ * - 核心修復：強化 RWD 清理邏輯，防止樣式殘留。
+ * - 性能增強：統一 DOM 變數命名，提高代碼可維護性。
+ * - 邏輯微調：優化 Accordion 收合時 max-height 的清除策略。
+ * ====================================================
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -9,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // 0. 初始設定與變數 (Initial Setup & Variables)
         // ====================================================
 
-        // DOM 變數
-        const header = document.querySelector('.main-header');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainNav = document.querySelector('#main-nav');
-        const body = document.body;
-        const backToTopButton = document.querySelector('.back-to-top');
-        const currentYearSpan = document.getElementById('current-year');
+        // DOM 變數 (使用 $ 前綴統一，提高可讀性)
+        const $header = document.querySelector('.main-header');
+        const $menuToggle = document.querySelector('.menu-toggle');
+        const $mainNav = document.querySelector('#main-nav');
+        const $body = document.body;
+        const $backToTopButton = document.querySelector('.back-to-top');
+        const $currentYearSpan = document.getElementById('current-year');
         const mobileBreakpoint = 900;
         
         // 配置變數
@@ -37,14 +44,24 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const debounceFitText = (func) => debounce(func, 100); 
 
-        // 輔助函數：清理手機子菜單 (Accordion) 的核心邏輯
-        const cleanupSubmenuMaxHeight = (submenu) => {
+        /**
+         * 輔助函數：清理子菜單 (Accordion) 的核心邏輯
+         * @param {HTMLElement} submenu - 子菜單 DOM 元素
+         * @param {boolean} isMobileCleanup - 是否為手機收合觸發的清理 (需要等待 transitionend)
+         */
+        const cleanupSubmenuMaxHeight = (submenu, isMobileCleanup = false) => {
+             // 桌面模式清理 (立即清除 max-height)
+            if (!isMobileCleanup && window.innerWidth > mobileBreakpoint) {
+                submenu.style.maxHeight = '';
+                return;
+            }
+
             const handleTransitionEnd = (e) => {
                 // 檢查是否為 maxHeight 屬性的過渡結束事件
                 if (e.target !== submenu || e.propertyName !== 'max-height') return; 
 
                 // 只有在子選單完全收起後，且在非手機或主選單關閉時才清除 max-height
-                if (window.innerWidth > mobileBreakpoint || !mainNav.classList.contains('active')) {
+                if (window.innerWidth > mobileBreakpoint || !$mainNav.classList.contains('active')) {
                     submenu.style.maxHeight = ''; 
                 }
                 submenu.removeEventListener('transitionend', handleTransitionEnd);
@@ -54,16 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 輔助函數：關閉所有手機子菜單 (Accordion)
         const closeAllMobileSubmenus = () => {
-            if (mainNav) {
-                mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+            if ($mainNav) {
+                $mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
                     const submenu = li.querySelector('.submenu');
                     if (submenu) {
                         li.classList.remove('active');
                         // 確保先給一個 scrollHeight，再立即設為 0，以觸發 CSS Transition
-                        // 這是確保平滑收合的關鍵技巧
                         submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
                         requestAnimationFrame(() => submenu.style.maxHeight = '0px'); 
-                        cleanupSubmenuMaxHeight(submenu);
+                        cleanupSubmenuMaxHeight(submenu, true); // 標記為手機清理
                     }
                 });
             }
@@ -75,19 +91,26 @@ document.addEventListener('DOMContentLoaded', () => {
              
              // 桌面模式清理手機狀態
              if (!isMobileView) {
-                 // 強制關閉主菜單
-                 if (mainNav && mainNav.classList.contains('active')) {
-                     menuToggle?.click(); // 模擬點擊關閉菜單
+                 // 1. 強制關閉主菜單
+                 if ($mainNav && $mainNav.classList.contains('active')) {
+                     $menuToggle?.click(); // 模擬點擊關閉菜單
                  }
                  
-                 closeAllMobileSubmenus(); // 清理所有手機子菜單狀態
+                 // 2. 清理所有手機子菜單狀態 (強制清除 max-height，防止樣式殘留)
+                 $mainNav?.querySelectorAll('li.dropdown').forEach(li => {
+                      li.classList.remove('active');
+                      const submenu = li.querySelector('.submenu');
+                      if (submenu) {
+                          cleanupSubmenuMaxHeight(submenu, false); // 立即清除
+                      }
+                 });
                  
-                 // 清理桌面 A11Y 狀態 (focus-within)
+                 // 3. 清理桌面 A11Y 狀態 (focus-within)
                  document.querySelectorAll('.dropdown.focus-within').forEach(dropdown => {
                      dropdown.classList.remove('focus-within');
                  });
                  
-                 // FAQ 高度重算 (保持展開狀態的高度正確，避免 resize 造成高度錯誤)
+                 // 4. FAQ 高度重算 (保持展開狀態的高度正確，避免 resize 造成高度錯誤)
                  document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
                      // 延遲更新以確保 DOM 穩定
                      requestAnimationFrame(() => content.style.maxHeight = `${content.scrollHeight}px`);
@@ -99,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  });
              }
              
-             // 觸發 Fit Text 重新計算 (如果有載入 Fit Text 模組)
+             // 5. 觸發 Fit Text 重新計算 (如果有載入 Fit Text 模組)
              if (typeof fitAll === 'function') fitAll(); 
         };
 
@@ -117,22 +140,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isScrolled = scrollY > SCROLL_THRESHOLD;
                 const isShowBackToTop = scrollY > 300;
                 
-                if (header) {
+                if ($header) {
                     // 只在需要改變時才操作 DOM
-                    if (header.classList.contains('scrolled') !== isScrolled) {
-                        header.classList.toggle('scrolled', isScrolled);
+                    if ($header.classList.contains('scrolled') !== isScrolled) {
+                        $header.classList.toggle('scrolled', isScrolled);
                     }
                 }
                 
-                if (backToTopButton) {
-                    if (backToTopButton.classList.contains('show') !== isShowBackToTop) {
-                        backToTopButton.classList.toggle('show', isShowBackToTop);
+                if ($backToTopButton) {
+                    if ($backToTopButton.classList.contains('show') !== isShowBackToTop) {
+                        $backToTopButton.classList.toggle('show', isShowBackToTop);
                     }
                 }
                 ticking = false;
             };
 
-            if (header || backToTopButton) { 
+            if ($header || $backToTopButton) { 
                 updateHeaderScrollClass(); // 初始檢查
                 // 使用 passive: true 提高滾動性能
                 window.addEventListener('scroll', () => {
@@ -151,30 +174,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
         // ====================================================
         try {
-            if (menuToggle && mainNav) {
-                const menuIcon = menuToggle.querySelector('i');
+            if ($menuToggle && $mainNav) {
+                const $menuIcon = $menuToggle.querySelector('i');
 
-                menuToggle.addEventListener('click', function() {
-                    const isExpanded = !mainNav.classList.contains('active'); 
+                $menuToggle.addEventListener('click', function() {
+                    const isExpanded = !$mainNav.classList.contains('active'); 
                     
-                    mainNav.classList.toggle('active', isExpanded);
+                    $mainNav.classList.toggle('active', isExpanded);
                     this.classList.toggle('active', isExpanded); 
                     
                     this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
 
-                    if (menuIcon) {
+                    if ($menuIcon) {
                         // 確保 Font Awesome 圖標切換的魯棒性
-                        if (isExpanded) {
-                             menuIcon.classList.remove('fa-bars');
-                             menuIcon.classList.add('fa-times');
-                        } else {
-                             menuIcon.classList.remove('fa-times');
-                             menuIcon.classList.add('fa-bars');
-                        }
+                        $menuIcon.classList.toggle('fa-bars', !isExpanded);
+                        $menuIcon.classList.toggle('fa-times', isExpanded);
                     }
                     
                     const shouldLockScroll = isExpanded && window.innerWidth <= mobileBreakpoint;
-                    body.classList.toggle('no-scroll', shouldLockScroll);
+                    $body.classList.toggle('no-scroll', shouldLockScroll);
 
                     // 如果是執行「關閉」操作，則清理子選單
                     if (!isExpanded) {
@@ -186,8 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // 桌面下拉選單的鍵盤訪問性 (A11Y)
-            if (mainNav) {
-                mainNav.querySelectorAll('li.dropdown').forEach(dropdown => {
+            if ($mainNav) {
+                $mainNav.querySelectorAll('li.dropdown').forEach(dropdown => {
                     dropdown.addEventListener('focusin', function() {
                         if (window.innerWidth > mobileBreakpoint) {
                             this.classList.add('focus-within');
@@ -209,8 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. 響應式導航手風琴選單 (Mobile Navigation Accordion) - 【最終魯棒性修復版】
         // ====================================================
         try {
-            if (mainNav) {
-                mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
+            if ($mainNav) {
+                $mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
                     targetLink.addEventListener('click', (e) => {
                         const parentLi = targetLink.closest('li.dropdown');
                         
@@ -248,16 +266,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 // 點擊菜單中的非手風琴連結後，自動關閉主菜單
-                mainNav.querySelectorAll('a[href]').forEach(link => { 
+                $mainNav.querySelectorAll('a[href]').forEach(link => { 
                      // 排除作為手風琴開關的父連結
                      const isAccordionLink = link.closest('.dropdown > a') && (!link.getAttribute('href') || link.getAttribute('href') === '#');
                      if (isAccordionLink) return;
                      
                      link.addEventListener('click', () => {
-                         if (window.innerWidth <= mobileBreakpoint && mainNav.classList.contains('active')) {
+                         if (window.innerWidth <= mobileBreakpoint && $mainNav.classList.contains('active')) {
                              // 使用 setTimeout 確保在導航發生後再執行關閉，避免中斷導航
                              setTimeout(() => {
-                                 if (menuToggle) menuToggle.click(); 
+                                 if ($menuToggle) $menuToggle.click(); 
                              }, RWD_TRANSITION_DURATION + 100); 
                          }
                      });
@@ -402,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 6. 平滑滾動至錨點 (Smooth Scrolling)
         // ====================================================
         try {
-            if (header) {
+            if ($header) {
                 // 排除移動選單開關
                 document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
                      // 再次強化檢查，排除作為手風琴開關的連結
@@ -415,11 +433,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         const targetElement = document.querySelector(targetId);
 
                         if (targetElement) {
-                            const headerHeight = header.offsetHeight;
+                            const headerHeight = $header.offsetHeight;
                             
                             // 計算精確的目標位置：目標元素頂部 - Header高度
                             const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerHeight);
-                            const isMobileMenuOpen = mainNav && mainNav.classList.contains('active');
+                            const isMobileMenuOpen = $mainNav && $mainNav.classList.contains('active');
 
                             // 使用 Web API 實現平滑滾動
                             window.scrollTo({
@@ -432,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             // 延遲關閉手機菜單，確保使用者看到滾動動畫
                             if (isMobileMenuOpen) {
                                  setTimeout(() => {
-                                     if (menuToggle) menuToggle.click();
+                                     if ($menuToggle) $menuToggle.click(); 
                                  }, RWD_TRANSITION_DURATION + 100); 
                             }
                         }
@@ -441,8 +459,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Back-to-Top 按鈕的滾動邏輯
-            if (backToTopButton) {
-                backToTopButton.addEventListener('click', (e) => {
+            if ($backToTopButton) {
+                $backToTopButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     window.scrollTo({
                         top: 0,
@@ -472,8 +490,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 8. 自動更新版權年份 (Footer Copyright Year)
         // ====================================================
         try {
-             if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear(); 
+             if ($currentYearSpan) {
+                $currentYearSpan.textContent = new Date().getFullYear(); 
             }
         } catch (e) {
             console.error('Core Logic Failed: Copyright Year', e);
@@ -484,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         try {
             const removeLoadingClass = () => {
-                const targetElements = [document.documentElement, document.body];
+                const targetElements = [document.documentElement, $body];
                 targetElements.forEach(el => {
                     if (el && el.classList.contains('js-loading')) {
                         requestAnimationFrame(() => el.classList.remove('js-loading'));
@@ -504,12 +522,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         // 10. 表單驗證與 UX 強化 (Form Validation & UX)
         // ====================================================
-        // (此處將原本的表單邏輯移至 try-catch 內，以便統一錯誤處理)
-        const orderForm = document.getElementById('product-order-form');
-        const statusMessage = document.getElementById('form-status-message');
+        const $orderForm = document.getElementById('product-order-form');
+        const $statusMessage = document.getElementById('form-status-message');
         
-        if (orderForm) {
-            orderForm.addEventListener('submit', async function(e) {
+        if ($orderForm) {
+            $orderForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const submitButton = this.querySelector('button[type="submit"]');
@@ -518,13 +535,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 禁用按鈕並更新狀態
                 submitButton.textContent = '送出中... 請稍候';
                 submitButton.disabled = true;
-                statusMessage.textContent = '';
+                $statusMessage.textContent = '';
                 
                 try {
                     // 確保 action 屬性已替換
                     if (this.action.includes('your_form_endpoint')) {
-                         statusMessage.style.color = 'var(--error-color)';
-                         statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
+                         $statusMessage.style.color = 'var(--error-color)';
+                         $statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
                          submitButton.textContent = originalText;
                          submitButton.disabled = false;
                          return;
@@ -542,8 +559,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     if (response.ok) {
-                        statusMessage.style.color = 'var(--success-color)';
-                        statusMessage.textContent = '🎉 訂購資訊已成功送出！請等待專人電話聯繫。';
+                        $statusMessage.style.color = 'var(--success-color)';
+                        $statusMessage.textContent = '🎉 訂購資訊已成功送出！請等待專人電話聯繫。';
                         this.reset(); 
                         submitButton.textContent = '訂購資訊已送出 (請等電話)';
                         // 成功後保持禁用，避免重複提交
@@ -552,15 +569,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         const errorData = await response.json();
                         const errorMessage = errorData.error || '表單送出失敗';
                         
-                        statusMessage.style.color = 'var(--error-color)';
-                        statusMessage.textContent = `❗ ${errorMessage}，請直接撥打 24H 專線訂購：0978-583-699`;
+                        $statusMessage.style.color = 'var(--error-color)';
+                        $statusMessage.textContent = `❗ ${errorMessage}，請直接撥打 24H 專線訂購：0978-583-699`;
                         submitButton.textContent = originalText;
                         submitButton.disabled = false;
                     }
                 } catch (error) {
                     console.error('Submission Error:', error);
-                    statusMessage.style.color = 'var(--error-color)';
-                    statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
+                    $statusMessage.style.color = 'var(--error-color)';
+                    $statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
                 }
@@ -604,6 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      }
                  }
                  
+                 // 確保最終設置的字體大小帶有 'px' 單位
                  el.style.fontSize = `${Math.min(bestSize, MAX_FONT)}px`;
             };
 
