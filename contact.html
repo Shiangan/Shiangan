@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>聯繫我們：24 小時專業禮儀服務諮詢 | 祥安生命有限公司</title>
-    <meta name="description" content="立即填寫表單或致電我們 24 小時服務專線：0978-583-699，取得祥安生命專業禮儀師的一對一服務諮詢。服務區域：雙北、桃園、新竹。">
-    <meta name="keywords" content="聯繫, 禮儀師諮詢, 殯葬服務專線, 祥安生命地址, 雙北禮儀公司">
+    
+    <title>【24H緊急服務】立即聯繫專業禮儀師：線上諮詢與接體專線 | 祥安生命</title>
+    
+    <meta name="description" content="親人在醫院或自宅過世？請立即致電祥安生命 24 小時緊急專線：0978-583-699，由國家認證禮儀師陳妍如提供即時、專業的臨終處理與接體服務。服務區域：雙北、桃園、新竹。">
+    <meta name="keywords" content="24H禮儀服務, 緊急接體, 殯葬服務專線, 禮儀師諮詢, 生前契約, 雙北禮儀公司, 祥安生命聯繫">
     <link rel="canonical" href="https://24hour.台灣/Shiangan/contact.html"> 
     
     <meta property="og:title" content="24 小時專業禮儀服務諮詢 | 祥安生命">
@@ -19,8 +21,11 @@
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "祥安生命有限公司",
+      "legalName": "祥安生命有限公司",
+      "founder": "陳妍如 (禮儀師)",
+      "areaServed": ["新北市", "台北市", "桃園市", "新竹縣", "新竹市"],
       "image": "images/logo.png",
-      "telephone": "0978-583-699",
+      "telephone": "+886-978-583-699",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "新北市板橋區雙十路二段XX號",
@@ -29,7 +34,8 @@
         "addressCountry": "TW"
       },
       "url": "https://24hour.台灣/Shiangan/contact.html",
-      "openingHours": "Mo, Tu, We, Th, Fr, Sa, Su 00:00-23:59"
+      "openingHours": "Mo, Tu, We, Th, Fr, Sa, Su 00:00-23:59",
+      "priceRange": "$$"
     }
     </script>
     
@@ -39,6 +45,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 視覺優化：突出緊急聯繫 */
+        .emergency-highlight {
+            background-color: #f7e6e6; /* 輕微紅色背景 */
+            border-left: 5px solid #dc3545; /* 強調紅色邊框 */
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .emergency-highlight .cta-button { margin-top: 10px; }
+        .contact-info-block { padding: 30px; border-radius: 8px; }
+        .contact-info-card p { margin-bottom: 12px; }
+        .map-container { position: relative; overflow: hidden; }
+        .map-container iframe { display: block; }
+    </style>
 </head>
 <body>
     
@@ -64,7 +86,7 @@
                     <li><a href="plans.html">喪葬費用公開方案</a></li>
                     <li><a href="blog.html">殯葬百科知識</a></li>
                     <li><a href="order.html">花禮訂購</a></li> 
-                    <li class="contact-nav"><a href="contact.html" title="聯繫我們" class="cta-button primary small">📞 24H 聯絡我們</a></li>
+                    <li class="contact-nav"><a href="contact.html" aria-current="page" title="聯繫我們" class="cta-button primary small">📞 24H 聯絡我們</a></li>
                 </ul>
             </nav>
             <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
@@ -76,7 +98,7 @@
     <main role="main">
         <section class="container-v-padding first-section">
             <div class="container text-center">
-                <h1>聯繫祥安生命：24 小時專業服務，隨時待命</h1>
+                <h1>聯繫祥安生命：**24 小時專業服務**，隨時待命</h1>
                 <p class="section-description">請填寫以下表單，或撥打我們的**緊急服務專線** (0978-583-699)。我們承諾在 2 小時內回覆所有線上諮詢，提供最即時的溫暖協助。</p>
             </div>
 
@@ -85,13 +107,14 @@
                     
                     <div class="contact-form-wrap">
                         <form action="submit_form.php" method="POST" class="contact-form" aria-labelledby="form-heading">
-                            <h2 id="form-heading" class="visually-hidden">線上諮詢表單</h2>
+                            <h2 id="form-heading" style="color: var(--primary-dark);"><i class="fas fa-edit"></i> 線上諮詢表單</h2>
+                            
                             <fieldset class="form-group">
-                                <legend class="form-title">您的基本資訊</legend>
+                                <legend class="form-title">您的基本資訊與需求</legend>
                                 <label for="type">我想諮詢：<span class="required-asterisk">*</span></label>
-                                <select id="type" name="consultation_type" required>
+                                <select id="type" name="consultation_type" required aria-required="true">
                                     <option value="" disabled selected>請選擇諮詢項目</option>
-                                    <option value="emergency">急需禮儀服務 (24H - 請優先來電)</option>
+                                    <option value="emergency">🚨 急需禮儀服務 (24H - 請優先來電)</option>
                                     <option value="immediate">近期治喪安排 (一週內)</option>
                                     <option value="pre-plan">預先諮詢/生前契約</option>
                                     <option value="general">一般疑問/方案細節</option>
@@ -101,44 +124,55 @@
                                 <input type="text" id="name" name="user_name" required placeholder="請填寫您的姓名或尊稱" aria-required="true">
                                 
                                 <label for="phone">聯繫電話：<span class="required-asterisk">*</span></label>
-                                <input type="tel" id="phone" name="user_phone" required placeholder="例如: 09XX-XXX-XXX" pattern="[0-9]{4}-?[0-9]{3}-?[0-9]{3}" title="電話號碼格式：09XX-XXX-XXX" aria-required="true">
+                                <input type="tel" id="phone" name="user_phone" required placeholder="例如: 09XX-XXX-XXX (請勿使用國際碼)" pattern="09[0-9]{8}" title="請輸入正確的手機號碼，例如: 0912345678" aria-required="true">
                                 
-                                <label for="email">電子郵件 (選填)：</label>
+                                <label for="email">電子郵件 (選填，方便寄送資料)：</label>
                                 <input type="email" id="email" name="user_email" placeholder="example@email.com">
                             </fieldset>
                             
                             <fieldset class="form-group">
-                                <legend class="form-title">您的需求描述</legend>
+                                <legend class="form-title">您的情況描述</legend>
                                 <label for="message">詳細訊息：<span class="required-asterisk">*</span></label>
-                                <textarea id="message" name="user_message" rows="5" required placeholder="請簡述您的情況、需求或問題 (例如：服務地區、逝者資訊等)，讓我們能提供更精準的服務..."></textarea>
+                                <textarea id="message" name="user_message" rows="5" required placeholder="請簡述您的情況、需求或問題 (例如：逝者狀況、服務地區、宗教信仰等)，讓我們能提供更精準的服務..."></textarea>
                             </fieldset>
 
                             <div class="privacy-note">
-                                <input type="checkbox" id="privacy" name="privacy_consent" required>
+                                <input type="checkbox" id="privacy" name="privacy_consent" required aria-required="true">
                                 <label for="privacy" style="display: inline-block; font-weight: normal;">我已閱讀並同意<a href="privacy.html" target="_blank" rel="noopener noreferrer">隱私權條款</a><span class="required-asterisk">*</span></label>
                                 </div>
                             
-                            <button type="submit" class="cta-button primary large full-width-btn">送出諮詢表單</button>
+                            <button type="submit" class="cta-button primary large full-width-btn" aria-label="送出諮詢表單給祥安生命">送出諮詢表單</button>
                         </form>
                     </div>
 
                     <div class="contact-info-block bg-section">
+                        <div class="emergency-highlight text-center">
+                            <p style="font-weight: bold; color: #dc3545; font-size: 1.1rem; margin-bottom: 10px;">
+                                **🚨 臨終急需協助？請優先撥打！**
+                            </p>
+                            <a href="tel:0978583699" class="cta-button primary large full-width-btn" style="font-size: 1.5rem; padding: 10px 0;" title="24小時緊急接體專線">
+                                <i class="fas fa-phone-volume"></i> **0978-583-699**
+                            </a>
+                        </div>
+                        
                         <div class="contact-info-card">
-                            <h3><i class="fas fa-handshake"></i> 核心聯繫方式</h3>
-                            <p><span class="icon"><i class="fas fa-phone-volume"></i></span> **24H 緊急專線**：<a href="tel:0978583699">0978-583-699</a></p>
-                            <p><span class="icon"><i class="fab fa-line"></i></span> **LINE ID**：<a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer">@yourlineid (點擊加入)</a></p>
-                            <p><span class="icon"><i class="fas fa-envelope"></i></span> **業務諮詢**：<a href="mailto:service@shiangan.com">service@shiangan.com</a></p>
+                            <h3><i class="fas fa-handshake"></i> 其他聯繫方式</h3>
+                            <p>
+                                <span class="icon" style="color: #00b900;"><i class="fab fa-line"></i></span> **LINE ID**：<a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer" title="LINE 即時線上諮詢">@yourlineid (點擊加入)</a>
+                            </p>
+                            <p>
+                                <span class="icon"><i class="fas fa-envelope"></i></span> **業務諮詢**：<a href="mailto:service@shiangan.com" title="發送電子郵件">service@shiangan.com</a>
+                            </p>
                             
                             <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 20px 0;">
 
                             <h3>辦公室資訊</h3>
-                            <p><span class="icon"><i class="fas fa-clock"></i></span> **辦公時間**：週一至週五 09:00 - 18:00 (禮儀服務不在此限)</p>
+                            <p><span class="icon"><i class="fas fa-clock"></i></span> **辦公時間**：週一至週五 09:00 - 18:00 (禮儀服務 24H 不在此限)</p>
                             <address>
                                 <span class="icon"><i class="fas fa-map-marker-alt"></i></span> 
-                                祥安生命有限公司 (業務聯繫)<br>
-                                新北市板橋區雙十路二段XX號
-                            </address>
-                            <p style="margin-top: 10px; font-weight: 700;">服務區域：**雙北、桃園、新竹** (全台可協助)</p>
+                                祥安生命有限公司 (業務聯繫處)<br>
+                                **新北市板橋區雙十路二段XX號** </address>
+                            <p style="margin-top: 15px; font-weight: 700; color: var(--accent-color);">服務區域：<i class="fas fa-truck-moving"></i> **雙北、桃園、新竹** (全台可協助)</p>
                         </div>
                         
                         <div class="map-container" style="margin-top: 30px;">
@@ -150,8 +184,11 @@
                                 allowfullscreen="" 
                                 loading="lazy" 
                                 referrerpolicy="no-referrer-when-downgrade" 
-                                title="祥安生命有限公司位置地圖">
+                                title="祥安生命有限公司板橋業務聯絡處位置地圖">
                             </iframe>
+                            <p style="text-align: center; font-size: 0.9em; color: #555; margin-top: 10px;">
+                                <i class="fas fa-info-circle"></i> 此地址為業務聯繫處，來訪前請先預約，感謝您的配合。
+                            </p>
                         </div>
 
                     </div>
@@ -235,5 +272,11 @@
     </div>
 
     <script src="js/script.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.remove('js-loading');
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
 </body>
 </html>
