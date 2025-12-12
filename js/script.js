@@ -27,8 +27,7 @@ Document.addEventListener('DOMContentLoaded', () => {
         const mobileBreakpoint = 900;
         const SCROLL_THRESHOLD = 10;
         const LAZY_LOAD_ROOT_MARGIN = '0px 0px 200px 0px'; // 提前 200px 載入
-        // 確保與 CSS 中 var(--rwd-transition-duration) = 0.4s 一致
-        const RWD_TRANSITION_DURATION = 400; 
+        const RWD_TRANSITION_DURATION = 400; // 確保與 CSS 中 var(--rwd-transition-duration) = 0.4s 一致
         
         // 輔助函數： Debounce (去抖動)
         const debounce = (func, delay = 50) => { 
@@ -53,6 +52,7 @@ Document.addEventListener('DOMContentLoaded', () => {
                         
                         // 確保清除 max-height，讓 CSS 規則重新生效（在桌面模式時）
                         const handleTransitionEnd = () => {
+                            // 只有在非手機或主菜單關閉時才清除 max-height，避免桌面模式下 submenu 錯誤顯示 0px
                             if (window.innerWidth > mobileBreakpoint || !mainNav.classList.contains('active')) {
                                 submenu.style.maxHeight = ''; 
                             }
@@ -140,34 +140,38 @@ Document.addEventListener('DOMContentLoaded', () => {
 
 
         // ====================================================
-        // 2. RWD 手機菜單切換 (Hamburger Menu Toggle)
+        // 2. RWD 手機菜單切換 (Hamburger Menu Toggle) - 【最終修復模式】
         // ====================================================
         try {
             if (menuToggle && mainNav) {
                 const menuIcon = menuToggle.querySelector('i');
 
                 menuToggle.addEventListener('click', function() {
-                    const isExpanded = !mainNav.classList.contains('active'); // 判斷新狀態
+                    // 1. 判斷並切換核心狀態 (Active State)
+                    const isExpanded = !mainNav.classList.contains('active'); 
                     
                     mainNav.classList.toggle('active', isExpanded);
+                    this.classList.toggle('active', isExpanded); 
                     
-                    // 只有在手機模式下才鎖定滾動
+                    // 2. A11Y 與 Icon 處理
+                    this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+
+                    if (menuIcon) {
+                        // 使用 replace 確保單次操作，且邏輯是正確的
+                        menuIcon.classList.replace(isExpanded ? 'fa-bars' : 'fa-times', isExpanded ? 'fa-times' : 'fa-bars');
+                    }
+                    
+                    // 3. 滾動鎖定處理 (只在手機模式下鎖定)
                     const shouldLockScroll = isExpanded && window.innerWidth <= mobileBreakpoint;
                     body.classList.toggle('no-scroll', shouldLockScroll);
 
-                    this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-                    this.classList.toggle('active', isExpanded); 
-
-                    if (menuIcon) {
-                        menuIcon.classList.toggle('fa-bars', !isExpanded);
-                        menuIcon.classList.toggle('fa-times', isExpanded);
-                    }
-                    
+                    // 4. 清理子選單 (如果是執行「關閉」操作)
                     if (!isExpanded) {
+                        // 執行所有子選單的收合動畫與狀態清除
                         closeAllMobileSubmenus(); 
                     }
                     
-                    // 【✨ GA4 追蹤點】
+                    // 5. GA4 追蹤點 (保持不變)
                     if (window.dataLayer) {
                         dataLayer.push({
                             'event': 'interaction',
