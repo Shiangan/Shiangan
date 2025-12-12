@@ -2706,3 +2706,49 @@ footer {
     transform: translateZ(0);
     will-change: transform, opacity;
 }
+
+/* --- 麵包屑導航 (Breadcrumbs) 樣式 --- */
+.breadcrumb {
+    padding: 15px 0;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.breadcrumb li {
+    display: inline;
+    margin-right: 10px;
+    padding: 0;
+}
+
+.breadcrumb a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+    outline: none; /* 移除 a:hover 的 outline 樣式，避免影響美觀 */
+}
+
+/* 分隔符號 */
+.breadcrumb li + li::before {
+    content: "/"; /* 或使用 Font Awesome 圖標，例如 '\f105' */
+    font-family: 'Font Awesome 6 Free'; 
+    font-weight: 400; /* 對應斜線 */
+    padding-right: 10px;
+    color: var(--border-color);
+}
+
+/* 目前頁面樣式 */
+.breadcrumb li.active {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
