@@ -34,21 +34,36 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const debounceFitText = (func) => debounce(func, 100); 
 
-        // 輔助函數：關閉所有手機子菜單 (Accordion)
-        const closeAllMobileSubmenus = () => {
-            if (mainNav) {
-                mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
-                    const submenu = li.querySelector('.submenu');
-                    li.classList.remove('active');
-                    if (submenu) {
-                        // 移除 maxHeight，並在過渡結束後清除內聯樣式
-                        submenu.style.maxHeight = '0px'; 
-                        // 在 CSS 過渡結束後，清除內聯樣式以避免與桌面 hover 衝突
-                        setTimeout(() => submenu.style.maxHeight = '', RWD_TRANSITION_DURATION);
+  // 輔助函數：關閉所有手機子菜單 (Accordion)
+const closeAllMobileSubmenus = () => {
+    if (mainNav) {
+        mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+            const submenu = li.querySelector('.submenu');
+            li.classList.remove('active');
+            if (submenu) {
+                // 1. 設置 maxHeight 為 0 觸發收合動畫
+                submenu.style.maxHeight = '0px';
+                
+                // 2. 監聽 CSS 過渡結束事件，以確保在正確的時機清除內聯樣式
+                const handleTransitionEnd = () => {
+                    // 只有在動畫結束後才清除 maxHeight，且只在當前是手機模式時清除 (RWD Cleanup 會處理桌面模式)
+                    if (window.innerWidth <= mobileBreakpoint || !mainNav.classList.contains('active')) {
+                        submenu.style.maxHeight = ''; 
                     }
-                });
+                    // 移除事件監聽器以避免內存洩露
+                    submenu.removeEventListener('transitionend', handleTransitionEnd);
+                };
+                
+                // 由於 transitionend 在每次屬性過渡結束時都會觸發，需要確保只監聽一次
+                // 這裡我們假設 maxHeight 是最後一個過渡的屬性
+                submenu.addEventListener('transitionend', handleTransitionEnd, { once: true });
+                
+                // 【🔥 刪除原有的 setTimeout 清除邏輯】
+                // setTimeout(() => submenu.style.maxHeight = '', RWD_TRANSITION_DURATION);
             }
-        };
+        });
+    }
+};
 
         // 輔助函數：處理 RWD 調整時的狀態清理 【🔥 微調清理邏輯】
         const handleResizeCleanup = () => {
