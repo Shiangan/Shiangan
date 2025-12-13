@@ -156,41 +156,50 @@ a:focus-visible {
  * 2. 響應式設計 (Mobile/Tablet) 補充
  * ------------------------------------------- */
 
-/* 範例斷點：當螢幕寬度小於 1024px 時觸發 */
 @media (max-width: 1024px) {
     
     /* 啟用漢堡選單按鈕，隱藏桌面導覽 */
     .menu-toggle {
-        display: flex; /* 在小螢幕上顯示菜單切換按鈕 */
+        display: flex; 
     }
 
+    /* 🏆 修正後的核心導覽列樣式 (僅保留一組) */
     .main-nav {
-        /* 在小螢幕上預設隱藏導覽列 */
+        /* 定位與尺寸 */
         position: fixed;
         top: var(--header-height);
-        right: 0;
-        width: 300px; /* 側邊欄寬度 */
+        right: 0; /* 確保在右側 */
+        left: auto; /* 確保 left 不干擾 */
+        width: 300px; 
         height: calc(100vh - var(--header-height));
+        z-index: 999;
+        overflow-y: auto; 
+        
+        /* 視覺與隱藏 */
         background-color: var(--color-bg-primary); 
         box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
-        transform: translateX(100%); /* 預設在螢幕右側外 */
-        transition: transform var(--transition-speed) ease-in-out;
-        z-index: 999;
-        overflow-y: auto; /* 允許垂直滾動 */
         border-left: 1px solid var(--border-color);
+        
+        /* 隱藏：預設在螢幕右側外 */
+        transform: translateX(100%); 
+        transition: transform var(--transition-speed) ease-in-out; /* 確保動畫屬性存在 */
     }
 
-    /* 導覽列開啟時的狀態 (通常透過 JavaScript 添加 class) */
-    .main-nav.active {
-        transform: translateX(0);
+    /* 導覽列開啟時的狀態 (透過 JavaScript 添加 class) */
+   .main-nav.active { 
+        transform: translateX(0); /* 展開：完全滑入視圖，內容不會跑偏 */
     }
+
+    /* ----------------------------------- */
+    /* 內部列表項目樣式：此部分檢查是正確的 */
+    /* ----------------------------------- */
     
-    /* 內部列表調整為垂直佈局 */
     .main-nav ul {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: flex-start; /* 讓內容靠左對齊 */
         padding: 20px 0;
     }
+    
 
     .main-nav li {
         width: 100%;
