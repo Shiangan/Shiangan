@@ -2,22 +2,20 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-445583766'); 
     </script>
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>喪葬費用公開方案總覽：國民契約、中式、西式價格透明 | 祥安生命</title>
-
-    <meta name="description" content="祥安生命堅持費用透明公開，提供從國民契約 6.8萬到尊榮契約的多樣化選擇。所有方案內容與價格公開可查，保證不追加、杜絕隱藏費用。">
+    <title>【專業告別式服務方案總覽】佛道教, 西式, 創價學會多宗教報價與比較表 | 祥安生命</title>
+    <meta name="description" content="專業提供佛道教三方案、基督教/天主教、創價學會/日蓮正宗多宗教告別式服務。透過清晰比較表與價格總覽，幫助您一目瞭然選擇最適合的禮儀方案。祥安生命堅持費用透明公開，杜絕隱藏費用。">
+    <meta name="keywords" content="告別式服務, 禮儀師, 喪葬費用, 佛道教方案, 基督教葬禮, 創價學會朋友葬, 禮儀方案比較, 喪禮報價, RWD, 祥安生命, 費用公開">
     <link rel="canonical" href="https://24hour.台灣/Shiangan/plans.html">
 
     <meta property="og:title" content="喪葬費用公開方案總覽 | 價格透明、安心契約 | 祥安生命">
@@ -28,7 +26,6 @@
 
     <link rel="preload" href="css/style.css" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
-    
     <link rel="preload" href="../fonts/UoqMunThenKhung-1.000.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="../fonts/Iansui-Regular.ttf" as="font" type="font/ttf" crossorigin>
 
@@ -62,11 +59,135 @@
       }
     }
     </script>
-    
-    </head>
 
-<body >
-    <header class="main-header" role="banner">
+    <style>
+        /* 1. 全域樣式與標題 */
+        body { font-family: 'lansui', 'Noto Sans TC', 'Microsoft YaHei', sans-serif; background-color: #f8f8f8; padding: 20px; line-height: 1.6; color: #333; }
+        h1 { text-align: center; color: #660000; margin-bottom: 30px; font-size: 2.2em; }
+        h2 { text-align: center; color: #8B0000; margin-top: 40px; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #D1A65E; padding-bottom: 10px; }
+        h3 { color: #4a4a4a; font-size: 1.5em; margin-top: 30px; margin-bottom: 15px; }
+
+        /* 2. 方案卡片佈局 (RWD: PC Flexbox, Mobile Column) */
+        .plans-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex; 
+            gap: 30px;
+            flex-wrap: wrap; 
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .plan-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            width: 30%; /* PC版三欄並排 */
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+        .plan-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+        .plan-header { background-color: #F3EFE9; padding: 25px 20px; text-align: center; }
+        .plan-title { font-size: 1.6em; color: #8B0000; }
+        .plan-price { font-size: 2.2em; font-weight: bold; color: #C0392B; margin-top: 5px; }
+        .price-note { font-size: 0.9em; color: #777; margin-top: 5px; }
+        .plan-features { list-style: none; padding: 20px; margin: 0; flex-grow: 1; }
+        .plan-features li { padding: 10px 0; border-bottom: 1px dashed #eee; text-align: left; font-size: 0.95em; }
+        .feature-icon { color: #27AE60; font-size: 1.1em; margin-right: 8px; }
+        .plan-footer { padding: 20px; text-align: center; margin-top: auto; }
+        .mobile-detail-button { display: none; } /* PC版隱藏 */
+
+        /* 3. 比較表與不含部分 */
+        .comparison-table, .notes-section {
+            max-width: 1200px;
+            margin: 30px auto;
+            overflow-x: auto;
+        }
+        .comparison-table table {
+            width: 100%;
+            min-width: 700px; /* 確保內容不擠壓 */
+            border-collapse: collapse;
+            text-align: center;
+            background: white;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+        }
+        .comparison-table th {
+            background-color: #4a4a4a;
+            color: white;
+            font-size: 1.1em;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .comparison-table .highlight {
+            font-weight: bold;
+            color: #C0392B;
+        }
+        .notes-section ul {
+            list-style: none;
+            padding: 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .notes-section li {
+            background-color: #fff8f8;
+            border-left: 5px solid #C0392B;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        .notes-section li strong {
+            color: #C0392B;
+        }
+
+        /* 4. 手機版 RWD 優化 */
+        @media (max-width: 767px) {
+            .plans-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .plan-card {
+                width: 100%;
+                max-width: none;
+                border: 2px solid #D1A65E;
+            }
+            .plan-features { display: none; } 
+            .mobile-detail-button {
+                display: block;
+                background-color: #8B0000;
+                color: white;
+                padding: 12px 30px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 80%;
+                margin: 15px auto 0;
+                border: none;
+            }
+            .plan-details-expanded {
+                max-height: 0; 
+                overflow: hidden; 
+                transition: max-height 0.5s ease-in-out; 
+                padding: 0 10px; 
+                background-color: #f7f7f7;
+                border-top: 1px solid #ddd;
+            }
+            .expanded .plan-details-expanded { padding: 10px; }
+            .plan-details-expanded td, .plan-details-expanded th { font-size: 0.8em; }
+            
+            /* 手機版強制比較表捲動 */
+            .comparison-table { overflow-x: scroll; }
+        }
+    </style>
+</head>
+<body > <header class="main-header" role="banner">
         <div class="header-container container">
             <div class="logo">
                 <a href="index.html" title="祥安生命有限公司 - 回到首頁">
@@ -170,293 +291,289 @@
         </div>
     </section>
 
-    <    <section id="fixed-plans" class="container-v-padding bg-section" aria-labelledby="fixed-heading">
-        <div class="container">
-            <h2 id="fixed-heading">💎 中式/一般契約方案 (價格由低到高)</h2>
-            <p class="text-center">涵蓋從簡約到尊榮，滿足各種預算與規模的告別需求。</p>
-            
-            <div class="card-grid plan-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 40px;">
-                
-                <div class="card-item plan-card" id="basic">
-                    <span class="plan-tag" style="background-color: #f1f1f1; color: #333;">最簡約・實惠</span>
-                    <h3>國民契約 6.8萬</h3>
-                    <p class="price-tag">TWD 68,000 元起</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> 遺體接送與安置（雙北桃園）</li>
-                        <li><i class="fas fa-check"></i> 棺木、壽衣（經濟型）</li>
-                        <li><i class="fas fa-check"></i> 申請火化與相關文件代辦</li>
-                        <li><i class="fas fa-check"></i> 專業禮儀師全程服務</li>
-                        <li><i class="fas fa-times" style="color: #ccc;"></i> 不含會館租借、法事、告別式場布置</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button secondary small" title="諮詢國民契約 6.8萬方案">聯繫諮詢詳情</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">國民契約 - 服務細項 (6.8萬)</th></tr></thead>
-                            <tbody>
-                                <tr><th>核心服務</th><td>遺體接運、基礎冰存（三日）、基礎淨身入殮、火化申請代辦</td></tr>
-                                <tr><th>儀式法事</th><td>**不含**任何追思儀式與法事（僅提供行政服務）</td></tr>
-                                <tr><th>用品等級</th><td>經濟型棺木（制式）、壽衣、骨灰罐（制式）</td></tr>
-                                <tr><th>會場佈置</th><td>**不含**告別式場、僅提供火化日靈車與工作人員</td></tr>
-                                <tr><th>行政代辦</th><td>訃聞撰寫、死亡證明申請、勞保/國保補助金代辦</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card-item plan-card primary-highlight" id="eighty-eight">
-                    <span class="plan-tag">人氣・基礎中式</span>
-                    <h3>中式契約 8.8萬</h3>
-                    <p class="price-tag">TWD 88,000 元起</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> **完整的佛/道教豎靈服務**</li>
-                        <li><i class="fas fa-check"></i> 遺體接送、安置、冰存費用</li>
-                        <li><i class="fas fa-check"></i> 中階壽衣、棺木、骨灰罐</li>
-                        <li><i class="fas fa-check"></i> 告別式用品代購、會場布置基礎協助</li>
-                        <li><i class="fas fa-check"></i> **勞保/國保補助金代辦**</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button primary small" title="立即諮詢中式契約 8.8萬方案">立即諮詢此方案</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">中式契約 - 服務細項 (8.8萬)</th></tr></thead>
-                            <tbody>
-                                <tr><th>禮儀師服務</th><td>專責禮儀師全程、治喪時程基礎協調與指導</td></tr>
-                                <tr><th>儀式法事</th><td>**基礎**功德法事（奠禮日誦經或基礎師父），含豎靈用品</td></tr>
-                                <tr><th>遺體服務</th><td>遺體接運、淨身、**基礎化妝入殮**（含棺木/壽衣/骨灰罐）</td></tr>
-                                <tr><th>會場佈置</th><td>**基礎**花山佈置、布幔、燈光（素雅莊重）</td></tr>
-                                <tr><th>奠禮備品</th><td>標準謝卡、毛巾、紅包、胸花、電子輓聯服務</td></tr>
-                                <tr><th>後續服務</th><td>補助金代辦、後續關懷（基礎）</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card-item plan-card" id="eleven-eight">
-                    <span class="plan-tag" style="background-color: #ffe6cc; color: #cc6600;">質感・中階尊崇</span>
-                    <h3>中式契約 11.8萬</h3>
-                    <p class="price-tag">TWD 118,000 元起</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> **中高階棺木、陶瓷骨灰罐**</li>
-                        <li><i class="fas fa-check"></i> 專業司儀與誦經/法事協助</li>
-                        <li><i class="fas fa-check"></i> **精緻中型花山佈置**</li>
-                        <li><i class="fas fa-check"></i> 高級壽衣、全身化妝、入殮儀式</li>
-                        <li><i class="fas fa-check"></i> 包含多項奠禮用品</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button secondary small" title="諮詢中式契約 11.8萬方案">聯繫諮詢詳情</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">中式契約 - 服務細項 (11.8萬)</th></tr></thead>
-                            <tbody>
-                                <tr><th>禮儀師服務</th><td>資深禮儀師全程、治喪時程**完整**協調與指導</td></tr>
-                                <tr><th>儀式法事</th><td>**指定**三、七、七圓滿功德法會（含師父與祭品）</td></tr>
-                                <tr><th>遺體服務</th><td>遺體接運、**精緻淨身**、全身化妝、入殮儀式</td></tr>
-                                <tr><th>會場佈置</th><td>**中階主題花藝設計**、專業燈光、布幔、牌樓</td></tr>
-                                <tr><th>用品等級</th><td>中高階棺木/骨灰罐、**高級壽衣**（多樣選擇）</td></tr>
-                                <tr><th>奠禮備品</th><td>精緻謝卡、毛巾、胸花、紅包、電子輓聯與儀式用品</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card-item plan-card" id="fourteen-eight">
-                    <span class="plan-tag" style="background-color: #e6ffe6; color: #008000;">尊榮・完整服務</span>
-                    <h3>中式契約 14.8萬</h3>
-                    <p class="price-tag">TWD 148,000 元起</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> **高質感會場專屬主題設計**</li>
-                        <li><i class="fas fa-check"></i> 資深禮儀師全程引導</li>
-                        <li><i class="fas fa-check"></i> 精美西式/中式棺木 (多樣選擇)</li>
-                        <li><i class="fas fa-check"></i> 全套功德法事協調與進行</li>
-                        <li><i class="fas fa-check"></i> 專業銘謝用品與服務</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button secondary small" title="諮詢中式契約 14.8萬方案">聯繫諮詢詳情</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">中式契約 - 服務細項 (14.8萬)</th></tr></thead>
-                            <tbody>
-                                <tr><th>禮儀師服務</th><td>**資深專案經理全程一對一服務**、全程指導</td></tr>
-                                <tr><th>儀式法事</th><td>**全套七七圓滿功德法會**（師父、精緻祭品）</td></tr>
-                                <tr><th>遺體服務</th><td>**頂級**遺體美容、化妝、安靈服務</td></tr>
-                                <tr><th>會場佈置</th><td>**高質感專屬主題設計**、大型花藝、專業場地氛圍營造</td></tr>
-                                <tr><th>用品等級</th><td>**精美**西式/中式棺木（多樣選擇）、**高階**骨灰罐</td></tr>
-                                <tr><th>交通禮賓</th><td>告別式當天**專車接送**家屬（區域內），含專業引導人員</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card-item plan-card" id="seventeen-eight">
-                    <span class="plan-tag" style="background-color: #fff0f5; color: #c0392b;">頂級・生命回顧</span>
-                    <h3>尊榮契約 17.8萬</h3>
-                    <p class="price-tag">TWD 178,000 元起</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> **客製化生命故事布置與投影**</li>
-                        <li><i class="fas fa-check"></i> 頂級花藝設計與場地氛圍營造</li>
-                        <li><i class="fas fa-check"></i> 專車接送家屬 (告別式當天)</li>
-                        <li><i class="fas fa-check"></i> 專案經理一對一服務</li>
-                        <li><i class="fas fa-check"></i> **全方位禮賓與後續關懷服務**</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button secondary small" title="諮詢尊榮契約 17.8萬方案">聯繫諮詢詳情</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">尊榮契約 - 服務細項 (17.8萬)</th></tr></thead>
-                            <tbody>
-                                <tr><th>專案服務</th><td>**頂級專案經理**一對一服務、治喪時程**客製化**</td></tr>
-                                <tr><th>生命回顧</th><td>**客製化生命故事**影片製作、布置與投影（追思手冊）</td></tr>
-                                <tr><th>會場佈置</th><td>**頂級花藝設計**、場地氛圍營造（含LED牆/特殊燈光）</td></tr>
-                                <tr><th>遺體用品</th><td>豪華訂製棺木（進口/專屬）、**頂級**骨灰罐與壽衣</td></tr>
-                                <tr><th>交通禮賓</th><td>專車接送、禮賓車隊、專業引導與後續關懷</td></tr>
-                                <tr><th>法事儀軌</th><td>**全套**功德法事協調與進行、儀軌彈性調整</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <header>
+        <h1>專業告別式服務方案總覽 (多宗教整合)</h1>
+        <p style="text-align: center; color: #660000; margin-bottom: 30px; font-size: 1.2em;">提供佛道教、基督教與創價學會等多樣化服務，價格透明，全程禮儀師協助。</p>
+    </header>
 
+    <h2>一、 佛道教傳統禮儀方案</h2>
+    <section class="plans-container">
+        <article class="plan-card" id="plan-zunrong">
+            <div class="plan-header">
+                <h3 class="plan-title">尊榮專業專案</h3>
+                <div class="plan-price">NT$168,000</div>
+                <div class="price-note">壹拾陸萬捌仟元整</div>
             </div>
-        
-            <h2 id="religious-plans" style="margin-top: 60px;">✝️ 西式與日式專屬契約方案</h2>
-            
-             <div class="card-grid plan-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 40px;">
-                <div class="card-item plan-card" id="west">
-                    <span class="plan-tag" style="background-color: #e6f7ff; color: #007bff;">寧靜・西式禮拜</span>
-                    <h3>西式契約 (基督教/天主教)</h3>
-                    <p class="price-tag">價格請電洽</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> 教會場地協調與預定</li>
-                        <li><i class="fas fa-check"></i> 專屬司儀與關懷師引導</li>
-                        <li><i class="fas fa-check"></i> 簡約花藝布置與十字架/聖像</li>
-                        <li><i class="fas fa-check"></i> 追思手冊設計與印製</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button secondary small" title="洽詢西式契約細節">電話洽詢細節</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">西式契約 - 服務細項</th></tr></thead>
-                            <tbody>
-                                <tr><th>儀式特色</th><td>完全配合教會流程，不進行傳統繁複法事</td></tr>
-                                <tr><th>會場佈置</th><td>簡約花藝布置、十字架或聖像、聖經佈置</td></tr>
-                                <tr><th>文件用品</th><td>追思手冊設計與印製、聖歌詩歌本準備</td></tr>
-                                <tr><th>專業人員</th><td>具西式禮儀經驗的禮儀師、關懷師、專屬司儀</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-item plan-card" id="japen">
-                    <span class="plan-tag" style="background-color: #fff0e6; color: #fd7e14;">客製・日式/特殊</span>
-                    <h3>日式契約 / 客製化</h3>
-                    <p class="price-tag">價格請電洽</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> 配合日蓮正宗或特殊團體儀式</li>
-                        <li><i class="fas fa-check"></i> 高品質靜態追思與生命回顧</li>
-                        <li><i class="fas fa-check"></i> 場地客製化設計與燈光音響配置</li>
-                        <li><i class="fas fa-check"></i> 適用於不需傳統誦經法事家庭</li>
-                    </ul>
-                    <a href="tel:+886978583699" class="cta-button secondary small" title="洽詢日式與客製化契約細節">電話洽詢細節</a>
-                    <button class="detail-toggle-button" onclick="toggleDetails(this)">查看完整細項 <i class="fas fa-chevron-down"></i></button>
-                    <div class="plan-details-expanded">
-                        <table>
-                            <thead><tr><th colspan="2">日式/客製化契約 - 服務細項</th></tr></thead>
-                            <tbody>
-                                <tr><th>儀式特色</th><td>符合日蓮正宗（創價學會）或家屬指定之特殊流程</td></tr>
-                                <tr><th>會場佈置</th><td>靜態高品質追思會場、客製化主題與燈光音響</td></tr>
-                                <tr><th>服務彈性</th><td>儀式用品、流程、服裝、音樂皆可按客製需求調整</td></tr>
-                                <tr><th>專業人員</th><td>專案客製化禮儀師、熟悉特殊宗教儀軌</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="plans-comparison" class="container-v-padding" aria-labelledby="comparison-heading">
-        <div class="container">
-            <h2 id="comparison-heading" class="text-center">🔍 契約方案內容總覽與核心差異對比</h2>
-            <p class="text-center sub-heading">從服務規模、用品等級到細節協助，一目瞭然。</p>
-            
-            <div class="responsive-table-container">
-                <table class="plans-table" aria-describedby="comparison-heading">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="feature-col">服務/用品項目</th>
-                            <th scope="col" class="basic-col">國民契約<br>TWD 6.8萬</th>
-                            <th scope="col" class="pop-col primary-highlight-th">中式契約<br>TWD 8.8萬</th>
-                            <th scope="col" class="upgrade-col">中式契約<br>TWD 11.8萬</th>
-                            <th scope="col" class="vip-col">尊榮契約<br>TWD 17.8萬</th>
-                        </tr>
-                    </thead>
+            <ul class="plan-features">
+                <li><span class="feature-icon">✓</span> 24小時專屬禮儀師服務</li>
+                <li><span class="feature-icon">✓</span> 基礎治喪協調與指導</li>
+                <li><span class="feature-icon">✓</span> 二、三、七誦經法會 (9師父)</li>
+                <li><span class="feature-icon">✓</span> 基礎棺木與備品</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                <table>
+                    <thead><tr><th colspan="2">尊榮專業專案 - 完整細項 (圖檔內容)</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">專業禮儀師服務（24H）</th>
-                            <td><i class="fas fa-check-circle check-green"></i> 全程</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 全程</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 全程 (資深級)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 全程 (專案經理)</td>
-                        </tr>
-                         <tr>
-                            <th scope="row">遺體接送/安置/冰存</th>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">豎靈/奠禮用品</th>
-                            <td><i class="fas fa-times-circle check-light" style="color: #ccc;"></i> (簡約型)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (標準型)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (精緻中階)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (高階豪華)</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">棺木/壽衣/骨灰罐 等級</th>
-                            <td>經濟型 (制式)</td>
-                            <td>標準型 (基礎可選)</td>
-                            <td>中高階 (多樣選擇)</td>
-                            <td>豪華訂製 (進口/專屬)</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">會場花藝佈置</th>
-                            <td><i class="fas fa-times-circle check-red"></i> 不含</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 基礎花山</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 中階主題花藝</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 專屬主題設計</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">功德法事協辦</th>
-                            <td><i class="fas fa-times-circle check-red"></i> 不含 (可加購)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 基礎儀式</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 完整法事</td>
-                            <td><i class="fas fa-check-circle check-green"></i> 尊榮完整法事</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">免費申請補助金代辦</th>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                            <td><i class="fas fa-check-circle check-green"></i> (含)</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">合約總價（不含會館/規費）</th>
-                            <td><strong class="price-strong">6.8萬</strong></td>
-                            <td><strong class="price-strong primary-highlight">8.8萬</strong></td>
-                            <td><strong class="price-strong">11.8萬起</strong></td>
-                            <td><strong class="price-strong">17.8萬起</strong></td>
-                        </tr>
+                        <tr><th>遺體服務</th><td>接運、淨身、化妝、設立靈前牌位</td></tr>
+                        <tr><th>法事儀軌</th><td>二、三、七誦經；四、六、七圓滿法會</td></tr>
+                        <tr><th>禮儀用品</th><td>基礎棺木、骨灰罈、壽衣、標準備品</td></tr>
+                        <tr><th>會場佈置</th><td>基礎布幔、燈光、基礎花藝</td></tr>
+                        <tr><th>後續關懷</th><td>百日/對年通知、基礎塔位諮詢</td></tr>
                     </tbody>
                 </table>
             </div>
-            
-            <div class="note-box" style="margin-top: 30px; padding: 15px; border-left: 5px solid var(--accent-color); background-color: #fff8f5;">
-                <i class="fas fa-info-circle" style="color: var(--accent-color);"></i> **重要提醒：** 方案價格不含火化場、靈骨塔位、禮廳會館租借費、雜項規費、訃聞印製等依數量或實際場地產生的費用。詳情請來電諮詢。
+        </article>
+        
+        <article class="plan-card" id="plan-jingzhi">
+            <div class="plan-header">
+                <h3 class="plan-title">精緻豪華專案</h3>
+                <div class="plan-price">NT$188,000</div>
+                <div class="price-note">壹拾捌萬捌仟元整</div>
             </div>
-        </div>
+            <ul class="plan-features">
+                <li><span class="feature-icon">✓</span> 升級遺體沐浴與冰存服務</li>
+                <li><span class="feature-icon">✓</span> **圓滿功德法會** (9師父)</li>
+                <li><span class="feature-icon">✓</span> 升級款棺木與精選骨灰罈</li>
+                <li><span class="feature-icon">✓</span> 精緻會場與 **含LED花牆** 佈置</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                 <table>
+                    <thead><tr><th colspan="2">精緻豪華專案 - 完整細項 (圖檔內容)</th></tr></thead>
+                    <tbody>
+                        <tr><th>遺體服務</th><td>升級沐浴、冰存、文書準備</td></tr>
+                        <tr><th>法事儀軌</th><td>三、七、七圓滿功德法會 (9師父)</td></tr>
+                        <tr><th>禮儀用品</th><td>**升級款**棺木、精選骨灰罈、精緻備品</td></tr>
+                        <tr><th>會場佈置</th><td>**含LED花牆**、精緻花藝</td></tr>
+                        <tr><th>後續關懷</th><td>百日/對年通知、詳細塔位諮詢</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        
+        <article class="plan-card featured" id="plan-lianhe">
+            <div class="plan-header">
+                <h3 class="plan-title">聯合專業專案</h3>
+                <div class="plan-price">NT$358,000</div>
+                <div class="price-note">參拾伍萬捌仟元整</div>
+            </div>
+            <ul class="plan-features">
+                <li><span class="feature-icon">⭐</span> **24小時禮儀師全程陪伴**</li>
+                <li><span class="feature-icon">⭐</span> **七七圓滿功德法會** (完整)</li>
+                <li><span class="feature-icon">⭐</span> 高級棺木與頂級骨灰罈</li>
+                <li><span class="feature-icon">⭐</span> **代辦火化/埋葬申請** (一站式服務)</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                 <table>
+                    <thead><tr><th colspan="2">聯合專業專案 - 完整細項 (圖檔內容)</th></tr></thead>
+                    <tbody>
+                        <tr><th>遺體服務</th><td>**24H全程**專業服務、儀軌指導</td></tr>
+                        <tr><th>法事儀軌</th><td>**完整七七圓滿功德法會** (9師父)</td></tr>
+                        <tr><th>禮儀用品</th><td>**高級**棺木、**頂級**骨灰罈、**全套**備品</td></tr>
+                        <tr><th>會場佈置</th><td>豪華佈置、**大量花藝**、含LED花牆</td></tr>
+                        <tr><th>後續關懷</th><td>百日/對年通知、**專業一站式服務**</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
     </section>
-    
+
+    <h3>佛道教三方案差異總比較表</h3>
+    <section class="comparison-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>項目</th>
+                    <th>尊榮專業 (16.8萬)</th>
+                    <th>精緻豪華 (18.8萬)</th>
+                    <th>聯合專業 (35.8萬)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>**價格**</td><td>NT$168,000</td><td>NT$188,000</td><td><span class="highlight">NT$358,000 (最高規格)</span></td></tr>
+                <tr><td>**禮儀師服務**</td><td>基礎治喪指導</td><td>基礎協調，協助法事</td><td><span class="highlight">24小時專屬禮儀師全程陪伴</span></td></tr>
+                <tr><td>**法會完整度**</td><td>基礎二、三、七誦經</td><td>升級至**圓滿功德法會**</td><td><span class="highlight">最完整七七圓滿功德法會</span></td></tr>
+                <tr><td>**遺體處理**</td><td>基礎淨身、化妝</td><td>升級沐浴、冰存服務</td><td>專業照護與遺體美顏</td></tr>
+                <tr><td>**會場佈置**</td><td>基礎布幔、標準花藝</td><td>精緻會場，含 **LED 花牆**</td><td>豪華會場，**大量頂級花藝**</td></tr>
+                <tr><td>**後續代辦**</td><td>基礎塔位諮詢</td><td>詳細塔位諮詢</td><td><span class="highlight">一站式服務，代辦火化/埋葬申請</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="notes-section">
+        <h3>佛道教方案不包含部分</h3>
+        <ul>
+            <li><strong>額外法事與誦經團：</strong> 超出方案內規定的師父數量及天數的額外法事費用。</li>
+            <li><strong>塔位/墓地費用：</strong> 骨灰罈的安置費用、塔位或土葬墓地的購買費用。</li>
+            <li><strong>外燴與交通：：</strong> 喪禮期間家屬的餐點、親友交通接駁車費用。</li>
+            <li><strong>政府規費：</strong> 殯儀館場地租金、冰櫃租金、火化費、規費等。</li>
+        </ul>
+    </section>
+
+    <h2>二、 基督教 / 天主教 西式追思方案</h2>
+    <section class="plans-container">
+        <article class="plan-card">
+            <div class="plan-header">
+                <h3 class="plan-title">簡約追思禮拜</h3>
+                <div class="plan-price">NT$88,000 ~ 120,000</div>
+                <div class="price-note">基礎西式規格</div>
+            </div>
+            <ul class="plan-features">
+                <li><span class="feature-icon">✓</span> 牧師/神父主持、專業司琴</li>
+                <li><span class="feature-icon">✓</span> 基礎鮮花與十字架佈置</li>
+                <li><span class="feature-icon">✓</span> 適用於小型殯儀館或教會場地</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                 <table>
+                    <thead><tr><th colspan="2">簡約追思禮拜 - 完整細項 (參考內容)</th></tr></thead>
+                    <tbody>
+                        <tr><th>遺體服務</th><td>接運、基礎淨身、冰存服務</td></tr>
+                        <tr><th>儀式重點</th><td>牧師或神父主持、司琴、詩歌本</td></tr>
+                        <tr><th>會場佈置</th><td>基礎布幔、十字架、鮮花花籃 (約 12 尺)</td></tr>
+                        <tr><th>禮儀用品</th><td>西式棺木、骨灰罈、家屬胸花</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        
+        <article class="plan-card">
+            <div class="plan-header">
+                <h3 class="plan-title">精緻西式告別式</h3>
+                <div class="plan-price">NT$160,000 ~ 230,000</div>
+                <div class="price-note">客製化藝術設計</div>
+            </div>
+            <ul class="plan-features">
+                <li><span class="feature-icon">⭐</span> 豪華花藝藝術式場設計</li>
+                <li><span class="feature-icon">⭐</span> 專業詩歌班、流程規劃師</li>
+                <li><span class="feature-icon">⭐</span> 遺體精緻美顏與防腐處理</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                 <table>
+                    <thead><tr><th colspan="2">精緻西式告別式 - 完整細項 (參考內容)</th></tr></thead>
+                    <tbody>
+                        <tr><th>遺體服務</th><td>遺體美顏、穿衣，全程禮儀師照護</td></tr>
+                        <tr><th>儀式重點</th><td>專屬流程規劃、詩歌班、司琴、音控</td></tr>
+                        <tr><th>會場佈置</th><td>**大型藝術鮮花佈景** (16 尺以上)、燈光音響設備</td></tr>
+                        <tr><th>禮儀用品</th><td>高質感西式棺木、精選骨灰罈</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
+
+    <h3>基督教/天主教方案差異比較</h3>
+    <section class="comparison-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>項目</th>
+                    <th>簡約追思 (8.8萬起)</th>
+                    <th>精緻告別式 (16萬起)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>**價格差異**</td><td>較經濟，著重基本需求</td><td><span class="highlight">預算較高，著重場地藝術感</span></td></tr>
+                <tr><td>**儀式人力**</td><td>牧師/神父、司琴</td><td><span class="highlight">牧師/神父、司琴、專業詩歌班、流程規劃師</span></td></tr>
+                <tr><td>**會場佈置**</td><td>基礎鮮花、布幔 (12尺)</td><td>豪華藝術鮮花、**客製化設計** (16尺以上)</td></tr>
+                <tr><td>**遺體服務**</td><td>基礎淨身、冰存</td><td><span class="highlight">精緻遺體美顏、防腐處理</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="notes-section">
+        <h3>基督教/天主教方案不包含部分</h3>
+        <ul>
+            <li><strong>法事/誦經：</strong> 基督教/天主教儀式不包含任何佛道教的法事、燒香、金紙等項目。</li>
+            <li><strong>場地費用：</strong> 教會或殯儀館場地租金、冰櫃租金等規費（實報實銷）。</li>
+            <li><strong>謝禮/奉獻：</strong> 牧師/神父的謝禮或對教會的奉獻金。</li>
+        </ul>
+    </section>
+
+    <h2>三、 創價學會 / 日蓮正宗 朋友葬方案</h2>
+    <section class="plans-container" style="justify-content: space-around;">
+        <article class="plan-card" style="width: 45%;">
+            <div class="plan-header">
+                <h3 class="plan-title">標準朋友葬</h3>
+                <div class="plan-price">NT$110,000 ~ 150,000</div>
+                <div class="price-note">簡約莊嚴儀式</div>
+            </div>
+            <ul class="plan-features">
+                <li><span class="feature-icon">✓</span> 以御本尊為中心，勤行、唱題</li>
+                <li><span class="feature-icon">✓</span> 不燒香、不誦經、不做法事</li>
+                <li><span class="feature-icon">✓</span> 標準莊嚴會場佈置</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                 <table>
+                    <thead><tr><th colspan="2">標準朋友葬 - 完整細項 (參考內容)</th></tr></thead>
+                    <tbody>
+                        <tr><th>遺體服務</th><td>接運、冰存、基礎淨身、穿衣</td></tr>
+                        <tr><th>儀式重點</th><td>御本尊、勤行、唱題、地區幹部指導</td></tr>
+                        <tr><th>會場佈置</th><td>標準會場、鮮花、御本尊安置桌</td></tr>
+                        <tr><th>禮儀用品</th><td>標準棺木、骨灰罈、備品</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        
+        <article class="plan-card" style="width: 45%;">
+            <div class="plan-header">
+                <h3 class="plan-title">尊榮朋友葬</h3>
+                <div class="plan-price">NT$180,000 及以上</div>
+                <div class="price-note">全程禮儀師陪伴</div>
+            </div>
+            <ul class="plan-features">
+                <li><span class="feature-icon">⭐</span> 24小時禮儀師全程指導</li>
+                <li><span class="feature-icon">⭐</span> 高階花藝會場與頂級備品</li>
+                <li><span class="feature-icon">⭐</span> 一站式代辦後續手續</li>
+            </ul>
+            <footer class="plan-footer"><button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button></footer>
+            <div class="plan-details-expanded">
+                 <table>
+                    <thead><tr><th colspan="2">尊榮朋友葬 - 完整細項 (參考內容)</th></tr></thead>
+                    <tbody>
+                        <tr><th>遺體服務</th><td>全程照護、精緻美顏、冰存</td></tr>
+                        <tr><th>儀式重點</th><td>專屬流程協調、完整儀軌指導</td></tr>
+                        <tr><th>會場佈置</th><td>高階藝術花藝、頂級式場設計</td></tr>
+                        <tr><th>禮儀用品</th><td>高級棺木、精緻骨灰罈、全套備品</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
+
+    <h3>創價學會 / 日蓮正宗方案差異比較</h3>
+    <section class="comparison-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>項目</th>
+                    <th>標準朋友葬 (11萬起)</th>
+                    <th>尊榮朋友葬 (18萬起)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>**價格差異**</td><td>基本服務與用品</td><td><span class="highlight">高階服務，品質全面升級</span></td></tr>
+                <tr><td>**禮儀師服務**</td><td>基礎指導與協調</td><td><span class="highlight">24小時全程禮儀師陪伴與指導</span></td></tr>
+                <tr><td>**會場佈置**</td><td>標準莊嚴佈置</td><td>高階藝術花藝、**頂級式場設計**</td></tr>
+                <tr><td>**後續代辦**</td><td>基礎行政協助</td><td><span class="highlight">一站式代辦火化/埋葬等手續</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="notes-section">
+        <h3>創價學會/日蓮正宗方案不包含部分</h3>
+        <ul>
+            <li><strong>燒香、誦經、法事：</strong> 儀式中**嚴禁**佛道教或任何其他宗教的誦經、燒香、金紙等儀軌。</li>
+            <li><strong>香奠/賻儀：</strong> 創價學會原則上不收香奠，儀式中不包含此類協助。</li>
+            <li><strong>場地費用：</strong> 殯儀館或會館場地租金、冰櫃等規費。</li>
+        </ul>
+    </section>
+
     <section id="plans-faq" class="container-v-padding bg-section" aria-labelledby="faq-heading">
         <div class="container">
             <h2 id="faq-heading" class="text-center">❓ 關於喪葬費用與方案的常見問題 (FAQ)</h2>
@@ -539,7 +656,44 @@
     
 </main>
 
+    <script>
+        /**
+         * 處理手機版服務方案卡片的展開與收合動畫
+         * 採用 max-height 配合 scrollHeight 實現平滑過渡 (Transition)
+         */
+        function toggleDetails(button) {
+            const card = button.closest('.plan-card');
+            const details = card.querySelector('.plan-details-expanded');
 
+            if (card.classList.contains('expanded')) {
+                // 1. 執行收合操作
+                details.style.maxHeight = details.scrollHeight + 'px';
+                
+                setTimeout(() => {
+                    details.style.maxHeight = '0';
+                    card.classList.remove('expanded');
+                }, 10); 
+                
+                button.textContent = '查看完整細項 ↓';
+                
+            } else {
+                // 2. 執行展開操作
+                
+                details.style.maxHeight = details.scrollHeight + 'px';
+                card.classList.add('expanded');
+                button.textContent = '收起細項 ↑';
+                
+                // 動畫結束後，將 max-height 清除，確保 RWD 內容能自由適應
+                details.addEventListener('transitionend', function handler() {
+                    if (card.classList.contains('expanded')) {
+                         details.style.maxHeight = 'none'; 
+                    }
+                    details.removeEventListener('transitionend', handler);
+                });
+            }
+        }
+    </script>
+    
     <footer role="contentinfo">
         <div class="container footer-grid wide-footer-grid">
 
@@ -634,8 +788,9 @@
     <script src="js/script.js" defer></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
-        // 移除 body 上的 js-loading class，確保頁面立即顯示
-        document.body.classList.remove('js-loading'); 
+        // 移除 body 上的 js-loading class，確保頁面立即顯示 (此處為假定您的 style.css 中有這個 class)
+        // document.body.classList.remove('js-loading'); 
     </script>
 </body>
 </html>
+
