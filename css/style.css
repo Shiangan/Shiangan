@@ -536,49 +536,21 @@ main {
 /* ====================================================
  * 2. 響應式佈局 (RWD) - 最大寬度 900px
  * ==================================================== */
-@media (max-width: var(--breakpoint-tablet)) {
+/* =======================================================
+ * 修正後的 @media 區塊 (假設 max-width: 900px 或其他手機斷點)
+ * ======================================================= */
+
+@media (max-width: 900px) { /* 假設的 RWD 斷點 */
     
-    /* --- 導覽列與按鈕切換 --- */
-    .menu-toggle {
-        display: block; /* 顯示漢堡選單按鈕 */
+    /* RWD 導覽列優化 (修正重複程式碼) */
+    .header-container {
+        padding: 0 15px;
     }
-    .contact-nav {
-        display: none; /* 隱藏桌面版聯繫按鈕 */
-    }
-
-    /* -----------------------------------
-     * 行動版主導覽列容器 (從右側滑入)
-     * ----------------------------------- */
-    .main-nav {
-        position: fixed; 
-        top: var(--header-height); 
-        left: 0;
-        width: 100%;
-        height: calc(100vh - var(--header-height));
-        background-color: var(--text-light);
-        z-index: 999;
-        overflow-y: auto;
-        padding: 20px 0;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
-        /* 初始狀態：從右邊隱藏 */
-        transform: translateX(100%);
-        opacity: 0;
-        visibility: hidden;
-        
-        transition: transform var(--rwd-transition-duration) ease-out, 
-                    opacity var(--rwd-transition-duration) ease,
-                    visibility var(--rwd-transition-duration);
-        will-change: transform, opacity;
+    .main-nav.active {
+        /* 假設主選單是使用 transform 隱藏/展開 */
+        transform: translateX(0); 
     }
     
-    /* 展開狀態 */
-    .main-nav.is-open {
-        transform: translateX(0);
-        opacity: 1;
-        visibility: visible;
-    }
-
     /* --- 行動版選單項目樣式 --- */
     .main-nav ul {
         flex-direction: column;
@@ -589,7 +561,8 @@ main {
     .main-nav li {
         width: 100%;
         padding: 0;
-        border-bottom: 1px solid var(--border-color);
+        /* 主邊界定義在這裡，用於所有項目 */
+        border-bottom: 1px solid var(--border-color); 
     }
     .main-nav li:last-child {
         border-bottom: none;
@@ -601,16 +574,14 @@ main {
         font-size: 1.1rem;
         font-weight: 500;
         color: var(--text-dark);
+        
+        /* 修正 2：添加 display: flex 確保 justify-content 生效 */
+        display: flex;
+        align-items: center; 
         justify-content: space-between;
     }
     
     /* --- 行動版子選單 (Accordion) --- */
-    .dropdown {
-        border-bottom: 1px solid var(--border-color);
-    }
-    .dropdown:last-child {
-        border-bottom: none;
-    }
     
     .submenu {
         position: static;
@@ -644,6 +615,7 @@ main {
     .dropdown.is-open > a .fas,
     .dropdown.is-open > a .fa {
         transform: rotate(180deg);
+        transition: transform var(--rwd-transition-duration);
     }
     
     /* 子選單項目的縮進調整 */
@@ -651,6 +623,10 @@ main {
         padding: 10px 30px; 
         font-size: 1rem;
         color: var(--secondary-color);
+        /* 確保子選單連結也是 block/flex */
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
     .submenu-title {
         padding: 8px 30px 4px; /* 手機模式下增加縮進 */
@@ -659,13 +635,7 @@ main {
         margin: 5px 30px;
     }
     
-    /* RWD 導覽列優化 (修正重複程式碼) */
-    .header-container {
-        padding: 0 15px;
-    }
-    .main-nav.active {
-        transform: translateX(0); 
-    }
+    /* 聯絡資訊區塊 */
     .main-nav .contact-nav {
         display: block;
         padding: 15px 20px;
@@ -676,7 +646,6 @@ main {
         width: 100%;
         text-align: center;
     }
-}
 
 
 /* -------------------------------------------
