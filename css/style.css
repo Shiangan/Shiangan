@@ -1,10 +1,12 @@
+```css
 /* --- 字體導入 (Font Loading) --- */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
     font-weight: 400;
-    font-display: swap; 
+    font-display: swap;
 }
+
 @font-face {
     font-family: 'Iansui';
     src: url('../fonts/Iansui-Regular.ttf') format('truetype');
@@ -19,99 +21,137 @@
 
 :root {
     /* 🏆 品牌色系 */
-    --primary-color: #1e3a6a;  /* 深藍/藏青 (主要行動色) */
-    --primary-dark: #12213b;   /* 極深藍/夜空 (背景色/強調深色) */
-    --accent-color: #ce9d4a;   /* 金黃/流星色 (輔助/亮點色) */
-    --secondary-color: #4a5c78; /* 沉穩的藍灰色 (副標題/次要文字) */
+    --primary-color: #1e3a6a;
+    /* 深藍/藏青 (主要行動色) */
+    --primary-dark: #12213b;
+    /* 極深藍/夜空 (背景色/強調深色) */
+    --accent-color: #ce9d4a;
+    /* 金黃/流星色 (輔助/亮點色) */
+    --secondary-color: #4a5c78;
+    /* 沉穩的藍灰色 (副標題/次要文字) */
     --star-color: #fff;
     --animation-duration: 0.8s;
-    
+
     /* 文字色系 */
-    --text-dark: #2c2c2c;      /* 標準深色文字 */
-    --text-light: #ffffff;     /* 標準淺色文字 (白色) */
-    --code-color: #f8f8f2;     /* 程式碼高亮色 */
+    --text-dark: #2c2c2c;
+    /* 標準深色文字 */
+    --text-light: #ffffff;
+    /* 標準淺色文字 (白色) */
+    --code-color: #f8f8f2;
+    /* 程式碼高亮色 */
 
     /* 背景與邊界 */
-    --bg-light: #f9f9f9;       /* 輕微灰色背景 */
-    --bg-dark: #000005;        /* 極深背景 (未用於全局) */
-    --border-color: #e8e8e8;   /* 標準邊框/分隔線顏色 */
-    --shadow-color: rgba(0, 0, 0, 0.05); /* 輕柔陰影 */
+    --bg-light: #f9f9f9;
+    /* 輕微灰色背景 */
+    --bg-dark: #000005;
+    /* 極深背景 (未用於全局) */
+    --border-color: #e8e8e8;
+    /* 標準邊框/分隔線顏色 */
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    /* 輕柔陰影 */
 
     /* 字體定義 */
-    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
+    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif;
     --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
     /* 尺寸定義 */
-    --header-height: 80px;         /* 桌面版 Header 高度 */
-    --content-max-width: 1200px;   /* 內容區最大寬度 */
-    --padding-section-v: 80px;     /* 區塊垂直內邊距 */
-    --transition-speed: 0.3s;      /* 統一的過渡速度變數 */
-    --transition-fast: 0.15s;      /* ⭐ 快速過渡 (用於 hover/active) */
-    --rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 (Accordion/Menu) */
+    --header-height: 80px;
+    /* 桌面版 Header 高度 */
+    --content-max-width: 1200px;
+    /* 內容區最大寬度 */
+    --padding-section-v: 80px;
+    /* 區塊垂直內邊距 */
+    --transition-speed: 0.3s;
+    /* 統一的過渡速度變數 */
+    --transition-fast: 0.15s;
+    /* ⭐ 快速過渡 (用於 hover/active) */
+    --rwd-transition-duration: 0.4s;
+    /* 專門用於 RWD max-height 過渡 (Accordion/Menu) */
 
     /* ⭐️ 動畫變數 */
-    --rotation: -135deg;           /* 流星動畫旋轉角度 */
-    --travel-x: -150vw;            /* 流星 X 軸終點 */
-    --travel-y: 120vh;             /* 流星 Y 軸終點 */
-    
+    --rotation: -135deg;
+    /* 流星動畫旋轉角度 */
+    --travel-x: -150vw;
+    /* 流星 X 軸終點 */
+    --travel-y: 120vh;
+    /* 流星 Y 軸終點 */
+
     /* 響應式斷點 */
-    --breakpoint-mobile: 576px; 
-    --breakpoint-tablet: 900px; 
+    --breakpoint-mobile: 576px;
+    --breakpoint-tablet: 900px;
+
+    /* ⭐️ 額外變數 */
+    --border-color-light: #e0e0e0;
+    --bg-dark-alternate: #24344d;
+    --accent-color-light: rgba(206, 157, 74, 0.2);
+    --accent-color-transparent: rgba(206, 157, 74, 0.3);
+    --primary-dark-hover: #182946;
 }
 
 
 /* 基本重置 */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     /* 確保所有元素都繼承 border-box */
-    box-sizing: inherit; 
+    box-sizing: inherit;
     margin: 0;
     padding: 0;
 }
 
 html {
-    box-sizing: border-box; 
-    scroll-behavior: smooth; /* 平滑滾動 */
-    font-size: 16px; /* 基準字體大小 */
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    /* 平滑滾動 */
+    font-size: 16px;
+    /* 基準字體大小 */
     /* 修正：確保錨點滾動時不被固定 Header 遮擋 */
-    scroll-padding-top: var(--header-height); 
+    scroll-padding-top: var(--header-height);
 }
 
 body {
     /* ⭐ 修正：中文字體優先，避免 FOUT 和確保中文字體顯示 */
-    font-family: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', var(--font-sans); 
+    font-family: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', var(--font-sans);
     line-height: 1.7;
     color: var(--text-dark);
     background-color: var(--text-light);
-    text-rendering: optimizeLegibility; 
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-    
+
 
 /* 確保圖片和媒體響應式 */
-img, video, svg { 
-    max-width: 100%; 
-    height: auto; 
-    vertical-align: top; /* 修正圖片在行內佈局時底部多餘空間 */
+img,
+video,
+svg {
+    max-width: 100%;
+    height: auto;
+    vertical-align: top;
+    /* 修正圖片在行內佈局時底部多餘空間 */
 }
 
 /* 清單與連結 */
-ul, ol { 
-    list-style: none; 
+ul,
+ol {
+    list-style: none;
 }
+
 a {
     color: var(--primary-color);
     text-decoration: none;
     transition: color var(--transition-speed), background-color var(--transition-speed), opacity var(--transition-speed), outline var(--transition-speed);
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
     color: var(--primary-dark);
     opacity: 0.95;
     /* 焦點可訪問性優化 */
-    outline: 2px solid var(--accent-color); 
+    outline: 2px solid var(--accent-color);
     outline-offset: 2px;
 }
+
 /* 語義優化：確保鍵盤導航 (focus-visible) 體驗更好 */
 a:focus:not(:focus-visible) {
     outline: none;
@@ -119,29 +159,35 @@ a:focus:not(:focus-visible) {
 
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
-.js-loading { 
-    opacity: 0; 
-    transition: opacity 0.5s; 
+.js-loading {
+    opacity: 0;
+    transition: opacity 0.5s;
 }
-body.no-scroll { 
-    overflow: hidden; 
-    width: 100vw; 
+
+body.no-scroll {
+    overflow: hidden;
+    width: 100vw;
     position: relative;
-} 
+}
 
 
 /* 標題樣式 */
-h1, h2, h3, h4, h5, h6 { 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-serif);
     line-height: 1.3;
-    margin-bottom: 1.5rem; 
+    margin-bottom: 1.5rem;
     color: var(--secondary-color);
     font-weight: 700;
-    text-rendering: optimizeLegibility; 
+    text-rendering: optimizeLegibility;
 }
 
 h1 {
-    font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
+    font-size: clamp(1.8rem, 4.5vmin, 4.0rem);
     text-align: center;
     word-break: break-word;
     line-height: 1.2;
@@ -169,47 +215,53 @@ h2::after {
     height: 4px;
     background-color: var(--accent-color);
     border-radius: 2px;
-    transition: transform var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1); 
+    transition: transform var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1);
     will-change: transform;
 }
+
 /* 文章內 H2 無裝飾線 (覆寫) */
 .article-body h2::after {
-    content: none; 
+    content: none;
     padding-bottom: 0;
 }
 
 
-h3 { 
-    font-size: clamp(1.3rem, 3vmin, 1.8rem); 
-    color: var(--primary-color); 
+h3 {
+    font-size: clamp(1.3rem, 3vmin, 1.8rem);
+    color: var(--primary-color);
     margin-bottom: 0.8rem;
 }
 
-h4 { 
-    font-size: 1.25rem; 
+h4 {
+    font-size: 1.25rem;
     color: var(--secondary-color);
     margin-bottom: 0.7rem;
     font-weight: 700;
 }
 
-h5 { 
-    font-size: 1.1rem; 
-    font-weight: 500; 
+h5 {
+    font-size: 1.1rem;
+    font-weight: 500;
     color: var(--secondary-color);
     margin-bottom: 0.5rem;
 }
 
-h6 { 
-    font-size: 1rem; 
-    font-weight: 400; 
+h6 {
+    font-size: 1rem;
+    font-weight: 400;
     color: #666;
     margin-bottom: 0.5rem;
 }
 
-p { margin-bottom: 1rem; }
+p {
+    margin-bottom: 1rem;
+}
 
 /* 基礎內容元素優化 */
-table, blockquote, pre, figure {
+table,
+blockquote,
+pre,
+figure {
     margin: 1.5rem 0;
 }
 
@@ -232,17 +284,17 @@ code {
     font-family: 'Consolas', 'Courier New', monospace;
     font-size: 0.95rem;
     /* 內嵌程式碼 */
-    background-color: rgba(206, 157, 74, 0.1); 
+    background-color: rgba(206, 157, 74, 0.1);
     color: var(--primary-dark);
     padding: 2px 5px;
     border-radius: 4px;
-    white-space: normal; 
+    white-space: normal;
     word-break: break-word;
 }
 
 pre code {
     background: none;
-    color: var(--code-color); 
+    color: var(--code-color);
     padding: 0;
     white-space: pre;
     word-break: normal;
@@ -290,13 +342,13 @@ blockquote {
 
 /* 自動調整單行文字 (使用 Flexbox 避免單行過長) */
 .text-line-container {
-  display: flex; 
-  justify-content: center; 
-  overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
 }
 
-.fit-text-line { 
-  white-space: nowrap; 
+.fit-text-line {
+    white-space: nowrap;
 }
 
 
@@ -308,15 +360,15 @@ blockquote {
     background-color: var(--text-light);
     color: var(--text-dark);
     height: var(--header-height);
-    position: fixed; 
+    position: fixed;
     top: 0;
-    left: 0; 
-    width: 100%; 
+    left: 0;
+    width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-    will-change: transform, background-color, box-shadow; 
-    transform: translateZ(0); 
+    will-change: transform, background-color, box-shadow;
+    transform: translateZ(0);
 }
 
 /* Header 固定後，需要為主要內容增加 padding-top */
@@ -333,10 +385,10 @@ main {
 }
 
 .main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.95); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px);
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -362,24 +414,27 @@ main {
 
 .main-nav li {
     position: relative;
-    padding: 0 10px; 
-    white-space: nowrap; 
+    padding: 0 10px;
+    white-space: nowrap;
 }
 
 .main-nav a {
     display: flex;
     align-items: center;
-    padding: 8px 0; 
+    padding: 8px 0;
     color: var(--secondary-color);
     font-weight: 500;
     letter-spacing: 0.5px;
 }
 
-.main-nav a:hover, .main-nav a:focus, .main-nav a.active {
+.main-nav a:hover,
+.main-nav a:focus,
+.main-nav a.active {
     color: var(--primary-color);
 }
 
-.main-nav a .fas, .main-nav a .fa {
+.main-nav a .fas,
+.main-nav a .fa {
     font-size: 0.7rem;
     margin-left: 5px;
     transition: transform var(--transition-speed);
@@ -403,37 +458,36 @@ main {
         z-index: 10;
         display: flex;
         flex-direction: column;
-        
+
         /* 關鍵：桌面預設隱藏屬性 (使用 opacity/visibility/transform 過渡) */
         transform: translateY(10px);
-        opacity: 0; 
-        visibility: hidden; 
+        opacity: 0;
+        visibility: hidden;
         max-height: unset;
-        pointer-events: none; 
-        
-        transition: opacity var(--transition-speed) ease, 
-                    transform var(--transition-speed) ease, 
-                    visibility var(--transition-speed);
+        pointer-events: none;
+
+        transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
         border-radius: 0 0 8px 8px;
         overflow: hidden;
     }
 
     /* Focus-within 確保鍵盤無障礙操作 */
-    .dropdown:hover > .submenu,
-    .dropdown:focus-within > .submenu,
-    .dropdown.focus-within > .submenu { 
+    .dropdown:hover>.submenu,
+    .dropdown:focus-within>.submenu,
+    .dropdown.focus-within>.submenu {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
-        pointer-events: auto; 
+        pointer-events: auto;
     }
 
-    .dropdown:hover > a .fas,
-    .dropdown:focus-within > a .fas,
-    .dropdown.focus-within > a .fas { 
+    .dropdown:hover>a .fas,
+    .dropdown:focus-within>a .fas,
+    .dropdown.focus-within>a .fas {
         transform: rotate(180deg);
     }
 }
+
 /* ---------------------------------------------------- */
 /* 子選單通用樣式 (RWD 也要使用) */
 .submenu li {
@@ -452,7 +506,7 @@ main {
 .submenu a:hover {
     background-color: var(--primary-color);
     color: var(--text-light);
-    transition: background-color var(--transition-fast), color var(--transition-fast); 
+    transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .submenu-title {
@@ -495,7 +549,8 @@ main {
 }
 
 .menu-toggle {
-    display: none; /* 桌面預設隱藏 */
+    display: none;
+    /* 桌面預設隱藏 */
     background: none;
     border: none;
     font-size: 1rem;
@@ -524,9 +579,11 @@ main {
 .menu-toggle .fa-times {
     display: none;
 }
+
 .menu-toggle.is-open .fa-bars {
     display: none;
 }
+
 .menu-toggle.is-open .fa-times {
     display: inline-block;
     transform: rotate(90deg);
@@ -540,17 +597,18 @@ main {
  * 修正後的 @media 區塊 (假設 max-width: 900px 或其他手機斷點)
  * ======================================================= */
 
-@media (max-width: 900px) { /* 假設的 RWD 斷點 */
-    
+@media (max-width: 900px) {
+
     /* RWD 導覽列優化 (修正重複程式碼) */
     .header-container {
         padding: 0 15px;
     }
+
     .main-nav.active {
         /* 假設主選單是使用 transform 隱藏/展開 */
-        transform: translateX(0); 
+        transform: translateX(0);
     }
-    
+
     /* --- 行動版選單項目樣式 --- */
     .main-nav ul {
         flex-direction: column;
@@ -562,8 +620,9 @@ main {
         width: 100%;
         padding: 0;
         /* 主邊界定義在這裡，用於所有項目 */
-        border-bottom: 1px solid var(--border-color); 
+        border-bottom: 1px solid var(--border-color);
     }
+
     .main-nav li:last-child {
         border-bottom: none;
     }
@@ -574,53 +633,54 @@ main {
         font-size: 1.1rem;
         font-weight: 500;
         color: var(--text-dark);
-        
+
         /* 修正 2：添加 display: flex 確保 justify-content 生效 */
         display: flex;
-        align-items: center; 
+        align-items: center;
         justify-content: space-between;
     }
-    
+
     /* --- 行動版子選單 (Accordion) --- */
-    
+
     .submenu {
         position: static;
         width: 100%;
         box-shadow: none;
-        border-top: none; 
+        border-top: none;
         border-radius: 0;
         padding: 0;
-        
+
         /* 關鍵：初始收合狀態 */
-        max-height: 0; 
-        overflow: hidden; 
-        transition: max-height var(--rwd-transition-duration) ease-in-out; 
-        
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--rwd-transition-duration) ease-in-out;
+
         /* 確保手機版不會有桌面版隱藏的屬性干擾 */
-        opacity: 1; 
+        opacity: 1;
         visibility: visible;
         transform: none;
         pointer-events: auto;
-        
+
         background-color: rgba(206, 157, 74, 0.05);
     }
 
     /* 展開狀態 (需搭配 JS 實現 .is-open class 切換) */
-    .dropdown.is-open > .submenu {
-        max-height: 500px; /* 需足夠大 */
+    .dropdown.is-open>.submenu {
+        max-height: 500px;
+        /* 需足夠大 */
         padding: 10px 0;
     }
 
     /* 展開時箭頭旋轉 */
-    .dropdown.is-open > a .fas,
-    .dropdown.is-open > a .fa {
+    .dropdown.is-open>a .fas,
+    .dropdown.is-open>a .fa {
         transform: rotate(180deg);
         transition: transform var(--rwd-transition-duration);
     }
-    
+
     /* 子選單項目的縮進調整 */
     .submenu a {
-        padding: 10px 30px; 
+        padding: 10px 30px;
         font-size: 1rem;
         color: var(--secondary-color);
         /* 確保子選單連結也是 block/flex */
@@ -628,19 +688,23 @@ main {
         align-items: center;
         width: 100%;
     }
+
     .submenu-title {
-        padding: 8px 30px 4px; /* 手機模式下增加縮進 */
+        padding: 8px 30px 4px;
+        /* 手機模式下增加縮進 */
     }
+
     .submenu-separator {
         margin: 5px 30px;
     }
-    
+
     /* 聯絡資訊區塊 */
     .main-nav .contact-nav {
         display: block;
         padding: 15px 20px;
         border-bottom: 1px solid var(--border-color);
     }
+
     .main-nav .contact-nav a {
         margin: 0;
         width: 100%;
@@ -662,24 +726,29 @@ main {
     align-items: center;
     justify-content: center;
     /* 調整內邊距，使其在不同大小下更協調 */
-    padding: 14px 35px; 
+    padding: 14px 35px;
     border-radius: 50px;
     text-align: center;
     font-weight: 700;
     font-size: 1rem;
     /* 將變形和陰影的過渡時間分開，讓懸停效果更流暢 */
-    transition: background-color var(--transition-fast), transform 0.25s ease-out, box-shadow var(--transition-speed); 
+    transition: background-color var(--transition-fast), transform 0.25s ease-out, box-shadow var(--transition-speed);
     border: 2px solid transparent;
     will-change: transform, box-shadow;
     margin: 10px;
-    cursor: pointer; 
-    text-decoration: none; /* 確保連結樣式被覆蓋 */
+    cursor: pointer;
+    text-decoration: none;
+    /* 確保連結樣式被覆蓋 */
 }
 
 /* 圖標間距優化 */
-.cta-button .fas, .cta-button .fab, .cta-button .fa {
-    margin-right: 8px; /* 修正：通常圖標放在文字左邊，所以是 margin-right */
-    margin-left: -4px; /* 稍微向左調整，讓圖標更貼近邊緣 */
+.cta-button .fas,
+.cta-button .fab,
+.cta-button .fa {
+    margin-right: 8px;
+    /* 修正：通常圖標放在文字左邊，所以是 margin-right */
+    margin-left: -4px;
+    /* 稍微向左調整，讓圖標更貼近邊緣 */
 }
 
 /* 主要按鈕 (Primary) */
@@ -691,7 +760,8 @@ main {
 
 .cta-button.primary:hover {
     background-color: var(--primary-dark);
-    transform: translateY(-4px); /* 輕微上浮 */
+    transform: translateY(-4px);
+    /* 輕微上浮 */
     box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9);
 }
 
@@ -712,15 +782,18 @@ main {
 
 /* 可訪問性優化：統一的 Focus 樣式 (極為重要) */
 .cta-button:focus-visible {
-    outline: 3px solid var(--primary-color); /* 增加粗細，更明顯 */
+    outline: 3px solid var(--primary-color);
+    /* 增加粗細，更明顯 */
     outline-offset: 4px;
     /* secondary button 繼承 primary 的 focus 顏色，以維持視覺一致性 */
 }
 
 /* 尺寸變體 */
 .cta-button.large {
-    font-size: 1.15rem; /* 稍微增大 */
-    padding: 18px 45px; /* 增加內邊距 */
+    font-size: 1.15rem;
+    /* 稍微增大 */
+    padding: 18px 45px;
+    /* 增加內邊距 */
 }
 
 .cta-button.small {
@@ -746,96 +819,116 @@ main {
 
 /* 核心動畫：閃爍 (Blink) - 保持不變 */
 @keyframes blink {
-    0%, 100% { opacity: 0.8; }
-    25% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-    75% { opacity: 0.2; }
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    25% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    75% {
+        opacity: 0.2;
+    }
 }
 
 /* 核心動畫：統一星星移動方向 (從右上向左下) */
 @keyframes move-star {
+
     /* 修正方向邏輯：X 減少 (向左), Y 增加 (向下) => 視覺上向左下移動 */
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(var(--travel-x-end), var(--travel-y-end), 0); } 
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(var(--travel-x-end), var(--travel-y-end), 0);
+    }
 }
 
 
-#stars, #stars2, #stars3 {
+#stars,
+#stars2,
+#stars3 {
     position: absolute;
     top: 0;
     left: 0;
     /* 放大背景尺寸以配合位移動畫，減少露白風險 */
-    width: 200%; 
+    width: 200%;
     height: 200%;
     pointer-events: none;
     will-change: transform, opacity;
     /* 將 z-index 統一設置，由父層的 .hero-section::before 決定景深關係 */
-    z-index: 1; 
+    z-index: 1;
 }
 
 /* --- 圖層 1: 慢速移動 (最遠處) --- */
 #stars {
     /* X: 負值 (向左上), Y: 正值 (向右下) => 視覺效果是向左下緩慢移動 */
-    --travel-x-end: -25px; --travel-y-end: 25px; /* 輕微位移 */
-    animation: move-star 300s linear infinite,
-               blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
+    --travel-x-end: -25px;
+    --travel-y-end: 25px;
+    /* 輕微位移 */
+    animation: move-star 300s linear infinite, blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate;
     animation-delay: 0.5s;
 }
+
 #stars::before {
     content: "";
     position: absolute;
     width: 1px;
     height: 1px;
     /* 調整初始星星座標，使其更均勻地分佈於 200% 的大背景內 */
-    box-shadow:
-        100vw 200vh rgba(255, 255, 255, 0.2), 
-        250vw 120vh rgba(255, 255, 255, 0.2), 
-        -50vw 150vh rgba(255, 255, 255, 0.2), 
-        30vw 100vh rgba(255, 255, 255, 0.2);
+    box-shadow: 100vw 200vh rgba(255, 255, 255, 0.2), 250vw 120vh rgba(255, 255, 255, 0.2), -50vw 150vh rgba(255, 255, 255, 0.2), 30vw 100vh rgba(255, 255, 255, 0.2);
 }
 
 /* --- 圖層 2: 中速移動 (中間層) --- */
 #stars2 {
     /* X: 負值 (向左), Y: 正值 (向下) */
-    --travel-x-end: -70px; --travel-y-end: 70px; /* 中等位移 */
-    animation: move-star 150s linear infinite, 
-               blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
+    --travel-x-end: -70px;
+    --travel-y-end: 70px;
+    /* 中等位移 */
+    animation: move-star 150s linear infinite, blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate;
     animation-delay: 1.2s;
 }
+
 #stars2::before {
     content: "";
     position: absolute;
     width: 2px;
     height: 2px;
     opacity: 0.9;
-    box-shadow:
-        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
+    box-shadow: -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
 
 /* --- 圖層 3: 快速移動 (最前景) --- */
 #stars3 {
     /* X: 負值 (向左), Y: 正值 (向下) */
-    --travel-x-end: -120px; --travel-y-end: 120px; /* 較大位移 */
-    animation: move-star 80s linear infinite,
-               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate;
+    --travel-x-end: -120px;
+    --travel-y-end: 120px;
+    /* 較大位移 */
+    animation: move-star 80s linear infinite, blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate;
     animation-delay: 0s;
 }
+
 #stars3::before {
     content: "";
     position: absolute;
     width: 3px;
     height: 3px;
     opacity: 1;
-    box-shadow:
-        -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
+    box-shadow: -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color), 100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
 }
 
 
 /* Hero Section 樣式保持不變 (基礎結構) */
 .hero-section {
     position: relative;
-    height: 100vh; 
+    height: 100vh;
     min-height: 650px;
     overflow: hidden;
     background-color: var(--primary-dark);
@@ -845,32 +938,13 @@ main {
     text-align: center;
     color: var(--text-light);
     /* 修正 z-index，讓背景星空和流星都在內容和覆蓋層之下 */
-    z-index: 1; 
-    background-image: url('../images/hero-bg-default.jpg'); 
+    z-index: 1;
+    background-image: url('../images/hero-bg-default.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-/* 夜空漸層覆蓋層 - Z-index 修正，覆蓋在星空/流星之上，內容之下 */
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-        radial-gradient(circle at center, rgba(30, 58, 106, 0.3) 0%, transparent 60%),
-        linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.8) 0%, 
-            rgba(18, 33, 59, 0.7) 60%,
-            var(--primary-dark) 100%
-        );
-    z-index: 2; /* 介於星空(1)和內容(10)之間 */
-    pointer-events: none;
-}
 
 /* Hero 內容 - Z-index 保持最高 */
 .hero-content {
