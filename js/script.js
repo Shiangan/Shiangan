@@ -9,9 +9,10 @@
 /**
  * 移除 HTML 或 Body 上的 'js-loading' 類，解決 Flash of Unstyled Content (FOUC) 問題。
  * 使用 requestAnimationFrame 確保在瀏覽器下一次重繪前執行。
+ * @returns {void}
  */
 const removeLoadingClass = () => {
-    // 使用 document.documentElement (<html>) 和 document.body
+    // 使用 document.documentElement (<html>)
     const targetElements = [document.documentElement, document.body];
     targetElements.forEach(el => {
         if (el && el.classList.contains('js-loading')) {
@@ -42,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 0. 初始設定與變數 (Initial Setup & Variables)
     // ====================================================
 
-    let fitAll; // 聲明，用於 Fit Text 邏輯，可在閉包內被訪問和重新賦值
+    /** @type {(() => void) | undefined} */
+    let fitAll; // 聲明，用於 Fit Text 邏輯
 
     try {
         // DOM 變數
@@ -52,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const body = document.body;
         const backToTopButton = document.querySelector('.back-to-top');
         const currentYearSpan = document.getElementById('current-year');
+        
+        /** @type {number} */
         const mobileBreakpoint = 900;
 
         // 配置變數
@@ -59,41 +63,73 @@ document.addEventListener('DOMContentLoaded', () => {
         const LAZY_LOAD_ROOT_MARGIN = '0px 0px 200px 0px';
         const RWD_TRANSITION_DURATION = 400; // 0.4s
 
-        // 輔助函數： Debounce (去抖動)
+        // 輔助函數： Debounce (去抖動) - 使用 requestAnimationFrame 優化
+        /**
+         * @param {Function} func - 要去抖動的函數
+         * @param {number} delay - 延遲時間 (ms)
+         * @returns {Function}
+         */
         const debounce = (func, delay = 50) => {
             let timeoutId;
+            let lastArgs;
+            let lastThis;
+
+            // 實際執行的函數
+            const run = () => {
+                timeoutId = setTimeout(() => {
+                    requestAnimationFrame(() => func.apply(lastThis, lastArgs));
+                    timeoutId = null;
+                }, delay);
+            };
+
             return function(...args) {
-                clearTimeout(timeoutId);
-                // 使用 apply 確保正確的 this 綁定
-                timeoutId = setTimeout(() => func.apply(this, args), delay);
+                lastArgs = args;
+                lastThis = this;
+
+                if (!timeoutId) {
+                    run();
+                } else {
+                    clearTimeout(timeoutId);
+                    run();
+                }
             };
         };
+
         const debounceFitText = (func) => debounce(func, 100);
 
         // 核心：統一的手風琴清理函數 (在 CSS 過渡結束後清理 max-height)
+        /**
+         * @param {HTMLElement} contentElement
+         * @returns {void}
+         */
         const onTransitionEndCleanup = (contentElement) => {
+             /** @param {TransitionEvent} e */
              const handleTransitionEnd = (e) => {
                  // 檢查是否為 maxHeight 屬性的過渡結束事件，且事件源是 contentElement 本身
                  if (e.target !== contentElement || e.propertyName !== 'max-height') return;
 
-                 // 只有在收合狀態 (maxHeight === '0px' 或空) 才清除 max-height
-                 if (!contentElement.style.maxHeight || contentElement.style.maxHeight === '0px') {
+                 // 只有在收合狀態 (maxHeight === '0px') 才清除 max-height
+                 if (contentElement.style.maxHeight === '0px') {
                      contentElement.style.maxHeight = '';
                  }
                  // 任務完成，移除事件監聽器
                  contentElement.removeEventListener('transitionend', handleTransitionEnd);
              };
-             contentElement.addEventListener('transitionend', handleTransitionEnd);
+             contentElement.addEventListener('transitionend', handleTransitionEnd, { once: true }); // 優化：使用 once: true
          };
 
         // 輔助函數：關閉所有手機子菜單 (Accordion)
         const closeAllMobileSubmenus = () => {
             if (mainNav) {
                 mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+                    /** @type {HTMLElement | null} */
                     const submenu = li.querySelector('.submenu');
-                    if (submenu) {
+                    /** @type {HTMLElement | null} */
+                    const targetLink = li.querySelector('a');
+
+                    if (submenu && targetLink) {
                         li.classList.remove('active');
-                        li.querySelector('a').setAttribute('aria-expanded', 'false');
+                        targetLink.setAttribute('aria-expanded', 'false');
 
                         // 確保先設置當前高度，以保證收合動畫平滑
                         submenu.style.maxHeight = `${submenu.scrollHeight}px`;
@@ -129,12 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
          };
 
         // 點擊外部關閉菜單的處理
+        /** @param {MouseEvent} e */
         const handleOutsideClick = (e) => {
              // 只有在手機模式下且菜單開啟時才處理
              if (window.innerWidth <= mobileBreakpoint &&
                  mainNav && mainNav.classList.contains('active') &&
                  !mainNav.contains(e.target) && // 點擊目標不在菜單內
-                 !menuToggle.contains(e.target)) { // 點擊目標不在漢堡按鈕上
+                 menuToggle && !menuToggle.contains(e.target)) { // 點擊目標不在漢堡按鈕上
                  closeMainMenu();
              }
          };
@@ -153,7 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                  // 清理子選單 max-height，避免過渡動畫在桌面模式錯誤觸發
                  mainNav.querySelectorAll('.submenu').forEach(submenu => {
-                     submenu.style.maxHeight = ''; // 直接清除內聯樣式
+                     // 移除內聯 max-height 樣式
+                     submenu.style.removeProperty('max-height'); 
                  });
 
                  // 清理桌面 A11Y 狀態 (focus-within)
@@ -166,7 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
              setTimeout(() => {
                  document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
                       requestAnimationFrame(() => {
-                          if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                          // 只有在展開狀態才需要重新設置高度
+                          if (content.classList.contains('active') || content.style.maxHeight !== '0px') {
                               // 重新設置 max-height 為新的 scrollHeight
                               content.style.maxHeight = `${content.scrollHeight}px`;
                           }
@@ -252,13 +291,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // 桌面下拉選單的鍵盤訪問性 (A11Y)
             if (mainNav) {
                 mainNav.querySelectorAll('li.dropdown').forEach(dropdown => {
-                    dropdown.addEventListener('focusin', function() {
+                    /** @param {FocusEvent} e */
+                    dropdown.addEventListener('focusin', function(e) {
+                        // 確保只有在桌面模式才觸發 (避免干擾手機手風琴)
                         if (window.innerWidth > mobileBreakpoint) {
                             this.classList.add('focus-within');
                         }
                     });
 
                     // 使用 'focusout' 處理失去焦點
+                    /** @param {FocusEvent} e */
                     dropdown.addEventListener('focusout', function(e) {
                          // 使用 setTimeout(0) 確保相關焦點事件 (relatedTarget/document.activeElement) 穩定
                          setTimeout(() => {
@@ -280,14 +322,16 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             if (mainNav) {
                 mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
+                    /** @param {MouseEvent} e */
                     targetLink.addEventListener('click', (e) => {
+                        /** @type {HTMLElement | null} */
                         const parentLi = targetLink.closest('li.dropdown');
 
                         if (!parentLi) return;
 
-                        const href = targetLink.getAttribute('href');
+                        const href = targetLink.getAttribute('href') || ''; // 確保 href 為字串
                         // 判斷該連結是否為「開關觸發器」: '#' 或空
-                        const isTrigger = !href || href === '#' || href.startsWith('#');
+                        const isTrigger = href === '' || href === '#' || href.startsWith('#');
 
                         const isMobileView = window.innerWidth <= mobileBreakpoint;
 
@@ -296,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // 2. 手機模式 + 非觸發器：允許導航，但先關閉菜單
                         if (isMobileView && !isTrigger) {
+                            // e.stopPropagation(); // 可選：阻止事件冒泡，確保只有此點擊生效
                             closeMainMenu(); // 立即關閉，避免延遲跳轉
                             return;
                         }
@@ -304,11 +349,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (isMobileView && isTrigger) {
                             e.preventDefault();
 
+                            /** @type {HTMLElement | null} */
                             const submenu = parentLi.querySelector('.submenu');
                             const isCurrentlyActive = parentLi.classList.contains('active');
 
                             if (!submenu) {
-                                console.warn('Mobile Accordion: Submenu element not found.');
+                                // console.warn('Mobile Accordion: Submenu element not found.'); // 避免過多警告
                                 return;
                             }
 
@@ -323,13 +369,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 // 確保從 0 開始平滑展開
                                 submenu.style.maxHeight = '0px';
-                                submenu.offsetHeight; // 強制 Reflow
+                                // 強制 Reflow，使用 offsetHeight 比讀取 style 性能更好
+                                void submenu.offsetHeight; 
 
                                 // 設置正確的 max-height
                                 requestAnimationFrame(() => {
                                      submenu.style.maxHeight = `${submenu.scrollHeight}px`;
                                 });
-                                // 展開狀態不需要 onTransitionEndCleanup
                             }
                         }
                     });
@@ -345,7 +391,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         try {
             document.querySelectorAll('.accordion-item').forEach((item, index) => {
+                 /** @type {HTMLButtonElement | null} */
                  const headerElement = item.querySelector('.accordion-header');
+                 /** @type {HTMLElement | null} */
                  const content = item.querySelector('.accordion-content');
 
                  if (headerElement && content) {
@@ -356,6 +404,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                      const isActive = item.classList.contains('active');
                      headerElement.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+                     // 初始將 content 隱藏或顯示
+                     content.style.display = 'block'; // 確保 scrollHeight 正確計算
 
                      // 初始化 max-height
                      requestAnimationFrame(() => {
@@ -368,15 +418,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         // 單一展開模式邏輯 (關閉其他)
                         document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
                             if (activeItem !== item) {
+                                /** @type {HTMLElement | null} */
                                 const otherContent = activeItem.querySelector('.accordion-content');
+                                /** @type {HTMLButtonElement | null} */
                                 const otherHeader = activeItem.querySelector('.accordion-header');
                                 activeItem.classList.remove('active');
-                                otherHeader.setAttribute('aria-expanded', 'false');
+                                if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
 
                                 // 收合操作
-                                otherContent.style.maxHeight = `${otherContent.scrollHeight}px`;
-                                requestAnimationFrame(() => otherContent.style.maxHeight = '0px');
-                                onTransitionEndCleanup(otherContent);
+                                if (otherContent) {
+                                    otherContent.style.maxHeight = `${otherContent.scrollHeight}px`;
+                                    requestAnimationFrame(() => otherContent.style.maxHeight = '0px');
+                                    onTransitionEndCleanup(otherContent);
+                                }
                             }
                         });
 
@@ -388,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             // 展開
                             this.setAttribute('aria-expanded', 'true');
                             content.style.maxHeight = '0px';
-                            content.offsetHeight; // 強制 Reflow
+                            void content.offsetHeight; // 強制 Reflow
                             requestAnimationFrame(() => content.style.maxHeight = `${content.scrollHeight}px`);
 
                         } else {
@@ -401,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      });
 
                      // 鍵盤無障礙操作 Enter/Space
+                     /** @param {KeyboardEvent} e */
                      headerElement.addEventListener('keydown', function(e) {
                          if (e.key === 'Enter' || e.key === ' ') {
                              e.preventDefault();
@@ -420,18 +475,29 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const lazyTargets = document.querySelectorAll('img[data-src], source[data-srcset], picture');
 
+            /**
+             * 載入單一元素 (img/source) 的圖片來源
+             * @param {HTMLElement} el
+             * @returns {void}
+             */
             const loadImage = (el) => {
-                // 處理 IMG 元素
-                if (el.tagName === 'IMG' && el.dataset.src) {
-                    el.src = el.dataset.src;
-                    if (el.dataset.srcset) el.srcset = el.dataset.srcset;
-                    el.removeAttribute('data-src');
-                    el.removeAttribute('data-srcset');
-                    el.classList.add('loaded'); // 添加 loaded 類別以觸發 CSS 動畫
-                // 處理 SOURCE 元素
-                } else if (el.tagName === 'SOURCE' && el.dataset.srcset) {
-                    el.srcset = el.dataset.srcset;
-                    el.removeAttribute('data-srcset');
+                if (el.tagName === 'IMG') {
+                    const imgEl = /** @type {HTMLImageElement} */ (el);
+                    if (imgEl.dataset.src) {
+                        imgEl.src = imgEl.dataset.src;
+                        imgEl.removeAttribute('data-src');
+                    }
+                    if (imgEl.dataset.srcset) {
+                        imgEl.srcset = imgEl.dataset.srcset;
+                        imgEl.removeAttribute('data-srcset');
+                    }
+                    imgEl.classList.add('loaded'); // 添加 loaded 類別以觸發 CSS 動畫
+                } else if (el.tagName === 'SOURCE') {
+                    const sourceEl = /** @type {HTMLSourceElement} */ (el);
+                    if (sourceEl.dataset.srcset) {
+                        sourceEl.srcset = sourceEl.dataset.srcset;
+                        sourceEl.removeAttribute('data-srcset');
+                    }
                 }
             };
 
@@ -445,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imgObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            const elementToLoad = entry.target;
+                            const elementToLoad = /** @type {HTMLElement} */ (entry.target);
 
                             if (elementToLoad.tagName === 'PICTURE') {
                                 // 載入 PICTURE 內所有 SOURCE 和 IMG
@@ -459,12 +525,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, observerOptions);
 
                 lazyTargets.forEach(el => {
-                    // 只有 IMG 和 PICTURE 才需要被主觀察器監聽
-                    if (el.tagName === 'IMG' && el.hasAttribute('data-src')) {
-                         imgObserver.observe(el);
-                    } else if (el.tagName === 'PICTURE') {
-                         imgObserver.observe(el);
-                    }
+                    // 觀察所有帶有 data-src/data-srcset 的元素
+                    imgObserver.observe(el);
                 });
             } else {
                  // Fallback: 如果不支援 IntersectionObserver，則全部載入
@@ -479,12 +541,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         try {
             if (header) {
+                // 排除：1. href="#" 2. 手機菜單下拉觸發器
                 document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
                      const href = anchor.getAttribute('href');
-                     // 排除手機選單的觸發器
                      const isMobileAccordionTrigger = anchor.closest('.dropdown > a') && window.innerWidth <= mobileBreakpoint && (href === '#' || href.startsWith('#'));
                      if (isMobileAccordionTrigger) return;
 
+                    /** @param {MouseEvent} e */
                     anchor.addEventListener('click', function (e) {
                         e.preventDefault();
                         const targetId = this.getAttribute('href');
@@ -493,10 +556,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (targetElement) {
                             requestAnimationFrame(() => {
                                 const headerHeight = header.offsetHeight;
+                                const isMobileMenuOpen = mainNav && mainNav.classList.contains('active');
 
                                 // 計算精確的目標位置：目標元素頂部 - Header高度 
+                                // 使用 getBoundingClientRect 獲取相對於視窗的位置，加上當前滾動位置，再減去 header 高度
                                 const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerHeight);
-                                const isMobileMenuOpen = mainNav && mainNav.classList.contains('active');
+                                
 
                                 // 使用 Web API 實現平滑滾動
                                 window.scrollTo({
@@ -504,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     behavior: 'smooth'
                                 });
 
-                                // 延遲關閉手機菜單 (等待滾動完成後)
+                                // 延遲關閉手機菜單 (等待滾動動畫結束後)
                                 if (isMobileMenuOpen) {
                                      setTimeout(() => {
                                          closeMainMenu();
@@ -534,6 +599,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         // 7. 動態生成不規則流星 (Meteor Generation Logic)
         // ====================================================
+        // 此段邏輯假設 CSS 中已有 .meteor 元素。
+        // 原程式碼沒有實際生成元素，而是配置屬性，故保留。
         try {
             const meteors = document.querySelectorAll('.meteor');
             const METEOR_DISTANCE = 500;
@@ -570,23 +637,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         try {
              if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
+                currentYearSpan.textContent = new Date().getFullYear().toString();
             }
         } catch (e) {
             console.error('Core Logic Failed: Copyright Year', e);
         }
 
         // ====================================================
-        // 10. 表單驗證與 UX 強化 (Form Validation & UX)
+        // 10. 表單驗證與 UX 強化 (Form Validation & UX) - 假設這是 order.html 的表單
         // ====================================================
+        /** @type {HTMLFormElement | null} */
         const orderForm = document.getElementById('product-order-form');
+        /** @type {HTMLElement | null} */
         const statusMessage = document.getElementById('form-status-message');
 
         if (orderForm) {
             orderForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
+                /** @type {HTMLButtonElement | null} */
                 const submitButton = this.querySelector('button[type="submit"]');
+                if (!submitButton) return;
+
                 const originalText = submitButton.textContent;
 
                 // 禁用按鈕並更新狀態
@@ -599,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (this.action.includes('your_form_endpoint')) {
                          if (statusMessage) {
                              statusMessage.style.color = 'var(--error-color, #dc3545)';
-                             statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
+                             statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！ (代碼 0x10)';
                          }
                          submitButton.textContent = originalText;
                          submitButton.disabled = false;
@@ -633,7 +705,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     } else {
                         // 處理 HTTP 錯誤 (4xx, 5xx)
-                        const errorData = await response.json().catch(() => ({ error: '伺服器響應格式錯誤' }));
+                        // 嘗試解析 JSON 錯誤訊息，失敗則使用預設
+                        const errorData = await response.json().catch(() => ({ error: '伺服器響應格式錯誤 (代碼 0x11)' }));
                         const errorMessage = errorData.error || '表單送出失敗';
 
                         if (statusMessage) {
@@ -647,7 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Submission Error:', error);
                     if (statusMessage) {
                         statusMessage.style.color = 'var(--error-color, #dc3545)';
-                        statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
+                        statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699 (代碼 0x12)';
                     }
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
@@ -665,12 +738,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const PRECISION = 0.2;
             const TARGET_SELECTOR = '.text-line-container span';
 
-            // 核心：使用二分法計算最佳字體大小
+            /**
+             * 核心：使用二分法計算最佳字體大小
+             * @param {HTMLElement} el
+             */
             const fitOne = (el) => {
-                 const parentWidth = el.parentElement.offsetWidth;
-                 const text = el.textContent.trim();
+                 const parentWidth = el.parentElement ? el.parentElement.offsetWidth : 0;
+                 const text = el.textContent ? el.textContent.trim() : '';
 
-                 if (parentWidth <= 50 || text === '') {
+                 // 邊緣案例檢查
+                 if (parentWidth <= 50 || text === '' || !el.parentElement) {
                      el.style.fontSize = `${MAX_FONT}px`;
                      return;
                  }
@@ -679,6 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  let high = MAX_FONT;
                  let bestSize = MIN_FONT;
 
+                 // 二分法搜尋最佳字體
                  while (low <= high) {
                      const mid = (low + high) / 2;
                      el.style.fontSize = `${mid}px`;
@@ -698,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 統一觸發所有元素的重新計算
             fitAll = () => {
                  const nodes = document.querySelectorAll(TARGET_SELECTOR);
-                 requestAnimationFrame(() => nodes.forEach(el => fitOne(el)));
+                 requestAnimationFrame(() => nodes.forEach(el => fitOne(/** @type {HTMLElement} */ (el))));
             };
 
             // 啟動 Fit Text 邏輯
@@ -707,6 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (window.ResizeObserver) {
                     const fitTextObserver = new ResizeObserver(entries => {
+                        // 檢查是否有實際的寬度變化，避免不必要的執行
                         const hasWidthChange = entries.some(entry => entry.contentRect.width !== 0);
                         if (hasWidthChange) {
                             // 使用 debounce 減少 ResizeObserver 的觸發頻率
@@ -733,6 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (document.fonts && document.fonts.ready) {
                 document.fonts.ready.then(startFitText).catch(startFitText);
             } else {
+                // 如果瀏覽器不支持 Promise.all(document.fonts.values()) 或 document.fonts.ready，則等到 load
                 window.addEventListener('load', startFitText);
             }
         } catch (e) {
