@@ -2054,20 +2054,21 @@ table {
 }
 
 
-/* -------------------------------------------
-   10. 方案頁面 (Plans) 最終質感與透明度優化
-   ------------------------------------------- */
+/* =================================================================
+ * 10. 方案頁面 (Plans) 最終質感與透明度優化
+ * ================================================================= */
 
 /* --- 10.1 方案頁面 Hero Section 覆寫 --- */
 .page-hero {
     position: relative;
     background-size: cover;
     background-position: center;
-    padding: 100px 0;
-    color: var(--text-light);
+    /* 使用變數 */
+    padding: var(--padding-section-v) 0; 
+    color: var(--color-light);
     height: auto; 
     min-height: 350px;
-    background-color: var(--primary-dark);
+    background-color: var(--color-dark); /* 使用統一的深色背景 */
     display: flex;
     align-items: center;
 }
@@ -2079,7 +2080,8 @@ table {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); 
+    /* 統一使用 rgba(0, 0, 0, 0.6) 增加對比度 */
+    background: rgba(0, 0, 0, 0.6); 
     z-index: 1;
 }
 
@@ -2089,69 +2091,73 @@ table {
     text-align: center;
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--spacing-md);
 }
 
 .page-hero-content h1 {
+    /* 保持 clamp RWD 字體 */
     font-size: clamp(1.8rem, 3.5vmin, 2.8rem);
-    color: var(--text-light); 
-    margin-bottom: 20px;
+    color: var(--color-light); 
+    margin-bottom: var(--spacing-lg);
     letter-spacing: 1px;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
     margin-top: 0;
+    line-height: var(--line-height-heading);
 }
 
 .page-hero-content p {
     font-size: 1.15rem;
-    opacity: 0.9;
-    color: var(--text-light);
+    opacity: 0.95; /* 略微提高透明度 */
+    color: var(--color-light);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     margin-bottom: 0;
+    line-height: var(--line-height-base);
 }
 
 
 /* --- 10.2 方案價格卡片 ( .price-plan ) 視覺強化 --- */
 .price-card-grid {
     display: grid;
+    /* RWD 優化：minmax 確保手機上只有一欄 */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
 }
 
 .price-plan {
-    background: var(--text-light);
-    border-radius: 12px;
+    background: var(--color-light);
+    border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 30px;
-    transition: all 0.3s ease-in-out;
+    box-shadow: var(--box-shadow-md);
+    padding: var(--spacing-xl); /* 使用變數 */
+    transition: all var(--transition-speed);
     position: relative;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--color-bg-secondary);
     display: flex; 
     flex-direction: column;
 }
 
 .price-plan:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
     transform: translateY(-5px);
 }
 
 /* 突出【最受歡迎】卡片 */
 .price-plan.featured {
-    border-color: var(--accent-color);
+    border-color: var(--color-primary); /* 使用 Primary Color */
     transform: scale(1.03); 
-    box-shadow: 0 0 0 4px var(--accent-color), 0 10px 30px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 0 0 4px var(--color-primary), var(--box-shadow-lg); 
 }
 
 .plan-ribbon {
     position: absolute;
     top: 0;
     right: 0;
-    background: var(--accent-color);
-    color: var(--primary-dark);
+    background: var(--color-warning); /* 使用 Warning 或 Accent */
+    color: var(--color-dark);
     font-size: 0.8rem;
     font-weight: 700;
-    padding: 5px 15px;
+    padding: var(--spacing-xs) var(--spacing-md);
     border-bottom-left-radius: 8px;
     letter-spacing: 0.5px;
     z-index: 5;
@@ -2159,27 +2165,27 @@ table {
 
 .plan-header h3 {
     font-size: 1.8rem;
-    color: var(--primary-dark);
-    margin-bottom: 5px;
-    font-family: var(--font-serif);
-    margin-top: 0; /* 卡片內部 H3 移除上邊距 */
+    color: var(--color-dark);
+    margin-bottom: var(--spacing-xs);
+    font-family: var(--font-family-base);
+    margin-top: 0; 
 }
 
 .plan-header .fas {
     font-size: 2rem;
-    color: var(--accent-color);
-    margin-bottom: 10px;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
 }
 
 .plan-price-info {
-    margin: 20px 0 15px;
+    margin: var(--spacing-lg) 0 var(--spacing-md);
 }
 
 .price-tag {
-    font-family: var(--font-serif);
+    font-family: var(--font-family-base);
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--primary-color); 
+    color: var(--color-primary); 
     display: block;
 }
 
@@ -2192,30 +2198,41 @@ table {
 
 .plan-body .tagline {
     font-style: italic;
-    color: var(--secondary-color);
-    margin-bottom: 20px;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
     display: block;
 }
 
 .plan-body ul {
-    margin-bottom: 25px; 
+    margin-bottom: var(--spacing-lg); 
+    list-style: none; /* 移除預設列表點 */
+    padding-left: 0;
 }
+
+.plan-body ul li::before {
+    content: "\f00c"; /* Font Awesome Checkmark */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+    color: var(--color-success);
+}
+
 
 .service-group-title {
     font-weight: 700;
-    color: var(--accent-color); 
-    margin-top: 15px;
-    margin-bottom: 5px;
+    color: var(--color-primary); 
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
     font-size: 0.95rem;
-    padding-bottom: 5px;
-    border-bottom: 1px dashed rgba(30, 58, 106, 0.2); 
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px dashed var(--color-bg-secondary); 
 }
 
 .plan-body ul li {
-    font-size: 0.9rem;
+    font-size: 0.95rem; /* 稍微放大 */
     line-height: 1.6;
     padding: 3px 0;
-    color: var(--text-dark);
+    color: var(--color-dark);
 }
 
 .plan-body .cta-button {
@@ -2225,38 +2242,52 @@ table {
     margin-right: 0;
 }
 
-/* 新增的樣式：用於方案細項展開與表格 */
+/* 核心 RWD 修正：用於方案細項展開與表格 */
 .plan-details-expanded {
     display: none; 
-    padding: 15px;
-    background-color: #fcfcfc;
-    border-top: 1px solid #ddd;
-    margin-top: 10px;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-bg-secondary);
+    margin-top: var(--spacing-sm);
     width: 100%;
     box-sizing: border-box;
-    overflow-x: auto; 
+    /* 核心修正：避免內部內容撐破手機頁面 */
+    overflow-x: hidden; 
+}
+
+.plan-details-expanded table {
+    width: 100%;
+    /* RWD 修正：讓表格在展開內容內啟用局部滾動 */
+    display: block; 
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; 
+    min-width: 300px; 
+    border-collapse: collapse;
+    margin-top: var(--spacing-sm);
+}
+
+/* 確保展開內容中的圖片和嵌入物不會溢出 */
+.plan-details-expanded img,
+.plan-details-expanded iframe,
+.plan-details-expanded video {
+    max-width: 100%;
+    height: auto;
 }
 
 .expanded .plan-details-expanded {
     display: block; 
 }
 
-.plan-details-expanded table {
-    width: 100%;
-    min-width: 300px; 
-    border-collapse: collapse;
-    margin-top: 10px;
-}
 .plan-details-expanded th, 
 .plan-details-expanded td {
-    padding: 8px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     text-align: left;
-    border-bottom: 1px dashed #eee;
+    border-bottom: 1px dashed var(--color-bg-secondary);
     font-size: 0.9em;
 }
 .plan-details-expanded th {
-    background-color: #f8f8f8;
-    color: #444;
+    background-color: var(--color-bg-primary);
+    color: var(--color-dark);
     width: 35%; 
 }
 
@@ -2264,122 +2295,126 @@ table {
 .detail-toggle-button {
     display: block;
     width: 90%;
-    margin: 10px auto;
-    padding: 8px;
-    background-color: var(--primary-color);
-    color: var(--text-light);
+    margin: var(--spacing-sm) auto;
+    padding: var(--spacing-xs) var(--spacing-md);
+    background-color: var(--color-info); /* 使用 Info Color */
+    color: var(--color-light);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-speed);
 }
-.detail-toggle-button:hover {
-    background-color: var(--primary-dark);
+.detail-toggle-button:hover, .detail-toggle-button:focus-visible {
+    background-color: var(--color-dark);
+    outline: none;
+    box-shadow: var(--box-shadow-sm);
 }
-.plan-card.primary-highlight .detail-toggle-button {
-    background-color: var(--primary-color); 
-}
-
 
 
 /* --- 10.3 方案細項對照表 (Comparison Table) 視覺強化 --- */
 
 .responsive-table-wrap {
+    /* 核心 RWD 修正：包裹容器處理水平滾動 */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin-bottom: var(--spacing-xl);
 }
 
 .comparison-table {
     width: 100%;
     border-collapse: separate; 
     border-spacing: 0;
-    margin-top: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: var(--spacing-lg);
+    box-shadow: var(--box-shadow-md);
     overflow: hidden; 
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    min-width: 700px; 
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-bg-secondary);
+    /* 確保在小螢幕上有足夠的內容，讓 responsive-table-wrap 滾動 */
+    min-width: 768px; 
 }
 
 .comparison-table thead th {
-    background-color: var(--primary-color); 
-    color: var(--text-light);
-    padding: 15px 10px;
+    background-color: var(--color-primary); 
+    color: var(--color-light);
+    padding: var(--spacing-md) var(--spacing-sm);
     text-align: center;
-    font-family: var(--font-serif);
+    font-family: var(--font-family-base);
     font-weight: 700;
     font-size: 1.1rem;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .comparison-table tbody td {
-    padding: 12px 10px;
-    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-xs);
+    border-bottom: 1px solid var(--color-bg-secondary);
     text-align: center;
     vertical-align: middle;
-    background-color: #ffffff;
+    background-color: var(--color-light);
     font-size: 0.95rem;
 }
 
 .comparison-table tbody tr td:first-child {
     text-align: left;
-    background-color: var(--bg-light); 
+    background-color: var(--color-bg-primary); 
     font-weight: 700;
-    color: var(--primary-color);
-    border-right: 1px solid var(--border-color);
+    color: var(--color-primary);
+    border-right: 1px solid var(--color-bg-secondary);
 }
 
 .comparison-table .category-title {
     display: block;
     font-size: 1rem;
-    color: var(--accent-color); 
+    color: var(--color-primary); 
     font-weight: 700;
     padding-top: 5px;
 }
 
 .comparison-table .category-divider {
-    border-top: 2px solid var(--primary-color); 
+    /* 使用主要顏色作為分割線 */
+    border-top: 2px solid var(--color-primary); 
     padding: 0;
     line-height: 0;
 }
 
 .comparison-table td:not(:first-child) {
-    font-family: var(--font-serif);
+    font-family: var(--font-family-base);
     font-weight: 700;
 }
 
-/* 樣式 (替換非標準選擇器，假設您的 HTML 使用 class 或 data- 屬性) */
+/* 樣式 (統一使用狀態顏色) */
 .comparison-table .feature-yes {
-    color: #28a745; 
+    color: var(--color-success); 
+    font-weight: 700;
 }
 
 .comparison-table .feature-no {
-    color: #dc3545; 
+    color: var(--color-danger); 
     opacity: 0.7;
     font-weight: 400;
 }
 
 .comparison-table tbody tr:nth-child(even) td {
-    background-color: #FAFAFA; 
+    background-color: var(--color-bg-secondary); 
 }
 
 
 /* --- 10.4 排除費用清單 (極致透明) 強化 --- */
 
 #excluded-fees {
-    background-color: var(--primary-dark);
-    padding: 35px;
-    border-radius: 12px;
-    color: var(--text-light);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: var(--color-dark);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    color: var(--color-light);
+    box-shadow: var(--box-shadow-lg);
+    margin-top: var(--padding-section-v);
 }
 
 #excluded-fees h4 {
-    color: var(--accent-color); 
-    font-family: var(--font-serif);
+    color: var(--color-warning); /* 使用 Warning Color 突出 */
+    font-family: var(--font-family-base);
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-md);
     text-align: left;
     margin-top: 0;
 }
@@ -2387,18 +2422,18 @@ table {
 .excluded-list {
     list-style: none;
     padding-left: 0;
-    margin-top: 20px;
+    margin-top: var(--spacing-md);
 }
 
 .excluded-list li {
     background-color: rgba(255, 255, 255, 0.08); 
-    padding: 10px 15px;
-    margin-bottom: 10px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     border-radius: 6px;
     font-size: 1rem;
     display: flex;
     align-items: flex-start;
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-speed);
 }
 
 .excluded-list li:hover {
@@ -2406,35 +2441,36 @@ table {
 }
 
 .excluded-list li i {
-    color: #FFC0CB; 
-    margin-right: 12px;
+    color: var(--color-danger); /* 使用 Danger Color 作為提醒 */
+    margin-right: var(--spacing-sm);
     font-size: 1.2rem;
     flex-shrink: 0;
     padding-top: 3px;
 }
 
 #excluded-fees .cta-button.primary {
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    box-shadow: 0 4px 15px rgba(206, 157, 74, 0.8);
-    border: none;
-    margin-top: 30px;
-    border-color: var(--accent-color); /* 修正：確保 hover 不會閃爍 */
+    background-color: var(--color-warning);
+    color: var(--color-dark);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.8);
+    border: 1px solid var(--color-warning);
+    margin-top: var(--spacing-lg);
 }
 
 #excluded-fees .cta-button.primary:hover, #excluded-fees .cta-button.primary:focus-visible {
-    background-color: var(--text-light);
-    box-shadow: 0 6px 20px rgba(206, 157, 74, 1);
-    outline: none;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    box-shadow: 0 6px 20px rgba(255, 193, 7, 1);
+    outline: 3px dashed var(--color-info);
+    outline-offset: 2px;
 }
 
 
-/* -------------------------------------------
+/* =================================================================
    11. 聯繫頁面 (Contact Page) 專屬樣式
-   ------------------------------------------- */
+ * ================================================================= */
 
 .required-asterisk {
-    color: var(--accent-color);
+    color: var(--color-danger);
     font-weight: 700;
     margin-left: 2px;
 }
@@ -2442,40 +2478,41 @@ table {
 .contact-grid-2col {
     /* 修正：使用 minmax 確保在寬螢幕上的比例 */
     display: grid;
+    /* 1.5fr (表單) 1fr (資訊欄) */
     grid-template-columns: minmax(350px, 1.5fr) minmax(300px, 1fr); 
-    gap: 40px;
+    gap: var(--spacing-xl);
     align-items: flex-start;
 }
 
 .contact-form-wrap {
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px var(--shadow-color);
-    border: 1px solid var(--border-color);
-    background-color: var(--text-light);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-md);
+    border: 1px solid var(--color-bg-secondary);
+    background-color: var(--color-light);
 }
 
 .contact-form fieldset {
     border: none;
     padding: 0;
-    margin-bottom: 30px;
+    margin-bottom: var(--spacing-lg);
 }
 
 .contact-form legend {
-    font-family: var(--font-serif);
+    font-family: var(--font-family-base);
     font-size: 1.4rem;
     font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    margin-top: 0; /* 移除 legend 的預設上邊距 */
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-lg);
+    margin-top: 0; 
 }
 
 .contact-form label {
     display: block;
     font-weight: 700;
-    margin-top: 15px;
-    margin-bottom: 8px;
-    color: var(--text-dark);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-dark);
     font-size: 0.95rem;
 }
 
@@ -2485,20 +2522,20 @@ table {
 .contact-form select,
 .contact-form textarea {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-bg-secondary);
     border-radius: 6px;
     font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    font-family: var(--font-sans);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    font-family: var(--font-family-base);
 }
 
-/* 🏆 統一使用 :focus-visible */
+/* 🏆 統一使用 :focus-visible 強化 A11Y */
 .contact-form input:focus-visible,
 .contact-form select:focus-visible,
 .contact-form textarea:focus-visible {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(206, 157, 74, 0.3); 
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3); 
     outline: none;
 }
 
@@ -2507,32 +2544,33 @@ table {
 }
 
 .privacy-note {
-    margin: 20px 0;
+    margin: var(--spacing-lg) 0;
     font-size: 0.9rem;
-    padding: 10px;
-    border: 1px dashed var(--border-color);
+    padding: var(--spacing-sm);
+    border: 1px dashed var(--color-bg-secondary);
     border-radius: 4px;
 }
 
 .privacy-note a {
     font-weight: 700;
+    color: var(--color-primary);
 }
 
 .contact-info-block {
-    background-color: var(--primary-dark);
-    color: var(--text-light);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-lg);
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .contact-info-card h3 {
-    color: var(--accent-color);
+    color: var(--color-warning);
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-md);
     text-align: left;
     margin-top: 0;
 }
@@ -2541,8 +2579,9 @@ table {
 .contact-info-card address {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 15px;
-    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-base);
+    font-style: normal;
 }
 
 .contact-info-card p strong {
@@ -2552,19 +2591,19 @@ table {
 
 .contact-info-card .icon {
     font-size: 1.1rem;
-    color: var(--accent-color);
-    margin-right: 12px;
+    color: var(--color-warning);
+    margin-right: var(--spacing-sm);
     flex-shrink: 0;
     padding-top: 3px;
 }
 
 .contact-info-card a {
-    color: var(--text-light);
+    color: var(--color-light);
     font-weight: 500;
 }
 
 .contact-info-card a:hover, .contact-info-card a:focus-visible {
-    color: var(--accent-color);
+    color: var(--color-warning);
     outline: none;
 }
 
@@ -2572,6 +2611,7 @@ table {
     background-color: rgba(255, 255, 255, 0.2);
     height: 1px;
     border: none;
+    margin: var(--spacing-lg) 0;
 }
 
 /* 地圖容器 */
@@ -2580,7 +2620,7 @@ table {
     border-radius: 8px;
     overflow: hidden;
     min-height: 250px;
-    margin-top: 20px;
+    margin-top: var(--spacing-md);
 }
 
 .map-container iframe {
@@ -2588,6 +2628,52 @@ table {
     height: 100%;
     display: block;
     border: none;
+}
+
+
+/* =================================================================
+ * 99. 響應式設計 (Responsive Design) - Plans/Contact 專屬修正
+ * ================================================================= */
+
+@media (max-width: 768px) {
+    /* 方案卡片網格 */
+    .price-card-grid {
+        gap: var(--spacing-lg);
+    }
+    
+    .price-plan {
+        padding: var(--spacing-lg);
+        transform: none; /* 移除 hover 效果 */
+    }
+    
+    /* 方案頁 Hero */
+    .page-hero {
+        min-height: 250px;
+        padding: var(--spacing-xl) 0;
+    }
+    .page-hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    /* 聯繫頁面佈局 */
+    .contact-grid-2col {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .contact-form-wrap, .contact-info-block {
+        padding: var(--spacing-lg);
+    }
+    
+    /* 方案比較表格 RWD 修正（主要靠 responsive-table-wrap 處理）*/
+    .comparison-table {
+        min-width: 600px; /* 稍微縮小，但仍保持局部滾動 */
+    }
+    
+    /* 排除費用清單 */
+    #excluded-fees {
+        padding: var(--spacing-lg);
+    }
 }
 
 
