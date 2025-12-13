@@ -146,10 +146,6 @@ a:focus-visible {
     outline: 2px solid var(--color-warning); 
     outline-offset: 4px;
 }
-/* 🏆 最終修訂: 確保不支持 :focus-visible 的瀏覽器，點擊後焦點不會顯示（但仍需默認 outline） */
-/* a:focus:not(:focus-visible) {
-    outline: none; 
-} */
 
 /* -------------------------------------------
  * 2. 響應式設計 (Mobile/Tablet) 補充
@@ -228,7 +224,6 @@ a:focus-visible {
         border-radius: 0;
         opacity: 0; /* 始終可見，由 JS/CSS 控制 max-height 展開 */
         visibility: hidden;
-        
         /* 🏆 行動裝置摺疊效果：使用 max-height 替換 opacity/visibility */
         max-height: 0; 
         transition: max-height 0.4s ease-in-out, opacity 0.4s, visibility 0.4s; /* 修正 transition */
@@ -440,6 +435,7 @@ blockquote p:last-child {
 
 
 /* -------------------------------------------
+/* -------------------------------------------
  * 1. 導覽列與頁首 (Header & Nav)
  * ------------------------------------------- */
 
@@ -453,8 +449,9 @@ blockquote p:last-child {
     width: 100%; 
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
+    /* 合併：確保 transition 在 transform 之前定義 */
     transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-    /* 性能：使用 transform 提升滾動性能 */
+    /* 性能優化 */
     will-change: transform; 
     transform: translateZ(0); 
 }
@@ -522,17 +519,13 @@ main {
     outline-offset: 4px;
     /* 確保焦點時不會與底線衝突 (如 hover 時有底線) */
     border-bottom: none; 
-    /* 移除此行，避免與原始的 padding 產生非預期的空間調整 */
-    /* padding-bottom: 10px; */ 
 }
 
 .main-nav a .fas {
     font-size: 0.7rem;
     margin-left: 5px;
-    transition: transform var(--transition-speed);
-}
-
- transition: transform var(--transition-speed) ease; /* 增加 ease 確保平滑 */
+    /* 🏆 修復語法錯誤：將獨立的 transition 合併到這裡 */
+    transition: transform var(--transition-speed) ease; 
 }
 
 /* 下拉選單質感優化 (桌面版) */
@@ -553,7 +546,13 @@ main {
     display: flex;
     flex-direction: column;
     
-        transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
+    /* 🏆 合併重複的 transition 和 will-change 屬性 */
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    max-height: unset; 
     will-change: opacity, transform;
 }
 
@@ -607,6 +606,7 @@ main {
     margin: 5px 20px;
     list-style: none;
 }
+
 
 /* 聯繫導覽按鈕 */
 .contact-nav {
@@ -785,59 +785,68 @@ main {
     will-change: transform, opacity;
 }
 
+/* -------------------------------------------
+ * 0. 星星定位基礎 (新增)
+ * ------------------------------------------- */
+#stars, #stars2, #stars3 {
+    position: absolute; /* 🌟 修正1: 必須是絕對定位 */
+    top: 0;
+    left: 0;
+    z-index: 3; /* 🌟 修正2: 確保高於夜空漸變層 (z-index: 2) */
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    /* 確保星星只在 hero-section 內顯示 */
+    overflow: hidden; 
+}
+
+
 /* 🏆 優化：使用 box-shadow 創建星星，性能優於大量的 div */
 /* 🏆 最終修訂: 統一星星的尺寸（1px）和顏色，僅透過 opacity/box-shadow 區分 */
 #stars {
+    /* 慢速層 (Z=3) */
     --star-travel-x: -20px; --star-travel-y: 20px; 
     animation: move-star 300s linear infinite,
                blink 5s infinite alternate;
     animation-delay: 0.5s;
-    z-index: 1;
-    width: 1px;
-    height: 1px;
+    /* width/height/border-radius 已移至上方基礎樣式 */
     /* 實際的星星點 */
     box-shadow: 
         100vw 200vh rgba(255, 255, 255, 0.2), 
         250vw 120vh rgba(255, 255, 255, 0.2), 
         -50vw 150vh rgba(255, 255, 255, 0.2), 
         30vw 100vh rgba(255, 255, 255, 0.2),
-        150vw 10vh rgba(255, 255, 255, 0.2); /* 額外增加一顆星星 */
-    /* 🏆 最終修訂: 使用 0.5px 模擬更細小的點 */
-    border-radius: 50%;
+        150vw 10vh rgba(255, 255, 255, 0.2); 
+    
 }
 
 
-/* 圖層 2: 中速移動 (中間層) */
+/* 圖層 2: 中速移動 (中間層) (Z=3) */
 #stars2 {
     --star-travel-x: -60px; --star-travel-y: 60px; 
     animation: move-star 150s linear infinite, 
                blink 3s infinite alternate;
     animation-delay: 1.2s;
-    z-index: 1;
-    width: 1px; /* 統一尺寸 */
-    height: 1px;
     opacity: 0.9;
     box-shadow:
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff,
-        -150vw 150vh #ffffff; /* 額外增加一顆星星 */
-    border-radius: 50%;
+        -150vw 150vh #ffffff; 
 }
 
-/* 圖層 3: 快速移動 (最前景) */
+/* 圖層 3: 快速移動 (最前景) (Z=3) */
 #stars3 {
     --star-travel-x: -100px; --star-travel-y: 100px; 
     animation: move-star 80s linear infinite,
                blink 1.5s infinite alternate;
     animation-delay: 0s;
-    z-index: 1;
-    width: 2px; /* 稍大一點的星星 */
+    /* 這裡可以設置更大的尺寸，但請注意不要被其他 z-index 較高的內容蓋住 */
+    width: 2px; 
     height: 2px;
     opacity: 1;
     box-shadow:
         -200vw 100vh var(--color-warning), 10vw 250vh var(--color-warning),
         100vw 100vh 4px 2px rgba(212, 167, 87, 0.9),
-        -5vw 50vh var(--color-warning); /* 額外增加一顆星星 */
-    border-radius: 50%;
+        -5vw 50vh var(--color-warning); 
 }
 
 /* 移除所有冗餘的 ::before 偽元素（已經移到父層 box-shadow） */
@@ -850,14 +859,14 @@ main {
     position: relative;
     height: 100vh; 
     min-height: 650px;
-    overflow: hidden;
+    overflow: hidden; /* 確保星星不會超出這個容器 */
     background-color: var(--color-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: var(--color-light);
-    z-index: 1;
+    z-index: 1; /* 創建新的堆疊上下文 */
 }
 
 /* 夜空漸層覆蓋層 - 增加深度與質感 */
@@ -868,16 +877,16 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
-    /* 🏆 最終修訂: 調整漸層的顏色和透明度，使其更像夜空 */
     background: linear-gradient(
             to bottom,
             rgba(0, 0, 0, 0.8) 0%,
             rgba(18, 33, 59, 0.6) 60%,
             var(--color-dark) 100%
         );
-    z-index: 2;
+    z-index: 2; /* 低於星星 (z-index: 3) */
     pointer-events: none;
 }
+
 
 .hero-content {
     position: relative;
@@ -942,16 +951,22 @@ main {
 }
 
 /* 修正：流星尾巴效果（使尾部更長更細） */
+/* 修正：流星尾巴效果（讓尾巴能跟隨父元素旋轉） */
 .meteor::after {
     content: '';
     position: absolute;
     top: 50%;
-    left: -400px; 
+    
+    /* 🏆 修正1: 讓尾巴從流星本體的右邊開始 (流星本體寬度極小，這就是它的起點) */
+    left: 100%; 
+    
     width: 400px; 
     height: 1px; 
     transform: translateY(-50%);
+    
+    /* 🏆 修正2: 讓漸變方向從流星本體向外拖曳（因為流星本體在旋轉，這個方向現在是相對於流星的後方） */
     background: linear-gradient(
-        to left, 
+        to right, /* 方向改為 to right */
         rgba(255, 255, 255, 1) 0%, 
         var(--color-warning) 5%, 
         rgba(206, 157, 74, 0.5) 15%,
@@ -967,7 +982,9 @@ main {
 
 /* --- 4.1 核心 Hero 區塊的子元素 --- */
 
-/* 確保 Hero 內容上方的子標題和描述 */
+/* 確保 Hero 內容上方的子標題和/* -------------------------------------------
+ * 英雄區塊 (Hero) & 特色網格 (Features Grid)
+ * ------------------------------------------- */
 .hero-header-box {
     text-align: center;
     max-width: 700px;
@@ -1004,7 +1021,6 @@ main {
 
 .features-grid {
     display: grid;
-    /* 🏆 最終修訂: minmax 調整為 300px，確保大螢幕下不會過寬 */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-lg);
     margin-top: 40px;
@@ -1072,7 +1088,6 @@ main {
 
 .testimonial-grid {
     display: grid;
-    /* 🏆 最終修訂: minmax 調整為 320px，避免卡片過窄 */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-xl);
@@ -1163,7 +1178,7 @@ main {
     margin: 15px;
     border-radius: 10px;
     font-weight: 400;
-    /* 修正：RWD 調整為 6 欄，更均衡 */
+    /* 基礎：6 欄佈局 (在大螢幕上) */
     flex-basis: calc(100% / 6 - 30px); 
     min-width: 200px;
     position: relative;
@@ -1173,7 +1188,6 @@ main {
     counter-increment: step-counter;
     padding-top: 40px;
     text-align: center;
-    /* 🏆 最終修訂: 確保高度一致性，讓流程圖更美觀 */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1194,7 +1208,7 @@ main {
     color: var(--color-dark);
     font-weight: 700;
     font-size: 1.2rem;
-    border: 4px solid var(--color-bg-primary); /* 🏆 最終修訂: 使用主要背景色而非次要背景色，與頁面背景更融合 */
+    border: 4px solid var(--color-bg-primary); 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
@@ -1210,6 +1224,43 @@ main {
     transform: translateY(-5px);
     border-color: var(--color-primary);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 🏆 RWD 修正區塊：確保服務流程圖優雅換行 */
+@media (max-width: 1400px) {
+    .flow-chart li {
+        /* 大螢幕收縮為 5 欄 */
+        flex-basis: calc(100% / 5 - 30px); 
+    }
+}
+
+@media (max-width: 1100px) {
+    .flow-chart li {
+        /* 變為 4 欄佈局 */
+        flex-basis: calc(25% - 30px); 
+    }
+}
+
+@media (max-width: 850px) {
+    .flow-chart li {
+        /* 變為 3 欄佈局 */
+        flex-basis: calc(33.333% - 30px); 
+    }
+}
+
+@media (max-width: 600px) {
+    .flow-chart li {
+        /* 變為 2 欄佈局 */
+        flex-basis: calc(50% - 30px); 
+    }
+}
+
+@media (max-width: 450px) {
+    .flow-chart li {
+        /* 變為 1 欄佈局 (全寬) */
+        flex-basis: calc(100% - 30px); 
+        min-width: unset;
+    }
 }
 
 
@@ -1300,7 +1351,6 @@ main {
     overflow: hidden;
     padding: 0 25px;
     background-color: var(--color-light);
-    /* 🏆 最終修訂: 調整為簡單的 cubic-bezier */
     transition: max-height 0.4s ease-in-out; 
     will-change: max-height;
 }
@@ -1511,6 +1561,7 @@ footer {
 
 /* -------------------------------------------
 /* =================================================================
+ * /* -----------------------------------------------------------------
  * 8. 文章頁面 (Article Body) 專屬樣式與最終優化
  * ================================================================= */
 
@@ -1526,12 +1577,35 @@ footer {
     padding: var(--spacing-xl) var(--spacing-md); 
 }
 
-/* 🏆 統一側邊欄樣式 */
+/* 🏆 RWD 修正區塊：將雙欄切換為單欄 */
+@media (max-width: 1024px) {
+    .article-main-layout {
+        /* 切換為單欄，讓主內容和側邊欄堆疊 */
+        grid-template-columns: 1fr; 
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    .article-sidebar {
+        position: relative; /* 釋放 sticky */
+        top: 0;
+        max-height: unset;
+        order: 2; /* 放在文章下方 */
+        margin-top: var(--spacing-md);
+        box-shadow: var(--box-shadow-sm);
+    }
+    
+    /* 確保文章內容位於上方 (需要確保文章主體使用了這個 class) */
+    .article-main-content { 
+        order: 1;
+    }
+}
+
+
+/* 統一側邊欄樣式 */
 .article-sidebar {
     position: sticky; 
-    /* 修正：統一變數計算，頂部留出 Header + 額外間距 */
     top: calc(var(--header-height) + var(--spacing-md)); 
-    /* 修正： max-height 計算，減去頂部間距和底部間距 */
     max-height: calc(100vh - var(--header-height) - var(--spacing-xl));
     overflow-y: auto;
     will-change: transform; 
@@ -1630,7 +1704,7 @@ footer {
 }
 
 
-/* 文章目錄 (TOC) - 使用 Sidebar Module 結構 */
+/* 標籤目錄 (TOC) - 使用 Sidebar Module 結構 */
 .table-of-contents ul, .table-of-contents ol {
     list-style: none;
     padding-left: 0;
@@ -1643,7 +1717,9 @@ footer {
     font-size: 0.95rem;
     display: block;
     color: var(--color-text-light);
-    padding: 5px 0; 
+    /* 🏆 修正1: 預設 padding-left 設為 5px，避免 active 時跳動 */
+    padding: 5px 0 5px 5px; 
+    /* 確保邊框有 3px 寬度佔位 */
     border-left: 3px solid transparent; 
     transition: all 0.2s;
 }
@@ -1652,7 +1728,7 @@ footer {
 .table-of-contents a:focus-visible,
 .table-of-contents a.active {
     color: var(--color-dark);
-    padding-left: 5px;
+    /* 移除 padding-left，保持一致 */
     border-left: 3px solid var(--color-primary);
     font-weight: 700; 
     outline: none;
@@ -1660,7 +1736,6 @@ footer {
 
 /* RWD 魯棒性修正：表格包裹容器 (Table Responsive Wrapper) */
 .table-responsive {
-    /* 確保表格在手機上可以在容器內水平滾動 */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; 
     margin-bottom: var(--spacing-lg);
@@ -2033,7 +2108,6 @@ table {
     margin: 0;
 }
 
-
 /* =================================================================
  * 9. 服務區塊 (Services)
  * ================================================================= */
@@ -2165,6 +2239,45 @@ table {
 .note-info i {
     display: none; 
 }
+
+/* 🏆 完整的步驟流程連接線修繕：限定在多欄 Grid 佈局下生效 */
+
+/* 確保在小於 768px 或其他 RWD 斷點時，連接線會消失 */
+@media (min-width: 768px) {
+    
+    .step-grid > .step-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 25px; /* 位於項目數字的中心 (50px 高度的一半) */
+        
+        /* 確保連接線從當前項目的右側邊界開始 */
+        left: 100%; 
+        
+        /* 寬度必須等於 .step-grid 的 gap (40px) 才能完美連接 */
+        width: 40px; 
+        
+        height: 2px;
+        background-color: var(--border-color-light);
+        z-index: 5;
+        
+        /* 垂直居中 */
+        transform: translateY(-50%); 
+        
+        /* 💡 額外修正：當項目換行時，不顯示連接線 */
+        /* 由於 Grid 佈局的複雜性，以下是防止最後一列元素顯示連接線的通用嘗試：
+           - 雖然這在純 CSS Grid (auto-fit) 下難以完美實現，但 min-width 已經解決了換行問題。 
+        */
+    }
+}
+
+/* 額外的 RWD 處理：確保在極窄螢幕下沒有連接線的殘留 */
+@media (max-width: 767px) {
+    /* 確保在單欄或兩欄佈局換行後，所有連接線都被隱藏 */
+    .step-grid > .step-item::after {
+        content: none !important;
+    }
+}
+
 
 
 /* =================================================================
@@ -3479,4 +3592,26 @@ pre ::selection {
 pre::-moz-selection {
   background: var(--color-primary);
   color: var(--code-color);
+}
+
+
+/* 🏆 Webkit 瀏覽器滾動條美化 (提升視覺一致性) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+    border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark);
 }
