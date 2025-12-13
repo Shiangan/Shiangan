@@ -6,12 +6,14 @@
 // ====================================================
 // A. 修正 1：FOUC 移除函數 (移至最外層確保執行)
 // ====================================================
-// 這是最關鍵的修正：確保無論核心邏輯是否報錯，這個函數都會嘗試執行。
+/**
+ * 移除 HTML 或 Body 上的 'js-loading' 類，解決 Flash of Unstyled Content (FOUC) 問題。
+ * 使用 requestAnimationFrame 確保在下一次重繪前執行，讓 CSS 有時間準備。
+ */
 const removeLoadingClass = () => {
     const targetElements = [document.documentElement, document.body];
     targetElements.forEach(el => {
         if (el && el.classList.contains('js-loading')) {
-            // 使用 requestAnimationFrame 避免阻塞主線程，並讓 CSS 準備好
             requestAnimationFrame(() => el.classList.remove('js-loading'));
         }
     });
@@ -32,7 +34,6 @@ setTimeout(removeLoadingClass, 3000);
 // B. 核心邏輯 - DOMContentLoaded
 // ====================================================
 
-// 修正 2：將 Document 改為小寫的 document (致命錯誤修復)
 document.addEventListener('DOMContentLoaded', () => {
 
     // ====================================================
@@ -79,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  }
                  contentElement.removeEventListener('transitionend', handleTransitionEnd);
              };
+             // 註冊 transitionend 事件
              contentElement.addEventListener('transitionend', handleTransitionEnd);
          };
 
@@ -91,11 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         li.classList.remove('active');
                         li.querySelector('a').setAttribute('aria-expanded', 'false'); // A11Y
 
-                        // 確保先給一個 scrollHeight，再立即設為 0，以觸發 CSS Transition (收合動畫)
                         // 修正 3：確保先設置當前高度再設為 0
                         submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
                         
-                        // 使用 requestAnimationFrame 確保在下一次重繪前將高度設為 0
+                        // 使用 requestAnimationFrame 確保在下一次重繪前將高度設為 0，觸發 CSS Transition
                         requestAnimationFrame(() => submenu.style.maxHeight = '0px'); 
                         onTransitionEndCleanup(submenu); // 使用統一的清理函數
                     }
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      
                      const menuIcon = menuToggle.querySelector('i');
                      if (menuIcon) {
+                          // 假設使用 FontAwesome
                           menuIcon.classList.remove('fa-times');
                           menuIcon.classList.add('fa-bars');
                      }
@@ -160,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
              }
              
              // FAQ 高度重算 (保持展開狀態的高度正確)
+             // 使用 setTimeout/requestAnimationFrame 確保在 DOM 變化後正確計算
              setTimeout(() => {
                  document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
                       requestAnimationFrame(() => {
@@ -284,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const href = targetLink.getAttribute('href');
                         // 判斷該連結是否為「開關觸發器」: 如果 href 是 '#'、空字串或 null
-                        const isTrigger = !href || href === '#' || href.startsWith('#'); // 修正：加入 href.startsWith('#')
+                        const isTrigger = !href || href === '#' || href.startsWith('#'); 
                         
                         const isMobileView = window.innerWidth <= mobileBreakpoint;
 
@@ -311,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
 
                             if (isCurrentlyActive) {
-                                // 收合操作 (已在 closeAllMobileSubmenus 中處理)
+                                // 收合操作：由 closeAllMobileSubmenus 執行
                                 closeAllMobileSubmenus(); 
                             } else {
                                 // 執行展開：先關閉其他，再展開自己
@@ -478,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         try {
             if (header) {
-                // 修正 9：排除所有以 # 開頭的連結，如果它是手機模式的菜單按鈕
+                // 排除所有以 # 開頭的連結，如果它是手機模式的菜單按鈕
                 document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
                      const href = anchor.getAttribute('href');
                      // 排除移動選單開關和點擊錨點後要平滑滾動的
@@ -534,8 +537,36 @@ document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         // 7. 動態生成不規則流星 (Meteor Generation Logic)
         // ====================================================
-        // 略... (保持原樣)
-        // ...
+        try {
+            const meteors = document.querySelectorAll('.meteor');
+            const METEOR_DISTANCE = 500; // 流星移動距離 (自定義)
+
+            if (meteors.length > 0) {
+                // 初始化流星動畫屬性
+                meteors.forEach(meteor => {
+                    // 1. 設置初始隨機位置
+                    meteor.style.top = `${Math.random() * 100}vh`;
+                    meteor.style.left = `${Math.random() * 100}vw`;
+
+                    // 2. 設置 CSS 變數，實現從右上到左下的移動
+                    meteor.style.setProperty('--rotation', '135deg'); // 與 CSS 保持一致
+                    meteor.style.setProperty('--travel-x', `-${METEOR_DISTANCE}px`); // 向左移動
+                    meteor.style.setProperty('--travel-y', `${METEOR_DISTANCE}px`); // 向下移動
+                    
+                    // 3. 設置動畫屬性
+                    meteor.style.animationName = 'shooting-star-random';
+                    const duration = 1 + Math.random() * 2; // 1s 到 3s
+                    const delay = Math.random() * 10; // 0s 到 10s
+                    meteor.style.animationDuration = `${duration}s`;
+                    meteor.style.animationDelay = `${delay}s`;
+                    meteor.style.animationIterationCount = 'infinite';
+                    meteor.style.animationTimingFunction = 'linear';
+                });
+            }
+        } catch (e) {
+            console.error('Core Logic Failed: Meteor Generation', e);
+        }
+
 
         // ====================================================
         // 8. 自動更新版權年份 (Footer Copyright Year)
@@ -570,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // 確保 action 屬性已替換 (防呆)
                     if (this.action.includes('your_form_endpoint')) {
                          if (statusMessage) {
-                             statusMessage.style.color = 'var(--error-color)';
+                             statusMessage.style.color = 'var(--error-color, #dc3545)';
                              statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
                          }
                          submitButton.textContent = originalText;
@@ -590,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (response.ok) {
                         if (statusMessage) {
-                           statusMessage.style.color = 'var(--success-color)';
+                           statusMessage.style.color = 'var(--success-color, #28a745)';
                            statusMessage.textContent = '🎉 訂購資訊已成功送出！請等待專人電話聯繫。';
                         }
                         this.reset(); 
@@ -609,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const errorMessage = errorData.error || '表單送出失敗';
                         
                         if (statusMessage) {
-                            statusMessage.style.color = 'var(--error-color)';
+                            statusMessage.style.color = 'var(--error-color, #dc3545)';
                             statusMessage.textContent = `❗ ${errorMessage}，請直接撥打 24H 專線訂購：0978-583-699`;
                         }
                         submitButton.textContent = originalText;
@@ -618,7 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } catch (error) {
                     console.error('Submission Error:', error);
                     if (statusMessage) {
-                        statusMessage.style.color = 'var(--error-color)';
+                        statusMessage.style.color = 'var(--error-color, #dc3545)';
                         statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
                     }
                     submitButton.textContent = originalText;
@@ -635,7 +666,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const MAX_FONT = 22;   
             const MIN_FONT = 8;    
             const PRECISION = 0.2; 
-            // 修正 10：確保選擇器與 HTML 中使用的 .text-line-container 一致
             const TARGET_SELECTOR = '.text-line-container span'; 
 
             const fitOne = (el) => { 
