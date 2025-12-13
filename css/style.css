@@ -23,6 +23,8 @@
     --primary-dark: #12213b;   /* 極深藍/夜空 (背景色/強調深色) */
     --accent-color: #ce9d4a;   /* 金黃/流星色 (輔助/亮點色) */
     --secondary-color: #4a5c78; /* 沉穩的藍灰色 (副標題/次要文字) */
+    --star-color: #fff;
+    --animation-duration: 0.8s;
     
     /* 文字色系 */
     --text-dark: #2c2c2c;      /* 標準深色文字 */
@@ -752,10 +754,12 @@ main {
 
 
 /* -------------------------------------------
+/* ===========================================
  * 3. 區塊樣式 (Sections) - Hero 與流星動畫
- * ------------------------------------------- */
+ * (修正方向：從右上往左下移動)
+ * =========================================== */
 
-/* 核心動畫：閃爍 (Blink) - 調整為更自然的非線性閃爍 */
+/* 核心動畫：閃爍 (Blink) - 保持不變，因為這與方向無關 */
 @keyframes blink {
     0%, 100% { opacity: 0.8; }
     25% { opacity: 0.3; }
@@ -765,6 +769,7 @@ main {
 
 /* 核心動畫：統一星星移動方向 (從右上向左下) */
 @keyframes move-star {
+    /* 修正方向邏輯：X 減少 (向左), Y 增加 (向下) */
     0% { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(var(--travel-x-end), var(--travel-y-end), 0); } 
 }
@@ -774,6 +779,7 @@ main {
     position: absolute;
     top: 0;
     left: 0;
+    /* 放大背景尺寸以配合位移動畫，減少露白風險 */
     width: 200%; 
     height: 200%;
     pointer-events: none;
@@ -782,6 +788,7 @@ main {
 
 /* 圖層 1: 慢速移動 (最遠處) */
 #stars {
+    /* X: 負值 (向左上), Y: 正值 (向右下) => 視覺效果是向左下緩慢移動 */
     --travel-x-end: -20px; --travel-y-end: 20px; 
     animation: move-star 300s linear infinite,
                blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
@@ -794,6 +801,7 @@ main {
     width: 1px;
     height: 1px;
     box-shadow:
+        /* 調整初始星星座標，使其更均勻地分佈於 200% 的大背景內 */
         100vw 200vh rgba(255, 255, 255, 0.2), 
         250vw 120vh rgba(255, 255, 255, 0.2), 
         -50vw 150vh rgba(255, 255, 255, 0.2), 
@@ -802,6 +810,7 @@ main {
 
 /* 圖層 2: 中速移動 (中間層) */
 #stars2 {
+    /* X: 負值 (向左), Y: 正值 (向下) */
     --travel-x-end: -60px; --travel-y-end: 60px; 
     animation: move-star 150s linear infinite, 
                blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
@@ -815,14 +824,16 @@ main {
     height: 2px;
     opacity: 0.9;
     box-shadow:
+        /* 調整初始星星座標 */
         -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
 }
 
 /* 圖層 3: 快速移動 (最前景) */
 #stars3 {
+    /* X: 負值 (向左), Y: 正值 (向下) */
     --travel-x-end: -100px; --travel-y-end: 100px; 
     animation: move-star 80s linear infinite,
-               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
+               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate;
     animation-delay: 0s;
     z-index: 1;
 }
@@ -833,11 +844,13 @@ main {
     height: 3px;
     opacity: 1;
     box-shadow:
+        /* 調整初始星星座標 */
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
         100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
 }
 
 
+/* Hero Section 樣式保持不變 */
 .hero-section {
     position: relative;
     height: 100vh; 
@@ -856,7 +869,7 @@ main {
     background-attachment: fixed;
 }
 
-/* 夜空漸層覆蓋層 - 增加深度與質感 */
+/* 夜空漸層覆蓋層保持不變 */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -876,9 +889,10 @@ main {
     pointer-events: none;
 }
 
+/* Hero 內容保持不變 */
 .hero-content {
     position: relative;
-    z-index: 3;
+    z-index: 10;
     color: var(--text-light);
     max-width: 800px;
     padding: 20px;
@@ -905,6 +919,7 @@ main {
 /* ⭐️ 流星動畫關鍵幀 */
 @keyframes shooting-star-random {
     0% {
+        /* 起點：尾巴剛開始出現 */
         transform: rotate(var(--rotation)) translate3d(0, 0, 0);
         opacity: 0; 
     }
@@ -915,6 +930,7 @@ main {
         opacity: 1;
     }
     100% {
+        /* 終點：流星拖著尾巴向外移動 */
         transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
         opacity: 0; 
     }
@@ -930,7 +946,8 @@ main {
         0 0 20px 8px var(--accent-color), 
         0 0 40px 15px rgba(206, 157, 74, 0.5);
     border-radius: 50%;
-    transform: rotate(var(--rotation));
+    /* 修正旋轉角度：135deg 使流星頭朝向左下，尾巴拖向右上 */
+    transform: rotate(135deg); 
     z-index: 4;
     pointer-events: none;
     will-change: transform, opacity;
@@ -941,11 +958,13 @@ main {
     content: '';
     position: absolute;
     top: 50%;
+    /* 尾巴向左伸展 400px (因為整個流星元素已經旋轉 135deg) */
     left: -400px; 
     width: 400px; 
     height: 1px; 
     transform: translateY(-50%);
     background: linear-gradient(
+        /* 修正漸層方向：to left 表示尾巴最亮的部分在流星頭部 (右側) */
         to left, 
         rgba(255, 255, 255, 1) 0%, 
         var(--accent-color) 5%, 
@@ -955,7 +974,6 @@ main {
     opacity: 0.9;
     filter: blur(0.5px); 
 }
-
 
 /* -------------------------------------------
 /* -------------------------------------------
