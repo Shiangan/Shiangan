@@ -75,7 +75,8 @@ html {
 }
 
 body {
-    font-family: var(--font-sans);
+    /* ⭐ 修正：中文字體優先，避免 FOUT 和確保中文字體顯示 */
+    font-family: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', var(--font-sans); 
     line-height: 1.7;
     color: var(--text-dark);
     background-color: var(--text-light);
@@ -83,6 +84,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+    
 
 /* 確保圖片和媒體響應式 */
 img, video, svg { 
@@ -764,7 +766,7 @@ main {
 /* 核心動畫：統一星星移動方向 (從右上向左下) */
 @keyframes move-star {
     0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, 100px), 0); } 
+    100% { transform: translate3d(var(--travel-x-end), var(--travel-y-end), 0); } 
 }
 
 
@@ -1458,6 +1460,7 @@ main {
             bottom: auto;
             transform: translateY(-50%);
         }
+        
         .flow-chart ol li:nth-child(2n)::after {
             content: '\f078'; /* 第 2 個元素為向下箭頭 */
             right: 50%;
@@ -2859,6 +2862,7 @@ footer {
         background-color: var(--bg-light); 
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         max-height: calc(100vh - var(--header-height)); 
+        background-color: rgba(206, 157, 74, 0.05);
         overflow-y: auto;
         transform: translateX(100%); 
         transition: transform 0.4s ease-out; 
@@ -2866,7 +2870,7 @@ footer {
         will-change: transform; 
         z-index: 999;
     }
-    .main-nav.active {
+    .main-nav.is-open { 
         transform: translateX(0); 
     }
 
@@ -2954,10 +2958,13 @@ footer {
         border-radius: 0;
         pointer-events: auto; 
     }
-    .dropdown.active > .submenu {
-        /* JS 應將 max-height 設置為 submenu 的 scrollHeight */
-        padding: 10px 0; /* JS 在添加 active 時，應同時設置這個 padding */
+    
+        .dropdown.is-open > .submenu {
+        max-height: 500px; 
+        /* ⭐ 修正：將 padding 留在這裡，讓 JS 僅負責 max-height 的切換 */
+        padding: 10px 0;
     }
+
 
     /* 確保子選單內容不會被絕對定位影響 scrollHeight (已在上方的 .submenu 中修正 position: static) */
     .submenu > li {
@@ -3020,7 +3027,7 @@ footer {
         font-size: 0.9rem;
     }
     
-    /* Footer RWD 對齊修正 */
+   /* Footer RWD 對齊修正 (900px) */
     .footer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)); 
         text-align: left; 
@@ -3113,13 +3120,14 @@ footer {
         flex-direction: column;
         text-align: center;
     }
-    /* 修正：版權資訊在手機上居中對齊 */
-    .footer-copyright .container > div {
+   /* ⭐ 修正：版權資訊在手機上居中對齊，不依賴 > div */
+    .footer-logo {
         width: 100%;
         text-align: center;
     }
-
     .footer-meta {
+        width: 100%;
+        text-align: center;
         margin-top: 10px;
     }
     .footer-meta a {
