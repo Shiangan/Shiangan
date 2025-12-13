@@ -152,6 +152,100 @@ a:focus-visible {
     outline: none; 
 } */
 
+/* -------------------------------------------
+ * 2. 響應式設計 (Mobile/Tablet) 補充
+ * ------------------------------------------- */
+
+/* 範例斷點：當螢幕寬度小於 1024px 時觸發 */
+@media (max-width: 1024px) {
+    
+    /* 啟用漢堡選單按鈕，隱藏桌面導覽 */
+    .menu-toggle {
+        display: flex; /* 在小螢幕上顯示菜單切換按鈕 */
+    }
+
+    .main-nav {
+        /* 在小螢幕上預設隱藏導覽列 */
+        position: fixed;
+        top: var(--header-height);
+        right: 0;
+        width: 300px; /* 側邊欄寬度 */
+        height: calc(100vh - var(--header-height));
+        background-color: var(--color-bg-primary); 
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%); /* 預設在螢幕右側外 */
+        transition: transform var(--transition-speed) ease-in-out;
+        z-index: 999;
+        overflow-y: auto; /* 允許垂直滾動 */
+        border-left: 1px solid var(--border-color);
+    }
+
+    /* 導覽列開啟時的狀態 (通常透過 JavaScript 添加 class) */
+    .main-nav.active {
+        transform: translateX(0);
+    }
+    
+    /* 內部列表調整為垂直佈局 */
+    .main-nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 0;
+    }
+
+    .main-nav li {
+        width: 100%;
+        padding: 0; /* 移除桌面版 padding */
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .main-nav li:last-child {
+        border-bottom: none;
+    }
+
+    .main-nav a {
+        padding: 15px 20px;
+        width: 100%;
+        justify-content: space-between; /* 讓箭頭靠右 */
+        font-size: 1.1rem;
+    }
+
+    /* 行動裝置的下拉選單 (Submenu) */
+    .submenu {
+        position: static; /* 變為流動佈局 */
+        transform: none; /* 移除桌面 transform */
+        box-shadow: none;
+        border-top: none;
+        background-color: rgba(0, 0, 0, 0.05); /* 輕微區隔 */
+        padding: 0;
+        border-radius: 0;
+        opacity: 1; /* 始終可見，由 JS/CSS 控制 max-height 展開 */
+        visibility: visible;
+        
+        /* 🏆 行動裝置摺疊效果：使用 max-height 替換 opacity/visibility */
+        max-height: 0; 
+        transition: max-height 0.4s ease-in-out;
+        overflow: hidden;
+    }
+
+    /* 下拉選單開啟時的狀態 (通常透過 JavaScript 添加 class) */
+    .dropdown.open > .submenu { 
+        max-height: 500px; /* 足夠大的值以容納所有子項 */
+    }
+    
+    .submenu a {
+        padding: 10px 30px; /* 增加左側內縮 */
+    }
+    
+    .submenu-title, .submenu-separator {
+        display: none; /* 行動版通常移除標題與分隔線 */
+    }
+    
+    /* 行動版隱藏導覽列中的聯繫按鈕，通常放在菜單最下方 */
+    .contact-nav {
+        display: none; 
+    }
+}
+
 
 /* 標題樣式 - 統一使用變數間距 */
 h1, h2, h3, h4, h5, h6 { 
