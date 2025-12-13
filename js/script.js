@@ -860,4 +860,4 @@ document.addEventListener('DOMContentLoaded', () => {
         // 捕捉所有核心邏輯初始化時的最終致命錯誤。
         console.error('Fatal Error: Core JS Initialization Failed.', finalError);
     }
-});
+}); 
