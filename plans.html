@@ -13,11 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght=300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 1. CSS 變數 */
+        /* 1. CSS 變數：高質感色彩與間距定義 */
         :root {
-            --primary-color: #800020; /* 勃根地紅 */
+            --primary-color: #800020; /* 勃根地紅/酒紅 */
             --accent-color: #D1A65E; /* 溫暖金色 */
-            --subtle-gray: #7A7A7A;
+            --light-bg: #F8F9FA; 
+            --subtle-gray: #7A7A7A; 
             --price-highlight: #A6293A; 
             --border-radius-lg: 12px;
             --box-shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -25,52 +26,171 @@
             --western-theme: #007bff;
         }
 
-        /* 2. 重置與基礎樣式 */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.6; color: #333; background-color: #fff; overflow-x: hidden; }
-        .main-header, footer { width: 100%; background-color: var(--primary-color); color: white; padding: 20px; text-align: center; }
-        .main-content-area { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        h2 { 
-            text-align: center; color: var(--primary-color); margin-top: 40px; margin-bottom: 35px; 
-            font-size: clamp(1.8em, 4vw, 2.2em); border-bottom: 4px double var(--accent-color); 
-            padding-bottom: 10px; font-family: 'Noto Serif TC', serif; 
+        /* 2. 重置與基礎樣式 (修復全白問題的關鍵) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        /* 3. Hero 區塊 */
-        .hero-section { background-size: cover; background-position: center; color: white; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 20px; position: relative; min-height: 400px; }
-        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;}
-        .hero-content { z-index: 2; }
-
-        /* 4. Tab 切換 */
-        .plan-tabs { display: flex; justify-content: center; margin-bottom: 50px; border-bottom: 2px solid var(--accent-color); gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-button { 
-            background-color: transparent; border: none; padding: 15px 30px; 
-            font-size: clamp(1em, 3vw, 1.2em); font-weight: bold; color: var(--subtle-gray); 
-            cursor: pointer; transition: all var(--transition-speed) ease; white-space: nowrap; 
-            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; 
-            position: relative; outline: none;
-        }
-        .tab-button.active { 
-            color: white; background-color: var(--primary-color); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15); 
-            border: 1px solid var(--primary-color); border-bottom: none; transform: translateY(-2px); 
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background-color: #fff; 
+            overflow-x: hidden; 
         }
         
-        /* 5. 分類區塊標題 (按中式上面會顯示中式 分幾樣) */
-        .plan-category-header { margin-bottom: 30px; padding: 10px 0; border-bottom: 2px solid #ddd; }
-        .plan-category-header h3 { margin: 0; color: var(--primary-color); text-align: left; border-bottom: none; font-size: clamp(1.5em, 4vw, 1.8em); }
-        .plan-category-header p { margin: 5px 0 0 0; color: var(--subtle-gray); font-size: 1.05em; text-align: left; }
-
-        /* 6. 方案卡片 */
-        .plans-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 50px; padding-top: 20px; }
-        .plan-card { 
-            background: white; border: 1px solid #e0e0e0; border-radius: var(--border-radius-lg); 
-            box-shadow: var(--box-shadow-sm); overflow: hidden; display: flex; flex-direction: column; 
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed); 
-            text-align: center; position: relative; 
+        /* 3. 通用佈局 */
+        .main-header, footer {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
-        .plan-header { background: linear-gradient(145deg, #F8F4EF 0%, #E8E2D7 100%); padding: 35px 20px 25px; border-bottom: 6px solid var(--accent-color); }
-        .plan-price { font-size: clamp(2.5em, 7vw, 3.5em); font-weight: 900; color: var(--price-highlight); line-height: 1; margin-top: 5px; }
-        .plan-features { list-style: none; padding: 0 20px; text-align: left; flex-grow: 1; margin-bottom: 20px;}
+
+        .main-content-area { 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+        }
+
+        /* 4. Hero 區塊 */
+        .hero-section {
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明遮罩 */
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        /* 5. 標題樣式 */
+        h1, h2, h3, h4 { font-family: 'Noto Serif TC', serif; }
+
+        h2 { 
+            text-align: center; 
+            color: var(--primary-color); 
+            margin-top: 40px; 
+            margin-bottom: 35px; 
+            font-size: clamp(1.8em, 4vw, 2.2em); 
+            border-bottom: 4px double var(--accent-color); 
+            padding-bottom: 10px; 
+        }
+
+        /* 6. Tab 切換 */
+        .plan-tabs { 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 50px; 
+            border-bottom: 2px solid var(--accent-color); 
+            gap: 10px; 
+            overflow-x: auto; 
+            padding-bottom: 5px; 
+        }
+
+        .tab-button { 
+            background-color: transparent; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: clamp(1em, 3vw, 1.2em); 
+            font-weight: bold; 
+            color: var(--subtle-gray); 
+            cursor: pointer; 
+            transition: all var(--transition-speed) ease; 
+            white-space: nowrap; 
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; 
+            position: relative; 
+            outline: none;
+        }
+
+        .tab-button.active { 
+            color: white; 
+            background-color: var(--primary-color); 
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15); 
+            border: 1px solid var(--primary-color); 
+            border-bottom: none; 
+            transform: translateY(-2px); 
+        }
+
+        /* 7. 分類區塊標題 (中式/西式/日式 分幾樣) */
+        .plan-category-header {
+            margin-bottom: 30px;
+            padding: 10px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        .plan-category-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            text-align: left;
+            border-bottom: none;
+            font-size: clamp(1.5em, 4vw, 1.8em);
+        }
+        .plan-category-header p {
+            margin: 5px 0 0 0;
+            color: var(--subtle-gray);
+            font-size: 1.05em;
+            text-align: left;
+        }
+
+        /* 8. 方案卡片 */
+        .plans-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 40px; 
+            margin-bottom: 50px; 
+            padding-top: 20px; 
+        }
+        .plan-card { 
+            background: white; 
+            border: 1px solid #e0e0e0; 
+            border-radius: var(--border-radius-lg); 
+            box-shadow: var(--box-shadow-sm); 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed); 
+            text-align: center; 
+            position: relative; 
+        }
+        .plan-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
+        .highlight-badge {
+            position: absolute; top: 0; right: 0; background-color: var(--primary-color); 
+            color: white; padding: 5px 15px; font-size: 0.9em; border-radius: 0 var(--border-radius-lg) 0 10px;
+            z-index: 5; font-weight: bold;
+        }
+        .plan-header { 
+            background: linear-gradient(145deg, #F8F4EF 0%, #E8E2D7 100%); 
+            padding: 35px 20px 25px; 
+            border-bottom: 6px solid var(--accent-color); 
+        }
+        .plan-price { 
+            font-size: clamp(2.5em, 7vw, 3.5em); font-weight: 900; color: var(--price-highlight); 
+            line-height: 1; margin-top: 5px; 
+        }
+        .plan-features { 
+            list-style: none; padding: 0 20px; text-align: left; flex-grow: 1; margin-bottom: 20px;
+        }
         .plan-features li { 
             padding: 10px 0; /* 桌面版預設間距 */
             border-bottom: 1px dotted #e0e0e0;
@@ -78,15 +198,15 @@
             align-items: center;
             font-size: 1.0em;
         }
-        .feature-icon { margin-right: 10px; color: var(--primary-color); font-size: 1.1em; width: 20px; text-align: center; }
         .details-button { 
             display: block; background-color: var(--accent-color); color: var(--primary-color); 
             padding: 18px; text-decoration: none; border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); 
             font-weight: bold; font-size: clamp(1.0em, 3vw, 1.15em); transition: background-color var(--transition-speed); 
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); cursor: pointer; border: none;
         }
-        
-        /* 7. Modal 樣式 (確保叉叉定位正確) */
+        .details-button:hover { background-color: #B58B4B; color: white; }
+
+        /* 9. Modal 浮層樣式 (叉叉定位與 A11y 強化) */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center;
@@ -98,7 +218,6 @@
             max-width: 900px; width: 90%; margin: 40px auto; transform: scale(0.9); transition: transform 0.3s ease;
             box-sizing: border-box; overflow: hidden; max-height: 90vh;
         }
-        .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header {
             background-color: var(--primary-color); padding: 25px 20px; border-radius: 15px 15px 0 0;
             font-size: 1.8em; color: white; position: sticky; top: 0; z-index: 10;
@@ -108,14 +227,12 @@
             font-size: 1.8em; cursor: pointer; padding: 5px 10px; z-index: 10001; 
             transition: color 0.2s, transform 0.2s; line-height: 1; outline: none;
         }
-        .close-btn:hover { color: var(--accent-color); transform: rotate(90deg); }
         .modal-body { padding: 25px; overflow-y: auto; }
 
-        /* 8. RWD 響應式微調 (手機版每一條細項可以再近一些) */
+        /* 10. RWD 響應式微調 (手機版每一條細項可以再近一些) */
         @media (max-width: 767px) {
             .main-content-area { padding: 0 10px; }
-            .tab-button { padding: 12px 20px; font-size: 0.9em; }
-            .plans-container { gap: 20px; }
+            .plan-tabs { justify-content: flex-start; }
             
             /* 核心修正：手機版方案細項間距縮小 */
             .plan-features li { 
@@ -127,9 +244,9 @@
             .close-btn { font-size: 1.5em; top: 10px; right: 10px; }
         }
 
-        /* 9. 浮動按鈕 */
+        /* 11. 浮動按鈕 */
         .floating-cta { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-        .floating-cta a { display: block; margin-top: 10px; width: 50px; height: 50px; background-color: var(--primary-color); color: white; border-radius: 50%; text-align: center; line-height: 50px; font-size: 1.5em; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s; }
+        .floating-cta a { display: block; margin-top: 10px; width: 50px; height: 50px; background-color: var(--primary-color); color: white; border-radius: 50%; text-align: center; line-height: 50px; font-size: 1.5em; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
         .back-to-top { display: none; position: fixed; bottom: 80px; right: 20px; z-index: 1000; width: 40px; height: 40px; background-color: #4a4a4a; color: white; border-radius: 50%; text-align: center; line-height: 40px; font-size: 1em; }
 
     </style>
@@ -168,10 +285,11 @@
                 <div id="content-buddhist-taoist" class="plan-tab-content active" role="tabpanel" aria-labelledby="tab-buddhist-taoist">
                     <div class="plan-category-header">
                         <h3 id="category-buddhist-taoist">🏮 佛道教 (中式) 禮儀方案</h3>
-                        <p>目前公開 **3** 個固定價格方案 (NT$168,000 ~ NT$358,000)，追求圓滿功德法事。</p>
+                        <p>目前公開 **3** 個固定價格方案 (NT$168,000 ~ NT$358,000)。</p>
                     </div>
                     
                     <section class="plans-container" aria-label="中式禮儀公開方案列表">
+                        
                         <article class="plan-card" id="plan-168">
                             <div class="highlight-badge" style="background-color: #5D4037;">NT$168,000</div>
                             <div class="plan-header">
@@ -240,7 +358,7 @@
                 <div id="content-western" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-western" style="display:none;">
                     <div class="plan-category-header">
                         <h3 id="category-western"><i class="fas fa-cross"></i> 西式禮儀 (基督教/天主教) 方案</h3>
-                        <p>目前提供 **1** 個客製化洽詢方案，強調溫馨追思與永恆盼望。</p>
+                        <p>目前提供 **1** 個客製化洽詢方案。</p>
                     </div>
                     <p style="text-align: center; margin-top: 30px; font-size: 1.15em; color: #555;">請直接聯繫我們了解詳細流程與費用。</p>
                 </div>
@@ -248,7 +366,7 @@
                 <div id="content-japen" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-japen" style="display:none;">
                     <div class="plan-category-header">
                         <h3 class="japen-theme" id="category-japen"><i class="fas fa-globe"></i> 日式禮儀 (創價學會等) 方案</h3>
-                        <p>目前提供 **1** 個客製化洽詢方案，注重簡約與靜謐的儀式氛圍。</p>
+                        <p>目前提供 **1** 個客製化洽詢方案。</p>
                     </div>
                     <p style="text-align: center; margin-top: 30px; font-size: 1.15em; color: #555;">我們將根據您的特殊宗教需求提供專業的客製化規劃與報價。</p>
                 </div>
@@ -265,11 +383,56 @@
                 <button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button>
             </header>
             <div class="modal-body">
-                <p>... 16.8萬方案的詳細內容清單 ...</p>
+                <h5 style="color:var(--primary-color); margin-bottom: 10px;">📋 治喪服務 (共 10 項)</h5>
+                <ul style="list-style-type: none; padding-left: 20px;">
+                    <li>1. 24小時接體服務 (含車輛及人員)。</li>
+                    <li>2. 遺體淨身、專業化妝、更衣。</li>
+                    <li>3. 靈位設置與用品 (基礎牌位)。</li>
+                    <li>4. 治喪流程協調與時辰擇日。</li>
+                    <li>5. 協助辦理死亡證明書等文件。</li>
+                </ul>
+                <h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">⚰️ 禮儀用品 (共 15 項)</h5>
+                <ul style="list-style-type: none; padding-left: 20px;">
+                    <li>1. 標準型火化棺木。</li>
+                    <li>2. 骨灰罈 (基礎款式) 及刻字服務。</li>
+                    <li>3. 壽衣 (五件式) 一套。</li>
+                    <li>4. 孝服、香燭、紙錢等基礎拜飯用品。</li>
+                </ul>
+                 <h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">🙏 法事與會場 (共 8 項)</h5>
+                <ul style="list-style-type: none; padding-left: 20px;">
+                    <li>1. 二、三、七誦經法會 (9師父配置)。</li>
+                    <li>2. 告別式會場基礎布幔佈置。</li>
+                    <li>3. 告別式服務人員配置。</li>
+                    <li>4. 專業司儀服務。</li>
+                </ul>
             </div>
         </div>
     </div>
     
+    <div id="modal-planB-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planB-title" onclick="closeModal(event)">
+        <div class="modal-content" role="document">
+            <header class="modal-header" style="background-color: #2980B9;">
+                <h4 id="modal-planB-title">中式：精緻尊享專案 (18.8萬) - 完整細節</h4>
+                <button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button>
+            </header>
+            <div class="modal-body">
+                <p>... 18.8萬方案的詳細內容清單 (相較A方案，用品與法事升級) ...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-planC-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planC-title" onclick="closeModal(event)">
+        <div class="modal-content" role="document">
+            <header class="modal-header" style="background-color: #4a4a4a;">
+                <h4 id="modal-planC-title">中式：至尊圓滿專案 (35.8萬) - 完整細節</h4>
+                <button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button>
+            </header>
+            <div class="modal-body">
+                <p>... 35.8萬方案的詳細內容清單 (最高規格，含24H禮儀師、七七法會等) ...</p>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-comparison-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-comparison-title" onclick="closeModal(event)">
         <div class="modal-content" role="document">
             <header class="modal-header">
@@ -279,9 +442,33 @@
             <div class="modal-body">
                  <div class="comparison-table-wrapper" style="overflow-x: auto;">
                     <table class="comparison-table" style="width: 100%; min-width: 600px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">服務項目</th>
+                                <th style="border: 1px solid #ddd; padding: 10px;">16.8萬 (平安)</th>
+                                <th style="border: 1px solid #ddd; padding: 10px; background-color: #E6F0FF;">18.8萬 (精緻)</th>
+                                <th style="border: 1px solid #ddd; padding: 10px; background-color: #FFF0E6;">35.8萬 (至尊)</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td style="border: 1px solid #ddd; padding: 10px;">禮儀師服務</td><td>全程協調</td><td>全程協調</td><td>24H專屬全程指導</td></tr>
-                            <tr><td style="border: 1px solid #ddd; padding: 10px;">功德法會</td><td>基礎</td><td>圓滿</td><td>七七圓滿</td></tr>
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">禮儀師服務</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">全程協調</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">全程協調</td>
+                                <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold; color: var(--primary-color);">24H專屬全程指導</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">功德法會</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">二/三/七 (基礎)</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">圓滿功德法會</td>
+                                <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">七七四十九天完整圓滿</td>
+                            </tr>
+                             <tr>
+                                <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">會場佈置</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">基礎布幔</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">LED主題花牆</td>
+                                <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">豪華藝術佈置+大量花藝</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -290,7 +477,7 @@
     </div>
     
     <footer>
-        <p>© <span id="current-year">2023</span> 祥安生命禮儀 | 價格透明，服務專業。</p>
+        <p>© <span id="current-year">2025</span> 祥安生命禮儀 | 價格透明，服務專業。</p>
     </footer>
     
     <div class="floating-cta" aria-label="緊急聯繫方式">
@@ -306,7 +493,7 @@
     <script>
         
         // ----------------------------------------------------
-        // Modal A11y 與 開/關 邏輯 (保持穩定)
+        // Modal A11y 與 開/關 邏輯
         // ----------------------------------------------------
         let focusedElementBeforeModal; 
 
@@ -346,7 +533,7 @@
         }
         
         function handleModalKeydown(e) {
-            // Tab 和 Escape 鍵盤輔助處理邏輯 (保持 V7.0 穩定邏輯)
+            // Tab 和 Escape 鍵盤輔助處理邏輯
             if (e.key === 'Escape') { closeModal(e); return; }
             if (e.key === 'Tab') {
                 const modal = e.currentTarget;
@@ -378,6 +565,7 @@
             tablinks = document.getElementsByClassName("tab-button");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
+                tablinks[i].setAttribute('aria-selected', 'false');
                 tablinks[i].setAttribute('tabindex', '-1'); 
             }
             
@@ -398,7 +586,7 @@
         }
 
         // ----------------------------------------------------
-        // 初始化與錨點處理 (修正核心 1: 不自動彈出 Modal, 修正核心 5: 不進入項目表)
+        // 初始化與錨點處理 (核心 1 & 5 固化)
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', (event) => {
             const hash = window.location.hash.substring(1); 
@@ -421,21 +609,19 @@
                  defaultTab = 'buddhist-taoist';
             }
             
-            // 執行 Tab 切換
+            // 執行 Tab 切換 (核心 5: 不要進入頁面就是項目表)
             openPlanTab(defaultTab);
             
-            // 處理滾動到特定卡片 (延遲滾動以確保 Tab 內容已顯示)
+            // 處理滾動到特定卡片 (核心 1: 不自動彈出 Modal, 僅滾動)
             setTimeout(() => {
                 const planSelection = document.getElementById('plan-selection');
-
                 if (targetCardId) {
                     const targetElement = document.getElementById(targetCardId);
                     if (targetElement) {
-                        // 滾動到特定卡片的中間 (修正核心 1: 僅滾動)
                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 } else if (planSelection) {
-                    // 修正核心 5: 確保進入頁面時視圖停在 Tab 區
+                    // 確保視圖停在 Tab 區
                     planSelection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }, 100); 
