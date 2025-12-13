@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>告別式服務方案 - RWD 完整版</title>
+    <style>
+        /* 1. 全域樣式與卡片基礎 */
+        body { font-family: 'lansui', 'Noto Sans TC', 'Microsoft YaHei', sans-serif; background-color: #f8f8f8; padding: 20px; line-height: 1.6; color: #333; }
+        h2 { text-align: center; color: #660000; margin-bottom: 30px; font-size: 1.8em; }
+
+        /* 2. PC 佈局 (使用 Flexbox 並排) */
+        .plans-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex; 
+            gap: 30px;
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+
+        .plan-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            width: 30%; /* PC版三欄並排 */
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+        .plan-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+
+        /* PC卡片頭部 */
+        .plan-header { background-color: #F3EFE9; padding: 25px 20px; text-align: center; }
+        .plan-title { font-size: 1.6em; color: #8B0000; }
+        .plan-price { font-size: 2.2em; font-weight: bold; color: #C0392B; margin-top: 5px; }
+        .price-note { font-size: 0.9em; color: #777; margin-top: 5px; }
+
+        /* PC服務列表：只顯示前 N 項核心服務 */
+        .plan-features { list-style: none; padding: 20px; margin: 0; flex-grow: 1; }
+        .plan-features li { padding: 10px 0; border-bottom: 1px dashed #eee; text-align: left; font-size: 0.95em; }
+
+        .feature-icon { color: #27AE60; font-size: 1.1em; margin-right: 8px; }
+
+        .plan-footer { padding: 20px; text-align: center; margin-top: auto; }
+        
+        /* 隱藏手機版細節按鈕，因為 PC 版直接顯示核心內容 */
+        .mobile-detail-button { display: none; }
+        
+        /* ---------------------------------------------------- */
+        /* 3. 手機版優化 (Media Query) - 貼近人心的關鍵 */
+        /* ---------------------------------------------------- */
+        @media (max-width: 767px) {
+            .plans-container {
+                flex-direction: column; /* 垂直堆疊 */
+                gap: 20px;
+            }
+
+            .plan-card {
+                width: 100%; /* 佔滿手機寬度 */
+                max-width: none;
+                border: 2px solid #D1A65E; /* 手機版邊框更明顯 */
+            }
+
+            /* 手機版：隱藏 PC 版顯示的服務列表，改用彈出/展開方式 */
+            .plan-features {
+                display: none; 
+            }
+
+            /* 手機版：顯示按鈕，讓用戶主動展開完整細項 */
+            .mobile-detail-button {
+                display: block;
+                background-color: #8B0000;
+                color: white;
+                padding: 12px 30px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 80%;
+                margin: 15px auto 0;
+            }
+            
+            /* 在手機上展開詳細內容的容器 */
+            .plan-details-expanded {
+                display: none; /* 預設隱藏 */
+                padding: 10px;
+                background-color: #f7f7f7;
+                border-top: 1px solid #ddd;
+            }
+
+            .plan-details-expanded table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .plan-details-expanded th {
+                background-color: #D1A65E;
+                color: white;
+                padding: 8px;
+                text-align: left;
+                font-size: 1em;
+            }
+            .plan-details-expanded td {
+                padding: 8px;
+                border-bottom: 1px dashed #eee;
+                font-size: 0.85em;
+            }
+        }
+        
+        /* JavaScript 展開類 */
+        .expanded .plan-details-expanded {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    function toggleDetails(button) {
+        const card = button.closest('.plan-card');
+        card.classList.toggle('expanded');
+        if (card.classList.contains('expanded')) {
+            button.textContent = '收起細項 ↑';
+        } else {
+            button.textContent = '查看完整細項 ↓';
+        }
+    }
+</script>
+
+<h2>專業告別式服務方案 (手機/電腦最佳化)</h2>
+
+<div class="plans-container">
+    
+    <div class="plan-card" id="plan-zunrong">
+        <div class="plan-header">
+            <h3 class="plan-title">尊榮專業專案</h3>
+            <div class="plan-price">NT$168,000</div>
+            <div class="price-note">一壺陸萬捌仟元整</div>
+        </div>
+        
+        <ul class="plan-features">
+            <li><span class="feature-icon">✓</span> 24小時專屬禮儀師服務</li>
+            <li><span class="feature-icon">✓</span> 基礎治喪協調與指導</li>
+            <li><span class="feature-icon">✓</span> 二、三、七誦經法會 (9師父)</li>
+            <li><span class="feature-icon">✓</span> 基礎棺木與備品</li>
+        </ul>
+        
+        <div class="plan-footer">
+            <button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button>
+        </div>
+        
+        <div class="plan-details-expanded">
+            <table>
+                <thead><tr><th colspan="2">尊榮專業專案 - 完整細項</th></tr></thead>
+                <tbody>
+                    <tr><th>遺體服務</th><td>接運、淨身、化妝、設立靈前牌位</td></tr>
+                    <tr><th>法事儀軌</th><td>二、三、七誦經；四、六、七圓滿法會</td></tr>
+                    <tr><th>禮儀用品</th><td>基礎棺木、骨灰罈、壽衣、標準備品</td></tr>
+                    <tr><th>會場佈置</th><td>基礎布幔、燈光、基礎花藝</td></tr>
+                    <tr><th>後續關懷</th><td>百日/對年通知、基礎塔位諮詢</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="plan-card" id="plan-jingzhi">
+        <div class="plan-header">
+            <h3 class="plan-title">精緻豪華專案</h3>
+            <div class="plan-price">NT$188,000</div>
+            <div class="price-note">一氣萬捌仟元整</div>
+        </div>
+        
+        <ul class="plan-features">
+            <li><span class="feature-icon">✓</span> 升級遺體沐浴與冰存服務</li>
+            <li><span class="feature-icon">✓</span> **圓滿功德法會** (9師父)</li>
+            <li><span class="feature-icon">✓</span> 升級款棺木與精選骨灰罈</li>
+            <li><span class="feature-icon">✓</span> 精緻會場與 **含LED花牆** 佈置</li>
+        </ul>
+        
+        <div class="plan-footer">
+            <button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button>
+        </div>
+        
+        <div class="plan-details-expanded">
+             <table>
+                <thead><tr><th colspan="2">精緻豪華專案 - 完整細項</th></tr></thead>
+                <tbody>
+                    <tr><th>遺體服務</th><td>升級沐浴、冰存、文書準備</td></tr>
+                    <tr><th>法事儀軌</th><td>三、七、七圓滿功德法會 (9師父)</td></tr>
+                    <tr><th>禮儀用品</th><td>**升級款**棺木、精選骨灰罈、精緻備品</td></tr>
+                    <tr><th>會場佈置</th><td>**含LED花牆**、精緻花藝</td></tr>
+                    <tr><th>後續關懷</th><td>百日/對年通知、詳細塔位諮詢</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="plan-card featured" id="plan-lianhe">
+        <div class="plan-header">
+            <h3 class="plan-title">聯合專業專案</h3>
+            <div class="plan-price">NT$358,000</div>
+            <div class="price-note">三參伍萬捌仟元整</div>
+        </div>
+        
+        <ul class="plan-features">
+            <li><span class="feature-icon">⭐</span> **24小時禮儀師全程陪伴**</li>
+            <li><span class="feature-icon">⭐</span> **七七圓滿功德法會** (完整)</li>
+            <li><span class="feature-icon">⭐</span> 高級棺木與頂級骨灰罈</li>
+            <li><span class="feature-icon">⭐</span> **代辦火化/埋葬申請** (一站式服務)</li>
+        </ul>
+        
+        <div class="plan-footer">
+            <button class="mobile-detail-button" onclick="toggleDetails(this)">查看完整細項 ↓</button>
+        </div>
+        
+        <div class="plan-details-expanded">
+             <table>
+                <thead><tr><th colspan="2">聯合專業專案 - 完整細項 (主推)</th></tr></thead>
+                <tbody>
+                    <tr><th>遺體服務</th><td>**24H全程**專業服務、儀軌指導</td></tr>
+                    <tr><th>法事儀軌</th><td>**完整七七圓滿功德法會** (9師父)</td></tr>
+                    <tr><th>禮儀用品</th><td>**高級**棺木、**頂級**骨灰罈、**全套**備品</td></tr>
+                    <tr><th>會場佈置</th><td>豪華佈置、**大量花藝**、含LED花牆</td></tr>
+                    <tr><th>後續關懷</th><td>百日/對年通知、**專業一站式服務**</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
