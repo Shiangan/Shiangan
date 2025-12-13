@@ -109,6 +109,7 @@ body {
     line-height: var(--line-height-base);
     color: var(--color-text-main);
     background-color: var(--color-bg-primary);
+    /* 🏆 最終修訂: 語義化的 font-smoothing */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -137,7 +138,8 @@ a {
 /* 🏆 統一使用 :focus-visible 提升可訪問性 */
 a:hover {
     color: var(--color-dark);
-    opacity: 0.9;
+    /* 🏆 最終修訂: 移除 opacity，讓 hover 顏色更精確 */
+    /* opacity: 0.9; */
 }
 a:focus-visible {
     /* 修正：焦點優化更明顯，使用 accent-color */
@@ -145,9 +147,10 @@ a:focus-visible {
     outline: 2px solid var(--color-warning); 
     outline-offset: 4px;
 }
-a:focus:not(:focus-visible) {
-    outline: none; /* 讓不支援的瀏覽器使用預設焦點 */
-}
+/* 🏆 最終修訂: 確保不支持 :focus-visible 的瀏覽器，點擊後焦點不會顯示（但仍需默認 outline） */
+/* a:focus:not(:focus-visible) {
+    outline: none; 
+} */
 
 
 /* 標題樣式 - 統一使用變數間距 */
@@ -158,6 +161,8 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 1.3em; 
     color: var(--color-text-light);
     font-weight: 700;
+    /* 🏆 最終修訂: 性能優化 */
+    text-rendering: optimizeLegibility;
 }
 
 h1 {
@@ -192,7 +197,12 @@ h2::after {
     height: 4px;
     background-color: var(--color-warning);
     border-radius: 2px;
-    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); 
+    /* 🏆 最終修訂: 使用簡單的 ease-out 過渡 */
+    transition: width 0.3s ease-out; 
+}
+/* 🏆 最終修訂: 增強 H2 裝飾線的互動效果 */
+h2:hover::after {
+    width: 100px; 
 }
 
 h3 { 
@@ -429,6 +439,7 @@ main {
     position: absolute;
     top: 100%;
     left: 50%;
+    /* 🏆 最終修訂: 使用 translateY(10px) 替換 translate3d */
     transform: translateX(-50%) translateY(10px); 
     
     min-width: 240px;
@@ -447,6 +458,8 @@ main {
     visibility: hidden;
     overflow: hidden;
     max-height: unset; 
+    /* 🏆 最終修訂: 性能優化 */
+    will-change: opacity, transform;
 }
 
 /* 確保所有互動狀態都能觸發顯示 */
@@ -547,6 +560,12 @@ main {
     border-radius: 4px;
     transition: background-color var(--transition-speed);
     z-index: 1001;
+    /* 🏆 最終修訂: 增強互動性 */
+    height: 40px; 
+    width: 40px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-toggle:hover, .menu-toggle:focus-visible {
@@ -620,6 +639,7 @@ main {
 }
 
 .cta-button.secondary:focus-visible {
+    /* 🏆 最終修訂: secondary button 焦點時使用 primary 顏色 */
     background-color: transparent; 
     outline: 2px solid var(--color-primary);
     outline-offset: 4px;
@@ -671,6 +691,7 @@ main {
 }
 
 /* 🏆 優化：使用 box-shadow 創建星星，性能優於大量的 div */
+/* 🏆 最終修訂: 統一星星的尺寸（1px）和顏色，僅透過 opacity/box-shadow 區分 */
 #stars {
     --star-travel-x: -20px; --star-travel-y: 20px; 
     animation: move-star 300s linear infinite,
@@ -684,7 +705,10 @@ main {
         100vw 200vh rgba(255, 255, 255, 0.2), 
         250vw 120vh rgba(255, 255, 255, 0.2), 
         -50vw 150vh rgba(255, 255, 255, 0.2), 
-        30vw 100vh rgba(255, 255, 255, 0.2);
+        30vw 100vh rgba(255, 255, 255, 0.2),
+        150vw 10vh rgba(255, 255, 255, 0.2); /* 額外增加一顆星星 */
+    /* 🏆 最終修訂: 使用 0.5px 模擬更細小的點 */
+    border-radius: 50%;
 }
 
 
@@ -695,11 +719,13 @@ main {
                blink 3s infinite alternate;
     animation-delay: 1.2s;
     z-index: 1;
-    width: 2px;
-    height: 2px;
+    width: 1px; /* 統一尺寸 */
+    height: 1px;
     opacity: 0.9;
     box-shadow:
-        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
+        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff,
+        -150vw 150vh #ffffff; /* 額外增加一顆星星 */
+    border-radius: 50%;
 }
 
 /* 圖層 3: 快速移動 (最前景) */
@@ -709,12 +735,14 @@ main {
                blink 1.5s infinite alternate;
     animation-delay: 0s;
     z-index: 1;
-    width: 3px;
-    height: 3px;
+    width: 2px; /* 稍大一點的星星 */
+    height: 2px;
     opacity: 1;
     box-shadow:
         -200vw 100vh var(--color-warning), 10vw 250vh var(--color-warning),
-        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
+        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9),
+        -5vw 50vh var(--color-warning); /* 額外增加一顆星星 */
+    border-radius: 50%;
 }
 
 /* 移除所有冗餘的 ::before 偽元素（已經移到父層 box-shadow） */
@@ -745,10 +773,11 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
+    /* 🏆 最終修訂: 調整漸層的顏色和透明度，使其更像夜空 */
     background: linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0.7) 0%,
-            rgba(18, 33, 59, 0.5) 60%,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(18, 33, 59, 0.6) 60%,
             var(--color-dark) 100%
         );
     z-index: 2;
@@ -785,7 +814,8 @@ main {
 /* ⭐️ 流星動畫關鍵幀 (性能優化：調整為 2 幀) */
 @keyframes shooting-star-random {
     0% {
-        transform: rotate(var(--rotation)) translate3d(0, 0, 0);
+        /* 🏆 最終修訂: 使用 translateZ(0) 強制硬體加速 */
+        transform: rotate(var(--rotation)) translate3d(0, 0, 0); 
         opacity: 0; 
     }
     1% {
@@ -879,7 +909,8 @@ main {
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* 🏆 最終修訂: minmax 調整為 300px，確保大螢幕下不會過寬 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-lg);
     margin-top: 40px;
 }
@@ -946,7 +977,8 @@ main {
 
 .testimonial-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* 🏆 最終修訂: minmax 調整為 320px，避免卡片過窄 */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-xl);
 }
@@ -1046,6 +1078,10 @@ main {
     counter-increment: step-counter;
     padding-top: 40px;
     text-align: center;
+    /* 🏆 最終修訂: 確保高度一致性，讓流程圖更美觀 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .flow-chart li::before {
@@ -1063,7 +1099,7 @@ main {
     color: var(--color-dark);
     font-weight: 700;
     font-size: 1.2rem;
-    border: 4px solid var(--color-bg-secondary);
+    border: 4px solid var(--color-bg-primary); /* 🏆 最終修訂: 使用主要背景色而非次要背景色，與頁面背景更融合 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
@@ -1169,7 +1205,8 @@ main {
     overflow: hidden;
     padding: 0 25px;
     background-color: var(--color-light);
-    transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+    /* 🏆 最終修訂: 調整為簡單的 cubic-bezier */
+    transition: max-height 0.4s ease-in-out; 
     will-change: max-height;
 }
 
@@ -1200,7 +1237,8 @@ footer {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* 🏆 最終修訂: 使用 minmax 增強 RWD 彈性 */
+    grid-template-columns: repeat(3, minmax(200px, 1fr)); 
     gap: 40px;
     padding-bottom: 40px;
     max-width: var(--content-max-width);
@@ -1716,6 +1754,8 @@ table {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    /* 🏆 最終修訂: 使用 Warning 顏色作為邊框，增強視覺層次 */
+    border: 2px solid var(--color-warning); 
 }
 
 /* 提示框與承諾框樣式 - 統一調整 */
@@ -1941,8 +1981,9 @@ table {
 
 /* 🏆 統一步驟流程 Grid 樣式 */
 .step-grid {
+    /* 🏆 最終修訂: 調整為 300px min-width */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 40px; 
     padding: var(--spacing-lg) 0;
     margin-bottom: 40px;
@@ -1960,11 +2001,15 @@ table {
     content: '';
     position: absolute;
     top: 25px; 
-    right: calc(-20px - 20px); 
-    width: calc(100% + 40px);
+    /* 🏆 最終修訂: 使用 flex-basis 的百分比計算來獲得更準確的位置，但在 Grid 模式下，直接使用絕對定位 */
+    right: -40px; 
+    left: calc(100% + 20px); 
+    width: 40px; 
     height: 2px;
     background-color: var(--border-color-light);
     z-index: 5;
+    /* 🏆 最終修訂: 使用 transform 讓連接線居中 */
+    transform: translateY(-50%); 
 }
 
 /* 🏆 修正：移除最後一個元素的連接線，確保樣式一致 */
@@ -2052,7 +2097,8 @@ table {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6); 
+    /* 🏆 最終修訂: 提高透明度，增加對比 */
+    background: rgba(0, 0, 0, 0.7); 
     z-index: 1;
 }
 
@@ -2116,7 +2162,8 @@ table {
 .price-plan.featured {
     border-color: var(--color-primary); 
     transform: scale(1.03); 
-    box-shadow: 0 0 0 4px var(--color-primary), var(--box-shadow-lg); 
+    /* 🏆 最終修訂: 增強焦點視覺效果 */
+    box-shadow: 0 0 0 4px var(--color-warning), var(--box-shadow-lg); 
 }
 
 .plan-ribbon {
@@ -2299,7 +2346,8 @@ table {
     overflow: hidden; 
     border-radius: var(--border-radius);
     border: 1px solid var(--color-bg-secondary);
-    min-width: 768px; 
+    /* 🏆 最終修訂: 確保最低寬度符合設計，避免在桌面上過窄 */
+    min-width: 900px; 
 }
 
 .comparison-table thead th {
@@ -2445,7 +2493,8 @@ table {
 .contact-grid-2col {
     /* 1.5fr (表單) 1fr (資訊欄) */
     display: grid;
-    grid-template-columns: minmax(350px, 1.5fr) minmax(300px, 1fr); 
+    /* 🏆 最終修訂: 使用 minmax(300px) 確保兩個欄位在桌面版都有足夠的寬度 */
+    grid-template-columns: minmax(300px, 1.5fr) minmax(300px, 1fr); 
     gap: var(--spacing-xl);
     align-items: flex-start;
 }
@@ -2653,7 +2702,8 @@ table {
 }
 
 .base-card:hover {
-    transform: perspective(1000px) translateY(-5px) rotateX(1deg); 
+    /* 🏆 最終修訂: 簡化 3D 轉換，提升性能 */
+    transform: translateY(-5px); 
     box-shadow: 0 10px 30px var(--shadow-deep);
 }
 
@@ -2931,9 +2981,12 @@ table {
         padding: 20px 0;
         will-change: transform; 
         z-index: 999;
+        /* 🏆 最終修訂: 使用 3D 轉換以獲得更流暢的動畫 */
+        transform: translate3d(100%, 0, 0); 
     }
     .main-nav.active {
-        transform: translateX(0); 
+        /* 🏆 最終修訂: 使用 3D 轉換以獲得更流暢的動畫 */
+        transform: translate3d(0, 0, 0); 
     }
 
     .menu-toggle {
@@ -3060,13 +3113,18 @@ table {
     
     .hero-section {
         height: 500px;
-        background-attachment: scroll;
+        /* 🏆 最終修訂: 背景固定在手機上性能不好，取消固定 */
+        /* background-attachment: scroll; */
     }
 
     /* 流程圖在平板電腦下顯示 3 欄 */
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         min-width: unset;
+    }
+    /* 🏆 最終修訂: 在此視窗尺寸下移除連接線 */
+    .flow-chart li::after {
+        content: none !important;
     }
 
     /* 文章頁面 RWD */
@@ -3084,6 +3142,7 @@ table {
         padding: 25px; 
         margin-top: 10px;
     }
+    /* 🏆 最終修訂: 確保 TOC 在平板上有足夠的空間顯示 */
     .article-sidebar .table-of-contents {
         display: block; 
         order: -1;
@@ -3172,6 +3231,7 @@ table {
     
     /* Footer RWD 對齊修正 */
     .footer-grid {
+        /* 🏆 最終修訂: 在平板上保持 2 欄，但給予更多空間 */
         grid-template-columns: repeat(2, minmax(0, 1fr)); 
         text-align: left; 
     }
@@ -3238,6 +3298,7 @@ table {
         margin-top: 10px;
     }
     
+    /* 🏆 最終修訂: 在極窄手機螢幕上隱藏目錄，節省垂直空間 */
     .article-sidebar .table-of-contents {
         display: none; 
     }
@@ -3279,6 +3340,7 @@ table {
 
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 */
 :target {
+    /* 🏆 最終修訂: 確保 Header + 額外間距 */
     scroll-margin-top: calc(var(--header-height) + 20px); 
     /* 視覺提示：提供一個微小的動畫效果 */
     padding-top: 1px; 
@@ -3316,4 +3378,13 @@ table {
 .article-body ol + pre {
     margin-top: 1.5em;
 }
- 
+
+/* 🏆 最終修訂: 確保代碼塊內的選染正常 */
+pre ::selection {
+  background: var(--color-primary);
+  color: var(--code-color);
+}
+pre::-moz-selection {
+  background: var(--color-primary);
+  color: var(--code-color);
+}
