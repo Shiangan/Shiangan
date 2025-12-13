@@ -2463,7 +2463,7 @@ footer {
         transform: rotate(180deg);
     }
 
-    /* 最終修正：RWD 下拉菜單的顯示邏輯（完全重置桌面版樣式） */
+    /* ⭐️ 最終修正：RWD 下拉菜單的顯示邏輯（完全重置桌面版樣式） */
     .submenu {
         position: static; /* 關鍵：讓它不再浮動，佔據正常流空間 */
         width: 100%;
@@ -2485,31 +2485,57 @@ footer {
         background-color: var(--bg-light); /* 確保與父選單背景一致或稍有差異 */
     }
 
+    /* 確保巢狀層次的視覺區分 */
+    .submenu .submenu {
+        /* 子選單背景稍微深一點點，用於視覺區分 */
+        background-color: rgba(30, 58, 106, 0.05); 
+    }
+
+    .submenu li {
+        /* 移除 RWD 主選單的邊界，避免子項目線條過多 */
+        border-bottom: none; 
+    }
+    
     /* 確保子選單內的連結有視覺層次感 */
     .submenu a {
         padding: 10px 30px; 
-        background-color: var(--text-light); /* 讓子選單連結有輕微的底色區分 */
+        font-size: 0.95rem;
+        background-color: transparent; 
         border-left: 5px solid transparent;
+        color: var(--text-dark);
     }
+    /* 巢狀子選單的連結 (第二層) */
+    .submenu .submenu a {
+        padding-left: 45px; 
+    }
+    /* 更深一層的連結 (第三層) */
+    .submenu .submenu .submenu a {
+        padding-left: 60px; 
+    }
+
     .submenu a:hover {
         border-left: 5px solid var(--accent-color);
         background-color: var(--bg-light);
     }
     
-    /* 修正：當 JS 加上 .active 時，展開子選單 */
+    /* 核心：當 JS 加上 .active 時，展開子選單（請確保 JS 給予足夠大的 max-height，如 1000px） */
     .dropdown.active > .submenu {
-        /* JS 應設置一個足夠大的 max-height */
-        max-height: 500px; /* 假設 500px 足夠容納所有子項目 */
+        max-height: 1000px; 
         padding: 10px 0; 
     }
 
-
+    /* 確保 RWD 模式下，桌面版下拉箭頭不旋轉 (避免與手風琴衝突) */
+    .main-nav a .fas {
+        transform: none;
+    }
+    
+    
     .hero-section {
         height: 500px;
         background-attachment: scroll;
     }
 
-    /* 流程圖在平板電腦下顯示 3 欄 (修正原邏輯) */
+    /* 流程圖在平板電腦下顯示 3 欄 */
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         min-width: unset;
