@@ -523,6 +523,9 @@ main {
     transition: transform var(--transition-speed);
 }
 
+ transition: transform var(--transition-speed) ease; /* 增加 ease 確保平滑 */
+}
+
 /* 下拉選單質感優化 (桌面版) */
 .submenu {
     position: absolute;
@@ -541,13 +544,7 @@ main {
     display: flex;
     flex-direction: column;
     
-    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    opacity: 0;
-    visibility: hidden;
-    overflow: hidden;
-    max-height: unset; 
-    /* 🏆 最終修訂: 性能優化 */
+        transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
     will-change: opacity, transform;
 }
 
