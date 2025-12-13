@@ -44,6 +44,14 @@
     --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
+   /* ⭐️ 新增標籤顏色變數 (與 blog.html 內嵌樣式對應) */
+    --primary-light: #f0f4f9; /* Primary Color 的淺色調 */
+    --primary-dark-tag: #1e3a6a; /* 用於深色標籤文字 */
+    --cost-tag-bg: #ffcc99;
+    --cost-tag-color: #cc6600;
+    --religion-tag-bg: #c0d9f0;
+    --religion-tag-color: #003366;
+
     /* 尺寸定義 */
     --header-height: 80px;
     --content-max-width: 1200px;
@@ -2723,8 +2731,106 @@ footer {
     scroll-margin-top: var(--header-height);
 }
 
+/* --- 12.3 通用列表與步驟 (List & Step Components) --- */
+
+/* 通用列表樣式 */
+.styled-list {
+    list-style: none; /* 移除瀏覽器預設樣式 */
+    padding: 0;
+    margin: 0;
+}
+
+.styled-list li {
+    display: flex;
+    align-items: flex-start; /* 確保圖標與文字頂端對齊 */
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.styled-list .list-icon {
+    color: var(--accent-color); /* 列表圖標使用強調色，更顯眼 */
+    margin-top: 3px;
+    min-width: 25px; /* 確保圖標區域足夠，防止文字擠壓 */
+    font-size: 1.1rem;
+    flex-shrink: 0; /* 防止在小螢幕上被壓縮 */
+}
+
+/* 2. 步驟流程 Grid 樣式 (優化版) */
+.step-grid {
+    display: grid;
+    /* 確保至少 1 欄，最多 3 欄，自動適應 */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 40px; /* 增加間距 */
+    padding: 30px 0;
+    margin-bottom: 40px;
+}
+
+.step-item {
+    text-align: center;
+    position: relative;
+    padding-top: 60px; /* 預留給編號和線條 */
+    padding-bottom: 10px;
+}
+
+.step-item::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: -20px; /* 線條延伸到下一個步驟 */
+    width: calc(100% + 40px); /* 覆蓋 step-item 間距 */
+    height: 2px;
+    background-color: var(--border-color-light);
+    z-index: 5;
+    /* 僅在非最後一個元素顯示連接線 */
+}
+
+.step-item:last-child::after {
+    display: none;
+}
+
+.step-number {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px; /* 增大尺寸，更美觀 */
+    height: 50px;
+    border-radius: 50%;
+    color: var(--text-light);
+    background-color: var(--primary-color); 
+    font-weight: 800; /* 更粗的字體 */
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border: 4px solid var(--text-light); /* 邊框更明顯 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* 增加立體感 */
+}
+
+.step-item h4 {
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    font-family: var(--font-serif);
+}
+
+.step-item p {
+    color: var(--secondary-color);
+}
+
+
+
 /* -------------------------------------------
  * 13. 網站互動與工具類 (Utility & Animation)
+/* 假設已定義：
+--text-dark: #2c3e50;
+--success-color: #2ecc71;
+--warning-color: #f39c12;
+--error-color: #e74c3c;
+
  * ------------------------------------------- */
 
 /* --- 13.1 通用卡片組件 (Card Component) --- */
@@ -2815,3 +2921,285 @@ footer {
 .font-serif { font-family: var(--font-serif) !important; }
 .font-bold { font-weight: 700 !important; }
 .text-justify { text-align: justify !important; }
+
+/* --- 13.4 進階按鈕組件 (Button Component) --- */
+
+.base-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    user-select: none;
+}
+
+/* 主要按鈕 (填充色) */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--text-light); /* 通常是白色 */
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(30, 58, 106, 0.4);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(30, 58, 106, 0.5);
+}
+
+/* 次要按鈕 (輪廓線) */
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    transform: translateY(-1px);
+}
+
+/* 輔助按鈕 (小/圓角/圖標) */
+.btn-small {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+}
+
+.btn-icon-right i {
+    margin-left: 8px;
+}
+.btn-icon-left i {
+    margin-right: 8px;
+}
+
+/* --- 13.5 網站加載與過渡 (Preloader & Transition) --- */
+
+/* 加載畫面容器 */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--text-light); /* 使用亮色背景 */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+/* 加載完成時，由 JS 加上此類別 */
+.loaded #preloader {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 經典旋轉動畫 */
+.loader-spinner {
+    border: 5px solid var(--border-color);
+    border-top: 5px solid var(--accent-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* --- 14.4 部落格卡片細節增強 (Enhanced Blog Card Details) --- */
+
+/* 將基礎卡片的 hover 效果提升到 3D 深度 */
+.base-card:hover {
+    transform: perspective(1000px) translateY(-5px) rotateX(1deg); /* 新增輕微 3D 旋轉 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 卡片閱讀時間/觀看數的視覺化 */
+.card-meta .meta-item {
+    display: flex;
+    align-items: center;
+}
+
+.card-meta .meta-item i {
+    font-size: 1em; /* 調整圖標大小 */
+}
+
+/* 視覺分離線 (在卡片 body 底部) */
+.card-meta {
+    border-top: 1px solid var(--border-color); /* 將虛線改回實線，更簡潔 */
+    padding-top: 12px;
+}
+
+/* 14.5 響應式圖片最佳化 (Responsive Image Optimization) */
+
+/* 確保所有文章圖片的響應性和性能 */
+.card-image-wrap img,
+.article-content img {
+    /* 確保圖片在各種環境下都能正確顯示 */
+    max-width: 100%;
+    height: auto; 
+    display: block; 
+}
+
+/* 專為文章內容圖片設計的陰影效果，防止圖片過於突兀 */
+.article-content img {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin: 20px 0;
+}
+
+/* --- 14.6 文章側邊欄 (Article Sidebar) --- */
+.article-sidebar {
+    /* 使用 Sticky 效果，讓側邊欄在滾動時保持在視口內 */
+    position: sticky; 
+    top: 100px; /* 距離頂部的距離，避開導覽列 */
+    max-height: calc(100vh - 120px); /* 限制高度，避免溢出 */
+    overflow-y: auto; /* 內容過長時允許內部滾動 */
+    padding: 20px;
+    border-radius: 12px;
+    background-color: var(--bg-light); /* 淺色背景，區分內容區 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* 性能優化 */
+    will-change: transform; 
+}
+
+
+.sidebar-module {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-module:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.sidebar-title {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--primary-dark);
+    margin-bottom: 18px;
+    border-left: 5px solid var(--accent-color); /* 增加標題的設計元素 */
+    padding-left: 10px;
+    line-height: 1;
+}
+
+/* 推薦文章/最新文章列表 */
+.sidebar-post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-post-list li {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--border-color-light);
+}
+
+.sidebar-post-list li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.sidebar-post-list a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 500;
+    transition: color 0.3s;
+    display: block;
+}
+
+.sidebar-post-list a:hover {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* 標籤雲樣式 (Tag Cloud) */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-cloud a {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background-color: var(--text-light);
+    border: 1px solid var(--border-color);
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.tag-cloud a:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+/* 側邊欄 RWD 修正 (繼承自 15. 響應式設計) */
+@media (max-width: 900px) {
+    /* 側邊欄在平板上切換為靜態定位 (避免 sticky 在手機上造成問題) */
+    .article-sidebar {
+        position: static; 
+        max-height: none;
+        overflow-y: visible;
+        padding: 25px;
+        margin-top: 10px; /* 與主要內容區分隔 */
+    }
+}
+
+@media (max-width: 576px) {
+    /* 步驟流程在手機上切換為單欄，並移除連接線 */
+    .step-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .step-item::after {
+        content: none; /* 手機上移除步驟間的連接線 */
+    }
+}
+
+
+/* --- 15. 響應式設計 (Media Queries) 擴展 --- */
+
+@media (max-width: 576px) {
+    /* 修正移動端卡片細節 */
+    .card-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .card-meta .meta-item:first-child {
+        margin-bottom: 5px;
+    }
+    
+    /* 修正移動端按鈕 */
+    .base-btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}
+
