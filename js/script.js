@@ -30,10 +30,11 @@ const onTransitionEndCleanup = (contentElement) => {
         if (e.target !== contentElement || e.propertyName !== 'max-height') return;
 
         // 只有在收合狀態 (maxHeight === '0px') 或非展開狀態才清除 max-height
+        // 使用 getComputedStyle 檢查實際的高度，防止 CSS 導致的判斷錯誤
         const isExpanded = contentElement.closest('.active') || contentElement.closest('.expanded');
 
         // 在非展開狀態或收合動畫完成時清除
-        if (!isExpanded || contentElement.style.maxHeight === '0px') {
+        if (!isExpanded || window.getComputedStyle(contentElement).maxHeight === '0px') {
             contentElement.style.removeProperty('max-height');
             contentElement.style.removeProperty('overflow'); 
         }
@@ -48,12 +49,14 @@ const onTransitionEndCleanup = (contentElement) => {
 /**
  * 輔助函數： Debounce (使用 requestAnimationFrame 優化)
  * @param {Function} func - 要去抖動的函數
- * @param {number} delay - 延遲時間 (ms)
+ * @param {number} [delay=50] - 延遲時間 (ms)
  * @returns {Function}
  */
 const debounce = (func, delay = 50) => {
     let timeoutId = null;
+    /** @type {any} */
     let lastArgs;
+    /** @type {any} */
     let lastThis;
 
     const run = () => {
@@ -76,6 +79,7 @@ const debounce = (func, delay = 50) => {
 };
 
 // 專用於 Fit Text 的去抖動函數
+/** @type {(func: Function) => Function} */
 const debounceFitText = (func) => debounce(func, 100);
 
 
@@ -88,12 +92,10 @@ const debounceFitText = (func) => debounce(func, 100);
  * @returns {void}
  */
 const removeLoadingClass = () => {
-    const targetElements = [document.documentElement, document.body];
-    targetElements.forEach(el => {
-        if (el && el.classList.contains('js-loading')) {
-            // 使用 rAF 確保在下一幀進行視覺更新
-            requestAnimationFrame(() => el.classList.remove('js-loading'));
-        }
+    // 使用 requestAnimationFrame 確保在下一幀進行視覺更新，避免阻塞主線程
+    requestAnimationFrame(() => {
+        document.documentElement.classList.remove('js-loading');
+        document.body.classList.remove('js-loading');
     });
 };
 
@@ -107,7 +109,7 @@ setTimeout(removeLoadingClass, FOUC_TIMEOUT_MS);
 // C. 導航菜單核心模組 (Navigation Core Module)
 // ====================================================
 
-const header = document.querySelector('.site-header'); // 修正類名與 CSS 保持一致
+const header = document.querySelector('.site-header'); 
 const menuToggle = document.querySelector('.menu-toggle');
 const mainNav = document.querySelector('#main-nav');
 const body = document.body;
@@ -125,7 +127,8 @@ const isMobileView = () => window.innerWidth <= MOBILE_BREAKPOINT;
  */
 const closeAllMobileSubmenus = () => {
     if (mainNav) {
-        mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
+        // 使用 Array.from 避免在迴圈中修改 DOM 集合時出錯
+        Array.from(mainNav.querySelectorAll('li.dropdown.active')).forEach(li => {
             const submenu = /** @type {HTMLElement | null} */ (li.querySelector('.submenu-container')); 
             const targetLink = /** @type {HTMLAnchorElement | null} */ (li.querySelector('a'));
 
@@ -133,10 +136,13 @@ const closeAllMobileSubmenus = () => {
                 li.classList.remove('active');
                 targetLink.setAttribute('aria-expanded', 'false');
 
-                // 使用 rAF 確保過渡生效
-                submenu.style.maxHeight = `${submenu.scrollHeight}px`;
-                requestAnimationFrame(() => submenu.style.maxHeight = '0px');
-                onTransitionEndCleanup(submenu); 
+                // 使用 rAF 確保過渡生效 (從當前高度收合)
+                // 檢查是否還有 max-height 屬性，防止重複設定
+                if (submenu.style.maxHeight && submenu.style.maxHeight !== '0px') {
+                    submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                    requestAnimationFrame(() => submenu.style.maxHeight = '0px');
+                    onTransitionEndCleanup(submenu); 
+                }
             }
         });
     }
@@ -176,6 +182,7 @@ const handleHeaderScroll = () => {
         const isShowBackToTop = scrollY > 300;
 
         if (header) {
+            // 使用 classList.toggle(state) 更簡潔
             header.classList.toggle('scrolled', isScrolled);
         }
 
@@ -186,7 +193,7 @@ const handleHeaderScroll = () => {
 
     if (header || backToTopButton) {
         updateHeaderScrollClass(); 
-        // 使用 debounce 替代手動的 requestAnimationFrame + ticking 旗標，使邏輯更簡潔
+        // 延遲降低到 10ms，提高滾動響應速度
         window.addEventListener('scroll', debounce(updateHeaderScrollClass, 10), { passive: true });
     }
 };
@@ -201,34 +208,36 @@ const setupRwdMenuToggle = () => {
         const menuIcon = menuToggle.querySelector('i');
 
         menuToggle.addEventListener('click', function() {
-            const isExpanded = !mainNav.classList.contains('active');
+            const isExpanded = mainNav.classList.contains('active');
 
-            if (isExpanded) {
+            if (!isExpanded) {
+                // 展開
                 mainNav.classList.add('active');
                 this.classList.add('active');
                 this.setAttribute('aria-expanded', 'true');
 
                 if (menuIcon) {
-                     menuIcon.classList.remove('fa-bars');
-                     menuIcon.classList.add('fa-times'); 
+                     menuIcon.classList.replace('fa-bars', 'fa-times');
                 }
 
                 if (isMobileView()) {
                      body.classList.add('no-scroll'); 
                 }
             } else {
+                // 收合
                 closeMainMenu();
             }
         });
 
-        // 點擊外部關閉菜單的處理
+        // 點擊外部關閉菜單的處理 (使用更精確的 e.target 檢查)
         /** @param {MouseEvent} e */
         const handleOutsideClick = (e) => {
+            const target = /** @type {Node} */ (e.target);
              // 確保是在手機視圖下，且菜單是展開的
              if (isMobileView() &&
                  mainNav.classList.contains('active') &&
-                 !mainNav.contains(/** @type {Node} */ (e.target)) && 
-                 menuToggle && !menuToggle.contains(/** @type {Node} */ (e.target))) { 
+                 !mainNav.contains(target) && 
+                 menuToggle && !menuToggle.contains(target)) { 
                  closeMainMenu();
              }
          };
@@ -247,16 +256,14 @@ const setupMobileAccordion = () => {
         mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
             targetLink.addEventListener('click', (/** @type {MouseEvent} */ e) => {
                 const parentLi = targetLink.closest('li.dropdown');
-                if (!parentLi) return;
+                if (!parentLi || !isMobileView()) return; // 僅在手機模式下執行
+
+                const submenu = /** @type {HTMLElement | null} */ (parentLi.querySelector('.submenu-container')); 
+                if (!submenu) return;
 
                 const href = targetLink.getAttribute('href') || '';
-                const isTrigger = href === '' || href === '#'; // 判斷是否為純粹的菜單切換按鈕
+                const isTrigger = href === '' || href === '#'; 
                 
-                if (!isMobileView()) {
-                    // 在桌面模式下不阻止正常導航
-                    return;
-                }
-
                 if (!isTrigger) {
                      // 允許在手機模式下點擊帶連結的菜單項
                      closeMainMenu();
@@ -266,15 +273,13 @@ const setupMobileAccordion = () => {
                 // 手機模式下的手風琴邏輯
                 e.preventDefault();
 
-                const submenu = /** @type {HTMLElement | null} */ (parentLi.querySelector('.submenu-container')); 
                 const isCurrentlyActive = parentLi.classList.contains('active');
 
-                if (!submenu) return;
+                // 關閉其他 (單一展開模式)
+                closeAllMobileSubmenus(); 
 
-                if (isCurrentlyActive) {
-                    closeAllMobileSubmenus();
-                } else {
-                    closeAllMobileSubmenus(); // 關閉其他
+                if (!isCurrentlyActive) {
+                    // 展開
                     parentLi.classList.add('active');
                     targetLink.setAttribute('aria-expanded', 'true');
 
@@ -284,7 +289,10 @@ const setupMobileAccordion = () => {
                     requestAnimationFrame(() => {
                          submenu.style.maxHeight = `${submenu.scrollHeight}px`;
                     });
-                }
+                     // 過渡完成後清理
+                    setTimeout(() => onTransitionEndCleanup(submenu), RWD_TRANSITION_DURATION_MS); 
+                } 
+                // 收合邏輯已經在 closeAllMobileSubmenus 中處理
             });
         });
     }
@@ -298,7 +306,7 @@ const setupMobileAccordion = () => {
 const setupDesktopA11y = () => {
     if (mainNav) {
         mainNav.querySelectorAll('li.dropdown').forEach(dropdown => {
-            // 使用 focusin 和 focusout 處理委派和冒泡，更穩定
+            // 使用 focusin 和 focusout 處理委派和冒泡
             dropdown.addEventListener('focusin', function() {
                 if (!isMobileView()) {
                     this.classList.add('focus-within');
@@ -308,6 +316,7 @@ const setupDesktopA11y = () => {
             dropdown.addEventListener('focusout', function() {
                  // 延遲執行，檢查新的 activeElement 是否仍在下拉菜單內部
                  setTimeout(() => {
+                    // 在此確保 DOM 中的 activeElement 不在當前 dropdown 內
                     if (!isMobileView() && !this.contains(document.activeElement)) {
                        this.classList.remove('focus-within');
                    }
@@ -324,14 +333,12 @@ const setupDesktopA11y = () => {
  * @returns {void}
  */
 const handleResizeCleanup = (fitAllFunction) => {
+     // 1. 手機菜單清理
      if (!isMobileView()) {
          closeMainMenu(); 
 
-         // 桌面模式下，徹底清理所有手機菜單的內聯樣式
          mainNav?.querySelectorAll('.dropdown').forEach(dropdown => {
-             dropdown.classList.remove('active');
-             dropdown.querySelector('a')?.setAttribute('aria-expanded', 'false');
-
+             // 清理桌面模式下不需要的內聯樣式
              const submenu = /** @type {HTMLElement | null} */ (dropdown.querySelector('.submenu-container')); 
              if (submenu) {
                  submenu.style.removeProperty('max-height'); 
@@ -340,21 +347,23 @@ const handleResizeCleanup = (fitAllFunction) => {
          });
      }
 
-     // 展開元素高度重算 (確保在 RWD 變化後高度依然正確)
+     // 2. 展開元素高度重算 (確保在 RWD 變化後高度依然正確)
      setTimeout(() => {
          // 統一處理所有手風琴內容
          document.querySelectorAll('.accordion-item.active .accordion-content, .plan-card.expanded .plan-details-expanded').forEach(/** @type {HTMLElement} */ (content) => {
+              // 僅在存在 max-height 且非零時才重算
               if (content.style.maxHeight && content.style.maxHeight !== '0px') {
                  requestAnimationFrame(() => {
-                    // 暫時設為 none 獲取正確 scrollHeight，然後重新設定過渡高度
-                    content.style.maxHeight = 'none'; 
+                    // 獲取正確 scrollHeight
                     const newHeight = content.scrollHeight;
+                    // 重新設定高度，確保過渡狀態正確
                     content.style.maxHeight = `${newHeight}px`; 
                  });
               }
          });
      }, 100); 
 
+     // 3. Fit Text 重算
      if (typeof fitAllFunction === 'function') fitAllFunction();
 };
 
@@ -381,10 +390,11 @@ const setupAccordion = () => {
              const isActive = item.classList.contains('active');
              headerElement.setAttribute('aria-expanded', isActive ? 'true' : 'false');
              
-             // 初始狀態設置
+             // 初始狀態設置：確保在 JS 控制 max-height 前 display:block
              content.style.display = 'block'; 
              content.style.overflow = 'hidden'; 
              content.style.maxHeight = isActive ? `${content.scrollHeight}px` : '0px';
+             // 初始展開時移除 overflow，允許內容顯示陰影等
              if (isActive) content.style.removeProperty('overflow'); 
 
              headerElement.addEventListener('click', function() {
@@ -420,8 +430,8 @@ const setupAccordion = () => {
                     content.style.overflow = 'hidden';
                     requestAnimationFrame(() => {
                          content.style.maxHeight = `${content.scrollHeight}px`;
-                         // 過渡完成後移除 overflow: hidden
-                         setTimeout(() => onTransitionEndCleanup(content), RWD_TRANSITION_DURATION_MS); 
+                         // 過渡完成後移除 overflow: hidden (在 onTransitionEndCleanup 處理)
+                         onTransitionEndCleanup(content); 
                     });
 
                 } else {
@@ -459,10 +469,22 @@ const toggleDetails = (button) => {
 
     card.classList.toggle('expanded', !isExpanded);
     
-    // 更新按鈕文本和 A11Y 屬性
-    button.innerHTML = !isExpanded ? 
-        '收起完整細項 <i class="fas fa-chevron-up"></i>' : 
-        '查看完整細項 <i class="fas fa-chevron-down"></i>';
+    // 更新按鈕文本和 A11Y 屬性 (使用 classList.replace 更健壯)
+    const icon = button.querySelector('i');
+    if (icon) {
+         if (!isExpanded) {
+             button.innerHTML = '收起完整細項 ';
+             icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+         } else {
+             button.innerHTML = '查看完整細項 ';
+             icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+         }
+         button.appendChild(icon); // 確保圖標在文本之後
+    } else {
+        // Fallback for text update
+         button.textContent = !isExpanded ? '收起完整細項' : '查看完整細項';
+    }
+
     button.setAttribute('aria-expanded', (!isExpanded).toString());
 
     // 實作平滑過渡
@@ -473,7 +495,7 @@ const toggleDetails = (button) => {
         details.style.overflow = 'hidden';
         requestAnimationFrame(() => {
             details.style.maxHeight = `${details.scrollHeight}px`;
-            setTimeout(() => onTransitionEndCleanup(details), RWD_TRANSITION_DURATION_MS);
+            onTransitionEndCleanup(details);
         });
     } else {
         // 收合
@@ -483,8 +505,9 @@ const toggleDetails = (button) => {
         onTransitionEndCleanup(details);
     }
 };
-// 確保函數可以從 HTML 中調用
+// 確保函數可以從 HTML 中調用 (使用 window 上的聲明保持其全局性)
 if (typeof window.toggleDetails === 'undefined') {
+    /** @type {(button: HTMLButtonElement) => void} */
     window.toggleDetails = toggleDetails;
 }
 
@@ -507,6 +530,9 @@ const setupLazyLoading = () => {
      * @returns {void}
      */
     const loadImage = (el) => {
+        // 避免重複載入
+        if (el.classList.contains('loaded')) return; 
+
         if (el.tagName === 'IMG') {
             const imgEl = /** @type {HTMLImageElement} */ (el);
             if (imgEl.dataset.src) {
@@ -517,15 +543,14 @@ const setupLazyLoading = () => {
                 imgEl.srcset = imgEl.dataset.srcset;
                 imgEl.removeAttribute('data-srcset');
             }
-            // 避免重複載入
-            if (imgEl.classList.contains('loaded')) return; 
-            imgEl.classList.add('loaded');
+            imgEl.classList.add('loaded'); // 載入後標記
         } else if (el.tagName === 'SOURCE') {
             const sourceEl = /** @type {HTMLSourceElement} */ (el);
             if (sourceEl.dataset.srcset) {
                 sourceEl.srcset = sourceEl.dataset.srcset;
                 sourceEl.removeAttribute('data-srcset');
             }
+             // source 元素不需要 loaded 類，只需確保圖片元素被處理
         }
     };
 
@@ -544,7 +569,7 @@ const setupLazyLoading = () => {
                     if (elementToLoad.tagName === 'PICTURE') {
                         // 處理 <picture> 標籤內的所有 <source> 和 <img data-src>
                         elementToLoad.querySelectorAll('source[data-srcset], img[data-src]').forEach(loadImage);
-                        // 對於 IE/Edge 兼容，直接觸發 img 載入
+                        // 確保 img 元素被處理
                         const img = elementToLoad.querySelector('img');
                         if (img) loadImage(img); 
                     } else if (elementToLoad.tagName === 'SOURCE' || elementToLoad.tagName === 'IMG') {
@@ -568,6 +593,7 @@ const setupLazyLoading = () => {
 // F. 動態文字適應模組 (Fit Text Module)
 // ====================================================
 
+/** @type {(() => void) | undefined} */
 let fitAllTexts; 
 
 /**
@@ -577,7 +603,7 @@ let fitAllTexts;
 const setupFitText = () => {
     const MAX_FONT = 22;
     const MIN_FONT = 8;
-    const PRECISION = 0.1; 
+    const PRECISION = 0.1; // 字體大小調整精度
     const TARGET_SELECTOR = FIT_TEXT_SELECTOR;
 
     /**
@@ -597,18 +623,19 @@ const setupFitText = () => {
          let high = MAX_FONT;
          let bestSize = MIN_FONT;
          let iterations = 0;
-         const maxIterations = 20;
+         const maxIterations = 20; // 避免無限迴圈
 
          // 二分法查找最佳字體大小
          while (low <= high && iterations < maxIterations) {
              const mid = (low + high) / 2;
              el.style.fontSize = `${mid}px`;
 
+             // 檢查文字寬度是否超過容器寬度
              if (el.scrollWidth <= parentWidth) {
                  bestSize = mid;
-                 low = mid + PRECISION; 
+                 low = mid + PRECISION; // 嘗試更大的字體
              } else {
-                 high = mid - PRECISION; 
+                 high = mid - PRECISION; // 嘗試更小的字體
              }
              iterations++;
          }
@@ -619,12 +646,15 @@ const setupFitText = () => {
 
     /**
      * 批量應用 Fit Text
+     * @returns {void}
      */
     const fitAll = () => {
          const nodes = document.querySelectorAll(TARGET_SELECTOR);
+         // 使用 rAF 確保在下一幀進行 DOM 操作
          requestAnimationFrame(() => nodes.forEach(el => fitOne(/** @type {HTMLElement} */ (el))));
     };
     
+    // 使用專用的去抖動函數
     const debounceFitTextFunc = debounceFitText(fitAll);
 
     const startFitText = () => {
@@ -633,12 +663,14 @@ const setupFitText = () => {
         // 使用 ResizeObserver 監聽父元素寬度變化 (高效且精確)
         if (window.ResizeObserver) {
             const fitTextObserver = new ResizeObserver(entries => {
-                const hasWidthChange = entries.some(entry => entry.contentRect.width !== 0);
+                // 檢查是否有實際的寬度變化 (而非只是高度變化等)
+                const hasWidthChange = entries.some(entry => entry.contentRect.width > 0);
                 if (hasWidthChange) {
                     debounceFitTextFunc(); 
                 }
             });
 
+            // 確保每個父元素只被觀察一次
             const observedParents = new Set();
             document.querySelectorAll(TARGET_SELECTOR).forEach(el => {
                  const parent = el.parentElement;
@@ -674,6 +706,7 @@ const setupFitText = () => {
 const setupSmoothScrolling = () => {
     if (!header) return;
 
+    // 排除 href="#" 的錨點
     document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
         anchor.addEventListener('click', function (/** @type {MouseEvent} */ e) {
             const targetId = this.getAttribute('href');
@@ -682,25 +715,24 @@ const setupSmoothScrolling = () => {
             if (targetElement) {
                 e.preventDefault(); 
                 
-                // 使用 rAF 確保計算在瀏覽器繪製前進行
                 requestAnimationFrame(() => {
                     const headerHeight = header.offsetHeight;
                     const isMobileMenuOpen = mainNav?.classList.contains('active');
 
-                    // 計算精確的目標位置：目標元素頂部 - Header高度 
-                    // 使用 scrollIntoView({ block: 'start' }) + scroll-margin-top CSS 屬性是更現代和推薦的 A11Y 方式，但為兼容舊版代碼，維持此處的計算邏輯
-                    const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerHeight);
-                    
-                    window.scrollTo({
-                        top: targetTop,
-                        behavior: 'smooth'
-                    });
+                    // 現代方式：CSS scroll-margin-top + scrollIntoView
+                    if ('scrollBehavior' in document.documentElement.style && 'scrollMarginTop' in document.documentElement.style) {
+                         // 如果支持 CSS 屬性，直接使用
+                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                         // Fallback: 舊版計算方式
+                        const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerHeight);
+                        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                    }
 
                     // 滾動後關閉手機菜單 (如果開啟)
                     if (isMobileMenuOpen) {
-                         setTimeout(() => {
-                             closeMainMenu();
-                         }, RWD_TRANSITION_DURATION_MS + 50); 
+                         // 給予足夠的時間讓滾動開始
+                         setTimeout(closeMainMenu, RWD_TRANSITION_DURATION_MS + 50); 
                     }
                 });
             }
@@ -743,6 +775,19 @@ const setupFormSubmission = () => {
             if (statusMessage) statusMessage.textContent = '';
             this.classList.add('is-loading');
 
+            // 輔助函數：解除 Loading 狀態
+            const cleanup = (success = false) => {
+                 // 成功後延遲解除
+                 const delay = success ? 5000 : 50; 
+                 setTimeout(() => {
+                     submitButton.textContent = originalText;
+                     submitButton.disabled = false;
+                     this.classList.remove('is-loading');
+                     if (statusMessage && !success) statusMessage.textContent = ''; // 失敗不清除錯誤訊息
+                 }, delay);
+            }
+
+
             try {
                 // 模擬安全檢查：確保表單 action 已被替換
                 if (this.action.includes('your_form_endpoint')) {
@@ -750,7 +795,8 @@ const setupFormSubmission = () => {
                          statusMessage.style.color = '#dc3545';
                          statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
                      }
-                     return; // 跳過實際提交
+                     cleanup(); // 立即解除
+                     return; 
                 }
 
                 const formData = new FormData(this);
@@ -758,9 +804,8 @@ const setupFormSubmission = () => {
                 const response = await fetch(this.action, {
                     method: this.method,
                     body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    // 確保伺服器知道我們接受 JSON (如果後端是 RESTful API)
+                    headers: { 'Accept': 'application/json' } 
                 });
 
                 if (response.ok) {
@@ -771,23 +816,18 @@ const setupFormSubmission = () => {
                     }
                     this.reset(); 
                     submitButton.textContent = '訂購成功！';
-
-                    setTimeout(() => {
-                        submitButton.textContent = originalText;
-                        submitButton.disabled = false;
-                        if (statusMessage) statusMessage.textContent = '';
-                        this.classList.remove('is-loading');
-                    }, 5000); 
-
+                    cleanup(true); // 成功後延遲解除
+                    
                 } else {
                     // 伺服器端錯誤處理
-                    const errorData = await response.json().catch(() => ({ error: '伺服器響應格式錯誤' }));
+                    const errorData = await response.json().catch(() => ({ error: '伺服器響應格式錯誤或非 JSON 響應' }));
                     const errorMessage = errorData.error || `表單送出失敗 (${response.status} ${response.statusText})`;
 
                     if (statusMessage) {
                         statusMessage.style.color = '#dc3545';
                         statusMessage.textContent = `❗ ${errorMessage}，請直接撥打 24H 專線訂購：0978-583-699`;
                     }
+                    cleanup();
                 }
             } catch (error) {
                 // 網路或 Fetch 錯誤處理
@@ -796,13 +836,7 @@ const setupFormSubmission = () => {
                     statusMessage.style.color = '#dc3545';
                     statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
                 }
-            } finally {
-                // 無論成功失敗，最終都要解除 Loading 狀態 (除了成功後短暫保留成功訊息)
-                if (submitButton.textContent !== '訂購成功！') {
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                    this.classList.remove('is-loading');
-                }
+                cleanup();
             }
         });
     }
@@ -846,8 +880,9 @@ const setupAos = () => {
         }, aosObserverOptions);
 
         aosElements.forEach(el => {
-            // 預先檢查元素是否已經在視圖內 (適用於首屏元素)
-            if (el.getBoundingClientRect().top < window.innerHeight) {
+            const rect = el.getBoundingClientRect();
+             // 預先檢查元素是否已經在視圖內 (適用於首屏元素)
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
                  requestAnimationFrame(() => el.classList.add('is-visible'));
             } else {
                  aosObserver.observe(el);
@@ -855,7 +890,9 @@ const setupAos = () => {
         });
     } else if (aosElements.length > 0) {
          // Fallback: 直接顯示所有動畫
-         aosElements.forEach(el => el.classList.add('is-visible'));
+         requestAnimationFrame(() => {
+             aosElements.forEach(el => el.classList.add('is-visible'));
+         });
     }
 };
 
@@ -904,7 +941,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 必須在 DOMContentLoaded 外部調用，確保圖片元素能被即時觀察
 window.addEventListener('load', () => {
     try {
         // 11. 設置圖片延遲載入 (確保在 window.load 後執行，提升初始化速度)
