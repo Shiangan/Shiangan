@@ -1272,25 +1272,38 @@ footer {
 }
 
 /* -------------------------------------------
- * 8. 文章頁面 (Article Body) 專屬樣式與優化
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與最終優化
  * ------------------------------------------- */
 
+/* --- 8.1 佈局與側邊欄 (Layout & Sidebar) --- */
+
 .article-main-layout {
+    /* 雙欄佈局：1份側邊欄 : 3份內容區 (桌面版) */
     display: grid;
-    grid-template-columns: 1fr 3fr; /* 側邊欄與內容區比例 */
+    grid-template-columns: 1fr 3fr; 
     gap: 40px;
+    max-width: var(--content-max-width); /* 確保與主容器保持一致 */
+    margin: 0 auto;
+    padding: 0 20px; /* 確保內容與邊緣有空間 */
 }
 
 .article-main-layout.large-v-padding-bottom {
+    /* 使用 var() 保持與全域設定一致 */
     padding-bottom: var(--padding-section-v);
 }
 
 .article-sidebar {
     padding-top: 50px; 
     position: sticky;
+    /* 修正：粘性定位的頂部偏移應考慮 Header Height 和額外間距 */
     top: calc(var(--header-height) + 20px); 
+    /* 優化：確保內容在視口內可滾動 */
     max-height: calc(100vh - var(--header-height) - 40px);
     overflow-y: auto;
+    /* 性能優化：避免滾動卡頓 */
+    will-change: transform; 
+    padding-right: 15px; /* 為側邊欄的滾動條預留空間 */
 }
 
 .sidebar-block {
@@ -1298,6 +1311,8 @@ footer {
     padding: 20px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
+    background-color: var(--bg-light); /* 增加背景色使其更顯著 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
 }
 
 .sidebar-block h4 {
@@ -1305,8 +1320,10 @@ footer {
     color: var(--primary-dark);
     margin-bottom: 15px;
     padding-bottom: 5px;
+    /* 修正：邊界線使用品牌強調色 */
     border-bottom: 2px solid var(--accent-color);
     text-align: left;
+    font-family: var(--font-serif); /* 側邊欄標題使用襯線體增加權威性 */
 }
 
 .sidebar-block h4 i {
@@ -1326,8 +1343,8 @@ footer {
     font-size: 0.95rem;
     display: block;
     color: var(--secondary-color);
-    padding: 3px 0;
-    border-left: 3px solid transparent; /* 預留空間 */
+    padding: 5px 0; /* 增加點擊區域 */
+    border-left: 3px solid transparent; 
     transition: all 0.2s;
 }
 /* TOC 激活狀態優化 */
@@ -1336,37 +1353,53 @@ footer {
     color: var(--primary-dark);
     padding-left: 5px;
     border-left: 3px solid var(--accent-color);
+    font-weight: 700; /* 增加粗體強調當前位置 */
 }
-
 
 /* 緊急聯繫側邊欄塊 - 更名為 sidebar-cta (語義化) */
 .sidebar-cta {
-    background-color: var(--primary-dark); /* 修正為 primary-dark (更沉穩) */
+    background-color: var(--primary-dark); /* 品牌深色背景 */
     color: var(--text-light);
     border: none;
     padding: 25px;
     text-align: center;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* 移除不必要的邊界和背景，讓顏色更純粹 */
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    background-color: var(--primary-dark);
 }
 .sidebar-cta h4 {
     color: var(--accent-color);
+    /* 修正：將邊界顏色改為 accent-color 以保持高對比度 */
     border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
 }
+/* 統一使用 primary CTA 樣式，但覆寫顏色 */
 .sidebar-cta .cta-button.secondary {
     background-color: var(--accent-color);
     color: var(--primary-dark);
-    border-color: var(--accent-color);
+    border: none; /* 移除邊框，讓按鈕更飽滿 */
     margin-top: 15px;
     width: 100%;
+    /* 強化陰影，使其更突出 */
+    box-shadow: 0 4px 10px rgba(206, 157, 74, 0.6); 
 }
 .sidebar-cta .cta-button.secondary:hover {
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
+    background-color: var(--text-light); /* 滑鼠懸停時變成淺色 */
+    color: var(--primary-dark);
+    box-shadow: 0 6px 15px rgba(206, 157, 74, 1); 
+}
+.sidebar-cta p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
 }
 
 
-/* 文章內容樣式 */
+/* --- 8.2 文章內容樣式 (Article Content) --- */
+
 .article-header {
     text-align: left;
     margin-bottom: 40px;
@@ -1376,6 +1409,7 @@ footer {
     color: var(--primary-dark);
     margin-bottom: 15px;
     line-height: 1.2;
+    font-size: clamp(2rem, 4vmin, 3.5rem); /* RWD 標題尺寸優化 */
 }
 .article-header h1 strong {
     color: var(--accent-color);
@@ -1388,17 +1422,26 @@ footer {
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color); /* 增加視覺分隔線 */
 }
 .article-meta-bar span i {
     margin-right: 5px;
     color: var(--accent-color);
 }
 .category-tag {
-    background-color: var(--bg-light);
+    background-color: var(--primary-color);
+    color: var(--text-light);
     padding: 3px 10px;
     border-radius: 4px;
     font-weight: 700;
+    transition: background-color 0.3s;
 }
+.category-tag:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
+}
+
 .article-main-image {
     width: 100%;
     height: auto;
@@ -1406,20 +1449,23 @@ footer {
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* 確保主圖下方有足夠空間 */
 }
+
 .lead-paragraph {
     font-size: 1.15rem;
     font-family: var(--font-serif);
     font-weight: 400;
     color: var(--primary-dark);
-    padding: 15px 0;
+    padding: 20px 25px; /* 增加 padding */
     margin-bottom: 30px;
     border-left: 5px solid var(--accent-color);
-    padding-left: 20px;
     background-color: var(--bg-light);
+    border-radius: 4px; /* 柔化邊角 */
+    line-height: 1.8; /* 提高可讀性 */
 }
 
-/* 圖片與圖集 (Figure) 樣式 */
+/* 圖片與圖集 (Figure) 樣式 - 圖片懸停效果優化 */
 .article-body figure {
     text-align: center;
     margin: 30px 0;
@@ -1429,18 +1475,29 @@ footer {
 .article-body figure img {
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: block;
+    margin: 0 auto;
+}
+.article-body figure:hover img {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .article-body figure figcaption {
     font-size: 0.9rem;
     color: #777;
     margin-top: 10px;
+    font-style: italic;
 }
 
 
-/* 步驟徽章樣式 */
+/* --- 8.3 內容分組與提示框 (Grouping & Callouts) --- */
+
+/* 步驟/內容標題強化 */
 .article-body h2 {
+    display: flex; /* 修正：使用 flex 讓徽章和標題對齊 */
+    align-items: center;
     text-align: left;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -1448,59 +1505,68 @@ footer {
     border-bottom: none;
     font-size: clamp(1.4rem, 3vmin, 2rem);
     color: var(--primary-dark);
+    font-family: var(--font-serif);
+    line-height: 1.3;
 }
 .article-body h2::after {
     content: none;
 }
 
 .step-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-right: 10px;
-    flex-shrink: 0;
+    /* 修正：使用 primary-color 作為背景，讓 accent-color 用於點綴 */
+    background-color: var(--primary-color);
+    color: var(--text-light); 
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+    margin-right: 12px;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* 提示框與承諾框樣式 */
-.tip-box, .key-point-box, .note-info {
+/* 提示框與承諾框樣式 - 統一調整 */
+.tip-box, .key-point-box, .note-info, .primary-tip {
     padding: 20px;
     border-radius: 8px;
     margin: 25px 0;
     font-size: 0.95rem;
     line-height: 1.7;
     border-left: 5px solid;
+    /* 增強可訪問性：確保顏色有足夠對比 */
 }
-.tip-box i, .key-point-box i, .note-info i {
+.tip-box i, .key-point-box i, .note-info i, .primary-tip i {
     margin-right: 10px;
     font-size: 1.2rem;
+    /* 修正：圖標顏色使用邊界色 */
+    color: inherit; 
+}
+.tip-box p, .key-point-box p, .note-info p, .primary-tip p {
+    margin-bottom: 0.5em; /* 內部長段落間距 */
 }
 
 .tip-box {
     background-color: rgba(255, 193, 7, 0.1);
-    border-color: #FFC107;
+    border-color: #FFC107; /* 黃色警示 */
+    color: #3e3e3e;
 }
+.tip-box i { color: #FFC107; }
 
-.primary-tip { /* 專業提醒 */
-    background-color: rgba(30, 58, 106, 0.1);
+.primary-tip { /* 專業提醒/承諾 (使用 Primary Brand) */
+    background-color: rgba(30, 58, 106, 0.08); /* 淺藍色背景 */
     border-color: var(--primary-color);
     color: var(--primary-dark);
     font-weight: 500;
 }
+.primary-tip i { color: var(--primary-color); }
 
-.key-point-box {
+.key-point-box { /* 關鍵重點 (使用 Accent Color) */
     background-color: rgba(206, 157, 74, 0.1);
     border-color: var(--accent-color);
     font-family: var(--font-serif);
     font-size: 1rem;
     font-weight: 700;
 }
+.key-point-box i { color: var(--accent-color); }
 
 .key-point-box p {
     font-weight: 400;
@@ -1518,39 +1584,52 @@ footer {
     align-items: flex-start;
     margin-bottom: 10px;
     font-size: 0.95rem;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .styled-list .list-icon {
     margin-right: 10px;
     min-width: 18px; 
     padding-top: 3px;
+    font-size: 1.1rem;
 }
 
 .check-list .list-icon {
-    color: #28a745; 
+    color: #28a745; /* 成功綠 */
 }
 .warning-list .list-icon {
-    color: #dc3545; 
+    color: #dc3545; /* 危險紅 */
 }
+
+/* 編號步驟列表 */
 .numbered-steps {
     counter-reset: custom-counter;
     list-style: none;
     padding-left: 0;
+    margin-left: 0;
 }
 .numbered-steps li {
     counter-increment: custom-counter;
-    margin-bottom: 10px;
-    padding-left: 30px;
+    margin-bottom: 15px;
+    padding-left: 35px; /* 增加左側空間 */
     position: relative;
     font-weight: 500;
+    line-height: 1.7;
 }
 .numbered-steps li::before {
-    content: counter(custom-counter) ".";
+    content: counter(custom-counter);
     position: absolute;
     left: 0;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 50%;
+    text-align: center;
     font-weight: 700;
-    color: var(--accent-color);
+    font-size: 0.9rem;
+    color: var(--text-light);
+    background-color: var(--primary-color);
+    border: 2px solid var(--accent-color);
 }
 
 /* 簡潔 FAQ 樣式 (simple-faq) - 適合文章內嵌 */
@@ -1571,6 +1650,10 @@ footer {
     color: var(--primary-dark);
     user-select: none;
     position: relative;
+    transition: color 0.2s;
+}
+.faq-item summary:hover {
+    color: var(--accent-color);
 }
 .faq-item summary::-webkit-details-marker {
     display: none;
@@ -1580,7 +1663,7 @@ footer {
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     margin-right: 10px;
-    font-size: 0.8em;
+    font-size: 0.7em;
     color: var(--accent-color);
     transition: transform 0.3s ease;
 }
@@ -1594,33 +1677,94 @@ footer {
     font-size: 0.95rem;
     line-height: 1.7;
     padding-left: 20px;
-    background-color: var(--bg-light);
+    /* 修正：使用更純淨的背景色 */
+    background-color: var(--text-light); 
     border-radius: 0 0 8px 8px;
+    border-left: 3px solid var(--border-color); /* 增加左側視覺對齊 */
 }
 .faq-content p {
     margin-bottom: 0;
     padding-top: 5px;
 }
 
+/* --- 8.4 文章結尾 CTA (Call to Action) --- */
 
 .article-end-cta {
     text-align: center;
     padding: 40px 30px;
-    background-color: var(--bg-light);
+    /* 修正：使用 bg-light 確保與背景有區分 */
+    background-color: var(--bg-light); 
     border-radius: 12px;
     margin-top: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
 }
 .article-end-cta h3 {
     color: var(--primary-dark);
     margin-bottom: 10px;
+    font-size: 1.6rem;
 }
 .article-end-cta p {
     font-size: 1.1rem;
     margin-bottom: 25px;
     color: var(--secondary-color);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .article-end-cta .cta-button {
     margin: 0;
+}
+
+/* --- 8.5 響應式調整 (RWD Overrides) --- */
+
+@media (max-width: 900px) {
+    .article-main-layout {
+        /* 平板和手機橫向單欄 */
+        grid-template-columns: 1fr; 
+        gap: 30px;
+        padding: 0 15px;
+    }
+    
+    .article-sidebar {
+        position: static;
+        max-height: none;
+        padding-top: 0;
+        order: -1; 
+        /* RWD 時，側邊欄塊的邊界調整 */
+        padding-right: 0; 
+    }
+
+    .article-header {
+        margin-top: 20px;
+    }
+
+    /* RWD TOC 顯隱 (已在全域 RWD 調整，此處僅確保邏輯) */
+    .article-sidebar .table-of-contents {
+        display: block; 
+    }
+}
+
+@media (max-width: 576px) {
+    .article-main-layout {
+        gap: 20px;
+    }
+    .article-sidebar .table-of-contents {
+        display: none; /* 小型手機徹底隱藏目錄 */
+    }
+    .article-header h1 {
+        font-size: 1.8rem;
+    }
+    .lead-paragraph {
+        font-size: 1rem;
+        padding: 15px 20px;
+    }
+    .article-end-cta {
+        padding: 30px 15px;
+    }
+    .article-end-cta h3 {
+        font-size: 1.4rem;
+    }
 }
 
 
