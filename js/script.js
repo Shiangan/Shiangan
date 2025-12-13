@@ -1,11 +1,20 @@
+// 【最終程式碼：js/script.js】
+
+// 使用嚴格模式，有助於捕捉潛在的編碼錯誤
+'use strict'; 
+
 Document.addEventListener('DOMContentLoaded', () => {
 
-    // 【🔥 最終防線：所有核心邏輯將在模組化的 Try-Catch 中執行】
-    try {
+    // ====================================================
+    // 0. 初始設定與變數 (Initial Setup & Variables)
+    // ====================================================
+    
+    // 確保 fitAll 可以在全域（或此函數閉包內）被訪問和重新賦值
+    let fitAll; 
 
-        // ====================================================
-        // 0. 初始設定與變數 (Initial Setup & Variables)
-        // ====================================================
+    // 【🔥 最終防線：所有核心邏輯將在模組化的 Try-Catch 中執行】
+    // 雖然外部 Try-Catch 捕獲不到同步錯誤，但模組化的 Try-Catch 有助於隔離功能。
+    try {
 
         // DOM 變數
         const header = document.querySelector('.main-header');
@@ -21,11 +30,7 @@ Document.addEventListener('DOMContentLoaded', () => {
         const LAZY_LOAD_ROOT_MARGIN = '0px 0px 200px 0px';
         const RWD_TRANSITION_DURATION = 400; // 0.4s
         
-        // 宣告 fitAll (供 RWD 清理函數使用)
-        let fitAll; 
-
-        // 輔助函數： Debounce (去抖動) - 用於 resize 等非連續操作
-        // 【優化 1：Debounce 簡化，移除 requestAnimationFrame 嵌套】
+        // 輔助函數： Debounce (去抖動)
         const debounce = (func, delay = 50) => { 
             let timeoutId;
             return function(...args) {
@@ -35,20 +40,20 @@ Document.addEventListener('DOMContentLoaded', () => {
         };
         const debounceFitText = (func) => debounce(func, 100); 
 
-        // 【優化 2 核心】: 統一的手風琴清理函數 (在 CSS 過渡結束後清理 max-height)
+        // 核心：統一的手風琴清理函數 (在 CSS 過渡結束後清理 max-height)
         const onTransitionEndCleanup = (contentElement) => {
              const handleTransitionEnd = (e) => {
                  // 檢查是否為 maxHeight 屬性的過渡結束事件，且事件源是 contentElement 本身
                  if (e.target !== contentElement || e.propertyName !== 'max-height') return; 
 
-                 // 只有在收合狀態 (maxHeight === '0px') 才清除 max-height
-                 if (contentElement.style.maxHeight === '0px') {
+                 // 只有在收合狀態 (maxHeight === '0px' 或空) 才清除 max-height
+                 if (!contentElement.style.maxHeight || contentElement.style.maxHeight === '0px') {
                      contentElement.style.maxHeight = ''; 
                  }
+                 // 不使用 { once: true }，因為需要手動移除監聽器以確保只執行一次清理
                  contentElement.removeEventListener('transitionend', handleTransitionEnd);
              };
-             // { once: true } 確保只執行一次
-             contentElement.addEventListener('transitionend', handleTransitionEnd, { once: true });
+             contentElement.addEventListener('transitionend', handleTransitionEnd);
          };
 
         // 輔助函數：關閉所有手機子菜單 (Accordion)
@@ -61,7 +66,7 @@ Document.addEventListener('DOMContentLoaded', () => {
                         li.querySelector('a').setAttribute('aria-expanded', 'false'); // A11Y
 
                         // 確保先給一個 scrollHeight，再立即設為 0，以觸發 CSS Transition (收合動畫)
-                        // 【優化 3：收合穩定性】確保從當前高度開始收合
+                        // 修正：必須確保有 scrollHeight，否則 transition 不會發生
                         submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
                         
                         // 使用 requestAnimationFrame 確保在下一次重繪前將高度設為 0
@@ -72,7 +77,7 @@ Document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // 【優化點 1 核心】: 獨立的關閉主菜單邏輯
+        // 獨立的關閉主菜單邏輯
         const closeMainMenu = () => {
              if (mainNav && mainNav.classList.contains('active')) {
                  mainNav.classList.remove('active');
@@ -93,13 +98,13 @@ Document.addEventListener('DOMContentLoaded', () => {
              }
          };
          
-        // ★ 修正 1：點擊外部關閉菜單的處理 ★
+        // 修正 1：點擊外部關閉菜單的處理 
         const handleOutsideClick = (e) => {
-             // 檢查主菜單是否展開中，且點擊目標不是菜單、菜單開關或其子元素
-             if (mainNav && mainNav.classList.contains('active') && 
+             // 只有在手機模式下才觸發外部點擊關閉
+             if (window.innerWidth <= mobileBreakpoint && 
+                 mainNav && mainNav.classList.contains('active') && 
                  !mainNav.contains(e.target) && 
-                 !menuToggle.contains(e.target) && 
-                 window.innerWidth <= mobileBreakpoint) {
+                 !menuToggle.contains(e.target)) {
                  
                  closeMainMenu();
              }
@@ -116,7 +121,7 @@ Document.addEventListener('DOMContentLoaded', () => {
              // 桌面模式清理手機狀態
              if (!isMobileView) {
                  closeMainMenu(); // 強制關閉主菜單
-                 closeAllMobileSubmenus(); // 確保所有 max-height 被清除 (雖然 closeMainMenu 內已呼叫，這裡再呼叫一次確保)
+                 closeAllMobileSubmenus(); // 確保所有 max-height 被清除
                  
                  // 清理桌面 A11Y 狀態 (focus-within)
                  document.querySelectorAll('.dropdown.focus-within').forEach(dropdown => {
@@ -125,11 +130,11 @@ Document.addEventListener('DOMContentLoaded', () => {
              }
              
              // FAQ 高度重算 (保持展開狀態的高度正確)
-             // 使用 setTimeout 和 requestAnimationFrame 確保 DOM 穩定，並使用 scrollHeight 重新設置高度
+             // 這裡使用 setTimeout 確保 DOM 穩定，並使用 scrollHeight 重新設置高度
              setTimeout(() => {
                  document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
                       requestAnimationFrame(() => {
-                          // 只有在當前 max-height 不為 '0px' 或空時才重算，避免破壞收合中的動畫
+                          // 只有在當前 max-height 不為 '0px' 或空時才重算
                           if (content.style.maxHeight && content.style.maxHeight !== '0px') {
                               content.style.maxHeight = `${content.scrollHeight}px`;
                           }
@@ -139,6 +144,7 @@ Document.addEventListener('DOMContentLoaded', () => {
 
              
              // 觸發 Fit Text 重新計算 (如果有載入 Fit Text 模組)
+             // 檢查 fitAll 是否已定義且為函數
              if (typeof fitAll === 'function') fitAll(); 
         };
 
@@ -150,7 +156,6 @@ Document.addEventListener('DOMContentLoaded', () => {
         // 1. Header & 滾動樣式處理
         // ====================================================
         try {
-            // 【優化 4：使用 Ticking 模式處理 Scroll】
             let ticking = false;
             const updateHeaderScrollClass = () => {
                 const scrollY = window.scrollY;
@@ -204,7 +209,10 @@ Document.addEventListener('DOMContentLoaded', () => {
                         }
                         
                         const shouldLockScroll = window.innerWidth <= mobileBreakpoint;
-                        body.classList.toggle('no-scroll', shouldLockScroll);
+                        // 確保只有在手機模式才鎖定滾動
+                        if (shouldLockScroll) {
+                             body.classList.add('no-scroll');
+                        }
                     } else {
                         // 關閉邏輯
                         closeMainMenu(); 
@@ -220,14 +228,16 @@ Document.addEventListener('DOMContentLoaded', () => {
                             this.classList.add('focus-within');
                         }
                     });
-                    // ★ 修正 3：使用'focusout'監聽，需要檢查 relatedTarget ★
+                    
+                    // 修正 3：使用 'focusout' 監聽，需要檢查 relatedTarget
                     dropdown.addEventListener('focusout', function(e) {
                          // 使用 setTimeout 確保相關焦點事件 (relatedTarget) 穩定
+                         // 延遲時間設為 0，但在瀏覽器事件循環中會被推遲
                          setTimeout(() => {
                             if (window.innerWidth > mobileBreakpoint && !this.contains(document.activeElement)) {
                                this.classList.remove('focus-within');
                            }
-                         }, 0);
+                         }, 0); 
                     });
                 });
             }
@@ -283,9 +293,7 @@ Document.addEventListener('DOMContentLoaded', () => {
                                 parentLi.classList.add('active');
                                 targetLink.setAttribute('aria-expanded', 'true'); // A11Y
 
-                                // 【優化 5：Accordion 展開穩定性】
-                                // 設置 max-height 到 scrollHeight，觸發 CSS Transition。
-                                // 使用 setTimeout 確保在新的 Call Stack 中執行，更穩定地觸發 Transition
+                                // 優化 5：Accordion 展開穩定性
                                 submenu.style.maxHeight = '0px'; // 確保起點是 0
                                 submenu.offsetHeight; // 強制 Reflow
 
@@ -321,9 +329,12 @@ Document.addEventListener('DOMContentLoaded', () => {
 
                      const isActive = item.classList.contains('active');
                      headerElement.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-                     // 初始化 max-height
-                     content.style.maxHeight = isActive ? `${content.scrollHeight}px` : '0px'; 
                      
+                     // 初始化 max-height，使用 requestAnimationFrame 確保在下次重繪時計算高度
+                     requestAnimationFrame(() => {
+                         content.style.maxHeight = isActive ? `${content.scrollHeight}px` : '0px'; 
+                     });
+
                      headerElement.addEventListener('click', function() {
                         const isCurrentlyActive = item.classList.contains('active');
                         
@@ -349,7 +360,7 @@ Document.addEventListener('DOMContentLoaded', () => {
                         if (!isCurrentlyActive) {
                             // 展開
                             this.setAttribute('aria-expanded', 'true');
-                             // 【優化 5：Accordion 展開穩定性】
+                             // 優化 5：Accordion 展開穩定性
                             content.style.maxHeight = '0px'; 
                             content.offsetHeight; // 強制 Reflow
                             
@@ -386,7 +397,6 @@ Document.addEventListener('DOMContentLoaded', () => {
             const lazyTargets = document.querySelectorAll('img[data-src], source[data-srcset], picture');
 
             const loadImage = (el) => {
-                // ... (邏輯與原始版本一致，無重大錯誤) ...
                 if (el.tagName === 'IMG' && el.dataset.src) {
                     el.src = el.dataset.src;
                     if (el.dataset.srcset) el.srcset = el.dataset.srcset;
@@ -423,7 +433,12 @@ Document.addEventListener('DOMContentLoaded', () => {
                 }, observerOptions);
 
                 lazyTargets.forEach(el => {
-                    imgObserver.observe(el);
+                    // 修正：如果元素本身是圖片，則觀察圖片，如果是 picture，則觀察 picture 標籤
+                    if (el.tagName === 'IMG' && el.hasAttribute('data-src')) {
+                         imgObserver.observe(el);
+                    } else if (el.tagName === 'PICTURE') {
+                         imgObserver.observe(el);
+                    }
                 });
             } else {
                  // Fallback
@@ -449,8 +464,7 @@ Document.addEventListener('DOMContentLoaded', () => {
                         const targetElement = document.querySelector(targetId);
 
                         if (targetElement) {
-                            // 【優化 6：確保 Header 高度計算穩定】
-                            // 使用 requestAnimationFrame 確保在執行滾動計算時，header.offsetHeight 是最新的
+                            // 優化 6：確保 Header 高度計算穩定
                             requestAnimationFrame(() => {
                                 const headerHeight = header.offsetHeight;
                             
@@ -496,8 +510,8 @@ Document.addEventListener('DOMContentLoaded', () => {
         // ====================================================
         // (保持原樣，因為原碼中省略了具體實作)
         try {
-            const heroSection = document.querySelector('.hero-section.has-meteor'); 
-            if (heroSection) {
+            const heroSection = document.querySelector('.hero-section'); 
+            if (heroSection && heroSection.classList.contains('has-meteor')) {
                  // 這裡可以插入流星生成函數 (generateMeteors())
             }
         } catch (e) {
@@ -516,34 +530,13 @@ Document.addEventListener('DOMContentLoaded', () => {
         }
 
         // ====================================================
-        // 9. 移除初始載入類別 (FOUC 修正)
-        // ====================================================
-        try {
-            const removeLoadingClass = () => {
-                const targetElements = [document.documentElement, document.body];
-                targetElements.forEach(el => {
-                    if (el && el.classList.contains('js-loading')) {
-                        requestAnimationFrame(() => el.classList.remove('js-loading'));
-                    }
-                });
-            };
-            
-            // 使用 'load' 確保所有資源載入後才移除
-            window.addEventListener('load', removeLoadingClass, { once: true });
-            // 如果在 load 事件觸發前 DOMContentLoaded 執行，先嘗試移除，防止長時間空白
-            removeLoadingClass(); 
-        } catch (e) {
-            console.error('Core Logic Failed: Loading Class', e);
-        }
-
-
-        // ====================================================
         // 10. 表單驗證與 UX 強化 (Form Validation & UX)
         // ====================================================
         const orderForm = document.getElementById('product-order-form');
         const statusMessage = document.getElementById('form-status-message');
         
         if (orderForm) {
+            // ... (表單處理邏輯與優化一致，無重大運行錯誤，略過重複程式碼) ...
             orderForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -553,13 +546,15 @@ Document.addEventListener('DOMContentLoaded', () => {
                 // 禁用按鈕並更新狀態
                 submitButton.textContent = '送出中... 請稍候';
                 submitButton.disabled = true;
-                statusMessage.textContent = '';
+                if (statusMessage) statusMessage.textContent = '';
                 
                 try {
-                    // 確保 action 屬性已替換
+                    // 確保 action 屬性已替換 (防呆)
                     if (this.action.includes('your_form_endpoint')) {
-                         statusMessage.style.color = 'var(--error-color)';
-                         statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
+                         if (statusMessage) {
+                             statusMessage.style.color = 'var(--error-color)';
+                             statusMessage.textContent = '❗ 錯誤：請先替換表單 action URL！';
+                         }
                          submitButton.textContent = originalText;
                          submitButton.disabled = false;
                          return;
@@ -576,14 +571,15 @@ Document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     if (response.ok) {
-                        statusMessage.style.color = 'var(--success-color)';
-                        statusMessage.textContent = '🎉 訂購資訊已成功送出！請等待專人電話聯繫。';
+                        if (statusMessage) {
+                           statusMessage.style.color = 'var(--success-color)';
+                           statusMessage.textContent = '🎉 訂購資訊已成功送出！請等待專人電話聯繫。';
+                        }
                         this.reset(); 
                         
-                        // 【優化 7：成功後延遲解除禁用狀態】
+                        // 成功後延遲解除禁用狀態
                         submitButton.textContent = '訂購成功！';
                         
-                        // 5 秒後解除禁用狀態，讓使用者可以重新填寫/操作
                         setTimeout(() => {
                             submitButton.textContent = originalText;
                             submitButton.disabled = false;
@@ -591,19 +587,22 @@ Document.addEventListener('DOMContentLoaded', () => {
 
                     } else {
                         // 處理 HTTP 錯誤 (4xx, 5xx)
-                        // 嘗試解析 JSON 錯誤，如果失敗則使用預設
                         const errorData = await response.json().catch(() => ({ error: '伺服器響應格式錯誤' }));
                         const errorMessage = errorData.error || '表單送出失敗';
                         
-                        statusMessage.style.color = 'var(--error-color)';
-                        statusMessage.textContent = `❗ ${errorMessage}，請直接撥打 24H 專線訂購：0978-583-699`;
+                        if (statusMessage) {
+                            statusMessage.style.color = 'var(--error-color)';
+                            statusMessage.textContent = `❗ ${errorMessage}，請直接撥打 24H 專線訂購：0978-583-699`;
+                        }
                         submitButton.textContent = originalText;
                         submitButton.disabled = false;
                     }
                 } catch (error) {
                     console.error('Submission Error:', error);
-                    statusMessage.style.color = 'var(--error-color)';
-                    statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
+                    if (statusMessage) {
+                        statusMessage.style.color = 'var(--error-color)';
+                        statusMessage.textContent = '❗ 網路錯誤或伺服器無回應。請直接撥打 24H 專線訂購：0978-583-699';
+                    }
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
                 }
@@ -615,7 +614,6 @@ Document.addEventListener('DOMContentLoaded', () => {
         // 11. 動態文字適應 (Fit Text Logic)
         // ====================================================
         try {
-            // ... (Fit Text 邏輯與原始版本一致，保持高度優化的二分搜尋法) ...
             const MAX_FONT = 22;   
             const MIN_FONT = 8;    
             const PRECISION = 0.2; 
@@ -649,12 +647,14 @@ Document.addEventListener('DOMContentLoaded', () => {
                  el.style.fontSize = `${Math.min(bestSize, MAX_FONT)}px`;
             };
 
+            // 修正 fitAll: 確保此函數在閉包外可以被訪問
             fitAll = () => { 
                  const nodes = document.querySelectorAll(TARGET_SELECTOR);
                  requestAnimationFrame(() => nodes.forEach(el => fitOne(el)));
             };
 
             const startFitText = () => {
+                // 修正：首次呼叫
                 fitAll();
                 
                 if (window.ResizeObserver) {
@@ -726,6 +726,34 @@ Document.addEventListener('DOMContentLoaded', () => {
         }
 
     } catch (finalError) {
+        // 這應該是一個致命錯誤，但它不會阻止 FOUC 修正的執行
         console.error('Fatal Error: Core JS Initialization Failed.', finalError);
+    }
+    
+    // ====================================================
+    // 9. 移除初始載入類別 (FOUC 修正) - 移至最外層確保執行
+    // ====================================================
+    // 這段程式碼必須放在 Document.addEventListener('DOMContentLoaded', ...) 的最外層，
+    // 確保無論內部邏輯是否失敗，只要 DOM 載入完成，就會嘗試移除這個類別。
+    try {
+        const removeLoadingClass = () => {
+            const targetElements = [document.documentElement, document.body];
+            targetElements.forEach(el => {
+                if (el && el.classList.contains('js-loading')) {
+                    // 使用 setTimeout 或 requestAnimationFrame 給 CSS 渲染留出時間
+                    requestAnimationFrame(() => el.classList.remove('js-loading'));
+                }
+            });
+        };
+        
+        // 策略：確保在兩個時間點移除
+        // 1. DOMContentLoaded 執行時（即此處）
+        removeLoadingClass(); 
+
+        // 2. 所有資源（圖片、字體）載入完成時
+        window.addEventListener('load', removeLoadingClass, { once: true });
+        
+    } catch (e) {
+        console.error('FOUC Removal Failed', e);
     }
 });
