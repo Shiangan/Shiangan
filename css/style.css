@@ -101,7 +101,6 @@
 html {
     /* 確保 root 有背景色與避免橫向滾動 */
     background-color: var(--color-bg-primary); 
-    overflow-x: hidden; 
 }
 
 body {
@@ -227,20 +226,21 @@ a:focus-visible {
         background-color: rgba(0, 0, 0, 0.05); /* 輕微區隔 */
         padding: 0;
         border-radius: 0;
-        opacity: 1; /* 始終可見，由 JS/CSS 控制 max-height 展開 */
-        visibility: visible;
+        opacity: 0; /* 始終可見，由 JS/CSS 控制 max-height 展開 */
+        visibility: hidden;
         
         /* 🏆 行動裝置摺疊效果：使用 max-height 替換 opacity/visibility */
         max-height: 0; 
-        transition: max-height 0.4s ease-in-out;
-        overflow: hidden;
-    }
+        transition: max-height 0.4s ease-in-out, opacity 0.4s, visibility 0.4s; /* 修正 transition */
+}
 
     /* 下拉選單開啟時的狀態 (通常透過 JavaScript 添加 class) */
     .dropdown.open > .submenu { 
-        max-height: 500px; /* 足夠大的值以容納所有子項 */
-    }
-    
+    max-height: 500px;
+    opacity: 1;             /* 展開時顯示 */
+    visibility: visible;    /* 展開時可見 */
+}
+
     .submenu a {
         padding: 10px 30px; /* 增加左側內縮 */
     }
