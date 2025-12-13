@@ -256,7 +256,9 @@
 
 
     /**
+     *     /**
      * 設置響應式導航手風琴選單 (Mobile Navigation Accordion)
+     * 【修正版】: 確保點擊帶有子菜單的父連結時，優先展開/收合手風琴。
      * @returns {void}
      */
     const setupMobileAccordion = () => {
@@ -269,19 +271,13 @@
 
                     const submenu = /** @type {HTMLElement | null} */ (parentLi.querySelector('.submenu-container, .submenu')); 
                     if (!submenu) return;
-
-                    const href = targetLink.getAttribute('href') || '';
-                    const isTrigger = href === '' || href === '#'; 
                     
-                    if (!isTrigger) {
-                         // 允許在手機模式下點擊帶連結的菜單項
-                         closeMainMenu();
-                         return;
-                    }
-
-                    // 手機模式下的手風琴邏輯
-                    e.preventDefault();
-
+                    // --- 【核心修正處】 ---
+                    // 無論 href 是否有效，只要有子菜單，點擊時都優先處理手風琴。
+                    // 阻止預設的連結跳轉行為。
+                    e.preventDefault(); 
+                    // --- 【核心修正處結束】 ---
+                    
                     const isCurrentlyActive = parentLi.classList.contains('active');
 
                     // 關閉其他 (單一展開模式)
@@ -293,15 +289,15 @@
                         targetLink.setAttribute('aria-expanded', 'true');
 
                         submenu.style.maxHeight = '0px';
-                        void submenu.offsetHeight; // 觸發重排，確保過渡生效
+                        void submenu.offsetHeight; 
 
                         requestAnimationFrame(() => {
                              submenu.style.maxHeight = `${submenu.scrollHeight}px`;
                         });
-                         // 過渡完成後清理
+                        // 過渡完成後清理
                         setTimeout(() => onTransitionEndCleanup(submenu), RWD_TRANSITION_DURATION_MS); 
                     } 
-                    // 收合邏輯已經在 closeAllMobileSubmenus 中處理
+                    // 如果是已經展開的項目的二次點擊，closeAllMobileSubmenus 會將其收合。
                 });
             });
         }
