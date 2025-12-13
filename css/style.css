@@ -411,21 +411,16 @@ main {
     transition: color var(--transition-speed), border-bottom var(--transition-speed), padding-bottom var(--transition-speed);
 }
 
-.main-nav a:hover, 
-.main-nav a.active {
-    color: var(--color-primary);
-    border-bottom: 3px solid var(--color-warning); 
-    padding-bottom: 7px; 
-    outline: none; 
-}
-/* 桌面版專用焦點優化 */
+/* 桌面版專用焦點優化 (A11y Enhancement) */
 .main-nav a:focus-visible {
-    color: var(--color-primary); /* 確保焦點時有顏色變化 */
+    /* 使用 warning 色作為強烈焦點指示，符合 A11y 要求 */
+    color: var(--color-primary); 
     outline: 2px solid var(--color-warning); 
     outline-offset: 4px;
-    /* 移除底線，避免與 outline 衝突，但保留 hover 的底線 */
+    /* 確保焦點時不會與底線衝突 (如 hover 時有底線) */
     border-bottom: none; 
-    padding-bottom: 10px;
+    /* 移除此行，避免與原始的 padding 產生非預期的空間調整 */
+    /* padding-bottom: 10px; */ 
 }
 
 .main-nav a .fas {
@@ -2976,17 +2971,14 @@ table {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         max-height: calc(100vh - var(--header-height)); 
         overflow-y: auto;
-        transform: translateX(100%); 
+        transform: translate3d(100%, 0, 0); /* 🏆 最終修訂: 使用 3D 轉換以獲得更流暢的動畫 */
         transition: transform 0.4s ease-out; 
         padding: 20px 0;
         will-change: transform; 
         z-index: 999;
-        /* 🏆 最終修訂: 使用 3D 轉換以獲得更流暢的動畫 */
-        transform: translate3d(100%, 0, 0); 
     }
     .main-nav.active {
-        /* 🏆 最終修訂: 使用 3D 轉換以獲得更流暢的動畫 */
-        transform: translate3d(0, 0, 0); 
+        transform: translate3d(0, 0, 0); /* 🏆 最終修訂: 使用 3D 轉換以獲得更流暢的動畫 */
     }
 
     .menu-toggle {
