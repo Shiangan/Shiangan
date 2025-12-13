@@ -38,8 +38,8 @@
             overflow-x: hidden; 
         }
         
-        /* 3. 通用佈局 */
-        .main-header, footer {
+        /* 3. 通用佈局 (Header/Footer/CTA 統一) */
+        .main-header {
             width: 100%;
             background-color: var(--primary-color);
             color: white;
@@ -55,7 +55,7 @@
         
         /* 4. Hero 區塊 */
         .hero-section {
-            background-image: url('images/hero-plans.jpg'); /* 假設圖片路徑存在 */
+            background-image: url('images/hero-plans.jpg'); 
             background-size: cover;
             background-position: center;
             color: white;
@@ -65,20 +65,15 @@
             text-align: center;
             padding: 80px 20px;
             position: relative;
-            min-height: 400px;
+            min-height: 350px; /* 略微調低 */
         }
-
         .hero-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: rgba(0, 0, 0, 0.5); 
             z-index: 1;
         }
-
         .hero-content { z-index: 2; }
 
         /* 5. 標題樣式 */
@@ -94,23 +89,22 @@
             padding-bottom: 10px; 
         }
 
-        /* 6. Tab 切換 (增加 overflow-x 確保手機滑動) */
+        /* 6. Tab 切換 */
         .plan-tabs { 
             display: flex; 
             justify-content: center; 
             margin-bottom: 50px; 
             border-bottom: 2px solid var(--accent-color); 
-            gap: 5px; /* 縮小間距容納更多 Tab */
+            gap: 5px; 
             overflow-x: auto; 
             padding-bottom: 5px; 
-            -webkit-overflow-scrolling: touch; /* iOS 滑動優化 */
+            -webkit-overflow-scrolling: touch; 
         }
 
         .tab-button { 
-            /* ... (保持 V10.0 的樣式，略作 padding 調整以容納 5 個 Tab) */
             background-color: transparent; 
             border: none; 
-            padding: 15px 18px; /* 調整 padding */
+            padding: 15px 18px; 
             font-size: clamp(0.9em, 3vw, 1.1em); 
             font-weight: bold; 
             color: var(--subtle-gray); 
@@ -123,7 +117,6 @@
         }
 
         .tab-button.active { 
-            /* ... (保持 V10.0 的樣式) */
             color: white; 
             background-color: var(--primary-color); 
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15); 
@@ -132,22 +125,7 @@
             transform: translateY(-2px); 
         }
 
-        /* 7. 分類區塊標題 */
-        .plan-category-header {
-            margin-bottom: 30px;
-            padding: 10px 0;
-            border-bottom: 2px solid #ddd;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .plan-category-header h3 {
-            color: var(--primary-color);
-            font-size: clamp(1.5em, 4vw, 1.8em);
-        }
-
-        /* 8. 方案卡片 */
+        /* 7. 方案卡片 & 特色 */
         .plans-container { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -156,6 +134,7 @@
             padding-top: 20px; 
         }
         .plan-card { 
+            /* ... (樣式保持) */
             background: white; 
             border: 1px solid #e0e0e0; 
             border-radius: var(--border-radius-lg); 
@@ -167,42 +146,107 @@
             text-align: center; 
             position: relative; 
         }
+        .plan-features { list-style: none; padding: 0 20px; text-align: left; flex-grow: 1; margin-bottom: 20px; }
         .plan-features li { 
             padding: 10px 0; 
             border-bottom: 1px dotted #e0e0e0;
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* 優化：確保內容多行時圖標靠頂部 */
             font-size: 1.0em;
         }
-        .feature-icon { margin-right: 10px; color: var(--primary-color); font-size: 1.1em; width: 20px; text-align: center; }
-
-        /* 9. 客製化/環保葬卡片樣式 (共用 .custom-plan-card) */
-        .custom-plan-card {
-            border: 3px dashed var(--custom-theme);
-            background-color: #ffffff;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 350px;
-            text-align: center;
-        }
-        .custom-cta-button {
-            background-color: var(--custom-theme);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 20px;
-            display: inline-block;
-            transition: background-color 0.3s;
+        .feature-icon { 
+            margin-right: 10px; 
+            color: var(--primary-color); 
+            font-size: 1.1em; 
+            width: 20px; 
+            text-align: center; 
+            flex-shrink: 0; /* 確保圖標不被壓縮 */
+            padding-top: 2px; /* 微調對齊 */
         }
         
-        /* 10. RWD 響應式微調 */
+        /* 8. Modal 浮層樣式 (核心優化) */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center;
+            opacity: 0; overflow-y: auto; backdrop-filter: blur(8px) brightness(0.7);
+            transition: opacity var(--transition-speed) ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content { 
+            max-width: 900px; width: 90%; margin: 40px auto; 
+            background: white; border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .modal-header { 
+            background-color: var(--primary-color); color: white; padding: 20px;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .close-btn { 
+            color: white; font-size: 1.5em; font-weight: bold; cursor: pointer; border: none;
+            background: none; line-height: 1; margin-left: 20px;
+            transition: color 0.2s;
+            position: absolute; /* 優化: 絕對定位叉叉 */
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            padding: 5px;
+        }
+        .close-btn:hover { color: var(--accent-color); }
+        .modal-body { padding: 30px; }
+        
+        /* 優化: Modal 內部清單排版與行高 */
+        .modal-detail-list { padding-left: 0; list-style-type: none; }
+        .modal-detail-list li { 
+            padding: 10px 0; 
+            border-bottom: 1px dotted #e0e0e0; 
+            font-size: 1.05em;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.8; /* 核心優化: 增加行距，更舒適閱讀 */
+        }
+        .modal-detail-list li i {
+            margin-right: 15px;
+            color: var(--accent-color);
+            min-width: 20px;
+            text-align: center;
+            padding-top: 3px; /* 微調圖標對齊 */
+            flex-shrink: 0;
+        }
+
+        /* 9. 浮動 CTA (Call to Action) */
+        .floating-cta {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .floating-cta a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--price-highlight);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5em;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        .floating-cta a:hover {
+            background-color: #C02E40;
+        }
+        
+        /* RWD 響應式微調 */
         @media (max-width: 767px) {
             .plan-tabs { justify-content: flex-start; }
-            .plan-features li { padding: 8px 0; font-size: 0.95em; } /* 核心修正：手機版方案細項間距縮小 */
+            .plan-features li { padding: 8px 0; font-size: 0.95em; } 
+            .modal-content { width: 95%; }
+            .modal-header { padding-right: 60px; } /* 留空間給絕對定位的叉叉 */
         }
     </style>
 
@@ -210,7 +254,7 @@
 
 <body>
     <header class="main-header" role="banner">
-        <div style="font-size: 1.5em; font-weight: bold;">祥安生命禮儀 (Header Placeholder)</div>
+        <div style="font-size: 1.5em; font-weight: bold;"><a href="index.html" style="color: white; text-decoration: none;">祥安生命禮儀</a></div>
     </header>
     
     <main role="main">
@@ -403,20 +447,20 @@
 
     </main>
     
-    <div id="modal-planA-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planA-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header"><h4 id="modal-planA-title">中式：平安心意專案 (16.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--primary-color); margin-bottom: 10px;">📋 治喪服務 (共 10 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 24小時接體服務 (含車輛及人員)。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 遺體淨身、專業化妝、更衣。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 靈位設置與用品 (基礎牌位)。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 治喪流程協調與時辰擇日。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 協助辦理死亡證明書等文件。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">⚰️ 禮儀用品 (共 15 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 標準型火化棺木。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 骨灰罈 (基礎款式) 及刻字服務。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 壽衣 (五件式) 一套。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 孝服、香燭、紙錢等基礎拜飯用品。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">🙏 法事與會場 (共 8 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 二、三、七誦經法會 (9師父配置)。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 告別式會場基礎布幔佈置。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 告別式服務人員配置。</li><li><i class="fas fa-check-circle" style="color:var(--accent-color);"></i> 專業司儀服務。</li></ul></div></div></div>
-    <div id="modal-planB-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planB-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: #2980B9;"><h4 id="modal-planB-title">中式：精緻尊享專案 (18.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:#2980B9; margin-bottom: 10px;">📋 治喪服務 (升級至 15 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 全天候待命專屬禮儀師。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 遺體專業沐浴、冰存及精緻壽妝。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 靈位設置升級，含電子輓聯服務。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 往生室助念用品提供。</li></ul><h5 style="color:#2980B9; margin-top: 20px; margin-bottom: 10px;">⚰️ 禮儀用品 (升級至 20 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 精選西式棺木或高階火化棺木。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 精選骨灰罈 (玉石款) 及刻字服務。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 專屬設計款壽衣。</li></ul><h5 style="color:#2980B9; margin-top: 20px; margin-bottom: 10px;">🙏 法事與會場 (升級至 12 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 圓滿功德法會 (12師父配置，含大赦)。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 精緻主題會場佈置，含LED花牆背景。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 告別式餐飲服務協助。</li></ul></div></div></div>
-    <div id="modal-planC-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planC-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: var(--primary-color);"><h4 id="modal-planC-title">中式：至尊圓滿專案 (35.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--primary-color); margin-bottom: 10px;">👑 尊榮治喪服務 (共 25 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> **24小時專屬禮儀師一對一全程指導**。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級進口化妝保養品服務。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式專屬回憶影片製作。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">⚰️ 頂級用品 (共 30 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 豪華藝術棺木 (可選頂級木材)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級寶石骨灰罈。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 進口高級壽衣。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">🙏 圓滿法事與會場 (共 18 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> **完整七七圓滿功德法會** (大型法師團)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 豪華藝術主題佈置與進口花藝。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式專車接送 VIP 家屬。</li></ul></div></div></div>
+    <div id="modal-planA-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planA-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header"><h4 id="modal-planA-title">中式：平安心意專案 (16.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--primary-color); margin-bottom: 10px;">📋 治喪服務 (共 10 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle"></i> 24小時接體服務 (含車輛及人員)。</li><li><i class="fas fa-check-circle"></i> 遺體淨身、專業化妝、更衣。</li><li><i class="fas fa-check-circle"></i> 靈位設置與用品 (基礎牌位)。</li><li><i class="fas fa-check-circle"></i> 治喪流程協調與時辰擇日。</li><li><i class="fas fa-check-circle"></i> 協助辦理死亡證明書等文件。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">⚰️ 禮儀用品 (共 15 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle"></i> 標準型火化棺木。</li><li><i class="fas fa-check-circle"></i> 骨灰罈 (基礎款式) 及刻字服務。</li><li><i class="fas fa-check-circle"></i> 壽衣 (五件式) 一套。</li><li><i class="fas fa-check-circle"></i> 孝服、香燭、紙錢等基礎拜飯用品。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">🙏 法事與會場 (共 8 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle"></i> 二、三、七誦經法會 (9師父配置)。</li><li><i class="fas fa-check-circle"></i> 告別式會場基礎布幔佈置。</li><li><i class="fas fa-check-circle"></i> 告別式服務人員配置。</li><li><i class="fas fa-check-circle"></i> 專業司儀服務。</li></ul></div></div></div>
+    <div id="modal-planB-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planB-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: #2980B9;"><h4 id="modal-planB-title">中式：精緻尊享專案 (18.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:#2980B9; margin-bottom: 10px;">📋 治喪服務 (升級至 15 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 全天候待命專屬禮儀師。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 遺體專業沐浴、冰存及精緻壽妝。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 靈位設置升級，含電子輓聯服務。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 往生室助念用品提供。</li></ul><h5 style="color:#2980B9; margin-top: 20px; margin-bottom: 10px;">⚰️ 禮儀用品 (升級至 20 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 精選西式棺木或高階火化棺木。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 精選骨灰罈 (玉石款) 及刻字服務。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 專屬設計款壽衣。</li></ul><h5 style="color:#2980B9; margin-top: 20px; margin-bottom: 10px;">🙏 法事與會場 (升級至 12 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 圓滿功德法會 (12師父配置，含大赦)。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 精緻主題會場佈置，含LED花牆背景。</li><li><i class="fas fa-check-circle" style="color:#2980B9;"></i> 告別式餐飲服務協助。</li></ul></div></div></div>
+    <div id="modal-planC-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planC-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: var(--primary-color);"><h4 id="modal-planC-title">中式：至尊圓滿專案 (35.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--primary-color); margin-bottom: 10px;">👑 尊榮治喪服務 (共 25 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> **24小時專屬禮儀師一對一全程指導**。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級進口化妝保養品服務。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式專屬回憶影片製作。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">⚰️ 頂級用品 (共 30 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 豪華藝術棺木 (可選頂級木材)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級寶石骨灰罈。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 進口高級壽衣。</li></ul><h5 style="color:var(--primary-color); margin-top: 20px; margin-bottom: 10px;">🙏 圓滿法事與會場 (共 18 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> **完整七七圓滿功德法會** (大型法師團)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 豪華藝術主題佈置與進口花藝。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式專車接送 VIP 家屬。</li></ul></div></div></div>
 
-    <div id="modal-planW1-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planW1-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: var(--western-theme);"><h4 id="modal-planW1-title">西式：典雅追思專案 (20.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--western-theme); margin-bottom: 10px;">🕊️ 追思服務 (12 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 專業牧師/神父引導流程協調。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 追思會流程規劃與簡報製作。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 現場聖歌詩班或樂手服務。</li></ul><h5 style="color:var(--western-theme); margin-top: 20px; margin-bottom: 10px;">✝️ 會場與用品 (18 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 莊嚴十字架/聖像背景佈置。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 簡約白色系鮮花裝飾。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 標準西式火化棺木。</li></ul></div></div></div>
-    <div id="modal-planW2-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planW2-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: #34495e;"><h4 id="modal-planW2-title">西式：永恆盼望尊榮專案 (32.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:#34495e; margin-bottom: 10px;">👑 尊榮服務 (18 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 專屬禮儀顧問。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式全程錄影記錄 (專業製片)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級進口鮮花拱門設計。</li></ul><h5 style="color:#34495e; margin-top: 20px; margin-bottom: 10px;">⚰️ 頂級用品 (25 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級進口棺木 (或客製化選材)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 專屬設計款骨灰罈。</li></ul></div></div></div>
+    <div id="modal-planW1-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planW1-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: var(--western-theme);"><h4 id="modal-planW1-title">西式：典雅追思專案 (20.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--western-theme); margin-bottom: 10px;">🕊️ 追思服務 (12 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 專業牧師/神父引導流程協調。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 追思會流程規劃與簡報製作。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 現場聖歌詩班或樂手服務。</li></ul><h5 style="color:var(--western-theme); margin-top: 20px; margin-bottom: 10px;">✝️ 會場與用品 (18 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 莊嚴十字架/聖像背景佈置。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 簡約白色系鮮花裝飾。</li><li><i class="fas fa-check-circle" style="color:var(--western-theme);"></i> 標準西式火化棺木。</li></ul></div></div></div>
+    <div id="modal-planW2-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planW2-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: #34495e;"><h4 id="modal-planW2-title">西式：永恆盼望尊榮專案 (32.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:#34495e; margin-bottom: 10px;">👑 尊榮服務 (18 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 專屬禮儀顧問。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式全程錄影記錄 (專業製片)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級進口鮮花拱門設計。</li></ul><h5 style="color:#34495e; margin-top: 20px; margin-bottom: 10px;">⚰️ 頂級用品 (25 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 頂級進口棺木 (或客製化選材)。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 專屬設計款骨灰罈。</li></ul></div></div></div>
 
-    <div id="modal-planJ1-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planJ1-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: var(--japen-theme);"><h4 id="modal-planJ1-title">日式：極簡合掌專案 (19.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--japen-theme); margin-bottom: 10px;">🏯 儀式服務 (10 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 遵循「一日葬」或「兩日葬」流程規劃。</li><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 專業日式入殮服務。</li><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 簡約和風素棺。</li></ul><h5 style="color:var(--japen-theme); margin-top: 20px; margin-bottom: 10px;">🪴 會場佈置 (15 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 日式禪風小型會場佈置。</li><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 燈籠與竹製素雅裝飾。</li></ul></div></div></div>
-    <div id="modal-planJ2-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planJ2-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: #795548;"><h4 id="modal-planJ2-title">日式：侘寂優雅專案 (26.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:#795548; margin-bottom: 10px;">🍁 頂級服務 (15 項)</h5><ul class="modal-detail-list" style="list-style-type: none; padding-left: 0;"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 自然風格會場設計，含木質與苔蘚元素。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式攝影服務。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 高階日式精選棺木。</li></ul></div></div></div>
+    <div id="modal-planJ1-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planJ1-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: var(--japen-theme);"><h4 id="modal-planJ1-title">日式：極簡合掌專案 (19.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:var(--japen-theme); margin-bottom: 10px;">🏯 儀式服務 (10 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 遵循「一日葬」或「兩日葬」流程規劃。</li><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 專業日式入殮服務。</li><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 簡約和風素棺。</li></ul><h5 style="color:var(--japen-theme); margin-top: 20px; margin-bottom: 10px;">🪴 會場佈置 (15 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 日式禪風小型會場佈置。</li><li><i class="fas fa-check-circle" style="color:var(--japen-theme);"></i> 燈籠與竹製素雅裝飾。</li></ul></div></div></div>
+    <div id="modal-planJ2-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-planJ2-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header" style="background-color: #795548;"><h4 id="modal-planJ2-title">日式：侘寂優雅專案 (26.8萬) - 完整細節</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉方案細節視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><h5 style="color:#795548; margin-bottom: 10px;">🍁 頂級服務 (15 項)</h5><ul class="modal-detail-list"><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 自然風格會場設計，含木質與苔蘚元素。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 告別式攝影服務。</li><li><i class="fas fa-star" style="color:var(--accent-color);"></i> 高階日式精選棺木。</li></ul></div></div></div>
 
     <div id="modal-comparison-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-comparison-title" onclick="closeModal(event)"><div class="modal-content" role="document"><header class="modal-header"><h4 id="modal-comparison-title"><i class="fas fa-balance-scale"></i> 佛道教三方案核心差異總比較表</h4><button class="close-btn" onclick="closeModal(event)" aria-label="關閉比較表視窗"><i class="fas fa-times"></i></button></header><div class="modal-body"><div class="comparison-table-wrapper" style="overflow-x: auto;"><table class="comparison-table" style="width: 100%; min-width: 600px; border-collapse: collapse;"><thead><tr style="background-color: #f0f0f0;"><th style="border: 1px solid #ddd; padding: 10px; text-align: left;">服務項目</th><th style="border: 1px solid #ddd; padding: 10px;">16.8萬 (平安)</th><th style="border: 1px solid #ddd; padding: 10px; background-color: #E6F0FF;">18.8萬 (精緻)</th><th style="border: 1px solid #ddd; padding: 10px; background-color: #FFF0E6;">35.8萬 (至尊)</th></tr></thead><tbody><tr><td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">禮儀師服務</td><td style="border: 1px solid #ddd; padding: 10px;">全程協調</td><td style="border: 1px solid #ddd; padding: 10px;">全程協調</td><td style="border: 1px solid #ddd; padding: 10px; font-weight: bold; color: var(--primary-color);">24H專屬全程指導</td></tr><tr><td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">功德法會</td><td style="border: 1px solid #ddd; padding: 10px;">二/三/七 (基礎)</td><td style="border: 1px solid #ddd; padding: 10px;">圓滿功德法會</td><td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">七七四十九天完整圓滿</td></tr><tr><td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">會場佈置</td><td style="border: 1px solid #ddd; padding: 10px;">基礎布幔</td><td style="border: 1px solid #ddd; padding: 10px;">LED主題花牆</td><td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">豪華藝術佈置+頂級花藝</td></tr></tbody></table></div></div></div>
     
     <footer>
-        <p>© <span id="current-year">2025</span> 祥安生命禮儀 | 價格透明，服務專業。</p>
+        <p>© <span id="current-year">2025</span> 祥安生命禮儀 | 價格透明，服務專業。 <a href="index.html" style="color: #ccc; text-decoration: none; margin-left: 15px;">返回首頁</a></p>
     </footer>
     
     <div class="floating-cta" aria-label="緊急聯繫方式">
@@ -432,7 +476,7 @@
     <script>
         
         // ----------------------------------------------------
-        // Modal A11y 與 開/關 邏輯 (保持 V10.0 的穩健邏輯)
+        // Modal A11y 與 開/關 邏輯 (核心修復: 確保點擊後 Modal 正常顯示)
         // ----------------------------------------------------
         let focusedElementBeforeModal; 
 
@@ -441,32 +485,47 @@
             if (modal) {
                 focusedElementBeforeModal = document.activeElement; 
                 document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                modal.scrollTop = 0; 
-                modal.setAttribute('aria-hidden', 'false');
-                modal.focus();
-                const closeButton = modal.querySelector('.close-btn');
-                if (closeButton) {
-                    closeButton.focus(); 
-                }
-                modal.addEventListener('keydown', handleModalKeydown);
+                
+                // 核心修復: 確保 display: flex 立即生效，並在 transition 後設置 opacity
+                modal.style.display = 'flex'; 
+                setTimeout(() => { 
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    modal.scrollTop = 0; 
+                    modal.setAttribute('aria-hidden', 'false');
+                    modal.focus();
+                    const closeButton = modal.querySelector('.close-btn');
+                    if (closeButton) {
+                        closeButton.focus(); 
+                    }
+                    modal.addEventListener('keydown', handleModalKeydown);
+                }, 10); 
             }
         }
 
         function closeModal(event) {
-            if (event.type === 'click' && event.target.closest('.modal-content') && !event.target.closest('.close-btn')) {
-                 return;
+            // 優化: 只有點擊背景或叉叉時才關閉
+            const isModalOverlay = event.target.classList.contains('modal-overlay');
+            const isCloseButton = event.target.closest('.close-btn');
+            
+            if (event.type === 'click' && !isModalOverlay && !isCloseButton) {
+                 return; // 點擊到 Modal 內容區塊內部，不做任何操作
             }
+            
             const activeModal = document.querySelector('.modal-overlay.active');
             if (activeModal) {
                 activeModal.classList.remove('active');
                 activeModal.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = 'auto';
-                activeModal.removeEventListener('keydown', handleModalKeydown);
-                if (focusedElementBeforeModal) {
-                    focusedElementBeforeModal.focus();
-                }
+                
+                // 等待 opacity transition 結束後再隱藏 display
+                setTimeout(() => {
+                    activeModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    activeModal.removeEventListener('keydown', handleModalKeydown);
+                    if (focusedElementBeforeModal) {
+                        focusedElementBeforeModal.focus();
+                    }
+                }, 350); // 應與 CSS transition-speed 匹配
             }
         }
         
@@ -488,7 +547,7 @@
         }
         
         // ----------------------------------------------------
-        // Tab 切換邏輯 (已更新支援 5 個 Tab)
+        // Tab 切換邏輯
         // ----------------------------------------------------
         function openPlanTab(tabName) {
             let i, tabcontent;
@@ -511,7 +570,6 @@
             if (contentElement) { contentElement.style.display = "block"; }
             if (tabElement) { tabElement.classList.add("active"); tabElement.setAttribute('aria-selected', 'true'); tabElement.setAttribute('tabindex', '0'); }
             
-            // 滾動到 tab 區塊頂部
             const planSelection = document.getElementById('plan-selection');
             if (planSelection) {
                 planSelection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -519,7 +577,7 @@
         }
 
         // ----------------------------------------------------
-        // 初始化與錨點處理 (核心邏輯：不自動彈出 Modal, 僅滾動)
+        // 初始化與事件處理
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', (event) => {
             const hash = window.location.hash.substring(1); 
@@ -527,15 +585,14 @@
             let defaultTab = 'buddhist-taoist';
             let targetCardId = null;
 
-            // 擴展錨點映射表
             const hashToCardMap = {
-                'eighty-eight': { card: 'plan-168', tab: 'buddhist-taoist' }, 
-                'eleven-eight': { card: 'plan-188', tab: 'buddhist-taoist' }, 
-                'seventeen-eight': { card: 'plan-358', tab: 'buddhist-taoist' }, 
-                'west-208': { card: 'plan-western-1', tab: 'western' },
-                'west-328': { card: 'plan-western-2', tab: 'western' },
-                'japen-198': { card: 'plan-japen-1', tab: 'japen' },
-                'japen-268': { card: 'plan-japen-2', tab: 'japen' },
+                'eighty-eight': { tab: 'buddhist-taoist', card: 'plan-168' }, 
+                'eleven-eight': { tab: 'buddhist-taoist', card: 'plan-188' }, 
+                'seventeen-eight': { tab: 'buddhist-taoist', card: 'plan-358' }, 
+                'west-208': { tab: 'western', card: 'plan-western-1' },
+                'west-328': { tab: 'western', card: 'plan-western-2' },
+                'japen-198': { tab: 'japen', card: 'plan-japen-1' },
+                'japen-268': { tab: 'japen', card: 'plan-japen-2' },
                 'eco-tree': { tab: 'eco' },
                 'eco-sea': { tab: 'eco' },
                 'custom': { tab: 'custom' },
@@ -544,13 +601,11 @@
 
             if (hashToCardMap[hash]) {
                 defaultTab = hashToCardMap[hash].tab;
-                targetCardId = hashToCardMap[hash].card; // 這裡沒有環保葬卡片 ID，但會滾動到 Tab 頂部
+                targetCardId = hashToCardMap[hash].card;
             }
             
-            // 執行 Tab 切換
             openPlanTab(defaultTab);
             
-            // 處理滾動到特定卡片
             setTimeout(() => {
                 const planSelection = document.getElementById('plan-selection');
                 if (targetCardId) {
@@ -559,7 +614,6 @@
                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 } else if (planSelection) {
-                    // 確保視圖停在 Tab 區
                     planSelection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }, 100); 
@@ -567,7 +621,7 @@
             document.getElementById('current-year').textContent = new Date().getFullYear();
             const backToTopButton = document.querySelector('.back-to-top');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) { backToTopButton.style.display = 'block'; } else { backToTopButton.style.display = 'none'; }
+                if (window.scrollY > 300) { backToTopButton.style.display = 'flex'; } else { backToTopButton.style.display = 'none'; }
             });
         });
         
