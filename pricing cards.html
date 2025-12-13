@@ -82,15 +82,25 @@
                 cursor: pointer;
                 width: 80%;
                 margin: 15px auto 0;
+                border: none; /* 確保按鈕無邊框 */
             }
             
             /* 在手機上展開詳細內容的容器 */
             .plan-details-expanded {
-                display: none; /* 預設隱藏 */
-                padding: 10px;
+                /* 注意：這裡不再使用 display: none; */
+                /* 而是依賴 JS 設定的 max-height: 0; 和 CSS transition 實現動畫 */
+                max-height: 0; /* 讓 JS 控制高度 */
+                overflow: hidden; /* 隱藏溢出內容 */
+                transition: max-height 0.3s ease-out; /* 實現平滑收合動畫 */
+                padding: 0 10px; /* 初始 padding 設為 0 */
                 background-color: #f7f7f7;
                 border-top: 1px solid #ddd;
             }
+            /* 修正 padding 在展開後才顯示 */
+            .expanded .plan-details-expanded {
+                padding: 10px; 
+            }
+
 
             .plan-details-expanded table {
                 width: 100%;
@@ -110,25 +120,13 @@
             }
         }
         
-        /* JavaScript 展開類 */
+        /* JavaScript 展開類：僅用於標記狀態，實際動畫由 max-height 控制 */
         .expanded .plan-details-expanded {
-            display: block;
+            /* 這裡的 max-height 將被 JS 動態覆蓋為 scrollHeight */
         }
     </style>
 </head>
 <body>
-
-<script>
-    function toggleDetails(button) {
-        const card = button.closest('.plan-card');
-        card.classList.toggle('expanded');
-        if (card.classList.contains('expanded')) {
-            button.textContent = '收起細項 ↑';
-        } else {
-            button.textContent = '查看完整細項 ↓';
-        }
-    }
-</script>
 
 <h2>專業告別式服務方案 (手機/電腦最佳化)</h2>
 
