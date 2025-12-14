@@ -3,56 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>祥安生命 - 禮儀方案與服務報價</title>
-    <link rel="stylesheet" href="css/core-enhancements.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>祥安生命 | 禮儀方案與報價總覽 - 聯合、精緻、尊榮、宗教禮儀</title>
     
-    </head>
+    <meta name="description" content="祥安生命提供最透明的聯合、精緻、尊榮奠祭方案報價，包含傳統、基督教、日式等多元宗教禮儀服務流程。">
+    <meta name="keywords" content="祥安生命, 禮儀方案, 喪葬報價, 聯合奠祭, 基督教喪禮, 日式喪禮, 尊榮奠祭">
+    
+    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <body>
 
-    <header class="site-header"></header>
+    <header class="site-header" role="banner"></header>
 
-    <main class="plan-page-container">
+    <main class="plan-page-container" role="main">
         
-        <section class="plan-directory">
+        <nav class="plan-directory" role="navigation">
             <h2 class="section-title">禮儀服務方案與報價總覽</h2>
             
             <div class="plan-tabs" role="tablist">
-                <button id="tab-overview" class="active" role="tab" aria-controls="content-overview" onclick="window.openPlanTab('overview')">服務總覽</button>
-                <button id="tab-united" role="tab" aria-controls="content-united" onclick="window.openPlanTab('united')">聯合奠祭專案</button>
-                <button id="tab-fine" role="tab" aria-controls="content-fine" onclick="window.openPlanTab('fine')">精緻奠祭專案</button>
-                <button id="tab-honor" role="tab" aria-controls="content-honor" onclick="window.openPlanTab('honor')">尊榮奠祭專案</button>
-                
+                <button id="tab-comparison" class="tab-button active" role="tab" aria-selected="true" aria-controls="content-comparison" onclick="window.openPlanTab('comparison')">服務比較</button>
+                <button id="tab-united" class="tab-button" role="tab" aria-selected="false" aria-controls="content-united" onclick="window.openPlanTab('united')">聯合奠祭專案</button>
+                <button id="tab-fine" class="tab-button" role="tab" aria-selected="false" aria-controls="content-fine" onclick="window.openPlanTab('fine')">精緻奠祭專案</button>
+                <button id="tab-honor" class="tab-button" role="tab" aria-selected="false" aria-controls="content-honor" onclick="window.openPlanTab('honor')">尊榮奠祭專案</button>
+                <button id="tab-religious" class="tab-button" role="tab" aria-selected="false" aria-controls="content-religious" onclick="window.openPlanTab('religious')">宗教禮儀參考</button>
+
                 <button data-modal-id="reference-quote" onclick="window.openModal('reference-quote')" class="button-accent">
                     <i class="fas fa-eye"></i> 市場參考報價單
                 </button>
             </div>
-        </section>
+        </nav>
 
         <div class="plan-tab-content-wrapper">
-            <section id="content-overview" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-overview" style="display: block;">
-                <h3>祥安生命服務比較</h3>
-                <p class="intro-text">選擇祥安生命有限公司，不讓家人走冤枉路。我們的服務在多方面超越市場其他業者。</p>
-                <table class="service-table">
+            
+            <section id="content-comparison" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-comparison">
+                <h3>選祥安生命有限公司，不讓家人走冤枉路</h3>
+                <table class="service-table" summary="祥安生命與其他業者及集團公司在服務項目上的比較">
                     </table>
             </section>
 
             <section id="content-united" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-united" style="display: none;">
                 <h3>聯合奠祭專案 - 參萬伍仟元整</h3>
-                <table class="service-table">
+                <table class="service-table" summary="聯合奠祭專案詳細服務內容與價格">
                     </table>
             </section>
 
             <section id="content-fine" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-fine" style="display: none;">
-                <h3>精緻奠祭專案 - 壹拾萬陸仟元整</h3>
-                <table class="service-table">
+                <h3>精緻奠祭專案 - 壹拾萬貳仟伍佰元整</h3>
+                <table class="service-table" summary="精緻奠祭專案詳細服務內容與價格">
                     </table>
             </section>
 
             <section id="content-honor" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-honor" style="display: none;">
                 <h3>尊榮奠祭專案 - 壹拾陸萬捌仟元整</h3>
-                <table class="service-table">
+                <table class="service-table" summary="尊榮奠祭專案詳細服務內容與價格">
                     </table>
+            </section>
+
+            <section id="content-religious" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-religious" style="display: none;">
+                <h3>多元宗教禮儀參考資訊</h3>
+                
+                <h4>✝️ 基督教喪禮流程與特色</h4>
+                <div class="religious-section">
+                    <p>基督教儀式注重安息與追思，流程相對簡潔莊嚴。 </p>
+                    <table class="service-table" summary="基督教喪禮流程與特點">
+                        </table>
+                </div>
+
+                <h4>🌸 日式喪禮流程與特色（多為日本佛教）</h4>
+                <div class="religious-section">
+                    <p>日式喪禮（多為佛教）流程嚴謹且儀式感重，特別是守夜與拾骨環節。  </p>
+                    <table class="service-table" summary="日式喪禮流程與特點">
+                        </table>
+                </div>
             </section>
         </div>
 
@@ -63,16 +85,16 @@
             <button class="close-btn" onclick="window.closeModal(event)" aria-label="關閉報價單視窗">
                 <i class="fas fa-times"></i>
             </button>
-            <h3>市場參考報價 - 福祿壽禮儀服務流程與費用</h3>
+            <h3>市場參考報價 - 福祿壽 臻藏契約 中式契約/服務流程</h3>
             <div class="modal-body-content">
-                <p class="alert-note"><i class="fas fa-info-circle"></i> 以下為市場參考報價，僅供比較參考，實際服務內容與費用請以祥安生命契約為準。</p>
-                <table class="service-table">
+                <p class="alert-note"><i class="fas fa-info-circle"></i> 以下表格根據您提供的**臻藏契約**圖檔建立，僅供對比參考，實際服務內容與費用請以祥安生命契約為準。</p>
+                <table class="service-table" summary="市場參考報價單內容">
                     </table>
             </div>
         </div>
     </div>
     
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <span id="current-year"></span> © 祥安生命 All Rights Reserved.
     </footer>
 
