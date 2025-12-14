@@ -1,4 +1,19 @@
-/* FOUC 處理：確保在 JS 載入前，頁面內容完全隱藏 */
+<!DOCTYPE html>
+<html lang="zh-Hant" class="js-loading">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>祥安生命 | 喪葬費用公開透明 | 國家認證禮儀師 | 24H服務</title>
+
+    <style>
+        :root { 
+            --primary-color: #800020; /* 勃根地紅/酒紅 */
+            --secondary-color: #333333; /* 主要文字/背景輔助色 */
+            --accent-color: #A31F25; /* 強調紅 */
+            --background-color: #f7f7f7; 
+        }
+        
+        /* FOUC 處理：確保在 JS 載入前，頁面內容完全隱藏 */
         .js-loading body, .js-loading html { visibility: hidden !important; opacity: 0 !important; }
         .js-loading { background-color: #fff; } 
         
@@ -113,6 +128,77 @@
             .footer-grid { grid-template-columns: 1fr; }
             .footer-copyright .container { flex-direction: column; text-align: center; gap: 10px; }
         }
+        
+        /* 導覽列子選單視覺修正 (確保 mobile 模式下子選單能展開) */
+        .main-nav .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1010;
+            min-width: 250px;
+            padding: 10px 0;
+            border-top: 2px solid var(--accent-color);
+        }
+
+        .main-nav .dropdown:hover .submenu {
+            display: block; /* Desktop hover 展開 */
+        }
+
+        /* Mobile 模式下的導覽列修正 */
+        @media (max-width: 992px) {
+            .main-nav {
+                position: fixed;
+                top: 60px; /* 根據 header 高度調整 */
+                right: 0;
+                height: calc(100vh - 60px);
+                width: 0; /* 預設隱藏 */
+                overflow-x: hidden;
+                transition: width 0.3s ease-in-out;
+                background-color: #fff;
+                z-index: 999;
+                padding-top: 20px;
+                box-shadow: none;
+            }
+            .main-nav.is-open {
+                width: 80%; /* 開啟時的寬度 */
+                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+                overflow-y: auto;
+            }
+            .main-nav ul {
+                display: block; 
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+            .main-nav li {
+                display: block;
+                border-bottom: 1px solid #eee;
+            }
+            .main-nav li a {
+                padding: 15px 20px;
+                display: block;
+                text-decoration: none;
+                color: var(--secondary-color);
+            }
+            .main-nav .submenu {
+                position: static; /* 子選單在 mobile 模式下不再是絕對定位 */
+                display: none;
+                box-shadow: none;
+                padding: 0;
+                border: none;
+                background-color: var(--background-color); /* 稍微區分 */
+            }
+            .main-nav .dropdown.submenu-active .submenu {
+                display: block; /* 靠 JS 控制展開 */
+            }
+            .main-nav .submenu li a {
+                padding-left: 40px; 
+                font-size: 0.95em;
+            }
+        }
     </style>
 
     <meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明，零隱藏費用。立即諮詢：0978-583-699。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。">
@@ -181,7 +267,7 @@
         <div class="header-container container">
             <div class="logo">
                 <a href="index.html" title="祥安生命有限公司 - 回到首頁">
-                    <img src="images/logo.png" alt="祥安生命有限公司 Logo - 國家認證禮儀師" class="site-logo" width="150" height="40"> </a>
+                    <img src="images/logo.png" alt="祥安生命有限公司 Logo - 國家認證禮儀師, 喪葬服務" class="site-logo" width="150" height="40"> </a>
             </div>
 
             <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
@@ -217,7 +303,8 @@
                             <li role="menuitem"><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案詳情">至尊圓滿 35.8萬</a></li>
                             <li class="submenu-separator" role="separator"></li>
                             <li role="menuitem"><a href="plans.html#tab-western" title="西式契約方案詳情">西式禮儀方案</a></li>
-                            <li role="menuitem"><a href="plans.html#tab-japan" title="日式契約方案詳情">日式禮儀方案</a></li> <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區">環保葬儀式服務</a></li>
+                            <li role="menuitem"><a href="plans.html#tab-japan" title="日式契約方案詳情">日式禮儀方案</a></li> 
+                            <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區">環保葬儀式服務</a></li>
                         </ul>
                     </li>
 
@@ -383,7 +470,13 @@
 
             <div class="flow-chart">
                 <figure class="flow-chart-figure" style="text-align: center; margin-bottom: 20px;">
-                    
+                    <img src="images/shiangan-process-flowchart.png" 
+                         alt="祥安生命七大安心治喪流程圖：從 24H 諮詢、會談、場地準備、設立靈堂、告別奠禮、安葬/晉塔到後續法律關懷" 
+                         title="祥安生命七大安心治喪流程圖" 
+                         loading="lazy" 
+                         style="max-width: 100%; height: auto; border: 1px solid #ddd;" 
+                         width="800" 
+                         height="400">
                     <figcaption style="font-size: 0.9em; color: #777; margin-top: 10px;">圖：祥安七大治喪服務流程，專業把關每一個環節，流程清晰透明</figcaption>
                 </figure>
                 
@@ -563,7 +656,8 @@
                         <li><a href="plans.html#plan-188" title="中式契約 18.8萬方案">精緻尊享 18.8萬</a></li>
                         <li><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案">至尊圓滿 35.8萬</a></li>
                         <li><a href="plans.html#tab-western" title="西式契約方案">西式契約</a></li>
-                        <li><a href="plans.html#tab-japan" title="日式契約方案">日式契約</a></li> </ul>
+                        <li><a href="plans.html#tab-japan" title="日式契約方案">日式契約</a></li>
+                    </ul>
                 </nav>
                 
                 <nav aria-labelledby="footer-nav-knowledge">
