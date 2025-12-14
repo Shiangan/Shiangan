@@ -5,205 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>祥安生命 | 喪葬費用公開透明 | 國家認證禮儀師 | 24H服務</title>
 
-    <style>
-        :root { 
-            --primary-color: #800020; /* 勃根地紅/酒紅 */
-            --secondary-color: #333333; /* 主要文字/背景輔助色 */
-            --accent-color: #A31F25; /* 強調紅 */
-            --background-color: #f7f7f7; 
-        }
-        
-        /* FOUC 處理：確保在 JS 載入前，頁面內容完全隱藏 */
-        .js-loading body, .js-loading html { visibility: hidden !important; opacity: 0 !important; }
-        .js-loading { background-color: #fff; } 
-        
-        body { 
-            font-family: 'Noto Sans TC', 'Noto Serif TC', sans-serif; 
-            margin: 0; 
-            background-color: #fff; 
-            line-height: 1.6; 
-            color: var(--secondary-color);
-            opacity: 1; /* 初始設為 1，但 .js-loading 會覆蓋 */
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        /* 導覽列與首頁 HERO 區塊 */
-        .main-header { position: fixed; width: 100%; top: 0; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; max-width: 1200px; margin: 0 auto; }
-        .hero-section { 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            padding-top: 80px; 
-            background: #f4f4f4; 
-            position: relative; 
-            overflow: hidden; 
-        }
-        .hero-content { z-index: 10; position: relative; padding: 0 20px; }
-        .hero-content h1 { font-size: clamp(3rem, 8vw, 4.5rem); color: var(--primary-color); margin-bottom: 0.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .hero-content h2 { font-size: clamp(1.5rem, 4vw, 2rem); color: var(--secondary-color); margin-top: 0; }
-        .cta-button { text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: 700; transition: background-color 0.3s, transform 0.1s; display: inline-block; margin: 10px; }
-        .cta-button:hover { transform: translateY(-2px); }
-        .primary { background-color: var(--accent-color); color: white !important; box-shadow: 0 4px 8px rgba(163, 31, 37, 0.4); }
-        .secondary { background-color: #fff; color: var(--secondary-color) !important; border: 2px solid #ddd; }
-        .primary:hover { background-color: #C0392B; }
-        
-        /* 區塊標題 */
-        h2 { text-align: center; color: var(--primary-color); margin-bottom: 40px; font-size: clamp(1.8rem, 5vw, 2.5rem); }
-        .text-center { text-align: center; }
-
-        /* 卡片與網格佈局 */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .container-v-padding { padding: 60px 0; }
-        .bg-section { background-color: var(--background-color); }
-        .card-grid { display: grid; gap: 30px; }
-        .religion-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-        .commitment-grid, .guide-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .card-item { background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; transition: box-shadow 0.3s; }
-        .card-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card-item h3 { margin-top: 0; color: var(--primary-color); }
-        .card-item .icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px; }
-        .primary-highlight { border: 2px solid var(--accent-color); }
-
-        /* 流程圖 (Process Flow) */
-        .flow-chart ol { list-style: none; padding: 0; max-width: 800px; margin: 0 auto; }
-        .flow-chart ol li { 
-            background-color: #fff; 
-            padding: 20px; 
-            margin-bottom: 15px; 
-            border-left: 5px solid var(--primary-color); 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            line-height: 1.5;
-        }
-        .flow-chart ol li strong { color: var(--primary-color); display: block; margin-bottom: 5px; font-size: 1.1em; }
-
-        /* FAQ (Accordion) */
-        .accordion-container { max-width: 900px; margin: 0 auto; }
-        .accordion-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
-        .accordion-header {
-            width: 100%;
-            text-align: left;
-            padding: 15px 0;
-            background: none;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: color 0.3s;
-        }
-        .accordion-header i { margin-right: 15px; color: var(--accent-color); font-size: 1.2em; }
-        .accordion-content { 
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-            padding: 0 15px 0 35px;
-        }
-        .accordion-item.active .accordion-content { 
-            max-height: 500px; 
-            padding: 15px 15px 25px 35px;
-        }
-        .accordion-item.active .accordion-header { color: var(--primary-color); }
-        
-        /* 響應式優化 */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 3rem; }
-            .hero-cta-group { display: flex; flex-direction: column; }
-            .cta-button { width: 90%; margin: 10px auto; }
-            .commitment-grid, .guide-grid { grid-template-columns: 1fr; }
-            .flow-chart ol li { padding: 15px; }
-        }
-        
-        /* Footer 樣式 */
-        footer { background-color: var(--secondary-color); color: white; padding: 40px 0 0; }
-        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        @media (max-width: 992px) {
-            .footer-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .footer-grid { grid-template-columns: 1fr; }
-            .footer-copyright .container { flex-direction: column; text-align: center; gap: 10px; }
-        }
-        
-        /* 導覽列子選單視覺修正 (確保 mobile 模式下子選單能展開) */
-        .main-nav .submenu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            z-index: 1010;
-            min-width: 250px;
-            padding: 10px 0;
-            border-top: 2px solid var(--accent-color);
-        }
-
-        .main-nav .dropdown:hover .submenu {
-            display: block; /* Desktop hover 展開 */
-        }
-
-        /* Mobile 模式下的導覽列修正 */
-        @media (max-width: 992px) {
-            .main-nav {
-                position: fixed;
-                top: 60px; /* 根據 header 高度調整 */
-                right: 0;
-                height: calc(100vh - 60px);
-                width: 0; /* 預設隱藏 */
-                overflow-x: hidden;
-                transition: width 0.3s ease-in-out;
-                background-color: #fff;
-                z-index: 999;
-                padding-top: 20px;
-                box-shadow: none;
-            }
-            .main-nav.is-open {
-                width: 80%; /* 開啟時的寬度 */
-                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-                overflow-y: auto;
-            }
-            .main-nav ul {
-                display: block; 
-                padding: 0;
-                margin: 0;
-                list-style: none;
-            }
-            .main-nav li {
-                display: block;
-                border-bottom: 1px solid #eee;
-            }
-            .main-nav li a {
-                padding: 15px 20px;
-                display: block;
-                text-decoration: none;
-                color: var(--secondary-color);
-            }
-            .main-nav .submenu {
-                position: static; /* 子選單在 mobile 模式下不再是絕對定位 */
-                display: none;
-                box-shadow: none;
-                padding: 0;
-                border: none;
-                background-color: var(--background-color); /* 稍微區分 */
-            }
-            .main-nav .dropdown.submenu-active .submenu {
-                display: block; /* 靠 JS 控制展開 */
-            }
-            .main-nav .submenu li a {
-                padding-left: 40px; 
-                font-size: 0.95em;
-            }
-        }
-    </style>
-
     <meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明，零隱藏費用。立即諮詢：0978-583-699。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。">
     <link rel="canonical" href="https://24hour.台灣/Shiangan/">
-
     <meta property="og:title" content="祥安生命 | 國家認證禮儀師、喪葬費用公開、24H隨時諮詢">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://24hour.台灣/Shiangan/">
@@ -212,20 +15,11 @@
     <meta property="og:locale" content="zh_TW">
 
     <link rel="preconnect" href="https://www.google-analytics.com">
-    <link rel="preload" href="../fonts/UoqMunThenKhung-1.000.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="../fonts/Iansui-Regular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'; this.onload=null;">
-    <noscript><link rel="stylesheet" href="css/style.css"></noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" media="print" onload="this.media='all'; this.onload=null;">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-    
     <link rel="preload" href="https://unpkg.com/aos@2.3.4/dist/aos.css" as="style">
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" media="print" onload="this.media='all'; this.onload=null;">
-    <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"></noscript>
-
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" as="style">
+    <link rel="preload" href="https://unpkg.com/aos@2.3.4/dist/aos.js" as="script">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -233,7 +27,7 @@
     gtag('js', new Date());
     gtag('config', 'G-445583766'); 
     </script>
-
+    
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -263,7 +57,198 @@
       "hasMap": "https://maps.app.goo.gl/YourActualMapLinkHere" 
     }
     </script>
-    <script type="application/ld+json">{/* FAQPage Schema 保持不變 */}</script>
+
+    <style>
+        :root { 
+            --primary-color: #800020; /* 勃根地紅/酒紅 */
+            --secondary-color: #333333; /* 主要文字/背景輔助色 */
+            --accent-color: #A31F25; /* 強調紅 */
+            --background-color: #f7f7f7; 
+        }
+        
+        /* FOUC 處理：確保在 JS 載入前，頁面內容完全隱藏 */
+        .js-loading body, .js-loading html { visibility: hidden !important; opacity: 0 !important; }
+        .js-loading { background-color: #fff; } 
+        
+        body { 
+            font-family: 'Noto Sans TC', 'Noto Serif TC', sans-serif; 
+            margin: 0; 
+            background-color: #fff; 
+            line-height: 1.6; 
+            color: var(--secondary-color);
+            opacity: 1; 
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* 導覽列與首頁 HERO 區塊 */
+        .main-header { position: fixed; width: 100%; top: 0; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; max-width: 1200px; margin: 0 auto; }
+        .logo a { display: inline-block; line-height: 0; }
+        .site-logo { max-height: 40px; width: auto; }
+        
+        .hero-section { 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            padding-top: 80px; 
+            background: #f4f4f4; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .hero-content { z-index: 10; position: relative; padding: 0 20px; }
+        .hero-content h1 { font-size: clamp(3rem, 8vw, 4.5rem); color: var(--primary-color); margin-bottom: 0.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .hero-content h2 { font-size: clamp(1.5rem, 4vw, 2rem); color: var(--secondary-color); margin-top: 0; }
+        
+        /* CTA 按鈕 */
+        .cta-button { text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: 700; transition: background-color 0.3s, transform 0.1s; display: inline-block; margin: 10px; }
+        .cta-button:hover { transform: translateY(-2px); }
+        .primary { background-color: var(--accent-color); color: white !important; box-shadow: 0 4px 8px rgba(163, 31, 37, 0.4); }
+        .secondary { background-color: #fff; color: var(--secondary-color) !important; border: 2px solid #ddd; }
+        .primary:hover { background-color: #C0392B; }
+        
+        /* 區塊通用樣式 */
+        h2 { text-align: center; color: var(--primary-color); margin-bottom: 40px; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+        .text-center { text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .container-v-padding { padding: 80px 0; }
+        .bg-section { background-color: var(--background-color); }
+        
+        /* 卡片與網格佈局 */
+        .card-grid { display: grid; gap: 30px; }
+        .religion-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .commitment-grid, .guide-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .card-item { background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; transition: box-shadow 0.3s; }
+        .card-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .card-item h3 { margin-top: 0; color: var(--primary-color); }
+        .card-item .icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px; }
+        .primary-highlight { border: 2px solid var(--accent-color); }
+
+        /* 流程圖 */
+        .flow-chart ol { list-style: none; padding: 0; max-width: 800px; margin: 0 auto; }
+        .flow-chart ol li { 
+            background-color: #fff; 
+            padding: 20px; 
+            margin-bottom: 15px; 
+            border-left: 5px solid var(--primary-color); 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            line-height: 1.5;
+            position: relative;
+        }
+        .flow-chart ol li strong { color: var(--primary-color); display: block; margin-bottom: 5px; font-size: 1.1em; }
+
+        /* FAQ (Accordion) */
+        .accordion-container { max-width: 900px; margin: 0 auto; }
+        .accordion-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .accordion-header {
+            width: 100%; text-align: left; padding: 15px 0; background: none; border: none;
+            font-size: 1.1rem; font-weight: 700; color: var(--secondary-color); cursor: pointer;
+            display: flex; align-items: center; transition: color 0.3s;
+        }
+        .accordion-header i { margin-right: 15px; color: var(--accent-color); font-size: 1.2em; transition: transform 0.3s; }
+        .accordion-item.active .accordion-header i { transform: rotate(90deg); }
+        .accordion-content { 
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 15px 0 35px;
+        }
+        .accordion-item.active .accordion-content { 
+            /* max-height 由 JS 設置 */
+            padding: 15px 15px 25px 35px;
+        }
+
+        /* Footer 樣式 */
+        footer { background-color: var(--secondary-color); color: white; padding: 40px 0 0; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .footer-block h4 { color: #fff; margin-bottom: 15px; }
+        .footer-block ul { list-style: none; padding: 0; }
+        .footer-block a { color: #ccc; text-decoration: none; transition: color 0.3s; line-height: 1.8; }
+        .footer-block a:hover { color: #fff; }
+        .footer-copyright { background-color: #222; padding: 15px 0; margin-top: 40px; }
+        .footer-copyright .container { display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; color: #aaa; }
+        
+        /* 浮動 CTA 按鈕 */
+        .floating-cta { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .floating-cta a { 
+            background-color: var(--accent-color); color: white; padding: 10px 15px; 
+            border-radius: 5px; text-decoration: none; font-weight: bold; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: background-color 0.3s;
+        }
+        .floating-cta a:hover { background-color: #C0392B; }
+        
+        /* 導覽列 RWD */
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--secondary-color); }
+        .main-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; align-items: center; }
+        .main-nav a { text-decoration: none; color: var(--secondary-color); transition: color 0.3s; padding: 10px 0; display: block; }
+        .main-nav a:hover, .main-nav a:focus { color: var(--primary-color); }
+        .main-nav .dropdown { position: relative; }
+        .main-nav .submenu {
+            display: none; position: absolute; top: 100%; left: 0; background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1010; min-width: 250px; 
+            padding: 10px 0; border-top: 2px solid var(--accent-color); list-style: none;
+        }
+        .main-nav .submenu li a { padding: 8px 20px; line-height: 1.4; }
+        .main-nav .dropdown:hover .submenu { display: block; }
+        
+        @media (max-width: 992px) {
+            .menu-toggle { display: block; }
+            .main-nav {
+                position: fixed; top: 60px; right: 0; height: calc(100vh - 60px); width: 0;
+                overflow-x: hidden; transition: width 0.3s ease-in-out; background-color: #fff;
+                z-index: 999; padding-top: 20px; box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+            .main-nav.is-open { width: 80%; overflow-y: auto; }
+            .main-nav ul { display: block; }
+            .main-nav li { display: block; border-bottom: 1px solid #eee; }
+            .main-nav a { padding: 15px 20px; }
+            .main-nav .submenu {
+                position: static; display: none; box-shadow: none; padding: 0; border: none;
+                background-color: var(--background-color); 
+            }
+            .main-nav .dropdown.submenu-active .submenu { display: block; }
+            .main-nav .submenu li a { padding-left: 40px; font-size: 0.95em; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-copyright .container { flex-direction: column; text-align: center; gap: 10px; }
+        }
+        /* RWD 調整 */
+        @media (max-width: 768px) {
+            .hero-cta-group { display: flex; flex-direction: column; }
+            .cta-button { width: 90%; margin: 10px auto; }
+            .commitment-grid, .guide-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" media="print" onload="this.media='all'; this.onload=null;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    </noscript>
+
+    <script>
+    (function() {
+        // 確保在腳本載入的第一時間執行，避免白屏
+        const removeLoadingClass = () => {
+            requestAnimationFrame(() => {
+                const html = document.documentElement;
+                if (html.classList.contains('js-loading')) {
+                    html.classList.remove('js-loading');
+                    document.body.classList.remove('js-loading');
+                }
+            });
+        };
+        // 立即嘗試執行 (針對無延遲腳本的環境)
+        removeLoadingClass();
+        // 延遲保險 (針對某些特殊載入情況)
+        window.addEventListener('load', removeLoadingClass, { once: true });
+        setTimeout(removeLoadingClass, 3000); 
+    })();
+    </script>
 </head>
 <body class="js-loading">
     
@@ -474,6 +459,7 @@
 
             <div class="flow-chart">
                 <figure class="flow-chart-figure" style="text-align: center; margin-bottom: 20px;">
+                    
                     <img src="images/shiangan-process-flowchart.png" 
                          alt="祥安生命七大安心治喪流程圖：從 24H 諮詢、會談、場地準備、設立靈堂、告別奠禮、安葬/晉塔到後續法律關懷" 
                          title="祥安生命七大安心治喪流程圖" 
@@ -719,8 +705,267 @@
         <a href="https://line.me/ti/p/@shiangan0978" target="_blank" rel="external noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
-    
-    <script src="js/script.js" defer></script> 
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <script>
+    /**
+     * ====================================================================
+     * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版 V3.5
+     * 此腳本取代了外部的 js/script.js，確保單一文件高效運行。
+     * ====================================================================
+     */
+
+    'use strict';
+
+    (function () {
+
+        // ====================================================
+        // 0. 環境設定與元素快取
+        // ====================================================
+        const MOBILE_BREAKPOINT = 992; 
+        const TRANSITION_DURATION_MS = 300;
+        const body = document.body;
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNav = document.querySelector('#main-nav');
+        const header = document.querySelector('.main-header');
+        const backToTopButton = document.querySelector('.floating-cta'); // 使用浮動 CTA 作為判斷滾動的基準
+
+        /** 節流函數 (Debounce) */
+        const debounce = (func, delay = 50) => {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    requestAnimationFrame(() => func.apply(this, args));
+                }, delay);
+            };
+        };
+
+        /** 檢查是否處於行動裝置視圖 (Mobile View) */
+        const isMobileView = () => window.innerWidth <= MOBILE_BREAKPOINT;
+
+        // ====================================================
+        // A. 導航菜單模組 (RWD & Accordion Logic)
+        // ====================================================
+
+        /** 關閉主菜單 (RWD) */
+        const closeMainMenu = () => {
+            if (mainNav?.classList.contains('is-open')) {
+                mainNav.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                const menuIcon = menuToggle.querySelector('i');
+                if (menuIcon) menuIcon.classList.replace('fa-times', 'fa-bars');
+                body.style.removeProperty('overflow');
+                closeAllMobileSubmenus(); 
+            }
+        };
+
+        /** 關閉所有行動裝置子選單 */
+        const closeAllMobileSubmenus = (excludeLi = null) => {
+            if (mainNav) {
+                Array.from(mainNav.querySelectorAll('li.dropdown.submenu-active')).forEach(li => {
+                    if (li === excludeLi) return;
+                    li.classList.remove('submenu-active');
+                    const targetLink = li.querySelector('a');
+                    if (targetLink) targetLink.setAttribute('aria-expanded', 'false');
+                });
+            }
+        };
+
+        /** 設置 RWD 菜單開關功能 */
+        const setupRwdMenuToggle = () => {
+            if (menuToggle && mainNav) {
+                const menuIcon = menuToggle.querySelector('i');
+                menuToggle.addEventListener('click', function () {
+                    const isExpanded = mainNav.classList.contains('is-open');
+                    if (!isExpanded) {
+                        mainNav.classList.add('is-open');
+                        this.setAttribute('aria-expanded', 'true');
+                        if (menuIcon) menuIcon.classList.replace('fa-bars', 'fa-times');
+                        if (isMobileView()) body.style.overflow = 'hidden'; // 防止滾動
+                    } else {
+                        closeMainMenu();
+                    }
+                });
+
+                // 點擊菜單連結後關閉主菜單 (行動裝置視圖下)
+                mainNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (isMobileView() && link.hash.length > 0 && link.hash !== '#') {
+                            setTimeout(closeMainMenu, TRANSITION_DURATION_MS + 50); 
+                        }
+                    });
+                });
+            }
+        };
+
+        /** 設置行動裝置子選單的展開/收合 */
+        const setupMobileSubmenuToggle = () => {
+            mainNav?.querySelectorAll('li.dropdown > a').forEach(targetLink => {
+                targetLink.addEventListener('click', (e) => {
+                    const parentLi = targetLink.closest('li.dropdown');
+                    if (!parentLi || !isMobileView() || targetLink.href.endsWith('.html')) return; 
+
+                    e.preventDefault();
+                    const isCurrentlyActive = parentLi.classList.contains('submenu-active');
+                    
+                    closeAllMobileSubmenus(parentLi);
+                    
+                    if (!isCurrentlyActive) {
+                        parentLi.classList.add('submenu-active');
+                        targetLink.setAttribute('aria-expanded', 'true');
+                    } else {
+                        parentLi.classList.remove('submenu-active');
+                        targetLink.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        };
+
+        /** 處理頁面滾動時 Header 的樣式變化 (極簡版) */
+        const handleHeaderScroll = () => {
+            const updateHeaderScrollClass = () => {
+                const scrollY = window.scrollY;
+                // 浮動 CTA 按鈕的顯示/隱藏
+                if (backToTopButton) backToTopButton.style.opacity = scrollY > 300 ? '1' : '0';
+            };
+            updateHeaderScrollClass();
+            window.addEventListener('scroll', debounce(updateHeaderScrollClass, 10), { passive: true });
+        };
+
+        // ====================================================
+        // B. 互動組件 (Accordion)
+        // ====================================================
+
+        /** 設置通用手風琴 (Accordion) 功能 */
+        const setupAccordion = () => {
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                const button = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                if (!button || !content) return;
+
+                // 初始設定 content 的 max-height
+                const isActive = item.classList.contains('active');
+                content.style.maxHeight = isActive ? `${content.scrollHeight}px` : '0';
+                button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+
+                button.addEventListener('click', function () {
+                    const isCurrentlyActive = item.classList.contains('active');
+                    
+                    // 關閉其他已開啟的項目
+                    document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                        if (activeItem !== item) {
+                            const otherContent = activeItem.querySelector('.accordion-content');
+                            const otherButton = activeItem.querySelector('.accordion-header');
+                            activeItem.classList.remove('active');
+                            otherButton.setAttribute('aria-expanded', 'false');
+                            otherContent.style.maxHeight = '0';
+                        }
+                    });
+
+                    item.classList.toggle('active', !isCurrentlyActive);
+                    this.setAttribute('aria-expanded', (!isCurrentlyActive).toString());
+                    
+                    if (!isCurrentlyActive) {
+                        // 展開動畫
+                        content.style.maxHeight = `${content.scrollHeight}px`;
+                    } else {
+                        // 收起動畫
+                        content.style.maxHeight = '0';
+                    }
+                });
+            });
+        };
+
+        // ====================================================
+        // C. 性能與其他工具
+        // ====================================================
+
+        /** 設置平滑滾動到錨點功能 */
+        const setupSmoothScrolling = () => {
+            if (!header) return;
+            document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId || '');
+                    if (targetElement) {
+                        e.preventDefault();
+                        requestAnimationFrame(() => {
+                            const headerOffset = header.offsetHeight || 0;
+                            const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerOffset - 20); // 額外減去 20px
+                            
+                            window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                            
+                            // 關閉菜單 (如果開啟)
+                            if (mainNav?.classList.contains('is-open')) setTimeout(closeMainMenu, TRANSITION_DURATION_MS + 50);
+                        });
+                    }
+                });
+            });
+            
+            // 設置 Back-to-Top 功能 (利用浮動 CTA)
+            if (backToTopButton) {
+                backToTopButton.addEventListener('click', e => { 
+                    const targetId = e.target.closest('a')?.getAttribute('href');
+                    if(targetId === '#') {
+                        e.preventDefault(); 
+                        window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                    }
+                });
+            }
+        };
+        
+        /** 更新頁腳版權年份 */
+        const updateCopyrightYear = () => {
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear().toString();
+        };
+
+        /** 初始化 AOS 動畫庫 */
+        const setupAos = () => {
+            // 由於 AOS 已經預載入，直接初始化
+            AOS.init({
+                duration: 800,
+                once: true,
+                easing: 'ease-in-out',
+                offset: 50,
+            });
+        };
+
+        /** 處理視窗大小改變時的清理工作 */
+        const handleResizeCleanup = () => {
+            if (!isMobileView()) {
+                closeMainMenu();
+            }
+            // 重新計算手風琴高度 (RWD 調整後確保內容不會被截斷)
+            document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
+                content.style.maxHeight = `${content.scrollHeight}px`;
+            });
+        };
+
+
+        // ====================================================
+        // D. 總初始化 (DOMContentLoaded)
+        // ====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            updateCopyrightYear();
+            
+            // 菜單與滾動
+            setupRwdMenuToggle();
+            setupMobileSubmenuToggle();
+            handleHeaderScroll(); // 首次執行及設置滾動監聽
+            
+            // 互動組件
+            setupAccordion();
+            setupSmoothScrolling();
+            setupAos();
+
+            // 視窗大小改變監聽
+            window.addEventListener('resize', debounce(handleResizeCleanup, 150));
+        });
+
+    })(); // IIFE 結束
+    </script>
 </body>
 </html>
