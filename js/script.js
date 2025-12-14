@@ -1,10 +1,7 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版 V3.1
- * 整合功能：勞保給付試算、對年日期計算 (含閏月邏輯)、Modal A11Y/焦點陷阱、
- * Tab 切換/錨點、RWD 菜單手風琴、通用 Accordion、性能優化 (Lazy Load/Fit Text/AOS)、
- * 表單處理、RWD 清理。
- * 🌟 優化重點：導入 SALife 命名空間、結構化與可讀性提升。
+ * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版 V3.2
+ * 修正：FOUC 處理優化、勞保試算邏輯邊界、農曆計算警告強化、RWD/A11Y 焦點管理。
  * ====================================================================
  */
 
@@ -17,9 +14,8 @@ window.SALife = window.SALife || {};
 // Z. 試算機功能 I: 勞保喪葬給付試算
 // ====================================================
 
-// 勞保局規定的薪資上下限（2025 年為準，或依最新規定調整）
-const LABOR_INSURANCE_MAX_SALARY = 45800;
-const LABOR_INSURANCE_MIN_SALARY = 27470; // 最低投保薪資級距
+const LABOR_INSURANCE_MAX_SALARY = 45800; // 法定上限
+const LABOR_INSURANCE_MIN_SALARY = 27470; // 法定下限 (依最新規定調整)
 const FUNERAL_ALLOWANCE_SURVIVOR = 5; // 有遺屬：5 個月
 const FUNERAL_ALLOWANCE_NO_SURVIVOR = 10; // 無遺屬：10 個月
 
@@ -41,84 +37,82 @@ window.SALife.calculateLaborInsurance = function() {
     const hasSurvivorSelect = document.getElementById('hasSurvivor');
     const resultBox = document.getElementById('resultBox');
     
-    // 取得輸入值並轉換為數字
     const avgSalary = parseFloat(avgSalaryInput.value);
     const hasSurvivor = hasSurvivorSelect.value;
     
-    // 1. 輸入驗證：確保是有效數字，並符合法定薪資範圍
-    if (isNaN(avgSalary) || avgSalary < LABOR_INSURANCE_MIN_SALARY || avgSalary > LABOR_INSURANCE_MAX_SALARY) {
-        resultBox.innerHTML = `
-            <p style="color:red;">❗ 請輸入有效的平均月投保薪資。</p>
-            <p style="color:red; font-size:0.9em;">(範圍：${formatCurrency(LABOR_INSURANCE_MIN_SALARY)} ~ ${formatCurrency(LABOR_INSURANCE_MAX_SALARY)})</p>
-        `;
+    // 1. 輸入驗證：處理空值或無效數字
+    if (!avgSalaryInput.value || isNaN(avgSalary) || avgSalary <= 0) {
+        resultBox.innerHTML = `<p style="color:red;">❗ 請輸入有效的平均月投保薪資。</p>`;
         resultBox.style.display = 'block';
-        return; // 驗證失敗，停止執行
+        return; 
     }
 
+    // 2. V3.2 修正：應用法定薪資上下限進行實際計算
+    const finalSalary = Math.min(Math.max(avgSalary, LABOR_INSURANCE_MIN_SALARY), LABOR_INSURANCE_MAX_SALARY);
+    
     let allowanceMonths = 0;
     let recommendationText = '';
     
-    // 2. 根據是否有遺屬計算喪葬津貼和提供建議
+    const salaryAdjustedNote = avgSalary !== finalSalary ? 
+        `<p class="warning-note" style="color:#ff8c00; font-size:0.95em;">⚠️ 備註：您的輸入已按法定規定調整至 **${formatCurrency(finalSalary)}** 進行計算。</p>` : '';
+
+    // 3. 根據是否有遺屬計算喪葬津貼和提供建議
     if (hasSurvivor === 'yes') {
-        // A. 有遺屬：喪葬津貼為 5 個月
         allowanceMonths = FUNERAL_ALLOWANCE_SURVIVOR;
-        const funeralAllowance = avgSalary * allowanceMonths;
-        
-        // B. 遺屬給付預估 (提醒性質，非精確計算)
-        const estimatedSurvivorBenefit = avgSalary * 12; // 以一年薪資作為最低提醒
-        
+        const funeralAllowance = finalSalary * allowanceMonths;
+        const estimatedSurvivorBenefit = finalSalary * 12; // 提醒性質
+
         recommendationText = `
-            <p>✅ **喪葬津貼 (一次金)：** ${allowanceMonths} 個月 = **${formatCurrency(funeralAllowance)}**</p>
+            ${salaryAdjustedNote}
+            <p>✅ **喪葬津貼 (一次金)：** ${allowanceMonths} 個月 (按${formatCurrency(finalSalary)}計算) = **${formatCurrency(funeralAllowance)}**</p>
             <p>⚠️ **遺屬給付提醒：** 預估總金額約 **${formatCurrency(estimatedSurvivorBenefit)}** 或更高 (需依年資詳細計算)。</p>
             <p class="recommendation">您的情況**強烈建議優先評估「遺屬年金」**。總金額通常遠高於喪葬津貼，請立即諮詢專業人士。</p>
         `;
 
     } else {
-        // C. 無遺屬：喪葬津貼為 10 個月
         allowanceMonths = FUNERAL_ALLOWANCE_NO_SURVIVOR;
-        const funeralAllowance = avgSalary * allowanceMonths;
+        const funeralAllowance = finalSalary * allowanceMonths;
         
         recommendationText = `
-            <p>✅ **您可請領的喪葬津貼：** ${allowanceMonths} 個月 = **${formatCurrency(funeralAllowance)}**</p>
+            ${salaryAdjustedNote}
+            <p>✅ **您可請領的喪葬津貼：** ${allowanceMonths} 個月 (按${formatCurrency(finalSalary)}計算) = **${formatCurrency(funeralAllowance)}**</p>
             <p class="recommendation">無符合資格的遺屬，您應請領此筆 **${allowanceMonths} 個月**的喪葬津貼。</p>
         `;
     }
 
-    // 3. 顯示結果
+    // 4. 顯示結果
     resultBox.innerHTML = recommendationText;
     resultBox.style.display = 'block';
 };
 
 
 // ====================================================
-// Z. 試算機功能 II: 對年日期計算 (含閏月邏輯) - 新增
+// Z. 試算機功能 II: 對年日期計算 (含閏月邏輯)
 // ====================================================
 
 /**
  * 模擬農曆轉換函式：將陽曆字串 (YYYY-MM-DD) 轉換為包含農曆資訊的物件
+ * ⚠️【重要聲明】此處為模擬邏輯，實際應用需引入完整的農曆轉換庫！
  * @param {string} solarDateString - 往生當天的陽曆日期字串 (YYYY-MM-DD)
- * @returns {object|null} - 包含農曆年/月/日及閏月標記的物件
  */
 function getLunarDate(solarDateString) {
-    const date = new Date(solarDateString);
+    const date = new Date(solarDateString.replace(/-/g, '/')); // 修正日期解析兼容性問題
     if (isNaN(date.getTime())) {
         return null;
     }
 
-    // 【重要聲明】此處為模擬邏輯，實際應用需引入完整的農曆轉換庫！
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    // 模擬農曆年和閏月判斷：
-    // 假設往生在陽曆 2024 或 2025 年發生的農曆年有閏月，以便測試閏月邏輯。
+    // 模擬農曆年和閏月判斷 (需依真實農民曆調整)
     const hasLeapMonth = (year === 2024 || year === 2025); 
 
     return {
         solar: solarDateString,
-        lunarYear: year, // 模擬：使用陽曆年作為農曆年 (非真實農曆轉換)
-        lunarMonth: month, // 模擬：使用陽曆月作為農曆月
-        lunarDay: day, // 模擬：使用陽曆日作為農曆日
+        lunarYear: year, // 模擬
+        lunarMonth: month, // 模擬
+        lunarDay: day, // 模擬
         hasLeapMonth: hasLeapMonth, // 模擬該農曆年是否有閏月
         isLeap: false
     };
@@ -126,28 +120,26 @@ function getLunarDate(solarDateString) {
 
 /**
  * 計算對年日期 (農曆滿一年) 並應用閏月提前一個月的習俗邏輯。
- * @param {object} lunarInfo - 往生當天的農曆資訊物件 (來自 getLunarDate 模擬)
- * @returns {object} - 包含對年日期資訊、閏月提示和注意事項。
+ * @param {object} lunarInfo - 往生當天的農曆資訊物件
  */
 function calculateDuinian(lunarInfo) {
     const { lunarYear, lunarMonth, lunarDay, hasLeapMonth } = lunarInfo;
     
-    // 1. 農曆日期：加一年
     let duinianLunarYear = lunarYear + 1;
     let duinianLunarMonth = lunarMonth;
     let duinianLunarDay = lunarDay;
     let note = '';
     
-    // 2. 閏月處理邏輯 (如果該農曆年有閏月，則對年日期需減一個月)
+    // 閏月處理邏輯
     if (hasLeapMonth) {
         duinianLunarMonth -= 1;
         
         if (duinianLunarMonth <= 0) {
-            duinianLunarMonth += 12; // 跨年
+            duinianLunarMonth += 12; 
             duinianLunarYear -= 1;
         }
         
-        note = '<strong>⚠️ 閏月提示：</strong> 治喪年遇閏月，按習俗對年需**提前一個月**完成。計算器已為您應用此邏輯。';
+        note = '<strong>⚠️ 閏月提示 (農曆模擬)：</strong> 治喪年遇閏月，按習俗對年需**提前一個月**完成。此計算已為您應用此邏輯。';
     } else {
         note = '本次對年計算不涉及閏月處理。';
     }
@@ -171,7 +163,7 @@ window.SALife.setupDuinianCalculator = function() {
     const duinianDateElem = document.getElementById('duinianDate');
     const duinianNoteElem = document.getElementById('duinianNote');
 
-    if (!calculateBtn) return;
+    if (!calculateBtn || !dateInput) return;
 
     calculateBtn.addEventListener('click', function() {
         const solarDate = dateInput.value;
@@ -181,7 +173,6 @@ window.SALife.setupDuinianCalculator = function() {
             return;
         }
         
-        // 1. 陽曆轉農曆 (模擬)
         const lunarInfo = getLunarDate(solarDate);
 
         if (!lunarInfo) {
@@ -189,20 +180,22 @@ window.SALife.setupDuinianCalculator = function() {
             return;
         }
         
-        // 2. 計算對年日期
         const duinianResult = calculateDuinian(lunarInfo);
 
-        // 3. 顯示結果
-        lunarDateElem.textContent = `農曆 (模擬) ${duinianResult.lunarOriginal}`;
-        duinianDateElem.innerHTML = `農曆 (估算) ${duinianResult.lunarDuinian}`;
+        // V3.2 修正：顯示結果並強化警告
+        lunarDateElem.innerHTML = `**陽曆：** ${solarDate} → **農曆 (模擬轉換)：** ${duinianResult.lunarOriginal}`;
+        duinianDateElem.innerHTML = `**對年日期 (農曆估算)：** ${duinianResult.lunarDuinian}`;
         
-        // 提示閏月注意事項
-        duinianNoteElem.innerHTML = duinianResult.note;
+        duinianNoteElem.innerHTML = `
+            ${duinianResult.note}
+            <br>
+            <span style="color:#b22222; font-weight:bold;">🚨 重要警告：此為模擬計算，請務必以實際農民曆或諮詢禮儀師為準。</span>
+        `;
         duinianNoteElem.classList.remove('hidden');
 
         resultOutput.classList.remove('hidden');
 
-        // (可選) 捲動到結果區塊
+        // 捲動到結果區塊
         resultOutput.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 }
@@ -220,8 +213,7 @@ window.SALife.setupDuinianCalculator = function() {
     const TRANSITION_DURATION_MS = 350;
     const FIT_TEXT_SELECTOR = '.text-line-container span';
     const AOS_ROOT_MARGIN = '0px 0px -15% 0px';
-    const FOUC_TIMEOUT_MS = 3000;
-    // 統一的 Tab 名稱對應，確保 Hash 處理的準確性
+    // 統一的 Tab 名稱對應
     const TAB_MAP = ['buddhist-taoist', 'western', 'japen', 'eco', 'custom', 'comparison', 'united']; 
     
     // 元素快取
@@ -243,15 +235,12 @@ window.SALife.setupDuinianCalculator = function() {
      */
     const onTransitionEndCleanup = (contentElement) => {
         const handleTransitionEnd = (e) => {
-            // 只處理 maxHeight 或 opacity 的 transition 結束事件
             if (e.target !== contentElement || (e.propertyName !== 'max-height' && e.propertyName !== 'opacity')) return;
             
-            // 確保 max-height 在收起後被清除
             if (contentElement.style.maxHeight === '0px') {
                 contentElement.style.removeProperty('max-height');
                 contentElement.style.removeProperty('overflow');
             }
-            // 確保 opacity 在隱藏後被清除
             if (contentElement.style.opacity === '0') {
                  contentElement.style.removeProperty('opacity');
                  contentElement.style.removeProperty('display');
@@ -269,7 +258,6 @@ window.SALife.setupDuinianCalculator = function() {
         let lastArgs, lastThis;
         const run = () => {
             timeoutId = setTimeout(() => {
-                // 使用 requestAnimationFrame 確保 DOM 寫入發生在瀏覽器繪製之前
                 requestAnimationFrame(() => func.apply(lastThis, lastArgs));
                 timeoutId = null;
             }, delay);
@@ -287,17 +275,9 @@ window.SALife.setupDuinianCalculator = function() {
     const isMobileView = () => window.innerWidth <= MOBILE_BREAKPOINT;
 
     // ====================================================
-    // B. FOUC 處理 (Flash of Unstyled Content)
+    // B. FOUC 處理 (已移至 <head> 內，此處省略，但保留功能註記)
     // ====================================================
-    const removeLoadingClass = () => {
-        requestAnimationFrame(() => {
-            document.documentElement.classList.remove('js-loading');
-            body.classList.remove('js-loading');
-        });
-    };
-    document.addEventListener('DOMContentLoaded', removeLoadingClass, { once: true });
-    // 超時保險，防止腳本錯誤導致 loading 狀態持續
-    setTimeout(removeLoadingClass, FOUC_TIMEOUT_MS);
+    // V3.2: FOUC 處理邏輯已移至 <head> 內的最小化腳本，以確保在 DOM 載入前執行。
 
     // ====================================================
     // C. Modal 模組 (A11Y 強化與焦點陷阱)
@@ -307,17 +287,15 @@ window.SALife.setupDuinianCalculator = function() {
     function handleModalKeydown(e) {
         if (e.key === 'Escape') {
             e.preventDefault();
-            window.SALife.closeModal(e); // 使用 SALife 命名空間
+            window.SALife.closeModal(e); 
             return;
         }
         if (e.key === 'Tab') {
             const modal = e.currentTarget;
             if (!modal.classList.contains('active')) return;
 
-            // 抓取所有可聚焦元素
             const focusableElements = modal.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])');
 
-            // 過濾掉不可見的元素
             const visibleFocusableElements = Array.from(focusableElements).filter(el => {
                 const style = window.getComputedStyle(el);
                 return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && (el.offsetWidth > 0 || el.offsetHeight > 0);
@@ -328,9 +306,9 @@ window.SALife.setupDuinianCalculator = function() {
             const first = visibleFocusableElements[0];
             const last = visibleFocusableElements[visibleFocusableElements.length - 1];
 
-            if (e.shiftKey) { // Shift + Tab: 從第一個跳到最後一個
+            if (e.shiftKey) { 
                 if (document.activeElement === first) { last.focus(); e.preventDefault(); }
-            } else { // Tab: 從最後一個跳到第一個
+            } else { 
                 if (document.activeElement === last) { first.focus(); e.preventDefault(); }
             }
         }
@@ -341,7 +319,6 @@ window.SALife.setupDuinianCalculator = function() {
         const modal = document.getElementById('modal-' + modalId);
         if (modal) {
             focusedElementBeforeModal = document.activeElement;
-            // 關閉所有其他已開啟的 Modal
             document.querySelectorAll('.modal-overlay.active').forEach(m => {
                 m.classList.remove('active');
                 m.style.display = 'none';
@@ -351,14 +328,12 @@ window.SALife.setupDuinianCalculator = function() {
             modal.style.display = 'flex';
 
             requestAnimationFrame(() => {
-                // 使用 setTimeout 確保瀏覽器能識別 display:flex 後再添加 active
                 setTimeout(() => { 
                     modal.classList.add('active');
                     body.classList.add('no-scroll');
                     modal.scrollTop = 0;
                     modal.setAttribute('aria-hidden', 'false');
 
-                    // 優先將焦點移到關閉按鈕，確保 A11Y
                     const focusTarget = modal.querySelector('.close-btn') || modal;
                     focusTarget.focus();
                     
@@ -370,7 +345,6 @@ window.SALife.setupDuinianCalculator = function() {
 
     /** 關閉 Modal (暴露到 SALife) */
     window.SALife.closeModal = function(event) {
-        // 檢查是否由點擊事件觸發，且點擊目標不是 Modal 內部元素
         if (event && event.type === 'click') {
             const isModalOverlay = event.target.classList.contains('modal-overlay');
             const isCloseButton = event.target.closest('.close-btn');
@@ -424,9 +398,7 @@ window.SALife.setupDuinianCalculator = function() {
                     li.classList.remove('active');
                     targetLink.setAttribute('aria-expanded', 'false');
                     
-                    // 執行收起動畫 (確保當前 maxHeight 不為 0 時才執行動畫)
                     if (submenu.style.maxHeight !== '0px') {
-                        // 暫存 scrollHeight 以便在下一幀設置為 0
                         submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
                         submenu.style.overflow = 'hidden';
                         requestAnimationFrame(() => {
@@ -439,7 +411,7 @@ window.SALife.setupDuinianCalculator = function() {
         }
     };
 
-    /** 關閉主菜單 */
+    /** 關閉主菜單 (V3.2 修正焦點管理) */
     const closeMainMenu = () => {
         if (mainNav?.classList.contains('active')) {
             mainNav.classList.remove('active');
@@ -447,9 +419,10 @@ window.SALife.setupDuinianCalculator = function() {
                 menuToggle.classList.remove('active');
                 menuToggle.setAttribute('aria-expanded', 'false');
                 const menuIcon = menuToggle.querySelector('i');
-                if (menuIcon) {
-                    menuIcon.classList.replace('fa-times', 'fa-bars');
-                }
+                if (menuIcon) menuIcon.classList.replace('fa-times', 'fa-bars');
+                
+                // 修正：將焦點返回給 menuToggle
+                menuToggle.focus(); 
             }
             body.classList.remove('no-scroll');
             body.classList.remove('menu-open');
@@ -488,8 +461,8 @@ window.SALife.setupDuinianCalculator = function() {
             // 點擊菜單連結後關閉主菜單 (行動裝置視圖下)
             mainNav.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
-                    // 確保是錨點連結且非僅僅是 '#'
                     if (isMobileView() && link.hash.length > 0 && link.hash !== '#') {
+                        // 給予足夠時間讓瀏覽器處理滾動
                         setTimeout(closeMainMenu, TRANSITION_DURATION_MS + 50); 
                     }
                 });
@@ -497,7 +470,7 @@ window.SALife.setupDuinianCalculator = function() {
         }
     };
 
-    /** 設置行動裝置菜單手風琴效果 (Accordion) - 優化版 */
+    /** 設置行動裝置菜單手風琴效果 (Accordion) */
     const setupMobileAccordion = () => {
         if (mainNav) {
             mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
@@ -508,11 +481,9 @@ window.SALife.setupDuinianCalculator = function() {
                     const submenu = parentLi.querySelector('.submenu-container, .submenu');
                     if (!submenu) return; 
 
-                    // 阻止桌面版連結跳轉
                     e.preventDefault();
                     const isCurrentlyActive = parentLi.classList.contains('active');
                     
-                    // 關閉所有其他的子菜單
                     closeAllMobileSubmenus(parentLi);
                     
                     if (!isCurrentlyActive) {
@@ -522,7 +493,7 @@ window.SALife.setupDuinianCalculator = function() {
                         
                         submenu.style.maxHeight = '0px';
                         submenu.style.overflow = 'hidden';
-                        void submenu.offsetHeight; // 強制重繪
+                        void submenu.offsetHeight; 
                         
                         requestAnimationFrame(() => {
                             submenu.style.maxHeight = `${submenu.scrollHeight}px`;
@@ -554,7 +525,6 @@ window.SALife.setupDuinianCalculator = function() {
                     if (!isMobileView()) this.classList.add('focus-within');
                 });
                 dropdown.addEventListener('focusout', function () {
-                    // 使用 setTimeout 確保在焦點轉移到子選單時不立即移除 focus-within 
                     setTimeout(() => {
                         if (!isMobileView() && !this.contains(document.activeElement)) {
                             this.classList.remove('focus-within');
@@ -569,7 +539,7 @@ window.SALife.setupDuinianCalculator = function() {
     // E. Tab 切換邏輯 (支援錨點滾動 - 唯一版本)
     // ====================================================
 
-    /** 開啟選定的 Tab 並處理錨點滾動 (暴露到 SALife) */
+    /** 開啟選定的 Tab 並處理錨點滾動 (V3.2 修正 Tabindex/A11Y) */
     window.SALife.openPlanTab = function(tabName, anchorId = null) {
         let tabcontent;
         
@@ -577,17 +547,12 @@ window.SALife.setupDuinianCalculator = function() {
         tabcontent = document.getElementsByClassName("plan-tab-content");
         for (let i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
-            // 根據內容 ID 反推出 Tab ID，並重置狀態
-            const contentId = tabcontent[i].id;
-            const tabIdMatch = contentId.match(/content-(.*)/);
-            if (tabIdMatch) {
-                const tabId = "tab-" + tabIdMatch[1];
-                const tabElement = document.getElementById(tabId);
-                if (tabElement) {
-                    tabElement.classList.remove('active');
-                    tabElement.setAttribute('aria-selected', 'false');
-                    tabElement.setAttribute('tabindex', '-1'); // 不可被 Tab 鍵選中
-                }
+            const tabElement = document.getElementById("tab-" + tabcontent[i].id.replace('content-', ''));
+            if (tabElement) {
+                tabElement.classList.remove('active');
+                tabElement.setAttribute('aria-selected', 'false');
+                // 修正：移除 tabindex，只讓 active tab 可被 Tab 鍵選中 (遵循 ARIA 慣例)
+                tabElement.removeAttribute('tabindex'); 
             }
         }
         
@@ -597,74 +562,58 @@ window.SALife.setupDuinianCalculator = function() {
         const contentElement = document.getElementById(contentId);
         const tabElement = document.getElementById(tabId);
 
-        // 顯示選定的內容，啟用選定的 Tab 按鈕
         if (contentElement) { contentElement.style.display = "block"; }
         if (tabElement) { 
             tabElement.classList.add("active"); 
-            tabElement.setAttribute('aria-selected', 'true'); // A11Y: 表示選中
-            tabElement.setAttribute('tabindex', '0'); // A11Y: 可被 Tab 鍵選中
+            tabElement.setAttribute('aria-selected', 'true'); 
+            tabElement.setAttribute('tabindex', '0'); // 設置 active Tab 為可聚焦
         }
         
-        // 平滑滾動邏輯
         const headerHeight = header?.offsetHeight || 0;
         
         requestAnimationFrame(() => {
             if (anchorId) {
-                // 滾動到精確錨點 (#plan-168)
                 const targetElement = document.querySelector(anchorId);
                 if (targetElement) {
                     const targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
                     window.scrollTo({ top: targetTop, behavior: 'smooth' });
-                    // 將焦點移到目標錨點元素 (A11Y)
                     targetElement.focus({ preventScroll: true }); 
                 }
             } else {
-                // 滾動到 Tab 按鈕的容器頂部
                 const planTabs = document.querySelector('.plan-tabs');
                 if (planTabs) {
                     const tabTop = planTabs.getBoundingClientRect().top + window.scrollY - headerHeight;
                     window.scrollTo({ top: tabTop, behavior: 'smooth' });
-                    // 將焦點移到選中的 Tab 按鈕 (A11Y)
                     tabElement?.focus();
                 }
             }
         });
     }
 
-    /** 處理 URL Hash 以決定初始 Tab - 修正：使用統一的 TAB_MAP */
+    /** 處理 URL Hash 以決定初始 Tab */
     const initializeTabFromHash = () => {
         let hash = window.location.hash.substring(1); 
         let targetAnchorId = null;
-        let defaultTab = 'buddhist-taoist'; // 預設 Tab
-        // 如果有「服務比較」Tab，則優先使用 (常見的 Landing Page 選擇)
+        let defaultTab = 'buddhist-taoist'; 
         if (document.querySelector('#content-comparison')) defaultTab = 'comparison'; 
 
-        // 1. 檢查是否是 Tab ID (#tab-buddhist-taoist)
         if (hash.startsWith('tab-')) {
             const tabName = hash.split('-')[1];
-            if (TAB_MAP.includes(tabName)) {
-                defaultTab = tabName;
-            }
+            if (TAB_MAP.includes(tabName)) defaultTab = tabName;
         } 
-        // 2. 檢查是否是精確錨點 (#plan-168)
         else if (hash.startsWith('plan-')) {
             targetAnchorId = '#' + hash;
             const targetElement = document.getElementById(hash);
-            // 根據錨點元素向上找到它所屬的 Tab 內容區
             const tabContent = targetElement?.closest('.plan-tab-content'); 
             if (tabContent) {
                 const tabNameFromContent = tabContent.id.replace('content-', '');
-                if (TAB_MAP.includes(tabNameFromContent)) {
-                    defaultTab = tabNameFromContent;
-                }
+                if (TAB_MAP.includes(tabNameFromContent)) defaultTab = tabNameFromContent;
             }
         }
-        // 3. 檢查是否是 Tab Name (buddhist-taoist)
         else if (TAB_MAP.includes(hash)) {
             defaultTab = hash;
         }
         
-        // 啟用正確的 Tab
         window.SALife.openPlanTab(defaultTab, targetAnchorId);
     };
 
@@ -706,7 +655,6 @@ window.SALife.setupDuinianCalculator = function() {
                         if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
                         if (otherContent) {
                             otherContent.style.overflow = 'hidden';
-                            // 觸發收起動畫
                             otherContent.style.maxHeight = `${otherContent.scrollHeight}px`;
                             requestAnimationFrame(() => otherContent.style.maxHeight = '0px');
                             onTransitionEndCleanup(otherContent);
@@ -764,7 +712,7 @@ window.SALife.setupDuinianCalculator = function() {
             const oldIconClass = isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
             
             icon.classList.replace(oldIconClass, newIconClass);
-            button.appendChild(icon); // 重新將 Icon 加回去
+            button.appendChild(icon); 
         } else {
             button.textContent = newText;
         }
@@ -814,7 +762,6 @@ window.SALife.setupDuinianCalculator = function() {
                     if (entry.isIntersecting) {
                         const element = entry.target;
                         if (element.tagName === 'PICTURE') {
-                            // 載入 <picture> 內的所有 <source>
                             element.querySelectorAll('source[data-srcset]').forEach(loadImage); 
                             const img = element.querySelector('img');
                             if (img) loadImage(img);
@@ -830,28 +777,25 @@ window.SALife.setupDuinianCalculator = function() {
             });
             lazyTargets.forEach(el => observer.observe(el));
         } else {
-            // 降級處理 (無 IntersectionObserver)
             lazyTargets.forEach(loadImage);
         }
     };
 
-    /** 設置 Fit Text 功能 (文本自動縮放以適應容器寬度) - 優化邊界條件 */
+    /** 設置 Fit Text 功能 (文本自動縮放以適應容器寬度) */
     const setupFitText = () => {
-        const MAX_FONT = 22, MIN_FONT = 8, PRECISION = 0.5; // 提高 PRECISION 以減少迭代次數
+        const MAX_FONT = 22, MIN_FONT = 8, PRECISION = 0.5; 
         
         const fitOne = (el) => {
             const parentWidth = el.parentElement?.offsetWidth || 0;
             const text = el.textContent?.trim() || '';
             
-            // 邊界條件檢查
             if (parentWidth <= 50 || text === '' || !el.parentElement) { 
                 el.style.fontSize = `${MAX_FONT}px`; 
                 return; 
             }
             
-            // 使用二分搜索法優化查找速度
             let low = MIN_FONT, high = MAX_FONT, bestSize = MIN_FONT, iterations = 0;
-            while (low <= high && iterations < 30) { // 設置最大迭代次數，避免無限循環
+            while (low <= high && iterations < 30) { 
                 const mid = (low + high) / 2;
                 el.style.fontSize = `${mid}px`;
                 
@@ -863,7 +807,6 @@ window.SALife.setupDuinianCalculator = function() {
                 }
                 iterations++;
             }
-            // 最終設定字體大小
             el.style.fontSize = `${Math.min(bestSize, MAX_FONT)}px`;
         };
 
@@ -895,11 +838,10 @@ window.SALife.setupDuinianCalculator = function() {
             }
         };
 
-        // 等待網頁字體載入完成後啟動，確保計算準確
         if (document.fonts?.ready) document.fonts.ready.then(start).catch(start); 
         else window.addEventListener('load', start);
         
-        return fitAll; // 返回函數以便在 resize 清理時調用
+        return fitAll; 
     };
 
     /** 設置平滑滾動到錨點功能 (不包含 Tab 滾動) */
@@ -909,12 +851,10 @@ window.SALife.setupDuinianCalculator = function() {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId || '');
-                // 排除 Tab 按鈕和 Modal 開關
                 if (targetElement && !this.closest('.plan-tabs') && !this.dataset.modalId) {
                     e.preventDefault();
                     requestAnimationFrame(() => {
                         const headerOffset = header.offsetHeight || 0;
-                        // 滾動到元素頂部並考慮 Header 高度
                         const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerOffset);
                         
                         window.scrollTo({ top: targetTop, behavior: 'smooth' });
@@ -952,13 +892,11 @@ window.SALife.setupDuinianCalculator = function() {
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
                     this.classList.remove('is-loading');
-                    // 成功時保留訊息，失敗時清除 (讓使用者可再次嘗試)
                     if (statusMessage && !success) statusMessage.textContent = ''; 
                 }, delay);
             };
 
             try {
-                // 模擬/測試用的 URL 檢查
                 if (form.action.includes('your_form_endpoint')) {
                     if (statusMessage) { statusMessage.style.color = '#dc3545'; statusMessage.textContent = '❗ 請先替換表單 action URL！'; }
                     cleanup(); 
@@ -969,7 +907,6 @@ window.SALife.setupDuinianCalculator = function() {
                 const response = await fetch(this.action, { 
                     method: this.method, 
                     body: formData, 
-                    // 確保伺服器回覆不會被快取
                     headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache, no-store, must-revalidate' } 
                 });
 
@@ -1016,7 +953,6 @@ window.SALife.setupDuinianCalculator = function() {
             
             aosElements.forEach(el => {
                 const rect = el.getBoundingClientRect();
-                // 檢查是否已在視窗內，若是則立即顯示，避免 IntersectionObserver 的延遲
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
                     requestAnimationFrame(() => el.classList.add('is-visible'));
                 } else {
@@ -1024,7 +960,6 @@ window.SALife.setupDuinianCalculator = function() {
                 }
             });
         } else {
-            // 降級處理 (無 IntersectionObserver)
             aosElements.forEach(el => requestAnimationFrame(() => el.classList.add('is-visible')));
         }
     };
@@ -1050,22 +985,19 @@ window.SALife.setupDuinianCalculator = function() {
 
                 const submenu = dropdown.querySelector('.submenu-container, .submenu');
                 if (submenu) {
-                    // 確保移除所有 inline 樣式
                     submenu.style.removeProperty('max-height');
                     submenu.style.removeProperty('overflow');
                 }
             });
             
-            // 重新計算所有手風琴或詳細資訊的高度 (處理方向旋轉問題)
+            // 重新計算所有手風琴或詳細資訊的高度
             setTimeout(() => {
                 document.querySelectorAll('.accordion-item.active .accordion-content, .plan-card.expanded .plan-details-expanded')
                     .forEach(content => {
-                        // 僅重新計算仍在「展開」狀態的元素
                         if (content.closest('.accordion-item')?.classList.contains('active') || content.closest('.plan-card')?.classList.contains('expanded')) {
-                            // 重新計算 scrollHeight 並設定 max-height
                             requestAnimationFrame(() => {
                                 content.style.maxHeight = `${content.scrollHeight}px`;
-                                content.style.overflow = 'hidden'; // 確保過渡結束前不會溢出
+                                content.style.overflow = 'hidden'; 
                             });
                         }
                     });
