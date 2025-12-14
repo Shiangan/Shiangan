@@ -7,14 +7,12 @@
 
     <style>
         :root { 
-            /* 保持與 plans.html 一致的主題變數 */
-            --primary-color: #800020; /* 勃根地紅/酒紅 (取代舊的 #333) */
-            --secondary-color: #333333; /* 主要文字/背景輔助色 */
-            --accent-color: #A31F25; /* 強調紅，與您提供的 accent-color 保持一致 */
+            --primary-color: #800020; 
+            --secondary-color: #333333; 
+            --accent-color: #A31F25; 
             --background-color: #f7f7f7; 
         }
         
-        /* FOUC 處理：確保在 JS 載入前，頁面內容完全隱藏 */
         .js-loading body, .js-loading html { visibility: hidden !important; opacity: 0 !important; }
         .js-loading { background-color: #fff; } 
         
@@ -24,11 +22,10 @@
             background-color: #fff; 
             line-height: 1.6; 
             color: var(--secondary-color);
-            opacity: 1; /* 初始設為 1，但 .js-loading 會覆蓋 */
+            opacity: 1; 
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* 導覽列與首頁 HERO 區塊 */
         .main-header { position: fixed; width: 100%; top: 0; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; max-width: 1200px; margin: 0 auto; }
         .hero-section { 
@@ -40,7 +37,7 @@
             padding-top: 80px; 
             background: #f4f4f4; 
             position: relative; 
-            overflow: hidden; /* 確保星星動畫不溢出 */
+            overflow: hidden; 
         }
         .hero-content { z-index: 10; position: relative; padding: 0 20px; }
         .hero-content h1 { font-size: clamp(3rem, 8vw, 4.5rem); color: var(--primary-color); margin-bottom: 0.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -51,11 +48,9 @@
         .secondary { background-color: #fff; color: var(--secondary-color) !important; border: 2px solid #ddd; }
         .primary:hover { background-color: #C0392B; }
         
-        /* 區塊標題 */
         h2 { text-align: center; color: var(--primary-color); margin-bottom: 40px; font-size: clamp(1.8rem, 5vw, 2.5rem); }
         .text-center { text-align: center; }
 
-        /* 卡片與網格佈局 (維持基本網格) */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .container-v-padding { padding: 60px 0; }
         .bg-section { background-color: var(--background-color); }
@@ -105,7 +100,7 @@
             padding: 0 15px 0 35px;
         }
         .accordion-item.active .accordion-content { 
-            max-height: 500px; /* 設置一個足夠大的值 */
+            max-height: 500px; 
             padding: 15px 15px 25px 35px;
         }
         .accordion-item.active .accordion-header { color: var(--primary-color); }
@@ -119,10 +114,9 @@
             .flow-chart ol li { padding: 15px; }
         }
         
-        /* 保持 Footer 樣式一致性 */
+        /* Footer 樣式 */
         footer { background-color: var(--secondary-color); color: white; padding: 40px 0 0; }
         .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        /* 由於導覽列與 plans.html 的複雜度不同，RWD 調整需個別處理 */
         @media (max-width: 992px) {
             .footer-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -130,7 +124,6 @@
             .footer-grid { grid-template-columns: 1fr; }
             .footer-copyright .container { flex-direction: column; text-align: center; gap: 10px; }
         }
-
     </style>
 
     <meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明，零隱藏費用。立即諮詢：0978-583-699。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。">
@@ -164,7 +157,6 @@
     gtag('js', new Date());
     gtag('config', 'G-445583766'); 
     </script>
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -194,11 +186,7 @@
       "hasMap": "https://maps.app.goo.gl/YourActualMapLinkHere" 
     }
     </script>
-
-    <script type="application/ld+json">
-    {/* FAQPage Schema 保持不變 */}
-    }
-    </script>
+    <script type="application/ld+json">{/* FAQPage Schema 保持不變 */}</script>
 </head>
 <body class="js-loading">
     <header class="main-header" role="banner">
@@ -214,7 +202,7 @@
                     <li role="menuitem"><a href="about.html" title="了解祥安生命的理念、專業證照與甲級立案證明">關於我們 (溫暖守護)</a></li> 
 
                     <li class="dropdown" role="menuitem">
-                        <a href="services.html" aria-expanded="false" title="專業生命禮儀服務總覽與分類" aria-haspopup="true" id="services-menu-btn" tabindex="0"> 
+                        <a href="services.html" aria-expanded="false" title="專業生命禮儀服務總覽與分類" aria-haspopup="true" id="services-menu-btn"> 
                             專業生命禮儀服務 <i class="fas fa-chevron-down" aria-hidden="true"></i>
                         </a>
                         <ul class="submenu" role="menu" aria-labelledby="services-menu-btn">
@@ -231,7 +219,7 @@
                     </li>
 
                     <li class="dropdown" role="menuitem">
-                        <a href="plans.html" aria-expanded="false" title="查看喪葬費用公開透明方案" aria-haspopup="true" id="plans-menu-btn" tabindex="0"> 
+                        <a href="plans.html" aria-expanded="false" title="查看喪葬費用公開透明方案" aria-haspopup="true" id="plans-menu-btn"> 
                             喪葬費用公開方案 <i class="fas fa-chevron-down" aria-hidden="true"></i>
                         </a>
                         <ul class="submenu" role="menu" aria-labelledby="plans-menu-btn">
@@ -241,13 +229,13 @@
                             <li role="menuitem"><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案詳情">至尊圓滿 35.8萬</a></li>
                             <li class="submenu-separator" role="separator"></li>
                             <li role="menuitem"><a href="plans.html#tab-western" title="西式契約方案詳情">西式禮儀方案</a></li>
-                            <li role="menuitem"><a href="plans.html#tab-japen" title="日式契約方案詳情">日式禮儀方案</a></li>
+                            <li role="menuitem"><a href="plans.html#tab-japan" title="日式契約方案詳情">日式禮儀方案</a></li>
                             <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區">環保葬儀式服務</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown" role="menuitem">
-                        <a href="blog.html" aria-expanded="false" title="查看殯葬相關知識與問答" aria-haspopup="true" id="blog-menu-btn" tabindex="0"> 
+                        <a href="blog.html" aria-expanded="false" title="查看殯葬相關知識與問答" aria-haspopup="true" id="blog-menu-btn"> 
                             殯葬百科知識 <i class="fas fa-chevron-down" aria-hidden="true"></i>
                         </a>
                         <ul class="submenu" role="menu" aria-labelledby="blog-menu-btn">
@@ -280,7 +268,6 @@
         <div id="stars3" class="star-layer" aria-hidden="true"></div>
 
         <div class="hero-content animate-on-scroll">
-            
             <hgroup> 
                 <h1 class="text-line-container">
                     <span aria-label="祥安生命有限公司">祥安生命</span>
@@ -294,8 +281,8 @@
             <div class="emergency-tag" style="color: var(--accent-color); font-weight: 700; margin: 15px 0;">此刻徬徨無助？請即刻撥打 24H 專線</div>
             
             <div class="hero-cta-group"> 
-                <a href="tel:+886978583699" class="cta-button primary large contact-call-btn" title="立即撥打 24小時禮儀服務緊急專線 0978-583-699">📞 **24H 專線：0978-583-699**</a>
-                <a href="plans.html" class="cta-button secondary large" title="查看所有公開透明的喪葬費用方案">查看所有公開透明費用方案</a>
+                <a href="tel:+886978583699" class="cta-button primary large contact-call-btn" title="立即撥打 24小時禮儀服務緊急專線 0978-583-699" data-tracking-id="hero-emergency-call">📞 **24H 專線：0978-583-699**</a>
+                <a href="plans.html" class="cta-button secondary large" title="查看所有公開透明的喪葬費用方案" data-tracking-id="hero-view-plans">查看所有公開透明費用方案</a>
             </div>
         </div>
     </section>
@@ -330,7 +317,7 @@
             </div>
 
             <div class="text-center" style="margin-top: 50px;">
-                <a href="services.html" class="cta-button primary" title="深入了解所有宗教服務的細節"> 深入了解所有宗教服務 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="services.html" class="cta-button primary" title="深入了解所有宗教服務的細節" data-tracking-id="religion-section-cta"> 深入了解所有宗教服務 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
         </div>
     </section>
@@ -340,8 +327,6 @@
             <h2 id="commitment-heading">「安心交付」承諾：專業、透明、獲政府肯定</h2> 
             <p class="text-center">我們將「專業證照」、「費用透明」與「全程關懷」視為服務核心，讓家屬在無助中保有最大的安心。</p>
             
-            
-
             <div class="card-grid commitment-grid">
                 <div class="card-item primary-highlight animate-on-scroll" data-aos="zoom-in">
                     <i class="icon fas fa-file-invoice-dollar" aria-hidden="true"></i>
@@ -366,7 +351,7 @@
             </div>
             
             <div class="text-center" style="margin-top: 40px;">
-                <a href="about.html" class="cta-button primary" title="了解祥安生命的專業與甲級立案證明"> 了解祥安生命的專業與甲級立案 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="about.html" class="cta-button primary" title="了解祥安生命的專業與甲級立案證明" data-tracking-id="commitment-about-cta"> 了解祥安生命的專業與甲級立案 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
         </div>
     </section>
@@ -441,7 +426,7 @@
             </div>
 
             <div class="text-center" style="margin-top: 50px;">
-                <a href="blog.html#faq-process" class="cta-button secondary" title="深入了解治喪流程細節與所有注意事項">深入了解流程細節與注意事項 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="blog.html#faq-process" class="cta-button secondary" title="深入了解治喪流程細節與所有注意事項" data-tracking-id="process-flow-cta">深入了解流程細節與注意事項 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
         </div>
     </section>
@@ -469,7 +454,7 @@
                     <i class="fas fa-phone-volume" aria-hidden="true"></i>
                     <h3>生命禮儀 24H 專線</h3>
                     <p>不論晝夜，一通電話，立即獲得專業協助。</p>
-                    <a href="tel:+886978583699" class="cta-button primary small" title="點擊撥打 24小時緊急專線">📞 **緊急專線：0978-583-699**</a>
+                    <a href="tel:+886978583699" class="cta-button primary small" title="點擊撥打 24小時緊急專線" data-tracking-id="trust-emergency-call">📞 **緊急專線：0978-583-699**</a>
                 </div>
             </div>
         </div>
@@ -483,72 +468,72 @@
             <div class="accordion-container">
                 <div class="faq-item accordion-item active">
                     <h3 class="accordion-title" role="heading" aria-level="3">
-                        <button class="accordion-header" aria-expanded="true" aria-controls="faq-content-1">
+                        <button class="accordion-header" aria-expanded="true" aria-controls="faq-content-1" id="faq-header-1" data-accordion-id="faq-content-1">
                             <i class="fas fa-question-circle" aria-hidden="true"></i> Q1. 大家的費用都是公開透明的嗎？會不會有突然冒出來的費用？
                         </button>
                     </h3>
-                    <div class="accordion-content" id="faq-content-1" role="region" aria-labelledby="faq-content-1">
+                    <div class="accordion-content" id="faq-content-1" role="region" aria-labelledby="faq-header-1">
                         <p>請您絕對放心！祥安生命最重視的就是**費用透明**。所有方案的價格和服務細節，都會在執行前用**書面文件**清清楚楚地跟您確認。我們承諾**絕不會有任何隱藏費用**，讓您安心完成治喪。您可以隨時看看我們的<a href="plans.html" title="喪葬費用公開方案">公開方案頁面</a>。</p>
                     </div>
                 </div>
 
                 <div class="faq-item accordion-item">
                     <h3 class="accordion-title" role="heading" aria-level="3">
-                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-6">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-6" id="faq-header-6" data-accordion-id="faq-content-6">
                             <i class="fas fa-question-circle" aria-hidden="true"></i> Q2. 突然遇到親人離世，我應該第一時間做什麼？
                         </button>
                     </h3>
-                    <div class="accordion-content" id="faq-content-6" role="region" aria-labelledby="faq-content-6">
+                    <div class="accordion-content" id="faq-content-6" role="region" aria-labelledby="faq-header-6">
                         <p>請您立刻撥打我們的 <strong>24H 緊急專線 0978-583-699</strong>。我們會立刻接聽，並溫柔地指導您處理醫院或家中需要的文件和步驟，並盡快派專業禮儀師抵達現場，開始接手處理後續所有事宜。請讓我們來成為您此刻的依靠！  </p>
                     </div>
                 </div>
 
                 <div class="faq-item accordion-item">
                     <h3 class="accordion-title" role="heading" aria-level="3">
-                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-2">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-2" id="faq-header-2" data-accordion-id="faq-content-2">
                             <i class="fas fa-question-circle" aria-hidden="true"></i> Q3. 我們可以依照逝者的個性或我們的想法來客製化儀式嗎？
                         </button>
                     </h3>
-                    <div class="accordion-content" id="faq-content-2" role="region" aria-labelledby="faq-content-2">
+                    <div class="accordion-content" id="faq-content-2" role="region" aria-labelledby="faq-header-2">
                         <p>當然可以！我們相信每個生命故事都獨一無二。您的專屬禮儀師會跟您**一對一了解**，無論是宗教信仰、特別的家族傳統，還是您的預算考量，我們都會盡力幫您打造一個**最貼心、最圓滿的告別式**。</p>
                     </div>
                 </div>
 
                 <div class="faq-item accordion-item">
                     <h3 class="accordion-title" role="heading" aria-level="3">
-                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-3">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-3" id="faq-header-3" data-accordion-id="faq-content-3">
                             <i class="fas fa-question-circle" aria-hidden="true"></i> Q4. 請問服務我們的禮儀師有專業證照嗎？
                         </button>
                     </h3>
-                    <div class="accordion-content" id="faq-content-3" role="region" aria-labelledby="faq-content-3">
+                    <div class="accordion-content" id="faq-content-3" role="region" aria-labelledby="faq-header-3">
                         <p>是的！祥安所有的核心禮儀師都擁有**國家認證的殯葬專業證照**，定期接受訓練。以最專業、最穩健的態度服務，可以完全信任的品質。</p>
                     </div>
                 </div>
                 
                 <div class="faq-item accordion-item">
                     <h3 class="accordion-title" role="heading" aria-level="3">
-                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-4">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-4" id="faq-header-4" data-accordion-id="faq-content-4">
                             <i class="fas fa-question-circle" aria-hidden="true"></i> Q5. 我們家在桃園/新北/台北，你們都可以隨時提供服務嗎？
                         </button>
                     </h3>
-                    <div class="accordion-content" id="faq-content-4" role="region" aria-labelledby="faq-content-4">
+                    <div class="accordion-content" id="faq-content-4" role="region" aria-labelledby="faq-header-4">
                         <p>是的！我們的服務主力範圍就是**台北、新北、桃園**地區。不論白天黑夜，我們提供 **24 小時即時服務**。只要您一通電話，我們的團隊就會立刻啟動，第一時間趕到醫院或您指定的地點協助您。</p>
                     </div>
                 </div>
 
                 <div class="faq-item accordion-item">
                     <h3 class="accordion-title" role="heading" aria-level="3">
-                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-5">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="faq-content-5" id="faq-header-5" data-accordion-id="faq-content-5">
                             <i class="fas fa-question-circle" aria-hidden="true"></i> Q6. 如果選了方案，之後可以調整或增加服務內容嗎？
                         </button>
                     </h3>
-                    <div class="accordion-content" id="faq-content-5" role="region" aria-labelledby="faq-content-5">
+                    <div class="accordion-content" id="faq-content-5" role="region" aria-labelledby="faq-header-5">
                         <p>當然可以！我們的方案都是**彈性**的。在整個治喪期間，您可以隨時跟您的禮儀師討論，根據實際需求來**增加或減少服務項目或用品**。費用也會依照調整的內容公開計算，多退少補，確保一切符合您的心意。</p>
                     </div>
                 </div>
 
                 <div class="text-center" style="margin-top: 30px;">
-                    <a href="blog.html#faq-process" class="cta-button secondary small" title="查看殯葬常見問答與流程指南">查看更多詳細問答與流程指南 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                    <a href="blog.html#faq-process" class="cta-button secondary small" title="查看殯葬常見問答與流程指南" data-tracking-id="faq-more-cta">查看更多詳細問答與流程指南 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -591,7 +576,7 @@
                         <li><a href="plans.html#plan-188" title="中式契約 18.8萬方案">精緻尊享 18.8萬</a></li>
                         <li><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案">至尊圓滿 35.8萬</a></li>
                         <li><a href="plans.html#tab-western" title="西式契約方案">西式契約</a></li>
-                        <li><a href="plans.html#tab-japen" title="日式契約方案">日式契約</a></li>
+                        <li><a href="plans.html#tab-japan" title="日式契約方案">日式契約</a></li>
                     </ul>
                 </nav>
                 
@@ -627,8 +612,8 @@
 
                 <p style="margin-top: 15px;">線上聯繫：</p>
                 <div class="footer-social-links">
-                    <a href="https://line.me/ti/p/@shiangan0978" target="_blank" rel="noopener noreferrer nofollow" title="LINE ID 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a> |
-                    <a href="https://www.facebook.com/ShianganLife" target="_blank" rel="noopener noreferrer nofollow" title="Facebook 粉絲專頁聯繫"><i class="fab fa-facebook" aria-hidden="true"></i> Facebook</a>
+                    <a href="https://line.me/ti/p/@shiangan0978" target="_blank" rel="external noopener noreferrer nofollow" title="LINE ID 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a> |
+                    <a href="https://www.facebook.com/ShianganLife" target="_blank" rel="external noopener noreferrer nofollow" title="Facebook 粉絲專頁聯繫"><i class="fab fa-facebook" aria-hidden="true"></i> Facebook</a>
                 </div>
             </div>
         </div>
@@ -647,64 +632,9 @@
 
     <div class="floating-cta" role="complementary" aria-label="緊急聯繫方式與快速導航">
         <a href="tel:+886978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i> 24H 專線</a>
-        <a href="https://line.me/ti/p/@shiangan0978" target="_blank" rel="noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a>
+        <a href="https://line.me/ti/p/@shiangan0978" target="_blank" rel="external noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a>
     </div>
 
-    <script>
-        // 1. 確保頁面載入後解除隱藏狀態 (FOUC Fix)
-        document.addEventListener('DOMContentLoaded', function() {
-            const html = document.documentElement;
-            const body = document.body;
-            
-            // 延遲 10ms 確保 CSS 過渡效果能觸發
-            setTimeout(() => {
-                html.classList.remove('js-loading');
-                body.classList.remove('js-loading');
-                body.style.opacity = '1';
-                html.style.visibility = 'visible';
-            }, 10);
-
-            // 2. 處理 FAQ 區塊 (Accordion) 的互動邏輯
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const item = header.closest('.accordion-item');
-                    const content = item.querySelector('.accordion-content');
-                    const isActive = item.classList.contains('active');
-
-                    // 關閉所有展開的項目
-                    document.querySelectorAll('.accordion-item').forEach(i => {
-                        if (i !== item && i.classList.contains('active')) {
-                            i.classList.remove('active');
-                            i.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
-                            // 不需要手動調整 max-height，CSS transition 會處理
-                        }
-                    });
-
-                    // 切換當前項目
-                    if (!isActive) {
-                        item.classList.add('active');
-                        header.setAttribute('aria-expanded', 'true');
-                    } else {
-                        item.classList.remove('active');
-                        header.setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
-            
-            // 3. 處理年份顯示
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-        });
-        
-        // 4. 導覽列選單切換（假設 main.js 處理複雜邏輯，這裡提供基礎佔位）
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            const nav = document.getElementById('main-nav');
-            const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
-            this.setAttribute('aria-expanded', !isExpanded);
-            nav.classList.toggle('is-open'); // 假設 style.css 中有 .is-open 樣式
-        });
-    </script>
-    
     <script src="js/script.js" defer></script>
 </body>
 </html>
