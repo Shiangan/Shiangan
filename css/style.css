@@ -96,7 +96,8 @@ a {
     transition: color var(--transition-speed), background-color var(--transition-speed), opacity var(--transition-speed), outline var(--transition-speed);
 }
 
-a:hover, a:focus {
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+a:hover, a:focus-visible { 
     color: var(--primary-dark);
     opacity: 0.95;
     outline: 2px solid var(--accent-color); 
@@ -212,7 +213,8 @@ pre {
 
 code {
     font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.95rem;
+    font-size: 0.9em; /* 🏆 修正：使用 em 相對於父級文字，避免過大/過小 */
+    line-height: 1.6; /* 🏆 修正：增加行高，與普通文本對齊 */
     /* 內嵌程式碼 */
     background-color: rgba(206, 157, 74, 0.1); 
     color: var(--primary-dark);
@@ -320,8 +322,9 @@ main {
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.95); 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); 
+    /* 🏆 修正：加入 -webkit- 前綴，確保 iOS 兼容性 */
+    backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px);
     border-bottom: 1px solid var(--border-color); /* ⭐ 優化：增加底邊，讓 Header 更有厚度感 */
 }
 
@@ -361,7 +364,8 @@ main {
 }
 
 
-.main-nav a:hover, .main-nav a:focus, .main-nav a.active {
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+.main-nav a:hover, .main-nav a:focus-visible, .main-nav a.active {
     color: var(--primary-color);
 }
 
@@ -573,7 +577,8 @@ main {
     box-shadow: 0 4px 10px rgba(206, 157, 74, 0.4);
 }
 
-.cta-button.secondary:focus {
+/* 🏆 修正：使用 :focus-visible 提供更好的鍵盤導航體驗 */
+.cta-button.secondary:focus-visible { 
     outline: 2px solid var(--primary-color);
     outline-offset: 4px;
 }
@@ -1068,7 +1073,8 @@ main {
     transition: color var(--transition-speed);
 }
 
-.member-social a:hover {
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+.member-social a:hover, .member-social a:focus-visible {
     color: var(--accent-color);
     outline: none;
 }
@@ -1345,7 +1351,9 @@ main {
     background-color: var(--bg-light);
     outline: none;
 }
-.accordion-header:focus-visible {
+
+/* 🏆 修正：使用 :focus-visible 提供更好的鍵盤導航體驗 */
+.accordion-header:focus-visible { 
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
 }
@@ -1464,7 +1472,8 @@ footer {
     color: var(--accent-color);
 }
 
-.footer-social-links a:hover {
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+.footer-social-links a:hover, .footer-social-links a:focus-visible {
     color: var(--text-light);
 }
 
@@ -1606,7 +1615,8 @@ footer {
     pointer-events: auto;
 }
 
-.back-to-top:hover {
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+.back-to-top:hover, .back-to-top:focus-visible { 
     background-color: var(--primary-dark);
     color: var(--accent-color);
     transform: translateY(-3px);
@@ -2511,9 +2521,10 @@ footer {
     background-color: var(--bg-light); 
 }
 
-.contact-form input:focus,
-.contact-form select:focus,
-.contact-form textarea:focus {
+/* 🏆 修正：使用 :focus-visible 提供更好的鍵盤導航體驗 */
+.contact-form input:focus-visible,
+.contact-form select:focus-visible,
+.contact-form textarea:focus-visible {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(206, 157, 74, 0.2);
     outline: none;
@@ -2778,27 +2789,62 @@ footer {
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         min-width: unset;
+        margin-bottom: 45px; /* 為向下箭頭留出空間 */
     }
     
-    /* ⭐ 流程圖 RWD 模式優化 (900px 以下) */
+    /* 🏆 修正：流程圖 RWD 模式優化 (900px 以下) - 統一使用向下箭頭 */
     .flow-chart li:not(:last-child)::after {
-        content: none !important;
+        content: none !important; /* 移除桌面版右箭頭 */
     }
     .flow-chart ol li:nth-child(4n)::after {
-        content: none !important;
+        content: none !important; /* 移除桌面版向下箭頭 */
     }
     
-    /* 流程圖 RWD (900px-)：添加垂直連接線和向下箭頭 */
+    /* 流程圖 RWD (900px-)：統一使用向下箭頭指示流程方向 */
     .flow-chart li:not(:last-child)::before {
-        /* 重用 ::before 元素，但需要覆寫樣式以繪製連接線和箭頭 */
-        content: '\f0ab'; /* Font Awesome: 向下箭頭 (或 \f063) */
+        content: '\f063'; /* Font Awesome: 向下箭頭 (或 f0ab) */
         font-family: 'Font Awesome 6 Free';
         font-weight: 900;
         position: absolute;
         top: auto;
-        bottom: -30px; /* 位於 li 下方 */
+        bottom: -20px; /* 位於 li 下方 */
         left: 50%;
         transform: translateX(-50%);
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: none;
+        box-shadow: none;
+        z-index: 5;
+        /* 重設回數字徽章樣式，確保 last-child 恢復數字 */
+        border-radius: 0; 
+    }
+    /* 確保每行最後一個元素 (3n 或 4n) 不顯示箭頭，同時確保最後一個元素恢復數字 */
+    .flow-chart ol li:nth-child(3n)::before,
+    .flow-chart ol li:nth-child(4n)::before,
+    .flow-chart ol li:last-child::before {
+        /* 恢復數字徽章的原始樣式 */
+        content: counter(step-counter);
+        top: -18px;
+        bottom: auto;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+        color: var(--primary-dark);
+        border: 4px solid var(--bg-light);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+    /* 重新添加 3n/4n 且不是 last-child 的向下箭頭 */
+    .flow-chart ol li:nth-child(3n):not(:last-child)::before,
+    .flow-chart ol li:nth-child(4n):not(:last-child)::before {
+        content: '\f063'; 
+        top: auto;
+        bottom: -20px;
         width: 0;
         height: 0;
         line-height: 1;
@@ -2807,23 +2853,10 @@ footer {
         color: var(--primary-color);
         border: none;
         box-shadow: none;
-        z-index: 5;
-    }
-
-    /* 處理每行結尾的箭頭 (假設 3 欄時，第 3 個是行尾) */
-    .flow-chart ol li:nth-child(3n)::before {
-        /* 如果有下一行，則顯示向下箭頭。如果恰好是最後一個，則移除 */
-        content: none; 
+        border-radius: 0;
     }
     
-    /* 僅在有下一行的行尾處，顯示向下箭頭 */
-    .flow-chart ol li:nth-child(3n):not(:last-child)::before {
-        content: '\f0ab'; 
-    }
     
-    /* 垂直連接線 (使用 li 的容器，或使用 grid 的 gap) - 簡化：僅使用箭頭指示流程方向 */
-
-
     /* 文章頁面 RWD */
     .article-main-layout {
         grid-template-columns: 1fr; 
@@ -2894,23 +2927,61 @@ footer {
     /* 流程圖在平板電腦下顯示 2 欄 */
     .flow-chart li {
         flex-basis: calc(50% - 30px);
+        margin-bottom: 45px; /* 為向下箭頭留出空間 */
     }
     
-    /* ⭐ 流程圖 RWD (680px-)：調整箭頭邏輯 (2 欄) */
+    /* 🏆 修正：流程圖 RWD (680px-)：調整箭頭邏輯 (2 欄) - 統一使用向下箭頭 */
     .flow-chart li:not(:last-child)::before {
-        content: none !important;
+        content: '\f063'; /* Font Awesome: 向下箭頭 */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        top: auto;
+        bottom: -20px; 
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        line-height: 1;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
     }
-    .flow-chart ol li:nth-child(2n)::before {
-        content: none; 
+    /* 確保每行最後一個元素 (2n) 不顯示箭頭，同時確保最後一個元素恢復數字 */
+    .flow-chart ol li:nth-child(2n)::before,
+    .flow-chart ol li:last-child::before {
+        /* 恢復數字徽章的原始樣式 */
+        content: counter(step-counter);
+        top: -18px;
+        bottom: auto;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+        color: var(--primary-dark);
+        border: 4px solid var(--bg-light);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
+    /* 重新添加 2n 且不是 last-child 的向下箭頭 */
     .flow-chart ol li:nth-child(2n):not(:last-child)::before {
-        content: '\f0ab'; 
+        content: '\f063'; 
+        top: auto;
+        bottom: -20px;
+        width: 0;
+        height: 0;
+        line-height: 1;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
     }
-    /* 重設第 3n 的邏輯 */
-    .flow-chart ol li:nth-child(3n):not(:last-child)::before {
-        content: none; 
-    }
-
+    
     /* 特色網格變成 1 欄 */
     .features-grid {
         grid-template-columns: 1fr;
@@ -2944,23 +3015,45 @@ footer {
         flex-basis: 100%;
         margin-left: 0;
         margin-right: 0;
+        margin-bottom: 45px; /* 為向下箭頭留出空間 */
     }
     .flow-chart ol {
         padding: 0 10px; 
     }
     
-    /* ⭐ 流程圖 RWD (576px-)：調整箭頭邏輯 (1 欄) */
+    /* 🏆 修正：流程圖 RWD (576px-)：調整箭頭邏輯 (1 欄) - 統一使用向下箭頭 */
     .flow-chart li:not(:last-child)::before {
-        /* 在 1 欄佈局中，所有非最後一個元素都應有向下箭頭 */
-        content: '\f0ab'; 
+        content: '\f063'; /* 在 1 欄佈局中，所有非最後一個元素都應有向下箭頭 */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        top: auto;
+        bottom: -20px; 
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        line-height: 1;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
     }
-    .flow-chart ol li:nth-child(2n):not(:last-child)::before,
-    .flow-chart ol li:nth-child(3n):not(:last-child)::before {
-        /* 清除 2n, 3n 的影響，確保所有非 last-child 都有向下箭頭 */
-        content: '\f0ab'; 
-    }
+    /* 確保最後一個元素恢復數字 */
     .flow-chart ol li:last-child::before {
-        content: counter(step-counter); /* 最後一個元素恢復數字 */
+        content: counter(step-counter); 
+        top: -18px;
+        bottom: auto;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+        color: var(--primary-dark);
+        border: 4px solid var(--bg-light);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
 
 
@@ -3063,10 +3156,11 @@ footer {
     text-decoration: none;
 }
 
-.breadcrumb a:hover {
+/* 🏆 修正：將 a:hover 的 outline 移除，避免影響美觀 */
+.breadcrumb a:hover { 
     color: var(--primary-color);
     text-decoration: underline;
-    outline: none; /* 移除 a:hover 的 outline 樣式，避免影響美觀 */
+    outline: none; 
 }
 
 /* 分隔符號 */
@@ -3313,7 +3407,8 @@ footer {
     
     .tab-button.active {
         box-shadow: 0 4px 8px rgba(30, 58, 106, 0.2); 
-        background-color: var(--primary-color);
+        /* 🏆 優化：在 RWD 堆疊模式下，Active 狀態應該更具色彩感 */
+        background-color: var(--primary-color); 
         color: var(--text-light);
         /* ⭐ 優化：使用 accent-color 作為邊框，與內容區塊的 border-top 產生視覺連貫 */
         border: 1px solid var(--accent-color); 
