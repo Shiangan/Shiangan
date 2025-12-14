@@ -1,48 +1,58 @@
 /* ========================================================= */
-/* 💎 Core Enhancements CSS - 質感升級與完美整合版           */
+/* 💎 Core Enhancements CSS - 質感升級與首頁配合版           */
 /* 品牌主色 (Primary): #3c5a75 (深藍/海軍藍)                 */
 /* 輔助色 (Accent): #e30a1c (醒目紅/警示紅)                  */
+/* 字體排版：確保與首頁一致性                                 */
 /* ========================================================= */
 
 :root {
     --color-primary: #3c5a75;
     --color-accent: #e30a1c;
     --color-light-gray: #f7f7f7;
-    --color-border: #e8e8e8;
+    --color-border: #e0e0e0;
     --color-text-dark: #333333;
     --color-text-medium: #666666;
-    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
-    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-subtle: 0 1px 4px rgba(0, 0, 0, 0.04);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
     --radius-default: 8px;
 }
 
+/* --- 0. 全域與排版一致性 (假設首頁使用這些基本設定) --- */
 body {
-    font-family: 'Noto Sans TC', 'Microsoft YaHei', sans-serif; /* 使用更現代的字體 */
+    font-family: 'Noto Sans TC', 'Microsoft YaHei', sans-serif; 
     color: var(--color-text-dark);
-    line-height: 1.6;
-    background-color: #fcfdfe; /* 淺到幾乎感覺不到的暖白色背景 */
+    line-height: 1.7; /* 提高行高，增加可讀性 */
+    background-color: #f8f8f8; /* 統一頁面背景色 */
 }
 
-/* --- 1. 頁面容器與目錄導航優化 (Sticky Header) --- */
+h2.section-title {
+    text-align: center;
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+/* --- 1. 頁面容器與目錄導航 (Sticky Header) --- */
 .plan-page-container { 
     max-width: 1400px; 
     margin: 40px auto; 
     padding: 0 20px; 
 }
 
-/* 讓目錄在滾動時固定在頂部 */
+/* Sticky 目錄區塊 (與 Header 區隔) */
 .plan-directory {
     position: sticky;
     top: 0; 
     z-index: 100;
     background: #ffffff; 
     padding-top: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* 更明顯的微光影 */
-    margin-bottom: 0; 
-    border-radius: 0 0 var(--radius-default) var(--radius-default); /* 底部圓角 */
+    padding-bottom: 5px; /* 增加底部空間 */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); 
+    border-radius: 0 0 var(--radius-default) var(--radius-default);
 }
 
-/* Tab 按鈕容器 */
 .plan-tabs { 
     display: flex; 
     justify-content: center; 
@@ -56,69 +66,67 @@ body {
     cursor: pointer; 
     border: none; 
     background: transparent; 
-    font-size: 1.15rem; 
+    font-size: 1.1rem; 
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 使用更平滑的過渡效果 */
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     border-radius: var(--radius-default) var(--radius-default) 0 0; 
-    margin: 0 5px; 
+    margin: 0 3px; 
     color: var(--color-text-medium); 
     border-bottom: 3px solid transparent; 
-    position: relative;
-    /* 質感提升：讓滑鼠懸停時有輕微凸起 */
     transform: translateY(0);
 }
 .plan-tabs button:hover:not(.active) {
     color: var(--color-primary);
     transform: translateY(-2px);
-    background-color: var(--color-light-gray);
 }
 
 /* Tab 活躍狀態 */
 .plan-tabs button.active { 
-    background: #fff; 
     color: var(--color-primary); 
     border-bottom: 3px solid var(--color-primary); 
-    box-shadow: var(--shadow-light); 
-    z-index: 10;
+    background-color: #fff;
 }
 
-/* 燈箱觸發按鈕特殊樣式 */
-.plan-tabs button[data-modal-id] {
+/* 燈箱觸發按鈕 (與首頁的 Call-to-Action 按鈕樣式一致) */
+.button-accent {
     background: var(--color-accent); 
     color: white; 
     font-size: 1rem;
-    padding: 15px 20px;
-    border-radius: var(--radius-default);
-    margin-left: 25px;
-    transition: background-color 0.3s, transform 0.2s;
+    padding: 10px 20px;
+    border-radius: 50px; /* 藥丸形按鈕，更具現代感 */
+    margin-left: 30px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     border: none;
-    box-shadow: var(--shadow-medium);
+    align-self: center; /* 讓按鈕垂直居中對齊 Tab */
+    box-shadow: 0 4px 15px rgba(227, 10, 28, 0.4);
 }
-.plan-tabs button[data-modal-id]:hover {
-    background: #c00818; /* 更深的紅色 */
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(227, 10, 28, 0.4); /* 增加顏色光暈感 */
+.button-accent:hover {
+    background: #c00818; 
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(227, 10, 28, 0.6);
 }
 
 /* 方案內容區 */
-.plan-tab-content { 
-    padding: 40px; 
-    border: 1px solid var(--color-border); 
-    border-top: none; 
-    background: white; 
-    min-height: 80vh;
+.plan-tab-content-wrapper {
+    background: white;
     border-radius: 0 0 var(--radius-default) var(--radius-default);
     box-shadow: var(--shadow-medium);
+    border: 1px solid var(--color-border);
+    border-top: none;
+}
+.plan-tab-content { 
+    padding: 40px; 
+    min-height: 80vh;
 }
 
 .plan-tab-content h3 {
     text-align: center;
     color: var(--color-primary);
-    font-size: 2.2rem; /* 標題加大 */
+    font-size: 2rem; 
     font-weight: 700;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
+    margin-bottom: 40px;
     position: relative;
+    padding-bottom: 10px;
 }
 .plan-tab-content h3::after {
     content: '';
@@ -130,43 +138,48 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+    border-radius: 2px;
+}
+.intro-text {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-text-medium);
+    margin-bottom: 40px;
 }
 
-
-/* --- 2. 表格樣式優化 (Service Table) --- */
+/* --- 2. 服務表格 (Service Table) --- */
 .service-table { 
     width: 100%; 
-    border-collapse: separate; /* 使用 separate 配合 border-radius */
-    border-spacing: 0;
+    border-collapse: collapse; /* 配合邊界線使用 collapse 模式 */
     margin: 40px 0; 
     font-size: 15px; 
     background: white;
     border-radius: var(--radius-default);
-    overflow: hidden; /* 確保圓角生效 */
+    overflow: hidden; 
     border: 1px solid var(--color-border);
 }
 
-/* 頂部分組標題 */
 .table-header-group th { 
     background-color: var(--color-primary); 
     color: white; 
     text-align: center; 
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     padding: 20px;
-    letter-spacing: 1px;
     font-weight: 600;
 }
 
 .service-table th, .service-table td { 
-    padding: 18px 20px; 
+    padding: 16px 20px; 
     text-align: left; 
     vertical-align: top; 
-    line-height: 1.7;
-    border: none; /* 移除內部邊框線，改用 box-shadow 或底線 */
     border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border); /* 重新加入垂直分隔線 */
+}
+.service-table th:last-child, .service-table td:last-child {
+    border-right: none;
 }
 
-/* 行標題 (分類) */
+/* 行標題 (分類) - 保持質感與易讀性 */
 .service-table th { 
     background-color: var(--color-light-gray); 
     color: var(--color-text-dark); 
@@ -174,161 +187,102 @@ body {
     width: 25%;
 }
 
-/* 數據列 (內容與價格) */
-.service-table td {
-    background-color: white;
-    color: var(--color-text-dark);
-}
-
-/* 讓表格行隔行變色，提高可讀性 */
+/* 讓表格行隔行變色 */
 .service-table tbody tr:nth-child(even) td {
-    background-color: #fbfbfc; /* 輕微的淡藍色或淡灰色 */
+    background-color: #fcfcfc; 
 }
 .service-table tbody tr:last-child th,
 .service-table tbody tr:last-child td {
-    border-bottom: none; /* 移除最後一行的底線 */
+    border-bottom: none;
 }
 
 
 /* --- 3. 燈箱 (Modal) 樣式 --- */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* 更深的背景，突出 Modal */
-    display: none; 
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 0;
+    /* (樣式與前一版本的質感 Modal 相同，確保視覺衝擊和 A11Y) */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); 
+    display: none; justify-content: center; align-items: center;
+    z-index: 2000; opacity: 0;
     transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 20px;
 }
-
-.modal-overlay.active {
-    opacity: 1;
-    display: flex;
-}
-
+.modal-overlay.active { opacity: 1; display: flex; }
 .modal-content { 
-    background: white; 
-    border-radius: 12px; 
-    max-width: 1100px; /* 加大 Modal 寬度 */
-    width: 95%;
-    max-height: 90vh; 
-    overflow-y: auto; 
-    padding: 0; 
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); /* 戲劇化的陰影 */
+    background: white; border-radius: 12px; 
+    max-width: 1100px; width: 95%; max-height: 90vh; 
+    overflow-y: auto; padding: 0; position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); 
     transform: translateY(-20px) scale(0.98);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.modal-overlay.active .modal-content {
-    transform: translateY(0) scale(1); /* 彈出動畫 */
-}
-
+.modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
 .modal-content h3 { 
-    background: var(--color-primary); 
-    color: white; 
-    padding: 25px; 
-    margin: 0; 
-    text-align: center;
-    border-radius: 12px 12px 0 0;
-    font-size: 1.6rem;
-    font-weight: 700;
+    background: var(--color-primary); color: white; padding: 25px; margin: 0; 
+    text-align: center; border-radius: 12px 12px 0 0; font-size: 1.6rem;
+}
+.modal-body-content {
+    padding: 20px 30px;
+}
+.alert-note {
+    background-color: #fff0f0;
+    color: #cc0000;
+    border: 1px solid #ffcccc;
+    padding: 15px;
+    border-radius: var(--radius-default);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
 }
 
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    z-index: 2001;
+.close-btn { /* (樣式與前一版本的質感 Modal 相同) */
+    position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;
+    border: none; color: white; font-size: 18px; cursor: pointer; z-index: 2001;
     transition: background-color 0.2s, transform 0.2s;
 }
-.close-btn:hover {
-    background: var(--color-accent);
-    transform: rotate(90deg);
-}
+.close-btn:hover { background: var(--color-accent); transform: rotate(90deg); }
 
 
-/* --- 4. RWD 響應式設計與 A11Y 優化 --- */
-
-/* 確保所有元素在聚焦時有清晰的輪廓 */
-:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-}
-
+/* --- 4. RWD 響應式設計 --- */
 @media (max-width: 1024px) {
-    /* 平板下 Tab 導航優化 */
+    .plan-directory {
+        padding-top: 10px;
+    }
     .plan-tabs {
         flex-wrap: wrap; 
         border-bottom: none;
+        justify-content: space-between;
     }
-    .plan-tabs button {
-        flex: 1 1 45%; 
-        margin: 5px;
+    .plan-tabs button:not(.button-accent) {
+        flex: 1 1 48%; 
+        margin: 5px 0;
         font-size: 1rem;
-        border-bottom: 2px solid var(--color-border);
-        box-shadow: var(--shadow-light);
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow-subtle);
         background: white;
-        text-align: center;
     }
     .plan-tabs button.active {
-        border-bottom: 2px solid var(--color-primary);
+        border-bottom: 3px solid var(--color-primary);
     }
-    .plan-tabs button[data-modal-id] {
+    .button-accent {
         flex: 1 1 100%; 
-        margin: 10px auto;
+        margin: 10px 0 5px 0;
+        font-size: 1rem;
+        padding: 12px;
     }
     
-    /* RWD 表格優化 (可水平滾動) */
     .plan-tab-content table {
         display: block;
         width: 100%;
         overflow-x: auto;
     }
     .service-table {
-        min-width: 900px; /* 確保表格內容有足夠空間 */
+        min-width: 900px; 
     }
 }
 
 @media (max-width: 600px) {
-    .plan-page-container {
-        padding: 0;
-        margin-top: 20px;
-    }
-    .plan-directory {
-        padding-top: 10px;
-        border-radius: 0;
-    }
-    .plan-tab-content {
-        padding: 20px 10px;
-        border-radius: 0;
-        box-shadow: none;
-        border: none;
-    }
-    .plan-tab-content h3 {
-        font-size: 1.4rem;
-    }
-    .modal-content {
-        max-width: 100%;
-        width: 100%;
-        max-height: 100vh;
-        border-radius: 0;
-    }
+    .plan-page-container { padding: 0; margin-top: 20px; }
+    .plan-directory { padding-top: 10px; border-radius: 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
+    .plan-tab-content { padding: 20px 15px; }
+    .plan-tab-content-wrapper { border-radius: 0; box-shadow: none; border: none; }
 }
