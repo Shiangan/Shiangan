@@ -150,529 +150,129 @@ a:focus-visible {
 /* -------------------------------------------
  * 2. 響應式設計 (Mobile/Tablet) 補充
  * ------------------------------------------- */
-
 @media (max-width: 1024px) {
-    
-    /* 啟用漢堡選單按鈕，隱藏桌面導覽 */
-    .menu-toggle {
-        display: flex; 
-    }
+  .main-nav {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    width: 300px;
+    height: calc(100vh - var(--header-height));
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
 
-    /* 🏆 修正後的核心導覽列樣式 (僅保留一組) */
-    .main-nav {
-        /* 定位與尺寸 */
-        position: fixed;
-        top: var(--header-height);
-        right: 0; /* 確保在右側 */
-        left: auto; /* 確保 left 不干擾 */
-        width: 300px; 
-        height: calc(100vh - var(--header-height));
-        z-index: 999;
-        overflow-y: auto; 
-        
-        /* 視覺與隱藏 */
-        background-color: var(--color-bg-primary); 
-        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
-        border-left: 1px solid var(--border-color);
-        
-        /* 隱藏：預設在螢幕右側外 */
-        transform: translateX(100%); 
-        transition: transform var(--transition-speed) ease-in-out; /* 確保動畫屬性存在 */
-    }
-
-    /* 導覽列開啟時的狀態 (透過 JavaScript 添加 class) */
-   .main-nav.active { 
-        transform: translateX(0); /* 展開：完全滑入視圖，內容不會跑偏 */
-    }
-
-    /* ----------------------------------- */
-    /* 內部列表項目樣式：此部分檢查是正確的 */
-    /* ----------------------------------- */
-    
-    .main-nav ul {
-        flex-direction: column;
-        align-items: flex-start; /* 讓內容靠左對齊 */
-        padding: 20px 0;
-    }
-    
-
-    .main-nav li {
-        width: 100%;
-        padding: 0; /* 移除桌面版 padding */
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .main-nav li:last-child {
-        border-bottom: none;
-    }
-
-    .main-nav a {
-        padding: 15px 20px;
-        width: 100%;
-        justify-content: space-between; /* 讓箭頭靠右 */
-        font-size: 1.1rem;
-    }
-
-    /* 行動裝置的下拉選單 (Submenu) */
-    .submenu {
-        position: static; /* 變為流動佈局 */
-        transform: none; /* 移除桌面 transform */
-        box-shadow: none;
-        border-top: none;
-        background-color: rgba(0, 0, 0, 0.05); /* 輕微區隔 */
-        padding: 0;
-        border-radius: 0;
-        opacity: 0; /* 始終可見，由 JS/CSS 控制 max-height 展開 */
-        visibility: hidden;
-        /* 🏆 行動裝置摺疊效果：使用 max-height 替換 opacity/visibility */
-        max-height: 0; 
-        transition: max-height 0.4s ease-in-out, opacity 0.4s, visibility 0.4s; /* 修正 transition */
-}
-
-    /* 下拉選單開啟時的狀態 (通常透過 JavaScript 添加 class) */
-    .dropdown.open > .submenu { 
-    max-height: 500px;
-    opacity: 1;             /* 展開時顯示 */
-    visibility: visible;    /* 展開時可見 */
-}
-
-    .submenu a {
-        padding: 10px 30px; /* 增加左側內縮 */
-    }
-    
-    .submenu-title, .submenu-separator {
-        display: none; /* 行動版通常移除標題與分隔線 */
-    }
-    
-    /* 行動版隱藏導覽列中的聯繫按鈕，通常放在菜單最下方 */
-    .contact-nav {
-        display: none; 
-    }
-}
-
-
-/* 標題樣式 - 統一使用變數間距 */
-h1, h2, h3, h4, h5, h6 { 
-    font-family: var(--font-serif);
-    line-height: var(--line-height-heading);
-    margin-bottom: 0.8em; 
-    margin-top: 1.3em; 
-    color: var(--color-text-light);
-    font-weight: 700;
-    /* 🏆 最終修訂: 性能優化 */
-    text-rendering: optimizeLegibility;
-}
-
-h1 {
-    font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
-    text-align: center;
-    word-break: break-word;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    margin-top: 0;
-    margin-bottom: 1.5em;
-    color: var(--color-dark); 
-}
-
-h2 {
-    font-size: clamp(1.6rem, 3.5vmin, 2.5rem);
-    margin-top: 2em; 
-    margin-bottom: var(--spacing-md);
-    text-align: center;
-    position: relative;
-    padding-bottom: var(--spacing-md);
-    color: var(--color-primary);
-}
-
-/* 標題下裝飾線 */
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--color-warning);
-    border-radius: 2px;
-    /* 🏆 最終修訂: 使用簡單的 ease-out 過渡 */
-    transition: width 0.3s ease-out; 
-}
-/* 🏆 最終修訂: 增強 H2 裝飾線的互動效果 */
-h2:hover::after {
-    width: 100px; 
-}
-
-h3 { 
-    font-size: clamp(1.3rem, 3vmin, 1.8rem); 
-    color: var(--color-primary); 
-    margin-top: 1.5em; 
-    margin-bottom: 0.8em;
-}
-
-h4 { 
-    font-size: 1.25rem; 
-    color: var(--color-text-light);
-    margin-top: 1.2em;
-    margin-bottom: 0.7em;
-    font-weight: 700;
-}
-
-h5 { 
-    font-size: 1.1rem; 
-    font-weight: 500; 
-    color: var(--color-text-light);
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-}
-
-h6 { 
-    font-size: 1rem; 
-    font-weight: 400; 
-    color: #666;
-    margin-top: 0.8em;
-    margin-bottom: 0.5em;
-}
-
-p { margin-bottom: 1em; }
-
-/* 基礎內容元素優化 - 統一間距 */
-table, blockquote, pre, figure {
-    margin: 1.8em 0; 
-}
-
-/* 程式碼區塊樣式 (Code Block) */
-pre {
-    background-color: var(--color-dark);
-    color: var(--code-color);
-    padding: 18px 20px; 
-    border-radius: var(--border-radius); 
-    overflow-x: auto;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.6; 
-    white-space: pre;
-    tab-size: 4;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-    max-width: 100%;
-}
-
-code {
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.95rem;
-    /* 內嵌程式碼 */
-    background-color: rgba(206, 157, 74, 0.15); 
-    color: var(--color-dark);
-    padding: 3px 6px;
-    border-radius: 4px;
-    white-space: normal; 
-    word-break: break-word;
-}
-
-pre code {
-    background: none;
-    color: var(--code-color);
-    padding: 0;
-    white-space: pre; 
-}
-
-/* 確保 blockquote 有質感 */
-blockquote {
-    border-left: 5px solid var(--color-warning);
-    padding: 15px 25px; 
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-light);
-    font-style: italic;
-    font-size: 1.05rem;
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
-    box-shadow: 0 2px 5px var(--shadow-color);
-}
-blockquote p {
-    margin-bottom: 0.5em; 
-}
-blockquote p:last-child {
-    margin-bottom: 0;
-}
-
-
-/* 容器與通用佈局 */
-.container {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
-}
-
-.container-v-padding {
-    padding: var(--padding-section-v) 0;
-}
-
-.small-v-padding {
-    padding-top: var(--spacing-lg);
-    padding-bottom: var(--spacing-lg);
-}
-
-.bg-section {
-    background-color: var(--color-bg-secondary);
-}
-
-.text-center {
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* 自動調整單行文字 (保持不變) */
-.text-line-container {
-  display: block;
-  overflow: hidden; 
-}
-
-.fit-text-line { 
-  display: inline-block;
-  white-space: nowrap; 
-}
-
-
-/* -------------------------------------------
-/* -------------------------------------------
- * 1. 導覽列與頁首 (Header & Nav)
- * ------------------------------------------- */
+/* ===============================
+   Header / Navigation (FINAL)
+   =============================== */
 
 .main-header {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-main);
-    height: var(--header-height);
-    position: fixed; 
-    top: 0;
-    left: 0; 
-    width: 100%; 
-    z-index: 1000;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    /* 合併：確保 transition 在 transform 之前定義 */
-    transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-    /* 性能優化 */
-    will-change: transform; 
-    transform: translateZ(0); 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--color-bg-primary);
+  box-shadow: 0 2px 10px var(--shadow-color);
+  z-index: 1000;
+  transform: none;
+  will-change: background-color, box-shadow;
 }
 
-/* 修正: Header 固定後，需要為主要內容增加 padding-top */
 main {
-    padding-top: var(--header-height);
+  padding-top: var(--header-height);
 }
 
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
+.main-nav {
+  z-index: 999;
 }
 
-.main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.97); 
-    box-shadow: 0 4px 15px var(--shadow-deep); 
-    /* 性能：使用更廣泛支援的 backdrop-filter */
-    -webkit-backdrop-filter: blur(5px); 
-    backdrop-filter: blur(5px);
+/* Overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 998;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+.nav-overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 
-.site-logo {
-    width: 140px;
-    height: 40px;
-    object-fit: contain;
-}
-
-.main-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    font-weight: 400;
-}
-
-.main-nav li {
-    position: relative;
-    padding: 0 15px;
-}
-
-.main-nav a {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    color: var(--color-text-light);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    transition: color var(--transition-speed), border-bottom var(--transition-speed), padding-bottom var(--transition-speed);
-}
-
-/* 桌面版專用焦點優化 (A11y Enhancement) */
-.main-nav a:focus-visible {
-    /* 使用 warning 色作為強烈焦點指示，符合 A11y 要求 */
-    color: var(--color-primary); 
-    outline: 2px solid var(--color-warning); 
-    outline-offset: 4px;
-    /* 確保焦點時不會與底線衝突 (如 hover 時有底線) */
-    border-bottom: none; 
-}
-
-.main-nav a .fas {
-    font-size: 0.7rem;
-    margin-left: 5px;
-    /* 🏆 修復語法錯誤：將獨立的 transition 合併到這裡 */
-    transition: transform var(--transition-speed) ease; 
-}
-
-/* 下拉選單質感優化 (桌面版) */
+/* ===== Desktop submenu ===== */
 .submenu {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    /* 🏆 最終修訂: 使用 translateY(10px) 替換 translate3d */
-    transform: translateX(-50%) translateY(10px); 
-    
-    min-width: 240px;
-    background-color: var(--color-light);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); 
-    border-top: 5px solid var(--color-warning);
-    list-style: none;
-    padding: 10px 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    
-    /* 🏆 合併重複的 transition 和 will-change 屬性 */
-    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    opacity: 0;
-    visibility: hidden;
-    overflow: hidden;
-    max-height: unset; 
-    will-change: opacity, transform;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  min-width: 240px;
+  background: var(--color-light);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+  border-top: 5px solid var(--color-warning);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-speed),
+              transform var(--transition-speed),
+              visibility var(--transition-speed);
 }
 
-/* 確保所有互動狀態都能觸發顯示 */
 .dropdown:hover > .submenu,
-.dropdown:focus-within > .submenu { 
+.dropdown:focus-within > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 1024px) {
+
+  .main-nav {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    width: 300px;
+    height: calc(100vh - var(--header-height));
+    background: var(--color-bg-primary);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .main-nav.active {
+    transform: translateX(0);
+  }
+
+  .submenu {
+    position: static;
+    transform: none;
+    left: auto;
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0);
+    max-height: 0;
+    overflow: hidden;
+    box-shadow: none;
+    border-top: none;
+    transition: max-height 0.35s ease;
+  }
+
+  .dropdown.open > .submenu {
+    max-height: 500px;
+  }
 }
 
-.dropdown:hover > a .fas,
-.dropdown:focus-within > a .fas { 
-    transform: rotate(180deg);
-}
-
-.submenu li {
-    padding: 0px;
-    width: 100%;
-}
-
-.submenu a {
-    padding: 10px 20px;
-    white-space: nowrap;
-    font-size: 0.95rem;
-    display: block;
-    color: var(--color-text-main);
-    border-bottom: none !important; 
-    padding-bottom: 10px !important;
-}
-
-.submenu a:hover, .submenu a:focus-visible {
-    background-color: var(--color-primary);
-    color: var(--color-light);
-    outline: none;
-}
-
-.submenu-title {
-    font-weight: 700;
-    color: var(--color-warning);
-    padding: 8px 20px 4px;
-    font-size: 0.85rem;
-    cursor: default;
-    opacity: 1;
-    background-color: rgba(30, 58, 106, 0.1);
-}
-
-.submenu-separator {
-    height: 1px;
-    background-color: var(--border-color);
-    margin: 5px 20px;
-    list-style: none;
-}
-
-
-/* 聯繫導覽按鈕 */
-.contact-nav {
-    display: flex;
-    align-items: center;
-}
-
-/* 🏆 修正：直接使用 .cta-button 的樣式，確保一致性 */
-.contact-nav a {
-    background-color: var(--color-warning);
-    color: var(--color-dark);
-    padding: 8px 15px;
-    border-radius: 50px;
-    font-weight: 700;
-    margin-left: 20px;
-    display: inline-flex;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(206, 157, 74, 0.6); 
-    flex-shrink: 0;
-    transition: all var(--transition-speed); 
-    border: 2px solid transparent; 
-}
-
-.contact-nav a:hover, .contact-nav a:focus-visible {
-    background-color: var(--color-dark);
-    color: var(--color-warning);
-    box-shadow: 0 4px 15px rgba(206, 157, 74, 0.8);
-    outline: 2px solid var(--color-warning);
-    outline-offset: 4px;
-}
-.contact-nav a:focus:not(:focus-visible) {
-    outline: none;
-}
-
-
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    color: var(--color-primary);
-    padding: 5px 10px;
-    font-weight: 700;
-    border: 1px solid var(--color-primary);
-    border-radius: 4px;
-    transition: background-color var(--transition-speed);
-    z-index: 1001;
-    /* 🏆 最終修訂: 增強互動性 */
-    height: 40px; 
-    width: 40px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.menu-toggle:hover, .menu-toggle:focus-visible {
-    background-color: rgba(26, 55, 90, 0.1);
-    outline: 2px solid var(--color-warning);
-    outline-offset: 2px;
-}
-
-.menu-toggle i {
-    transition: transform var(--transition-speed) ease-in-out;
-    font-size: 1.2rem;
-    vertical-align: middle;
+/* Burger */
+.burger,
+.burger::before,
+.burger::after {
+  width: 22px;
+  height: 2px;
+  background: var(--color-primary);
+  display: block;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* -------------------------------------------
