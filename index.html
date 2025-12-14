@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-Hant" class="js-loading">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>祥安生命 | 喪葬費用公開透明 | 國家認證禮儀師 | 24H服務</title>
-
-    <style>
-        :root { 
-            --primary-color: #800020; 
-            --secondary-color: #333333; 
-            --accent-color: #A31F25; 
-            --background-color: #f7f7f7; 
-        }
-        
+/* FOUC 處理：確保在 JS 載入前，頁面內容完全隱藏 */
         .js-loading body, .js-loading html { visibility: hidden !important; opacity: 0 !important; }
         .js-loading { background-color: #fff; } 
         
@@ -22,10 +8,11 @@
             background-color: #fff; 
             line-height: 1.6; 
             color: var(--secondary-color);
-            opacity: 1; 
+            opacity: 1; /* 初始設為 1，但 .js-loading 會覆蓋 */
             transition: opacity 0.5s ease-in-out;
         }
 
+        /* 導覽列與首頁 HERO 區塊 */
         .main-header { position: fixed; width: 100%; top: 0; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; max-width: 1200px; margin: 0 auto; }
         .hero-section { 
@@ -48,9 +35,11 @@
         .secondary { background-color: #fff; color: var(--secondary-color) !important; border: 2px solid #ddd; }
         .primary:hover { background-color: #C0392B; }
         
+        /* 區塊標題 */
         h2 { text-align: center; color: var(--primary-color); margin-bottom: 40px; font-size: clamp(1.8rem, 5vw, 2.5rem); }
         .text-center { text-align: center; }
 
+        /* 卡片與網格佈局 */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .container-v-padding { padding: 60px 0; }
         .bg-section { background-color: var(--background-color); }
@@ -139,13 +128,10 @@
     <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="preload" href="../fonts/UoqMunThenKhung-1.000.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="../fonts/Iansui-Regular.ttf" as="font" type="font/ttf" crossorigin>
-
     <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'; this.onload=null;">
     <noscript><link rel="stylesheet" href="css/style.css"></noscript>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" media="print" onload="this.media='all'; this.onload=null;">
-
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
@@ -157,6 +143,7 @@
     gtag('js', new Date());
     gtag('config', 'G-445583766'); 
     </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -189,6 +176,7 @@
     <script type="application/ld+json">{/* FAQPage Schema 保持不變 */}</script>
 </head>
 <body class="js-loading">
+    
     <header class="main-header" role="banner">
         <div class="header-container container">
             <div class="logo">
@@ -229,8 +217,7 @@
                             <li role="menuitem"><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案詳情">至尊圓滿 35.8萬</a></li>
                             <li class="submenu-separator" role="separator"></li>
                             <li role="menuitem"><a href="plans.html#tab-western" title="西式契約方案詳情">西式禮儀方案</a></li>
-                            <li role="menuitem"><a href="plans.html#tab-japan" title="日式契約方案詳情">日式禮儀方案</a></li>
-                            <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區">環保葬儀式服務</a></li>
+                            <li role="menuitem"><a href="plans.html#tab-japan" title="日式契約方案詳情">日式禮儀方案</a></li> <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區">環保葬儀式服務</a></li>
                         </ul>
                     </li>
 
@@ -262,6 +249,7 @@
     </header>
 
     <main role="main">
+    
     <section id="hero" class="hero-section first-section" aria-label="祥安生命：喪葬費用公開透明，24H溫馨陪伴">
         <div id="stars" class="star-layer" aria-hidden="true"></div>
         <div id="stars2" class="star-layer" aria-hidden="true"></div>
@@ -292,7 +280,6 @@
             <h2 id="religion-heading">圓滿告別：尊重信仰的多元禮儀服務</h2> 
             <p class="text-center">無論是佛道科儀、西式禮拜，我們都以專業尊重每一份信仰，圓滿逝者心願。</p>
             
-
             <div class="card-grid religion-grid">
                 <a href="services.html#buddhist-taoist" class="card-item religion-item animate-on-scroll" data-aos="fade-up" title="了解中式佛/道教禮儀服務">
                     <i class="icon fas fa-om" aria-hidden="true"></i>
@@ -396,7 +383,7 @@
 
             <div class="flow-chart">
                 <figure class="flow-chart-figure" style="text-align: center; margin-bottom: 20px;">
-                    <img src="images/shiangan-process-flowchart.png" alt="祥安生命七大安心治喪流程圖：從接體、會談、場地準備、豎靈、告別式、安葬/晉塔到後續關懷" title="祥安生命七大安心治喪流程圖" loading="lazy" style="max-width: 100%; height: auto; border: 1px solid #ddd;" width="800" height="400">
+                    
                     <figcaption style="font-size: 0.9em; color: #777; margin-top: 10px;">圖：祥安七大治喪服務流程，專業把關每一個環節，流程清晰透明</figcaption>
                 </figure>
                 
@@ -576,8 +563,7 @@
                         <li><a href="plans.html#plan-188" title="中式契約 18.8萬方案">精緻尊享 18.8萬</a></li>
                         <li><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案">至尊圓滿 35.8萬</a></li>
                         <li><a href="plans.html#tab-western" title="西式契約方案">西式契約</a></li>
-                        <li><a href="plans.html#tab-japan" title="日式契約方案">日式契約</a></li>
-                    </ul>
+                        <li><a href="plans.html#tab-japan" title="日式契約方案">日式契約</a></li> </ul>
                 </nav>
                 
                 <nav aria-labelledby="footer-nav-knowledge">
