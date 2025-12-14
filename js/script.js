@@ -1,9 +1,10 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版 V3.0
- * 整合功能：Modal A11Y/焦點陷阱、Tab 切換/錨點、RWD 菜單手風琴、通用 Accordion、
- * 性能優化 (Lazy Load/Fit Text/AOS)、表單處理、RWD 清理。
- * 🌟 優化重點：導入 SALife 命名空間、勞保試算機薪資上下限驗證強化、結構化與可讀性提升。
+ * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版 V3.1
+ * 整合功能：勞保給付試算、對年日期計算 (含閏月邏輯)、Modal A11Y/焦點陷阱、
+ * Tab 切換/錨點、RWD 菜單手風琴、通用 Accordion、性能優化 (Lazy Load/Fit Text/AOS)、
+ * 表單處理、RWD 清理。
+ * 🌟 優化重點：導入 SALife 命名空間、結構化與可讀性提升。
  * ====================================================================
  */
 
@@ -13,7 +14,7 @@
 window.SALife = window.SALife || {};
 
 // ====================================================
-// Z. 試算機功能 (移入 SALife 命名空間)
+// Z. 試算機功能 I: 勞保喪葬給付試算
 // ====================================================
 
 // 勞保局規定的薪資上下限（2025 年為準，或依最新規定調整）
@@ -21,6 +22,15 @@ const LABOR_INSURANCE_MAX_SALARY = 45800;
 const LABOR_INSURANCE_MIN_SALARY = 27470; // 最低投保薪資級距
 const FUNERAL_ALLOWANCE_SURVIVOR = 5; // 有遺屬：5 個月
 const FUNERAL_ALLOWANCE_NO_SURVIVOR = 10; // 無遺屬：10 個月
+
+/**
+ * 格式化金額函數
+ * @param {number} amount - 金額數字
+ * @returns {string} - 格式化後的貨幣字串
+ */
+const formatCurrency = (amount) => {
+    return amount.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
+};
 
 /**
  * 勞保喪葬給付試算機：根據平均薪資和遺屬狀況計算並顯示建議金額。
@@ -35,12 +45,6 @@ window.SALife.calculateLaborInsurance = function() {
     const avgSalary = parseFloat(avgSalaryInput.value);
     const hasSurvivor = hasSurvivorSelect.value;
     
-    // 格式化金額函數
-    const formatCurrency = (amount) => {
-        // 使用 toLocaleString 確保數字有千分位分隔符號，並帶有貨幣符號
-        return amount.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
-    };
-
     // 1. 輸入驗證：確保是有效數字，並符合法定薪資範圍
     if (isNaN(avgSalary) || avgSalary < LABOR_INSURANCE_MIN_SALARY || avgSalary > LABOR_INSURANCE_MAX_SALARY) {
         resultBox.innerHTML = `
@@ -61,7 +65,6 @@ window.SALife.calculateLaborInsurance = function() {
         const funeralAllowance = avgSalary * allowanceMonths;
         
         // B. 遺屬給付預估 (提醒性質，非精確計算)
-        // 遺屬年金總額通常為月投保薪資 * 1.55% * 保險年資 (按月發放)
         const estimatedSurvivorBenefit = avgSalary * 12; // 以一年薪資作為最低提醒
         
         recommendationText = `
@@ -85,6 +88,124 @@ window.SALife.calculateLaborInsurance = function() {
     resultBox.innerHTML = recommendationText;
     resultBox.style.display = 'block';
 };
+
+
+// ====================================================
+// Z. 試算機功能 II: 對年日期計算 (含閏月邏輯) - 新增
+// ====================================================
+
+/**
+ * 模擬農曆轉換函式：將陽曆字串 (YYYY-MM-DD) 轉換為包含農曆資訊的物件
+ * @param {string} solarDateString - 往生當天的陽曆日期字串 (YYYY-MM-DD)
+ * @returns {object|null} - 包含農曆年/月/日及閏月標記的物件
+ */
+function getLunarDate(solarDateString) {
+    const date = new Date(solarDateString);
+    if (isNaN(date.getTime())) {
+        return null;
+    }
+
+    // 【重要聲明】此處為模擬邏輯，實際應用需引入完整的農曆轉換庫！
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    // 模擬農曆年和閏月判斷：
+    // 假設往生在陽曆 2024 或 2025 年發生的農曆年有閏月，以便測試閏月邏輯。
+    const hasLeapMonth = (year === 2024 || year === 2025); 
+
+    return {
+        solar: solarDateString,
+        lunarYear: year, // 模擬：使用陽曆年作為農曆年 (非真實農曆轉換)
+        lunarMonth: month, // 模擬：使用陽曆月作為農曆月
+        lunarDay: day, // 模擬：使用陽曆日作為農曆日
+        hasLeapMonth: hasLeapMonth, // 模擬該農曆年是否有閏月
+        isLeap: false
+    };
+}
+
+/**
+ * 計算對年日期 (農曆滿一年) 並應用閏月提前一個月的習俗邏輯。
+ * @param {object} lunarInfo - 往生當天的農曆資訊物件 (來自 getLunarDate 模擬)
+ * @returns {object} - 包含對年日期資訊、閏月提示和注意事項。
+ */
+function calculateDuinian(lunarInfo) {
+    const { lunarYear, lunarMonth, lunarDay, hasLeapMonth } = lunarInfo;
+    
+    // 1. 農曆日期：加一年
+    let duinianLunarYear = lunarYear + 1;
+    let duinianLunarMonth = lunarMonth;
+    let duinianLunarDay = lunarDay;
+    let note = '';
+    
+    // 2. 閏月處理邏輯 (如果該農曆年有閏月，則對年日期需減一個月)
+    if (hasLeapMonth) {
+        duinianLunarMonth -= 1;
+        
+        if (duinianLunarMonth <= 0) {
+            duinianLunarMonth += 12; // 跨年
+            duinianLunarYear -= 1;
+        }
+        
+        note = '<strong>⚠️ 閏月提示：</strong> 治喪年遇閏月，按習俗對年需**提前一個月**完成。計算器已為您應用此邏輯。';
+    } else {
+        note = '本次對年計算不涉及閏月處理。';
+    }
+
+    return {
+        lunarOriginal: `${lunarYear} 年 ${lunarMonth} 月 ${lunarDay} 日`,
+        lunarDuinian: `${duinianLunarYear} 年 ${duinianLunarMonth} 月 ${duinianLunarDay} 日`,
+        note: note
+    };
+}
+
+/**
+ * 前端介面邏輯：設置對年計算器事件監聽 (暴露到 SALife)
+ * @public
+ */
+window.SALife.setupDuinianCalculator = function() {
+    const calculateBtn = document.getElementById('calculateDuinian');
+    const dateInput = document.getElementById('dateOfDeath');
+    const resultOutput = document.getElementById('resultOutput');
+    const lunarDateElem = document.getElementById('lunarDate');
+    const duinianDateElem = document.getElementById('duinianDate');
+    const duinianNoteElem = document.getElementById('duinianNote');
+
+    if (!calculateBtn) return;
+
+    calculateBtn.addEventListener('click', function() {
+        const solarDate = dateInput.value;
+        
+        if (!solarDate) {
+            alert('請選擇往生日期。');
+            return;
+        }
+        
+        // 1. 陽曆轉農曆 (模擬)
+        const lunarInfo = getLunarDate(solarDate);
+
+        if (!lunarInfo) {
+            alert('日期轉換失敗，請檢查輸入格式。');
+            return;
+        }
+        
+        // 2. 計算對年日期
+        const duinianResult = calculateDuinian(lunarInfo);
+
+        // 3. 顯示結果
+        lunarDateElem.textContent = `農曆 (模擬) ${duinianResult.lunarOriginal}`;
+        duinianDateElem.innerHTML = `農曆 (估算) ${duinianResult.lunarDuinian}`;
+        
+        // 提示閏月注意事項
+        duinianNoteElem.innerHTML = duinianResult.note;
+        duinianNoteElem.classList.remove('hidden');
+
+        resultOutput.classList.remove('hidden');
+
+        // (可選) 捲動到結果區塊
+        resultOutput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+}
 
 
 // IIFE 啟動核心功能
@@ -975,6 +1096,9 @@ window.SALife.calculateLaborInsurance = function() {
         // 動畫
         setupAos();
         
+        // **新功能初始化**：設置對年日期計算器
+        window.SALife.setupDuinianCalculator(); 
+
         // 視窗大小改變監聽 (Debounce 處理性能問題)
         window.addEventListener('resize', debounce(handleResizeCleanupInner, 150));
     });
