@@ -1,9 +1,10 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script)
- * 完整、模組化、高性能、RWD & A11Y 優化版。
- *
- * 審核狀態：結構清晰、性能優化良好。已針對 RWD 菜單和細節展開組件進行微調和修正。
+ * 祥安生命網站核心腳本 (SA Life Core Script) - 完整最終修正版
+ * 強化重點：
+ * 1. RWD 子選單展開邏輯（setupMobileAccordion）的健壯性與錯誤診斷。
+ * 2. RWD 狀態切換（closeAllMobileSubmenus, handleResizeCleanup）的樣式清理。
+ * 3. 確保所有組件在單一腳本中完整且運作協調。
  * ====================================================================
  */
 
@@ -24,7 +25,8 @@
 
     const header = document.querySelector('.site-header, .main-header');
     const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.querySelector('#main-nav');
+    // ⚠️ 菜單主容器：確保所有頁面都有 #main-nav ID
+    const mainNav = document.querySelector('#main-nav'); 
     const body = document.body;
     const backToTopButton = document.querySelector('.back-to-top');
 
@@ -52,21 +54,18 @@
 
             contentElement.removeEventListener('transitionend', handleTransitionEnd);
         };
+        // 確保監聽器只觸發一次，並正確處理
         contentElement.addEventListener('transitionend', handleTransitionEnd, { once: true });
     };
 
     /**
      * 節流函數 (Debounce)
-     * @param {Function} func - 要延遲執行的函數。
-     * @param {number} delay - 延遲時間 (毫秒)。
-     * @returns {Function} - 節流後的函數。
      */
     const debounce = (func, delay = 50) => {
         let timeoutId = null;
         let lastArgs, lastThis;
         const run = () => {
             timeoutId = setTimeout(() => {
-                // 使用 requestAnimationFrame 確保在下一次瀏覽器重繪前執行
                 requestAnimationFrame(() => func.apply(lastThis, lastArgs));
                 timeoutId = null;
             }, delay);
@@ -95,7 +94,6 @@
             document.body.classList.remove('js-loading');
         });
     };
-    // 監聽三種事件，確保在網頁載入完成或逾時時移除 js-loading class
     document.addEventListener('DOMContentLoaded', removeLoadingClass, { once: true });
     window.addEventListener('load', removeLoadingClass, { once: true });
     setTimeout(removeLoadingClass, FOUC_TIMEOUT_MS);
@@ -104,21 +102,32 @@
     // C. 導航菜單模組
     // ====================================================
 
-    /** 關閉所有行動裝置子選單 */
-    const closeAllMobileSubmenus = () => {
+    /** 關閉所有行動裝置子選單 (修正版) */
+    const closeAllMobileSubmenus = (excludeLi = null) => {
         if (mainNav) {
+            // 遍歷所有已展開的子選單
             Array.from(mainNav.querySelectorAll('li.dropdown.active')).forEach(li => {
+                if (li === excludeLi) return; // 排除當前正在點擊的 Li
+                
                 const submenu = li.querySelector('.submenu-container, .submenu');
                 const targetLink = li.querySelector('a');
+
                 if (submenu && targetLink) {
                     li.classList.remove('active');
                     targetLink.setAttribute('aria-expanded', 'false');
                     
-                    // 執行收起動畫
-                    if (submenu.style.maxHeight && submenu.style.maxHeight !== '0px') {
-                        submenu.style.maxHeight = `${submenu.scrollHeight}px`;
-                        requestAnimationFrame(() => submenu.style.maxHeight = '0px');
-                        onTransitionEndCleanup(submenu);
+                    // 修正：收起時必須先設置當前高度，再設置為 0
+                    if (submenu.scrollHeight > 0 && submenu.style.maxHeight !== '0px') {
+                        submenu.style.maxHeight = `${submenu.scrollHeight}px`; // 設置當前高度
+                        submenu.style.overflow = 'hidden';
+                        requestAnimationFrame(() => {
+                            submenu.style.maxHeight = '0px'; // 觸發收起動畫
+                            onTransitionEndCleanup(submenu);
+                        });
+                    } else if (submenu.style.maxHeight !== '0px') {
+                         // 如果沒有 scrollHeight 但 max-height 不為 0，則強制收起
+                         submenu.style.maxHeight = '0px';
+                         onTransitionEndCleanup(submenu);
                     }
                 }
             });
@@ -134,12 +143,11 @@
                 menuToggle.setAttribute('aria-expanded', 'false');
                 const menuIcon = menuToggle.querySelector('i');
                 if (menuIcon) {
-                    menuIcon.classList.remove('fa-times');
-                    menuIcon.classList.add('fa-bars');
+                    menuIcon.classList.replace('fa-times', 'fa-bars');
                 }
             }
             body.classList.remove('no-scroll');
-            closeAllMobileSubmenus();
+            closeAllMobileSubmenus(); 
         }
     };
 
@@ -161,14 +169,12 @@
             menuToggle.addEventListener('click', function () {
                 const isExpanded = mainNav.classList.contains('active');
                 if (!isExpanded) {
-                    // 展開菜單
                     mainNav.classList.add('active');
                     this.classList.add('active');
                     this.setAttribute('aria-expanded', 'true');
                     if (menuIcon) menuIcon.classList.replace('fa-bars', 'fa-times');
                     if (isMobileView()) body.classList.add('no-scroll');
                 } else {
-                    // 關閉菜單
                     closeMainMenu();
                 }
             });
@@ -184,30 +190,53 @@
         }
     };
 
-    /** 設置行動裝置菜單手風琴效果 (Accordion) */
+    /** 設置行動裝置菜單手風琴效果 (Accordion) - 修正版 */
     const setupMobileAccordion = () => {
         if (mainNav) {
             mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
                 targetLink.addEventListener('click', (e) => {
                     const parentLi = targetLink.closest('li.dropdown');
                     if (!parentLi || !isMobileView()) return;
+                    
+                    // 強化：檢查子選單容器
                     const submenu = parentLi.querySelector('.submenu-container, .submenu');
-                    if (!submenu) return;
+                    if (!submenu) {
+                        console.error(`[SA Life Nav ERROR] 頁面 ${window.location.pathname}：子選單展開失敗，找不到 .submenu-container 或 .submenu。`);
+                        return; // 如果找不到子選單，立即退出
+                    }
 
                     e.preventDefault();
                     const isCurrentlyActive = parentLi.classList.contains('active');
                     
-                    // 點擊展開時，先關閉其他所有已展開的子菜單
-                    closeAllMobileSubmenus();
+                    // 點擊展開時，先關閉其他所有已展開的子菜單，但排除當前元素
+                    closeAllMobileSubmenus(parentLi);
                     
                     if (!isCurrentlyActive) {
                         // 展開當前菜單
                         parentLi.classList.add('active');
                         targetLink.setAttribute('aria-expanded', 'true');
+                        
                         submenu.style.maxHeight = '0px';
+                        submenu.style.overflow = 'hidden';
                         void submenu.offsetHeight; // 強制重繪
-                        requestAnimationFrame(() => submenu.style.maxHeight = `${submenu.scrollHeight}px`);
-                        setTimeout(() => onTransitionEndCleanup(submenu), RWD_TRANSITION_DURATION_MS);
+                        
+                        requestAnimationFrame(() => {
+                            submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                            onTransitionEndCleanup(submenu);
+                        });
+                        
+                    } else {
+                        // 收起當前菜單
+                        parentLi.classList.remove('active');
+                        targetLink.setAttribute('aria-expanded', 'false');
+                        
+                        // 設置當前高度後，過渡到 0
+                        submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+                        submenu.style.overflow = 'hidden';
+                        requestAnimationFrame(() => {
+                            submenu.style.maxHeight = '0px';
+                            onTransitionEndCleanup(submenu);
+                        });
                     }
                 });
             });
@@ -222,7 +251,6 @@
                     if (!isMobileView()) this.classList.add('focus-within');
                 });
                 dropdown.addEventListener('focusout', function () {
-                    // 使用 setTimeout 確保在 document.activeElement 變更後檢查
                     setTimeout(() => {
                         if (!isMobileView() && !this.contains(document.activeElement)) {
                             this.classList.remove('focus-within');
@@ -233,17 +261,24 @@
         }
     };
 
-    /** 處理視窗大小改變後的清理工作 (RWD) */
+    /** 處理視窗大小改變後的清理工作 (RWD) - 修正版 */
     const handleResizeCleanup = (fitAllFunction) => {
         // 桌面視圖下，確保菜單是關閉的
         if (!isMobileView()) closeMainMenu();
         
-        // 清理所有菜單的 inline max-height 樣式
+        // 清理所有菜單的 inline max-height 樣式，並移除 active class
         mainNav?.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.classList.remove('active'); // 確保移除 active class
+            const targetLink = dropdown.querySelector('a');
+            if(targetLink) targetLink.setAttribute('aria-expanded', 'false'); // 重置 A11Y 狀態
+
             const submenu = dropdown.querySelector('.submenu-container, .submenu');
             if (submenu) {
+                // 移除所有 RWD 相關的行內樣式
                 submenu.style.removeProperty('max-height');
                 submenu.style.removeProperty('overflow');
+                // 確保移除 transitionend 監聽器
+                submenu.removeEventListener('transitionend', onTransitionEndCleanup);
             }
         });
         
@@ -251,6 +286,7 @@
         setTimeout(() => {
             document.querySelectorAll('.accordion-item.active .accordion-content, .plan-card.expanded .plan-details-expanded')
                 .forEach(content => {
+                    // 重新計算 max-height，讓其適應新的視窗寬度
                     if (content.style.maxHeight && content.style.maxHeight !== '0px') {
                         requestAnimationFrame(() => content.style.maxHeight = `${content.scrollHeight}px`);
                     }
@@ -356,7 +392,6 @@
             const newIconClass = !isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
             const oldIconClass = isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
             
-            // 使用 classList.replace 替換圖標
             icon.classList.replace(oldIconClass, newIconClass);
             button.appendChild(icon);
         } else {
@@ -410,11 +445,10 @@
                     if (entry.isIntersecting) {
                         const element = entry.target;
                         if (element.tagName === 'PICTURE') {
-                            // 處理 picture 標籤下的 source 和 img
                             element.querySelectorAll('source[data-srcset], img[data-src]').forEach(loadImage);
                             const img = element.querySelector('img');
                             if (img) loadImage(img);
-                        } else loadImage(element); // 處理單獨的 img 或 source
+                        } else loadImage(element); 
                         
                         obs.unobserve(element);
                     }
@@ -422,11 +456,10 @@
             }, { 
                 root: null, 
                 rootMargin: LAZY_LOAD_ROOT_MARGIN, 
-                threshold: 0.01 // 只要 0.01% 進入視口即觸發
+                threshold: 0.01
             });
             lazyTargets.forEach(el => observer.observe(el));
         } else {
-            // 瀏覽器不支援 IntersectionObserver 時，直接載入
             lazyTargets.forEach(loadImage);
         }
     };
@@ -435,7 +468,6 @@
     // F. Fit Text
     // ====================================================
     
-    /** 全域變數，用於儲存 Fit Text 函數，以便在 resize 時呼叫 */
     let fitAllTexts;
 
     /** 設置 Fit Text 功能 (文本自動縮放以適應容器寬度) */
@@ -447,24 +479,20 @@
             const parentWidth = el.parentElement?.offsetWidth || 0;
             const text = el.textContent?.trim() || '';
             
-            // 檢查有效性
             if (parentWidth <= 50 || text === '' || !el.parentElement) { 
-                el.style.fontSize = `${MAX_FONT}px`; // 設置最大值作為備用
+                el.style.fontSize = `${MAX_FONT}px`; 
                 return; 
             }
             
-            // 二分查找算法 (Binary Search) 尋找最佳字體大小
             let low = MIN_FONT, high = MAX_FONT, bestSize = MIN_FONT, iterations = 0;
-            while (low <= high && iterations < 20) { // 限制迭代次數以防無限循環
+            while (low <= high && iterations < 20) { 
                 const mid = (low + high) / 2;
                 el.style.fontSize = `${mid}px`;
                 
                 if (el.scrollWidth <= parentWidth) { 
-                    // 文本寬度小於父容器寬度，字體可以更大
                     bestSize = mid; 
                     low = mid + PRECISION; 
                 } else {
-                    // 文本寬度大於父容器寬度，字體必須更小
                     high = mid - PRECISION;
                 }
                 iterations++;
@@ -484,10 +512,8 @@
         const start = () => {
             fitAll();
             
-            // 使用 ResizeObserver 監聽父容器大小變化，性能更優
             if (window.ResizeObserver) {
                 const observer = new ResizeObserver(entries => {
-                    // 只有在實際寬度改變時才觸發 debounceFunc
                     if (entries.some(e => e.contentRect.width > 0)) debounceFunc();
                 });
                 const observedParents = new Set();
@@ -499,16 +525,14 @@
                     }
                 });
             } else {
-                // 降級方案：使用 window resize
                 window.addEventListener('resize', debounceFunc);
             }
         };
 
-        // 確保在所有字體載入完成後 (或在 load 事件後) 才執行 Fit Text
         if (document.fonts?.ready) document.fonts.ready.then(start).catch(start); 
         else window.addEventListener('load', start);
         
-        return fitAll; // 返回 fitAll 函數供 resize cleanup 使用
+        return fitAll;
     };
 
     // ====================================================
@@ -525,18 +549,15 @@
                 if (targetElement) {
                     e.preventDefault();
                     requestAnimationFrame(() => {
-                        // 計算滾動目標位置，減去 Header 高度
                         const headerOffset = header.offsetHeight || 0;
                         const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerOffset);
                         
-                        // 使用瀏覽器原生平滑滾動或 polyfill
                         if ('scrollBehavior' in document.documentElement.style) {
                             window.scrollTo({ top: targetTop, behavior: 'smooth' });
                         } else {
                             window.scrollTo({ top: targetTop });
                         }
                         
-                        // 如果菜單處於打開狀態，滾動完成後關閉它
                         if (mainNav?.classList.contains('active')) setTimeout(closeMainMenu, RWD_TRANSITION_DURATION_MS + 50);
                     });
                 }
@@ -558,7 +579,6 @@
             const submitButton = this.querySelector('button[type="submit"]');
             if (!submitButton) return;
             
-            // 提交前狀態
             const originalText = submitButton.textContent;
             submitButton.textContent = '送出中... 請稍候';
             submitButton.disabled = true;
@@ -566,7 +586,7 @@
             this.classList.add('is-loading');
 
             const cleanup = (success = false) => {
-                const delay = success ? 5000 : 50; // 成功消息保留較長時間
+                const delay = success ? 5000 : 50;
                 setTimeout(() => {
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
@@ -576,14 +596,12 @@
             };
 
             try {
-                // 開發者提醒檢查
                 if (form.action.includes('your_form_endpoint')) {
                     if (statusMessage) { statusMessage.style.color = '#dc3545'; statusMessage.textContent = '❗ 請先替換表單 action URL！'; }
                     cleanup(); 
                     return;
                 }
                 
-                // 執行提交
                 const formData = new FormData(this);
                 const response = await fetch(this.action, { 
                     method: this.method, 
@@ -592,19 +610,16 @@
                 });
 
                 if (response.ok) {
-                    // 成功處理
                     if (statusMessage) { statusMessage.style.color = '#28a745'; statusMessage.textContent = '🎉 訂購資訊已成功送出！'; }
                     this.reset(); 
                     submitButton.textContent = '訂購成功！'; 
                     cleanup(true);
                 } else {
-                    // 伺服器響應錯誤處理
                     const errorData = await response.json().catch(() => ({ error: '伺服器響應格式錯誤或非 JSON' }));
                     if (statusMessage) { statusMessage.style.color = '#dc3545'; statusMessage.textContent = `❗ ${errorData.error || '表單送出失敗'}，請直接撥打 24H 專線訂購：0978-583-699`; }
                     cleanup();
                 }
             } catch (err) {
-                // 網路錯誤處理
                 console.error(err);
                 if (statusMessage) { statusMessage.style.color = '#dc3545'; statusMessage.textContent = '❗ 網路錯誤或伺服器無回應，請直接撥打 24H 專線訂購：0978-583-699'; }
                 cleanup();
@@ -629,18 +644,17 @@
                 entries.forEach(entry => { 
                     if (entry.isIntersecting) { 
                         requestAnimationFrame(() => entry.target.classList.add('is-visible')); 
-                        obs.unobserve(entry.target); // 一次性動畫，移除觀察者
+                        obs.unobserve(entry.target);
                     } 
                 });
             }, { 
                 root: null, 
-                rootMargin: AOS_ROOT_MARGIN, // 提前載入
+                rootMargin: AOS_ROOT_MARGIN,
                 threshold: 0.01 
             });
             
             aosElements.forEach(el => {
                 const rect = el.getBoundingClientRect();
-                // 檢查是否已在視口內 (避免頁面刷新時不觸發動畫)
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
                     requestAnimationFrame(() => el.classList.add('is-visible'));
                 } else {
@@ -648,7 +662,6 @@
                 }
             });
         } else {
-            // 降級方案：直接顯示
             aosElements.forEach(el => requestAnimationFrame(() => el.classList.add('is-visible')));
         }
     };
@@ -671,14 +684,12 @@
         
         // 性能優化
         setupLazyLoading();
-        
-        // 文本縮放：執行 setupFitText 並儲存 fitAllTexts 函數
         fitAllTexts = setupFitText(); 
         
         // 動畫
         setupAos();
         
-        // 視窗大小改變監聽
+        // 視窗大小改變監聽 (使用閉包變數 fitAllTexts)
         window.addEventListener('resize', () => handleResizeCleanup(fitAllTexts));
     });
 
