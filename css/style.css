@@ -274,212 +274,305 @@ blockquote {
 
 
 /* -------------------------------------------
- * 1. 導覽列與頁首 (Header & Nav)
- * ------------------------------------------- */
+        /* -------------------------------------------
+         * 0. 變數 (Variables) 與重置 (Reset)
+         * ------------------------------------------- */
 
-.main-header {
-    background-color: var(--text-light);
-    color: var(--text-dark);
-    height: var(--header-height);
-    position: fixed; 
-    top: 0;
-    left: 0; 
-    width: 100%; 
-    z-index: 1000;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    transition: background-color 0.3s, box-shadow 0.3s;
-    will-change: transform, background-color, box-shadow; 
-    transform: translateZ(0); 
-}
+        :root {
+            /* ⭐️ 顏色定義 (紅改藍) */
+            --primary-color: #1A375A;       /* 深藍色 (主色調，沉穩、專業) */
+            --primary-dark: #0F2038;        /* 更深的藍 (Hover/深層背景) */
+            --secondary-color: #1C2229;     /* 深灰色 (文本/頁尾背景) */
+            --accent-color: #D4A757;        /* 金色/土黃色 (點綴色/重點強調) */
+            --bg-light: #F9F7F5;            /* 淺灰色 (區塊背景) */
+            --text-dark: #1C2229;           /* 主要深色文字 */
+            --text-light: #FFFFFF;          /* 主要淺色文字 */
+            --border-color: #EBE0D9;        /* 邊框/分隔線 */
+            --shadow-color: rgba(0, 0, 0, 0.08); /* 輕微陰影 */
+            
+            /* 字體定義 */
+            --font-serif: 'uwen', 'Noto Serif TC', serif; 
+            --font-sans: 'Iansui', 'Noto Sans TC', sans-serif; 
+            
+            /* 尺寸定義 */
+            --header-height: 80px;
+            --content-max-width: 1200px;
+            --padding-section-v: 80px; /* 統一區塊垂直內距 */
+        }
 
-/* 修正: Header 固定後，需要為主要內容增加 padding-top */
-main {
-    padding-top: var(--header-height);
-}
 
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-}
+        /* 基本重置 */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.97); /* 更高的透明度 */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
-    -webkit-backdrop-filter: blur(5px); 
-    backdrop-filter: blur(5px);
-}
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; 
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--text-light);
+            transition: opacity 0.3s ease-in; 
+        }
 
-.site-logo {
-    width: 140px;
-    height: 40px;
-    object-fit: contain;
-}
+        /* 抗閃爍與滾動鎖定樣式 */
+        .js-loading {
+            opacity: 0; 
+        }
 
-.main-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    font-weight: 400;
-}
+        body.no-scroll {
+            overflow: hidden; 
+            position: fixed; 
+            width: 100%;
+        }
 
-.main-nav li {
-    position: relative;
-    padding: 0 15px;
-}
+        /* 圖片與連結重置 */
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+        }
 
-.main-nav a {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    color: var(--secondary-color);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-}
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s, background-color 0.3s, opacity 0.3s; 
+        }
 
-.main-nav a:hover, .main-nav a:focus, .main-nav a.active {
-    color: var(--primary-color);
-    /* 新增：活動狀態下加上底部指示線 */
-    border-bottom: 3px solid var(--accent-color); 
-    padding-bottom: 7px; /* 調整 padding 保持高度 */
-}
+        a:hover, a:focus {
+            color: var(--primary-dark);
+            opacity: 0.9; 
+        }
 
-.main-nav a .fas {
-    font-size: 0.7rem;
-    margin-left: 5px;
-    transition: transform 0.3s;
-}
+        /* 標題樣式 */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            line-height: 1.3;
+            margin-bottom: 1.5em; 
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
 
-/* 下拉選單質感優化 (桌面版) */
-.submenu {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px); 
-    
-    min-width: 240px;
-    background-color: var(--text-light);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); /* 更明顯的陰影 */
-    border-top: 5px solid var(--accent-color);
-    list-style: none;
-    padding: 10px 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    border-radius: 0 0 8px 8px;
-    opacity: 0;
-    visibility: hidden;
-    overflow: hidden;
-    max-height: unset; 
-}
+        /* 🏆 H1 響應式自適應縮放 */
+        h1 { 
+            font-size: clamp(1.8rem, 5.5vw, 4.0rem); 
+            text-align: center; 
+            word-break: break-word; 
+            line-height: 1.2; 
+            letter-spacing: -0.02em; 
+            margin-bottom: 1.5em; 
+        }
 
-/* 確保所有互動狀態都能觸發顯示 */
-.dropdown:hover > .submenu,
-.dropdown:focus-within > .submenu { 
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
+        /* 🏆 H2 響應式自適應縮放 */
+        h2 { 
+            font-size: clamp(1.6rem, 4vw, 2.5rem); 
+            margin-top: 1.5em; 
+            text-align: center; 
+        }
 
-.dropdown:hover > a .fas,
-.dropdown:focus-within > a .fas { 
-    transform: rotate(180deg);
-}
+        h3 { font-size: 1.5rem; }
 
-.submenu li {
-    padding: 0px;
-    width: 100%;
-}
+        p { margin-bottom: 0.5em; }
 
-.submenu a {
-    padding: 10px 20px;
-    white-space: nowrap;
-    font-size: 0.95rem;
-    display: block;
-    color: var(--text-dark);
-}
+        /* 容器與通用佈局 */
+        .container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 20px; 
+        }
 
-.submenu a:hover {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-}
+        .container-v-padding {
+            padding: var(--padding-section-v) 0;
+        }
 
-.submenu-title {
-    font-weight: 700;
-    color: var(--accent-color);
-    padding: 8px 20px 4px;
-    font-size: 0.85rem;
-    cursor: default;
-    opacity: 1;
-    background-color: rgba(30, 58, 106, 0.1);
-}
+        .bg-section {
+            background-color: var(--bg-light);
+        }
 
-.submenu-separator {
-    height: 1px;
-    background-color: var(--border-color);
-    margin: 5px 20px;
-    list-style: none;
-}
+        .text-center {
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* 聯繫導覽按鈕 */
-.contact-nav {
-    display: flex;
-    align-items: center;
-}
+        /* -------------------------------------------
+         * 1. 導覽列與頁首 (Header & Nav)
+         * ------------------------------------------- */
 
-.contact-nav a {
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    padding: 8px 15px;
-    border-radius: 50px;
-    font-weight: 700;
-    margin-left: 20px;
-    display: inline-flex;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(206, 157, 74, 0.6); /* 強化陰影 */
-    flex-shrink: 0;
-}
+        .main-header {
+            background-color: var(--text-light);
+            color: var(--text-dark);
+            height: var(--header-height);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
 
-.contact-nav a:hover {
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
-    box-shadow: 0 4px 15px rgba(206, 157, 74, 0.8);
-}
+        .logo a {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-indent: -9999px; 
+            display: block;
+            width: 140px; 
+            height: 40px; 
+            /* ⚠️ 假設 logo.png 在正確的路徑 */
+            background: url('images/logo.png') no-repeat center center;
+            background-size: contain;
+        }
 
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    color: var(--primary-color);
-    padding: 5px 10px;
-    font-weight: 700;
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    z-index: 1001;
-}
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+        }
 
-.menu-toggle:hover {
-    background-color: rgba(26, 55, 90, 0.1);
-}
+        .main-nav li {
+            position: relative;
+            padding: 0 15px;
+        }
 
-.menu-toggle i {
-    transition: transform 0.3s ease-in-out;
-    font-size: 1.2rem;
-    vertical-align: middle;
-}
+        .main-nav a {
+            display: flex; 
+            align-items: center;
+            padding: 10px 0;
+            color: var(--secondary-color);
+            font-weight: 500; 
+        }
+
+        .main-nav a:hover, .main-nav a:focus {
+            color: var(--primary-color);
+        }
+
+        .main-nav a .fas {
+            font-size: 0.7rem;
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 220px; 
+            background-color: var(--text-light);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
+            border-top: 4px solid var(--accent-color); 
+            list-style: none;
+            padding: 10px 0;
+            z-index: 10;
+            display: flex; 
+            flex-direction: column; 
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .dropdown:hover > .submenu,
+        .dropdown:focus-within > .submenu,
+        .dropdown.focus-within > .submenu { 
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover > a .fas,
+        .dropdown:focus-within > a .fas {
+            transform: rotate(180deg);
+        }
+
+        .submenu li {
+            padding: 0px; 
+            width: 100%;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+
+        .submenu a {
+            padding: 8px 20px;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            display: block; 
+            color: var(--text-dark);
+        }
+
+        .submenu a:hover {
+            background-color: var(--bg-light); 
+            color: var(--primary-color);
+        }
+
+        .submenu-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            padding: 8px 20px 4px;
+            font-size: 0.85rem;
+            cursor: default;
+            opacity: 0.7; 
+        }
+
+        .submenu-separator {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 5px 20px;
+            list-style: none; 
+        }
+
+        .contact-nav a {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 700;
+            margin-left: 20px;
+            display: inline-flex; 
+            align-items: center;
+        }
+
+        .contact-nav a:hover {
+            background-color: var(--primary-dark);
+            color: var(--text-light); 
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            padding: 5px 10px;
+            font-weight: 700;
+            border: 1px solid var(--primary-color); 
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background-color: rgba(26, 55, 90, 0.1);
+        }
+
+        .menu-toggle i {
+            transition: transform 0.3s ease-in-out; 
+            font-size: 1.2rem; 
+            vertical-align: middle;
+        }
 
 /* -------------------------------------------
  * 2. CTA 按鈕與共通元件 (統一採用 13.4 的 btn-primary 樣式)
