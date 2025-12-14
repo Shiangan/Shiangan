@@ -13,57 +13,10 @@
     
     <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" as="style" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
-    <style>
-        /* 基礎優化與自訂樣式 */
-        :root { 
-            --primary-dark: #34495e; /* 假定主色調 */
-            --accent-color: #e67e22; /* 假定強調色 */
-        }
-        html { scroll-behavior: smooth; }
-        .article-content { line-height: 1.8; font-size: 1.1rem; }
-        .article-content h2, .article-content h3 { margin-top: 2rem; margin-bottom: 1rem; color: var(--primary-dark); }
-        .process-step { 
-            border-left: 5px solid var(--accent-color); 
-            margin: 25px 0; 
-            background-color: #fcfcfc; 
-            padding: 15px 20px; 
-            border-radius: 4px; 
-        }
-        .process-step h3 { color: var(--accent-color); margin-top: 0; font-size: 1.3rem; }
-        .article-image-main { width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 30px; }
-        
-        /* 文章與側欄佈局 */
-        .blog-main-layout { display: flex; gap: 30px; max-width: 1200px; margin: 0 auto; }
-        /* 側欄粘性定位，確保目錄可見 */
-        .article-sidebar { 
-            flex: 0 0 300px; 
-            position: sticky; 
-            top: 20px; /* 距離頂部間距 */
-            height: fit-content; 
-        }
-        .article-body { flex: 1; min-width: 0; }
-        .toc-sidebar { border: 1px solid #eee; padding: 15px; border-radius: 8px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-        /* FAQ 樣式微調 */
-        .faq-item { border-bottom: 1px solid #eee; padding: 10px 0; }
-        .faq-item summary { cursor: pointer; font-weight: bold; padding: 5px 0; color: var(--primary-dark); }
-        .faq-content { padding: 10px 0 5px 20px; background-color: #f9f9f9; margin-top: 5px; border-radius: 4px; }
-        .faq-content p { margin: 0; }
-
-        /* 摘要區塊顏色修正 */
-        .summary-blockquote {
-             border-left: 5px solid var(--accent-color); /* 與步驟顏色一致 */
-             padding-left: 15px;
-             margin: 20px 0;
-             background-color: #fff8f8; /* 略帶紅色警示底色 */
-        }
-
-    </style>
 
     <script type="application/ld+json">
     {
@@ -274,11 +227,5 @@
     <div class="floating-cta" aria-label="快速聯繫方式"><a href="tel:0978583699" title="24H 緊急電話諮詢"><i class="fas fa-phone"></i></a><a href="https://line.me/ti/p/[您的LINE ID]" target="_blank" rel="noopener noreferrer external" title="LINE 即時諮詢"><i class="fab fa-line"></i></a></div>
 
     <script src="js/script.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.classList.remove('js-loading');
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-        });
-    </script>
 </body>
 </html>
