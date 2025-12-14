@@ -1,222 +1,219 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>祥安生命 - 禮儀方案與服務報價總覽</title>
-    <link rel="stylesheet" href="css/style.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
+/* ========================================================= */
+/* 💎 Core Enhancements CSS - 最終性能優化版                   */
+/* ========================================================= */
 
-    <header class="site-header"></header>
+:root {
+    --color-primary: #3c5a75;
+    --color-accent: #e30a1c;
+    --color-light-gray: #f7f7f7;
+    --color-border: #e0e0e0;
+    --color-text-dark: #333;
+    --color-text-medium: #666;
+    --shadow-subtle: 0 1px 4px rgba(0, 0, 0, 0.04);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --radius-default: 8px;
+}
 
-    <main class="plan-page-container">
-        
-        <section class="plan-directory">
-            <h2 class="section-title">禮儀服務方案與報價總覽</h2>
-            
-            <div class="plan-tabs" role="tablist">
-                <button id="tab-comparison" class="active" role="tab" aria-controls="content-comparison" onclick="window.openPlanTab('comparison')">服務比較</button>
-                <button id="tab-united" role="tab" aria-controls="content-united" onclick="window.openPlanTab('united')">聯合奠祭專案</button>
-                <button id="tab-fine" role="tab" aria-controls="content-fine" onclick="window.openPlanTab('fine')">精緻奠祭專案</button>
-                <button id="tab-honor" role="tab" aria-controls="content-honor" onclick="window.openPlanTab('honor')">尊榮奠祭專案</button>
-                <button id="tab-religious" role="tab" aria-controls="content-religious" onclick="window.openPlanTab('religious')">宗教禮儀參考</button>
+/* --- 0. 全域與排版 --- */
+body {
+    font-family: 'Noto Sans TC', 'Microsoft YaHei', sans-serif; 
+    color: var(--color-text-dark);
+    line-height: 1.7; 
+    background-color: #f8f8f8; 
+}
+h2.section-title {
+    text-align: center;
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+.plan-page-container { 
+    max-width: 1400px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+}
 
-                <button data-modal-id="reference-quote" onclick="window.openModal('reference-quote')" class="button-accent">
-                    <i class="fas fa-eye"></i> 市場參考報價單
-                </button>
-            </div>
-        </section>
+/* --- 1. Sticky 目錄導航 (使用類名選擇器，提高效率) --- */
+.plan-directory {
+    position: sticky;
+    top: 0; 
+    z-index: 100;
+    background: #ffffff; 
+    padding-top: 20px;
+    padding-bottom: 5px; 
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); 
+    border-radius: 0 0 var(--radius-default) var(--radius-default);
+}
+.plan-tabs { 
+    display: flex; 
+    justify-content: center; 
+    margin: 0;
+    border-bottom: 3px solid var(--color-border); 
+}
+.tab-button { /* 🌟 優化：使用單一類名 .tab-button 代替複雜的 .plan-tabs button */
+    padding: 15px 25px; 
+    cursor: pointer; 
+    border: none; 
+    background: transparent; 
+    font-size: 1.1rem; 
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border-radius: var(--radius-default) var(--radius-default) 0 0; 
+    margin: 0 3px; 
+    color: var(--color-text-medium); 
+    border-bottom: 3px solid transparent; 
+    transform: translateY(0);
+}
+.tab-button:hover:not(.active) {
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
+.tab-button.active { 
+    color: var(--color-primary); 
+    border-bottom: 3px solid var(--color-primary); 
+    background-color: #fff;
+}
+.button-accent { /* 燈箱按鈕樣式 */
+    background: var(--color-accent); 
+    color: white; 
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 50px; 
+    margin-left: 30px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    border: none;
+    align-self: center; 
+    box-shadow: 0 4px 15px rgba(227, 10, 28, 0.4);
+}
+.button-accent:hover {
+    background: #c00818; 
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(227, 10, 28, 0.6);
+}
 
-        <div class="plan-tab-content-wrapper">
-            
-            <section id="content-comparison" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-comparison" style="display: block;">
-                <h3>選祥安生命有限公司，不讓家人走冤枉路</h3>
-                <table class="service-table">
-                    <colgroup>
-                        <col style="width: 20%;">
-                        <col style="width: 30%;">
-                        <col style="width: 25%;">
-                        <col style="width: 25%;">
-                    </colgroup>
-                    <thead>
-                        <tr class="table-header-group">
-                            <th>項目</th>
-                            <th>祥安生命有限公司 (禮儀服務)</th>
-                            <th>其他業者</th>
-                            <th>集團公司</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>牌位暨靈堂</th>
-                            <td>北台灣各區會館佛堂</td>
-                            <td>殯儀館附設簡陋安靈區(使用會館佛堂費需另計)</td>
-                            <td>殯儀館附設簡陋安靈區(使用會館佛堂費需另計)</td>
-                        </tr>
-                        <tr>
-                            <th>做七佛事</th>
-                            <td>頭七、滿七 (契約內含)</td>
-                            <td>無 (費用需另計)</td>
-                            <td>無 (費用需另計)</td>
-                        </tr>
-                        <tr>
-                            <th>佛事祭品</th>
-                            <td>契約內含</td>
-                            <td>家屬自行準備 (由業者準備費用需另計)</td>
-                            <td>家屬自行準備 (由業者準備費用需另計)</td>
-                        </tr>
-                        <tr>
-                            <th>商品差異化 (會場佈置)</th>
-                            <td>會場進場以 1:1 人型立牌輸出，增加追思會場佈置氣氛</td>
-                            <td>15 吋遺像</td>
-                            <td>15 吋遺像</td>
-                        </tr>
-                        <tr>
-                            <th>商品差異化 (契約價格)</th>
-                            <td>較人性化如未使用，可視需求彈性調整或是更換同等值之項目</td>
-                            <td>預業者漫天開價，隨意增加金額無保障</td>
-                            <td>禮儀師薪水採獎金制度，會要求家屬增加相關禮儀用品項目，易造成家屬負擔</td>
-                        </tr>
-                        <tr>
-                            <th>優惠內容</th>
-                            <td>預約簽約享折價優惠</td>
-                            <td>無</td>
-                            <td>無</td>
-                        </tr>
-                        <tr>
-                            <th>骨灰罐</th>
-                            <td>玉石等級骨灰罐</td>
-                            <td>黑花崗</td>
-                            <td>黑花崗</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+/* --- 2. 內容與表格樣式 --- */
+.plan-tab-content-wrapper {
+    background: white;
+    border-radius: 0 0 var(--radius-default) var(--radius-default);
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--color-border);
+    border-top: none;
+}
+.plan-tab-content { 
+    padding: 40px; 
+    min-height: 80vh;
+}
+.plan-tab-content h3 {
+    /* ... (標題樣式保持不變) ... */
+    text-align: center; color: var(--color-primary); font-size: 2rem; font-weight: 700; margin-bottom: 40px; position: relative; padding-bottom: 10px;
+}
+.plan-tab-content h3::after {
+    /* ... (底部線條樣式保持不變) ... */
+    content: ''; display: block; width: 60px; height: 3px; background: var(--color-primary); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border-radius: 2px;
+}
+.intro-text { text-align: center; font-size: 1.1rem; color: var(--color-text-medium); margin-bottom: 40px; }
+.service-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 40px 0; 
+    font-size: 15px; 
+    background: white;
+    border-radius: var(--radius-default);
+    overflow: hidden; 
+    border: 1px solid var(--color-border);
+}
+.table-header-group th { 
+    background-color: var(--color-primary); color: white; text-align: center; 
+    font-size: 1.25rem; padding: 20px; font-weight: 600;
+}
+.service-table th, .service-table td { 
+    padding: 16px 20px; vertical-align: top; border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border); 
+}
+.service-table th:last-child, .service-table td:last-child { border-right: none; }
+.service-table th { 
+    background-color: var(--color-light-gray); color: var(--color-text-dark); 
+    font-weight: 700; width: 25%;
+}
+.service-table tbody tr:nth-child(even) td { background-color: #fcfcfc; }
 
-            <section id="content-united" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-united" style="display: none;">
-                <h3>聯合奠祭專案 - 參萬伍仟元整</h3>
-                <table class="service-table">
-                    <thead>
-                        <tr class="table-header-group">
-                            <th style="width: 30%;">服務項目</th>
-                            <th style="width: 70%;">內容</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>遺體關懷</th>
-                            <td>禮儀師、可預先提供、從契約起，24小時、全年無休禮儀服務</td>
-                        </tr>
-                        <tr>
-                            <th>奠禮服務</th>
-                            <td>... (此處填寫遺體關懷、奠禮協助、祭奠事宜、遺族關懷等詳細內容，請參照 Image 4, 9)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+/* 宗教禮儀區塊的次標題 */
+.religious-section h4 {
+    color: var(--color-accent);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-accent);
+    display: inline-block;
+    padding-bottom: 5px;
+}
 
-            <section id="content-fine" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-fine" style="display: none;">
-                <h3>精緻奠祭專案 - 壹拾萬貳仟伍佰元整</h3>
-                <table class="service-table">
-                    </table>
-            </section>
+/* --- 3. Modal 樣式 --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); 
+    display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-overlay.active { opacity: 1; display: flex; }
+.modal-content { 
+    background: white; border-radius: 12px; max-width: 1100px; width: 95%; max-height: 90vh; 
+    overflow-y: auto; padding: 0; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); 
+    transform: translateY(-20px) scale(0.98);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+.modal-content h3 { 
+    background: var(--color-primary); color: white; padding: 25px; margin: 0; 
+    text-align: center; border-radius: 12px 12px 0 0; font-size: 1.6rem;
+}
+.modal-body-content { padding: 20px 30px; }
+.alert-note {
+    background-color: #fff0f0; color: #cc0000; border: 1px solid #ffcccc; padding: 15px; 
+    border-radius: var(--radius-default); margin-bottom: 20px; font-size: 0.95rem;
+}
+.close-btn { 
+    position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;
+    border: none; color: white; font-size: 18px; cursor: pointer; z-index: 2001;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.close-btn:hover { background: var(--color-accent); transform: rotate(90deg); }
 
-            <section id="content-honor" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-honor" style="display: none;">
-                <h3>尊榮奠祭專案 - 壹拾陸萬捌仟元整</h3>
-                <table class="service-table">
-                    </table>
-            </section>
 
-            <section id="content-religious" class="plan-tab-content" role="tabpanel" aria-labelledby="tab-religious" style="display: none;">
-                <h3>多元宗教禮儀參考資訊</h3>
-                <p class="intro-text">祥安生命提供客製化服務，可配合各種宗教儀式進行。以下為基督教與日式喪禮的一般性流程參考，實際細節請與牧師、神職人員或禮儀師確認。</p>
+/* --- 4. RWD 響應式設計 (優化斷點) --- */
 
-                <h4>✝️ 基督教喪禮流程與特色</h4>
-                <div class="religious-section">
-                    <p>基督教的核心理念認為人死後會上天堂，回到主的懷抱，雖不捨卻是喜樂之事。因此儀式較為**簡單肅穆**，不忌諱日期。</p>
-                    <table class="service-table">
-                        <thead><tr class="table-header-group"><th>項目</th><th>流程與特點</th></tr></thead>
-                        <tbody>
-                            <tr>
-                                <th>臨終祝禱</th>
-                                <td>家屬會請牧師或長老到場，為臨終者禱告，堅定信仰，平靜回歸天家。</td>
-                            </tr>
-                            <tr>
-                                <th>設靈堂 (追思堂)</th>
-                                <td>通常不設傳統魂帛牌位或香案，無焚香、燒紙錢。若設立追思堂，多僅以**鮮花、聖經、十字架、照片**佈置。</td>
-                            </tr>
-                            <tr>
-                                <th>入殮</th>
-                                <td>不穿傳統壽衣，棺內只放**聖經**，無傳統「隨身庫」等物品。</td>
-                            </tr>
-                            <tr>
-                                <th>告別儀式</th>
-                                <td>舉行**安息禮拜**（或稱追思禮拜），由牧師主持，內容包括唱詩、禱告、讀經、證道及親友追思致詞。</td>
-                            </tr>
-                            <tr>
-                                <th>後續追思</th>
-                                <td>沒有華人傳統的「做七」、「百日」等祭祀習俗，部分家庭會以家庭禮拜或清明節帶鮮花方式追思。</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+@media (max-width: 1024px) {
+    /* 調整平板斷點，讓 Tab 在 1024px 以下變成兩列 */
+    .plan-tabs { flex-wrap: wrap; border-bottom: none; justify-content: space-between; }
+    .tab-button:not(.button-accent) { /* 🌟 優化：使用 .tab-button */
+        flex: 1 1 48%; 
+        margin: 5px 0;
+        font-size: 1rem;
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow-subtle);
+        background: white;
+    }
+    .button-accent {
+        flex: 1 1 100%; 
+        margin: 10px 0 5px 0;
+        font-size: 1rem;
+        padding: 12px;
+    }
+    .plan-tab-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+    .service-table { min-width: 900px; }
+}
 
-                <h4>🌸 日式喪禮流程與特色（多為日本佛教）</h4>
-                <div class="religious-section">
-                    <p>日本喪禮通常遵循「守夜、葬禮、告別儀式」的**三段制流程**，由於法律規定往生後 24 小時內不可火化，整個流程較為緊湊，約需 2-4 天完成。</p>
-                    <table class="service-table">
-                        <thead><tr class="table-header-group"><th>項目</th><th>流程與特點</th></tr></thead>
-                        <tbody>
-                            <tr>
-                                <th>湯灌與納棺</th>
-                                <td>專業納棺師在親屬面前清洗、整理遺體，穿上壽衣或生前喜愛的服裝。</td>
-                            </tr>
-                            <tr>
-                                <th>守夜 (お通夜)</th>
-                                <td>通常在第二天晚上，親友在靈堂守靈。有「守夜款待」餐點（現代多為壽司），象徵與故人的最後一餐。</td>
-                            </tr>
-                            <tr>
-                                <th>葬禮/告別式</th>
-                                <td>僧侶誦經後，眾人依序上前**拈香**（用三指將香末舉至與眼同高行禮後撒入爐中）。</td>
-                            </tr>
-                            <tr>
-                                <th>火葬與拾骨</th>
-                                <td>火化後，至親兩人一組用筷子將遺骨由下至上放入骨灰罈，稱為「拾骨」，是與故人最後的「相見」儀式。</td>
-                            </tr>
-                            <tr>
-                                <th>趨勢</th>
-                                <td>傳統費用高昂，現代出現「零葬」（跳過所有儀式直接火葬）以節省費用。</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </section>
-        </div>
-
-    </main>
-    
-    <div id="modal-reference-quote" class="modal-overlay" aria-hidden="true" role="dialog" tabindex="-1">
-        <div class="modal-content">
-            <button class="close-btn" onclick="window.closeModal(event)" aria-label="關閉報價單視窗">
-                <i class="fas fa-times"></i>
-            </button>
-            <h3>市場參考報價 - 福祿壽 臻藏契約 中式契約/服務流程</h3>
-            <div class="modal-body-content">
-                <p class="alert-note"><i class="fas fa-info-circle"></i> 以下表格根據您提供的**臻藏契約**圖檔建立，僅供對比參考，實際服務內容與費用請以祥安生命契約為準。</p>
-                <table class="service-table">
-                    </table>
-            </div>
-        </div>
-    </div>
-    
-    <footer class="site-footer">
-        <span id="current-year"></span> © 祥安生命 All Rights Reserved.
-    </footer>
-
-    <script src="js/core-script.js"></script> 
-
-</body>
-</html>
+@media (max-width: 600px) {
+    /* 手機斷點 */
+    .plan-page-container { padding: 0; margin-top: 20px; }
+    .plan-directory { padding-top: 10px; border-radius: 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
+    .plan-tab-content { padding: 20px 15px; }
+    .plan-tab-content-wrapper { border-radius: 0; box-shadow: none; border: none; }
+}
