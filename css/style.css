@@ -45,7 +45,10 @@
     --padding-section-v: 80px; /* 區塊垂直內邊距 */
     --transition-speed: 0.3s; /* 統一的過渡速度變數 */
     --transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
+    --transition-slow: 0.8s; /* ⭐ 新增：用於滾動動畫 */
     --rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
+    scroll-padding-top: var(--header-height); 
+    
 
     /* ⭐️ 動畫變數 */
     --rotation: -135deg;
@@ -77,8 +80,13 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 確保圖片和媒體響應式 */
-img, video, svg { max-width: 100%; height: auto; vertical-align: middle; }
+img, video, svg { 
+    max-width: 100%; 
+    height: auto; 
+    vertical-align: middle; 
+    /* 🏆 優化：防止圖片在非動態加載時有佈局跳動 (CLS) */
+    content-visibility: auto; 
+}
 
 /* 清單與連結 */
 ul, ol { list-style: none; }
@@ -119,16 +127,13 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
+/* 標題下裝飾線 - 僅限 H2 用於區塊標題 */
 h2 {
-    font-size: clamp(1.6rem, 3.5vmin, 2.5rem);
-    margin-top: 0.5em;
+    position: relative; /* 確保 ::after 絕對定位參考點 */
+    padding-bottom: 10px; /* 為裝飾線留出空間 */
     text-align: center;
-    position: relative;
-    padding-bottom: 20px;
-    color: var(--primary-color);
 }
 
-/* 標題下裝飾線 - 僅限 H2 用於區塊標題 */
 h2::after {
     content: '';
     position: absolute;
@@ -143,9 +148,12 @@ h2::after {
     will-change: transform;
 }
 /* 文章內 H2 無裝飾線 (由 JS 調整樣式或在文章樣式中覆寫) */
+.article-body h2 {
+    text-align: left;
+    padding-bottom: 0;
+}
 .article-body h2::after {
     content: none; /* ⭐ 覆寫：文章內 H2 移除裝飾線 */
-    padding-bottom: 0;
 }
 
 
@@ -284,14 +292,18 @@ blockquote {
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-    will-change: transform, background-color, box-shadow; 
     transform: translateZ(0); 
 }
 
+
 /* 修正: Header 固定後，需要為主要內容增加 padding-top */
 main {
-    padding-top: var(--header-height);
+    padding-top: 0; /* 確保 main 自身沒有多餘 padding */
 }
+
+:target {
+    scroll-margin-top: var(--header-height); 
+} 
 
 .header-container {
     display: flex;
@@ -1635,7 +1647,10 @@ footer {
     top: calc(var(--header-height) + 20px); 
     max-height: calc(100vh - var(--header-height) - 40px);
     overflow-y: auto;
+    /* 🏆 優化：確保滾動流暢性 */
+    -webkit-overflow-scrolling: touch; 
 }
+
 
 .sidebar-block {
     margin-bottom: 30px;
@@ -1660,10 +1675,27 @@ footer {
 }
 
 /* 文章目錄 (TOC) */
+
+/* 文章目錄 (TOC) - 新增標題區塊 */
+.table-of-contents {
+    /* 🏆 新增：確保目錄區塊的語義化 */
+    padding-bottom: 20px;
+}
+.table-of-contents h4 {
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--accent-color);
+    text-align: left;
+    font-family: var(--font-sans); /* TOC 標題使用無襯線字體 */
+}
+
 .table-of-contents ul, .table-of-contents ol {
     list-style: none;
     padding-left: 0;
 }
+
 .table-of-contents li {
     margin-bottom: 8px;
 }
@@ -2743,13 +2775,49 @@ footer {
         min-width: unset;
     }
     
-    /* 流程圖 RWD 模式下，移除所有桌面版箭頭 */
+    /* ⭐ 流程圖 RWD 模式優化 (900px 以下) */
     .flow-chart li:not(:last-child)::after {
         content: none !important;
     }
     .flow-chart ol li:nth-child(4n)::after {
         content: none !important;
     }
+    
+    /* 流程圖 RWD (900px-)：添加垂直連接線和向下箭頭 */
+    .flow-chart li:not(:last-child)::before {
+        /* 重用 ::before 元素，但需要覆寫樣式以繪製連接線和箭頭 */
+        content: '\f0ab'; /* Font Awesome: 向下箭頭 (或 \f063) */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        top: auto;
+        bottom: -30px; /* 位於 li 下方 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        line-height: 1;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: none;
+        box-shadow: none;
+        z-index: 5;
+    }
+
+    /* 處理每行結尾的箭頭 (假設 3 欄時，第 3 個是行尾) */
+    .flow-chart ol li:nth-child(3n)::before {
+        /* 如果有下一行，則顯示向下箭頭。如果恰好是最後一個，則移除 */
+        content: none; 
+    }
+    
+    /* 僅在有下一行的行尾處，顯示向下箭頭 */
+    .flow-chart ol li:nth-child(3n):not(:last-child)::before {
+        content: '\f0ab'; 
+    }
+    
+    /* 垂直連接線 (使用 li 的容器，或使用 grid 的 gap) - 簡化：僅使用箭頭指示流程方向 */
+
 
     /* 文章頁面 RWD */
     .article-main-layout {
@@ -2823,6 +2891,21 @@ footer {
         flex-basis: calc(50% - 30px);
     }
     
+    /* ⭐ 流程圖 RWD (680px-)：調整箭頭邏輯 (2 欄) */
+    .flow-chart li:not(:last-child)::before {
+        content: none !important;
+    }
+    .flow-chart ol li:nth-child(2n)::before {
+        content: none; 
+    }
+    .flow-chart ol li:nth-child(2n):not(:last-child)::before {
+        content: '\f0ab'; 
+    }
+    /* 重設第 3n 的邏輯 */
+    .flow-chart ol li:nth-child(3n):not(:last-child)::before {
+        content: none; 
+    }
+
     /* 特色網格變成 1 欄 */
     .features-grid {
         grid-template-columns: 1fr;
@@ -2860,6 +2943,21 @@ footer {
     .flow-chart ol {
         padding: 0 10px; 
     }
+    
+    /* ⭐ 流程圖 RWD (576px-)：調整箭頭邏輯 (1 欄) */
+    .flow-chart li:not(:last-child)::before {
+        /* 在 1 欄佈局中，所有非最後一個元素都應有向下箭頭 */
+        content: '\f0ab'; 
+    }
+    .flow-chart ol li:nth-child(2n):not(:last-child)::before,
+    .flow-chart ol li:nth-child(3n):not(:last-child)::before {
+        /* 清除 2n, 3n 的影響，確保所有非 last-child 都有向下箭頭 */
+        content: '\f0ab'; 
+    }
+    .flow-chart ol li:last-child::before {
+        content: counter(step-counter); /* 最後一個元素恢復數字 */
+    }
+
 
     .price-card-grid {
         grid-template-columns: 1fr;
@@ -3020,7 +3118,8 @@ footer {
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    /* ⭐ 變數統一：使用 var(--transition-slow) */
+    transition: opacity var(--transition-slow) ease-out, transform var(--transition-slow) ease-out; 
     will-change: opacity, transform;
 }
 
@@ -3209,11 +3308,10 @@ footer {
     
     .tab-button.active {
         box-shadow: 0 4px 8px rgba(30, 58, 106, 0.2); 
-        border: 1px solid var(--primary-color);
         background-color: var(--primary-color);
         color: var(--text-light);
-        /* 強調選中按鈕 */
-        border-top: 1px solid var(--primary-color);
+        /* ⭐ 優化：使用 accent-color 作為邊框，與內容區塊的 border-top 產生視覺連貫 */
+        border: 1px solid var(--accent-color); 
     }
     
     .tab-button.active::after {
@@ -3223,6 +3321,7 @@ footer {
     .tab-content {
         border-radius: 8px;
         margin-top: 20px; /* 內容與按鈕分開 */
-        border: 1px solid var(--primary-color); /* 用主要色系強調內容區 */
+        /* ⭐ 優化：使用 accent-color 作為邊框，與選中的 tab-button 邊框呼應 */
+        border: 1px solid var(--accent-color); 
     }
 }
