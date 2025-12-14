@@ -463,3 +463,23 @@
         height: auto;
     }
 }
+
+
+/* 範例：將表格內容垂直堆疊 */
+@media screen and (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    
+    /* 隱藏表格標頭 */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    /* 將欄位名稱作為標籤顯示 */
+    td:before {
+        /* 在這裡使用 CSS 屬性 content 來寫入對應的欄位名稱 */
+    }
+}
