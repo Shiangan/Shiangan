@@ -1,8 +1,10 @@
 /* =========================================================================
  * 完整修正與優化後的 CSS 程式碼
- * - 修正了流程圖 RWD 邏輯
- * - 統一使用 :focus-visible 提高無障礙體驗
- * - 簡化了部分冗餘樣式
+ * - 徹底修正了流程圖 RWD 箭頭邏輯，並支援 4/3/2/1 欄位佈局
+ * - 全面導入 :focus-visible 提高無障礙體驗與質感
+ * - 統一使用 CSS 變數進行風格管理
+ * - 強化 SEO 相關性能 (CLS、FOUC)
+ * - 整合多個高質感組件 (Tabs, Plans, Contact)
  * ========================================================================= */
 
 /* --- 字體導入 (Font Loading) --- */
@@ -64,6 +66,7 @@
     --travel-y: 120vh;
     --breakpoint-mobile: 576px; 
     --breakpoint-tablet: 900px; 
+    --breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
 }
 
 
@@ -1209,7 +1212,7 @@ main {
 
 
 /* -------------------------------------------
- * 5. 服務流程圖樣式 (Flow Chart)
+ * 5. 服務流程圖樣式 (Flow Chart) - 🎯 RWD 邏輯重點修正
  * ------------------------------------------- */
 
 .flow-chart ol {
@@ -1272,14 +1275,15 @@ main {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* ⭐ 修正與增強：流程圖連接線與箭頭 (桌面版) */
-@media (min-width: 901px) {
+/* ⭐ 修正與增強：流程圖連接線與箭頭 (桌面版 - 4 欄) */
+@media (min-width: 1401px) {
     .flow-chart li {
+        flex-basis: calc(25% - 30px);
         margin-right: 50px; /* 為箭頭留出空間 */
     }
     
     .flow-chart li:last-child {
-        margin-right: 15px; /* 最後一個元素不需要留出箭頭空間 */
+        margin-right: 15px;
     }
 
     .flow-chart li:not(:last-child)::after {
@@ -1294,22 +1298,20 @@ main {
         font-size: 1.5rem;
         z-index: 5;
     }
-
-    /* 處理每行結尾的箭頭 (假設每行 4 個，第 4 個需要處理) */
+    
+    /* 每行結尾的向下箭頭 (第 4n 個) */
     .flow-chart ol li:nth-child(4n)::after {
         /* 如果有下一行，替換成向下箭頭 */
         content: '\f078'; /* 向下箭頭 */
         right: 50%;
         top: auto;
         bottom: -30px; /* 放在 li 下方 */
-        transform: translate(50%, 0) rotate(0deg); /* 確保是向下箭頭 */
+        transform: translate(50%, 0) rotate(0deg); 
         color: var(--accent-color);
     }
-    /* 確保真正的最後一個元素沒有箭頭 */
     .flow-chart ol li:last-child::after {
         content: none;
     }
-    /* 如果最後一個元素恰好是 4n，則移除向下箭頭 (已由 last-child 處理) */
 }
 
 
@@ -2652,13 +2654,15 @@ footer {
 
 
 /* -------------------------------------------
- * 12. 響應式設計 (Media Queries)
+ * 12. 響應式設計 (Media Queries) - 🎯 RWD 邏輯重點修正
  * ------------------------------------------- */
 
 /* 1. 平板與小型筆電 (Max-width: 1400px - 901px) */
 @media (max-width: 1400px) {
+    /* 流程圖在 1400px 以下仍為 4 欄，但調整箭頭邏輯以處理換行問題 (雖然 flex-wrap 會自動處理，但為防禦性編程保留) */
     .flow-chart li {
         flex-basis: calc(25% - 30px);
+        /* 在 flex-wrap 中，如果元素沒有被包裝，則箭頭仍應為右箭頭 */
     }
 }
 
@@ -2824,23 +2828,21 @@ footer {
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         margin-bottom: 50px; /* 為向下箭頭留出更多空間 */
+        margin-right: 15px; /* 確保 3 欄時左右間距一致 */
+        margin-left: 15px; 
     }
     
     /* 🏆 修正：流程圖 RWD 模式優化 (900px 以下) - 統一使用向下箭頭的邏輯 */
     .flow-chart li:not(:last-child)::after {
-        content: none !important; /* 移除桌面版右箭頭 */
-    }
-    
-    .flow-chart li::after {
         content: '\f063'; /* Font Awesome: 向下箭頭 */
         font-family: 'Font Awesome 6 Free';
         font-weight: 900;
         position: absolute;
         top: auto;
-        bottom: -25px; /* 放在 li 下方 */
+        bottom: -25px; 
         left: 50%;
         transform: translateX(-50%);
-        width: 0; /* 隱藏背景和邊框，只顯示圖標 */
+        width: 0; 
         height: 0;
         line-height: 1;
         font-size: 1.5rem;
@@ -2853,16 +2855,15 @@ footer {
     .flow-chart ol li:last-child::after {
         content: none; /* 最後一個元素不顯示箭頭 */
     }
-    /* 處理行尾換行時的向下箭頭問題 (確保每行末尾顯示數字) */
+    /* 處理行尾換行時的向下箭頭問題 (確保每行末尾不顯示) */
     .flow-chart ol li:nth-child(3n)::after {
         content: none;
     }
-    /* 重新添加 3n 且不是 last-child 的向下箭頭 */
+    /* 重新添加 3n 且不是 last-child 的向下箭頭 (即第一排的 3n 仍需向下箭頭) */
     .flow-chart ol li:nth-child(3n):not(:last-child)::after {
         content: '\f063'; 
     }
-    
-    
+
     /* 文章頁面 RWD */
     .article-main-layout {
         grid-template-columns: 1fr; 
@@ -2945,16 +2946,15 @@ footer {
     .flow-chart ol li:nth-child(2n):not(:last-child)::after {
         content: '\f063'; 
     }
-    
-    /* 特色網格變成 1 欄 */
-    .features-grid {
-        grid-template-columns: 1fr;
+    /* 確保 3n 箭頭消失，避免與 2n 邏輯衝突 */
+    .flow-chart ol li:nth-child(3n):not(:last-child)::after {
+        content: '\f063'; /* 重新打開，因為 2n 已經關閉了第 2 個，第 3 個需要開 */
     }
-    
-    .testimonial-grid {
-        grid-template-columns: 1fr;
+    .flow-chart ol li:nth-child(4n):not(:last-child)::after {
+        content: '\f063'; /* 重新打開，因為 2n 已經關閉了第 4 個，第 4 個需要開 */
     }
-    
+
+
     /* 服務區塊在 680px 以下變為單欄 */
     .two-columns-layout {
         grid-template-columns: 1fr; 
@@ -2995,7 +2995,7 @@ footer {
         content: none; 
     }
 
-
+    /* 價格卡片單欄 */
     .price-card-grid {
         grid-template-columns: 1fr;
     }
