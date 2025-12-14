@@ -1,6 +1,6 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 最終穩定整合版
+ * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版
  * 整合功能：Modal A11Y、Tab 切換/錨點、RWD 菜單手風琴、通用 Accordion、
  * 性能優化 (Lazy Load/Fit Text)、AOS 動畫、表單處理。
  * ====================================================================
@@ -39,7 +39,7 @@
      */
     const onTransitionEndCleanup = (contentElement) => {
         const handleTransitionEnd = (e) => {
-            // 確保只處理當前元素的 max-height 屬性
+            // 確保只處理當前元素的 max-height 或 opacity 屬性
             if (e.target !== contentElement || (e.propertyName !== 'max-height' && e.propertyName !== 'opacity')) return;
             
             // 檢查元素是否已收起 (maxHeight 為 0px)
@@ -85,7 +85,7 @@
     const isMobileView = () => window.innerWidth <= MOBILE_BREAKPOINT;
 
     // ====================================================
-    // B. FOUC 處理 (Flash of Unstyled Content)
+    // B. FOUC 處理 (Flash of Unstyled Content) - 修正：移除 window.load
     // ====================================================
     const removeLoadingClass = () => {
         requestAnimationFrame(() => {
@@ -94,14 +94,14 @@
         });
     };
     document.addEventListener('DOMContentLoaded', removeLoadingClass, { once: true });
-    window.addEventListener('load', removeLoadingClass, { once: true });
+    // window.addEventListener('load', removeLoadingClass, { once: true }); // 移除：依賴 DOMContentLoaded
     setTimeout(removeLoadingClass, FOUC_TIMEOUT_MS);
 
     // ====================================================
     // C. Modal 模組 (A11Y 強化與焦點陷阱)
     // ====================================================
 
-    /** 處理 Modal 內的 Tab 鍵盤導航 (焦點陷阱) */
+    /** 處理 Modal 內的 Tab 鍵盤導航 (焦點陷阱) - 修正焦點可見性判斷 */
     function handleModalKeydown(e) {
         if (e.key === 'Escape') {
             e.preventDefault();
@@ -110,11 +110,15 @@
         }
         if (e.key === 'Tab') {
             const modal = e.currentTarget;
+            if (!modal.classList.contains('active')) return; // 確保只對 active modal 處理
+
             const focusableElements = modal.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])');
 
-            // 過濾掉不可見元素 (僅保留在 active modal 內的可聚焦元素)
+            // 過濾掉不可見元素 (僅保留可見且可聚焦的元素)
             const visibleFocusableElements = Array.from(focusableElements).filter(el => {
-                return el.offsetWidth > 0 || el.offsetHeight > 0 || el.closest('.modal-overlay.active');
+                const style = window.getComputedStyle(el);
+                // 檢查 display, visibility, opacity, 且必須在文件流中佔有空間
+                return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && (el.offsetWidth > 0 || el.offsetHeight > 0);
             });
 
             if (visibleFocusableElements.length === 0) return;
@@ -130,7 +134,7 @@
         }
     }
 
-    /** 開啟 Modal */
+    /** 開啟 Modal - 修正：使用 requestAnimationFrame + setTimeout(10) 確保 transition 觸發 */
     window.openModal = function(modalId) {
         const modal = document.getElementById('modal-' + modalId);
         if (modal) {
@@ -145,23 +149,25 @@
             // 確保 Modal 在 DOM 中可見後再添加 active class 觸發動畫
             modal.style.display = 'flex';
 
-            setTimeout(() => { // 使用 setTimeout 模擬 requestAnimationFrame + 短延遲，確保 transition 觸發
-                modal.classList.add('active');
-                body.classList.add('no-scroll'); // 統一使用 no-scroll 鎖定 body 滾動
-                modal.scrollTop = 0;
-                modal.setAttribute('aria-hidden', 'false');
+            requestAnimationFrame(() => {
+                setTimeout(() => { // 短暫延遲確保瀏覽器能區分 display 改變和 class 改變
+                    modal.classList.add('active');
+                    body.classList.add('no-scroll'); // 統一使用 no-scroll 鎖定 body 滾動
+                    modal.scrollTop = 0;
+                    modal.setAttribute('aria-hidden', 'false');
 
-                const focusTarget = modal.querySelector('.close-btn') || modal;
-                focusTarget.focus();
+                    const focusTarget = modal.querySelector('.close-btn') || modal;
+                    focusTarget.focus();
 
-                modal.addEventListener('keydown', handleModalKeydown);
-            }, 10);
+                    modal.addEventListener('keydown', handleModalKeydown);
+                }, 10);
+            });
         }
     }
 
     /** 關閉 Modal */
     window.closeModal = function(event) {
-        // 修正：僅允許點擊 overlay 或 close-btn 或按下 Escape 鍵觸發關閉
+        // 僅允許點擊 overlay 或 close-btn 或按下 Escape 鍵觸發關閉
         if (event && event.type === 'click') {
             const isModalOverlay = event.target.classList.contains('modal-overlay');
             const isCloseButton = event.target.closest('.close-btn');
@@ -187,7 +193,7 @@
         }
     }
     
-    // 全局 Escape 鍵關閉 Modal (重複定義以確保功能，但已在 window.closeModal 中處理)
+    // 全局 Escape 鍵關閉 Modal
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') { window.closeModal(event); }
     });
@@ -276,7 +282,8 @@
             // 點擊菜單連結後自動關閉菜單 (RWD)
             mainNav.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
-                    if (isMobileView()) {
+                    // 檢查是否是錨點連結，如果是才延遲關閉
+                    if (isMobileView() && link.hash.length > 0 && link.hash !== '#') {
                         setTimeout(closeMainMenu, TRANSITION_DURATION_MS + 50); 
                     }
                 });
@@ -427,6 +434,8 @@
                 if (targetElement) {
                     const targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight - 20; // 額外 padding
                     window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                    // 如果是精確錨點，則直接將焦點設定到錨點元素上 (A11Y)
+                    targetElement.focus({ preventScroll: true }); 
                 }
             } else {
                 // 滾動到 Tab 按鈕的容器頂部
@@ -434,29 +443,47 @@
                 if (planTabs) {
                     const tabTop = planTabs.getBoundingClientRect().top + window.scrollY - headerHeight;
                     window.scrollTo({ top: tabTop, behavior: 'smooth' });
+                    // 將焦點設定到當前的 Tab 按鈕上 (A11Y)
+                    tabElement?.focus();
                 }
             }
         });
     }
 
-    /** 處理 URL Hash 以決定初始 Tab */
+    /** 處理 URL Hash 以決定初始 Tab - 修正：優化精確錨點解析邏輯 */
     const initializeTabFromHash = () => {
         let hash = window.location.hash.substring(1); 
-        let targetAnchorId = null;
-
-        // 檢查是否有精確錨點 (#plan-168)
-        if (hash.startsWith('plan-')) {
-             targetAnchorId = '#' + hash;
-             hash = 'buddhist-taoist'; // 預設 Tab
-        } else if (hash.startsWith('tab-')) {
-            // 處理 #tab-buddhist-taoist 這種格式
-            hash = hash.split('-')[1]; 
-        }
-        
         const tabMap = ['buddhist-taoist', 'western', 'japen', 'eco', 'custom'];
-        let defaultTab = 'buddhist-taoist';
-        
-        if (tabMap.includes(hash)) {
+        let targetAnchorId = null;
+        let defaultTab = 'buddhist-taoist'; // 預設 Tab
+
+        // 1. 檢查是否是 Tab ID (#tab-buddhist-taoist)
+        if (hash.startsWith('tab-')) {
+            const tabName = hash.split('-')[1];
+            if (tabMap.includes(tabName)) {
+                defaultTab = tabName;
+            }
+        } 
+        // 2. 檢查是否是精確錨點 (#plan-168)
+        else if (hash.startsWith('plan-')) {
+            targetAnchorId = '#' + hash;
+            const targetElement = document.getElementById(hash);
+            
+            // 嘗試從錨點元素向上尋找其所屬的 Tab 內容容器
+            const tabContent = targetElement?.closest('.plan-tab-content'); 
+            if (tabContent) {
+                // 假設 tab content ID 格式為 'content-tabName'
+                const tabNameFromContent = tabContent.id.split('-')[1];
+                if (tabMap.includes(tabNameFromContent)) {
+                    defaultTab = tabNameFromContent;
+                }
+            } else {
+                // 如果找不到所屬 Tab，則使用預設 Tab
+                defaultTab = 'buddhist-taoist'; 
+            }
+        }
+        // 3. 檢查是否是 Tab Name (buddhist-taoist)
+        else if (tabMap.includes(hash)) {
             defaultTab = hash;
         }
         
@@ -482,8 +509,9 @@
             headerElement.setAttribute('aria-controls', content.id);
             const isActive = item.classList.contains('active');
             headerElement.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            // 使用 role="button" 和 tabindex="0" 確保可聚焦和操作
             headerElement.setAttribute('tabindex', '0');
-            headerElement.setAttribute('role', 'button');
+            headerElement.setAttribute('role', 'button'); 
 
             // 設置初始樣式
             content.style.display = 'block';
@@ -494,7 +522,7 @@
             headerElement.addEventListener('click', function () {
                 const isCurrentlyActive = item.classList.contains('active');
                 
-                // 關閉所有其他已展開的手風琴
+                // 處理單一展開或多重展開 (此處維持單一展開邏輯)
                 document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
                     if (activeItem !== item) {
                         const otherContent = activeItem.querySelector('.accordion-content');
@@ -562,7 +590,7 @@
             const oldIconClass = isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
             
             icon.classList.replace(oldIconClass, newIconClass);
-            button.appendChild(icon);
+            button.appendChild(icon); // 確保圖標重新被添加
         } else {
             button.textContent = newText;
         }
@@ -615,7 +643,9 @@
                     if (entry.isIntersecting) {
                         const element = entry.target;
                         if (element.tagName === 'PICTURE') {
-                            element.querySelectorAll('source[data-srcset], img[data-src]').forEach(loadImage);
+                            // 載入 <picture> 內的所有 <source>
+                            element.querySelectorAll('source[data-srcset]').forEach(loadImage); 
+                            // 載入 <img>
                             const img = element.querySelector('img');
                             if (img) loadImage(img);
                         } else loadImage(element); 
@@ -635,7 +665,6 @@
     };
 
     /** 設置 Fit Text 功能 (文本自動縮放以適應容器寬度) */
-    let fitAllTexts;
     const setupFitText = () => {
         const MAX_FONT = 22, MIN_FONT = 8, PRECISION = 0.1;
         
@@ -649,6 +678,7 @@
             }
             
             let low = MIN_FONT, high = MAX_FONT, bestSize = MIN_FONT, iterations = 0;
+            // 由於只計算一次，不需要極高精度，限制迭代次數以防止意外長循環
             while (low <= high && iterations < 20) { 
                 const mid = (low + high) / 2;
                 el.style.fontSize = `${mid}px`;
@@ -691,6 +721,7 @@
             }
         };
 
+        // 確保在字體載入後啟動，以獲得準確的 text metrics
         if (document.fonts?.ready) document.fonts.ready.then(start).catch(start); 
         else window.addEventListener('load', start);
         
@@ -704,10 +735,12 @@
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId || '');
-                if (targetElement) {
+                // 排除 Tab 按鈕和 Modal 開關，讓他們使用自己的邏輯
+                if (targetElement && !this.closest('.plan-tabs') && !this.dataset.modalId) {
                     e.preventDefault();
                     requestAnimationFrame(() => {
                         const headerOffset = header.offsetHeight || 0;
+                        // 確保不會滾動到負值
                         const targetTop = Math.max(0, targetElement.getBoundingClientRect().top + window.scrollY - headerOffset);
                         
                         window.scrollTo({ top: targetTop, behavior: 'smooth' });
@@ -746,12 +779,13 @@
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
                     this.classList.remove('is-loading');
-                    if (statusMessage && !success) statusMessage.textContent = '';
+                    // 只有在失敗時才保留訊息，成功時讓訊息保留一段時間
+                    if (statusMessage && !success) statusMessage.textContent = ''; 
                 }, delay);
             };
 
             try {
-                // ⚠️ 檢查表單 action URL 是否已替換
+                // ⚠️ 檢查表單 action URL 是否已替換 (重要提醒)
                 if (form.action.includes('your_form_endpoint')) {
                     if (statusMessage) { statusMessage.style.color = '#dc3545'; statusMessage.textContent = '❗ 請先替換表單 action URL！'; }
                     cleanup(); 
@@ -762,11 +796,16 @@
                 const response = await fetch(this.action, { 
                     method: this.method, 
                     body: formData, 
-                    headers: { 'Accept': 'application/json' } 
+                    headers: { 
+                        'Accept': 'application/json',
+                        // 阻止瀏覽器使用舊的緩存，對表單提交可能有用
+                        'Cache-Control': 'no-cache, no-store, must-revalidate' 
+                    } 
                 });
 
                 if (response.ok) {
-                    if (statusMessage) { statusMessage.style.color = '#28a745'; statusMessage.textContent = '🎉 訂購資訊已成功送出！'; }
+                    // 根據伺服器返回的內容類型，可能需要額外判斷
+                    if (statusMessage) { statusMessage.style.color = '#28a745'; statusMessage.textContent = '🎉 訂購資訊已成功送出！我們將儘速與您聯繫。'; }
                     this.reset(); 
                     submitButton.textContent = '訂購成功！'; 
                     cleanup(true);
@@ -776,7 +815,7 @@
                     cleanup();
                 }
             } catch (err) {
-                console.error(err);
+                console.error('Form Submission Error:', err);
                 if (statusMessage) { statusMessage.style.color = '#dc3545'; statusMessage.textContent = '❗ 網路錯誤或伺服器無回應，請直接撥打 24H 專線訂購：0978-583-699'; }
                 cleanup();
             }
@@ -823,9 +862,44 @@
 
 
     // ====================================================
-    // H. 總初始化
+    // H. 總初始化 - 修正：將 fitAllTexts 封裝在作用域內
     // ====================================================
     document.addEventListener('DOMContentLoaded', () => {
+        
+        // 性能優化 - FitText 初始化並取得清理函式
+        const fitAllTexts = setupFitText(); 
+
+        // 內部 RWD 清理函數 (使用閉包訪問 fitAllTexts)
+        const handleResizeCleanupInner = () => {
+            // 桌面視圖下，確保菜單是關閉的
+            if (!isMobileView()) closeMainMenu();
+            
+            // 清理所有菜單的 inline max-height 樣式
+            mainNav?.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+                const targetLink = dropdown.querySelector('a');
+                if(targetLink) targetLink.setAttribute('aria-expanded', 'false');
+
+                const submenu = dropdown.querySelector('.submenu-container, .submenu');
+                if (submenu) {
+                    submenu.style.removeProperty('max-height');
+                    submenu.style.removeProperty('overflow');
+                }
+            });
+            
+            // 重新計算所有手風琴或詳細資訊的高度
+            setTimeout(() => {
+                document.querySelectorAll('.accordion-item.active .accordion-content, .plan-card.expanded .plan-details-expanded')
+                    .forEach(content => {
+                        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                            requestAnimationFrame(() => content.style.maxHeight = `${content.scrollHeight}px`);
+                        }
+                    });
+            }, 100);
+
+            // 重新執行 Fit Text
+            fitAllTexts(); 
+        };
         
         // 菜單與滾動
         handleHeaderScroll();
@@ -844,13 +918,13 @@
         
         // 性能優化
         setupLazyLoading();
-        fitAllTexts = setupFitText(); 
+        // fitAllTexts = setupFitText(); // 已提前初始化
         
         // 動畫
         setupAos();
         
         // 視窗大小改變監聽 (使用 Debounce 優化性能)
-        window.addEventListener('resize', debounce(() => handleResizeCleanup(fitAllTexts), 150));
+        window.addEventListener('resize', debounce(handleResizeCleanupInner, 150));
     });
 
 })();
