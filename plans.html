@@ -22,209 +22,22 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
     
+    <link rel="stylesheet" href="style/css" media="all">
+    
     <style>
-        /* 1. CSS 變數：高質感色彩與間距定義 */
         :root {
             --primary-color: #800020; /* 勃根地紅/酒紅 */
             --accent-color: #D1A65E; /* 溫暖金色 */
-            --western-theme: #007bff; /* 西式藍 */
-            --japen-theme: #4a4a4a; /* 日式灰 */
             --eco-theme: #28a745; /* 環保綠 */
-            --custom-theme: #6c757d; /* 客製化灰 */
-            --subtle-gray: #7A7A7A; 
-            --price-highlight: #A6293A; 
-            --border-radius-lg: 12px;
-            --box-shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.08);
-            --transition-speed: 0.35s;
         }
-
-        /* ⚠️ 核心修正：FOUC 處理：確保在 JS 載入前，頁面內容不顯示 (防止畫面閃爍) */
-        /* 初始狀態，由 HTML 標籤上的 .js-loading 控制 */
-        .js-loading body { visibility: hidden; opacity: 0; }
-        .js-loading { background-color: #fff; } /* 避免白屏閃爍 */
-        /* 修正 body opacity，確保 JS 移除 .js-loading 後能顯示 */
+        /* ⚠️ 核心修正：FOUC 處理：確保在 JS 載入前，頁面內容不顯示 */
+        .js-loading body, .js-loading html { visibility: hidden; opacity: 0; }
+        .js-loading { background-color: #fff; } 
         body { 
             opacity: 1; 
             transition: opacity 0.5s ease-in-out;
-            /* 手機選單打開時阻止滾動 */
-            &.menu-open { overflow: hidden; } 
+            &.no-scroll { overflow: hidden; } /* 鎖定滾動 */
         }
-
-
-        /* 2. 重置與基礎樣式 */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            background-color: #f7f7f7; 
-            overflow-x: hidden; 
-        }
-        
-        /* 3. 通用佈局 */
-        .main-content-area { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        
-        /* 4. Header 基礎樣式 (確保 RWD 不破版) */
-        .main-header { background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; max-width: 1200px; margin: 0 auto; }
-        .site-logo { height: 40px; width: auto; }
-        /* 確保手機選單不破版 */
-        .menu-toggle { display: none; }
-        @media (max-width: 900px) { 
-            .main-nav { display: none; } 
-            .menu-toggle { display: block; background: none; border: none; font-size: 1.5rem; color: var(--primary-color); cursor: pointer; } 
-            .main-nav ul { flex-direction: column; } /* 修復手機導覽列佈局 */
-            .main-nav .dropdown > a { justify-content: space-between; } /* 修復下拉箭頭佈局 */
-        }
-        .main-nav.active { 
-            display: block; 
-            position: absolute; 
-            top: 70px; 
-            left: 0; 
-            right: 0; 
-            background: white; 
-            z-index: 1000; 
-            padding: 20px; 
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1); 
-            max-height: calc(100vh - 70px); /* 限制高度，防止內容太多溢出 */
-            overflow-y: auto;
-        }
-        .main-nav ul { display: flex; list-style: none; } /* 確保 desktop 導覽列佈局 */
-        .main-nav li { position: relative; } /* 確保 dropdown 定位 */
-        .main-nav a { display: block; padding: 10px 15px; text-decoration: none; color: #333; transition: color var(--transition-speed); }
-        .main-nav a:hover { color: var(--primary-color); }
-        .main-nav .submenu { display: none; position: absolute; background: white; box-shadow: var(--box-shadow-sm); z-index: 200; min-width: 200px; padding: 10px 0; border-radius: 5px; }
-        .main-nav .dropdown:hover .submenu { display: block; }
-
-        /* 5. Tab 切換 */
-        .plan-tabs { display: flex; justify-content: center; margin-bottom: 50px; border-bottom: 2px solid var(--accent-color); gap: 5px; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
-        .tab-button { background-color: transparent; border: none; padding: 15px 18px; font-size: clamp(0.9em, 3vw, 1.1em); font-weight: bold; color: var(--subtle-gray); cursor: pointer; transition: all var(--transition-speed) ease; white-space: nowrap; border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; position: relative; outline: none; }
-        .tab-button.active { color: white; background-color: var(--primary-color); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15); border: 1px solid var(--primary-color); border-bottom: none; transform: translateY(-2px); }
-
-        /* 6. 方案卡片 & 特色 */
-        .plans-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 50px; padding-top: 20px; }
-        .plan-card { background: white; border: 1px solid #e0e0e0; border-radius: var(--border-radius-lg); box-shadow: var(--box-shadow-sm); overflow: hidden; display: flex; flex-direction: column; text-align: center; position: relative; }
-        .plan-header { padding: 20px 20px 10px; border-bottom: 3px solid var(--primary-color); }
-        .plan-title { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 5px; }
-        .plan-price { font-size: 2rem; color: var(--price-highlight); font-weight: 700; }
-        .price-note { font-size: 0.8em; color: var(--subtle-gray); margin-top: 5px; }
-        .plan-description { padding: 10px 20px; font-size: 0.95em; color: var(--subtle-gray); }
-        .plan-features { list-style: none; padding: 0 20px; text-align: left; flex-grow: 1; margin-bottom: 20px; }
-        .plan-features li { padding: 10px 0; border-bottom: 1px dotted #e0e0e0; display: flex; align-items: flex-start; font-size: 1.0em; }
-        .feature-icon { margin-right: 10px; color: var(--primary-color); font-size: 1.1em; width: 20px; text-align: center; flex-shrink: 0; padding-top: 2px; }
-        .plan-footer { padding: 20px; background-color: #f9f9f9; border-top: 1px solid #eee; }
-        .details-button { background-color: var(--primary-color); color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; transition: background-color var(--transition-speed); font-weight: bold; }
-        .details-button:hover { background-color: #6a001a; }
-        .highlight-badge { position: absolute; top: 10px; right: 10px; background-color: var(--accent-color); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em; font-weight: bold; z-index: 10; }
-        
-        /* 客製化卡片專屬樣式 */
-        .custom-plan-card { 
-            background: white; 
-            border: 1px solid #ddd; 
-            border-radius: var(--border-radius-lg); 
-            box-shadow: var(--box-shadow-sm); 
-            padding: 30px; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-        }
-        .custom-cta-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 25px;
-            background-color: var(--custom-theme);
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: opacity 0.3s;
-        }
-        .custom-cta-button:hover { opacity: 0.85; }
-
-        /* 7. Modal 浮層樣式 (關鍵元素確保顯示) */
-        .modal-overlay { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            background-color: rgba(0, 0, 0, 0.7); 
-            z-index: 9999; 
-            justify-content: center; 
-            align-items: center; 
-            opacity: 0; 
-            overflow-y: auto; 
-            backdrop-filter: blur(8px) brightness(0.7); 
-            transition: opacity var(--transition-speed) ease; 
-            padding: 20px;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { 
-            max-width: 900px; 
-            width: 95%; /* 修正為 95% 避免在小螢幕上太寬 */
-            margin: auto; 
-            background: white; 
-            border-radius: var(--border-radius-lg); 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); 
-            transform: translateY(0); /* 避免影響動畫 */
-        }
-        .modal-header { background-color: var(--primary-color); color: white; padding: 20px; border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; display: flex; justify-content: space-between; align-items: center; position: relative; }
-        .close-btn { color: white; font-size: 1.8em; font-weight: bold; cursor: pointer; border: none; background: none; line-height: 1; margin-left: 20px; position: absolute; top: 15px; right: 15px; z-index: 10; padding: 5px; }
-        .modal-body { padding: 30px; }
-        .modal-detail-list { 
-            list-style: none; 
-            margin-left: 0; 
-            padding-left: 0; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 10px 20px; 
-        }
-        .modal-detail-list li { display: flex; align-items: center; font-size: 0.95em; color: #555; }
-        .modal-detail-list li .fas { margin-right: 8px; color: var(--eco-theme); } /* 使用綠色勾勾 */
-
-        /* 8. Footer 樣式 (確保 RWD 結構穩定) */
-        footer { background-color: #333; color: white; padding-top: 50px; font-size: 0.95em; }
-        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 20px; max-width: 1200px; margin: 0 auto; }
-        @media (max-width: 900px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 576px) { .footer-grid { grid-template-columns: 1fr; } }
-        .footer-block h4 { color: var(--accent-color); margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
-        .footer-block ul { list-style: none; padding-left: 0; }
-        .footer-block ul li a { color: #ccc; text-decoration: none; display: block; padding: 3px 0; }
-        .footer-block ul li a:hover { color: white; }
-        .footer-copyright { background-color: #222; padding: 20px 0; margin-top: 30px; }
-        .footer-copyright .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #aaa; }
-        @media (max-width: 600px) { .footer-copyright .container { flex-direction: column; text-align: center; gap: 5px;} }
-
-
-        /* 9. 浮動 CTA 樣式 */
-        .floating-cta { position: fixed; right: 20px; bottom: 80px; z-index: 900; display: flex; flex-direction: column; gap: 10px; }
-        .floating-cta a { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: var(--price-highlight); color: white; border-radius: 50%; font-size: 1.5em; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.3s; }
-        .floating-cta a:hover { transform: scale(1.1); }
-        .back-to-top { position: fixed; right: 20px; bottom: 20px; z-index: 800; width: 40px; height: 40px; background-color: var(--primary-color); color: white; border-radius: 50%; text-align: center; line-height: 40px; font-size: 1.2em; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); transition: opacity 0.3s; display: none; cursor: pointer; text-decoration: none; }
-        
-        /* Hero Section */
-        .hero-section {
-            padding: 80px 20px;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            text-align: center;
-            position: relative;
-        }
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4); /* 增加遮罩以確保文字清晰 */
-            z-index: 1;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
     </style>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
@@ -338,13 +151,13 @@
                         </a>
                         <ul class="submenu" role="menu" aria-labelledby="plans-menu-btn">
                             <li class="submenu-title">中式佛道教方案</li>
-                            <li role="menuitem"><a href="plans.html#plan-168" title="中式契約 16.8萬方案詳情">平安心意 16.8萬</a></li>
-                            <li role="menuitem"><a href="plans.html#plan-188" title="中式契約 18.8萬方案詳情">精緻尊享 18.8萬</a></li>
-                            <li role="menuitem"><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案詳情">至尊圓滿 35.8萬</a></li>
+                            <li role="menuitem"><a href="plans.html#plan-168" title="中式契約 16.8萬方案詳情" onclick="openPlanTab('buddhist-taoist', '#plan-168')">平安心意 16.8萬</a></li>
+                            <li role="menuitem"><a href="plans.html#plan-188" title="中式契約 18.8萬方案詳情" onclick="openPlanTab('buddhist-taoist', '#plan-188')">精緻尊享 18.8萬</a></li>
+                            <li role="menuitem"><a href="plans.html#plan-358" title="尊榮契約 35.8萬方案詳情" onclick="openPlanTab('buddhist-taoist', '#plan-358')">至尊圓滿 35.8萬</a></li>
                             <li class="submenu-separator" role="separator"></li>
-                            <li role="menuitem"><a href="plans.html#tab-western" title="西式契約方案詳情">西式禮儀方案</a></li>
-                            <li role="menuitem"><a href="plans.html#tab-japen" title="日式契約方案詳情">日式禮儀方案</a></li>
-                            <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區">環保葬儀式服務</a></li>
+                            <li role="menuitem"><a href="plans.html#tab-western" title="西式契約方案詳情" onclick="openPlanTab('western')">西式禮儀方案</a></li>
+                            <li role="menuitem"><a href="plans.html#tab-japen" title="日式契約方案詳情" onclick="openPlanTab('japen')">日式禮儀方案</a></li>
+                            <li role="menuitem"><a href="plans.html#tab-eco" title="環保葬專區" onclick="openPlanTab('eco')">環保葬儀式服務</a></li>
                         </ul>
                     </li>
                     <li class="dropdown" role="menuitem">
@@ -466,7 +279,7 @@
                             <i class="fas fa-compass" style="font-size: 3em; color: var(--western-theme); margin-bottom: 15px;"></i>
                             <h4 style="color: var(--western-theme); margin-bottom: 10px;">專屬客製化西式禮儀</h4>
                             <p>針對特殊需求、大型會場或特定宗教儀式，我們提供量身定制的服務。</p>
-                            <a href="#tab-custom" onclick="openPlanTab('custom')" class="custom-cta-button" style="background-color: var(--western-theme);">立即預約客製化諮詢</a>
+                            <a href="#plan-selection" onclick="openPlanTab('custom')" class="custom-cta-button" style="background-color: var(--western-theme);">立即預約客製化諮詢</a>
                         </article>
                     </section>
                 </div>
@@ -498,7 +311,7 @@
                             <i class="fas fa-hand-spock" style="font-size: 3em; color: var(--japen-theme); margin-bottom: 15px;"></i>
                             <h4 style="color: var(--japen-theme); margin-bottom: 10px;">專屬客製化日式禮儀</h4>
                             <p>針對創價學會等特殊日系宗教或大型家族儀式，我們提供專業規劃與報價。</p>
-                            <a href="#tab-custom" onclick="openPlanTab('custom')" class="custom-cta-button" style="background-color: var(--japen-theme);">立即預約客製化諮詢</a>
+                            <a href="#plan-selection" onclick="openPlanTab('custom')" class="custom-cta-button" style="background-color: var(--japen-theme);">立即預約客製化諮詢</a>
                         </article>
 
                     </section>
@@ -599,9 +412,9 @@
                 <h4>喪葬費用公開方案</h4>
                 <ul>
                     <li><a href="plans.html" title="所有費用方案與價格總覽">所有方案與價格總覽</a></li>
-                    <li><a href="plans.html#plan-168" title="平安心意專案 16.8萬">平安心意 16.8萬</a></li>
-                    <li><a href="plans.html#plan-188" title="精緻尊享專案 18.8萬">精緻尊享 18.8萬</a></li>
-                    <li><a href="plans.html#plan-358" title="至尊圓滿專案 35.8萬">至尊圓滿 35.8萬</a></li>
+                    <li><a href="plans.html#plan-168" title="平安心意專案 16.8萬" onclick="openPlanTab('buddhist-taoist', '#plan-168')">平安心意 16.8萬</a></li>
+                    <li><a href="plans.html#plan-188" title="精緻尊享專案 18.8萬" onclick="openPlanTab('buddhist-taoist', '#plan-188')">精緻尊享 18.8萬</a></li>
+                    <li><a href="plans.html#plan-358" title="至尊圓滿專案 35.8萬" onclick="openPlanTab('buddhist-taoist', '#plan-358')">至尊圓滿 35.8萬</a></li>
                     <li><a href="plans.html#tab-western" onclick="openPlanTab('western')" title="西式契約方案">西式契約方案</a></li>
                     <li><a href="plans.html#tab-japen" onclick="openPlanTab('japen')" title="日式契約方案">日式契約方案</a></li>
                     <li><a href="plans.html#tab-eco" onclick="openPlanTab('eco')" title="環保葬儀式服務">環保葬儀式服務</a></li>
@@ -665,207 +478,7 @@
         <i class="fas fa-chevron-up"></i>
     </a>
 
-
-    <script>
-        // ----------------------------------------------------
-        // Modal A11y 與 開/關 邏輯
-        // ----------------------------------------------------
-        let focusedElementBeforeModal; 
-
-        function openModal(modalId) {
-            const modal = document.getElementById('modal-' + modalId);
-            if (modal) {
-                focusedElementBeforeModal = document.activeElement; 
-                document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-                
-                modal.style.display = 'flex'; 
-                // 使用 setTimeout 確保 display: flex 後再加載 active 觸發 CSS transition
-                setTimeout(() => { 
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    modal.scrollTop = 0; 
-                    modal.setAttribute('aria-hidden', 'false');
-                    
-                    const closeButton = modal.querySelector('.close-btn');
-                    if (closeButton) { 
-                        closeButton.focus(); 
-                    } else {
-                         modal.focus();
-                    }
-                    modal.addEventListener('keydown', handleModalKeydown);
-                }, 10); 
-            }
-        }
-
-        function closeModal(event) {
-            const isModalOverlay = event.target.classList.contains('modal-overlay');
-            const isCloseButton = event.target.closest('.close-btn');
-            
-            if (event.type === 'click' && !isModalOverlay && !isCloseButton) { return; }
-            
-            const activeModal = document.querySelector('.modal-overlay.active');
-            if (activeModal) {
-                activeModal.classList.remove('active');
-                activeModal.setAttribute('aria-hidden', 'true');
-                
-                setTimeout(() => {
-                    activeModal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                    activeModal.removeEventListener('keydown', handleModalKeydown);
-                    if (focusedElementBeforeModal) {
-                        focusedElementBeforeModal.focus();
-                    }
-                }, 350); 
-            }
-        }
-        
-        function handleModalKeydown(e) {
-            if (e.key === 'Escape') { closeModal(e); return; }
-            if (e.key === 'Tab') {
-                const modal = e.currentTarget;
-                const focusableElements = modal.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])');
-                const visibleFocusableElements = Array.from(focusableElements).filter(el => el.offsetWidth > 0 || el.offsetHeight > 0 || el === modal.querySelector('.close-btn'));
-
-                if (visibleFocusableElements.length === 0) return;
-                
-                const first = visibleFocusableElements[0];
-                const last = visibleFocusableElements[visibleFocusableElements.length - 1];
-                
-                if (e.shiftKey) { // Shift + Tab
-                    if (document.activeElement === first) { last.focus(); e.preventDefault(); }
-                } else { // Tab
-                    if (document.activeElement === last) { first.focus(); e.preventDefault(); }
-                }
-            }
-        }
-        
-        // ----------------------------------------------------
-        // Tab 切換邏輯 (修繕：滾動到 Tab 容器而不是整個 Section)
-        // ----------------------------------------------------
-        function openPlanTab(tabName) {
-            let i, tabcontent;
-            
-            // 隱藏所有內容，重置所有 Tab 按鈕狀態
-            tabcontent = document.getElementsByClassName("plan-tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                const tabId = "tab-" + tabcontent[i].id.split('-')[1];
-                document.getElementById(tabId)?.classList.remove('active');
-                document.getElementById(tabId)?.setAttribute('aria-selected', 'false');
-                document.getElementById(tabId)?.setAttribute('tabindex', '-1');
-            }
-            
-            const contentId = "content-" + tabName;
-            const tabId = "tab-" + tabName;
-
-            const contentElement = document.getElementById(contentId);
-            const tabElement = document.getElementById(tabId);
-
-            // 顯示選定的內容，啟用選定的 Tab 按鈕
-            if (contentElement) { contentElement.style.display = "block"; }
-            if (tabElement) { tabElement.classList.add("active"); tabElement.setAttribute('aria-selected', 'true'); tabElement.setAttribute('tabindex', '0'); }
-            
-            // 平滑滾動到 Tab 按鈕的容器
-            const planTabs = document.querySelector('.plan-tabs');
-            if (planTabs) {
-                planTabs.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // ----------------------------------------------------
-        // 初始化與事件處理 (核心部分：確保畫面顯示)
-        // ----------------------------------------------------
-        document.addEventListener('DOMContentLoaded', (event) => {
-            let hash = window.location.hash.substring(1); 
-            
-            // 錨點邏輯：判斷應該開啟哪一個 Tab
-            if (hash.startsWith('plan-')) {
-                 hash = 'buddhist-taoist'; 
-            } else if (hash.startsWith('tab-')) {
-                hash = hash.split('-')[1]; 
-            } else if (hash === 'west') {
-                hash = 'western'; 
-            } else if (hash === 'japen') {
-                hash = 'japen'; 
-            }
-
-            let defaultTab = 'buddhist-taoist';
-            const tabMap = ['buddhist-taoist', 'western', 'japen', 'eco', 'custom'];
-            
-            if (tabMap.includes(hash)) {
-                defaultTab = hash;
-            }
-            
-            // 啟用正確的 Tab
-            openPlanTab(defaultTab);
-            
-            // 處理頁面加載完成後的錨點滾動
-            setTimeout(() => {
-                const targetElementId = window.location.hash.substring(1); 
-                const targetElement = document.getElementById(targetElementId);
-                const planTabs = document.querySelector('.plan-tabs');
-                
-                if (targetElement) {
-                    // 如果有精確錨點，則滾動到該處
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else if (planTabs) {
-                    // 如果沒有精確錨點，則滾動到 Tab 區
-                    planTabs.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                
-                // ⚠️ 關鍵修正：確保 FOUC 類別移除，讓內容顯示
-                document.documentElement.classList.remove('js-loading');
-                document.body.classList.remove('js-loading');
-                document.body.style.visibility = 'visible';
-                document.body.style.opacity = '1';
-                
-            }, 100); 
-            
-            // 設定版權年份
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            
-            // 返回頂部按鈕邏輯
-            const backToTopButton = document.querySelector('.back-to-top');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) { 
-                    if (backToTopButton.style.display !== 'flex') {
-                       backToTopButton.style.display = 'flex';
-                    }
-                } else { 
-                    if (backToTopButton.style.display !== 'none') {
-                        backToTopButton.style.display = 'none'; 
-                    }
-                }
-            });
-        });
-        
-        // 全局 Escape 鍵關閉 Modal
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') { closeModal(event); }
-        });
-
-        // 手機選單開關邏輯 (微調：控制 body 滾動)
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            const nav = document.getElementById('main-nav');
-            const expanded = this.getAttribute('aria-expanded') === 'true' || false;
-            const newExpanded = !expanded;
-            
-            this.setAttribute('aria-expanded', newExpanded);
-            nav.classList.toggle('active', newExpanded);
-            // 關鍵：打開時鎖住 body 滾動
-            document.body.classList.toggle('menu-open', newExpanded); 
-            
-            // A11y: 將 Tabindex 設置為 -1 防止焦點跑到隱藏的連結
-            nav.querySelectorAll('a').forEach(link => {
-                if (!newExpanded) {
-                    link.setAttribute('tabindex', '-1');
-                } else {
-                    link.removeAttribute('tabindex');
-                }
-            });
-        });
-
-    </script>
+    <script src="script/js" defer></script>
     
     <script type="application/ld+json">
     {
