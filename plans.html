@@ -22,13 +22,19 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
     
-    <link rel="stylesheet" href="style/css" media="all">
+    <link rel="stylesheet" href="style/main.css" media="all">
     
     <style>
         :root {
             --primary-color: #800020; /* 勃根地紅/酒紅 */
             --accent-color: #D1A65E; /* 溫暖金色 */
             --eco-theme: #28a745; /* 環保綠 */
+            
+            /* 修正：補齊內文使用到的主題色變數，避免樣式遺失 */
+            --western-theme: #1a4d80; /* 西式深藍 */
+            --japen-theme: #a1887f; /* 日式淺棕 */
+            --custom-theme: #5e35b1; /* 客製化紫色 */
+            --price-highlight: #c0392b; /* 方案卡片強調色 */
         }
         /* ⚠️ 核心修正：FOUC 處理：確保在 JS 載入前，頁面內容不顯示 */
         .js-loading body, .js-loading html { visibility: hidden; opacity: 0; }
@@ -478,7 +484,84 @@
         <i class="fas fa-chevron-up"></i>
     </a>
 
-    <script src="script/js" defer></script>
+    <script>
+        // 1. 確保頁面載入後解除隱藏狀態 (FOUC Fix)
+        document.addEventListener('DOMContentLoaded', function() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            // 延遲 10ms 確保 CSS 過渡效果能觸發
+            setTimeout(() => {
+                html.classList.remove('js-loading');
+                body.classList.remove('js-loading');
+                // 額外保險：確保 opacity 和 visibility 被強制設定
+                body.style.opacity = '1';
+                html.style.visibility = 'visible';
+            }, 10);
+        });
+
+        // 2. 導覽列與方案選擇器所需的 JavaScript 函式 (簡化佔位邏輯)
+        function openPlanTab(tabId, anchorId) {
+            // 處理 Tab 切換邏輯：顯示對應 content-tabId，隱藏其他
+            document.querySelectorAll('.plan-tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            const content = document.getElementById('content-' + tabId);
+            if (content) {
+                content.style.display = 'block';
+            }
+
+            // 處理 Tab Button 樣式
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+                button.setAttribute('tabindex', '-1');
+            });
+            const activeTab = document.getElementById('tab-' + tabId);
+            if (activeTab) {
+                activeTab.classList.add('active');
+                activeTab.setAttribute('aria-selected', 'true');
+                activeTab.setAttribute('tabindex', '0');
+            }
+
+            // 處理錨點跳轉 (例如從導覽列點擊特定方案)
+            if (anchorId) {
+                requestAnimationFrame(() => {
+                    const targetElement = document.querySelector(anchorId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+        }
+        
+        function openModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.style.display = 'flex'; // 使用 flex 確保內容置中
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('no-scroll');
+                modal.querySelector('.modal-content').focus();
+            }
+        }
+
+        function closeModal(event) {
+            // 確保點擊的是關閉按鈕或 modal-overlay 本身
+            if (event.target.classList.contains('modal-overlay') || event.target.closest('.close-btn')) {
+                const openModal = document.querySelector('.modal-overlay[aria-hidden="false"]');
+                if (openModal) {
+                    openModal.style.display = 'none';
+                    openModal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('no-scroll');
+                }
+            }
+        }
+        
+        // 3. 處理年份顯示
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+    
+    <script src="script/main.js" defer></script>
     
     <script type="application/ld+json">
     {
