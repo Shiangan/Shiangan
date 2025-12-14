@@ -465,7 +465,7 @@
 }
 
 
-/* 範例：將表格內容垂直堆疊 */
+/* 這是舊式且危險的範例，請移除或替換！ */
 @media screen and (max-width: 600px) {
     table, thead, tbody, th, td, tr {
         display: block;
@@ -483,3 +483,30 @@
         /* 在這裡使用 CSS 屬性 content 來寫入對應的欄位名稱 */
     }
 }
+
+ .table-responsive 容器 */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto; /* 啟用水平捲動 */
+        -webkit-overflow-scrolling: touch; 
+        margin: 20px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    
+    /* 確保表格有足夠寬度，以便在容器內滑動 */
+    .table-responsive table {
+        min-width: 700px; /* 確保三欄內容有空間顯示 */
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    /* 確保容器也使用 .container, .main-content 的 padding */
+    .table-responsive {
+        /* 消除容器左右的 padding，讓表格可以從邊緣開始捲動 */
+        margin-left: -15px; 
+        margin-right: -15px;
+        width: calc(100% + 30px);
+    }
+}
+
