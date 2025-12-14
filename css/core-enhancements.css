@@ -1,0 +1,243 @@
+/* --- 1. 頁面容器與目錄導航優化 --- */
+.plan-page-container { 
+    max-width: 1400px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+}
+
+/* 讓目錄在滾動時固定在頂部 (Sticky Header Effect) */
+.plan-directory {
+    position: sticky;
+    top: 0; /* 固定在頂部 */
+    z-index: 100;
+    background: #ffffff; /* 白色背景防止穿透 */
+    padding-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0; /* 移除容器底部邊距，讓內容直接貼齊 */
+}
+
+/* Tab 按鈕容器 */
+.plan-tabs { 
+    display: flex; 
+    justify-content: center; 
+    margin: 0;
+    border-bottom: 4px solid #e0e0e0; 
+}
+
+/* Tab 按鈕樣式 */
+.plan-tabs button { 
+    padding: 15px 25px; 
+    cursor: pointer; 
+    border: none; 
+    background: transparent; /* 背景透明 */
+    font-size: 1.15rem; /* 字體稍大 */
+    font-weight: 600;
+    transition: all 0.3s; 
+    border-radius: 8px 8px 0 0; 
+    margin: 0 5px; 
+    color: #666; 
+    border-bottom: 4px solid transparent; /* 預留底部空間 */
+}
+
+/* Tab 活躍狀態 */
+.plan-tabs button.active { 
+    background: #fff; /* 活躍 Tab 背景為白色 */
+    color: #3c5a75; /* 品牌主色 */
+    border-bottom: 4px solid #3c5a75; /* 底部高亮線條 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); /* 輕微陰影提升視覺層次 */
+}
+
+/* 燈箱觸發按鈕特殊樣式 */
+.plan-tabs button[data-modal-id] {
+    background: #e30a1c; 
+    color: white; 
+    font-size: 1rem;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-left: 20px;
+    transition: background-color 0.3s;
+    border: none;
+}
+.plan-tabs button[data-modal-id]:hover {
+    background: #c00818;
+}
+
+/* 方案內容區 */
+.plan-tab-content { 
+    padding: 40px 20px; 
+    border: 1px solid #e0e0e0; 
+    border-top: none; 
+    background: #fcfcfc; /* 內容區採用淺灰背景 */
+    min-height: 80vh;
+}
+
+.plan-tab-content h3 {
+    text-align: center;
+    color: #3c5a75;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #3c5a7530;
+}
+
+
+/* --- 2. 表格樣式優化 (適用於 service-table) --- */
+.service-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 30px 0; 
+    font-size: 15px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
+    background: white;
+}
+.service-table th, .service-table td { 
+    border: 1px solid #f0f0f0; /* 更淺的邊框線 */
+    padding: 15px; 
+    text-align: left; 
+    vertical-align: top; 
+    line-height: 1.6;
+}
+
+/* 行標題 (分類) */
+.service-table th { 
+    background-color: #f7f7f7; 
+    color: #333; 
+    font-weight: 700;
+    width: 25%;
+}
+
+/* 頂部分組標題 */
+.table-header-group th { 
+    background-color: #3c5a75; 
+    color: white; 
+    text-align: center; 
+    font-size: 1.2rem;
+    padding: 18px;
+}
+
+/* 數據列 (內容與價格) */
+.service-table td {
+    background-color: white;
+}
+/* 讓表格行隔行變色，提高可讀性 */
+.service-table tbody tr:nth-child(even) td {
+    background-color: #fcfcfc; 
+}
+
+
+/* --- 3. 燈箱 (Modal) 樣式 --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* 深色透明背景 */
+    display: none; /* 預設隱藏 */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.35s ease-out;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    display: flex;
+}
+
+.modal-content { 
+    background: white; 
+    border-radius: 12px; 
+    max-width: 1000px; 
+    width: 95%;
+    max-height: 90vh; /* 限制最大高度 */
+    overflow-y: auto; /* 內容超高時可滾動 */
+    padding: 0; 
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+    transition: transform 0.35s ease-out;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1); /* 彈出動畫 */
+}
+
+.modal-content h3 { 
+    background: #3c5a75; 
+    color: white; 
+    padding: 20px; 
+    margin: 0; 
+    text-align: center;
+    border-radius: 12px 12px 0 0;
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 2001;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #e30a1c;
+}
+
+/* --- 4. RWD 響應式設計優化 --- */
+@media (max-width: 1024px) {
+    /* 平板/小螢幕下 Tab 導航優化 */
+    .plan-tabs {
+        flex-wrap: wrap; /* 允許換行 */
+        border-bottom: none;
+    }
+    .plan-tabs button {
+        flex: 1 1 45%; /* 讓按鈕兩兩一排 */
+        margin: 5px;
+        font-size: 1rem;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    .plan-tabs button.active {
+        border-bottom: 2px solid #3c5a75;
+    }
+    .plan-tabs button[data-modal-id] {
+        flex: 1 1 100%; /* 燈箱按鈕佔滿一行 */
+        margin: 5px auto;
+    }
+    
+    /* RWD 表格優化 (讓長表格在小螢幕上可水平滾動) */
+    .plan-tab-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+    .service-table {
+        /* 確保表格在容器內可以滾動 */
+        min-width: 800px; 
+    }
+}
+
+@media (max-width: 600px) {
+    .plan-page-container {
+        padding: 0 10px;
+    }
+    .plan-tab-content {
+        padding: 20px 10px;
+    }
+    .plan-tab-content h3 {
+        font-size: 1.5rem;
+    }
+    /* 讓 Modal 更緊湊 */
+    .modal-content {
+        width: 100%;
+        max-height: 95vh;
+        border-radius: 0;
+    }
+}
