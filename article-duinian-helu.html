@@ -6,7 +6,7 @@
     
     <title>【後續關懷專家】對年合爐完整指南：日期計算、除孝脫喪與心理調適 | 祥安生命</title>
     
-    <meta name="description" content="治喪後，對年（一周年）、除靈與合爐是家屬療癒、重啟生活的關鍵。祥安生命提供對年日期（含閏月）專業計算、合爐流程步驟、除孝脫喪習俗與心理調適建議，讓逝者歸入祖先，生者安心重啟人生新篇章。">
+    <meta name="description" content="治喪後，對年（一周年）、除靈與合爐是家屬療癒、重啟生活的關鍵。祥安生命提供對年日期（含閏月）專業計算、合爐流程步驟、除孝脫喪習俗與心理調適建議，讓逝者歸入祖先，生者安心重啟新篇章。">
     <meta name="keywords" content="對年合爐, 除孝儀式, 脫喪, 對年日期計算, 閏月對年, 神主牌位處理, 後續關懷, 喪禮習俗, 祥安生命服務">
     <link rel="canonical" href="https://24hour.台灣/Shiangan/article-duinian-helu.html"> 
     
@@ -18,10 +18,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 變數參照已確認 */
+        /* 基礎文章樣式 */
         .article-body { max-width: 900px; margin: 0 auto; }
         .article-body h2, .article-body h3 { color: var(--primary-dark); margin-top: 2.5rem; margin-bottom: 1rem; }
-        /* 使用輔助顏色變數讓風格統一 */
         .key-point-box { background-color: var(--bg-accent-light); border-left: 5px solid var(--accent-color); padding: 15px; margin: 25px 0; border-radius: 4px; }
         .key-point-box h4 { color: var(--accent-color); margin-top: 0; }
         .lead-paragraph { border-left: 4px solid var(--accent-color); padding-left: 18px; font-weight: 500; font-size: 1.15em; line-height: 1.7; }
@@ -30,6 +29,62 @@
         .prepared-table th, .prepared-table td { padding: 12px; vertical-align: middle; }
         .prepared-table th { background-color: var(--primary-color-light); color: var(--primary-dark); font-weight: 700; width: 30%; }
         .styled-list li { margin-bottom: 8px; }
+
+        /* ======== 對年計算器樣式 (新增) ======== */
+        .duinian-calculator-box {
+            background-color: var(--bg-primary-light, #f0f7ff); /* 使用主題淺色背景 */
+            border: 1px solid var(--border-color, #ccc);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .form-group-inline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .form-group-inline label {
+            white-space: nowrap;
+        }
+        .form-group-inline input[type="date"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 250px;
+        }
+        .result-box {
+            margin-top: 15px;
+            border-top: 2px solid var(--accent-color, #007bff);
+            padding-top: 15px;
+        }
+        .result-box h4 {
+            color: var(--primary-dark);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .result-box p {
+            margin: 8px 0;
+        }
+        .result-box strong {
+            color: var(--accent-color, #007bff);
+            font-weight: 700;
+        }
+        .alert-note {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ffeeba;
+            margin-top: 15px;
+        }
+        .hidden {
+            display: none !important;
+        }
+        /* ======================================= */
     </style>
 
     <script type="application/ld+json">
@@ -158,6 +213,26 @@
             
             <p>「對年」（俗稱小祥）是指逝者往生**滿一周年**時的祭祀儀式。日期計算的精確性，直接影響到合爐與除孝的吉時，家屬務必注意：</p>
             
+            <div class="calculator-container duinian-calculator-box">
+                <h3><i class="fas fa-calculator"></i> 對年日期計算器 (僅供參考)</h3>
+                <p>請輸入逝者**往生當天**的陽曆日期，系統將估算農曆對年的日期，並提示是否有閏月問題。</p>
+                
+                <div class="form-group-inline">
+                    <label for="dateOfDeath">往生日期 (陽曆)：</label>
+                    <input type="date" id="dateOfDeath" required>
+                    <button id="calculateDuinian" class="cta-button primary small">
+                        <i class="fas fa-search"></i> 計算對年日期
+                    </button>
+                </div>
+                
+                <div id="resultOutput" class="result-box hidden">
+                    <h4><i class="fas fa-calendar-check"></i> 估算結果</h4>
+                    <p>農曆往生日期：<strong id="lunarDate">--</strong></p>
+                    <p>估算農曆對年日期：<strong id="duinianDate">--</strong></p>
+                    <div id="duinianNote" class="alert-note hidden"></div>
+                    <p class="small-text-note">**請注意：** 為遵循「有對無沖」習俗，實際祭拜日期通常須請專業禮儀師或擇日師**提前數天**擇定。</p>
+                </div>
+            </div>
             <div class="key-point-box secondary-tip">
                 <h4><i class="fas fa-calculator"></i> 專業日期計算與擇日提醒：</h4> 
                 <ol>
