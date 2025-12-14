@@ -439,3 +439,27 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* 當螢幕寬度小於或等於 768px 時套用（適用於大多數平板和手機） */
+@media screen and (max-width: 768px) {
+    
+    /* 1. 調整主內容區域寬度，避免跑版 */
+    .container, .main-content {
+        width: 100% !important; /* 強制內容填滿整個手機寬度 */
+        padding-left: 15px;
+        padding-right: 15px;
+        box-sizing: border-box; /* 確保 padding 不會導致內容超出寬度 */
+    }
+
+    /* 2. 導覽列調整 (如果手機版是隱藏選單) */
+    .navbar {
+        /* 例如：隱藏桌面導覽列，只顯示手機選單按鈕 */
+        /* display: none; */ 
+    }
+
+    /* 3. 調整圖片大小 */
+    img {
+        max-width: 100%; /* 確保圖片不超出手機螢幕 */
+        height: auto;
+    }
+}
