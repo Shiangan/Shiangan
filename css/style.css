@@ -132,6 +132,8 @@ h2 {
     position: relative; /* 確保 ::after 絕對定位參考點 */
     padding-bottom: 10px; /* 為裝飾線留出空間 */
     text-align: center;
+    font-size: clamp(1.8rem, 4vmin, 2.5rem);
+    color: var(--primary-dark);
 }
 
 h2::after {
@@ -151,6 +153,7 @@ h2::after {
 .article-body h2 {
     text-align: left;
     padding-bottom: 0;
+    color: var(--primary-dark); /* 文章內 H2 用 primary-dark */
 }
 .article-body h2::after {
     content: none; /* ⭐ 覆寫：文章內 H2 移除裝飾線 */
@@ -161,6 +164,7 @@ h3 {
     font-size: clamp(1.3rem, 3vmin, 1.8rem); 
     color: var(--primary-color); 
     margin-bottom: 0.8rem;
+    font-weight: 700;
 }
 
 h4 { 
@@ -689,7 +693,8 @@ main {
     text-align: center;
     color: var(--text-light);
     z-index: 1;
-    background-image: url('../images/hero-bg-default.jpg'); 
+    /* 假設有一個預設背景圖，如果沒有，請註釋掉 */
+    /* background-image: url('../images/hero-bg-default.jpg');  */
     background-size: cover;
     background-position: center;
 }
