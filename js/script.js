@@ -361,7 +361,7 @@ window.SALife.setupDuinianCalculator = function() {
                     // 優先將焦點移到關閉按鈕，確保 A11Y
                     const focusTarget = modal.querySelector('.close-btn') || modal;
                     focusTarget.focus();
-
+                    
                     modal.addEventListener('keydown', handleModalKeydown);
                 }, 10);
             });
