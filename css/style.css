@@ -7,7 +7,9 @@
  * - 整合多個高質感組件 (Tabs, Plans, Contact)
  * ========================================================================= */
  
-/* --- 字體導入 (Font Loading) --- */
+/* -------------------------------------------
+ * --- 字體導入 (Font Loading) --- 
+ * ------------------------------------------- */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
@@ -60,9 +62,9 @@
     scroll-padding-top: var(--header-height); 
     
 
-    /* ⭐️ 動畫變數 */
-    --rotation: -135deg;
-    --travel-x: -150vw;
+    /* ⭐️ 動畫變數：優化流星方向，從右上向左下墜落 */
+    --rotation: 45deg; /* 從右上向左下墜落 */
+    --travel-x: 150vw;
     --travel-y: 120vh;
     --breakpoint-mobile: 576px; 
     --breakpoint-tablet: 900px; 
@@ -420,7 +422,7 @@ main {
         transform: translateY(10px);
         opacity: 0; 
         visibility: hidden; 
-        max-height: 100vh; 
+        /* max-height 僅用於行動版，在此處移除 */
         pointer-events: none; 
         
         transition: opacity var(--transition-speed) ease, 
@@ -834,10 +836,11 @@ main {
 }
 
 
-/* ⭐️ 流星動畫關鍵幀 */
+/* ⭐️ 流星動畫關鍵幀：優化移動方向，使其從右上向左下墜落 */
 @keyframes shooting-star-random {
     0% {
-        transform: rotate(var(--rotation)) translate3d(0, 0, 0);
+        /* 起點：使用變數設定的旋轉角度和移動距離，定位流星的起點在右上 */
+        transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
         opacity: 0; 
     }
     1% {
@@ -847,10 +850,12 @@ main {
         opacity: 1;
     }
     100% {
-        transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
+        /* 終點：反向移動，使流星劃過頁面到左下 */
+        transform: rotate(var(--rotation)) translate3d(calc(var(--travel-x) * -1), calc(var(--travel-y) * -1), 0);
         opacity: 0; 
     }
 }
+
 
 .meteor {
     position: absolute;
@@ -878,7 +883,8 @@ main {
     height: 1px; 
     transform: translateY(-50%);
     background: linear-gradient(
-        to left, 
+        /* 由於我們調整了 rotation 到 45deg，彗尾應該與移動方向一致 */
+        to right, /* 假設流星本體 (meteor) 是頭部，彗尾向後延伸 (向右下延伸) */
         rgba(255, 255, 255, 1) 0%, 
         var(--accent-color) 5%, 
         rgba(206, 157, 74, 0.5) 15%,
@@ -1267,7 +1273,6 @@ main {
     opacity: 1;
     filter: none; /* 滑鼠懸停時顯示原色 */
 }
-
 
 /* -------------------------------------------
  * 5. 服務流程圖樣式 (Flow Chart) - 🎯 RWD 邏輯重點修正
