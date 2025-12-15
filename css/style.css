@@ -2305,7 +2305,6 @@ footer {
 /* -------------------------------------------
    10. 方案頁面 (Plans) 最終質感與透明度優化
    ------------------------------------------- */
-
 /* --- 10.1 方案頁面 Hero Section 覆寫 (保持不變) --- */
 .page-hero {
     position: relative;
@@ -2360,7 +2359,8 @@ footer {
 /* --- 10.2 方案價格卡片 ( .price-plan ) 視覺強化 --- */
 .price-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* 調整 grid 最小寬度，確保在手機上有良好的間距 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 30px;
     margin-top: 30px;
 }
@@ -2378,6 +2378,7 @@ footer {
     flex-direction: column;
     will-change: transform, box-shadow;
     height: 100%; 
+    z-index: 1; /* 基礎層級 */
 }
 
 .price-plan:hover {
@@ -2385,11 +2386,12 @@ footer {
     transform: translateY(-5px);
 }
 
-/* 突出【最受歡迎】卡片 */
+/* 突出【最受歡迎】卡片 - 修正 transform 避免在小螢幕裁切 */
 .price-plan.featured {
     border-color: var(--accent-color);
-    transform: scale(1.03); 
-    box-shadow: 0 0 0 4px var(--accent-color), 0 10px 30px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-8px); /* 輕微上浮 */
+    box-shadow: 0 0 0 4px var(--accent-color), 0 12px 35px rgba(0, 0, 0, 0.25); 
+    z-index: 5; /* 確保懸浮在其他卡片之上 */
 }
 
 .plan-ribbon {
@@ -2397,13 +2399,15 @@ footer {
     top: 0;
     right: 0;
     background: var(--accent-color);
-    color: var(--primary-dark);
+    /* 保持文字為深色，增強對比 */
+    color: var(--primary-dark); 
     font-size: 0.8rem;
     font-weight: 700;
     padding: 5px 15px;
     border-bottom-left-radius: 8px;
     letter-spacing: 0.5px;
-    z-index: 5;
+    z-index: 6;
+    text-transform: uppercase; /* 增加視覺強度 */
 }
 
 .plan-header h3 {
@@ -2421,14 +2425,17 @@ footer {
 
 .plan-price-info {
     margin: 20px 0 15px;
+    padding-bottom: 15px; /* 增加底部間距 */
+    border-bottom: 1px solid var(--border-color);
 }
 
 .price-tag {
     font-family: var(--font-serif);
-    font-size: 2.5rem;
+    font-size: 2.8rem; /* 略微加大 */
     font-weight: 700;
     color: var(--primary-color); 
     display: block;
+    line-height: 1.2;
 }
 
 .plan-body {
@@ -2442,35 +2449,39 @@ footer {
     font-style: italic;
     color: var(--secondary-color);
     margin-bottom: 20px;
+    font-size: 1rem; /* 確保可讀性 */
 }
 
 .plan-body ul {
     margin-bottom: 25px; 
     flex-grow: 1;
+    /* 移除預設 padding */
+    padding-left: 0; 
 }
 
 .service-group-title {
     font-weight: 700;
-    color: var(--accent-color); 
+    color: var(--primary-dark); /* 調整顏色，使其更突出 */
     margin-top: 15px;
     margin-bottom: 5px;
-    font-size: 0.95rem;
+    font-size: 1rem;
     padding-bottom: 5px;
-    border-bottom: 1px dashed rgba(30, 58, 106, 0.2); 
+    border-bottom: 2px solid var(--primary-dark); 
+    letter-spacing: 0.5px;
 }
 
 .plan-body ul li {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.95rem; /* 略微加大字體 */
+    line-height: 1.7;
     padding: 3px 0;
     color: var(--text-dark);
-    list-style: none; /* 移除預設的 bullet */
-    padding-left: 20px; /* 為圖標預留空間 */
+    list-style: none; 
+    padding-left: 20px; 
     position: relative;
 }
 
 .plan-body ul li::before {
-    /* ⭐ 優化：使用 Font Awesome 鉤子圖標 */
+    /* Font Awesome 鉤子圖標 */
     content: '\f00c'; 
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -2478,7 +2489,7 @@ footer {
     position: absolute;
     left: 0;
     font-size: 0.8rem;
-    top: 6px;
+    top: 8px; /* 調整垂直對齊 */
 }
 
 .plan-body .cta-button {
@@ -2503,7 +2514,7 @@ footer {
     overflow: hidden; 
     border-radius: 8px;
     border: 1px solid var(--border-color);
-    min-width: 700px; /* 確保在小螢幕上可以橫向滾動 */
+    min-width: 800px; /* 略微增加最小寬度，以容納更多內容 */
 }
 
 .comparison-table thead th {
@@ -2527,12 +2538,24 @@ footer {
 }
 
 .comparison-table tbody tr td:first-child {
+    /* 強化第一欄，作為服務項目名稱 */
     text-align: left;
     background-color: var(--bg-light); 
     font-weight: 700;
-    color: var(--primary-color);
-    border-right: 1px solid var(--border-color);
+    color: var(--primary-dark);
+    border-right: 2px solid var(--accent-color); /* 用強調色分隔 */
+    position: sticky; /* 讓服務項目在橫向滾動時保持可見 */
+    left: 0;
+    z-index: 2;
 }
+@media (max-width: 850px) {
+    .comparison-table tbody tr td:first-child {
+        /* 在手機上不需要 sticky，避免遮擋 */
+        position: static;
+        border-right: 1px solid var(--border-color);
+    }
+}
+
 
 .comparison-table .category-title {
     display: block;
@@ -2543,14 +2566,13 @@ footer {
 }
 
 .comparison-table .category-divider {
-    border-top: 2px solid var(--primary-color); 
+    border-top: 2px solid var(--primary-dark); 
     padding: 0;
     line-height: 0;
 }
 
-.comparison-table td:not(:first-child) {
-    font-family: var(--font-serif);
-    font-weight: 700;
+.comparison-table td strong {
+    color: var(--accent-color);
 }
 
 .comparison-table .feature-yes {
@@ -2566,6 +2588,7 @@ footer {
 .comparison-table tbody tr:nth-child(even) td {
     background-color: #FAFAFA; 
 }
+
 
 /* --- 10.4 排除費用清單 (極致透明) 強化 --- */
 
@@ -2621,12 +2644,13 @@ footer {
     border: none;
 }
 
-#excluded-fees .cta-button.primary:hover, #excluded-fees .cta-button.primary:focus-visible { /* 🏆 修正：加入 :focus-visible */
+#excluded-fees .cta-button.primary:hover, #excluded-fees .cta-button.primary:focus-visible { 
     background-color: var(--text-light);
     box-shadow: 0 6px 20px rgba(206, 157, 74, 1);
     outline: 2px solid var(--accent-color);
     outline-offset: 4px;
 }
+
 
 
 /* -------------------------------------------
