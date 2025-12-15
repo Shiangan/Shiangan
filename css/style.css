@@ -23,89 +23,54 @@
 
 
 /* -------------------------------------------
- /*
-* ===================================================
-* 0. 🎨 CSS 變數 (Custom Properties) 與基礎重置 (Reset)
-* - 遵循 OOCSS/BEM 哲學的基礎結構
-* - 註重高性能、易維護與無障礙性
-* ===================================================
-*/
+ * 0. 變數 (Variables) 與重置 (Reset)
+ * ------------------------------------------- */
 
 :root {
-    /* ------------------------------------------- */
-    /* 🏆 1. 品牌色系 (Color Palette) */
-    /* ------------------------------------------- */
-    --color-primary: #1e3a6a;     /* 深藍/藏青 - 主要行動色 */
-    --color-primary-dark: #12213b;  /* 極深藍/夜空 - 懸停/強調 */
-    --color-accent: #ce9d4a;      /* 金黃/流星色 - 裝飾/重點 */
-    --color-secondary: #4a5c78;   /* 沉穩的藍灰色 - 輔助文本/標題 */
+    /* 🏆 品牌色系 */
+    --primary-color: #1e3a6a;  /* 深藍/藏青 */
+    --primary-dark: #12213b;   /* 極深藍/夜空 */
+    --accent-color: #ce9d4a;   /* 金黃/流星色 */
+    --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
     
-    /* ------------------------------------------- */
-    /* 📝 2. 文本與介面色系 (Text & UI Colors) */
-    /* ------------------------------------------- */
-    --color-text-dark: #2c2c2c;      /* 主要文字 (在淺色背景上) */
-    --color-text-light: #ffffff;     /* 反白文字 (在深色背景上) */
-    --color-text-muted: #666;        /* 次要或柔和的文字 */
-    --color-code: #f8f8f2;           /* 程式碼文本色 (用於深色背景) */
+    /* 文字色系 */
+    --text-dark: #2c2c2c;
+    --text-light: #ffffff;
+    --code-color: #f8f8f2; 
 
-    /* ------------------------------------------- */
-    /* 🖼️ 3. 背景與邊界 (Backgrounds & Borders) */
-    /* ------------------------------------------- */
-    --color-bg-light: #f9f9f9;       /* 淺色背景區塊 */
-    --color-bg-body: #ffffff;        /* 頁面主背景色 (從 text-light 獨立) */
-    --color-bg-dark: #000005;        /* 極深色背景區塊 */
-    --color-border: #e8e8e8;         /* 基礎邊界線 */
-    --color-shadow: rgba(0, 0, 0, 0.08); /* 略微加深的陰影 */
+    /* 背景與邊界 */
+    --bg-light: #f9f9f9; 
+    --bg-dark: #000005;  
+    --border-color: #e8e8e8;
+    --shadow-color: rgba(0, 0, 0, 0.05); 
 
-    /* ------------------------------------------- */
-    /* 🅰️ 4. 字體定義 (Typography) */
-    /* ------------------------------------------- */
+    /* 字體定義 */
     --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
-    /* ------------------------------------------- */
-    /* 📐 5. 尺寸與佈局 (Spacing & Layout) */
-    /* ------------------------------------------- */
-    --header-height: 80px;             /* 桌面版 Header 高度 */
-    --content-max-width: 1200px;       /* 頁面內容最大寬度 */
-    --spacing-section-v: 6rem;         /* 區塊垂直內邊距 (80px, 使用 rem 保持一致) */
-    
-    /* ------------------------------------------- */
-    /* ⚡ 6. 動態與過渡 (Transitions & Animation) */
-    /* ------------------------------------------- */
-    --transition-duration-default: 0.3s; /* 標準過渡速度 */
-    --transition-duration-fast: 0.15s;   /* 快速過渡 (用於 hover/active) */
-    --transition-duration-slow: 0.8s;    /* 慢速過渡 (用於滾動動畫) */
-    --transition-duration-rwd: 0.4s;     /* 專用於 RWD max-height 過渡 */
-    --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1); /* 統一的平滑曲線 */
-
-    /* ------------------------------------------- */
-    /* 📱 7. 響應式設計斷點 (Breakpoints) */
-    /* ------------------------------------------- */
-    --breakpoint-mobile: 576px; 
-    --breakpoint-mid: 680px;     /* 用於流程圖、兩欄切換等中型佈局 */
-    --breakpoint-tablet: 900px; 
-    
-    /* ------------------------------------------- */
-    /* ⚓ 8. 滾動修正與動畫 (Scroll & Custom Animation) */
-    /* ------------------------------------------- */
-    /* 錨點滾動修正：確保跳轉時內容不被固定 Header 遮擋 */
+    /* 尺寸定義 */
+    --header-height: 80px; /* 桌面版 Header 高度 */
+    --content-max-width: 1200px;
+    --padding-section-v: 80px; /* 區塊垂直內邊距 */
+    --transition-speed: 0.3s; /* 統一的過渡速度變數 */
+    --transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
+    --transition-slow: 0.8s; /* 新增：用於滾動動畫 */
+    --rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
+    /* 錨點滾動修正，確保跳轉至區塊時不被固定 Header 遮擋 */
     scroll-padding-top: var(--header-height); 
     
-    /* 動畫變數 (依需求保留，但移至底部) */
-    --animation-rotation: -135deg;
-    --animation-travel-x: -150vw;
-    --animation-travel-y: 120vh;
+
+    /* ⭐️ 動畫變數 */
+    --rotation: -135deg;
+    --travel-x: -150vw;
+    --travel-y: 120vh;
+    --breakpoint-mobile: 576px; 
+    --breakpoint-tablet: 900px; 
+    --breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
 }
 
 
-/*
-* ===================================================
-* 1. 基礎重置 (Base Reset)
-* ===================================================
-*/
-
-/* ⭐ 現代 CSS 重置 (Better Box-sizing) */
+/* 基本重置 */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -113,109 +78,76 @@
 }
 
 html {
-    /* 啟用平滑滾動 */
-    scroll-behavior: smooth; 
-    /* 基準字體大小，建議使用百分比以利於用戶縮放 (100% = 16px) */
-    font-size: 100%; 
+    scroll-behavior: smooth;
+    font-size: 16px;
 }
 
 body {
     font-family: var(--font-sans);
-    /* 使用黃金比例或更優化值 */
-    line-height: 1.65; 
-    color: var(--color-text-dark);
-    background-color: var(--color-bg-body);
-    /* 優化文本渲染 */
+    line-height: 1.7;
+    color: var(--text-dark);
+    background-color: var(--text-light);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 圖片與媒體優化 */
 img, video, svg { 
     max-width: 100%; 
     height: auto; 
     vertical-align: middle; 
-    /* 🏆 性能優化：防止圖片在非動態加載時有佈局跳動 (CLS) */
+    /* 🏆 優化：防止圖片在非動態加載時有佈局跳動 (CLS) */
     content-visibility: auto; 
-    display: block; /* 避免底部 4px 幽靈空白 */
 }
 
 /* 清單與連結 */
 ul, ol { list-style: none; }
 a {
-    color: var(--color-primary);
+    color: var(--primary-color);
     text-decoration: none;
-    /* 統一使用變數進行過渡 */
-    transition: color var(--transition-duration-default), 
-                background-color var(--transition-duration-default), 
-                opacity var(--transition-duration-default), 
-                outline var(--transition-duration-default);
+    transition: color var(--transition-speed), background-color var(--transition-speed), opacity var(--transition-speed), outline var(--transition-speed);
 }
 
-/* 🏆 無障礙修正：將 :focus 改為 :focus-visible */
-a:hover { 
-    color: var(--color-primary-dark);
-    opacity: 0.9;
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+a:hover, a:focus-visible { 
+    color: var(--primary-dark);
+    opacity: 0.95;
+    outline: 2px solid var(--accent-color); 
+    outline-offset: 2px;
 }
-a:focus-visible { 
-    /* 強制顯示焦點輪廓，改善無障礙性 */
-    outline: 3px solid var(--color-accent); 
-    outline-offset: 3px;
-    border-radius: 2px;
-}
-
 
 /* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
-/* 用於 JS 控制的類，防止頁面加載時的樣式閃爍 */
-.js-loading { opacity: 0; transition: opacity 0.5s; } 
-/* 鎖定滾動，用於 Modal 或 Off-canvas 菜單 */
-body.no-scroll { 
-    overflow: hidden; 
-    position: fixed; 
-    width: 100%; 
-    height: 100%; 
-    top: 0; 
-    left: 0; 
-} 
+.js-loading { opacity: 0; transition: opacity 0.5s; }
+body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; } 
 
 
-/*
-* ===================================================
-* 2. 標題樣式 (Typography Styles)
-* ===================================================
-*/
+/* 標題樣式 */
 h1, h2, h3, h4, h5, h6 { 
     font-family: var(--font-serif);
     line-height: 1.3;
-    margin-bottom: 1.25rem; /* 統一使用 rem (約 20px) */
-    color: var(--color-secondary);
+    margin-bottom: 1.5rem; /* 統一使用 rem */
+    color: var(--secondary-color);
     font-weight: 700;
     text-rendering: optimizeLegibility; 
 }
 
-/* 🏆 H1：最大標題，響應式字體 */
 h1 {
-    /* min: 1.8rem, ideal: 4.5vmin, max: 4.0rem */
-    font-size: clamp(1.8rem, 4.5vmin + 1rem, 4.0rem); 
+    font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
     text-align: center;
     word-break: break-word;
-    line-height: 1.1;
+    line-height: 1.2;
     letter-spacing: -0.02em;
-    margin-bottom: 2rem;
-    color: var(--color-primary-dark);
+    margin-bottom: 1.5rem;
 }
 
-/* H2：區塊標題 */
+/* 標題下裝飾線 - 僅限 H2 用於區塊標題 */
 h2 {
-    position: relative; 
-    /* min: 1.8rem, ideal: 4vmin, max: 2.5rem */
-    font-size: clamp(1.8rem, 4vmin, 2.5rem);
-    padding-bottom: 0.75rem; /* 為裝飾線留出空間 (12px) */
+    position: relative; /* 確保 ::after 絕對定位參考點 */
+    padding-bottom: 10px; /* 為裝飾線留出空間 */
     text-align: center;
-    color: var(--color-primary-dark);
+    font-size: clamp(1.8rem, 4vmin, 2.5rem);
+    color: var(--primary-dark);
 }
 
-/* H2 裝飾線 */
 h2::after {
     content: '';
     position: absolute;
@@ -224,75 +156,62 @@ h2::after {
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background-color: var(--color-accent);
+    background-color: var(--accent-color);
     border-radius: 2px;
-    /* 使用 will-change 預先通知瀏覽器變動 */
-    transition: transform var(--transition-duration-default) var(--transition-easing); 
+    transition: transform var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1); 
     will-change: transform;
 }
-/* 文章/內文區塊內的 H2 (覆寫樣式) */
+/* 文章內 H2 無裝飾線 (由 JS 調整樣式或在文章樣式中覆寫) */
 .article-body h2 {
     text-align: left;
     padding-bottom: 0;
-    color: var(--color-primary); /* 文章內 H2 用 primary */
-    margin-top: 2rem;
+    color: var(--primary-dark); /* 文章內 H2 用 primary-dark */
 }
 .article-body h2::after {
-    content: none; /* ⭐ 覆寫：移除裝飾線 */
+    content: none; /* ⭐ 覆寫：文章內 H2 移除裝飾線 */
 }
 
 
-/* H3 */
 h3 { 
-    /* min: 1.3rem, ideal: 3vmin, max: 1.8rem */
     font-size: clamp(1.3rem, 3vmin, 1.8rem); 
-    color: var(--color-primary); 
-    margin-bottom: 0.75rem;
+    color: var(--primary-color); 
+    margin-bottom: 0.8rem;
     font-weight: 700;
 }
 
-/* H4 */
 h4 { 
     font-size: 1.25rem; 
-    color: var(--color-secondary);
-    margin-bottom: 0.6rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.7rem;
     font-weight: 700;
 }
 
-/* H5 */
 h5 { 
     font-size: 1.1rem; 
     font-weight: 500; 
-    color: var(--color-secondary);
+    color: var(--secondary-color);
     margin-bottom: 0.5rem;
 }
 
-/* H6 */
 h6 { 
     font-size: 1rem; 
     font-weight: 400; 
-    color: var(--color-text-muted); /* 統一使用變數 */
+    color: #666;
     margin-bottom: 0.5rem;
 }
 
-p { margin-bottom: 1.25rem; } /* 與標題 margin 保持一致，使用 1.25rem */
+p { margin-bottom: 1rem; }
 
-/* 基礎內容元素邊距 */
+/* 基礎內容元素優化 */
 table, blockquote, pre, figure {
     margin: 1.5rem 0;
 }
 
-/*
-* ===================================================
-* 3. 內容元素優化 (Content Element Optimization)
-* ===================================================
-*/
-
 /* 程式碼區塊樣式 (Code Block) */
 pre {
-    background-color: var(--color-primary-dark);
-    color: var(--color-code);
-    padding: 1.25rem; /* 統一使用 rem (20px) */
+    background-color: var(--primary-dark);
+    color: var(--code-color);
+    padding: 15px;
     border-radius: 6px;
     overflow-x: auto;
     font-family: 'Consolas', 'Courier New', monospace;
@@ -300,74 +219,62 @@ pre {
     line-height: 1.5;
     white-space: pre;
     tab-size: 4;
-    /* 性能優化：使用字體平滑 */
-    -webkit-font-smoothing: subpixel-antialiased;
+    word-wrap: normal;
 }
 
-/* 內嵌程式碼 */
 code {
     font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9em; 
-    line-height: 1.5; /* 增加行高，與普通文本對齊 */
-    background-color: rgba(206, 157, 74, 0.12); /* accent 色的透明背景 */
-    color: var(--color-primary-dark);
+    font-size: 0.9em; /* 🏆 修正：使用 em 相對於父級文字，避免過大/過小 */
+    line-height: 1.6; /* 🏆 修正：增加行高，與普通文本對齊 */
+    /* 內嵌程式碼 */
+    background-color: rgba(206, 157, 74, 0.1); 
+    color: var(--primary-dark);
     padding: 2px 5px;
     border-radius: 4px;
     white-space: nowrap;
 }
 
-/* pre 內的 code 樣式覆寫 */
 pre code {
     background: none;
-    color: var(--color-code); 
+    /* ⭐ 修正：確保在深色背景 (var(--primary-dark)) 上有足夠的對比度 */
+    color: var(--code-color); 
     padding: 0;
     white-space: pre;
 }
 
-/* 引用區塊 (Blockquote) */
+/* 確保 blockquote 有質感 */
 blockquote {
-    border-left: 5px solid var(--color-accent);
-    padding: 1rem 1.5rem; /* 統一使用 rem */
-    background-color: var(--color-bg-light);
+    border-left: 5px solid var(--accent-color);
+    padding: 10px 20px;
+    background-color: var(--bg-light);
     color: #555;
     font-style: italic;
     font-size: 1.05rem;
     border-radius: 0 8px 8px 0;
-    margin: 2rem 0; /* 增加上下邊距，使其更突出 */
 }
 
 
-/*
-* ===================================================
-* 4. 容器與通用佈局 (Containers & Utilities)
-* ===================================================
-*/
-
-/* 頁面主容器 */
+/* 容器與通用佈局 */
 .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
-    padding: 0 1.25rem; /* 統一使用 rem (20px) */
+    padding: 0 20px;
 }
 
-/* 容器垂直大間距 */
 .container-v-padding {
-    padding-top: var(--spacing-section-v);
-    padding-bottom: var(--spacing-section-v);
+    padding-top: var(--padding-section-v);
+    padding-bottom: var(--padding-section-v);
 }
 
-/* 容器垂直小間距 */
 .small-v-padding {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
-/* 區塊背景色 */
 .bg-section {
-    background-color: var(--color-bg-light);
+    background-color: var(--bg-light);
 }
 
-/* 居中區塊與文本 */
 .text-center {
     text-align: center;
     max-width: 800px;
@@ -385,6 +292,7 @@ blockquote {
 .fit-text-line { 
   white-space: nowrap; 
 }
+
 
 /* -------------------------------------------
 /* * 1. 導覽列與頁首 (Header & Nav)
