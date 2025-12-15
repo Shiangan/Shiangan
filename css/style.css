@@ -1677,6 +1677,49 @@ footer {
  * 8. 文章頁面 (Article Body) 專屬樣式與優化
  * ------------------------------------------- */
 
+.article-body {
+    max-width: 850px; /* 限制內容最大寬度，避免行長過長影響閱讀 */
+    margin: 0 auto;
+    /* 調整基礎元素間距，增加呼吸感 */
+    line-height: 1.8; 
+    font-size: 1.05rem; /* 微微調大基礎字體 */
+}
+
+/* 段落間距調整 */
+.article-body p {
+    margin-bottom: 1.5rem; /* 增加段落間距 */
+}
+
+/* 內嵌程式碼優化：使其與行高對齊 */
+.article-body code {
+    /* ⭐ 確保 inline code 在深色背景上有良好的對比度 */
+    color: var(--primary-color); 
+    line-height: 1.7; 
+}
+
+/* 列表樣式調整：增加間距，更易於掃描 */
+.article-body ul, .article-body ol {
+    margin: 1.5rem 0;
+    padding-left: 25px; /* 增加預設清單縮進 */
+}
+.article-body ul li, .article-body ol li {
+    margin-bottom: 0.6rem; /* 增加清單項間距 */
+}
+
+
+/* 引用塊：更突出，與內容區塊區分 */
+.article-body blockquote {
+    border-left: 6px solid var(--accent-color);
+    padding: 20px 25px;
+    background-color: var(--bg-light);
+    color: var(--secondary-color);
+    font-size: 1.1rem; /* 引用文字略微放大 */
+    margin: 2rem 0;
+    border-radius: 0 10px 10px 0; /* 圓角更柔和 */
+}
+
+
+
 .article-main-layout {
     /* 寬度調整：TOC 側邊欄略為縮小，內容區變寬 */
     display: grid;
@@ -1697,6 +1740,69 @@ footer {
     /* 🏆 優化：確保滾動流暢性 */
     -webkit-overflow-scrolling: touch; 
 }
+
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 2：提示框】
+ * ------------------------------------------- */
+
+.tip-box, .key-point-box, .note-info, .primary-tip {
+    padding: 25px; /* 增加內邊距 */
+    margin: 35px 0; /* 增加與周圍內容的間距 */
+    border-left: none; /* 移除左側邊框，改用背景和陰影/邊框來區分 */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    line-height: 1.7;
+}
+
+.tip-box i, .key-point-box i, .note-info i, .primary-tip i {
+    font-size: 1.5rem; /* 增大圖標 */
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+/* 🔔 提示框 (Tip Box - 柔和提醒/建議) */
+.tip-box {
+    background-color: rgba(255, 193, 7, 0.08); /* 淺黃色背景 */
+    border: 1px solid #FFC107;
+    color: var(--text-dark);
+}
+.tip-box i {
+    color: #FFC107;
+}
+
+/* 📌 核心重點 (Key Point Box - 強調內容) */
+.key-point-box {
+    background-color: rgba(206, 157, 74, 0.15); /* 略深的金色背景 */
+    border: 2px solid var(--accent-color);
+    font-family: var(--font-sans); /* 讓重點部分也使用無襯線字體，更清晰 */
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+.key-point-box i {
+    color: var(--accent-color);
+}
+.key-point-box p {
+    font-weight: 400; /* 內文降權重 */
+    margin-top: 10px;
+}
+
+/* 🛡️ 專業提醒 (Primary Tip - 重要的專業/法律/安全提示) */
+.primary-tip {
+    background-color: var(--primary-color); /* 深色背景，最高權重 */
+    color: var(--text-light);
+    border: none;
+    box-shadow: 0 4px 15px rgba(30, 58, 106, 0.4);
+    font-weight: 500;
+}
+.primary-tip i {
+    color: var(--accent-color); /* 金色圖標，高對比度 */
+}
+.primary-tip a {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
 
 
 .sidebar-block {
@@ -1850,23 +1956,28 @@ footer {
 }
 
 /* 圖片與圖集 (Figure) 樣式 */
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 3：圖文】
+ * ------------------------------------------- */
+
+/* 圖片與圖集 (Figure) 樣式強化 */
 .article-body figure {
-    text-align: center;
-    margin: 30px 0;
-    padding: 0;
+    margin: 40px 0; /* 增加上下間距 */
 }
 
 .article-body figure img {
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* 稍微更強的陰影 */
 }
 
 .article-body figure figcaption {
-    font-size: 0.9rem;
-    color: #777;
-    margin-top: 10px;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin-top: 15px; /* 增加與圖片間距 */
+    line-height: 1.5;
+    font-style: italic;
 }
+
 
 
 /* 步驟徽章樣式 */
@@ -1963,24 +2074,47 @@ footer {
 .warning-list .list-icon {
     color: #dc3545; 
 }
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 4：步驟】
+ * ------------------------------------------- */
+
+/* 強化 numbered-steps 樣式 */
 .numbered-steps {
-    counter-reset: custom-counter;
     list-style: none;
     padding-left: 0;
+    margin: 30px 0;
 }
 .numbered-steps li {
-    counter-increment: custom-counter;
-    margin-bottom: 10px;
-    padding-left: 30px;
+    padding-left: 45px; /* 為更大的徽章留出空間 */
+    margin-bottom: 20px;
+    font-weight: 400; /* 內文用普通字重 */
+    line-height: 1.7;
     position: relative;
-    font-weight: 500;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+.numbered-steps li:hover {
+    background-color: var(--bg-light);
 }
 .numbered-steps li::before {
-    content: counter(custom-counter) ".";
+    content: counter(custom-counter); /* 僅數字 */
     position: absolute;
-    left: 0;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
     font-weight: 700;
-    color: var(--accent-color);
+    font-size: 1.1rem;
+    border: 3px solid var(--text-light); /* 增加一個白色環繞 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* 簡潔 FAQ 樣式 (simple-faq) */
@@ -2789,6 +2923,41 @@ footer {
         transition: color var(--transition-fast);
         outline: none;
     }
+
+ /* -------------------------------------------
+ * 12. 響應式設計 (Media Queries) - 最終優化
+ * ------------------------------------------- */
+
+/* 5. 極小手機 (Max-width: 480px) - 補充 */
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    /* 確保所有垂直間距不會過大 */
+    :root {
+         --padding-section-v: 40px;
+    }
+    .container-v-padding {
+        padding-top: var(--padding-section-v);
+        padding-bottom: var(--padding-section-v);
+    }
+
+    /* 聯繫資訊方塊 RWD 調整 */
+    .contact-info-card p,
+    .contact-info-card address {
+        flex-direction: column; /* 改為垂直堆疊 */
+        align-items: flex-start;
+    }
+    .contact-info-card .icon {
+        margin-bottom: 5px;
+    }
+
+
     
 
     /* 關鍵修正：平板/手機下拉菜單的最大高度過渡邏輯 */
@@ -2982,6 +3151,25 @@ footer {
     .flow-chart ol {
         padding: 0 10px; 
     }
+
+ /* 修正：在 576px 以下，將 footer-copyright 內容居中對齊 */
+@media (max-width: 576px) {
+    .footer-copyright .container {
+        align-items: center; 
+        text-align: center;
+    }
+
+    .footer-meta {
+        /* 將連結也居中 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-meta a {
+        margin: 5px 0; /* 垂直增加間距 */
+        margin-left: 0;
+    }
+
     
     /* 🏆 修正：流程圖 RWD (576px-)：1 欄模式箭頭邏輯 */
     /* 在 1 欄佈局中，所有非最後一個元素都應有向下箭頭 */
