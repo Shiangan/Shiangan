@@ -295,7 +295,7 @@ blockquote {
 
 
 /* -------------------------------------------
- * 1. 導覽列與頁首 (Header & Nav)
+/* * 1. 導覽列與頁首 (Header & Nav)
  * ------------------------------------------- */
 
 .main-header {
@@ -313,11 +313,12 @@ blockquote {
 }
 
 
-/* 修正: Header 固定後，需要為主要內容增加 padding-top */
+/* 修正: Header 固定後，需要為主要內容增加 padding-top (這需要在一個通用容器或 main 標籤上實作，這裡僅定義 main 的基礎) */
 main {
     padding-top: 0; /* 確保 main 自身沒有多餘 padding */
 }
 
+/* 確保錨點定位時不會被固定 Header 遮擋 */
 :target {
     scroll-margin-top: var(--header-height); 
 } 
@@ -333,10 +334,11 @@ main {
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.95); 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
-    /* 🏆 修正：加入 -webkit- 前綴，確保 iOS 兼容性 */
+    /* 確保 iOS 兼容性 */
     backdrop-filter: blur(5px); 
     -webkit-backdrop-filter: blur(5px);
-    border-bottom: 1px solid var(--border-color); /* ⭐ 優化：增加底邊，讓 Header 更有厚度感 */
+    /* 優化：增加底邊，讓 Header 更有厚度感 */
+    border-bottom: 1px solid var(--border-color); 
 }
 
 .logo {
@@ -361,7 +363,7 @@ main {
 .main-nav li {
     position: relative;
     padding: 0 10px; 
-    white-space: nowrap; /* 關鍵修正: 確保單行顯示，不換行 */
+    white-space: nowrap; /* 確保單行顯示，不換行 */
 }
 
 
@@ -372,10 +374,11 @@ main {
     color: var(--secondary-color);
     font-weight: 500;
     letter-spacing: 0.5px;
+    text-decoration: none; /* 確保連結無下劃線 */
 }
 
 
-/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+/* 修正：使用 :focus-visible 提供更好的無障礙體驗 */
 .main-nav a:hover, .main-nav a:focus-visible, .main-nav a.active {
     color: var(--primary-color);
 }
@@ -390,13 +393,18 @@ main {
 .main-content-area { 
     max-width: 1200px; /* 限制最大寬度 */
     margin: 40px auto; /* 居中並提供上下間距 */
-    padding: 0 20px; /* ⬅️ 關鍵！提供左右 20px 內邊距，防止內容貼邊 */
+    padding: 0 20px; /* 提供左右 20px 內邊距，防止內容貼邊 */
 }
 
-/* ---------------------------------------------------- */
-/* 【桌面版】下拉選單質感優化 */
-/* ---------------------------------------------------- */
+
+/* ==================================================== */
+/* 【桌面版】下拉選單質感優化 (僅應用於大於 900px 的螢幕) */
+/* ==================================================== */
 @media screen and (min-width: 901px) {
+    .submenu-container {
+        position: relative; 
+    }
+    
     .submenu {
         position: absolute;
         top: 100%;
@@ -405,47 +413,63 @@ main {
         background-color: var(--text-light);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         border-top: 5px solid var(--accent-color);
-        list-style: none;
         padding: 10px 0;
         z-index: 10;
-        display: flex;
-        flex-direction: column;
         
         /* 關鍵：桌面預設隱藏屬性 (使用 opacity/visibility/transform 過渡) */
         transform: translateY(10px);
         opacity: 0; 
         visibility: hidden; 
-        max-height: unset; /* 確保桌面版不被 RWD 的 max-height 影響 */
+        max-height: 100vh; 
         pointer-events: none; 
         
         transition: opacity var(--transition-speed) ease, 
                     transform var(--transition-speed) ease, 
-                    visibility var(--transition-speed);
+                    /* 延遲隱藏 */
+                    visibility var(--transition-speed) linear var(--transition-speed); 
         border-radius: 0 0 8px 8px;
         overflow: hidden;
     }
 
-    /* 修正：Focus-within 確保鍵盤無障礙操作 */
-    .dropdown:hover > .submenu,
-    .dropdown:focus-within > .submenu,
-    .dropdown.focus-within > .submenu { 
+    /* 確保鍵盤無障礙與滑鼠操作：Dropdown 內任何元素獲取焦點時或滑鼠懸停時顯示 */
+    .dropdown:hover > .submenu-container > .submenu,
+    .dropdown:focus-within > .submenu-container > .submenu { 
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
         pointer-events: auto; 
+        transition-delay: 0s; /* 顯示時無延遲 */
     }
 
+    /* 箭頭旋轉動畫 */
     .dropdown:hover > a .fas,
-    .dropdown:focus-within > a .fas,
-    .dropdown.focus-within > a .fas { 
+    .dropdown:focus-within > a .fas { 
         transform: rotate(180deg);
+        transition: transform var(--transition-speed) ease;
+    }
+    
+    /* 確保聯繫導覽按鈕在桌面版正常顯示 */
+    .contact-nav {
+        display: block; 
     }
 }
-/* ---------------------------------------------------- */
-/* 子選單通用樣式 (RWD 也要使用) */
+
+
+/* ==================================================== */
+/* 子選單通用樣式 (跨 RWD 使用) */
+/* ==================================================== */
+.submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .submenu li {
-    padding: 0px;
+    padding: 0;
     width: 100%;
+    list-style: none; 
 }
 
 .submenu a {
@@ -454,21 +478,22 @@ main {
     font-size: 0.95rem;
     display: block;
     color: var(--text-dark);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
 }
+
 @media (max-width: 900px) {
-    /* 手機模式下增加縮進 */
+    /* 行動模式下增加縮進 */
     .submenu a {
         padding: 10px 30px; 
     }
 }
 
 
-.submenu a:hover, .submenu a:focus-visible { /* 🏆 修正：加入 :focus-visible */
+.submenu a:hover, .submenu a:focus-visible { 
     background-color: var(--primary-color);
     color: var(--text-light);
-    outline: none; /* 移除 a:focus-visible 的預設 outline */
-    /* ⭐ 優化：使用快速過渡，提升點擊反饋速度 */
-    transition: background-color var(--transition-fast), color var(--transition-fast); 
+    outline: none; 
 }
 
 .submenu-title {
@@ -479,10 +504,12 @@ main {
     cursor: default;
     opacity: 1;
     background-color: rgba(30, 58, 106, 0.1);
+    list-style: none; 
 }
+
 @media (max-width: 900px) {
     .submenu-title {
-        padding: 8px 30px 4px; /* 手機模式下增加縮進 */
+        padding: 8px 30px 4px; 
     }
 }
 
@@ -492,6 +519,7 @@ main {
     margin: 5px 20px;
     list-style: none;
 }
+
 @media (max-width: 900px) {
     .submenu-separator {
         margin: 5px 30px;
@@ -499,58 +527,83 @@ main {
 }
 
 
-/* 聯繫導覽按鈕 (桌面專用) */
-.contact-nav a {
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    padding: 8px 15px;
-    border-radius: 50px;
-    font-weight: 700;
-    margin-left: 20px;
-    display: inline-flex;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
-    flex-shrink: 0;
+/* ==================================================== */
+/* 聯繫導覽按鈕 (桌面專用) 與選單開關 (行動版專用) */
+/* ==================================================== */
+
+@media screen and (min-width: 901px) {
+    /* 聯繫導覽按鈕 (桌面專用) */
+    .contact-nav a {
+        background-color: var(--accent-color);
+        color: var(--primary-dark);
+        padding: 8px 15px;
+        border-radius: 50px;
+        font-weight: 700;
+        margin-left: 20px;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
+        flex-shrink: 0;
+        text-decoration: none;
+        transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    
+    .contact-nav a:hover, .contact-nav a:focus-visible { 
+        background-color: var(--primary-dark);
+        color: var(--accent-color);
+        box-shadow: 0 4px 12px rgba(206, 157, 74, 0.8);
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+    }
+    
+    /* 在桌面版隱藏 menu-toggle */
+    .menu-toggle {
+        display: none;
+    }
 }
 
-.contact-nav a:hover, .contact-nav a:focus-visible { /* 🏆 修正：加入 :focus-visible */
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
-    outline: none; /* 移除 a:focus-visible 的預設 outline */
-    /* ⭐ 優化：使用快速過渡，提升點擊反饋速度 */
-    transition: background-color var(--transition-fast), color var(--transition-fast);
-}
 
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    color: var(--primary-color);
-    padding: 5px 10px;
-    font-weight: 700;
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
-    transition: background-color var(--transition-speed);
-    z-index: 1001;
-    will-change: background-color, transform;
-}
+@media screen and (max-width: 900px) {
+    /* 🏆 修正：這裡是大括號開始，包住所有 <=900px 的樣式 */
+    
+    /* 在行動版隱藏聯繫導覽按鈕 */
+    .contact-nav {
+        display: none;
+    }
+    
+    /* 行動版選單開關 */
+    .menu-toggle {
+        display: block; /* 在行動版顯示 menu-toggle */
+        background: none;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        color: var(--primary-color);
+        padding: 5px 10px;
+        font-weight: 700;
+        border: 1px solid var(--primary-color);
+        border-radius: 4px;
+        transition: background-color var(--transition-speed);
+        z-index: 1001;
+        will-change: background-color, transform;
+    }
+    
+    .menu-toggle:hover, .menu-toggle:focus-visible {
+        background-color: rgba(26, 55, 90, 0.1);
+        outline: 2px solid var(--accent-color); 
+        outline-offset: 2px;
+    }
+    
+    .menu-toggle i {
+        transition: transform var(--transition-speed) ease-in-out;
+        font-size: 1.2rem;
+        vertical-align: middle;
+    }
+} /* 🏆 修正：在這裡閉合 media query */
 
-.menu-toggle:hover, .menu-toggle:focus-visible { /* 🏆 修正：加入 :focus-visible */
-    background-color: rgba(26, 55, 90, 0.1);
-    outline: 2px solid var(--accent-color); 
-    outline-offset: 2px;
-}
-
-.menu-toggle i {
-    transition: transform var(--transition-speed) ease-in-out;
-    font-size: 1.2rem;
-    vertical-align: middle;
-}
 
 /* -------------------------------------------
- * 2. CTA 按鈕與共通元件
+ * 2. CTA 按鈕與共通元件 (這部分在所有尺寸都適用)
  * ------------------------------------------- */
 
 .cta-button {
@@ -562,7 +615,8 @@ main {
     text-align: center;
     font-weight: 700;
     font-size: 1rem;
-    /* ⭐ 優化：使用快速過渡提升點擊響應 */
+    text-decoration: none; /* 確保沒有下劃線 */
+    /* 優化：使用快速過渡提升點擊響應 */
     transition: background-color var(--transition-fast), transform 0.2s, box-shadow var(--transition-speed); 
     border: 2px solid transparent;
     will-change: transform, box-shadow;
@@ -571,7 +625,8 @@ main {
 }
 
 .cta-button .fas, .cta-button .fab, .cta-button .fa {
-    margin-left: 8px;
+    margin-right: 8px; /* 修正：圖標在左側，文字在右側，應該調整為右側間距 */
+    margin-left: 0;
 }
 
 .cta-button.primary {
@@ -580,7 +635,7 @@ main {
     box-shadow: 0 6px 15px rgba(30, 58, 106, 0.6);
 }
 
-.cta-button.primary:hover, .cta-button.primary:focus-visible { /* 🏆 修正：加入 :focus-visible */
+.cta-button.primary:hover, .cta-button.primary:focus-visible { 
     background-color: var(--primary-dark);
     transform: translateY(-4px);
     box-shadow: 0 10px 20px rgba(30, 58, 106, 0.9);
@@ -601,12 +656,14 @@ main {
     box-shadow: 0 4px 10px rgba(206, 157, 74, 0.4);
 }
 
-/* 🏆 修正：使用 :focus-visible 提供更好的鍵盤導航體驗 */
+/* 修正：統一 secondary CTA 的 :focus-visible 狀態 */
 .cta-button.secondary:focus-visible { 
     outline: 2px solid var(--primary-color);
     outline-offset: 4px;
-    background-color: var(--accent-color); /* 讓 focus 狀態更明顯 */
+    background-color: var(--accent-color); 
     color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(206, 157, 74, 0.4);
 }
 
 .cta-button.large {
@@ -623,6 +680,7 @@ main {
 .full-width-btn {
     width: 100% !important;
 }
+
 
 
 /* -------------------------------------------
