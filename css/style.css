@@ -3645,3 +3645,94 @@ footer {
         border: 1px solid var(--accent-color); 
     }
 }
+
+ /* ====================================================
+ * 🎯 流程圖 RWD 修正（3 / 2 / 1 欄）
+ * ==================================================== */
+
+/* ===== 平板：3 欄 ===== */
+@media (max-width: 900px) and (min-width: 681px) {
+    .flow-chart li {
+        flex-basis: calc(33.333% - 30px);
+        margin-bottom: 35px;
+    }
+
+    .flow-chart li:not(:nth-child(3n)):not(:last-child)::after {
+        content: '\f061';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: -28px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.4rem;
+        color: var(--primary-color);
+    }
+
+    .flow-chart li:nth-child(3n):not(:last-child)::after {
+        content: '\f078';
+        right: 50%;
+        bottom: -35px;
+        top: auto;
+        transform: translate(50%, 0);
+        color: var(--accent-color);
+    }
+}
+
+/* ===== 中小裝置：2 欄 ===== */
+@media (max-width: 680px) and (min-width: 481px) {
+    .flow-chart li {
+        flex-basis: calc(50% - 30px);
+        margin-bottom: 35px;
+    }
+
+    .flow-chart li:not(:nth-child(2n)):not(:last-child)::after {
+        content: '\f061';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: -26px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+    }
+
+    .flow-chart li:nth-child(2n):not(:last-child)::after {
+        content: '\f078';
+        right: 50%;
+        bottom: -35px;
+        top: auto;
+        transform: translate(50%, 0);
+        color: var(--accent-color);
+    }
+}
+
+/* ===== 手機：1 欄 ===== */
+@media (max-width: 480px) {
+    .flow-chart ol {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flow-chart li {
+        flex-basis: 100%;
+        max-width: 420px;
+        margin-bottom: 40px;
+    }
+
+    .flow-chart li::after {
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--accent-color);
+        font-size: 1.4rem;
+    }
+
+    .flow-chart li:last-child::after {
+        content: none;
+    }
+}
