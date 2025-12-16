@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" 
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,7 +7,14 @@
     <title>【殯葬百科知識庫】治喪流程SOP、費用分析、法規補助與禮儀指南 | 祥安生命</title>
     <meta name="description" content="祥安生命國家認證禮儀師提供最完整的殯葬百科知識：涵蓋臨終處理SOP、治喪完整流程細節、公開費用分析、最新喪葬補助與法規指南。幫助您清晰、從容地處理後事。">
     <link rel="canonical" href="https://24hour.台灣/Shiangan/blog.html">
+    <meta name="robots" content="index, follow">
     
+    <meta property="og:title" content="祥安生命 - 殯葬百科知識庫：專業指引與溫暖解答">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://24hour.台灣/Shiangan/blog.html">
+    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/blog-hero-bg.jpg">
+    <meta property="og:description" content="國家認證禮儀師團隊整理，最貼近人心的殯葬知識與流程指南。">
+
     <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
@@ -16,24 +23,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [{
-        "@type": "ListItem",
-        "position": 1,
-        "name": "首頁",
-        "item": "index.html"
-      },{
-        "@type": "ListItem",
-        "position": 2,
-        "name": "殯葬百科知識庫",
-        "item": "blog.html"
-      }]
-    }
+    [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "殯葬百科知識庫 | 祥安生命",
+          "url": "https://24hour.台灣/Shiangan/blog.html",
+          "description": "祥安生命國家認證禮儀師提供最完整的殯葬百科知識：涵蓋臨終處理SOP、治喪完整流程細節、公開費用分析、最新喪葬補助與法規指南。",
+          "publisher": {
+              "@type": "Organization",
+              "name": "祥安生命有限公司",
+              "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://24hour.台灣/Shiangan/images/logo.png"
+              }
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "首頁",
+            "item": "https://24hour.台灣/Shiangan/index.html"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "殯葬百科知識庫",
+            "item": "https://24hour.台灣/Shiangan/blog.html"
+          }]
+        }
+    ]
     </script>
+    
     <style>
+        /* 視覺排版與響應式優化 */
         html { scroll-behavior: smooth; }
+        .blog-main-layout { display: flex; gap: 30px; }
+        .article-content { flex: 3; min-width: 0; }
+        .sidebar { flex: 1; max-width: 300px; }
+        
+        @media (max-width: 1024px) {
+            .blog-main-layout { flex-direction: column; }
+            .sidebar { max-width: none; order: -1; } /* 側邊欄在手機上移到上方 */
+            .article-grid .blog-card { max-width: 100%; }
+        }
+
         .article-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -44,92 +80,121 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             overflow: hidden;
-            transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s, transform 0.3s;
+            display: flex;
+            flex-direction: column;
         }
         .blog-card:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* 強化陰影 */
+            transform: translateY(-3px); /* 輕微上浮 */
         }
         .card-image-wrap { height: 200px; overflow: hidden; }
         .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .blog-card:hover .card-image-wrap img { transform: scale(1.05); }
-        .card-body { padding: 15px 20px; }
-        .article-tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: 700; margin-bottom: 10px; }
-        /* 新增宗教與費用標籤顏色 */
+        .card-body { padding: 15px 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .article-tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.8em; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; }
+        
+        /* 標籤顏色強化 */
         .primary-tag { background-color: var(--primary-light); color: var(--primary-dark); }
         .secondary-tag { background-color: #f0f0f0; color: #555; }
         .cost-tag { background-color: #ffcc99; color: #cc6600; }
         .religion-tag { background-color: #c0d9f0; color: #003366; }
+        .legal-tag { background-color: #d8f5d8; color: #1e8449; } /* 新增法規標籤 */
         
-        .blog-card h3 a { color: var(--primary-dark); text-decoration: none; font-size: 1.2rem; line-height: 1.5; font-weight: 700; }
+        .blog-card h3 a { color: var(--primary-dark); text-decoration: none; font-size: 1.25rem; line-height: 1.4; font-weight: 700; transition: color 0.3s; }
+        .blog-card h3 a:hover { color: var(--accent-color); }
+        .article-meta { font-size: 0.85em; color: #888; margin-top: auto; padding-top: 10px; border-top: 1px solid #eee; }
         
-        .sidebar-latest ul { list-style: none; padding-left: 0; margin-top: 10px; }
-        .sidebar-latest li { margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 8px; }
-        .sidebar-latest a { color: var(--accent-color); text-decoration: none; font-size: 0.95em; }
+        /* Sidebar 優化 */
+        .sidebar-block { background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .emergency-contact-box { background-color: var(--primary-color); color: white; text-align: center; }
+        .emergency-contact-box h4 { color: white; margin-top: 0; }
         
-        /* FAQ 樣式 */
+        /* FAQ 樣式強化 (使其更像手風琴) */
         .faq-section h2 { margin-top: 50px; }
-        .faq-item { border: 1px solid #ddd; margin-bottom: 10px; border-radius: 4px; }
-        .faq-item summary { cursor: pointer; padding: 15px; font-weight: bold; color: var(--primary-dark); }
-        .faq-item p { padding: 0 15px 15px; margin: 0; border-top: 1px solid #eee; }
+        .faq-item { border: 1px solid #ddd; margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
+        .faq-item summary { 
+            cursor: pointer; 
+            padding: 15px; 
+            font-weight: bold; 
+            color: var(--primary-dark); 
+            background-color: #f9f9f9; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+        }
+        .faq-item summary::after {
+            content: "\f078"; /* Font Awesome Chevron Down */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s;
+        }
+        .faq-item[open] summary::after {
+            transform: rotate(180deg);
+        }
+        .faq-item p { 
+            padding: 15px; 
+            margin: 0; 
+            border-top: 1px solid #eee; 
+            background-color: white;
+            line-height: 1.7;
+        }
+
+        /* 治喪流程圖特別樣式 */
+        .featured-flow-card .card-body {
+            background-color: var(--primary-light); 
+            border: 2px solid var(--accent-color);
+            min-height: 180px; /* 確保內容區足夠高 */
+            justify-content: center;
+            align-items: center;
+        }
+        .featured-flow-card h3 a {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="js-loading">
-   <header class="main-header" role="banner">
-    <div class="header-container container"> 
-        <div class="logo">
-            <a href="index.html" title="祥安生命有限公司 - 專業生命禮儀服務">
-                <img src="images/logo.png" alt="祥安生命有限公司 Logo" class="site-logo" loading="lazy">
-            </a>
+    
+    <header class="main-header" role="banner">
+        <div class="header-container container"> 
+            <div class="logo">
+                <a href="index.html" title="祥安生命有限公司 - 專業生命禮儀服務">
+                    <img src="images/logo.png" alt="祥安生命有限公司 Logo" class="site-logo" loading="lazy">
+                </a>
+            </div>
+            <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
+                <ul>
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="about.html">關於我們</a></li> 
+                    <li class="dropdown">
+                        <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+                        </li>
+                    <li class="dropdown">
+                        <a href="plans.html" aria-expanded="false" aria-haspopup="true">喪葬費用公開方案 <i class="fas fa-chevron-down"></i></a>
+                        </li>
+                    <li class="dropdown active">
+                        <a href="blog.html" aria-current="page" aria-expanded="true" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li class="submenu-title">常見問答與流程</li>
+                            <li><a href="#first-step">臨終/初終處理</a></li>
+                            <li><a href="#faq-process">治喪流程與細節問答</a></li>
+                            <li><a href="#law-guide">法規與補助指南</a></li>
+                            <li class="submenu-separator"></li>
+                            <li><a href="article-taboo.html">守喪禁忌提醒</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="order.html">花禮訂購</a></li> 
+                    <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線" class="cta-button primary small">📞 24H 聯絡我們</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
+                <i class="fas fa-bars"></i> 選單
+            </button>
         </div>
-        <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
-            <ul>
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="about.html">關於我們</a></li> 
-                <li class="dropdown">
-                    <a href="services.html" aria-expanded="false" aria-haspopup="true">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
-                    <ul class="submenu">
-                        <li class="submenu-title">依宗教分類</li>
-                        <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道)</a></li>
-                        <li><a href="services.html#Western-etiquette">西式禮儀 (基督/天主)</a></li>
-                        <li><a href="services.html#Japanese-etiquette">日式禮儀 (日蓮正宗等)</a></li>
-                        <li class="submenu-separator"></li>
-                        <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="plans.html" aria-expanded="false" aria-haspopup="true">喪葬費用公開方案 <i class="fas fa-chevron-down"></i></a>
-                    <ul class="submenu">
-                        <li class="submenu-title">透明化契約方案</li>
-                        <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
-                        <li><a href="plans.html#eight-eight">中式契約 8.8萬</a></li>
-                        <li><a href="plans.html#eleven-eight">中式契約 11.8萬</a></li>
-                        <li><a href="plans.html#fourteen-eight">中式契約 14.8萬</a></li>
-                        <li><a href="plans.html#seventeen-eight">尊榮契約 17.8萬</a></li>
-                        <li class="submenu-separator"></li>
-                        <li><a href="plans.html#west">西式契約</a></li>
-                        <li><a href="plans.html#japen">日式契約</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown active">
-                    <a href="blog.html" aria-current="page" aria-expanded="true" aria-haspopup="true">殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
-                    <ul class="submenu">
-                        <li class="submenu-title">常見問答與流程</li>
-                        <li><a href="#first-step">臨終/初終處理</a></li>
-                        <li><a href="#faq-process">治喪流程與細節問答</a></li>
-                        <li><a href="#law-guide">法規與補助指南</a></li>
-                        <li class="submenu-separator"></li>
-                        <li><a href="#items-guide">儀式用品解析</a></li>
-                    </ul>
-                </li>
-                <li><a href="order.html">花禮訂購</a></li> 
-                <li class="contact-nav"><a href="tel:0978583699" title="24小時禮儀服務專線" class="cta-button primary small">📞 24H 聯絡我們</a></li>
-            </ul>
-        </nav>
-        <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-            <i class="fas fa-bars"></i> 選單
-        </button>
-    </div>
-</header>
+    </header>
 
 
     <main role="main">
@@ -137,15 +202,30 @@
             <div class="hero-content">
                 <h1 class="main-title">**殯葬百科知識庫：** 讓治喪流程不再混亂</h1>
                 <p>專業禮儀師整理的**殯葬流程、法規、習俗** Q&A，幫助您在悲傷中依然能清晰、從容地處理後事。</p>
+                <a href="#first-step" class="cta-button secondary large" style="margin-top: 20px;">👉 立即查看臨終/初終處理SOP</a>
             </div>
         </section>
         
-        <section id="blog-categories" class="container-v-padding small-v-padding bg-section">
+        <div class="container breadcrumb-nav">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="index.html"><span itemprop="name">首頁</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span itemprop="name">殯葬百科知識庫</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </div>
+
+        <section id="blog-categories" class="container-v-padding small-v-padding bg-section" style="padding-top: 15px; padding-bottom: 15px;">
             <div class="container">
                 <nav class="category-tabs" aria-label="知識庫文章分類">
                     <a href="#first-step" class="active"><i class="fas fa-ambulance"></i> 臨終/初終處理</a>
                     <a href="#faq-process"><i class="fas fa-list-ol"></i> 治喪流程與細節</a>
-                    <a href="#religion-rites"><i class="fas fa-church"></i> 儀式細節與宗教差異</a> <a href="#law-guide"><i class="fas fa-balance-scale"></i> 法規與補助指南</a>
+                    <a href="#religion-rites"><i class="fas fa-church"></i> 儀式與宗教差異</a> 
+                    <a href="#law-guide"><i class="fas fa-balance-scale"></i> 法規與補助</a>
                 </nav>
             </div>
         </section>
@@ -157,27 +237,28 @@
                     <div class="sidebar-block emergency-contact-box">
                         <h4><i class="fas fa-headset"></i> 24H 緊急協助專線</h4>
                         <p>面對緊急狀況，請立即來電，我們將在電話中**溫和、清晰地指導**您臨終/初終的處理步驟。</p>
-                        <a href="tel:0978583699" class="cta-button primary small full-width-btn" title="祥安生命 24小時禮儀師服務專線">📞 立即撥打：0978-583-699</a>
+                        <a href="tel:0978583699" class="cta-button small" title="祥安生命 24小時禮儀師服務專線" style="background-color: white; color: var(--primary-dark); font-weight: bold; margin-top: 15px;">📞 立即撥打：0978-583-699</a>
                     </div>
                     
                     <div class="sidebar-block tag-cloud">
                         <h4>熱門主題標籤 <i class="fas fa-tags" style="color: #e67e22;"></i></h4>
                         <div class="tag-group">
-                            <a href="#first-step" class="blog-tag" title="查看所有臨終/初終處理相關文章">#大體接運</a> 
-                            <a href="#law-guide" class="blog-tag" title="查看喪葬補助金相關資訊">#喪葬補助</a>
-                            <a href="#faq-process" class="blog-tag" title="查看費用與流程分析">#費用分析</a>
-                            <a href="#faq-process" class="blog-tag" title="查看訃聞撰寫教學">#訃聞寫法</a>
-                            <a href="#law-guide" class="blog-tag" title="查看環保葬相關資訊">#環保葬</a>
-                            <a href="#religion-rites" class="blog-tag" title="查看不同宗教儀式比較">#宗教禮儀</a>
+                            <a href="article-hospital-death.html" class="blog-tag" title="查看所有臨終/初終處理相關文章">#大體接運</a> 
+                            <a href="article-labor-insurance.html" class="blog-tag" title="查看喪葬補助金相關資訊">#喪葬補助</a>
+                            <a href="article-cost-analysis.html" class="blog-tag" title="查看費用與流程分析">#費用分析</a>
+                            <a href="article-fuwen-template.html" class="blog-tag" title="查看訃聞撰寫教學">#訃聞寫法</a>
+                            <a href="article-eco-burial-guide.html" class="blog-tag" title="查看環保葬相關資訊">#環保葬</a>
+                            <a href="article-buddhist-taoist-compare.html" class="blog-tag" title="查看不同宗教儀式比較">#宗教禮儀</a>
+                            <a href="article-taboo.html" class="blog-tag" title="查看守喪禁忌">#守喪禁忌</a>
                         </div>
                     </div>
                     
-                    <div class="sidebar-block sidebar-latest" style="margin-top: 30px; border-top: 2px solid var(--primary-color);">
+                    <div class="sidebar-block sidebar-latest">
                         <h4><i class="fas fa-clock"></i> 最新上線文章</h4>
                         <ul>
-                            <li><a href="article-fuwen-template.html" title="訃聞範本、格式與稱謂全攻略">訃聞範本、格式與稱謂全攻略</a></li>
+                            <li><a href="article-fuwen-template.html" title="訃聞範本、格式與稱謂全攻略">訃聞範本、格式與稱謂全攻略 (New!)</a></li>
                             <li><a href="article-taboo.html" title="守喪期間十大常見禁忌與現代解讀">守喪期間十大常見禁忌與現代解讀</a></li>
-                            <li><a href="article-duinian-helu.html" title="對年、合爐是什麼？祭祀流程與時間點">對年、合爐是什麼？祭祀流程與時間點</a></li>
+                            <li><a href="article-zhisang-flow.html" title="治喪流程圖總覽：完整時程與環節">治喪流程圖總覽 (必看圖解)</a></li>
                             <li><a href="article-labor-insurance.html" title="勞保、國保喪葬給付：誰能領？">勞保、國保喪葬給付：誰能領？</a></li>
                         </ul>
                     </div>
@@ -185,10 +266,11 @@
                     <div class="sidebar-block article-toc">
                         <h4>文章快速導航</h4>
                         <ul>
-                            <li><a href="#first-step">臨終/初終處理</a></li>
-                            <li><a href="#faq-process">治喪流程與細節</a></li>
-                            <li><a href="#religion-rites">儀式細節與宗教差異</a></li>
-                            <li><a href="#law-guide">法規與補助指南</a></li>
+                            <li><a href="#first-step">1. 臨終/初終處理</a></li>
+                            <li><a href="#faq-process">2. 治喪流程與細節</a></li>
+                            <li><a href="#religion-rites">3. 儀式細節與宗教差異</a></li>
+                            <li><a href="#law-guide">4. 法規與補助指南</a></li>
+                            <li><a href="#quick-faq">5. 快速問答區 (FAQ)</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -196,10 +278,14 @@
                 <div class="article-content">
                     
                     <h2 id="first-step" tabindex="-1"><i class="fas fa-ambulance"></i> 臨終/初終處理：緊急應變手冊</h2>
-                    <p class="section-description">親人過世的第一時間應該怎麼做？從醫院到自宅/殯儀館，我們提供清晰的 SOP 指引，幫助您保持冷靜。</p>
+                    <p class="section-description">親人過世的第一時間應該怎麼做？從醫院到自宅/殯儀館，我們提供清晰的 SOP 指引，幫助您保持冷靜，避免延誤重要程序。**若您正處於緊急狀況，請立即撥打 24H 專線。**</p>
                     
                     <div class="article-grid">
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-hospital-death.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
+                            <meta itemprop="publisher" content="祥安生命有限公司" />
+                            
                             <div class="card-image-wrap">
                                 <a href="article-hospital-death.html" aria-label="閱讀文章：醫院過世後續處理的 5 個關鍵步驟">
                                     <img class="lazy" data-src="images/blog-first-step-1.jpg" alt="醫院往生後續流程圖與專業禮儀師" loading="lazy" itemprop="image">
@@ -208,7 +294,7 @@
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-file-signature"></i> 醫院SOP</span>
                                 <h3 itemprop="headline"><a href="article-hospital-death.html" itemprop="url">【醫院死亡緊急SOP】家屬必須處理的 **5 個關鍵步驟**</a></h3>
-                                <p itemprop="description">詳細說明醫院開立死亡證明、通知禮儀師、接體與冰存的完整流程與注意事項，讓您不慌亂。</p>
+                                <p itemprop="description">詳細說明醫院開立**死亡證明書**、聯繫我們接體、殯儀館冰存，以及文件準備的完整流程與注意事項，讓您不慌亂。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-11-20">2025/11/20</span> | 閱讀時間：5分鐘
                                 </div>
@@ -216,15 +302,17 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-home-death.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-home-death.html" aria-label="閱讀文章：在家中過世報驗與相驗流程全解析">
                                     <img class="lazy" data-src="images/blog-first-step-2.jpg" alt="在家中往生報驗流程照片" loading="lazy" itemprop="image">
                                 </a>
                             </div>
                             <div class="card-body">
-                                <span class="article-tag secondary-tag"><i class="fas fa-home"></i> 法律常識</span>
+                                <span class="article-tag secondary-tag legal-tag"><i class="fas fa-home"></i> 報驗常識</span>
                                 <h3 itemprop="headline"><a href="article-home-death.html" itemprop="url">在家中過世如何處理？**報驗與相驗流程**全解析</a></h3>
-                                <p itemprop="description">若非自然死亡或在家過世，需經過報驗程序。了解聯繫檢察官、法醫相驗的流程，確保合法且順利。</p>
+                                <p itemprop="description">若非病逝或在家過世，需經過**檢察官與法醫**的報驗程序。了解聯繫警察、相驗流程及注意事項，確保合法且順利取得文件。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-11-15">2025/11/15</span> | 閱讀時間：7分鐘
                                 </div>
@@ -232,6 +320,8 @@
                         </article>
 
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-prep-check.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-prep-check.html" aria-label="閱讀文章：臨終前十大準備清單與遺產規劃">
                                     <img class="lazy" data-src="images/article-prep-check-cover.jpg" alt="臨終準備清單與家屬討論" loading="lazy" itemprop="image">
@@ -240,7 +330,7 @@
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-list-check"></i> 事前規劃</span>
                                 <h3 itemprop="headline"><a href="article-prep-check.html" itemprop="url">【臨終準備】十大必須清單與生前**遺願清單**</a></h3>
-                                <p itemprop="description">預先與禮儀師溝通，準備好身份文件、遺囑、告別式意願等，將讓後事辦理更順暢，減少家屬爭執。</p>
+                                <p itemprop="description">預先溝通，準備好身份文件、意願書、財務清單等，將讓後事辦理更順暢，體現逝者意願。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-09-10">2025/09/10</span> | 閱讀時間：6分鐘
                                 </div>
@@ -249,14 +339,16 @@
                     </div>
                     
                     <h2 id="faq-process" tabindex="-1" style="margin-top: 50px;"><i class="fas fa-list-ol"></i> 治喪流程與細節問答：常見困惑一次解</h2>
-                    <p class="section-description">從入殮到發引，治喪期中常見的禮俗疑問、現代流程安排及費用考量，讓習俗更貼近現代家庭。</p>
-
+                    <p class="section-description">從入殮到發引，治喪期中常見的禮俗疑問、現代流程安排及費用考量，讓習俗更貼近現代家庭，同時確保流程莊嚴順暢。 </p>
+                    
                     <div class="article-grid">
-                        <article class="blog-card" itemscope itemtype="https://schema.org/Article" style="background-color: var(--primary-light);">
-                            <div class="card-body" style="padding: 20px;">
-                                <span class="article-tag" style="background-color: var(--primary-color); color: white;"><i class="fas fa-chart-line"></i> 必讀圖解</span>
+                        <article class="blog-card featured-flow-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-zhisang-flow.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
+                            <div class="card-body">
+                                <span class="article-tag" style="background-color: var(--accent-color); color: white;"><i class="fas fa-chart-line"></i> 必讀圖解</span>
                                 <h3 itemprop="headline"><a href="article-zhisang-flow.html" itemprop="url" style="color: var(--primary-dark);">【治喪流程圖總覽】臨終到合爐：**完整時程與環節**</a></h3>
-                                <p itemprop="description">一張圖看懂從初終、入殮、告別式到後續百日對年的所有環節與建議時程，是家屬必備指南。</p>
+                                <p itemprop="description" style="text-align: center;">一張圖看懂所有環節，是家屬**掌控流程、分配人力**的必備指南！</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-12-12">2025/12/12</span> | 閱讀時間：3分鐘
                                 </div>
@@ -264,6 +356,8 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-cost-analysis.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-cost-analysis.html" aria-label="閱讀文章：喪葬費用分析：套餐 vs 自選的真實花費比較">
                                     <img class="lazy" data-src="images/article-cost-analysis-cover.jpg" alt="喪葬費用項目分析圖示" loading="lazy" itemprop="image">
@@ -272,7 +366,7 @@
                             <div class="card-body">
                                 <span class="article-tag cost-tag"><i class="fas fa-calculator"></i> 費用公開</span>
                                 <h3 itemprop="headline"><a href="article-cost-analysis.html" itemprop="url">【喪葬費用分析】套餐 vs 自選：**真實花費與省錢訣竅**</a></h3>
-                                <p itemprop="description">深度解析公立、私立殯儀館場地費、冰櫃費、人力服務費等各項支出，避免隱藏性消費。</p>
+                                <p itemprop="description">深度解析公立/私立場地費、冰櫃費、人力服務費等各項支出，提供**成本透明化**建議，避免隱藏性消費。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-12-10">2025/12/10</span> | 閱讀時間：8分鐘
                                 </div>
@@ -280,6 +374,8 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-days-process.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-days-process.html" aria-label="閱讀文章：現代喪禮天數、儀式與費用的影響解析">
                                     <img class="lazy" data-src="images/blog-process-1.jpg" alt="現代治喪流程天數差異圖示" loading="lazy" itemprop="image">
@@ -288,7 +384,7 @@
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-calendar-alt"></i> 流程指引</span>
                                 <h3 itemprop="headline"><a href="article-days-process.html" itemprop="url">現代喪禮該辦幾天？**天數、儀式與費用**的影響解析</a></h3>
-                                <p itemprop="description">解析傳統七天、現代三天、一日葬的優缺點與流程差異，幫助家庭做出最適合的選擇與預算規劃。</p>
+                                <p itemprop="description">解析傳統七天、現代三天、一日葬的優缺點與流程差異，幫助家庭做出最適合的**效率與預算**選擇。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-11-01">2025/11/01</span> | 閱讀時間：6分鐘
                                 </div>
@@ -296,6 +392,8 @@
                         </article>
 
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-fuwen-template.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-fuwen-template.html" aria-label="閱讀文章：訃聞範本、格式與稱謂全攻略">
                                     <img class="lazy" data-src="images/blog-process-fuwen-cover.jpg" alt="訃聞格式與稱謂寫法範本" loading="lazy" itemprop="image">
@@ -304,7 +402,7 @@
                             <div class="card-body">
                                 <span class="article-tag primary-tag" style="background-color: #f7dc6f; color: #a06e00;"><i class="fas fa-scroll"></i> 禮俗文書</span>
                                 <h3 itemprop="headline"><a href="article-fuwen-template.html" itemprop="url">【最貼近人心】訃聞範本、格式與稱謂全攻略</a></h3>
-                                <p itemprop="description">在悲傷中不再手足無措！詳細圖解訃聞內文七大要素、稱謂對應表，以及現代電子訃聞的應用，助您莊重傳達訊息。</p>
+                                <p itemprop="description">詳細圖解訃聞內文七大要素、**複雜稱謂對應表**，以及現代電子訃聞的應用，助您莊重傳達訊息。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-12-15">2025/12/15</span> | 閱讀時間：6分鐘
                                 </div>
@@ -312,6 +410,8 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-taboo.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-taboo.html" aria-label="閱讀文章：守喪期間十大常見禁忌與現代解讀">
                                     <img class="lazy" data-src="images/blog-process-2.jpg" alt="守靈期間家屬照片" loading="lazy" itemprop="image">
@@ -320,7 +420,7 @@
                             <div class="card-body">
                                 <span class="article-tag secondary-tag"><i class="fas fa-question-circle"></i> 禮俗問答</span>
                                 <h3 itemprop="headline"><a href="article-taboo.html" itemprop="url">守喪期間該注意什麼？**十大常見禁忌**與現代解讀</a></h3>
-                                <p itemprop="description">例如穿著、飲食、出入宮廟等禁忌，禮儀師提供溫和且符合現代生活方式的建議，減輕心理負擔。</p>
+                                <p itemprop="description">針對穿著、飲食、出入宮廟等禁忌，禮儀師提供**溫和且人性化**的建議，減輕心理負擔，讓儀式更安心。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-10-25">2025/10/25</span> | 閱讀時間：4分鐘
                                 </div>
@@ -328,6 +428,8 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-venue-choice.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-venue-choice.html" aria-label="閱讀文章：告別式場地選擇：公立殯儀館 vs 私立禮儀會館">
                                     <img class="lazy" data-src="images/article-venue-cover.jpg" alt="告別式場地公立與私立會館環境對比" loading="lazy" itemprop="image">
@@ -336,14 +438,16 @@
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-map-marker-alt"></i> 場地規劃</span>
                                 <h3 itemprop="headline"><a href="article-venue-choice.html" itemprop="url">告別式場地怎麼選？**公立 vs 私立會館**費用與檔期比較</a></h3>
-                                <p itemprop="description">深度比較公立殯儀館（如臺北二殯）與私立會館的費用結構、檔期預約及佈置限制，提供實用考量。</p>
+                                <p itemprop="description">深度比較公立殯儀館（如臺北二殯）與私立會館的費用結構、**預約難易度**及佈置限制，提供實用考量。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-12-05">2025/12/05</span> | 閱讀時間：7分鐘
                                 </div>
                             </div>
                         </article>
-
+                        
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-duinian-helu.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-duinian-helu.html" aria-label="閱讀文章：對年、合爐是什麼？祭祀流程與時間點">
                                     <img class="lazy" data-src="images/article-duinian-cover.jpg" alt="對年合爐祭祀流程圖示" loading="lazy" itemprop="image">
@@ -352,7 +456,7 @@
                             <div class="card-body">
                                 <span class="article-tag secondary-tag"><i class="fas fa-pray"></i> 後續禮俗</span>
                                 <h3 itemprop="headline"><a href="article-duinian-helu.html" itemprop="url">【最終歸位】對年、合爐是什麼？祭祀流程與時間點</a></h3>
-                                <p itemprop="description">詳細解析對年與合爐的意義、計算方法、祭祀準備物品，幫助家屬完成慎終追遠的最終步驟。</p>
+                                <p itemprop="description">詳細解析對年與合爐的意義、**農曆/國曆計算方法**、祭祀準備物品，幫助家屬完成慎終追遠的最終步驟。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-09-01">2025/09/01</span> | 閱讀時間：5分鐘
                                 </div>
@@ -360,6 +464,8 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-costom-case.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-costom-case.html" aria-label="閱讀文章：客製化生命禮儀案例分享">
                                     <img class="lazy" data-src="images/article-custom-case-cover.jpg" alt="客製化生命禮儀案例回顧照片" loading="lazy" itemprop="image">
@@ -368,20 +474,21 @@
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-lightbulb"></i> 案例分享</span>
                                 <h3 itemprop="headline"><a href="article-costom-case.html" itemprop="url">感動與圓滿：**客製化生命禮儀案例**分享與規劃</a></h3>
-                                <p itemprop="description">從逝者的興趣或人生故事出發，規劃一場獨特的告別式，讓告別不留遺憾。</p>
+                                <p itemprop="description">從逝者的興趣或人生故事出發，規劃一場獨特的告別式，透過**主題佈置、影片與音樂**，讓告別不留遺憾。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-08-15">2025/08/15</span> | 閱讀時間：7分鐘
                                 </div>
-                            </div>
-                        </article>
-                    </div>
+                            </article>
+                        </div>
 
-                    <h2 id="religion-rites" tabindex="-1" style="margin-top: 50px;"><i class="fas fa-church"></i> 儀式細節與宗教差異</h2>
-                    <p class="section-description">各種宗教（佛道、基督、日蓮正宗等）的儀式流程、時間點和用品差異分析，幫助您在多元文化中做出最尊重逝者的選擇。</p>
+                    <h2 id="religion-rites" tabindex="-1" style="margin-top: 50px;"><i class="fas fa-church"></i> 儀式細節與宗教差異：多元文化下的尊重</h2>
+                    <p class="section-description">各種宗教（佛道、基督、日蓮正宗等）的儀式流程、時間點和用品差異分析，幫助您在多元文化中做出最尊重逝者的選擇。 </p>
                     
                     <div class="article-grid">
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-buddhist-taoist-compare.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-buddhist-taoist-compare.html" aria-label="閱讀文章：佛道教告別式流程差異與常見用品對比">
                                     <img class="lazy" data-src="images/article-buddhist-taoist-cover.jpg" alt="佛道教儀式流程比較圖示" loading="lazy" itemprop="image">
@@ -390,7 +497,7 @@
                             <div class="card-body">
                                 <span class="article-tag religion-tag"><i class="fas fa-yin-yang"></i> 佛道比較</span>
                                 <h3 itemprop="headline"><a href="article-buddhist-taoist-compare.html" itemprop="url">佛與道有何不同？**告別式流程與用品**差異對比</a></h3>
-                                <p itemprop="description">釐清佛光山與道教（一貫道）喪禮在靈堂、法事、誦經上的主要區別，避免混用禮俗。</p>
+                                <p itemprop="description">釐清佛光山、慈濟與傳統道教（一貫道）喪禮在**七七法事、誦經師父**、靈堂佈置上的主要區別，避免混用禮俗。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-10-05">2025/10/05</span> | 閱讀時間：6分鐘
                                 </div>
@@ -398,6 +505,8 @@
                         </article>
                         
                         <article class="blog-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-nichiren-compare.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-image-wrap">
                                 <a href="article-nichiren-compare.html" aria-label="閱讀文章：日蓮正宗、創價學會友誼葬與傳統儀式的比較">
                                     <img class="lazy" data-src="images/article-nichiren-cover.jpg" alt="日式喪禮與友誼葬儀式照片" loading="lazy" itemprop="image">
@@ -406,7 +515,7 @@
                             <div class="card-body">
                                 <span class="article-tag religion-tag"><i class="fas fa-handshake"></i> 日式/西式</span>
                                 <h3 itemprop="headline"><a href="article-nichiren-compare.html" itemprop="url">日蓮正宗、友誼葬、西式追思：**簡化儀式**總覽</a></h3>
-                                <p itemprop="description">針對日蓮正宗（創價學會）的「友人葬」與現代西式追思會的特色、流程和準備進行詳盡說明。</p>
+                                <p itemprop="description">針對日蓮正宗（創價學會）的「友人葬」與現代西式追思會的特色、流程和**與傳統中式喪禮的差異**進行詳盡說明。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-09-20">2025/09/20</span> | 閱讀時間：5分鐘
                                 </div>
@@ -417,14 +526,16 @@
 
 
                     <h2 id="law-guide" tabindex="-1" style="margin-top: 50px;"><i class="fas fa-balance-scale"></i> 法規與補助指南：別讓權益睡著了</h2>
-                    <p class="section-description">讓您不錯過任何權益！政府喪葬補助、勞保給付及相關法律程序，專業指引一應俱全。</p>
+                    <p class="section-description">讓您不錯過任何權益！政府喪葬補助、勞保給付及相關法律程序，專業指引一應俱全。 </p>
                     
                     <div class="article-grid">
                         <article class="blog-card half-width-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-labor-insurance.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-body">
                                 <span class="article-tag cost-tag"><i class="fas fa-hand-holding-usd"></i> 補助申請</span>
                                 <h3 itemprop="headline"><a href="article-labor-insurance.html" itemprop="url">勞保、國保喪葬給付：**誰能領？能領多少？**申請文件總整理</a></h3>
-                                <p itemprop="description" style="margin-top: 5px;">詳細解析勞保、國保、農保的喪葬津貼請領資格與金額，讓您不錯過應有權益。</p>
+                                <p itemprop="description" style="margin-top: 5px;">詳細解析勞保、國保、農保的**喪葬津貼**請領資格、金額計算方式與**線上申請文件**準備清單，讓您不錯過應有權益。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-10-10">2025/10/10</span> | 閱讀時間：8分鐘
                                 </div>
@@ -432,10 +543,12 @@
                         </article>
 
                         <article class="blog-card half-width-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-burial-law.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-body">
-                                <span class="article-tag secondary-tag"><i class="fas fa-book-open"></i> 法規重點</span>
+                                <span class="article-tag secondary-tag legal-tag"><i class="fas fa-book-open"></i> 法規重點</span>
                                 <h3 itemprop="headline"><a href="article-burial-law.html" itemprop="url">殯葬管理條例：火化、土葬、環保葬的**法規要求與罰則**</a></h3>
-                                <p itemprop="description" style="margin-top: 5px;">了解公私立殯葬設施的使用規定、環保葬的規範，以及常見違規的罰則。</p>
+                                <p itemprop="description" style="margin-top: 5px;">了解公私立殯葬設施的使用規定、環保葬的規範，以及常見違規的罰則，**確保治喪過程完全合法**。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-10-01">2025/10/01</span> | 閱讀時間：6分鐘
                                 </div>
@@ -443,10 +556,12 @@
                         </article>
                         
                         <article class="blog-card half-width-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-eco-burial-guide.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-leaf"></i> 環保葬</span>
                                 <h3 itemprop="headline"><a href="article-eco-burial-guide.html" itemprop="url">【環保葬指南】樹葬、花葬、海葬：**申請流程與地點**全攻略</a></h3>
-                                <p itemprop="description" style="margin-top: 5px;">解析環保葬的意義、雙北/桃園/台中等公立實施地點，以及最新的申請預約流程。</p>
+                                <p itemprop="description" style="margin-top: 5px;">解析環保葬的意義、雙北/桃園/台中等**公立實施地點**，以及最新的申請預約流程，給予回歸自然的選擇。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-11-25">2025/11/25</span> | 閱讀時間：7分鐘
                                 </div>
@@ -454,10 +569,12 @@
                         </article>
 
                         <article class="blog-card half-width-card" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="mainEntityOfPage" content="article-eco-burial-details.html" />
+                            <meta itemprop="author" content="祥安生命禮儀師團隊" />
                             <div class="card-body">
                                 <span class="article-tag primary-tag"><i class="fas fa-tree"></i> 環保葬</span>
                                 <h3 itemprop="headline"><a href="article-eco-burial-details.html" itemprop="url">環保葬後的**祭祀、紀念與心理調適**建議</a></h3>
-                                <p itemprop="description" style="margin-top: 5px;">環保葬後家屬常有的疑問：是否還能祭拜？如何舉辦追思會？提供圓滿的後續方案。</p>
+                                <p itemprop="description" style="margin-top: 5px;">環保葬後家屬常有的疑問：是否還能祭拜？如何舉辦追思會？提供**溫暖且現代**的圓滿後續方案。</p>
                                 <div class="article-meta">
                                     <span itemprop="datePublished" content="2025-11-28">2025/11/28</span> | 閱讀時間：5分鐘
                                 </div>
@@ -467,27 +584,47 @@
                     </div>
 
 
+                    <h2 id="quick-faq" style="margin-top: 50px;"><i class="fas fa-comments"></i> 快速問答區：治喪常見疑問</h2>
+                    <p class="section-description">針對家屬最常遇到的幾個關鍵問題，提供簡潔、專業的回答。點擊展開詳情。</p>
+
+                    <div class="faq-list">
+                        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary itemprop="name">喪禮一定要辦七天嗎？三天兩夜可以嗎？</summary>
+                            <p itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                                現代喪禮已大幅簡化。傳統雖然有做七的習俗，但現代常見的流程是**三天兩夜**（從接體到出殯火化），或甚至是一日告別式。天數主要取決於家屬的宗教信仰、預算考量和禮儀廳的檔期。禮儀師會協助您選擇最適合的模式。
+                            </p>
+                        </details>
+                        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary itemprop="name">親人在醫院過世，我應該先找誰？</summary>
+                            <p itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                                在醫院宣告死亡後，第一時間應是**聯繫您信任的禮儀公司（例如：祥安生命 24H 專線）**，而非醫院駐點的業者。同時，向醫院申請足夠份數的死亡證明書，並決定大體要運往殯儀館冰存或運回自宅設靈。
+                            </p>
+                        </details>
+                        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary itemprop="name">喪葬補助金的申請條件是什麼？</summary>
+                            <p itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                                最主要的補助是勞保、國保或農保的喪葬給付。只要逝者在投保期間死亡，且有**實際支出殯葬費用**的家屬，都可以提出申請。請領金額根據逝者身分不同，規定也不同，建議查閱我們「勞保、國保喪葬給付」的專門文章。
+                            </p>
+                        </details>
+                        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary itemprop="name">公立殯儀館的場地費比私立會館便宜很多嗎？</summary>
+                            <p itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                                是的，公立殯儀館（如臺北二殯、板橋殯儀館）的場地租金、冰櫃費用確實遠低於私立會館。但公立場地**檔期較難預約**、設備較為基本，且佈置限制較多。私立會館則提供更高隱私、更精緻的環境與更彈性的服務時間，但總體費用會增加。
+                            </p>
+                        </details>
+                        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary itemprop="name">沒有宗教信仰，告別式該怎麼辦理？</summary>
+                            <p itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                                您可以選擇**「不舉行宗教儀式」**的現代追思會（簡稱追思式）。這種形式更著重於親友的回憶分享、播放紀念影片、獻花與致詞。流程簡潔莊重，更能貼合逝者與家屬的心願，我們的禮儀師擅長客製化這種流程。
+                            </p>
+                        </details>
+                    </div>
+
                     <h2 id="items-guide" tabindex="-1" style="margin-top: 50px;"><i class="fas fa-box-open"></i> 儀式用品解析 (持續更新中)</h2>
                     <p class="section-description">對喪禮中各種用品（壽衣、棺木、功德紙紮等）的功能與選擇進行專業解讀。</p>
                     <p style="padding: 20px; border-left: 5px solid var(--accent-color); background-color: var(--bg-light);">
                         <i class="fas fa-info-circle"></i> **最新文章預告：** 我們正在撰寫關於「壽衣選擇指南」、「奠品、輓聯的意義與禁忌」以及「環保棺木材質比較」的文章，敬請期待。
                     </p>
-                    
-                    <h2 id="quick-faq" style="margin-top: 50px;"><i class="fas fa-comments"></i> 快速問答區：治喪常見疑問</h2>
-                    <div class="faq-list">
-                        <details class="faq-item">
-                            <summary>喪禮一定要辦七天嗎？三天兩夜可以嗎？</summary>
-                            <p>現代喪禮已大幅簡化。傳統雖然有做七的習俗，但現代常見的流程是**三天兩夜**（從接體到出殯火化），或甚至是一日告別式。天數主要取決於家屬的宗教信仰、預算考量和禮儀廳的檔期。禮儀師會協助您選擇最適合的模式。</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>親人在醫院過世，我應該先找誰？</summary>
-                            <p>在醫院宣告死亡後，第一時間應是**聯繫您信任的禮儀公司（例如：祥安生命 24H 專線）**，而非醫院駐點的業者。同時，向醫院申請足夠份數的死亡證明書，並決定大體要運往殯儀館冰存或運回自宅設靈。</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>喪葬補助金的申請條件是什麼？</summary>
-                            <p>最主要的補助是勞保、國保或農保的喪葬給付。只要逝者在投保期間死亡，且有**實際支出殯葬費用**的家屬，都可以提出申請。請領金額根據逝者身分不同，規定也不同，建議查閱我們「勞保、國保喪葬給付」的專門文章。</p>
-                        </details>
-                    </div>
                     
 
                 </div>
@@ -498,63 +635,7 @@
     
     <footer role="contentinfo">
         <div class="container footer-grid wide-footer-grid">
-            
-            <div class="footer-block footer-links">
-                <h4>專業生命禮儀服務</h4>
-                <ul>
-                    <li><a href="services.html">所有服務總覽</a></li>
-                    <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道)</a></li>
-                    <li><a href="services.html#Western-etiquette">西式禮儀 (基督/天主)</a></li>
-                    <li><a href="services.html#eco-burial">環保葬/樹葬專區</a></li>
-                </ul>
-                
-                <h4>花禮訂購</h4>
-                <ul>
-                    <li><a href="order.html">奠儀花禮快速訂購</a></li>
-                </ul>
             </div>
-            
-            <div class="footer-block footer-links">
-                <h4>喪葬費用公開方案</h4>
-                <ul>
-                    <li><a href="plans.html">所有方案與價格總覽</a></li>
-                    <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
-                    <li><a href="plans.html#eightdoteight">中式契約 8.8萬起</a></li>
-                    <li><a href="plans.html#west">西式/日式契約</a></li>
-                </ul>
-
-                <h4>殯葬百科知識</h4>
-                <ul>
-                    <li><a href="blog.html" class="active" aria-current="page">常見問題與流程</a></li>
-                    <li><a href="#first-step">臨終/初終處理</a></li>
-                    <li><a href="#law-guide">法規與補助指南</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-block footer-contact" itemscope itemtype="https://schema.org/LocalBusiness">
-                <h4 style="margin-bottom: 5px;">24H 禮儀師陳妍如 專線</h4>
-                <p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
-                    📞 <a href="tel:0978583699" itemprop="telephone">0978-583-699</a>
-                </p>
-                
-                <h4>公司資訊與服務範圍</h4>
-                <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                    <p>
-                        主要聯絡地址：<span itemprop="streetAddress">新北市板橋區雙十路二段XX號 (僅供業務聯繫)</span>
-                    </p>
-                </address>
-                <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (雙北/桃園即時協助)</p>
-                
-                <p style="margin-top: 15px;">線上聯繫：</p>
-                <div class="footer-social-links">
-                    <a href="https://line.me/ti/p/[您的LINE ID]" target="_blank" rel="noopener noreferrer external" title="LINE ID"><i class="fab fa-line"></i> LINE</a> | 
-                    <a href="[您的 Facebook 專頁網址]" target="_blank" rel="noopener noreferrer external" title="Facebook 粉絲專頁"><i class="fab fa-facebook"></i> Facebook</a>
-                </div>
-                <meta itemprop="name" content="祥安生命有限公司">
-                <meta itemprop="url" content="https://24hour.台灣/Shiangan/">
-                <meta itemprop="email" content="[請填寫聯繫Email]">
-            </div>
-        </div>
         
         <div class="footer-copyright">
             <div class="container">
@@ -581,28 +662,28 @@
         {
           "@type": "Question",
           "name": "喪禮一定要辦七天嗎？三天兩夜可以嗎？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "現代喪禮已大幅簡化。傳統雖然有做七的習俗，但現代常見的流程是三天兩夜（從接體到出殯火化），或甚至是一日告別式。天數主要取決於家屬的宗教信仰、預算考量和禮儀廳的檔期。禮儀師會協助您選擇最適合的模式。"
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "現代喪禮已大幅簡化。傳統雖然有做七的習俗，但現代常見的流程是三天兩夜（從接體到出殯火化），或甚至是一日告別式。天數主要取決於家屬的宗教信仰、預算考量和禮儀廳的檔期。禮儀師會協助您選擇最適合的模式。" }
         },
         {
           "@type": "Question",
           "name": "親人在醫院過世，我應該先找誰？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "在醫院宣告死亡後，第一時間應是聯繫您信任的禮儀公司（例如：祥安生命 24H 專線），而非醫院駐點的業者。同時，向醫院申請足夠份數的死亡證明書，並決定大體要運往殯儀館冰存或運回自宅設靈。"
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "在醫院宣告死亡後，第一時間應是聯繫您信任的禮儀公司（例如：祥安生命 24H 專線），而非醫院駐點的業者。同時，向醫院申請足夠份數的死亡證明書，並決定大體要運往殯儀館冰存或運回自宅設靈。" }
         },
         {
           "@type": "Question",
           "name": "喪葬補助金的申請條件是什麼？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "最主要的補助是勞保、國保或農保的喪葬給付。只要逝者在投保期間死亡，且有實際支出殯葬費用的家屬，都可以提出申請。請領金額根據逝者身分不同，規定也不同，建議查閱我們勞保、國保喪葬給付的專門文章。"
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "最主要的補助是勞保、國保或農保的喪葬給付。只要逝者在投保期間死亡，且有實際支出殯葬費用的家屬，都可以提出申請。請領金額根據逝者身分不同，規定也不同，建議查閱我們勞保、國保喪葬給付的專門文章。" }
+        },
+        {
+          "@type": "Question",
+          "name": "公立殯儀館的場地費比私立會館便宜很多嗎？",
+          "acceptedAnswer": { "@type": "Answer", "text": "是的，公立殯儀館（如臺北二殯、板橋殯儀館）的場地租金、冰櫃費用確實遠低於私立會館。但公立場地檔期較難預約、設備較為基本，且佈置限制較多。私立會館則提供更高隱私、更精緻的環境與更彈性的服務時間，但總體費用會增加。" }
+        },
+        {
+          "@type": "Question",
+          "name": "沒有宗教信仰，告別式該怎麼辦理？",
+          "acceptedAnswer": { "@type": "Answer", "text": "您可以選擇「不舉行宗教儀式」的現代追思會（簡稱追思式）。這種形式更著重於親友的回憶分享、播放紀念影片、獻花與致詞。流程簡潔莊重，更能貼合逝者與家屬的心願，我們的禮儀師擅長客製化這種流程。" }
         }
-        // 建議在未來新增其他熱門文章的 FAQ 項目
       ]
     }
     </script>
@@ -615,6 +696,23 @@
 
             // 確保年份是動態的
             document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Lazy Load 圖片 (確保圖片載入優化)
+            const lazyImages = document.querySelectorAll('img.lazy');
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '0px 0px 200px 0px' });
+
+            lazyImages.forEach(img => {
+                observer.observe(img);
+            });
         });
     </script>
 </body>
