@@ -24,147 +24,13 @@
     <meta property="og:description" content="國家認證禮儀師團隊，甲級立案，喪葬費用方案完整公開透明，點擊查看互動式方案細節，立即諮詢：0978-583-699。">
 
     <link rel="preload" href="css/style.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <link rel="preload" href="css/plans-specific.css" as="style"> <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
     <link rel="preload" href="../fonts/UoqMunThenKhung-1.000.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="../fonts/Iansui-Regular.ttf" as="font" type="font/ttf" crossorigin>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* 互動式方案區塊樣式 - 優化 RWD */
-        .project-cards { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; margin: 40px 0; }
-        .card-interactive { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 10px; 
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); 
-            transition: transform 0.3s, box-shadow 0.3s; 
-            cursor: pointer; 
-            width: 30%; 
-            min-width: 280px; 
-            text-align: center; 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* 確保內容垂直對齊 */
-        }
-        .card-interactive:hover { transform: translateY(-7px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); }
-        .card-interactive h3 { color: #8B0000; font-size: 1.8em; margin-bottom: 5px; }
-        .card-interactive p strong { color: #007BFF; font-size: 1.4em; display: block; margin: 10px 0; }
-        .card-interactive button { margin-top: 15px; padding: 12px 25px; background-color: #1C2833; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: 700; transition: background-color 0.3s; width: 100%; }
-        .card-interactive button:hover { background-color: #007BFF; }
-
-        /* 燈箱/模態視窗樣式 - 優化 A11Y */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.85); transition: opacity 0.3s; }
-        .modal-content { 
-            background-color: #fefefe; 
-            margin: 3% auto; 
-            padding: 30px; 
-            border-radius: 12px; 
-            width: 90%; 
-            max-width: 1000px; 
-            position: relative; 
-            animation: slideDown 0.4s; 
-            max-height: 94vh; /* 限制高度 */
-            overflow-y: auto; /* 允許內容滾動 */
-        }
-        .close-btn { color: #555; float: right; font-size: 36px; font-weight: bold; line-height: 1; position: absolute; top: 15px; right: 25px; cursor: pointer; }
-        .close-btn:hover, .close-btn:focus { color: #000; text-decoration: none; cursor: pointer; }
-        
-        /* 燈箱內容表格 */
-        .modal-content table { width: 100%; border-collapse: collapse; margin-top: 25px; font-size: 0.95em; }
-        .modal-content th, .modal-content td { border: 1px solid #ddd; padding: 15px; text-align: left; vertical-align: top; }
-        .modal-content th { background-color: #f2f2f2; color: #1C2833; font-weight: 700; min-width: 100px; }
-        .modal-content ul { list-style: disc; margin-left: 20px; padding-left: 0; }
-        
-        /* 燈箱圖片 */
-        .modal-img-wrapper { text-align: center; margin-top: 20px; }
-        .modal-img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-
-        /* 動畫效果 */
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* 最終比較表樣式 */
-        .detailed-comparison table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 20px; 
-            overflow-x: auto; 
-            display: block; /* 讓表格在小螢幕上可以橫向滾動 */
-            white-space: nowrap; /* 防止內容換行，確保橫向滾動 */
-        }
-        .detailed-comparison th, .detailed-comparison td { border: 1px solid #e0e0e0; padding: 15px; text-align: center; font-size: 0.95em; min-width: 150px; } /* 增加 min-width */
-        .detailed-comparison th { background-color: #1C2833; color: white; text-align: center; }
-        .detailed-comparison td { text-align: center; white-space: normal; } /* 內容可以換行 */
-        .detailed-comparison td:first-child { text-align: left; font-weight: 600; background-color: #f7f7f7; white-space: normal; min-width: 180px;} /* 第一列左對齊 */
-        .detailed-comparison .highlight-cell { background-color: #fffacd; font-weight: 700; color: #8B0000; }
-
-        /* 最強優勢區塊 */
-        .unique-advantages { margin-top: 50px; background: #FFFACD; padding: 30px; border-radius: 10px; }
-        .unique-advantages h2 { color: #8B0000; margin-bottom: 20px; }
-        .unique-advantages ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .unique-advantages li { 
-            background: white; 
-            padding: 15px; 
-            border-radius: 8px; 
-            border-left: 5px solid #D4AF37; 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
-            font-weight: 600; 
-            display: flex;
-            align-items: center;
-        }
-        .unique-advantages li i { margin-right: 10px; color: #D4AF37; font-size: 1.2em; }
-        
-        /* 其他契約方案總覽樣式 */
-        .other-plans-list { 
-            margin-top: 50px; 
-            padding: 30px; 
-            background-color: #f0f4f7;
-            border-radius: 10px;
-        }
-        .other-plans-list h3 { color: #1C2833; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px;}
-        .other-plans-list ul {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        .other-plans-list li {
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-            transition: background-color 0.3s;
-        }
-        .other-plans-list li:hover { background-color: #e6f0ff; }
-        .other-plans-list li a { 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .other-plans-list li span { color: #8B0000; font-size: 1.1em; }
-
-
-        /* RWD 調整 */
-        @media (max-width: 992px) {
-            .project-cards { flex-direction: column; align-items: center; }
-            .card-interactive { width: 90%; min-width: auto; }
-            .modal-content { margin: 10% auto; width: 95%; padding: 20px; }
-            .close-btn { font-size: 30px; top: 10px; right: 20px; }
-            .detailed-comparison th, .detailed-comparison td { padding: 10px; font-size: 0.9em; min-width: 100px;}
-            .detailed-comparison td:first-child { min-width: 150px;}
-            .unique-advantages ul { grid-template-columns: 1fr; }
-        }
-
-    </style>
+    <link rel="stylesheet" href="css/plans-specific.css"> <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
 
     <script type="application/ld+json">
     {
@@ -367,7 +233,7 @@
                     <button aria-controls="modalRefined">查看完整包單內容</button>
                 </div>
 
-                <div class="card-interactive" role="listitem" onclick="openModal('modalHonor')" style="border: 3px solid #D4AF37;" tabindex="0" onkeypress="if(event.key==='Enter'){openModal('modalHonor')}">
+                <div class="card-interactive honor-highlight" role="listitem" onclick="openModal('modalHonor')" tabindex="0" onkeypress="if(event.key==='Enter'){openModal('modalHonor')}">
                     <h3>III. 尊榮奠祭專案</h3>
                     <p>價格：<strong>NT$168,000</strong></p>
                     <p>定位：**頂級、奢華、儀式圓滿**</p>
@@ -388,60 +254,62 @@
 
             <div class="detailed-comparison" id="core-comparison">
                 <h3>📋 奠祭服務項目最終深度比較 (涵蓋所有關鍵差異)</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>服務細項 (契約保障)</th>
-                            <th>I. 聯合奠祭 (NT$3.5萬)</th>
-                            <th>II. 精緻奠祭 (NT$10.8萬)</th>
-                            <th>III. 尊榮奠祭 (NT$16.8萬)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>**禮儀師服務** (全程引導)</td>
-                            <td>僅協辦政府流程/基礎服務。</td>
-                            <td>**全程專業禮儀師一對一服務。**</td>
-                            <td class="highlight-cell">**資深首席禮儀師全程服務。**</td>
-                        </tr>
-                        <tr>
-                            <td>**遺體照護/淨身**</td>
-                            <td>大體潔淨/著裝 (基礎)。</td>
-                            <td>**專屬 遺體 SPA** (含淨身、洗髮、剃度、指甲)。</td>
-                            <td class="highlight-cell">**專業 遺體 SPA/精修化妝。**</td>
-                        </tr>
-                        <tr>
-                            <td>**法事完整性** (誦經/法會)</td>
-                            <td>基礎誦經。</td>
-                            <td>二七、三七、四七、六七誦經法會 (五七、七七可換同等值)。</td>
-                            <td class="highlight-cell">**二七至七七誦經法會全部包含 (圓滿契約)**</td>
-                        </tr>
-                        <tr>
-                            <td>**告別會場佈置**</td>
-                            <td>無 (依政府規定)。</td>
-                            <td>中型花藝佈置 (西式或中式任選，含羅馬柱、藝術花牌)。</td>
-                            <td class="highlight-cell">**豪華藝術花藝佈置** (高規格花材、主題設計)。</td>
-                        </tr>
-                        <tr>
-                            <td>**核心殮品/骨灰罐**</td>
-                            <td>政府提供棺木、壽衣、骨灰罐。</td>
-                            <td>專案壽衣一套。骨灰罐升級 (非政府制式)。</td>
-                            <td class="highlight-cell">專案壽衣一套。**高規格玉石等級骨灰罐**。</td>
-                        </tr>
-                        <tr>
-                            <td>**訃聞/謝卡數量**</td>
-                            <td>無。</td>
-                            <td>訃聞 150 份，謝卡 200 份。</td>
-                            <td>**訃聞 200 份，謝卡 300 份。**</td>
-                        </tr>
-                        <tr>
-                            <td>**安靈服務** (會館佛堂)</td>
-                            <td>無。</td>
-                            <td>**提供安靈會館及頭七、滿七法事。**</td>
-                            <td>**提供安靈會館及頭七、滿七法事。**</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>服務細項 (契約保障)</th>
+                                <th>I. 聯合奠祭 (NT$3.5萬)</th>
+                                <th>II. 精緻奠祭 (NT$10.8萬)</th>
+                                <th>III. 尊榮奠祭 (NT$16.8萬)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>**禮儀師服務** (全程引導)</td>
+                                <td>僅協辦政府流程/基礎服務。</td>
+                                <td>**全程專業禮儀師一對一服務。**</td>
+                                <td class="highlight-cell">**資深首席禮儀師全程服務。**</td>
+                            </tr>
+                            <tr>
+                                <td>**遺體照護/淨身**</td>
+                                <td>大體潔淨/著裝 (基礎)。</td>
+                                <td>**專屬 遺體 SPA** (含淨身、洗髮、剃度、指甲)。</td>
+                                <td class="highlight-cell">**專業 遺體 SPA/精修化妝。**</td>
+                            </tr>
+                            <tr>
+                                <td>**法事完整性** (誦經/法會)</td>
+                                <td>基礎誦經。</td>
+                                <td>二七、三七、四七、六七誦經法會 (五七、七七可換同等值)。</td>
+                                <td class="highlight-cell">**二七至七七誦經法會全部包含 (圓滿契約)**</td>
+                            </tr>
+                            <tr>
+                                <td>**告別會場佈置**</td>
+                                <td>無 (依政府規定)。</td>
+                                <td>中型花藝佈置 (西式或中式任選，含羅馬柱、藝術花牌)。</td>
+                                <td class="highlight-cell">**豪華藝術花藝佈置** (高規格花材、主題設計)。</td>
+                            </tr>
+                            <tr>
+                                <td>**核心殮品/骨灰罐**</td>
+                                <td>政府提供棺木、壽衣、骨灰罐。</td>
+                                <td>專案壽衣一套。骨灰罐升級 (非政府制式)。</td>
+                                <td class="highlight-cell">專案壽衣一套。**高規格玉石等級骨灰罐**。</td>
+                            </tr>
+                            <tr>
+                                <td>**訃聞/謝卡數量**</td>
+                                <td>無。</td>
+                                <td>訃聞 150 份，謝卡 200 份。</td>
+                                <td>**訃聞 200 份，謝卡 300 份。**</td>
+                            </tr>
+                            <tr>
+                                <td>**安靈服務** (會館佛堂)</td>
+                                <td>無。</td>
+                                <td>**提供安靈會館及頭七、滿七法事。**</td>
+                                <td>**提供安靈會館及頭七、滿七法事。**</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <p style="margin-top: 15px; font-size: 0.9em; text-align: right;"><i class="fas fa-info-circle"></i> **註：** 所有服務項目均載明於正式契約，可隨需求彈性調整與兌換。</p>
             </div>
             
@@ -461,7 +329,7 @@
             </div>
             
             <div class="text-center" style="margin-top: 60px;">
-                <a href="tel:+886978583699" class="cta-button primary large" title="24小時禮儀服務緊急專線 0978-583-699">📞 立即聯繫 24H 禮儀師諮詢方案</a>
+                <a href="tel:+886978583699" class="cta-button primary large" title="24小時禮儀師諮詢方案">📞 立即聯繫 24H 禮儀師諮詢方案</a>
                 <a href="about.html" class="cta-button secondary large" title="了解祥安生命的專業理念與國家認證">了解我們的甲級立案與國家證照 <i class="fas fa-medal" aria-hidden="true"></i></a>
             </div>
         </div>
@@ -483,6 +351,7 @@
                     <li>**後續法律/關懷**</li>
                 </ol>
             </div>
+            
 
             <div class="text-center" style="margin-top: 50px;">
                 <a href="blog.html#faq-process" class="cta-button secondary" title="深入了解治喪流程細節與所有注意事項">深入了解流程細節與注意事項 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
@@ -753,7 +622,6 @@
             </table>
             <div class="modal-img-wrapper">
                 
-                
                 <img src="images/modal_union.jpg" alt="聯合奠祭莊嚴素淨會場示意圖" class="modal-img">
             </div>
             <p style="margin-top: 15px;">**提醒：** 此方案不包含輓聯、訃聞、骨灰罐花藝、冰櫃及服務人員費用，詳情請依契約為主。</p>
@@ -775,7 +643,6 @@
             </table>
             <div class="modal-img-wrapper">
                 
-                
                 <img src="images/modal_refined.jpg" alt="精緻奠祭中型花藝佈置範例" class="modal-img">
             </div>
         </div>
@@ -796,12 +663,10 @@
             </table>
             <div class="modal-img-wrapper">
                 
-                
                 <img src="images/modal_honor.jpg" alt="尊榮豪華藝術花藝佈置範例" class="modal-img">
             </div>
         </div>
     </div>
-
 
     <script src="js/script.js" defer></script>
     <script>
@@ -860,25 +725,12 @@
                 });
             });
             
-            // 治喪流程清單樣式調整（如果需要的話，可以設定一個簡單的 CSS 效果）
+            // 治喪流程清單樣式調整 (在 plans-specific.css 中處理，這裡確保結構存在)
             const flowList = document.querySelector('.flow-chart ol.flow-step-list');
             if(flowList) {
-                flowList.style.display = 'grid';
-                flowList.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))';
-                flowList.style.gap = '15px';
-                flowList.style.listStyle = 'none';
-                flowList.style.padding = '0';
-                flowList.querySelectorAll('li').forEach(li => {
-                    li.style.backgroundColor = '#fff';
-                    li.style.padding = '15px';
-                    li.style.borderRadius = '8px';
-                    li.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
-                    li.style.borderLeft = '4px solid #007BFF';
-                    li.style.fontWeight = '600';
-                });
+                // 基礎結構的 JS 處理（如果需要動態賦予樣式，但現在我們將樣式放在 CSS 裡）
             }
         });
     </script>
 </body>
 </html>
-
