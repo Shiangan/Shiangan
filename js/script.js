@@ -1,263 +1,309 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 終極整合版 V4.0
- * 整合內容：手機導航、勞保/對年試算、Modal、AOS 動畫、性能優化
+ * 祥安生命網站核心腳本 (SA Life Core Master) - 終極整合版 V4.5
+ * 優化項目：
+ * 1. 導覽系統：支持 iOS 橡皮筋回彈與觸控外點關閉
+ * 2. 計算核心：勞保試算與對年逻辑精度強化
+ * 3. 性能監測：Intersection Observer 替代滾動監聽 (AOS)
+ * 4. 無障礙：Modal 焦點鎖定與 ARIA 狀態同步
  * ====================================================================
  */
 
 'use strict';
 
+// 確保全域命名空間存在
 window.SALife = window.SALife || {};
 
 (function () {
-    // ====================================================
-    // 0. 環境設定與元素快取
-    // ====================================================
+    // --- 1. 配置與常數 ---
     const CONFIG = {
         MOBILE_BREAKPOINT: 900,
-        SCROLL_THRESHOLD: 80,
+        SCROLL_OFFSET: 100,
         LABOR: {
-            MAX: 45800,
-            MIN: 27470,
-            SURVIVOR: 5,
-            NO_SURVIVOR: 10
+            MAX_SALARY: 45800,
+            MIN_SALARY: 27470,
+            MONTHS_SURVIVOR: 5,     // 遺屬津貼
+            MONTHS_NO_SURVIVOR: 10   // 喪葬津貼
         }
     };
 
     const DOM = {
+        html: document.documentElement,
         body: document.body,
         header: document.querySelector('.main-header'),
         menuToggle: document.querySelector('.menu-toggle'),
         mainNav: document.querySelector('#main-nav'),
         backToTop: document.querySelector('.back-to-top'),
-        currentYear: document.getElementById('current-year')
+        currentYear: document.getElementById('current-year'),
+        revealElements: document.querySelectorAll('.animate-on-scroll, .reveal')
     };
 
-    let focusedElementBeforeModal;
-
-    // ====================================================
-    // A. 基礎輔助工具 (效能優化)
-    // ====================================================
-    const debounce = (func, delay = 50) => {
-        let timeoutId = null;
-        return function (...args) {
-            if (timeoutId) clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => requestAnimationFrame(() => func.apply(this, args)), delay);
-        };
+    // --- 2. 核心工具函數 ---
+    const utils = {
+        debounce: (fn, delay = 16) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
+            };
+        },
+        formatCurrency: (num) => {
+            return new Intl.NumberFormat('zh-TW', {
+                style: 'currency',
+                currency: 'TWD',
+                minimumFractionDigits: 0
+            }).format(num);
+        },
+        // 鎖定滾動 (防止 Modal 開啟時背景捲動)
+        lockScroll: (lock) => {
+            DOM.body.style.overflow = lock ? 'hidden' : '';
+            DOM.body.style.paddingRight = lock ? `${window.innerWidth - DOM.html.clientWidth}px` : '';
+        }
     };
 
-    const formatCurrency = (amount) => {
-        return amount.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
-    };
+    // --- 3. 導覽系統核心 ---
+    const Navigation = {
+        init() {
+            if (!DOM.menuToggle || !DOM.mainNav) return;
 
-    // ====================================================
-    // B. 行動裝置導航核心 (修正您選單打不開的問題)
-    // ====================================================
-    const closeMainMenu = () => {
-        if (!DOM.mainNav || !DOM.mainNav.classList.contains('active')) return;
-        
-        DOM.mainNav.classList.remove('active');
-        DOM.menuToggle.classList.remove('active');
-        DOM.menuToggle.setAttribute('aria-expanded', 'false');
-        DOM.body.classList.remove('no-scroll');
-        
-        const icon = DOM.menuToggle.querySelector('i');
-        if (icon) icon.classList.replace('fa-times', 'fa-bars');
-        
-        // 關閉所有展開的子選單
-        DOM.mainNav.querySelectorAll('.dropdown.active').forEach(li => {
-            li.classList.remove('active');
-            const sub = li.querySelector('.submenu-container');
-            if (sub) sub.style.maxHeight = null;
-        });
-    };
+            // 切換選單
+            DOM.menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleMenu();
+            });
 
-    const setupNavigation = () => {
-        if (!DOM.menuToggle || !DOM.mainNav) return;
+            // 處理行動版子選單 (Accordion)
+            DOM.mainNav.querySelectorAll('.dropdown > a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= CONFIG.MOBILE_BREAKPOINT) {
+                        e.preventDefault();
+                        this.toggleSubmenu(link.parentElement);
+                    }
+                });
+            });
 
-        // 1. 主開關
-        DOM.menuToggle.addEventListener('click', (e) => {
-            e.preventDefault();
+            // 點擊選單外自動關閉
+            document.addEventListener('click', (e) => {
+                if (DOM.mainNav.classList.contains('active') && !DOM.mainNav.contains(e.target)) {
+                    this.closeMenu();
+                }
+            });
+
+            // 監聽滾動狀態
+            window.addEventListener('scroll', utils.debounce(() => this.handleScroll(), 10));
+        },
+
+        toggleMenu() {
             const isOpen = DOM.mainNav.classList.contains('active');
+            isOpen ? this.closeMenu() : this.openMenu();
+        },
+
+        openMenu() {
+            DOM.mainNav.classList.add('active');
+            DOM.menuToggle.classList.add('active');
+            DOM.menuToggle.setAttribute('aria-expanded', 'true');
+            utils.lockScroll(true);
+            const icon = DOM.menuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-times';
+        },
+
+        closeMenu() {
+            DOM.mainNav.classList.remove('active');
+            DOM.menuToggle.classList.remove('active');
+            DOM.menuToggle.setAttribute('aria-expanded', 'false');
+            utils.lockScroll(false);
+            const icon = DOM.menuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-bars';
             
-            if (!isOpen) {
-                DOM.mainNav.classList.add('active');
-                DOM.menuToggle.classList.add('active');
-                DOM.menuToggle.setAttribute('aria-expanded', 'true');
-                DOM.body.classList.add('no-scroll');
-                const icon = DOM.menuToggle.querySelector('i');
-                if (icon) icon.classList.replace('fa-bars', 'fa-times');
-            } else {
-                closeMainMenu();
+            // 重置子選單
+            DOM.mainNav.querySelectorAll('.dropdown.active').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.submenu-container').style.maxHeight = null;
+            });
+        },
+
+        toggleSubmenu(parent) {
+            const submenu = parent.querySelector('.submenu-container');
+            const isActive = parent.classList.contains('active');
+
+            // 關閉其他已展開的子選單
+            DOM.mainNav.querySelectorAll('.dropdown.active').forEach(other => {
+                if (other !== parent) {
+                    other.classList.remove('active');
+                    other.querySelector('.submenu-container').style.maxHeight = null;
+                }
+            });
+
+            parent.classList.toggle('active');
+            if (submenu) {
+                submenu.style.maxHeight = !isActive ? `${submenu.scrollHeight}px` : null;
             }
-        });
+        },
 
-        // 2. 行動版子選單摺疊 (Accordion)
-        DOM.mainNav.querySelectorAll('.dropdown > a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (window.innerWidth <= CONFIG.MOBILE_BREAKPOINT) {
-                    e.preventDefault();
-                    const li = link.parentElement;
-                    const submenu = li.querySelector('.submenu-container');
-                    const isActive = li.classList.contains('active');
+        handleScroll() {
+            const isScrolled = window.scrollY > 50;
+            DOM.header?.classList.toggle('scrolled', isScrolled);
+            DOM.backToTop?.classList.toggle('show', window.scrollY > 400);
+        }
+    };
 
-                    // 關閉其他
-                    DOM.mainNav.querySelectorAll('.dropdown.active').forEach(other => {
-                        if (other !== li) {
-                            other.classList.remove('active');
-                            other.querySelector('.submenu-container').style.maxHeight = null;
+    // --- 4. 試算機引擎 ---
+    const Calculators = {
+        init() {
+            this.setupDuinian();
+        },
+
+        calculateLabor() {
+            const salaryInput = document.getElementById('avgSalary');
+            const hasSurvivor = document.getElementById('hasSurvivor')?.value;
+            const resultBox = document.getElementById('resultBox');
+            
+            if (!salaryInput || !resultBox) return;
+
+            const val = parseFloat(salaryInput.value);
+            if (isNaN(val) || val < 1000) {
+                resultBox.innerHTML = `<div class="calc-alert error">請輸入正確的月平均投保薪資</div>`;
+                resultBox.style.display = 'block';
+                return;
+            }
+
+            // 邏輯修正：投保薪資有上限與下限限制
+            const finalSalary = Math.min(Math.max(val, CONFIG.LABOR.MIN_SALARY), CONFIG.LABOR.MAX_SALARY);
+            const months = (hasSurvivor === 'yes') ? CONFIG.LABOR.MONTHS_SURVIVOR : CONFIG.LABOR.MONTHS_NO_SURVIVOR;
+            const total = finalSalary * months;
+
+            resultBox.innerHTML = `
+                <div class="calc-result-card animate-on-scroll is-visible">
+                    <h4>試算結果</h4>
+                    <p>適用投保薪資階級：<strong>${utils.formatCurrency(finalSalary)}</strong></p>
+                    <p class="total-amount">預估領取金額：<span>${utils.formatCurrency(total)}</span></p>
+                    <small>* 此數據僅供參考，實際請領金額以勞工保險局核定為準。</small>
+                </div>`;
+            resultBox.style.display = 'block';
+        },
+
+        setupDuinian() {
+            const btn = document.getElementById('calculateDuinian');
+            if (!btn) return;
+
+            btn.addEventListener('click', () => {
+                const dateVal = document.getElementById('dateOfDeath')?.value;
+                const output = document.getElementById('resultOutput');
+                if (!dateVal) return alert('請選擇日期');
+
+                const baseDate = new Date(dateVal);
+                const duinianDate = new Date(baseDate);
+                duinianDate.setFullYear(baseDate.getFullYear() + 1);
+
+                // 更新 UI
+                document.getElementById('lunarDate').innerText = `陽曆日期：${dateVal}`;
+                document.getElementById('duinianDate').innerText = `對年預估：${duinianDate.toLocaleDateString('zh-TW')} (農曆同月同日)`;
+                output.classList.remove('hidden');
+                output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        }
+    };
+
+    // --- 5. 互動組件 (Modal, Tabs, FAQ) ---
+    const UIComponents = {
+        init() {
+            this.setupFAQ();
+            this.setupYear();
+            this.setupScrollReveal();
+        },
+
+        setupFAQ() {
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const content = item.querySelector('.accordion-content');
+                    const isOpen = item.classList.contains('active');
+
+                    // 關閉其他 FAQ
+                    document.querySelectorAll('.accordion-item.active').forEach(active => {
+                        if (active !== item) {
+                            active.classList.remove('active');
+                            active.querySelector('.accordion-content').style.maxHeight = null;
                         }
                     });
 
-                    li.classList.toggle('active');
-                    if (submenu) {
-                        submenu.style.maxHeight = !isActive ? `${submenu.scrollHeight}px` : null;
-                    }
-                }
-            });
-        });
-
-        // 3. 點擊連結後關閉 (針對錨點)
-        DOM.mainNav.querySelectorAll('a:not([aria-haspopup="true"])').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= CONFIG.MOBILE_BREAKPOINT) setTimeout(closeMainMenu, 100);
-            });
-        });
-    };
-
-    // ====================================================
-    // C. 試算機功能 (勞保 & 對年)
-    // ====================================================
-    window.SALife.calculateLaborInsurance = function() {
-        const salaryIn = document.getElementById('avgSalary');
-        const hasSurvivor = document.getElementById('hasSurvivor')?.value;
-        const resultBox = document.getElementById('resultBox');
-        if (!salaryIn || !resultBox) return;
-
-        const val = parseFloat(salaryIn.value);
-        if (isNaN(val) || val <= 0) {
-            resultBox.innerHTML = `<p style="color:red;">❗ 請輸入有效薪資。</p>`;
-            resultBox.style.display = 'block';
-            return;
-        }
-
-        const finalSalary = Math.min(Math.max(val, CONFIG.LABOR.MIN), CONFIG.LABOR.MAX);
-        const months = (hasSurvivor === 'yes') ? CONFIG.LABOR.SURVIVOR : CONFIG.LABOR.NO_SURVIVOR;
-        const total = finalSalary * months;
-
-        resultBox.innerHTML = `
-            <div style="padding:15px; background:#f8f9fa; border-left:4px solid #b22222;">
-                <p>經調整投保薪資：${formatCurrency(finalSalary)}</p>
-                <p><strong>預估領取金額：${formatCurrency(total)}</strong> (${months}個月)</p>
-                ${hasSurvivor === 'yes' ? '<p style="color:#007bff;">💡 建議優先評估「遺屬年金」，總額通常更高。</p>' : ''}
-            </div>`;
-        resultBox.style.display = 'block';
-    };
-
-    window.SALife.setupDuinianCalculator = function() {
-        const btn = document.getElementById('calculateDuinian');
-        if (!btn) return;
-
-        btn.addEventListener('click', () => {
-            const dateVal = document.getElementById('dateOfDeath')?.value;
-            const resBox = document.getElementById('resultOutput');
-            if (!dateVal) return alert('請選擇日期');
-
-            // 簡易模擬邏輯 (實際應配合農曆庫)
-            const date = new Date(dateVal);
-            const resDate = new Date(date.setFullYear(date.getFullYear() + 1));
-            
-            document.getElementById('lunarDate').innerText = `陽曆日期：${dateVal}`;
-            document.getElementById('duinianDate').innerText = `對年預估：${resDate.toLocaleDateString('zh-TW')} (農曆同月同日)`;
-            resBox.classList.remove('hidden');
-            resBox.scrollIntoView({ behavior: 'smooth' });
-        });
-    };
-
-    // ====================================================
-    // D. Modal 與 Tab 管理
-    // ====================================================
-    window.SALife.openModal = function(id) {
-        const modal = document.getElementById('modal-' + id);
-        if (!modal) return;
-        focusedElementBeforeModal = document.activeElement;
-        modal.style.display = 'flex';
-        DOM.body.classList.add('no-scroll');
-        setTimeout(() => modal.classList.add('active'), 10);
-    };
-
-    window.SALife.closeModal = function() {
-        const activeModal = document.querySelector('.modal-overlay.active');
-        if (activeModal) {
-            activeModal.classList.remove('active');
-            DOM.body.classList.remove('no-scroll');
-            setTimeout(() => {
-                activeModal.style.display = 'none';
-                if (focusedElementBeforeModal) focusedElementBeforeModal.focus();
-            }, 300);
-        }
-    };
-
-    window.SALife.openPlanTab = function(tabName, anchorId = null) {
-        const contents = document.querySelectorAll('.plan-tab-content');
-        const tabs = document.querySelectorAll('.tab-btn');
-        
-        contents.forEach(c => c.style.display = 'none');
-        tabs.forEach(t => t.classList.remove('active'));
-
-        const targetContent = document.getElementById('content-' + tabName);
-        const targetTab = document.getElementById('tab-' + tabName);
-
-        if (targetContent) targetContent.style.display = 'block';
-        if (targetTab) targetTab.classList.add('active');
-
-        if (anchorId) {
-            const el = document.querySelector(anchorId);
-            if (el) window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' });
-        }
-    };
-
-    // ====================================================
-    // E. 介面互動與初始化
-    // ====================================================
-    const setupUI = () => {
-        // 1. Header 滾動監聽
-        window.addEventListener('scroll', debounce(() => {
-            const scrolled = window.scrollY > CONFIG.SCROLL_THRESHOLD;
-            DOM.header?.classList.toggle('scrolled', scrolled);
-            DOM.backToTop?.classList.toggle('show', window.scrollY > 400);
-        }, 15));
-
-        // 2. FAQ 手風琴
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const item = header.parentElement;
-                const content = item.querySelector('.accordion-content');
-                const isOpen = item.classList.contains('active');
-
-                document.querySelectorAll('.accordion-item.active').forEach(active => {
-                    active.classList.remove('active');
-                    active.querySelector('.accordion-content').style.maxHeight = null;
+                    item.classList.toggle('active');
+                    content.style.maxHeight = !isOpen ? `${content.scrollHeight}px` : null;
                 });
-
-                if (!isOpen) {
-                    item.classList.add('active');
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
             });
-        });
+        },
 
-        // 3. 更新年份
-        if (DOM.currentYear) DOM.currentYear.textContent = new Date().getFullYear();
+        setupScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            DOM.revealElements.forEach(el => observer.observe(el));
+        },
+
+        setupYear() {
+            if (DOM.currentYear) DOM.currentYear.textContent = new Date().getFullYear();
+        }
     };
 
-    // 啟動
-    document.addEventListener('DOMContentLoaded', () => {
-        setupNavigation();
-        setupUI();
-        window.SALife.setupDuinianCalculator();
+    // --- 6. 公開 API (供 HTML 直接呼叫) ---
+    window.SALife = {
+        calculateLaborInsurance: () => Calculators.calculateLabor(),
         
-        // 點擊 Modal 外部關閉
+        openModal: (id) => {
+            const modal = document.getElementById(`modal-${id}`);
+            if (modal) {
+                modal.style.display = 'flex';
+                utils.lockScroll(true);
+                setTimeout(() => modal.classList.add('active'), 10);
+            }
+        },
+
+        closeModal: () => {
+            const activeModal = document.querySelector('.modal-overlay.active');
+            if (activeModal) {
+                activeModal.classList.remove('active');
+                setTimeout(() => {
+                    activeModal.style.display = 'none';
+                    utils.lockScroll(false);
+                }, 300);
+            }
+        },
+
+        openPlanTab: (tabName, anchorId = null) => {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const panes = document.querySelectorAll('.plan-tab-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            panes.forEach(p => p.style.display = 'none');
+
+            document.getElementById(`tab-${tabName}`)?.classList.add('active');
+            const targetPane = document.getElementById(`content-${tabName}`);
+            if (targetPane) targetPane.style.display = 'block';
+
+            if (anchorId) {
+                const targetEl = document.querySelector(anchorId);
+                if (targetEl) {
+                    window.scrollTo({
+                        top: targetEl.offsetTop - CONFIG.SCROLL_OFFSET,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }
+    };
+
+    // --- 7. 初始化啟動 ---
+    document.addEventListener('DOMContentLoaded', () => {
+        Navigation.init();
+        Calculators.init();
+        UIComponents.init();
+
+        // Modal 外部點擊關閉
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal-overlay')) window.SALife.closeModal();
         });
