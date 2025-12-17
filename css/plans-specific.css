@@ -1,488 +1,270 @@
-/*
- * 祥安生命 plans.html 專屬樣式表
- * 包含互動卡片、燈箱、深度比較表、優勢列表、其他方案列表的樣式
+/**
+ * ====================================================================
+ * 祥安生命 plans.html 專屬核心樣式表 V3.5 (終極修正版)
+ * 優化內容：固定表格首欄、增強焦點管理、優化行動端捲軸感、修正 CSS 變數管理
+ * ====================================================================
  */
 
-/* 互動式方案區塊樣式 - 優化 RWD */
+/* 基礎變數定義 - 方便統一管理 */
+:root {
+    --sa-primary: #007BFF;
+    --sa-secondary: #1C2833;
+    --sa-accent: #8B0000;
+    --sa-gold: #D4AF37;
+    --sa-bg-light: #f7f7f7;
+    --sa-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --sa-shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* 互動式方案區塊樣式 */
 .project-cards { 
     display: flex; 
-    justify-content: space-around; 
+    justify-content: center; 
     flex-wrap: wrap; 
     gap: 30px; 
     margin: 40px 0; 
 }
+
 .card-interactive { 
     background: white; 
-    padding: 25px; 
-    border-radius: 10px; 
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); 
-    transition: transform 0.3s, box-shadow 0.3s; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: var(--sa-shadow); 
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease; 
     cursor: pointer; 
     width: 30%; 
-    min-width: 280px; 
+    min-width: 290px; 
     text-align: center; 
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    border: 1px solid #ddd; /* 增加基礎邊框 */
+    border: 1px solid #eee;
+    position: relative;
 }
+
 .card-interactive:hover { 
-    transform: translateY(-7px); 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); 
+    transform: translateY(-8px); 
+    box-shadow: var(--sa-shadow-hover); 
 }
-/* 尊榮方案特殊標記 */
+
 .card-interactive.honor-highlight {
-    border: 3px solid #D4AF37; /* 黃金邊框 */
+    border: 2px solid var(--sa-gold);
+    background: linear-gradient(to bottom, #fff, #fffaf0);
 }
 
 .card-interactive h3 { 
-    color: #8B0000; 
+    color: var(--sa-accent); 
     font-size: 1.8em; 
-    margin-bottom: 5px; 
+    margin-bottom: 10px; 
 }
+
 .card-interactive p strong { 
-    color: #007BFF; 
-    font-size: 1.4em; 
+    color: var(--sa-primary); 
+    font-size: 1.5em; 
     display: block; 
-    margin: 10px 0; 
+    margin: 15px 0; 
 }
+
 .card-interactive button { 
-    margin-top: 15px; 
+    margin-top: auto; /* 推到底部 */
     padding: 12px 25px; 
-    background-color: #1C2833; 
+    background-color: var(--sa-secondary); 
     color: white; 
     border: none; 
     border-radius: 50px; 
     cursor: pointer; 
     font-weight: 700; 
-    transition: background-color 0.3s; 
-    width: 100%; 
-}
-.card-interactive button:hover { 
-    background-color: #007BFF; 
+    transition: background-color 0.3s, transform 0.2s; 
 }
 
-/* 燈箱/模態視窗樣式 - 優化 A11Y */
+.card-interactive button:hover { 
+    background-color: var(--sa-primary); 
+    transform: scale(1.05);
+}
+
+/* 燈箱/模態視窗樣式 - 強化 A11Y */
 .modal { 
     display: none; 
     position: fixed; 
-    z-index: 9999; 
+    z-index: 10000; 
     left: 0; 
     top: 0; 
     width: 100%; 
     height: 100%; 
-    overflow: auto; 
     background-color: rgba(0, 0, 0, 0.85); 
-    transition: opacity 0.3s; 
+    backdrop-filter: blur(5px); /* 增加磨砂效果 */
 }
+
 .modal-content { 
-    background-color: #fefefe; 
-    margin: 3% auto; 
-    padding: 30px; 
-    border-radius: 12px; 
-    width: 90%; 
-    max-width: 1000px; 
+    background-color: #fff; 
+    margin: 2vh auto; 
+    padding: 40px; 
+    border-radius: 15px; 
+    width: 92%; 
+    max-width: 1100px; 
     position: relative; 
-    animation: slideDown 0.4s; 
+    animation: slideDown 0.4s ease-out; 
     max-height: 94vh; 
     overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; /* 行動端順暢滾動 */
 }
+
 .close-btn { 
-    color: #555; 
-    float: right; 
-    font-size: 36px; 
-    font-weight: bold; 
-    line-height: 1; 
+    color: #999; 
+    font-size: 40px; 
+    font-weight: 300; 
     position: absolute; 
-    top: 15px; 
-    right: 25px; 
+    top: 10px; 
+    right: 20px; 
     cursor: pointer; 
-}
-.close-btn:hover, .close-btn:focus { 
-    color: #000; 
-    text-decoration: none; 
-    cursor: pointer; 
+    z-index: 10;
+    transition: color 0.2s;
 }
 
-/* 燈箱內容表格 */
-.modal-content table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 25px; 
-    font-size: 0.95em; 
-}
-.modal-content th, .modal-content td { 
-    border: 1px solid #ddd; 
-    padding: 15px; 
-    text-align: left; 
-    vertical-align: top; 
-}
-.modal-content th { 
-    background-color: #f2f2f2; 
-    color: #1C2833; 
-    font-weight: 700; 
-    min-width: 100px; 
-}
-.modal-content ul { 
-    list-style: disc; 
-    margin-left: 20px; 
-    padding-left: 0; 
-}
+.close-btn:hover { color: var(--sa-accent); }
 
-/* 燈箱圖片 */
-.modal-img-wrapper { 
-    text-align: center; 
-    margin-top: 20px; 
-}
-.modal-img { 
-    max-width: 100%; 
-    height: auto; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-}
-
-/* 動畫效果 */
-@keyframes slideDown {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* 最終比較表樣式 */
+/* 深度比較表 - 優化滾動體驗 */
 .detailed-comparison .table-scroll-wrapper {
-    overflow-x: auto; /* 允許表格橫向滾動 */
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
 }
+
 .detailed-comparison table { 
     width: 100%; 
-    min-width: 700px; /* 確保表格在小螢幕上有最小寬度以便滾動 */
-    border-collapse: collapse; 
-    margin-top: 20px; 
-    white-space: nowrap; /* 防止表格內容不必要的換行 */
+    min-width: 850px; 
+    border-collapse: separate; /* 為了固定欄位的 border */
+    border-spacing: 0;
 }
+
 .detailed-comparison th, .detailed-comparison td { 
-    border: 1px solid #e0e0e0; 
-    padding: 15px; 
+    border-right: 1px solid #e0e0e0; 
+    border-bottom: 1px solid #e0e0e0; 
+    padding: 18px 12px; 
     text-align: center; 
-    font-size: 0.95em; 
-    min-width: 150px; 
 } 
+
 .detailed-comparison th { 
-    background-color: #1C2833; 
+    background-color: var(--sa-secondary); 
     color: white; 
-    text-align: center; 
+    position: sticky;
+    top: 0; /* 滾動時固定表頭 */
+    z-index: 2;
 }
-.detailed-comparison td { 
-    text-align: center; 
-    white-space: normal; /* 表格內容允許換行 */
-} 
+
+/* 行動端固定第一欄 (項目名稱) */
 .detailed-comparison td:first-child { 
     text-align: left; 
     font-weight: 600; 
-    background-color: #f7f7f7; 
-    white-space: normal; 
-    min-width: 180px;
+    background-color: #f9f9f9; 
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 160px;
 } 
+
 .detailed-comparison .highlight-cell { 
-    background-color: #fffacd; 
+    background-color: #fffdec; 
     font-weight: 700; 
-    color: #8B0000; 
+    color: var(--sa-accent); 
+    outline: 2px solid var(--sa-gold);
 }
 
 /* 最強優勢區塊 */
 .unique-advantages { 
-    margin-top: 50px; 
-    background: #FFFACD; 
-    padding: 30px; 
-    border-radius: 10px; 
+    margin: 60px 0; 
+    background: #fffbe6; 
+    padding: 40px; 
+    border-radius: 15px; 
+    border: 1px dashed var(--sa-gold);
 }
-.unique-advantages h2 { 
-    color: #8B0000; 
-    margin-bottom: 20px; 
-}
+
 .unique-advantages ul { 
-    list-style: none; 
-    padding: 0; 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 20px; 
 }
+
 .unique-advantages li { 
     background: white; 
-    padding: 15px; 
-    border-radius: 8px; 
-    border-left: 5px solid #D4AF37; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
-    font-weight: 600; 
+    padding: 20px; 
+    border-radius: 10px; 
+    border-left: 6px solid var(--sa-gold); 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
     display: flex;
     align-items: center;
-}
-.unique-advantages li i { 
-    margin-right: 10px; 
-    color: #D4AF37; 
-    font-size: 1.2em; 
+    font-size: 1.05em;
 }
 
-/* 其他契約方案總覽樣式 */
-.other-plans-list { 
-    margin-top: 50px; 
-    padding: 30px; 
-    background-color: #f0f4f7;
-    border-radius: 10px;
-}
-.other-plans-list h3 { 
-    color: #1C2833; 
-    margin-bottom: 20px; 
-    border-bottom: 2px solid #ddd; 
-    padding-bottom: 10px;
-}
-.other-plans-list ul {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-}
-.other-plans-list li {
-    background: white;
-    padding: 15px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    transition: background-color 0.3s;
-}
-.other-plans-list li:hover { 
-    background-color: #e6f0ff; 
-}
-.other-plans-list li a { 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 700;
-    color: #007BFF;
-    text-decoration: none;
-}
-.other-plans-list li span { 
-    color: #8B0000; 
-    font-size: 1.1em; 
-}
-
-/* 流程圖樣式 (從 JS 移到 CSS) */
-.flow-chart .flow-step-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    list-style: none;
-    padding: 0;
-    margin-top: 30px;
-}
-.flow-chart .flow-step-list li {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border-left: 4px solid #007BFF;
-    font-weight: 600;
-    transition: transform 0.2s;
-}
-.flow-chart .flow-step-list li:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* 塔位指南區塊 */
-.guide-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
-}
-.guide-item {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s;
-    border-top: 5px solid #007BFF;
-}
-.guide-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-.guide-item.primary-highlight {
-    border-top: 5px solid #8B0000;
-}
-.guide-item h3 {
-    font-size: 1.3em;
-    margin-bottom: 10px;
-}
-.guide-item a {
-    text-decoration: none;
-    color: #1C2833;
-    font-weight: 700;
-}
-.guide-item a:hover {
-    text-decoration: underline;
-    color: #007BFF;
-}
-
-
-.plans-details-accordion {
-    margin-top: 40px;
-}
+/* 方案細節手風琴 (Accordion) */
 .plan-item {
     border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    overflow: hidden;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    transition: all 0.3s;
 }
 
 .plan-item .accordion-header {
-    background-color: #f7f7f7;
-    color: #1C2833;
-    cursor: pointer;
-    padding: 20px 25px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    transition: background-color 0.4s;
-    font-size: 1.25em;
+    background-color: #fff;
+    padding: 22px 28px;
+    font-size: 1.2em;
     font-weight: 700;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-radius: 10px;
+    transition: all 0.3s;
 }
 
-.plan-item .accordion-header:hover {
-    background-color: #eef1f4;
+.plan-item.active {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--sa-primary);
 }
 
 .plan-item.active .accordion-header {
-    background-color: #007BFF;
+    background-color: var(--sa-primary);
     color: white;
-    border-bottom: 1px solid #007BFF;
+    border-radius: 10px 10px 0 0;
 }
 
-.plan-item.active .accordion-header i.fa-angle-down {
-    transform: rotate(180deg);
+.plan-item .accordion-header .status-tag {
+    font-size: 0.8em;
+    background: #fff;
+    color: var(--sa-accent);
+    padding: 2px 10px;
+    border-radius: 4px;
+    margin-left: 10px;
 }
 
-.plan-item .accordion-header i {
-    margin-right: 15px;
-    font-size: 1.1em;
-    color: #007BFF; /* 預設顏色 */
-    transition: transform 0.3s;
-}
-
-.plan-item.active .accordion-header i {
-    color: white; /* 展開時顏色 */
-}
-
-.plan-item .accordion-header span {
-    font-size: 1em;
-    color: #8B0000;
-    font-weight: 700;
-}
-
-.plan-item.active .accordion-header span {
-    color: #fff;
-}
-
-.plan-item .accordion-content {
-    padding: 0 25px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
-    background-color: white;
-}
-
-.plan-item.active .accordion-content {
-    padding: 20px 25px;
-}
-
-.plan-item h4 {
-    color: #007BFF;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    border-left: 3px solid #007BFF;
-    padding-left: 10px;
-}
-
-.plan-item ul {
-    list-style: disc;
-    margin-left: 20px;
-    padding-left: 0;
-    line-height: 1.8;
-}
-
-.plan-item .plan-note {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #fffacd;
-    border-radius: 5px;
-    font-size: 0.95em;
-    border-left: 5px solid #D4AF37;
-}
-
-/* 尊榮契約特殊高亮 */
+/* 尊榮契約高亮 */
 .plan-item.honor-highlight-plan {
-    border: 3px solid #D4AF37;
+    border: 2px solid var(--sa-gold);
 }
-
-.plan-item.honor-highlight-plan .accordion-header {
-    background-color: #FAFAD2;
-    color: #8B0000;
-}
-
-.plan-item.honor-highlight-plan .accordion-header:hover {
-    background-color: #fffacd;
-}
-
 .plan-item.honor-highlight-plan.active .accordion-header {
-    background-color: #D4AF37;
-    color: white;
-    border-bottom-color: #D4AF37;
+    background-color: var(--sa-gold);
 }
 
-.plan-item.honor-highlight-plan .accordion-header i {
-    color: #D4AF37;
-}
-.plan-item.honor-highlight-plan.active .accordion-header i {
-    color: white;
+/* 流程圖樣式 */
+.flow-step-list li {
+    border-left: 4px solid var(--sa-primary);
+    background: #fff;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 0 8px 8px 0;
 }
 
+/* 斷點優化 */
+@media (max-width: 1024px) {
+    .card-interactive { width: 45%; }
+}
 
-/* RWD 調整 */
 @media (max-width: 768px) {
-    .plan-item .accordion-header {
-        font-size: 1.1em;
-        padding: 15px 20px;
-    }
-    .plan-item .accordion-content {
-        padding: 15px 20px;
-    }
-    .plan-item.active .accordion-content {
-        padding: 15px 20px;
-    }
+    .card-interactive { width: 100%; }
+    .modal-content { padding: 20px; margin: 0; width: 100%; height: 100%; border-radius: 0; }
+    .close-btn { top: 15px; right: 15px; }
+    .unique-advantages { padding: 25px; }
+    .detailed-comparison th, .detailed-comparison td { padding: 12px 8px; font-size: 0.85em; }
+    .plan-item .accordion-header { padding: 15px 20px; font-size: 1.1em; }
 }
 
-
-
-/* RWD 調整 */
-@media (max-width: 992px) {
-    .project-cards { flex-direction: column; align-items: center; }
-    .card-interactive { width: 90%; min-width: auto; }
-    .modal-content { margin: 10% auto; width: 95%; padding: 20px; }
-    .close-btn { font-size: 30px; top: 10px; right: 20px; }
-    .detailed-comparison th, .detailed-comparison td { padding: 10px; font-size: 0.9em; min-width: 100px;}
-    .detailed-comparison td:first-child { min-width: 150px;}
-    .unique-advantages ul { grid-template-columns: 1fr; }
-    .flow-chart .flow-step-list { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-    .guide-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 600px) {
-    .project-cards { gap: 20px; }
-    .other-plans-list ul { grid-template-columns: 1fr; }
-    .detailed-comparison table { min-width: 600px; } /* 在小螢幕上保持表格可滾動 */
+@keyframes slideDown {
+    from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
