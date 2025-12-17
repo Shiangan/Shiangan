@@ -28,51 +28,58 @@
  * 0. 變數 (Variables) 與重置 (Reset)
  * ------------------------------------------- */
 
+/**
+ * ====================================================================
+ * 祥安生命 (SA Life) 全域核心樣式表 V4.0
+ * 包含：設計系統、語意化排版、RWD 控制、效能優化
+ * ====================================================================
+ */
+
 :root {
-    /* 🏆 品牌色系 */
-    primary-color: #1e3a6a;  /* 深藍/藏青 */
-    primary-dark: #12213b;   /* 極深藍/夜空 */
-    accent-color: #ce9d4a;   /* 金黃/流星色 */
-    secondary-color: #4a5c78; /* 沉穩的藍灰色 */
+    /* 🏆 品牌色系 - 修正連字號變數 */
+    --primary-color: #1e3a6a;    /* 深藍/藏青 */
+    --primary-dark: #12213b;     /* 極深藍/夜空 */
+    --accent-color: #ce9d4a;     /* 金黃/流星色 */
+    --secondary-color: #4a5c78;  /* 沉穩的藍灰色 */
     
     /* 文字色系 */
-    text-dark: #2c2c2c;
-    text-light: #ffffff;
-    code-color: #f8f8f2; 
+    --text-dark: #2c2c2c;
+    --text-light: #ffffff;
+    --code-color: #f8f8f2; 
 
     /* 背景與邊界 */
-    bg-light: #f9f9f9; 
-    bg-dark: #000005;  
-    border-color: #e8e8e8;
-    shadow-color: rgba(0, 0, 0, 0.05); 
+    --bg-light: #f9f9f9; 
+    --bg-dark: #000005;  
+    --border-color: #e8e8e8;
+    --shadow-color: rgba(0, 0, 0, 0.05); 
 
     /* 字體定義 */
-    font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
-    font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
+    --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
     /* 尺寸定義 */
-    header-height: 80px; /* 桌面版 Header 高度 */
-    content-max-width: 1200px;
-    padding-section-v: 80px; /* 區塊垂直內邊距 */
-    transition-speed: 0.3s; /* 統一的過渡速度變數 */
-    transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
-    transition-slow: 0.8s; /* 新增：用於滾動動畫 */
-    rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
-    /* 錨點滾動修正，確保跳轉至區塊時不被固定 Header 遮擋 */
-    scroll-padding-top: var(--header-height); 
-    
+    --header-height: 80px;
+    --content-max-width: 1200px;
+    --padding-section-v: 80px; 
 
-    /* ⭐️ 動畫變數：優化流星方向，從右上向左下墜落 */
-    rotation: 45deg; /* 從右上向左下墜落 */
-    travel-x: 150vw;
-    travel-y: 120vh;
-    breakpoint-mobile: 576px; 
-    breakpoint-tablet: 900px; 
-    breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
+    /* 過渡速度 */
+    --transition-speed: 0.3s;
+    --transition-fast: 0.15s;
+    --transition-slow: 0.8s;
+    --rwd-transition-duration: 0.4s;
+
+    /* ⭐️ 動畫變數：流星軌跡 */
+    --rotation: 45deg;
+    --travel-x: 150vw;
+    --travel-y: 120vh;
+
+    /* 響應式斷點 */
+    --breakpoint-mobile: 576px; 
+    --breakpoint-tablet: 900px; 
+    --breakpoint-mid: 680px; 
 }
 
-
-/* 基本重置 */
+/* 1. 基礎重置與優化 */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -81,6 +88,8 @@
 
 html {
     scroll-behavior: smooth;
+    /* 修正：錨點跳轉不被 Header 遮擋 */
+    scroll-padding-top: var(--header-height); 
     font-size: 16px;
 }
 
@@ -91,63 +100,61 @@ body {
     background-color: var(--text-light);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* 防止流星動畫溢出 */
 }
 
+/* 媒體內容優化 */
 img, video, svg { 
     max-width: 100%; 
     height: auto; 
     vertical-align: middle; 
-    /* 🏆 優化：防止圖片在非動態加載時有佈局跳動 (CLS) */
+    /* 🏆 防止圖片佈局跳動 (CLS) */
     content-visibility: auto; 
 }
 
-/* 清單與連結 */
+/* 2. 連結與互動樣式 */
 ul, ol { list-style: none; }
+
 a {
     color: var(--primary-color);
     text-decoration: none;
-    transition: color var(--transition-speed), background-color var(--transition-speed), opacity var(--transition-speed), outline var(--transition-speed);
+    transition: all var(--transition-speed) ease;
 }
 
-/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+/* 使用 focus-visible 提升 A11Y 體驗 */
 a:hover, a:focus-visible { 
     color: var(--primary-dark);
-    opacity: 0.95;
+    opacity: 0.85;
     outline: 2px solid var(--accent-color); 
-    outline-offset: 2px;
+    outline-offset: 4px;
 }
 
-/* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
-.js-loading { opacity: 0; transition: opacity 0.5s; }
-body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; } 
-
-
-/* 標題樣式 */
+/* 3. 標題與字體系統 (Typography) */
 h1, h2, h3, h4, h5, h6 { 
     font-family: var(--font-serif);
     line-height: 1.3;
-    margin-bottom: 1.5rem; /* 統一使用 rem */
+    margin-bottom: 1.5rem;
     color: var(--secondary-color);
     font-weight: 700;
     text-rendering: optimizeLegibility; 
 }
 
 h1 {
+    /* 使用 clamp 實現流體縮放字體 */
     font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
     text-align: center;
     word-break: break-word;
-    line-height: 1.2;
     letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
 }
 
-/* 標題下裝飾線 - 僅限 H2 用於區塊標題 */
+/* 帶有裝飾線的 H2 */
 h2 {
-    position: relative; /* 確保 ::after 絕對定位參考點 */
-    padding-bottom: 10px; /* 為裝飾線留出空間 */
+    position: relative;
+    padding-bottom: 15px;
     text-align: center;
-    font-size: clamp(1.8rem, 4vmin, 2.5rem);
+    font-size: clamp(1.6rem, 4vmin, 2.5rem);
     color: var(--primary-dark);
+    margin-bottom: 2rem;
 }
 
 h2::after {
@@ -156,146 +163,110 @@ h2::after {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
+    width: 60px;
     height: 4px;
     background-color: var(--accent-color);
     border-radius: 2px;
-    transition: transform var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1); 
-    will-change: transform;
+    transition: width var(--transition-speed);
 }
-/* 文章內 H2 無裝飾線 (由 JS 調整樣式或在文章樣式中覆寫) */
+
+/* 文章內部專用覆寫 */
 .article-body h2 {
     text-align: left;
     padding-bottom: 0;
-    color: var(--primary-dark); /* 文章內 H2 用 primary-dark */
 }
-.article-body h2::
-after {
-    content: none; /* ⭐ 覆寫：文章內 H2 移除裝飾線 */
+.article-body h2::after {
+    display: none; /* 移除裝飾線 */
 }
 
+h3 { font-size: clamp(1.3rem, 3vmin, 1.8rem); color: var(--primary-color); }
+h4 { font-size: 1.25rem; }
 
-h3 { 
-    font-size: clamp(1.3rem, 3vmin, 1.8rem); 
-    color: var(--primary-color); 
-    margin-bottom: 0.8rem;
-    font-weight: 700;
-}
+/* 4. 內容元素 (Code, Quote, Table) */
 
-h4 { 
-    font-size: 1.25rem; 
-    color: var(--secondary-color);
-    margin-bottom: 0.7rem;
-    font-weight: 700;
-}
-
-h5 { 
-    font-size: 1.1rem; 
-    font-weight: 500; 
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-}
-
-h6 { 
-    font-size: 1rem; 
-    font-weight: 400; 
-    color: #666;
-    margin-bottom: 0.5rem;
-}
-
-p { margin-bottom: 1rem; }
-
-/* 基礎內容元素優化 */
-table, blockquote, pre, figure {
-    margin: 1.5rem 0;
-}
-
-/* 程式碼區塊樣式 (Code Block) */
 pre {
     background-color: var(--primary-dark);
     color: var(--code-color);
-    padding: 15px;
-    border-radius: 6px;
+    padding: 20px;
+    border-radius: 10px;
     overflow-x: auto;
-    font-family: 'Consolas', 'Courier New', monospace;
+    font-family: 'Consolas', 'Monaco', monospace;
     font-size: 0.9rem;
-    line-height: 1.5;
-    white-space: pre;
-    tab-size: 4;
-    word-wrap: normal;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
 }
 
 code {
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9em; /* 🏆 修正：使用 em 相對於父級文字，避免過大/過小 */
-    line-height: 1.6; /* 🏆 修正：增加行高，與普通文本對齊 */
-    /* 內嵌程式碼 */
-    background-color: rgba(206, 157, 74, 0.1); 
+    font-family: 'Consolas', monospace;
+    font-size: 0.9em;
+    background-color: rgba(206, 157, 74, 0.12); 
     color: var(--primary-dark);
-    padding: 2px 5px;
+    padding: 2px 6px;
     border-radius: 4px;
-    white-space: nowrap;
 }
 
 pre code {
-    background: none;
-    /* ⭐ 修正：確保在深色背景 (var(--primary-dark)) 上有足夠的對比度 */
-    color: var(--code-color); 
+    background: transparent;
+    color: inherit;
     padding: 0;
-    white-space: pre;
 }
 
-/* 確保 blockquote 有質感 */
 blockquote {
-    border-left: 5px solid var(--accent-color);
-    padding: 10px 20px;
+    border-left: 6px solid var(--accent-color);
+    padding: 15px 25px;
     background-color: var(--bg-light);
-    color: #555;
+    color: var(--secondary-color);
     font-style: italic;
-    font-size: 1.05rem;
-    border-radius: 0 8px 8px 0;
+    font-size: 1.1rem;
+    margin: 2rem 0;
+    border-radius: 0 10px 10px 0;
 }
 
-
-/* 容器與通用佈局 */
+/* 5. 容器佈局系統 */
 .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 25px;
 }
 
-.container-v-padding {
+.section-padding {
     padding-top: var(--padding-section-v);
     padding-bottom: var(--padding-section-v);
 }
 
-.small-v-padding {
-    padding-top: 30px;
-    padding-bottom: 30px;
+/* 針對行動端微調 */
+@media (max-width: 768px) {
+    :root {
+        --padding-section-v: 50px;
+        --header-height: 70px;
+    }
+    
+    .section-padding {
+        padding-top: var(--padding-section-v);
+        padding-bottom: var(--padding-section-v);
+    }
 }
 
-.bg-section {
-    background-color: var(--bg-light);
+/* 6. 功能性 Utility Classes */
+.bg-soft { background-color: var(--bg-light); }
+.text-accent { color: var(--accent-color); }
+.no-scroll { overflow: hidden; height: 100vh; }
+
+.js-loading { 
+    opacity: 0; 
+    transition: opacity 0.6s ease-in-out; 
 }
 
-.text-center {
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* 自動調整單行文字 (使用 Flexbox 避免單行過長) */
+/* 🏆 文字適配容器：防止標題過長換行破壞美感 */
 .text-line-container {
-  display: flex; 
-  justify-content: center; 
-  overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
 }
-
-.fit-text-line { 
-  white-space: nowrap; 
+.fit-text-line {
+    white-space: nowrap;
+    will-change: transform;
 }
-
 
 /* -------------------------------------------
 /* * 1. 導覽列與頁首 (Header & Nav)
