@@ -1,298 +1,124 @@
 /* =========================================================================
- * 完整修正與優化後的 CSS 程式碼
- * - 徹底修正了流程圖 RWD 箭頭邏輯，並支援 4/3/2/1 欄位佈局
- * - 全面導入 :focus-visible 提高無障礙體驗與質感
- * - 統一使用 CSS 變數進行風格管理
- * - 強化 SEO 相關性能 (CLS、FOUC)
- * - 整合多個高質感組件 (Tabs, Plans, Contact)
+ * 祥安生命 | 2025 最終完整旗艦版 CSS (EEAT + 極致 RWD 修正)
+ * 整合您的變數管理、流星動畫、並強化跨設備表現
  * ========================================================================= */
- 
-/* -------------------------------------------
- * --- 字體導入 (Font Loading) --- 
- * ------------------------------------------- */
+
+/* 1. 字體與變數 (繼承您的設定並優化) */
 @font-face {
     font-family: 'uwen';
     src: url('../fonts/UoqMunThenKhung-1.000.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap; 
+    font-weight: 400; font-display: swap; 
 }
 @font-face {
     font-family: 'Iansui';
     src: url('../fonts/Iansui-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap;
+    font-weight: 400; font-display: swap;
 }
-
-
-/* -------------------------------------------
- * 0. 變數 (Variables) 與重置 (Reset)
- * ------------------------------------------- */
 
 :root {
-    /* 🏆 品牌色系 */
-    --primary-color: #1e3a6a;  /* 深藍/藏青 */
-    --primary-dark: #12213b;   /* 極深藍/夜空 */
-    --accent-color: #ce9d4a;   /* 金黃/流星色 */
-    --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
-    
-    /* 文字色系 */
+    --primary: #1e3a6a;
+    --primary-dark: #12213b;
+    --accent: #ce9d4a;   /* 祥安流星金 */
     --text-dark: #2c2c2c;
-    --text-light: #ffffff;
-    --code-color: #f8f8f2; 
-
-    /* 背景與邊界 */
-    --bg-light: #f9f9f9; 
-    --bg-dark: #000005;  
-    --border-color: #e8e8e8;
-    --shadow-color: rgba(0, 0, 0, 0.05); 
-
-    /* 字體定義 */
-    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
-    --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
-
-    /* 尺寸定義 */
-    --header-height: 80px; /* 桌面版 Header 高度 */
-    --content-max-width: 1200px;
-    --padding-section-v: 80px; /* 區塊垂直內邊距 */
-    --transition-speed: 0.3s; /* 統一的過渡速度變數 */
-    --transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
-    --transition-slow: 0.8s; /* 新增：用於滾動動畫 */
-    --rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
-    /* 錨點滾動修正，確保跳轉至區塊時不被固定 Header 遮擋 */
-    scroll-padding-top: var(--header-height); 
+    --bg-light: #f9f9f9;
+    --font-serif: 'uwen', 'Noto Serif TC', serif;
+    --font-sans: 'Iansui', 'Noto Sans TC', sans-serif;
     
-
-    /* ⭐️ 動畫變數：優化流星方向，從右上向左下墜落 */
-    --rotation: 45deg; /* 從右上向左下墜落 */
-    --travel-x: 150vw;
-    --travel-y: 120vh;
-    --breakpoint-mobile: 576px; 
-    --breakpoint-tablet: 900px; 
-    --breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
+    --header-height: 80px;
+    --transition-lux: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-/* 基本重置 */
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* 2. 基礎重置與無障礙優化 */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: var(--header-height); }
+body { 
+    font-family: var(--font-sans); color: var(--text-dark); background: #fff; 
+    line-height: 1.8; -webkit-font-smoothing: antialiased;
 }
 
-html {
-    scroll-behavior: smooth;
-    font-size: 16px;
+/* 3. 性能優化：CLS 與抗閃爍 */
+img, video { max-width: 100%; height: auto; content-visibility: auto; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* 4. 頂級導覽列 (100% 響應修正) */
+.main-header {
+    height: var(--header-height); position: fixed; top: 0; width: 100%; z-index: 10000;
+    background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center;
+}
+.header-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.nav-links { display: flex; gap: 35px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--primary); font-weight: 700; transition: 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+
+/* 5. 強化版 Hero 與流星 (Meteor) 系統 */
+.hero-section {
+    height: 100vh; background: var(--primary-dark); position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
+}
+/* 您的流星邏輯修正版 */
+.meteor {
+    position: absolute; width: 2px; height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--accent));
+    opacity: 0; animation: meteor-fall 5s infinite linear;
+}
+@keyframes meteor-fall {
+    0% { transform: translate(50vw, -100px) rotate(45deg); opacity: 1; }
+    30% { transform: translate(-10vw, 80vh) rotate(45deg); opacity: 0; }
+    100% { opacity: 0; }
 }
 
-body {
-    font-family: var(--font-sans);
-    line-height: 1.7;
-    color: var(--text-dark);
-    background-color: var(--text-light);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* 6. 旗艦排版：H1/H2 權威感 */
+h1 { font-family: var(--font-serif); font-size: clamp(2rem, 6vw, 4.5rem); line-height: 1.2; }
+h2 { 
+    font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.8rem); 
+    text-align: center; position: relative; padding-bottom: 20px;
 }
-
-img, video, svg { 
-    max-width: 100%; 
-    height: auto; 
-    vertical-align: middle; 
-    /* 🏆 優化：防止圖片在非動態加載時有佈局跳動 (CLS) */
-    content-visibility: auto; 
-}
-
-/* 清單與連結 */
-ul, ol { list-style: none; }
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color var(--transition-speed), background-color var(--transition-speed), opacity var(--transition-speed), outline var(--transition-speed);
-}
-
-/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
-a:hover, a:focus-visible { 
-    color: var(--primary-dark);
-    opacity: 0.95;
-    outline: 2px solid var(--accent-color); 
-    outline-offset: 2px;
-}
-
-/* 性能優化：抗閃爍 (FOUC) 與背景鎖定 */
-.js-loading { opacity: 0; transition: opacity 0.5s; }
-body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; } 
-
-
-/* 標題樣式 */
-h1, h2, h3, h4, h5, h6 { 
-    font-family: var(--font-serif);
-    line-height: 1.3;
-    margin-bottom: 1.5rem; /* 統一使用 rem */
-    color: var(--secondary-color);
-    font-weight: 700;
-    text-rendering: optimizeLegibility; 
-}
-
-h1 {
-    font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
-    text-align: center;
-    word-break: break-word;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-}
-
-/* 標題下裝飾線 - 僅限 H2 用於區塊標題 */
-h2 {
-    position: relative; /* 確保 ::after 絕對定位參考點 */
-    padding-bottom: 10px; /* 為裝飾線留出空間 */
-    text-align: center;
-    font-size: clamp(1.8rem, 4vmin, 2.5rem);
-    color: var(--primary-dark);
-}
-
 h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--accent-color);
-    border-radius: 2px;
-    transition: transform var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1); 
-    will-change: transform;
-}
-/* 文章內 H2 無裝飾線 (由 JS 調整樣式或在文章樣式中覆寫) */
-.article-body h2 {
-    text-align: left;
-    padding-bottom: 0;
-    color: var(--primary-dark); /* 文章內 H2 用 primary-dark */
-}
-.article-body h2::after {
-    content: none; /* ⭐ 覆寫：文章內 H2 移除裝飾線 */
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 4px; background: var(--accent); border-radius: 2px;
 }
 
+/* 7. 費用卡片網格 (極致 RWD) */
+.plan-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; margin: 60px 0;
+}
+.plan-card {
+    background: #fff; padding: 60px 40px; border: 1px solid var(--bg-light);
+    transition: var(--transition-lux); text-align: center;
+}
+.plan-card:hover { transform: translateY(-15px); box-shadow: 0 40px 80px rgba(0,0,0,0.1); border-color: var(--accent); }
 
-h3 { 
-    font-size: clamp(1.3rem, 3vmin, 1.8rem); 
-    color: var(--primary-color); 
-    margin-bottom: 0.8rem;
-    font-weight: 700;
+/* 8. 流程圖 RWD 修正 (4/3/2/1 彈性邏輯) */
+.flow-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px; margin-top: 50px;
+}
+.flow-item {
+    background: #fff; padding: 30px 10px; border-bottom: 3px solid var(--bg-light);
+    transition: 0.3s; text-align: center;
+}
+.flow-item:hover { background: var(--primary); color: #fff; border-color: var(--accent); }
+
+/* 9. 浮動 CTA */
+.float-btns { position: fixed; bottom: 30px; right: 30px; z-index: 10001; display: flex; flex-direction: column; gap: 15px; }
+.btn-circle { width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: 0.3s; }
+.btn-tel { background: #e67e22; animation: pulse 2s infinite; }
+.btn-line { background: #06c755; }
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.5); }
+    70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(230, 126, 34, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); }
 }
 
-h4 { 
-    font-size: 1.25rem; 
-    color: var(--secondary-color);
-    margin-bottom: 0.7rem;
-    font-weight: 700;
-}
-
-h5 { 
-    font-size: 1.1rem; 
-    font-weight: 500; 
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-}
-
-h6 { 
-    font-size: 1rem; 
-    font-weight: 400; 
-    color: #666;
-    margin-bottom: 0.5rem;
-}
-
-p { margin-bottom: 1rem; }
-
-/* 基礎內容元素優化 */
-table, blockquote, pre, figure {
-    margin: 1.5rem 0;
-}
-
-/* 程式碼區塊樣式 (Code Block) */
-pre {
-    background-color: var(--primary-dark);
-    color: var(--code-color);
-    padding: 15px;
-    border-radius: 6px;
-    overflow-x: auto;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    white-space: pre;
-    tab-size: 4;
-    word-wrap: normal;
-}
-
-code {
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9em; /* 🏆 修正：使用 em 相對於父級文字，避免過大/過小 */
-    line-height: 1.6; /* 🏆 修正：增加行高，與普通文本對齊 */
-    /* 內嵌程式碼 */
-    background-color: rgba(206, 157, 74, 0.1); 
-    color: var(--primary-dark);
-    padding: 2px 5px;
-    border-radius: 4px;
-    white-space: nowrap;
-}
-
-pre code {
-    background: none;
-    /* ⭐ 修正：確保在深色背景 (var(--primary-dark)) 上有足夠的對比度 */
-    color: var(--code-color); 
-    padding: 0;
-    white-space: pre;
-}
-
-/* 確保 blockquote 有質感 */
-blockquote {
-    border-left: 5px solid var(--accent-color);
-    padding: 10px 20px;
-    background-color: var(--bg-light);
-    color: #555;
-    font-style: italic;
-    font-size: 1.05rem;
-    border-radius: 0 8px 8px 0;
-}
-
-
-/* 容器與通用佈局 */
-.container {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.container-v-padding {
-    padding-top: var(--padding-section-v);
-    padding-bottom: var(--padding-section-v);
-}
-
-.small-v-padding {
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
-
-.bg-section {
-    background-color: var(--bg-light);
-}
-
-.text-center {
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* 自動調整單行文字 (使用 Flexbox 避免單行過長) */
-.text-line-container {
-  display: flex; 
-  justify-content: center; 
-  overflow: hidden; 
-}
-
-.fit-text-line { 
-  white-space: nowrap; 
+/* 全設備適配微調 */
+@media (max-width: 768px) {
+    .nav-links { display: none; } /* 行動端隱藏導航 */
+    .hero-section { height: 80vh; }
+    .float-btns { bottom: 20px; right: 20px; }
+    .btn-circle { width: 65px; height: 65px; }
 }
 
 
