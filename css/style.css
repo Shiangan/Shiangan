@@ -30,45 +30,45 @@
 
 :root {
     /* 🏆 品牌色系 */
-    primary-color: #1e3a6a;  /* 深藍/藏青 */
-    primary-dark: #12213b;   /* 極深藍/夜空 */
-    accent-color: #ce9d4a;   /* 金黃/流星色 */
-    secondary-color: #4a5c78; /* 沉穩的藍灰色 */
+    --primary-color: #1e3a6a;  /* 深藍/藏青 */
+    --primary-dark: #12213b;   /* 極深藍/夜空 */
+    --accent-color: #ce9d4a;   /* 金黃/流星色 */
+    --secondary-color: #4a5c78; /* 沉穩的藍灰色 */
     
     /* 文字色系 */
-    text-dark: #2c2c2c;
-    text-light: #ffffff;
-    code-color: #f8f8f2; 
+    --text-dark: #2c2c2c;
+    --text-light: #ffffff;
+    --code-color: #f8f8f2; 
 
     /* 背景與邊界 */
-    bg-light: #f9f9f9; 
-    bg-dark: #000005;  
-    border-color: #e8e8e8;
-    shadow-color: rgba(0, 0, 0, 0.05); 
+    --bg-light: #f9f9f9; 
+    --bg-dark: #000005;  
+    --border-color: #e8e8e8;
+    --shadow-color: rgba(0, 0, 0, 0.05); 
 
     /* 字體定義 */
-    font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
-    font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
+    --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
     /* 尺寸定義 */
-    header-height: 80px; /* 桌面版 Header 高度 */
-    content-max-width: 1200px;
-    padding-section-v: 80px; /* 區塊垂直內邊距 */
-    transition-speed: 0.3s; /* 統一的過渡速度變數 */
-    transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
-    transition-slow: 0.8s; /* 新增：用於滾動動畫 */
-    rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
+    --header-height: 80px; /* 桌面版 Header 高度 */
+    --content-max-width: 1200px;
+    --padding-section-v: 80px; /* 區塊垂直內邊距 */
+    --transition-speed: 0.3s; /* 統一的過渡速度變數 */
+    --transition-fast: 0.15s; /* ⭐ 快速過渡 (用於 hover/active) */
+    --transition-slow: 0.8s; /* 新增：用於滾動動畫 */
+    --rwd-transition-duration: 0.4s; /* 專門用於 RWD max-height 過渡 */
     /* 錨點滾動修正，確保跳轉至區塊時不被固定 Header 遮擋 */
     scroll-padding-top: var(--header-height); 
     
 
     /* ⭐️ 動畫變數：優化流星方向，從右上向左下墜落 */
-    rotation: 45deg; /* 從右上向左下墜落 */
-    travel-x: 150vw;
-    travel-y: 120vh;
-    breakpoint-mobile: 576px; 
-    breakpoint-tablet: 900px; 
-    breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
+    --rotation: 45deg; /* 從右上向左下墜落 */
+    --travel-x: 150vw;
+    --travel-y: 120vh;
+    --breakpoint-mobile: 576px; 
+    --breakpoint-tablet: 900px; 
+    --breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
 }
 
 
@@ -169,8 +169,7 @@ h2::after {
     padding-bottom: 0;
     color: var(--primary-dark); /* 文章內 H2 用 primary-dark */
 }
-.article-body h2::
-after {
+.article-body h2::after {
     content: none; /* ⭐ 覆寫：文章內 H2 移除裝飾線 */
 }
 
@@ -723,8 +722,7 @@ main {
     animation-delay: 0.5s;
     z-index: 1;
 }
-#stars:
-before {
+#stars::before {
     content: "";
     position: absolute;
     width: 1px;
@@ -756,7 +754,7 @@ before {
 
 /* 圖層 3: 快速移動 (最前景) */
 #stars3 {
-    travel-x-end: -100px; --travel-y-end: 100px; 
+    --travel-x-end: -100px; --travel-y-end: 100px; 
     animation: move-star 80s linear infinite,
                blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
     animation-delay: 0s;
@@ -1196,8 +1194,7 @@ before {
     transition: background-color var(--transition-speed);
 }
 
-.stat-item:
-hover {
+.stat-item:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -1226,7 +1223,7 @@ hover {
 }
 
 /* --- 4.6 合作夥伴/客戶 Logo 牆 (Logo Gallery) --- */
-.logo-gallery-section{
+.logo-gallery-section {
     background-color: var(--text-light); 
     padding: 30px 0; 
     text-align: center;
@@ -1385,7 +1382,6 @@ hover {
 
 
 /* -------------------------------------------
-/*
  * 6. FAQ 手風琴樣式 (Accordion) - 質感強化
  * ------------------------------------------- */
 
@@ -1399,17 +1395,14 @@ hover {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     margin-bottom: 12px;
-    /* 質感陰影 */
     box-shadow: 0 4px 12px var(--shadow-color);
     overflow: hidden;
-    /* 性能優化：告知瀏覽器 box-shadow 將會改變 */
     will-change: box-shadow;
 }
 
 .accordion-header {
     display: flex;
     align-items: center;
-    /* 移除原生按鈕樣式 */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -1426,11 +1419,9 @@ hover {
     transition: background-color var(--transition-fast), color var(--transition-fast); 
     outline-offset: -2px;
     position: relative;
-    /* 防止標題文字被選取 */
     user-select: none;
 }
 
-/* 使用 Font Awesome 箭頭圖示作為展開指示器 */
 .accordion-header::after {
     content: '\f078';
     font-family: 'Font Awesome 6 Free';
@@ -1440,7 +1431,6 @@ hover {
     transition: transform var(--transition-fast) ease;
 }
 
-/* 展開時圖示旋轉 180 度 */
 .accordion-item.active > .accordion-header::after {
     transform: rotate(180deg);
     color: var(--accent-color);
@@ -1464,7 +1454,6 @@ hover {
     transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
-/* 展開時標題背景和顏色切換 */
 .accordion-item.active > .accordion-header {
     background-color: var(--primary-color);
     color: var(--text-light);
@@ -1473,18 +1462,16 @@ hover {
 
 .accordion-item.active > .accordion-header i {
     color: var(--accent-color);
-    transform: rotate(360deg); /* 增加動態效果 */
+    transform: rotate(360deg);
 }
 
 .accordion-content {
-    /* max-height 由 JS 動態設定 */
+    /* 這裡的 max-height 由 JS 動態設定，CSS 負責過渡效果 */
     max-height: 0;
     overflow: hidden;
     padding: 0 25px;
     background-color: var(--text-light);
-    /* 使用 cubic-bezier 曲線提供更流暢的展開效果 */
     transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1);
-    /* 性能優化：告知瀏覽器 max-height 將會改變 */
     will-change: max-height;
 }
 
@@ -1493,281 +1480,14 @@ hover {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 1.8;
-    /* 內容分隔虛線 */
     border-top: none;
     border-bottom: 1px dashed var(--border-color);
     margin-top: 0;
 }
 
-/* 移除最後一項內容的底線 */
 .accordion-item:last-child .accordion-content p {
     border-bottom: none;
 }
-
-
-/* -------------------------------------------
- * 7. 頁尾 (Footer) - 品牌色系收尾
- * ------------------------------------------- */
-
-footer {
-    background-color: var(--secondary-color);
-    color: var(--text-light);
-    padding-top: 50px;
-}
-
-.footer-grid {
-    /* 響應式 Grid 佈局 */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-    gap: 40px;
-    padding-bottom: 40px;
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.footer-block h4 {
-    color: var(--accent-color);
-    font-size: 1.15rem;
-    margin-bottom: 15px;
-    font-family: var(--font-serif);
-    font-weight: 700;
-    /* 視覺強化：左側邊框 */
-    border-left: 3px solid var(--accent-color);
-    padding-left: 10px;
-}
-
-.footer-block ul {
-    list-style: none;
-    margin-bottom: 30px;
-}
-
-.footer-block li {
-    margin-bottom: 8px;
-}
-
-.footer-block a {
-    /* 半透明白色連結 */
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.95rem;
-}
-
-/* 🏆 修正：加入 :focus-visible 提供更好的鍵盤導航體驗 */
-.footer-block a:hover, .footer-block a:focus-visible { 
-    color: var(--accent-color);
-    outline: none;
-}
-
-.footer-contact p {
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-.footer-contact p strong a {
-    color: var(--accent-color);
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-
-.footer-contact address p {
-    margin-bottom: 5px;
-}
-
-.footer-social-links a {
-    font-size: 1.2rem;
-    margin-right: 20px;
-    color: var(--accent-color);
-}
-
-/* 🏆 修正：將 :focus 改為 :focus-visible */
-.footer-social-links a:hover, .footer-social-links a:focus-visible {
-    color: var(--text-light);
-    outline: none;
-}
-
-.footer-copyright {
-    background-color: var(--primary-dark);
-    padding: 15px 0;
-}
-
-.footer-copyright .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-}
-
-.footer-logo {
-    color: var(--text-light);
-}
-
-.footer-meta a {
-    color: rgba(255, 255, 255, 0.7);
-    margin-left: 15px;
-}
-
-/* 🏆 修正：加入 :focus-visible */
-.footer-meta a:hover, 
-
-.footer-meta a:focus-visible { 
-    color: var(--text-light);
-    outline: none;
-}
-
-/* -------------------------------------------
- * 浮動 CTA 按鈕容器
- * ------------------------------------------- */
-.floating-cta {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-/* 響應式調整 */
-@media (max-width: 900px) {
-    .floating-cta {
-        bottom: 20px;
-        right: 20px;
-        gap: 10px;
-    }
-}
-@media (max-width: 576px) {
-    .floating-cta {
-        bottom: 15px;
-        right: 15px;
-        gap: 10px;
-    }
-}
-
-
-.floating-cta a {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    color: var(--text-light);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
-    transition: transform var(--transition-speed), opacity var(--transition-speed);
-    will-change: transform;
-}
-
-/* 響應式調整 */
-@media (max-width: 900px) {
-    .floating-cta a {
-        width: 55px;
-        height: 55px;
-        font-size: 1.4rem;
-    }
-}
-@media (max-width: 576px) {
-    .floating-cta a {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
-}
-
-/* 電話按鈕 (通常是主要 CTA) */
-.floating-cta a:first-child {
-    background-color: var(--primary-color);
-    /* 應用脈衝動畫 */
-    animation: pulse 1.5s infinite;
-}
-
-/* WhatsApp 或其他次要 CTA */
-.floating-cta a:last-child {
-    background-color: #00B900; 
-}
-
-/* 🏆 修正：加入 :focus-visible */
-.floating-cta a:hover, .floating-cta a:focus-visible { 
-    transform: scale(1.1);
-    outline: none;
-}
-
-/* 電話脈衝動畫 */
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 106, 0.7); /* 使用 primary-color 的深色版本或直接寫死 */
-    }
-    70% {
-        box-shadow: 0 0 0 20px rgba(30, 58, 106, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 106, 0);
-    }
-}
-
-/* -------------------------------------------
- * Back-to-Top 按鈕樣式 (由 JS 控制 .show 類別)
- * ------------------------------------------- */
-.back-to-top {
-    position: fixed; 
-    bottom: 110px; /* 避免與浮動 CTA 重疊 */
-    right: 25px; 
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    z-index: 999;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: all var(--transition-speed); /* 統一過渡 */
-    will-change: transform, opacity;
-    
-    /* 預設隱藏狀態 */
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none; /* 確保隱藏時無法點擊 */
-}
-.back-to-top.show {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto; /* 顯示時才可點擊 */
-}
-
-/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
-.back-to-top:hover, .back-to-top:focus-visible { 
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
-    transform: translateY(-3px); /* 輕微上浮效果 */
-    outline: 2px solid var(--accent-color);
-    outline-offset: 4px;
-}
-
-/* 響應式調整 */
-@media (max-width: 900px) {
-    .back-to-top {
-        bottom: 150px; 
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-}
-@media (max-width: 576px) {
-    .back-to-top {
-        right: 15px;
-        bottom: 120px; 
-        width: 35px;
-        height: 35px;
-        font-size: 0.9rem;
-    }
-}
-
 
 
 /* -------------------------------------------
