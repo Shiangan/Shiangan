@@ -1279,6 +1279,12 @@ main {
  * 5. 服務流程圖樣式 (Flow Chart) - 🎯 RWD 邏輯重點修正
  * ------------------------------------------- */
 
+.flow-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+
 .flow-chart ol {
     padding: 0;
     display: flex;
@@ -2878,463 +2884,162 @@ footer {
 
 
 /* -------------------------------------------
- * 12. 響應式設計 (Media Queries) - 🎯 RWD 邏輯重點修正
- * ------------------------------------------- */
+/* ==========================================================================
+   12. 響應式設計 (Media Queries) - 🏆 100分終極整合版
+   包含：SEO 優化、效能優化、質感動畫
+   ========================================================================== */
 
-/* 1. 平板與小型筆電 (Max-width: 1400px - 901px) */
+/* -------------------------------------------
+ * 1. 平板與小型筆電 (Max-width: 1400px)
+ * ------------------------------------------- */
 @media (max-width: 1400px) {
-    /* 流程圖在 1400px 以下仍為 4 欄，邏輯已在 901px+ 統一修正 */
+    .container { max-width: 1200px; }
 }
 
-/* 2. 平板與手機橫向 (Max-width: 900px) */
+/* -------------------------------------------
+ * 2. 中型平板與手機橫向 (Max-width: 900px) 
+ * 🎯 重點：導覽列轉換、三欄佈局轉換
+ * ------------------------------------------- */
 @media (max-width: 900px) {
-
     :root {
          --padding-section-v: 50px;
-         --header-height: 60px; /* 統一手機/平板 Header 高度 */
+         --header-height: 60px;
     }
     
-    main {
-        padding-top: var(--header-height);
-    }
-
-    h2::after {
-        width: 60px;
-    }
+    /* SEO: 確保內容不被固定 Header 遮擋 */
+    main { padding-top: var(--header-height); }
     
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-    .hero-content p {
-        font-size: 1.1rem;
-    }
+    /* 質感微調：縮減標題大小以符合手機比例 */
+    .hero-content h1 { font-size: 2rem; line-height: 1.3; }
+    .hero-content p { font-size: 1.1rem; }
+    .hero-cta-group { flex-direction: column; gap: 12px; }
+    .hero-cta-group .cta-button { width: 100%; margin: 0; text-align: center; }
+
+    /* --- 導航選單 (Mobile Navigation) --- */
+    .menu-toggle { display: flex; align-items: center; justify-content: center; }
     
-    .hero-cta-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .hero-cta-group .cta-button {
-        width: 100%;
-        margin: 0;
-    }
-
-    /* RWD 導覽列優化 */
-    .header-container {
-        padding: 0 15px;
-    }
-
-    /* 手機選單隱藏機制 */
     .main-nav {
-        display: block;
-        position: fixed; 
+        position: fixed;
         top: var(--header-height);
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-light); 
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        max-height: calc(100vh - var(--header-height)); 
-        overflow-y: auto;
-        transform: translateX(100%); 
-        transition: transform 0.4s ease-out; 
-        padding: 20px 0;
-        will-change: transform; 
-        z-index: 999;
-    }
-    .main-nav.active {
-        transform: translateX(0); 
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .menu-toggle.active i {
-        transform: rotate(90deg);
-    }
-
-    .main-nav ul {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0 20px;
-    }
-
-    .main-nav li {
-        width: 100%;
-        padding: 0;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .main-nav a {
-        padding: 12px 0;
-    }
-    
-    .contact-nav {
-        display: none; 
-    }
-    .main-nav .contact-nav {
-        display: block;
-        padding: 15px 20px;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .main-nav .contact-nav a {
-        margin: 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    /* ⭐ RWD 導航：為 JS 的 max-height 過渡預設結構 */
-    .dropdown {
-        position: relative; 
-    }
-    /* 手機版下拉選單 (手風琴效果) */
-    .dropdown > a {
+        right: 0; /* 改為右側彈出，符合人體工學 */
+        width: 280px; /* 側邊欄質感 */
+        height: calc(100vh - var(--header-height));
+        background-color: var(--bg-light);
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transform: translateX(105%); /* 完全隱藏 */
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
+        flex-direction: column;
+        z-index: 1000;
+        will-change: transform;
     }
 
-    .dropdown > a i {
-        margin-left: auto;
-        font-size: 0.9rem;
-    }
+    .main-nav.active { transform: translateX(0); }
 
-    .dropdown.active > a i {
-        transform: rotate(180deg);
-        /* ⭐ 優化：使用快速過渡，提升點擊響應 */
-        transition: transform var(--transition-fast) ease-in-out; 
-    }
-    /* ⭐ 優化：確保 dropdown 點擊時，其 a 元素快速改變顏色 */
-    .dropdown > a:hover, .dropdown > a:focus-visible {
-        color: var(--primary-color);
-        transition: color var(--transition-fast);
-        outline: none;
-    }
+    .main-nav ul { flex-direction: column; padding: 20px; }
+    .main-nav li { width: 100%; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .main-nav a { padding: 15px 0; display: block; width: 100%; }
 
- /* -------------------------------------------
- * 12. 響應式設計 (Media Queries) - 最終優化
- * ------------------------------------------- */
-
-/* 5. 極小手機 (Max-width: 480px) - 補充 */
-@media (max-width: 480px) {
-
-    h1 {
-        font-size: 1.8rem;
-    }
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    /* 確保所有垂直間距不會過大 */
-    :root {
-         --padding-section-v: 40px;
-    }
-    .container-v-padding {
-        padding-top: var(--padding-section-v);
-        padding-bottom: var(--padding-section-v);
-    }
-
-    /* 聯繫資訊方塊 RWD 調整 */
-    .contact-info-card p,
-    .contact-info-card address {
-        flex-direction: column; /* 改為垂直堆疊 */
-        align-items: flex-start;
-    }
-    .contact-info-card .icon {
-        margin-bottom: 5px;
-    }
-
-
-    
-
-    /* 關鍵修正：平板/手機下拉菜單的最大高度過渡邏輯 */
+    /* 下拉選單手風琴效果 */
     .submenu {
-        position: static; 
-        width: 100%;
-        opacity: 1; 
-        visibility: visible; 
-        max-height: 0; /* 關鍵：從 0 過渡到 scrollHeight */
+        max-height: 0;
         overflow: hidden;
-        /* ⭐ 修正：確保起始/結束的 padding 為 0，由 JS 控制打開時的 padding */
-        padding: 0 0; 
-        transition: max-height var(--rwd-transition-duration) cubic-bezier(0.86, 0, 0.07, 1); 
-        transform: none; 
-        box-shadow: none;
-        border-top: none;
-        border-radius: 0;
-        pointer-events: auto; 
+        background: rgba(0,0,0,0.02);
+        transition: max-height 0.3s ease-out;
     }
-    /* JS 應將 max-height 設置為 submenu 的 scrollHeight，並設置 padding */
-    .dropdown.active > .submenu {
-        padding: 10px 0; 
-    }
+    .dropdown.active > .submenu { max-height: 500px; padding: 10px 0 10px 15px; }
+    .dropdown > a i { transition: transform 0.3s ease; }
+    .dropdown.active > a i { transform: rotate(180deg); }
 
-    /* 確保子選單內容不會被絕對定位影響 scrollHeight (已在上方的 .submenu 中修正 position: static) */
-    .submenu > li {
-        border-bottom: none; /* 清除 RWD li 的 border-bottom */
-    }
-
-    .hero-section {
-        height: 500px;
-        background-attachment: scroll;
-    }
-
-    /* 🎯 流程圖修正：900px 以下顯示 3 欄 */
-    .flow-chart li {
-        flex-basis: calc(33.33% - 30px);
-        margin-bottom: 50px; /* 為向下箭頭留出更多空間 */
-        margin-right: 15px; 
-        margin-left: 15px; 
-    }
+    /* --- 內容區域邏輯 --- */
+    .two-columns-layout { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     
-    /* 🏆 修正：流程圖 RWD (900px-)：3 欄模式箭頭邏輯 */
+    /* 🏆 流程圖 (3欄) 邏輯 */
+    .flow-chart li { flex-basis: calc(33.33% - 20px); margin-bottom: 40px; }
     .flow-chart li:not(:last-child)::after {
-        content: '\f063'; /* Font Awesome: 向下箭頭 */
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        position: absolute;
-        top: auto;
-        bottom: -25px; 
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0; 
-        height: 0;
-        line-height: 1;
-        font-size: 1.5rem;
-        background-color: transparent;
-        color: var(--primary-color);
-        border: none;
-        box-shadow: none;
-        z-index: 5;
+        content: '\f063'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+        position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%);
+        color: var(--primary-color); font-size: 1.2rem;
     }
-    .flow-chart ol li:last-child::after {
-        content: none; /* 最後一個元素不顯示箭頭 */
-    }
-    /* 確保每行末尾元素 (3n) 不顯示向下箭頭 (即行尾不需要向下箭頭，因為下面沒有元素了) */
-    .flow-chart ol li:nth-child(3n)::after {
-        content: none;
-    }
-    /* 處理非行尾元素 (非 3n) 但在同一行的，應顯示向下箭頭 */
-    .flow-chart ol li:nth-child(3n + 1):not(:last-child)::after, 
-    .flow-chart ol li:nth-child(3n + 2):not(:last-child)::after {
-        content: '\f063'; 
-    }
-    /* 特別處理第 3 個元素 (3n) 如果它不是最後一個，它不需要向下箭頭，因為下一行就在下方 */
+    .flow-chart ol li:nth-child(3n)::after { content: none; }
 
+    /* 文章頁面 SEO 優化：側欄排到內容下方 */
+    .article-main-layout { grid-template-columns: 1fr; }
+    .article-sidebar { order: 2; margin-top: 40px; }
+    .article-sidebar .table-of-contents { display: block; border: 1px solid var(--border-color); }
 
-    /* 文章頁面 RWD */
-    .article-main-layout {
-        grid-template-columns: 1fr; 
-        gap: 30px;
-    }
-    .article-sidebar {
-        position: static;
-        max-height: none;
-        padding-top: 0;
-        order: -1; 
-    }
-    /* ⭐ 優化：Sidebar 在 900px 以下預設顯示，讓 TOC 在平板上可見 */
-    .article-sidebar .table-of-contents {
-        display: block; 
-    }
-
-    /* 服務區塊 - 平板/手機橫向優化 */
-    .two-columns-layout {
-        grid-template-columns: repeat(2, 1fr); 
-    }
-
-    /* 步驟流程 - 900px 以下變為一欄 (垂直堆疊) */
-    .step-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .step-item {
-        padding-top: 0;
-        padding-left: 50px;
-        text-align: left;
-    }
-    
-    .step-number {
-        left: 0;
-        top: 0;
-        transform: none;
-    }
-    
-    .styled-list li {
-        font-size: 0.9rem;
-    }
-    
-    /* Footer RWD 對齊修正 */
-    .footer-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)); 
-        text-align: left; 
-    }
-    
-    .footer-block:nth-child(3) {
-        grid-column: span 2; 
-    }
-    
-    /* 聯繫頁面 RWD */
-    .contact-grid-2col {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    /* 數據里程碑 RWD: 兩欄顯示 */
-    .stat-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
+    /* Footer */
+    .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    .footer-block:last-child { grid-column: span 2; }
 }
 
-/* 3. 中型手機 (Max-width: 680px) */
+/* -------------------------------------------
+ * 3. 小型平板 (Max-width: 680px)
+ * ------------------------------------------- */
 @media (max-width: 680px) {
-    /* 🎯 流程圖修正：680px 以下顯示 2 欄 */
-    .flow-chart li {
-        flex-basis: calc(50% - 30px);
-        margin-bottom: 50px; 
-    }
-    
-    /* 🏆 修正：流程圖 RWD (680px-)：2 欄模式箭頭邏輯 */
-    .flow-chart li:not(:last-child)::after {
-        content: '\f063'; 
-    }
-    /* 確保每行末尾元素 (2n) 不顯示向下箭頭 */
-    .flow-chart ol li:nth-child(2n)::after {
-        content: none;
-    }
-    /* 確保最後一個元素沒有箭頭 */
-    .flow-chart ol li:last-child::after {
-        content: none; 
-    }
+    /* 🏆 流程圖 (2欄) 邏輯 */
+    .flow-chart li { flex-basis: calc(50% - 20px); }
+    .flow-chart ol li:nth-child(3n)::after { content: '\f063'; } /* 恢復被 900px 隱藏的 */
+    .flow-chart ol li:nth-child(2n)::after { content: none; }    /* 隱藏偶數項箭頭 */
+    .flow-chart ol li:last-child::after { content: none; }
 
-
-    /* 服務區塊在 680px 以下變為單欄 */
-    .two-columns-layout {
-        grid-template-columns: 1fr; 
-    }
-    
-    /* 團隊成員網格優化：至少 1 欄 */
-    .team-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    }
+    .two-columns-layout { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-
-/* 4. 小型手機 (Max-width: 576px) */
+/* -------------------------------------------
+ * 4. 標準手機 (Max-width: 576px)
+ * 🎯 重點：單欄垂直堆疊、SEO 點擊目標優化
+ * ------------------------------------------- */
 @media (max-width: 576px) {
+    .container { padding: 0 20px; }
 
-    .container {
-        padding: 0 15px;
-    }
+    /* SEO: 增加按鈕點擊區域，防止點擊目標過近 */
+    .main-nav a, .cta-button { min-height: 48px; display: flex; align-items: center; }
 
-    /* 🎯 流程圖修正：576px 以下顯示 1 欄 */
-    .flow-chart li {
-        flex-basis: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 50px; 
-    }
-    .flow-chart ol {
-        padding: 0 10px; 
-    }
+    /* 🏆 流程圖 (1欄) 邏輯 */
+    .flow-chart li { flex-basis: 100%; margin: 0 0 40px 0; }
+    .flow-chart ol li::after { content: '\f063' !important; left: 50% !important; }
+    .flow-chart ol li:last-child::after { content: none !important; }
 
- /* 修正：在 576px 以下，將 footer-copyright 內容居中對齊 */
-@media (max-width: 576px) {
-    .footer-copyright .container {
-        align-items: center; 
-        text-align: center;
-    }
-
-    .footer-meta {
-        /* 將連結也居中 */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .footer-meta a {
-        margin: 5px 0; /* 垂直增加間距 */
-        margin-left: 0;
-    }
-
+    /* 數據里程碑 */
+    .stat-grid { grid-template-columns: 1fr; }
     
-    /* 🏆 修正：流程圖 RWD (576px-)：1 欄模式箭頭邏輯 */
-    /* 在 1 欄佈局中，所有非最後一個元素都應有向下箭頭 */
-    .flow-chart li:not(:last-child)::after {
-        content: '\f063'; 
-    }
-    /* 確保最後一個元素沒有箭頭 */
-    .flow-chart ol li:last-child::after {
-        content: none; 
-    }
-
-    /* 價格卡片單欄 */
-    .price-card-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Footer 最終單欄堆疊 */
-    .footer-grid {
-        grid-template-columns: 1fr;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-bottom: 40px;
-    }
-    .footer-block:nth-child(3) {
-        grid-column: span 1; 
-    }
-
-
-    .footer-copyright .container {
-        flex-direction: column;
-    }
-
-    .footer-meta {
-        margin-top: 10px;
-    }
-    
-    /* ⭐ 關鍵優化：手機直屏下隱藏 TOC，給內容更多空間 */
-    .article-sidebar .table-of-contents {
-        display: none; 
-    }
-    
-    .sidebar-block {
-        margin-bottom: 20px;
-        padding: 15px;
-    }
-    
-    /* 表格 RWD 確保橫向滾動 */
+    /* 表格滾動質感 */
     .responsive-table-wrap {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+        box-shadow: inset -10px 0 10px -10px rgba(0,0,0,0.1);
     }
 
-    .comparison-table {
-        min-width: 700px; 
-    }
+    /* Footer 質感修正：內容居中 */
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-block:last-child { grid-column: span 1; }
+    .footer-copyright .container { flex-direction: column; gap: 10px; }
+    .footer-meta { justify-content: center; }
 
-    /* 數據里程碑 RWD: 單欄顯示 */
-    .stat-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .stat-number {
-        font-size: 2.5rem;
-    }
-    .stat-text {
-        font-size: 1rem;
-    }
-
-    /* Logo 牆 RWD */
-    .logo-grid {
-        gap: 20px;
-    }
-    .logo-item {
-        max-width: 100px;
-        height: 40px;
-    }
+    /* SEO: 手機版目錄隱藏以減少干擾 */
+    .article-sidebar .table-of-contents { display: none; }
 }
 
+/* -------------------------------------------
+ * 5. 極小螢幕手機 (Max-width: 480px)
+ * ------------------------------------------- */
+@media (max-width: 480px) {
+    :root { --padding-section-v: 40px; }
+    h1 { font-size: 1.75rem; }
+    
+    .hero-section { height: auto; padding: 100px 0 60px; }
+    
+    /* 聯絡資訊卡片質感 */
+    .contact-info-card address {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .contact-info-card .icon { margin: 0 0 10px 0; font-size: 1.5rem; }
+}
 /* ⭐️ 錨點滾動修正：確保跳轉至區塊時不被固定 Header 遮擋 (已在 :root 中設定) */
 :target {
     scroll-margin-top: var(--header-height);
