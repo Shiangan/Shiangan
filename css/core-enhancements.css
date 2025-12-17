@@ -2,37 +2,244 @@
 /* 💎 Core Enhancements CSS - 最終性能優化版                   */
 /* ========================================================= */
 
+/**
+ * ====================================================================
+ * 祥安生命 (SA Life) 全域核心樣式表 V4.0
+ * 包含：設計系統、語意化排版、RWD 控制、效能優化
+ * ====================================================================
+ */
+
 :root {
-    --color-primary: #3c5a75;
-    --color-accent: #e30a1c;
-    --color-light-gray: #f7f7f7;
-    --color-border: #e0e0e0;
-    --color-text-dark: #333;
-    --color-text-medium: #666;
-    --shadow-subtle: 0 1px 4px rgba(0, 0, 0, 0.04);
-    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
-    --radius-default: 8px;
+    /* 🏆 品牌色系 - 修正連字號變數 */
+    --primary-color: #1e3a6a;    /* 深藍/藏青 */
+    --primary-dark: #12213b;     /* 極深藍/夜空 */
+    --accent-color: #ce9d4a;     /* 金黃/流星色 */
+    --secondary-color: #4a5c78;  /* 沉穩的藍灰色 */
+    
+    /* 文字色系 */
+    --text-dark: #2c2c2c;
+    --text-light: #ffffff;
+    --code-color: #f8f8f2; 
+
+    /* 背景與邊界 */
+    --bg-light: #f9f9f9; 
+    --bg-dark: #000005;  
+    --border-color: #e8e8e8;
+    --shadow-color: rgba(0, 0, 0, 0.05); 
+
+    /* 字體定義 */
+    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
+    --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+
+    /* 尺寸定義 */
+    --header-height: 80px;
+    --content-max-width: 1200px;
+    --padding-section-v: 80px; 
+
+    /* 過渡速度 */
+    --transition-speed: 0.3s;
+    --transition-fast: 0.15s;
+    --transition-slow: 0.8s;
+    --rwd-transition-duration: 0.4s;
+
+    /* ⭐️ 動畫變數：流星軌跡 */
+    --rotation: 45deg;
+    --travel-x: 150vw;
+    --travel-y: 120vh;
+
+    /* 響應式斷點 */
+    --breakpoint-mobile: 576px; 
+    --breakpoint-tablet: 900px; 
+    --breakpoint-mid: 680px; 
 }
 
-/* --- 0. 全域與排版 --- */
+/* 1. 基礎重置與優化 */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* 修正：錨點跳轉不被 Header 遮擋 */
+    scroll-padding-top: var(--header-height); 
+    font-size: 16px;
+}
+
 body {
-    font-family: 'Noto Sans TC', 'Microsoft YaHei', sans-serif; 
-    color: var(--color-text-dark);
-    line-height: 1.7; 
-    background-color: #f8f8f8; 
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    color: var(--text-dark);
+    background-color: var(--text-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* 防止流星動畫溢出 */
 }
-h2.section-title {
-    text-align: center;
-    color: var(--color-primary);
-    font-size: 2.5rem;
+
+/* 媒體內容優化 */
+img, video, svg { 
+    max-width: 100%; 
+    height: auto; 
+    vertical-align: middle; 
+    /* 🏆 防止圖片佈局跳動 (CLS) */
+    content-visibility: auto; 
+}
+
+/* 2. 連結與互動樣式 */
+ul, ol { list-style: none; }
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+}
+
+/* 使用 focus-visible 提升 A11Y 體驗 */
+a:hover, a:focus-visible { 
+    color: var(--primary-dark);
+    opacity: 0.85;
+    outline: 2px solid var(--accent-color); 
+    outline-offset: 4px;
+}
+
+/* 3. 標題與字體系統 (Typography) */
+h1, h2, h3, h4, h5, h6 { 
+    font-family: var(--font-serif);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
     font-weight: 700;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
+    text-rendering: optimizeLegibility; 
 }
-.plan-page-container { 
-    max-width: 1400px; 
-    margin: 40px auto; 
-    padding: 0 20px; 
+
+h1 {
+    /* 使用 clamp 實現流體縮放字體 */
+    font-size: clamp(1.8rem, 4.5vmin, 4.0rem); 
+    text-align: center;
+    word-break: break-word;
+    letter-spacing: -0.02em;
+}
+
+/* 帶有裝飾線的 H2 */
+h2 {
+    position: relative;
+    padding-bottom: 15px;
+    text-align: center;
+    font-size: clamp(1.6rem, 4vmin, 2.5rem);
+    color: var(--primary-dark);
+    margin-bottom: 2rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+    transition: width var(--transition-speed);
+}
+
+/* 文章內部專用覆寫 */
+.article-body h2 {
+    text-align: left;
+    padding-bottom: 0;
+}
+.article-body h2::after {
+    display: none; /* 移除裝飾線 */
+}
+
+h3 { font-size: clamp(1.3rem, 3vmin, 1.8rem); color: var(--primary-color); }
+h4 { font-size: 1.25rem; }
+
+/* 4. 內容元素 (Code, Quote, Table) */
+
+pre {
+    background-color: var(--primary-dark);
+    color: var(--code-color);
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+}
+
+code {
+    font-family: 'Consolas', monospace;
+    font-size: 0.9em;
+    background-color: rgba(206, 157, 74, 0.12); 
+    color: var(--primary-dark);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+blockquote {
+    border-left: 6px solid var(--accent-color);
+    padding: 15px 25px;
+    background-color: var(--bg-light);
+    color: var(--secondary-color);
+    font-style: italic;
+    font-size: 1.1rem;
+    margin: 2rem 0;
+    border-radius: 0 10px 10px 0;
+}
+
+/* 5. 容器佈局系統 */
+.container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.section-padding {
+    padding-top: var(--padding-section-v);
+    padding-bottom: var(--padding-section-v);
+}
+
+/* 針對行動端微調 */
+@media (max-width: 768px) {
+    :root {
+        --padding-section-v: 50px;
+        --header-height: 70px;
+    }
+    
+    .section-padding {
+        padding-top: var(--padding-section-v);
+        padding-bottom: var(--padding-section-v);
+    }
+}
+
+/* 6. 功能性 Utility Classes */
+.bg-soft { background-color: var(--bg-light); }
+.text-accent { color: var(--accent-color); }
+.no-scroll { overflow: hidden; height: 100vh; }
+
+.js-loading { 
+    opacity: 0; 
+    transition: opacity 0.6s ease-in-out; 
+}
+
+/* 🏆 文字適配容器：防止標題過長換行破壞美感 */
+.text-line-container {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+}
+.fit-text-line {
+    white-space: nowrap;
+    will-change: transform;
 }
 
 /* --- 1. Sticky 目錄導航 (使用類名選擇器，提高效率) --- */
