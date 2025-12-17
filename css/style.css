@@ -699,6 +699,7 @@ main {
 
 /* 核心動畫：統一星星移動方向 (從右上向左下) */
 @keyframes move-star {
+    /* 這裡使用 translate3d 提高性能，減少 reflow */
     0% { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(var(--travel-x-end, -100px), var(--travel-y-end, 100px), 0); } 
 }
@@ -718,11 +719,13 @@ main {
 #stars {
     --travel-x-end: -20px; --travel-y-end: 20px; 
     animation: move-star 300s linear infinite,
-               blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
+               blink 5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
     animation-delay: 0.5s;
     z-index: 1;
+    /* 🏆 確保多個星星的生成 */
+    background-color: transparent; 
 }
-#stars::before {
+#stars:before {
     content: "";
     position: absolute;
     width: 1px;
@@ -731,16 +734,20 @@ main {
         100vw 200vh rgba(255, 255, 255, 0.2), 
         250vw 120vh rgba(255, 255, 255, 0.2), 
         -50vw 150vh rgba(255, 255, 255, 0.2), 
-        30vw 100vh rgba(255, 255, 255, 0.2);
+        30vw 100vh rgba(255, 255, 255, 0.2),
+        -10vw -10vh rgba(255, 255, 255, 0.2), /* 確保覆蓋左上角 */
+        20vw 50vh rgba(255, 255, 255, 0.2),
+        80vw 30vh rgba(255, 255, 255, 0.2);
 }
 
 /* 圖層 2: 中速移動 (中間層) */
 #stars2 {
     --travel-x-end: -60px; --travel-y-end: 60px; 
     animation: move-star 150s linear infinite, 
-               blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
+               blink 3s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
     animation-delay: 1.2s;
     z-index: 1;
+    background-color: transparent;
 }
 #stars2::before {
     content: "";
@@ -749,16 +756,18 @@ main {
     height: 2px;
     opacity: 0.9;
     box-shadow:
-        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff;
+        -10vw 20vh #ffffff, 100vw 200vh #ffffff, 150vw 50vh #ffffff, 70vw 220vh #ffffff,
+        200vw 50vh #ffffff, 40vw 10vh #ffffff, 10vw 110vh #ffffff; /* 🏆 增加更多星星 */
 }
 
 /* 圖層 3: 快速移動 (最前景) */
 #stars3 {
-    --travel-x-end: -100px; --travel-y-end: 100px; 
+    --travel-x-end: -100px; --travel-y-end: 100px; /* 修正：使用 --travel-x-end */
     animation: move-star 80s linear infinite,
-               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; /* ⭐ 優化：新增曲線 */
+               blink 1.5s infinite cubic-bezier(0.42, 0, 0.58, 1) alternate; 
     animation-delay: 0s;
     z-index: 1;
+    background-color: transparent;
 }
 #stars3::before {
     content: "";
@@ -768,9 +777,9 @@ main {
     opacity: 1;
     box-shadow:
         -200vw 100vh var(--accent-color), 10vw 250vh var(--accent-color),
-        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9);
+        100vw 100vh 4px 2px rgba(212, 167, 87, 0.9),
+        50vw 20vh 4px 1px rgba(212, 167, 87, 0.9); /* 🏆 增加更多星星 */
 }
-
 
 .hero-section {
     position: relative;
@@ -839,12 +848,12 @@ main {
 /* ⭐️ 流星動畫關鍵幀：優化移動方向，使其從右上向左下墜落 */
 @keyframes shooting-star-random {
     0% {
-        /* 起點：使用變數設定的旋轉角度和移動距離，定位流星的起點在右上 */
+        /* 起點：定位流星的起點在右上 (travel-x, travel-y 都是正值，與 rotation 45deg 配合) */
         transform: rotate(var(--rotation)) translate3d(var(--travel-x), var(--travel-y), 0);
         opacity: 0; 
     }
     1% {
-        opacity: 1; 
+        opacity: 1; /* 瞬間出現 */
     }
     99% { 
         opacity: 1;
@@ -852,16 +861,17 @@ main {
     100% {
         /* 終點：反向移動，使流星劃過頁面到左下 */
         transform: rotate(var(--rotation)) translate3d(calc(var(--travel-x) * -1), calc(var(--travel-y) * -1), 0);
-        opacity: 0; 
+        opacity: 0; /* 瞬間消失 */
     }
 }
 
 
 .meteor {
     position: absolute;
-    width: 1px; 
-    height: 1px;
+    width: 2px; /* 🏆 修正：將流星頭部加大為 2px，更亮 */
+    height: 2px;
     background: #ffffff;
+    /* 讓流星頭部更亮、更金黃 */
     box-shadow: 
         0 0 5px 1px rgba(255, 255, 255, 0.8), 
         0 0 20px 8px var(--accent-color), 
@@ -880,18 +890,18 @@ main {
     top: 50%;
     left: -400px; 
     width: 400px; 
-    height: 1px; 
+    height: 2px; /* 🏆 修正：將彗尾加大為 2px */
     transform: translateY(-50%);
     background: linear-gradient(
         /* 由於我們調整了 rotation 到 45deg，彗尾應該與移動方向一致 */
-        to right, /* 假設流星本體 (meteor) 是頭部，彗尾向後延伸 (向右下延伸) */
+        to right, 
         rgba(255, 255, 255, 1) 0%, 
         var(--accent-color) 5%, 
         rgba(206, 157, 74, 0.5) 15%,
         transparent 100%
     );
     opacity: 0.9;
-    filter: blur(0.5px); /* ⭐ 優化：輕微模糊，讓彗尾更柔和 */
+    filter: blur(0.5px); 
 }
 
 
@@ -1278,93 +1288,6 @@ main {
  * 5. 服務流程圖樣式 (Flow Chart) - 🎯 RWD 邏輯重點修正
  * ------------------------------------------- */
 
-.flow-chart ol {
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    counter-reset: step-counter;
-}
-
-.flow-chart li {
-    background-color: var(--text-light);
-    border: 1px solid var(--border-color);
-    padding: 25px;
-    margin: 15px;
-    border-radius: 10px;
-    font-weight: 400;
-    flex-basis: calc(25% - 30px); 
-    min-width: 200px;
-    position: relative;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    will-change: transform;
-    counter-increment: step-counter;
-    padding-top: 40px;
-    text-align: center;
-}
-
-.flow-chart li::before {
-    content: counter(step-counter);
-    position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    border-radius: 50%;
-    text-align: center;
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    font-weight: 700;
-    font-size: 1.2rem;
-    border: 4px solid var(--bg-light);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    z-index: 10; /* 確保數字在箭頭之上 */
-}
-
-.flow-chart li strong {
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin-right: 5px;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.flow-chart li:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-color);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* 🎯 最終修正：流程圖連接線與箭頭 (桌面版 - 4 欄) */
-@media (min-width: 901px) {
-    /* 確保 4 欄佈局時的邏輯 */
-    .flow-chart li {
-        flex-basis: calc(25% - 30px); /* 保持 4 欄 */
-        margin-right: 15px; /* 統一左右間距 */
-        margin-left: 15px;
-        margin-bottom: 30px; /* 預留向下箭頭空間，避免與下一行重疊 */
-    }
-    
-    .flow-chart li:nth-child(4n) {
-        margin-right: 15px; /* 確保第 4 欄與容器右側間距一致 */
-    }
-
-    /* 右箭頭 (同行連接線) - 適用於非行尾元素 */
-    .flow-chart li:not(:nth-child(4n)):not(:last-child)::after {
-        content: '\f061'; /* Font Awesome: 右箭頭 */
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        position: absolute;
-        right: -30px; /* 位於 li 之間 */
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--primary-color);
-        font-size: 1.5rem;
-        z-index: 5;
-    }
     
     /* 向下箭頭 (換行連接線) - 適用於行尾元素 (第 4n 個) 且非最後一個元素 */
     .flow-chart ol li:nth-child(4n):not(:last-child)::after {
@@ -1380,6 +1303,123 @@ main {
     }
 }
 
+
+/* 🚀 RWD 補強 1: 平板/中型設備 (<= 900px 且 > 680px) -> 3 欄或 2 欄自適應 */
+@media (max-width: 900px) and (min-width: 681px) {
+    .flow-chart li {
+        /* 使用 minmax(250px, 1fr) 讓其自適應 2-3 欄，並移除多餘的 flex-basis */
+        flex-basis: auto; 
+        min-width: 250px; 
+        margin-right: 15px; 
+        margin-left: 15px;
+        margin-bottom: 30px; 
+    }
+    
+    /* 🏆 新增：2 欄布局時的右箭頭和下箭頭邏輯 */
+    .flow-chart li:not(:nth-child(2n)):not(:last-child)::after {
+        content: '\f061'; /* 右箭頭 */
+        right: -30px; 
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        z-index: 5;
+    }
+    
+    .flow-chart ol li:nth-child(2n):not(:last-child)::after {
+        content: '\f078'; /* 向下箭頭 */
+        right: 50%; 
+        top: auto;
+        bottom: -35px; 
+        transform: translate(50%, 0) rotate(0deg); 
+        color: var(--accent-color);
+    }
+    
+    .flow-chart ol li:last-child::after {
+        content: none;
+    }
+}
+
+/* 📱 RWD 補強 2: 行動設備 (<= 680px) -> 1 欄 */
+@media (max-width: 680px) {
+    .flow-chart ol {
+        flex-direction: column; /* 設為單欄 */
+    }
+    
+    .flow-chart li {
+        flex-basis: 100%;
+        margin: 15px 0; /* 垂直間距 */
+        min-width: auto;
+        padding-top: 25px; /* 調整內邊距，數字可以直接放在上面 */
+        position: relative;
+    }
+    
+    /* 移除橫向箭頭 */
+    .flow-chart li::after {
+        content: none !important;
+    }
+
+    /* 🏆 新增：單欄時使用向下箭頭，且靠右側顯示 */
+    .flow-chart li:not(:last-child)::before {
+        /* 將數字圖標向下移動，並使用向下箭頭圖標 */
+        content: '\f078'; /* 向下箭頭 */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        top: auto;
+        bottom: -20px; /* 位於 li 下方 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: none;
+        box-shadow: none;
+        z-index: 10;
+    }
+    
+    /* 讓數字重新回到頂部，但不要顯示箭頭 */
+    .flow-chart li:not(:last-child)::after {
+        /* 顯示數字本身 */
+        content: counter(step-counter);
+        font-family: var(--font-sans);
+        position: absolute;
+        top: 0px; 
+        left: 50%;
+        transform: translateX(-50%);
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+        color: var(--primary-dark);
+        font-weight: 700;
+        font-size: 1.2rem;
+        border: 4px solid var(--bg-light);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        z-index: 10;
+        padding-top: 0;
+    }
+
+    /* 讓最後一項的數字正常顯示，但沒有向下箭頭 */
+    .flow-chart li:last-child::before {
+        content: counter(step-counter);
+        font-family: var(--font-sans);
+        top: -18px; 
+        left: 50%;
+        transform: translateX(-50%);
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 1.2rem;
+        background-color: var(--accent-color);
+        color: var(--primary-dark);
+        border: 4px solid var(--bg-light);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+}
 
 /* -------------------------------------------
  * 6. FAQ 手風琴樣式 (Accordion) - 質感強化
