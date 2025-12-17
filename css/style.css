@@ -783,20 +783,35 @@ main {
 
 .hero-section {
     position: relative;
-    height: 100vh; 
-    min-height: 650px;
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
     overflow: hidden;
-    background-color: var(--primary-dark);
+    min-height: 80vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--text-light);
-    z-index: 1;
-    /* 假設有一個預設背景圖，如果沒有，請註釋掉 */
-    /* background-image: url('../images/hero-bg-default.jpg');  */
-    background-size: cover;
-    background-position: center;
+    color: #fff;
+}
+
+.star-layer {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: transparent;
+}
+
+#stars  { width: 1px; height: 1px; box-shadow: 100px 200px #FFF, 500px 800px #FFF, 1200px 300px #FFF; } /* 更多點可自行添加 */
+#stars2 { width: 2px; height: 2px; box-shadow: 200px 400px #FFF, 800px 100px #FFF; opacity: 0.5; }
+
+.meteor {
+    position: absolute;
+    width: 2px; height: 100px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    animation: meteor-drop 5s linear infinite;
+    opacity: 0;
+}
+
+@keyframes meteor-drop {
+    0% { transform: translate(500px, -100px) rotate(-45deg); opacity: 1; }
+    30% { transform: translate(-200px, 600px) rotate(-45deg); opacity: 0; }
+    100% { opacity: 0; }
 }
 
 /* 夜空漸層覆蓋層 - 增加深度與質感 */
@@ -902,7 +917,20 @@ main {
     );
     opacity: 0.9;
     filter: blur(0.5px); 
+ 
+    /* --- 3. 治喪流程 UI：手機與桌機適應 --- */
+.flow-chart ol {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
 }
+
+.flow-chart li {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
 
 
 /* -------------------------------------------
