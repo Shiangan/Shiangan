@@ -205,6 +205,16 @@ h6 {
 p { margin-bottom: 1rem; }
 
 /* 基礎內容元素優化 */
+
+.js-loading {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body:not(.js-loading) {
+    opacity: 1;
+}
+
 table, blockquote, pre, figure {
     margin: 1.5rem 0;
 }
