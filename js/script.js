@@ -1,37 +1,40 @@
 /**
  * ====================================================================
- * 祥安生命網站核心整合腳本 (SA Life Total Integration) - V4.5
- * 狀態：完整版 (無省略)
- * 功能：導航控管、勞保/對年試算、流星特效、頁籤切換、效能優化
+ * 祥安生命網站核心整合腳本 (SA Life Total Integration) - V5.0 旗艦版
+ * * 核心功能：
+ * 1. 導航控管：RWD 手機版平滑手風琴、桌機版捲動變色。
+ * 2. 跨裝置試算：勞保喪葬津貼 (2024/2025 級距)、對年習俗計算。
+ * 3. 視覺動效：Canvas 漸層流星、頁面捲動偵測、Tab 頁籤切換。
+ * 4. 效能優化：防止背景捲動、Passive Scroll 監聽、自動高度計算。
  * ====================================================================
  */
 
 'use strict';
 
-// 建立全域單一命名空間
+// 建立全域單一命名空間，防止與外部插件衝突
 window.SALife = window.SALife || {};
 
-// --- 1. 全域配置 ---
+// --- 1. 全域靜態配置 ---
 const SAL_CONFIG = {
     LABOR: {
-        MAX: 45800,     // 2024-2025 最高投保薪資
-        MIN: 27470,     // 2024-2025 最低投保薪資
-        SURV_M: 5,      // 有遺屬津貼月數
-        NO_SURV_M: 10   // 無遺屬(支出殯葬費者)月數
+        MAX: 45800,     // 投保薪資上限
+        MIN: 27470,     // 2024/2025 基本工資底限
+        SURV_M: 5,      // 有遺屬月數
+        NO_SURV_M: 10   // 無遺屬月數
     },
     UI: {
-        BREAKPOINT: 991,
-        SCROLL_THRES: 60,
-        METEORS: 12
+        BREAKPOINT: 991, // 手機版斷點
+        SCROLL_THRES: 60, // 導航欄變色閾值
+        METEORS: 10      // 流星數量 (平衡效能與美感)
     },
     PLANS: ['buddhist-taoist', 'western', 'japen', 'eco', 'custom', 'comparison', 'united']
 };
 
 // ====================================================
-// A. 試算機邏輯 (Calculators)
+// A. 試算機核心邏輯 (Calculators)
 // ====================================================
 
-/** 勞保喪葬津貼試算 */
+/** 勞保喪葬津貼試算 - 支援動態級距與美化輸出 */
 window.SALife.calculateLaborInsurance = function() {
     const avgInput = document.getElementById('avgSalary');
     const hasSurvivor = document.getElementById('hasSurvivor')?.value;
@@ -40,36 +43,37 @@ window.SALife.calculateLaborInsurance = function() {
     if (!avgInput || !resultBox) return;
     const rawValue = parseFloat(avgInput.value);
     
+    // 錯誤處理：輸入非數字或負數
     if (isNaN(rawValue) || rawValue <= 0) {
-        resultBox.innerHTML = `<div class="alert-err">❗ 請輸入正確的平均月投保薪資金額。</div>`;
+        resultBox.innerHTML = `<div class="alert-error">❗ 請輸入有效的平均月投保薪資金額。</div>`;
         resultBox.style.display = 'block';
         return; 
     }
 
-    // 依據法定範圍修正薪資
+    // 邏輯判斷：自動修正至法定區間
     const finalSalary = Math.min(Math.max(rawValue, SAL_CONFIG.LABOR.MIN), SAL_CONFIG.LABOR.MAX);
     const months = (hasSurvivor === 'yes') ? SAL_CONFIG.LABOR.SURV_M : SAL_CONFIG.LABOR.NO_SURV_M;
     const totalAmount = finalSalary * months;
     
-    let html = `<div class="calc-card">`;
+    let html = `<div class="calc-result-card pulse-animation">`;
     if (rawValue !== finalSalary) {
-        html += `<p class="salary-limit-note">⚠️ 註：投保薪資按法定上限/下限 **$${finalSalary.toLocaleString()}** 計算。</p>`;
+        html += `<p class="salary-limit-info">⚠️ 依規按最高/低投保金額 **$${finalSalary.toLocaleString()}** 計算。</p>`;
     }
     html += `
-        <div class="result-main">
-            <span class="label">預估金額：</span>
-            <span class="value">$${totalAmount.toLocaleString()}</span>
+        <div class="result-main-value">
+            <small>預估津貼金額</small>
+            <strong>$${totalAmount.toLocaleString()}</strong>
         </div>
-        <p class="formula">公式：$${finalSalary.toLocaleString()} × ${months} 個月</p>
+        <p class="result-formula">公式：$${finalSalary.toLocaleString()} × ${months} 個月</p>
     `;
     if (hasSurvivor === 'yes') {
-        html += `<p class="pro-tip">💡 提示：符合遺屬資格者，建議優先諮詢「遺屬年金」，總領額度通常較高。</p>`;
+        html += `<p class="result-tip">💡 **提醒：** 您可能符合領取「遺屬年金」資格，總額通常高於津貼，建議諮詢。</p>`;
     }
     resultBox.innerHTML = html + `</div>`;
     resultBox.style.display = 'block';
 };
 
-/** 對年日期習俗提醒 */
+/** 對年日期習俗計算 - 整合閏月提醒 */
 window.SALife.setupDuinianCalculator = function() {
     const btn = document.getElementById('calculateDuinian');
     if (!btn) return;
@@ -83,14 +87,15 @@ window.SALife.setupDuinianCalculator = function() {
         const duinian = new Date(d);
         duinian.setFullYear(d.getFullYear() + 1);
         
-        // 習俗特殊年份判斷 (2024, 2025)
-        const isLeapYearWarn = [2024, 2025].includes(d.getFullYear());
+        // 習俗特殊性：2024/2025 閏年提醒邏輯
+        const yearCheck = d.getFullYear();
+        const isSpecialYear = (yearCheck === 2024 || yearCheck === 2025);
         
         document.getElementById('lunarDate').innerText = `往生日期：${dateVal}`;
-        document.getElementById('duinianDate').innerText = `預估對年：${duinian.toLocaleDateString('zh-TW')} (參考值)`;
-        document.getElementById('duinianNote').innerHTML = isLeapYearWarn ? 
-            `<span class="warn-text">⚠️ 注意：治喪期間逢閏月，按習俗對年需「提前一個月」舉行。請與禮儀師確認農民曆。</span>` : 
-            `計算採標準次年同日，實際儀式日期建議諮詢專業老師。`;
+        document.getElementById('duinianDate').innerText = `對年預估：${duinian.toLocaleDateString('zh-TW')} (標準日)`;
+        document.getElementById('duinianNote').innerHTML = isSpecialYear ? 
+            `<span class="custom-warning">⚠️ 提醒：治喪年逢閏月，習俗對年需「提前一個月」，請務必諮詢禮儀師核對農民曆。</span>` : 
+            `計算依標準次年同日，實際儀式日期請以農民曆或專業師父建議為準。`;
         
         resultOutput.classList.remove('hidden');
         resultOutput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -98,7 +103,7 @@ window.SALife.setupDuinianCalculator = function() {
 };
 
 // ====================================================
-// B. UI 交互與導航 (Navigation & UX)
+// B. 全設備導航與視覺動效 (UX & Navigation)
 // ====================================================
 
 (function () {
@@ -110,7 +115,7 @@ window.SALife.setupDuinianCalculator = function() {
         canvas: document.getElementById('meteor-canvas')
     };
 
-    // --- 1. Canvas 高階流星特效 ---
+    // --- 1. Canvas 頂級漸層流星 (全螢幕渲染) ---
     const startMeteors = () => {
         if (!dom.canvas) return;
         const ctx = dom.canvas.getContext('2d');
@@ -124,14 +129,14 @@ window.SALife.setupDuinianCalculator = function() {
         class Meteor {
             constructor() { this.init(); }
             init() {
-                this.x = Math.random() * dom.canvas.width + 200;
-                this.y = Math.random() * dom.canvas.height * 0.5;
-                this.size = Math.random() * 80 + 40;
-                this.speed = Math.random() * 5 + 5;
+                this.x = Math.random() * dom.canvas.width + 300;
+                this.y = Math.random() * dom.canvas.height * 0.4;
+                this.size = Math.random() * 90 + 30;
+                this.speed = Math.random() * 6 + 4;
                 this.alpha = 1;
             }
             update() {
-                this.x -= this.speed; this.y += this.speed; this.alpha -= 0.015;
+                this.x -= this.speed; this.y += this.speed; this.alpha -= 0.012;
                 if (this.alpha <= 0) this.init();
             }
             draw() {
@@ -139,7 +144,7 @@ window.SALife.setupDuinianCalculator = function() {
                 const grad = ctx.createLinearGradient(this.x, this.y, this.x + this.size, this.y - this.size);
                 grad.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`);
                 grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                ctx.strokeStyle = grad; ctx.lineWidth = 2;
+                ctx.strokeStyle = grad; ctx.lineWidth = 1.8;
                 ctx.moveTo(this.x, this.y); ctx.lineTo(this.x + this.size, this.y - this.size);
                 ctx.stroke();
             }
@@ -155,30 +160,33 @@ window.SALife.setupDuinianCalculator = function() {
         resize(); frame();
     };
 
-    // --- 2. 導航選單 (RWD 手風琴邏輯) ---
+    // --- 2. 導航選單 (支援電腦版 Hover 與 手機版手風琴) ---
     const initNav = () => {
         if (!dom.menuBtn) return;
 
-        // 主選單切換
+        // 手機版漢堡選單切換
         dom.menuBtn.onclick = function() {
             const active = dom.nav.classList.toggle('active');
             this.classList.toggle('active');
+            this.setAttribute('aria-expanded', active);
+            // 手機版開啟選單時禁止背景捲動
             dom.body.style.overflow = (active && window.innerWidth < SAL_CONFIG.UI.BREAKPOINT) ? 'hidden' : '';
             const icon = this.querySelector('i');
             if (icon) icon.className = active ? 'fas fa-times' : 'fas fa-bars';
         };
 
-        // 手機版子選單：手風琴 (Accordion)
+        // 手機版子選單：手風琴邏輯 (Accordion)
         dom.nav.querySelectorAll('.dropdown > a').forEach(link => {
             link.onclick = function(e) {
+                // 如果是桌機版則維持原本連結/Hover邏輯
                 if (window.innerWidth >= SAL_CONFIG.UI.BREAKPOINT) return;
-                e.preventDefault();
                 
+                e.preventDefault();
                 const parent = this.parentElement;
                 const submenu = parent.querySelector('.submenu, .submenu-container');
                 const isOpen = parent.classList.contains('active');
 
-                // 閉合其他已打開的選單 (單選效果)
+                // 閉合同級其他選單 (優雅手風琴效果)
                 parent.parentElement.querySelectorAll('.dropdown.active').forEach(item => {
                     if (item !== parent) {
                         item.classList.remove('active');
@@ -187,7 +195,7 @@ window.SALife.setupDuinianCalculator = function() {
                     }
                 });
 
-                // 切換當前選單
+                // 開關當前選單：動態高度計算
                 parent.classList.toggle('active');
                 if (submenu) {
                     submenu.style.maxHeight = isOpen ? '0px' : submenu.scrollHeight + 'px';
@@ -196,7 +204,7 @@ window.SALife.setupDuinianCalculator = function() {
         });
     };
 
-    // --- 3. 頁籤切換與錨點 (Tabs Control) ---
+    // --- 3. 頁籤與內容控管 ---
     window.SALife.openPlanTab = function(tabName, anchor = null) {
         SAL_CONFIG.PLANS.forEach(id => {
             const content = document.getElementById('content-' + id);
@@ -209,27 +217,28 @@ window.SALife.setupDuinianCalculator = function() {
             const target = document.querySelector(anchor);
             if (target) {
                 const headerH = dom.header?.offsetHeight || 80;
-                window.scrollTo({ top: target.offsetTop - headerH - 20, behavior: 'smooth' });
+                window.scrollTo({ top: target.offsetTop - headerH - 10, behavior: 'smooth' });
             }
         }
     };
 
-    // --- 4. 啟動器 ---
+    // --- 4. 系統初始化 ---
     document.addEventListener('DOMContentLoaded', () => {
         startMeteors();
         initNav();
         window.SALife.setupDuinianCalculator();
         
-        // 監聽滾動：Header 背景變化
+        // 高性能滾動偵測：Header 變色
         window.addEventListener('scroll', () => {
-            dom.header?.classList.toggle('scrolled', window.scrollY > SAL_CONFIG.UI.SCROLL_THRES);
+            const isScrolled = window.scrollY > SAL_CONFIG.UI.SCROLL_THRES;
+            dom.header?.classList.toggle('scrolled', isScrolled);
         }, { passive: true });
 
-        // 初始 Hash 判斷
+        // 解析 URL 並啟動初始頁籤
         const hash = window.location.hash.substring(1);
         window.SALife.openPlanTab(SAL_CONFIG.PLANS.includes(hash) ? hash : 'buddhist-taoist');
     });
 
 })();
 
-/* 腳本結束 */
+/* 核心腳本整合結束 */
