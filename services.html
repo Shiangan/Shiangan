@@ -2,313 +2,288 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-445583766'); 
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date()); gtag('config', 'G-445583766'); 
     </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>專業生命禮儀服務總覽：中式、西式、日式、環保葬服務 | 打造無憾告別式 | 祥安生命</title>
-
-    <meta name="description" content="祥安生命提供多元、專業的生命禮儀服務，涵蓋佛道教、基督教、天主教、日式宗教與環保葬等各類型服務。專業禮儀師一對一貼心規劃，費用公開透明，承諾圓滿無憾告別。">
-    <meta name="keywords" content="生命禮儀服務, 中式禮儀, 西式禮儀, 基督教告別式, 佛教喪禮, 環保葬, 樹葬, 客製化追思會, 祥安生命, 喪禮服務流程">
-    <link rel="canonical" href="https://24hour.台灣/Shiangan/services.html">
-
-    <meta property="og:title" content="專業生命禮儀服務總覽 | 尊重每個信仰與文化 | 祥安生命有限公司">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.台灣/Shiangan/services.html">
-    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/logo.png">
-    <meta property="og:description" content="中西、宗教、環保葬，全方位禮儀服務任您選擇，由國家認證禮儀師溫暖託付。">
-
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>專業禮儀服務項目 | 祥安生命：圓滿生命最後一哩路</title>
+    <meta name="description" content="祥安生命提供中式佛道教、西式追思禮拜、日式宗教儀軌及現代環保葬規劃。國家證照團隊，費用透明，承諾圓滿告別。">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1a2a1b;   /* 祥安墨綠 */
+            --gold: #b8975a;      /* 尊榮霧金 */
+            --silk: #fcfaf7;      /* 絲滑綢白 */
+            --text: #2c2c2c;
+            --nav-h: 90px;
+            /* 解決手機靠邊：動態邊距 */
+            --side-gutter: clamp(25px, 6vw, 80px); 
+            --glass: rgba(255, 255, 255, 0.9);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            background: var(--silk); 
+            color: var(--text); 
+            line-height: 1.8; 
+            overflow-x: hidden;
+        }
+
+        /* --- 1. 與第一頁風格同步：磨砂導覽列 --- */
+        header {
+            position: fixed; top: 0; width: 100%; height: var(--nav-h);
+            z-index: 2000; transition: var(--transition);
+            background: transparent; /* 初期透明不遮擋 */
+        }
+        header.scrolled {
+            height: 75px; background: var(--glass);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(184, 151, 90, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container { 
+            max-width: 1440px; margin: 0 auto; padding: 0 var(--side-gutter); 
+            height: 100%; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .logo img { height: clamp(45px, 5vh, 55px); transition: var(--transition); }
+
+        /* 極致下拉選單設計 */
+        .main-nav ul { display: flex; list-style: none; gap: clamp(15px, 2vw, 35px); align-items: center; }
+        .main-nav li { position: relative; padding: 10px 0; }
+        .main-nav a { 
+            text-decoration: none; color: #fff; font-size: 0.95rem; font-weight: 500; 
+            letter-spacing: 1.2px; transition: 0.3s; text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        header.scrolled .main-nav a { color: var(--text); text-shadow: none; }
+        header.scrolled .main-nav a:hover { color: var(--gold); }
+
+        /* 下拉容器 - 配合第一頁所有分類 */
+        .submenu-wrapper {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(15px);
+            width: 250px; background: #fff; padding: 20px 0; border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; 
+            transition: var(--transition); border-top: 3px solid var(--gold);
+        }
+        li:hover .submenu-wrapper { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .submenu-title { font-size: 0.7rem; color: var(--gold); font-weight: 700; padding: 0 25px 10px; letter-spacing: 2px; text-transform: uppercase; }
+        .submenu-wrapper a { color: var(--text) !important; display: block; padding: 10px 25px; text-shadow: none !important; font-size: 0.9rem; }
+        .submenu-wrapper a:hover { background: var(--silk); color: var(--gold) !important; padding-left: 32px; }
+
+        /* --- 2. 漸層 Hero 區 (與第一頁銜接) --- */
+        .hero {
+            height: 65vh; position: relative; display: flex; align-items: center; justify-content: center;
+            background: var(--primary); overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: linear-gradient(rgba(26,42,27,0.3), rgba(26,42,27,0.7)), url('https://images.unsplash.com/photo-1516562309708-05f3b2b2c238?q=80&w=2000') center/cover;
+            animation: heroZoom 20s infinite alternate linear;
+        }
+        @keyframes heroZoom { from { transform: scale(1.1); } to { transform: scale(1); } }
+        
+        .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; padding: 0 var(--side-gutter); }
+        .hero-content h1 { 
+            font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 4rem); 
+            letter-spacing: 8px; white-space: nowrap; margin-bottom: 20px;
+        }
+        .hero-content p { font-size: 1.2rem; letter-spacing: 3px; opacity: 0.9; font-weight: 300; }
+
+        /* --- 3. 頁面漸層質感背景 --- */
+        .content-gradient-layer {
+            background: linear-gradient(180deg, #fcfaf7 0%, #f4f0e9 50%, #fcfaf7 100%);
+            padding: 100px 0;
+        }
+
+        /* --- 4. 服務區塊：防跳行與側邊距完美處理 --- */
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 var(--side-gutter); }
+        .service-row { 
+            display: flex; align-items: center; gap: clamp(40px, 8vw, 100px); margin-bottom: 150px;
+            opacity: 0; transform: translateY(50px); transition: var(--transition);
+        }
+        .service-row.visible { opacity: 1; transform: translateY(0); }
+        .service-row:nth-child(even) { flex-direction: row-reverse; }
+
+        .service-img { flex: 1.2; position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 35px 70px rgba(0,0,0,0.1); }
+        .service-img img { width: 100%; height: clamp(380px, 55vh, 600px); object-fit: cover; display: block; transition: 1.5s; }
+        .service-row:hover .service-img img { transform: scale(1.08); }
+
+        .service-text { flex: 0.8; }
+        .service-text .eng-label { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 12px; font-weight: 700; letter-spacing: 2px; }
+        .service-text h2 { 
+            font-family: 'Noto Serif TC', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); 
+            color: var(--primary); margin-bottom: 25px; white-space: nowrap; 
+        }
+        .service-text p { font-size: 1.1rem; color: #555; margin-bottom: 35px; text-align: justify; line-height: 2.1; }
+
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; list-style: none; }
+        .feature-grid li { font-size: 0.95rem; color: #444; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        .feature-grid i { color: var(--gold); font-size: 0.8rem; }
+
+        /* --- 5. 統一權威頁尾 --- */
+        footer { background: var(--primary); color: #fff; padding: 120px var(--side-gutter) 60px; }
+        .footer-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 60px; }
+        .footer-col h4 { color: var(--gold); font-family: 'Noto Serif TC', serif; font-size: 1.1rem; margin-bottom: 30px; letter-spacing: 2px; }
+        .footer-col ul { list-style: none; }
+        .footer-col a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.9rem; line-height: 2.5; transition: 0.3s; }
+        .footer-col a:hover { color: var(--gold); padding-left: 8px; }
+        .footer-tel { font-family: 'Cinzel', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: #fff; text-decoration: none; font-weight: 700; display: block; margin: 15px 0; }
+
+        /* 手機端優化 */
+        @media (max-width: 1024px) {
+            .main-nav { display: none; }
+            .service-row, .service-row:nth-child(even) { flex-direction: column; gap: 35px; }
+            .service-text h2 { white-space: normal; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
 </head>
+<body>
 
-
-    <header class="main-header" role="banner">
-        <div class="header-container container">
+    <header id="main-header">
+        <div class="header-container">
             <div class="logo">
-                <a href="index.html" title="祥安生命有限公司 - 回到首頁">
-                    <img src="images/logo.png" alt="祥安生命有限公司 Logo - 國家認證禮儀師" class="site-logo">
-                </a>
+                <a href="index.html"><img src="images/logo.png" alt="祥安生命 Logo"></a>
             </div>
-
-            <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
-                <ul role="menubar">
-                    <li role="menuitem"><a href="index.html" title="回到首頁">首頁</a></li>
-                    <li role="menuitem"><a href="about.html" title="了解祥安生命的理念、專業證照與甲級立案證明">關於我們 (溫暖守護)</a></li> 
-
-                    <li class="dropdown active" role="menuitem" tabindex="0" aria-haspopup="true">
-                        <a href="services.html" aria-expanded="true" title="了解所有生命禮儀服務" aria-current="page"> 專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
-                        <div class="submenu-container">
-                            <ul class="submenu" role="menu">
-                                <li class="submenu-title">依宗教信仰分類</li>
-                                <li role="menuitem"><a href="#buddhist-taoist" title="中式佛/道教禮儀服務">中式禮儀 (佛教/道教)</a></li>
-                                <li role="menuitem"><a href="#western-etiquette" title="西式基督/天主教禮儀服務">西式禮儀 (基督教/天主教)</a></li>
-                                <li role="menuitem"><a href="#japanese-etiquette" title="日式宗教禮儀服務">日式禮儀 (日蓮正宗/創價學會)</a></li>
-                                <li role="menuitem"><a href="#customized-etiquette" title="客製化禮儀">客製化禮儀(量身定做)</a></li>
-                                <li class="submenu-separator" role="separator"></li>
-                                <li class="submenu-title">環保永續</li>
-                                <li role="menuitem"><a href="#eco-burial" title="環保葬專區">環保葬/樹葬/花葬/植葬 專區</a></li>
-                                <li role="menuitem"><a href="#special-groups" title="土葬專區">土葬專區</a></li>
-                            </ul>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="about.html">關於祥安</a></li>
+                    
+                    <li>
+                        <a href="services.html" style="color:var(--gold);">專業服務項目 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <div class="submenu-wrapper">
+                            <p class="submenu-title">依宗教分類</p>
+                            <a href="#traditional">中式禮儀 (佛/道教)</a>
+                            <a href="#western">西式禮儀 (基督/天主)</a>
+                            <a href="#japanese">日式禮儀 (日蓮/創價)</a>
+                            <p class="submenu-title" style="margin-top:15px; border-top:1px solid #eee; padding-top:15px;">環保永續</p>
+                            <a href="#eco">樹葬/海葬/植葬專區</a>
                         </div>
                     </li>
 
-                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
-                        <a href="plans.html" aria-expanded="false" title="查看喪葬費用公開透明方案"> 喪葬費用公開方案 <i class="fas fa-chevron-down"></i></a>
-                        <div class="submenu-container">
-                            <ul class="submenu" role="menu">
-                                <li class="submenu-title">公開透明契約方案</li>
-                                <li role="menuitem"><a href="plans.html#basic" title="國民契約 6.8萬方案詳情">國民契約 6.8萬</a></li>
-                                <li role="menuitem"><a href="plans.html#eighty-eight" title="中式契約 8.8萬方案詳情">中式契約 8.8萬</a></li>
-                                <li role="menuitem"><a href="plans.html#eleven-eight" title="中式契約 11.8萬方案詳情">中式契約 11.8萬</a></li>
-                                <li role="menuitem"><a href="plans.html#fourteen-eight" title="中式契約 14.8萬方案詳情">中式契約 14.8萬</a></li>
-                                <li role="menuitem"><a href="plans.html#seventeen-eight" title="尊榮契約 17.8萬方案詳情">尊榮契約 17.8萬</a></li>
-                                <li class="submenu-separator" role="separator"></li>
-                                <li role="menuitem"><a href="plans.html#west" title="西式契約方案詳情">西式契約</a></li>
-                                <li role="menuitem"><a href="plans.html#japen" title="日式契約方案詳情">日式契約</a></li>
-                            </ul>
+                    <li>
+                        <a href="plans.html">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <div class="submenu-wrapper">
+                            <p class="submenu-title">透明契約方案</p>
+                            <a href="plans.html#basic">國民契約 6.8萬</a>
+                            <a href="plans.html#standard">精緻契約 8.8萬</a>
+                            <a href="plans.html#premium">尊榮契約 17.8萬</a>
                         </div>
                     </li>
 
-                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
-                        <a href="blog.html" aria-expanded="false" title="查看殯葬相關知識與問答"> 殯葬百科知識 <i class="fas fa-chevron-down"></i></a>
-                        <div class="submenu-container">
-                            <ul class="submenu" role="menu">
-                                <li class="submenu-title">常見問答與流程</li>
-                                <li role="menuitem"><a href="blog.html#first-step" title="臨終/初終的緊急處理步驟">臨終/初終處理</a></li>
-                                <li role="menuitem"><a href="blog.html#faq-process" title="治喪流程細節與常見問答">治喪流程與細節問答</a></li>
-                                <li class="submenu-title">法規與補助</li>
-                                <li role="menuitem"><a href="blog.html#law-guide" title="殯葬法規與補助金指南">法規與補助指南</a></li>
-                                <li role="menuitem"><a href="blog.html#subsidy-details" title="勞保/國保/榮民喪葬補助詳情">補助金申請詳情</a></li>
-                                <li class="submenu-separator" role="separator"></li>
-                                <li role="menuitem"><a href="blog.html#items-guide" title="儀式用品的詳細解析">儀式用品解析</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li role="menuitem"><a href="order.html" title="花禮與奠儀用品訂購">花禮訂購</a></li>
-                    <li class="contact-nav" role="menuitem"><a href="tel:+886978583699" title="24小時禮儀服務緊急專線 0978-583-699" class="cta-button primary small">📞 24H 聯絡我們</a></li>
+                    <li><a href="blog.html">殯葬百科</a></li>
+                    <li><a href="tel:0978583699" style="background:var(--gold); color:#fff !important; padding:10px 20px; border-radius:3px; text-shadow:none;">24H 服務專線</a></li>
                 </ul>
             </nav>
-
-            <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-                <i class="fas fa-bars"></i> 選單
-            </button>
         </div>
     </header>
-    <main role="main">
-        <section id="page-hero" class="hero-section subpage-hero" style="background-image: url('images/hero-services.jpg'); min-height: 450px;" aria-label="專業生命禮儀服務總覽">
-            <div class="hero-content">
-                <h1 style="font-size: clamp(2rem, 6vw, 4.5rem);">🕊️ 專業生命禮儀服務：尊重每一個獨特信仰與文化</h1>
-                <p style="font-size: 1.2rem;">無論中西、宗教或環保葬，祥安提供量身定制、**溫馨圓滿的無憾告別式**。</p>
-            </div>
-        </section>
 
-        <section id="service-types" class="container-v-padding" aria-labelledby="types-heading">
-            <div class="container">
-                <h2 id="types-heading" class="text-center">依宗教信仰分類：我們提供的核心服務</h2>
-                
-                <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 40px;">
-                    
-                    <div class="card-item service-card" id="buddhist-taoist" itemscope itemtype="https://schema.org/Service">
-                        <i class="icon fas fa-pray" style="color: #ff6600;"></i>
-                        <h3 itemprop="name">中式禮儀 (佛/道教)</h3>
-                        <p itemprop="description">遵循傳統科儀，包含豎靈、做功德、法事、七七、圓滿，確保莊重與完整性。適用於所有佛、道教信仰家庭，**讓逝者安心去，生者無遺憾**。</p>
-                        <a href="plans.html#eighty-eight" class="cta-button primary small" title="查看中式契約方案與費用">查看中式方案</a>
-                    </div>
-                    
-                    <div class="card-item service-card" id="western-etiquette" itemscope itemtype="https://schema.org/Service">
-                        <i class="icon fas fa-church" style="color: #007bff;"></i>
-                        <h3 itemprop="name">西式禮儀 (基督/天主教)</h3>
-                        <p itemprop="description">以詩歌、禱告和追思為主軸，簡約而溫馨。涵蓋入殮、告別追思禮拜等，由專業關懷師引導。**重視生命教育與愛的回顧**。</p>
-                        <a href="plans.html#west" class="cta-button primary small" title="查看西式契約方案與費用">查看西式方案</a>
-                    </div>
-                    
-                    <div class="card-item service-card" id="japanese-etiquette" itemscope itemtype="https://schema.org/Service">
-                        <i class="icon fas fa-globe" style="color: #555;"></i>
-                        <h3 itemprop="name">日式禮儀 (日蓮正宗/創價學會)</h3>
-                        <p itemprop="description">專門應對日式或特殊團體（如創價學會）的儀式需求，提供客製化的靜謐、簡約告別形式。**尊重其獨特文化與教義**。</p>
-                        <a href="plans.html#japen" class="cta-button primary small" title="查看日式契約方案與費用">查看日式方案</a>
-                    </div>
-                    
-                    <div class="card-item service-card" id="eco-burial" itemscope itemtype="https://schema.org/Service">
-                        <i class="icon fas fa-tree" style="color: #28a745;"></i>
-                        <h3 itemprop="name">環保葬/樹葬專區</h3>
-                        <p itemprop="description">以永續、自然回歸的理念，提供樹葬、花葬、植葬、海葬等選項的完整規劃與申請服務。**讓生命以最自然優雅的方式回歸大地**。</p>
-                        <a href="blog.html#law-guide" class="cta-button primary small" title="了解環保葬申請細節">了解環保葬細節</a>
-                    </div>
-                    
-                    <div class="card-item service-card" id="customized-etiquette" itemscope itemtype="https://schema.org/Service">
-                        <i class="icon fas fa-palette" style="color: #fd7e14;"></i>
-                        <h3 itemprop="name">客製化/生命紀念式</h3>
-                        <p itemprop="description">從主題、布置到流程完全量身定做，以逝者的生命故事為主線，舉辦溫暖、獨特的生命追思會。**將告別式昇華為一場感人的生命旅程展**。</p>
-                        <a href="tel:+886978583699" class="cta-button secondary small" title="電話洽詢客製化服務">預約客製化諮詢</a>
-                    </div>
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>🕊️ 專業生命禮儀服務</h1>
+            <p>全心託付，圓滿生命的尊嚴與謝幕</p>
+        </div>
+    </section>
+
+    <div class="content-gradient-layer">
+        <main class="container">
+            
+            <article class="service-row" id="traditional">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1590059300551-0775d0f66679?q=80&w=1200" alt="中式佛道教禮儀">
                 </div>
-            </div>
-        </section>
-
-        <section id="service-steps" class="container-v-padding bg-section" aria-labelledby="steps-heading">
-            <div class="container">
-                <h2 id="steps-heading">💡 治喪流程六大專業環節（由祥安禮儀師全程引導）</h2>
-                
-                
-                
-                <ol class="timeline-steps" style="counter-reset: step;">
-                    <li class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>1. 初終/臨終緊急處理</h3>
-                            <p>24H 電話專線啟動，文件準備、遺體接送、安置於會館或家中。**第一時間給予家屬專業、穩定的支持。**</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>2. 治喪規劃與合約簽訂</h3>
-                            <p>一對一溝通、確認宗教儀式、選定方案與用品，費用公開透明。**確保家屬在悲傷中仍能清晰決策。**</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>3. 豎靈/禮廳設置與入殮</h3>
-                            <p>設置靈位，準備供品，進行遺體洗穿化殮，確保莊嚴體面。**讓逝者走得安詳，家屬瞻仰無憾。**</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>4. 告別式舉行（奠禮）</h3>
-                            <p>專業司儀引導儀式、家祭公祭、追思流程執行與場地管控。**儀式莊重圓滿，情感表達充分。**</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>5. 火化/土葬與安奉</h3>
-                            <p>引導至火化場或墓園，協助取得火化證明，骨灰處理與晉塔安奉。**確保最終安葬流程合法、順利。**</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>6. 後續關懷與文件申辦</h3>
-                            <p>協助申請勞保/國保補助金、後續祭祀建議與關懷服務。**服務不中斷，減輕生者行政負擔。**</p>
-                        </div>
-                    </li>
-                </ol>
-                <div class="text-center" style="margin-top: 50px;">
-                     <a href="blog.html#faq-process" class="cta-button primary large" title="查看治喪流程細節與常見問答">查看詳細治喪流程與問答 <i class="fas fa-arrow-right"></i></a>
+                <div class="service-text">
+                    <span class="eng-label">TRADITIONAL SERVICES</span>
+                    <h2>中式禮儀 (佛道教科儀)</h2>
+                    <p>祥安深耕台灣本土禮俗，提供正統佛道教功德法事。從引魂、豎靈到告別式當天的科儀引導，皆由國家認證禮儀師全程陪同。我們重視每一個傳統細節，確保在莊嚴中完成最後的孝道。</p>
+                    <ul class="feature-grid">
+                        <li><i class="fas fa-check-circle"></i> 專業法師、襄儀師全程導引</li>
+                        <li><i class="fas fa-check-circle"></i> 24H 遺體接運與安置服務</li>
+                        <li><i class="fas fa-check-circle"></i> 靈堂美學佈置與牌位架設</li>
+                        <li><i class="fas fa-check-circle"></i> 完整治喪手續代辦與諮詢</li>
+                    </ul>
                 </div>
-            </div>
-        </section>
+            </article>
 
-    </main>
-
-    <footer role="contentinfo">
-        <div class="container footer-grid wide-footer-grid">
-
-            <div class="footer-block footer-links">
-                <h4>專業生命禮儀服務</h4>
-                <ul>
-                    <li class="active"><a href="services.html" title="所有禮儀服務總覽" aria-current="page">所有服務總覽</a></li>
-                    <li><a href="services.html#buddhist-taoist" title="中式佛/道教禮儀">中式禮儀 (佛教/道教)</a></li>
-                    <li><a href="services.html#western-etiquette" title="西式基督/天主教禮儀">西式禮儀 (基督教/天主教)</a></li>
-                    <li><a href="services.html#japanese-etiquette" title="日式宗教儀式">日式禮儀（日蓮正宗/創價學會）</a></li>
-                    <li><a href="services.html#eco-burial" title="環保葬、樹葬專區">環保葬/樹葬專區</a></li>
-                    <li><a href="services.html#customized-etiquette" title="客製化追思會服務">客製化服務</a></li>
-                    <li><a href="services.html#special-together" title="政府聯合奠祭">政府聯合奠祭</a></li>
-                </ul>
-
-                <h4> 塔位與晉塔指引 </h4>
-                <ul>
-                    <li><a href="ta-wei-he-fa-xing-query-guide.html" title="塔位合法性與詐騙避險指南">🛡️ 塔位合法性與詐騙避險</a></li>
-                    <li><a href="ta-wei-choice-guide.html" title="靈骨塔位選擇指南">🏞️ 靈骨塔位選擇指南</a></li>
-                    <li><a href="jin-ta-process-details.html" title="圓滿晉塔與安葬流程詳解">🔔 晉塔與安葬流程</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-block footer-links">
-                <h4>喪葬費用公開方案</h4>
-                <ul>
-                    <li><a href="plans.html" title="所有費用方案與價格總覽">所有方案與價格總覽</a></li>
-                    <li><a href="plans.html#basic" title="國民契約 6.8萬方案">國民契約 6.8萬</a></li>
-                    <li><a href="plans.html#eighty-eight" title="中式契約 8.8萬起方案">中式契約 8.8萬起</a></li>
-                    <li><a href="plans.html#premium" title="尊榮契約 16.8萬起方案">中式契約 16.8萬起</a></li>
-                    <li><a href="plans.html#premium" title="尊榮契約 21.8萬起方案">中式契約 21.8萬起</a></li>
-                    <li><a href="plans.html#west" title="西式契約方案">西式契約</a></li>
-                    <li><a href="plans.html#japen" title="日式契約方案">日式契約</a></li>
-                </ul>
-
-                <h4>殯葬百科知識 (補助/法規)</h4>
-                <ul>
-                    <li><a href="blog.html" title="所有常見問題與流程總覽">常見問題與流程</a></li>
-                    <li><a href="blog.html#first-step" title="臨終/初終處理指南">臨終/初終處理</a></li>
-                    <li><a href="blog.html#law-guide" title="殯葬法規與補助指南">法規與補助指南</a></li>
-                    <li><a href="blog.html#subsidy-details" title="勞保/國保/榮民喪葬補助詳情">補助金申請詳情</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-block footer-contact" itemscope itemtype="https://schema.org/LocalBusiness">
-                <h4 style="margin-bottom: 5px;">24H 國家認證禮儀師 陳妍如 專線</h4>
-                <p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
-                    📞 <a href="tel:+886978583699" itemprop="telephone" title="點擊撥打 24小時緊急專線">0978-583-699</a>
-                    <meta itemprop="priceRange" content="$$$">
-                    <meta itemprop="openingHours" content="Mo-Su 00:00-23:59">
-                    <meta itemprop="areaServed" content="台灣全區">
-                </p>
-
-                <h4>公司資訊與服務範圍</h4>
-                <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                    <p>
-                        主要聯絡地址：<span itemprop="streetAddress"><strong>新北市板橋區雙十路二段30號</strong></span>
-                        <meta itemprop="addressLocality" content="新北">
-                        <meta itemprop="addressRegion" content="台灣">
-                    </p>
-                </address>
-                <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (<strong>雙北/桃園</strong>即時服務)</p>
-
-                <p style="margin-top: 15px;">線上聯繫：</p>
-                <div class="footer-social-links">
-                    <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE ID 即時諮詢"><i class="fab fa-line"></i> LINE</a> |
-                    <a href="https://www.facebook.com/ShianganLife" target="_blank" rel="noopener noreferrer nofollow" title="Facebook 粉絲專頁聯繫"><i class="fab fa-facebook"></i> Facebook</a>
+            <article class="service-row" id="western">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1544074005-276707e5971a?q=80&w=1200" alt="西式基督天主追思">
                 </div>
-                <meta itemprop="name" content="祥安生命有限公司">
-                <link itemprop="url" href="https://24hour.台灣/Shiangan/">
+                <div class="service-text">
+                    <span class="eng-label">WESTERN MEMORIAL</span>
+                    <h2>西式禮儀 (基督天主教)</h2>
+                    <p>以愛與希望為主軸，將告別轉化為溫馨的追思旅程。我們熟悉各大教會儀軌，協助家屬聯繫牧師或神父，並提供歐式精緻花藝設計。在詩歌與禱告聲中，細數生命的美好，讓愛永留心間。</p>
+                    <ul class="feature-grid">
+                        <li><i class="fas fa-cross"></i> 教會場所聯繫與程序安排</li>
+                        <li><i class="fas fa-cross"></i> 歐式主題花藝與場地設計</li>
+                        <li><i class="fas fa-cross"></i> 個性化追思影片企劃製作</li>
+                        <li><i class="fas fa-cross"></i> 專業聖樂團與司琴安排</li>
+                    </ul>
+                </div>
+            </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>專業服務規劃</h4>
+                <ul>
+                    <li><a href="#traditional">中式佛道教禮儀</a></li>
+                    <li><a href="#western">西式追思禮拜</a></li>
+                    <li><a href="#japanese">日式宗教儀軌</a></li>
+                    <li><a href="#eco">環保葬/樹葬規劃</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>治喪實用工具</h4>
+                <ul>
+                    <li><a href="blog.html#first-step">臨終初終處理步驟</a></li>
+                    <li><a href="blog.html#law-guide">補助金申請法規指南</a></li>
+                    <li><a href="ta-wei-choice-guide.html">塔位合法性查詢參考</a></li>
+                </ul>
+            </div>
+            <div class="footer-col" style="text-align: right;">
+                <h4>24H 禮儀諮詢專線</h4>
+                <a href="tel:0978583699" class="footer-tel">0978-583-699</a>
+                <p style="opacity: 0.5; font-size: 0.8rem;">新北市板橋區雙十路二段30號</p>
             </div>
         </div>
-
-        <div class="footer-copyright">
-            <div class="container">
-                <div class="footer-logo text-line-container">
-                    <span class="fit-text-line" title="祥安生命有限公司版權所有">祥安生命有限公司 © <span id="current-year"></span></span>
-                </div>
-                <div class="footer-meta">
-                     <a href="about.html#team" title="了解祥安的服務理念與團隊">關於我們 (溫暖守護)</a> | <a href="privacy.html" title="隱私權政策與聲明">隱私權政策</a>
-                </div>
-            </div>
+        <div style="text-align: center; margin-top: 80px; opacity: 0.3; font-size: 0.8rem; letter-spacing: 1px;">
+            © 2025 SHIANGAN LIFE. 祥安生命有限公司 版權所有
         </div>
     </footer>
-    <div class="floating-cta" aria-label="緊急聯繫方式">
-        <a href="tel:+886978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone"></i></a>
-        <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line"></i></a>
-    </div>
-    
-    <a href="#" class="back-to-top" aria-label="返回頂部">
-        <i class="fas fa-chevron-up"></i>
-    </a>
 
-    <script src="js/script.js" defer></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        document.body.classList.remove('js-loading');
+        // 1. 選單滾動變色
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 80) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // 2. 視窗進入動畫
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-row').forEach(row => observer.observe(row));
     </script>
 </body>
 </html>
