@@ -1,151 +1,214 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date()); gtag('config', 'G-445583766'); 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>專業禮儀服務項目 | 祥安生命有限公司 - 24H 禮儀諮詢與費用透明規劃</title>
+    <meta name="description" content="祥安生命提供專業中式佛道教、西式追思禮拜、日式儀軌及現代環保葬。國家認證禮儀師團隊，承諾費用透明、專業誠信。涵蓋台北、新北、桃園服務。">
+    <meta name="keywords" content="祥安生命, 禮儀公司推薦, 喪葬費用透明, 三重禮儀公司, 台北禮儀服務, 環保葬規劃, 24小時治喪諮詢">
+    <link rel="canonical" href="https://www.shianganlife.com.tw/services.html">
+
+    <meta property="og:title" content="祥安生命有限公司 | 專業禮儀服務項目">
+    <meta property="og:description" content="費用透明公開，24小時溫馨陪伴，圓滿生命最後一哩路。">
+    <meta property="og:image" content="https://www.shianganlife.com.tw/images/og-image.jpg">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "祥安生命有限公司",
+      "image": "https://www.shianganlife.com.tw/images/logo.png",
+      "telephone": "0978-583-699",
+      "url": "https://www.shianganlife.com.tw/",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "永福街135巷13號",
+        "addressLocality": "三重區",
+        "addressRegion": "新北市",
+        "postalCode": "241",
+        "addressCountry": "TW"
+      },
+      "openingHours": "Mo-Su 00:00-23:59",
+      "priceRange": "$$"
+    }
     </script>
 
-    <title>專業禮儀服務項目 | 祥安生命：圓滿生命最後一哩路</title>
-    <meta name="description" content="祥安生命提供中式佛道教、西式追思禮拜、日式宗教儀軌及現代環保葬規劃。國家證照團隊，費用透明，承諾圓滿告別。">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+        /* === 變數與基礎設定 === */
         :root {
             --primary: #1a2a1b;   /* 祥安墨綠 */
             --gold: #b8975a;      /* 尊榮霧金 */
             --silk: #fcfaf7;      /* 絲滑綢白 */
             --text: #2c2c2c;
             --nav-h: 90px;
-            /* 解決手機靠邊：動態邊距 */
-            --side-gutter: clamp(25px, 6vw, 80px); 
-            --glass: rgba(255, 255, 255, 0.9);
-            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --side-gutter: clamp(25px, 6vw, 80px); /* 解決手機靠邊 */
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            background: var(--silk); 
-            color: var(--text); 
-            line-height: 1.8; 
-            overflow-x: hidden;
-        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: var(--silk); color: var(--text); line-height: 1.8; overflow-x: hidden; }
 
-        /* --- 1. 與第一頁風格同步：磨砂導覽列 --- */
+        /* === 1. 頂級導覽系統 (含磨砂玻璃) === */
         header {
             position: fixed; top: 0; width: 100%; height: var(--nav-h);
-            z-index: 2000; transition: var(--transition);
-            background: transparent; /* 初期透明不遮擋 */
+            z-index: 9000; transition: var(--transition);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(184, 151, 90, 0.1);
         }
         header.scrolled {
-            height: 75px; background: var(--glass);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(184, 151, 90, 0.15);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            height: 75px; background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
 
-        .header-container { 
-            max-width: 1440px; margin: 0 auto; padding: 0 var(--side-gutter); 
-            height: 100%; display: flex; justify-content: space-between; align-items: center; 
+        .header-container {
+            max-width: 1440px; margin: 0 auto; padding: 0 var(--side-gutter);
+            height: 100%; display: flex; justify-content: space-between; align-items: center;
         }
-        .logo img { height: clamp(45px, 5vh, 55px); transition: var(--transition); }
+        .logo img { height: clamp(40px, 5vh, 52px); width: auto; transition: 0.5s; }
 
-        /* 極致下拉選單設計 */
-        .main-nav ul { display: flex; list-style: none; gap: clamp(15px, 2vw, 35px); align-items: center; }
-        .main-nav li { position: relative; padding: 10px 0; }
-        .main-nav a { 
-            text-decoration: none; color: #fff; font-size: 0.95rem; font-weight: 500; 
-            letter-spacing: 1.2px; transition: 0.3s; text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        /* 電腦版選單 */
+        .desktop-nav { display: block; }
+        .desktop-nav ul { display: flex; list-style: none; gap: 5px; align-items: center; }
+        .desktop-nav li { position: relative; }
+        .desktop-nav a { 
+            text-decoration: none; color: var(--primary); font-size: 0.95rem; font-weight: 500; 
+            padding: 10px 18px; white-space: nowrap; transition: 0.3s; letter-spacing: 1px;
         }
-        header.scrolled .main-nav a { color: var(--text); text-shadow: none; }
-        header.scrolled .main-nav a:hover { color: var(--gold); }
+        .desktop-nav a:hover { color: var(--gold); }
 
-        /* 下拉容器 - 配合第一頁所有分類 */
+        /* 下拉選單 */
         .submenu-wrapper {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(15px);
-            width: 250px; background: #fff; padding: 20px 0; border-radius: 4px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; 
-            transition: var(--transition); border-top: 3px solid var(--gold);
+            position: absolute; top: 100%; left: 0; min-width: 250px;
+            background: white; border-top: 3px solid var(--gold);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            opacity: 0; visibility: hidden; transform: translateY(15px);
+            transition: var(--transition); padding: 10px 0;
         }
-        li:hover .submenu-wrapper { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .submenu-title { font-size: 0.7rem; color: var(--gold); font-weight: 700; padding: 0 25px 10px; letter-spacing: 2px; text-transform: uppercase; }
-        .submenu-wrapper a { color: var(--text) !important; display: block; padding: 10px 25px; text-shadow: none !important; font-size: 0.9rem; }
-        .submenu-wrapper a:hover { background: var(--silk); color: var(--gold) !important; padding-left: 32px; }
+        .desktop-nav li:hover .submenu-wrapper { opacity: 1; visibility: visible; transform: translateY(0); }
+        .submenu-wrapper a { padding: 12px 25px; color: #555; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem; }
+        .submenu-wrapper a:hover { background: #fdfaf3; color: var(--gold); padding-left: 35px; }
 
-        /* --- 2. 漸層 Hero 區 (與第一頁銜接) --- */
+        /* === 2. 手機版：側邊選單完全體 === */
+        .menu-toggle {
+            display: none; background: none; border: none; color: var(--primary); 
+            font-size: 1.8rem; cursor: pointer; z-index: 9999;
+        }
+        .side-menu {
+            position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
+            background: #fff; z-index: 9500; transition: var(--transition);
+            padding: 100px 40px; box-shadow: -20px 0 60px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .side-menu.active { right: 0; }
+        .side-menu ul { list-style: none; }
+        .side-menu li { border-bottom: 1px solid #f0f0f0; }
+        .side-menu a { display: block; padding: 20px 0; color: var(--primary); text-decoration: none; font-size: 1.1rem; letter-spacing: 2px; }
+        .side-overlay {
+            position: fixed; inset: 0; background: rgba(26, 42, 27, 0.4); 
+            z-index: 9400; opacity: 0; visibility: hidden; backdrop-filter: blur(8px); transition: 0.4s;
+        }
+        .side-overlay.active { opacity: 1; visibility: visible; }
+
+        /* === 3. 沉浸式 Hero Section === */
         .hero {
             height: 65vh; position: relative; display: flex; align-items: center; justify-content: center;
-            background: var(--primary); overflow: hidden;
+            background: var(--primary); color: #fff; overflow: hidden;
         }
         .hero-bg {
             position: absolute; inset: 0;
-            background: linear-gradient(rgba(26,42,27,0.3), rgba(26,42,27,0.7)), url('https://images.unsplash.com/photo-1516562309708-05f3b2b2c238?q=80&w=2000') center/cover;
-            animation: heroZoom 20s infinite alternate linear;
+            background: linear-gradient(rgba(26,42,27,0.3), rgba(26,42,27,0.6)), url('https://images.unsplash.com/photo-1516562309708-05f3b2b2c238?q=80&w=2000') center/cover;
+            animation: zoomBg 25s infinite alternate;
         }
-        @keyframes heroZoom { from { transform: scale(1.1); } to { transform: scale(1); } }
+        @keyframes zoomBg { from { transform: scale(1.1); } to { transform: scale(1); } }
         
-        .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; padding: 0 var(--side-gutter); }
+        .hero-content { position: relative; z-index: 10; text-align: center; padding: 0 var(--side-gutter); }
         .hero-content h1 { 
-            font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 4rem); 
-            letter-spacing: 8px; white-space: nowrap; margin-bottom: 20px;
+            font-family: 'Noto Serif TC', serif; font-size: clamp(2.5rem, 7vw, 4.5rem); 
+            letter-spacing: 12px; margin-bottom: 25px; text-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
-        .hero-content p { font-size: 1.2rem; letter-spacing: 3px; opacity: 0.9; font-weight: 300; }
+        .hero-content p { font-size: clamp(1rem, 1.5vw, 1.3rem); letter-spacing: 6px; font-weight: 300; }
 
-        /* --- 3. 頁面漸層質感背景 --- */
-        .content-gradient-layer {
+        /* === 4. 服務詳細內容區 === */
+        .page-gradient {
             background: linear-gradient(180deg, #fcfaf7 0%, #f4f0e9 50%, #fcfaf7 100%);
-            padding: 100px 0;
+            padding: 140px 0;
         }
-
-        /* --- 4. 服務區塊：防跳行與側邊距完美處理 --- */
         .container { max-width: 1300px; margin: 0 auto; padding: 0 var(--side-gutter); }
-        .service-row { 
-            display: flex; align-items: center; gap: clamp(40px, 8vw, 100px); margin-bottom: 150px;
-            opacity: 0; transform: translateY(50px); transition: var(--transition);
+
+        .service-block { 
+            display: flex; align-items: center; gap: clamp(40px, 8vw, 120px); margin-bottom: 180px;
+            opacity: 0; transform: translateY(60px); transition: var(--transition);
         }
-        .service-row.visible { opacity: 1; transform: translateY(0); }
-        .service-row:nth-child(even) { flex-direction: row-reverse; }
+        .service-block.visible { opacity: 1; transform: translateY(0); }
+        .service-block:nth-child(even) { flex-direction: row-reverse; }
 
-        .service-img { flex: 1.2; position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 35px 70px rgba(0,0,0,0.1); }
-        .service-img img { width: 100%; height: clamp(380px, 55vh, 600px); object-fit: cover; display: block; transition: 1.5s; }
-        .service-row:hover .service-img img { transform: scale(1.08); }
-
-        .service-text { flex: 0.8; }
-        .service-text .eng-label { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 12px; font-weight: 700; letter-spacing: 2px; }
-        .service-text h2 { 
-            font-family: 'Noto Serif TC', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); 
-            color: var(--primary); margin-bottom: 25px; white-space: nowrap; 
+        .service-media { flex: 1.2; position: relative; }
+        .service-media img { 
+            width: 100%; height: clamp(380px, 55vh, 600px); object-fit: cover; 
+            border-radius: 4px; box-shadow: 0 40px 90px rgba(0,0,0,0.15);
         }
-        .service-text p { font-size: 1.1rem; color: #555; margin-bottom: 35px; text-align: justify; line-height: 2.1; }
+        .media-badge {
+            position: absolute; bottom: -25px; right: -25px; background: var(--gold);
+            color: white; padding: 18px 35px; font-family: 'Cinzel', serif;
+            font-size: 1rem; letter-spacing: 3px; box-shadow: 0 15px 40px rgba(184, 151, 90, 0.4);
+        }
 
-        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; list-style: none; }
-        .feature-grid li { font-size: 0.95rem; color: #444; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
-        .feature-grid i { color: var(--gold); font-size: 0.8rem; }
+        .service-info { flex: 0.8; }
+        .service-info .sub-title { color: var(--gold); font-weight: 700; letter-spacing: 4px; font-size: 0.9rem; display: block; margin-bottom: 20px; }
+        .service-info h2 { 
+            font-family: 'Noto Serif TC', serif; font-size: clamp(2.2rem, 4vw, 3.2rem); 
+            color: var(--primary); margin-bottom: 30px; line-height: 1.2;
+        }
+        .service-info p { font-size: 1.15rem; color: #555; text-align: justify; margin-bottom: 40px; }
+        
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .feature-item { font-size: 1rem; color: #444; display: flex; align-items: center; gap: 12px; }
+        .feature-item i { color: var(--gold); font-size: 0.8rem; }
 
-        /* --- 5. 統一權威頁尾 --- */
+        /* === 5. 權威頁尾 === */
         footer { background: var(--primary); color: #fff; padding: 120px var(--side-gutter) 60px; }
-        .footer-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 60px; }
-        .footer-col h4 { color: var(--gold); font-family: 'Noto Serif TC', serif; font-size: 1.1rem; margin-bottom: 30px; letter-spacing: 2px; }
+        .footer-grid { 
+            max-width: 1400px; margin: 0 auto; display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 60px; 
+        }
+        .footer-col h4 { color: var(--gold); font-family: 'Noto Serif TC', serif; margin-bottom: 35px; letter-spacing: 2px; }
         .footer-col ul { list-style: none; }
-        .footer-col a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.9rem; line-height: 2.5; transition: 0.3s; }
-        .footer-col a:hover { color: var(--gold); padding-left: 8px; }
-        .footer-tel { font-family: 'Cinzel', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: #fff; text-decoration: none; font-weight: 700; display: block; margin: 15px 0; }
+        .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.95rem; line-height: 2.8; transition: 0.3s; }
+        .footer-col a:hover { color: var(--gold); padding-left: 10px; }
+        .footer-tel { font-family: 'Cinzel', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); color: #fff; text-decoration: none; font-weight: 700; margin: 25px 0; display: block; }
 
-        /* 手機端優化 */
-        @media (max-width: 1024px) {
-            .main-nav { display: none; }
-            .service-row, .service-row:nth-child(even) { flex-direction: column; gap: 35px; }
-            .service-text h2 { white-space: normal; }
-            .feature-grid { grid-template-columns: 1fr; }
+        /* 懸浮聯絡按鈕 */
+        .float-cta { position: fixed; bottom: 40px; right: 35px; z-index: 9999; display: flex; flex-direction: column; gap: 20px; }
+        .cta-icon { 
+            width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 28px; text-decoration: none; box-shadow: 0 15px 40px rgba(0,0,0,0.3); transition: 0.4s;
+        }
+        .cta-line { background: #00c300; }
+        .cta-tel { background: var(--gold); }
+        .cta-icon:hover { transform: scale(1.15) rotate(12deg); }
+
+        /* === 響應式 RWD 關鍵修正 === */
+        @media (max-width: 1150px) {
+            .desktop-nav { display: none; }
+            .menu-toggle { display: block; }
+            .service-block, .service-block:nth-child(even) { flex-direction: column; gap: 50px; }
+            .service-media { width: 100%; }
+            .media-badge { right: 10px; bottom: -15px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 650px) {
             .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-content h1 { letter-spacing: 6px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .footer-tel { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -153,85 +216,95 @@
 
     <header id="main-header">
         <div class="header-container">
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命 Logo"></a>
-            </div>
-            <nav class="main-nav">
+            <a href="index.html" class="logo"><img src="images/logo.png" alt="祥安生命有限公司"></a>
+            
+            <nav class="desktop-nav">
                 <ul>
                     <li><a href="index.html">首頁</a></li>
                     <li><a href="about.html">關於祥安</a></li>
-                    
                     <li>
-                        <a href="services.html" style="color:var(--gold);">專業服務項目 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="services.html" style="color:var(--gold);">服務項目 <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i></a>
                         <div class="submenu-wrapper">
-                            <p class="submenu-title">依宗教分類</p>
-                            <a href="#traditional">中式禮儀 (佛/道教)</a>
-                            <a href="#western">西式禮儀 (基督/天主)</a>
-                            <a href="#japanese">日式禮儀 (日蓮/創價)</a>
-                            <p class="submenu-title" style="margin-top:15px; border-top:1px solid #eee; padding-top:15px;">環保永續</p>
-                            <a href="#eco">樹葬/海葬/植葬專區</a>
+                            <a href="services.html#buddhist">中式佛道教禮儀</a>
+                            <a href="services.html#western">西式追思禮拜</a>
+                            <a href="services.html#japanese">日式宗教儀軌</a>
+                            <a href="services.html#eco">現代環保葬規劃</a>
                         </div>
                     </li>
-
                     <li>
-                        <a href="plans.html">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="plans.html">費用方案 <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i></a>
                         <div class="submenu-wrapper">
-                            <p class="submenu-title">透明契約方案</p>
-                            <a href="plans.html#basic">國民契約 6.8萬</a>
-                            <a href="plans.html#standard">精緻契約 8.8萬</a>
-                            <a href="plans.html#premium">尊榮契約 17.8萬</a>
+                            <a href="plans.html#68000">國民 6.8 萬方案</a>
+                            <a href="plans.html#88000">精緻 8.8 萬起方案</a>
+                            <a href="plans.html#178000">尊榮 17.8 萬方案</a>
                         </div>
                     </li>
-
-                    <li><a href="blog.html">殯葬百科</a></li>
-                    <li><a href="tel:0978583699" style="background:var(--gold); color:#fff !important; padding:10px 20px; border-radius:3px; text-shadow:none;">24H 服務專線</a></li>
+                    <li><a href="blog.html">治喪百科</a></li>
+                    <li><a href="tel:0978583699" style="background:var(--gold); color:#fff !important; border-radius:2px; padding:10px 25px; margin-left:15px; box-shadow: 0 10px 30px rgba(184, 151, 90, 0.2);">24H 聯絡</a></li>
                 </ul>
             </nav>
+
+            <button class="menu-toggle" id="menuBtn"><i class="fas fa-bars-staggered"></i></button>
         </div>
     </header>
+
+    <div class="side-overlay" id="overlay"></div>
+    <nav class="side-menu" id="sideMenu">
+        <ul style="margin-top: 20px;">
+            <li><a href="index.html">首頁概覽</a></li>
+            <li><a href="about.html">關於我們</a></li>
+            <li><a href="services.html" style="color:var(--gold)">專業服務項目</a></li>
+            <li><a href="plans.html">喪葬費用方案</a></li>
+            <li><a href="blog.html">治喪百科指南</a></li>
+            <li><a href="contact.html">聯絡諮詢</a></li>
+            <li><a href="tel:0978583699" style="color:var(--gold); font-weight:700;">📞 24H 緊急諮詢</a></li>
+        </ul>
+    </nav>
 
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="hero-content">
-            <h1>🕊️ 專業生命禮儀服務</h1>
-            <p>全心託付，圓滿生命的尊嚴與謝幕</p>
+            <h1>專業服務項目</h1>
+            <p>專業、誠信、圓滿。給予生命最溫暖的託付</p>
         </div>
     </section>
 
-    <div class="content-gradient-layer">
+    <div class="page-gradient">
         <main class="container">
             
-            <article class="service-row" id="traditional">
-                <div class="service-img">
-                    <img src="https://images.unsplash.com/photo-1590059300551-0775d0f66679?q=80&w=1200" alt="中式佛道教禮儀">
+            <article class="service-block" id="buddhist">
+                <div class="service-media">
+                    <img src="https://images.unsplash.com/photo-1590059300551-0775d0f66679?q=80&w=1200" alt="中式佛道教禮儀服務">
+                    <div class="media-badge">TRADITIONAL</div>
                 </div>
-                <div class="service-text">
-                    <span class="eng-label">TRADITIONAL SERVICES</span>
-                    <h2>中式禮儀 (佛道教科儀)</h2>
-                    <p>祥安深耕台灣本土禮俗，提供正統佛道教功德法事。從引魂、豎靈到告別式當天的科儀引導，皆由國家認證禮儀師全程陪同。我們重視每一個傳統細節，確保在莊嚴中完成最後的孝道。</p>
-                    <ul class="feature-grid">
-                        <li><i class="fas fa-check-circle"></i> 專業法師、襄儀師全程導引</li>
-                        <li><i class="fas fa-check-circle"></i> 24H 遺體接運與安置服務</li>
-                        <li><i class="fas fa-check-circle"></i> 靈堂美學佈置與牌位架設</li>
-                        <li><i class="fas fa-check-circle"></i> 完整治喪手續代辦與諮詢</li>
-                    </ul>
+                <div class="service-info">
+                    <span class="sub-title">宗教儀軌與傳承</span>
+                    <h2>中式佛道教禮儀</h2>
+                    <p>遵循傳統科儀，由國家認證禮儀師全程陪侍。從初終、引魂、豎靈到告別式圓滿，我們協助家屬聯繫資深法師與襄儀師，確保每一個環節都莊嚴且符合宗族禮俗。讓先人在圓滿中走向極樂，讓家屬在安心中傳承孝思。</p>
+                    <div class="feature-grid">
+                        <div class="feature-item"><i class="fas fa-check"></i> 專業法師引導科儀</div>
+                        <div class="feature-item"><i class="fas fa-check"></i> 靈堂美學風格佈置</div>
+                        <div class="feature-item"><i class="fas fa-check"></i> 完整代辦各項治喪手續</div>
+                        <div class="feature-item"><i class="fas fa-check"></i> 24小時接體安置服務</div>
+                    </div>
                 </div>
             </article>
 
-            <article class="service-row" id="western">
-                <div class="service-img">
-                    <img src="https://images.unsplash.com/photo-1544074005-276707e5971a?q=80&w=1200" alt="西式基督天主追思">
+            <article class="service-block" id="western">
+                <div class="service-media">
+                    <img src="https://images.unsplash.com/photo-1544074005-276707e5971a?q=80&w=1200" alt="西式追思禮拜規劃">
+                    <div class="media-badge">MODERN</div>
                 </div>
-                <div class="service-text">
-                    <span class="eng-label">WESTERN MEMORIAL</span>
-                    <h2>西式禮儀 (基督天主教)</h2>
-                    <p>以愛與希望為主軸，將告別轉化為溫馨的追思旅程。我們熟悉各大教會儀軌，協助家屬聯繫牧師或神父，並提供歐式精緻花藝設計。在詩歌與禱告聲中，細數生命的美好，讓愛永留心間。</p>
-                    <ul class="feature-grid">
-                        <li><i class="fas fa-cross"></i> 教會場所聯繫與程序安排</li>
-                        <li><i class="fas fa-cross"></i> 歐式主題花藝與場地設計</li>
-                        <li><i class="fas fa-cross"></i> 個性化追思影片企劃製作</li>
-                        <li><i class="fas fa-cross"></i> 專業聖樂團與司琴安排</li>
-                    </ul>
+                <div class="service-info">
+                    <span class="sub-title">愛、盼望與懷念</span>
+                    <h2>西式追思禮拜</h2>
+                    <p>專為基督教、天主教信仰設計。以愛為核心，將告別轉化為生命讚美禮。我們協助聯繫牧師、神父安排程序，並提供個性化主題花藝與聖樂企劃，在溫馨動人的詩歌中，輕訴最後的愛與叮嚀，期待永恆的再見。</p>
+                    <div class="feature-grid">
+                        <div class="feature-item"><i class="fas fa-cross"></i> 教會程序與場所對接</div>
+                        <div class="feature-item"><i class="fas fa-cross"></i> 歐式高雅花藝佈置</div>
+                        <div class="feature-item"><i class="fas fa-cross"></i> 追思影片專業製作</div>
+                        <div class="feature-item"><i class="fas fa-cross"></i> 聖樂團與詩歌安排</div>
+                    </div>
                 </div>
             </article>
 
@@ -241,49 +314,80 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>專業服務規劃</h4>
+                <img src="images/logo.png" style="height: 60px; filter: brightness(0) invert(1); margin-bottom: 30px;">
+                <p style="opacity: 0.5; font-size: 0.9rem; line-height: 1.8;">祥安生命有限公司，提供台北、新北、桃園專業禮儀規劃。國家證照證照團隊，承諾費用公開透明，值得您的託付。</p>
+            </div>
+            <div class="footer-col">
+                <h4>服務內容</h4>
                 <ul>
-                    <li><a href="#traditional">中式佛道教禮儀</a></li>
-                    <li><a href="#western">西式追思禮拜</a></li>
-                    <li><a href="#japanese">日式宗教儀軌</a></li>
-                    <li><a href="#eco">環保葬/樹葬規劃</a></li>
+                    <li><a href="#buddhist">中式佛道教</a></li>
+                    <li><a href="#western">西式追思禮</a></li>
+                    <li><a href="#japanese">日式禮儀儀軌</a></li>
+                    <li><a href="#eco">現代環保葬</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>治喪實用工具</h4>
+                <h4>治喪指南</h4>
                 <ul>
-                    <li><a href="blog.html#first-step">臨終初終處理步驟</a></li>
-                    <li><a href="blog.html#law-guide">補助金申請法規指南</a></li>
-                    <li><a href="ta-wei-choice-guide.html">塔位合法性查詢參考</a></li>
+                    <li><a href="blog.html">治喪流程說明</a></li>
+                    <li><a href="plans.html">喪葬費用明細</a></li>
+                    <li><a href="blog.html#law">政府補助資訊</a></li>
                 </ul>
             </div>
             <div class="footer-col" style="text-align: right;">
-                <h4>24H 禮儀諮詢專線</h4>
+                <h4>24H 緊急專線</h4>
                 <a href="tel:0978583699" class="footer-tel">0978-583-699</a>
-                <p style="opacity: 0.5; font-size: 0.8rem;">新北市板橋區雙十路二段30號</p>
+                <p style="opacity: 0.5; font-size: 0.85rem;">新北市三重區永福街135巷13號</p>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 80px; opacity: 0.3; font-size: 0.8rem; letter-spacing: 1px;">
-            © 2025 SHIANGAN LIFE. 祥安生命有限公司 版權所有
+        <div style="text-align: center; margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); opacity: 0.3; font-size: 0.8rem;">
+            祥安生命有限公司 &copy; 2025 ALL RIGHTS RESERVED.
         </div>
     </footer>
 
+    <div class="float-cta">
+        <a href="https://line.me/ti/p/@yourid" class="cta-icon cta-line" title="LINE 諮詢"><i class="fab fa-line"></i></a>
+        <a href="tel:0978583699" class="cta-icon cta-tel" title="即刻致電"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
     <script>
-        // 1. 選單滾動變色
+        // 1. 導覽列捲動動畫
         window.addEventListener('scroll', () => {
             const header = document.getElementById('main-header');
-            if (window.scrollY > 80) header.classList.add('scrolled');
+            if (window.scrollY > 60) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // 2. 視窗進入動畫
+        // 2. 側邊選單完全體控制
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.onclick = (e) => {
+            e.stopPropagation();
+            sideMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            menuBtn.innerHTML = sideMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars-staggered"></i>';
+        };
+
+        // 點擊遮罩或外部收起
+        overlay.onclick = () => {
+            sideMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            menuBtn.innerHTML = '<i class="fas fa-bars-staggered"></i>';
+        };
+
+        // 3. 滾動顯影動畫 (Intersection Observer)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.service-row').forEach(row => observer.observe(row));
+        document.querySelectorAll('.service-block').forEach(block => observer.observe(block));
     </script>
 </body>
 </html>
