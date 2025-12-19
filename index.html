@@ -5,233 +5,321 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-445583766'); 
-    </script>
-
-    <title>祥安生命有限公司 | 喪葬費用公開透明 | 24H專業禮儀服務</title>
-    <meta name="description" content="祥安生命提供24小時專業禮儀服務，國家認證團隊與甲級立案保證。費用公開透明、零隱藏費用。涵蓋雙北桃園之佛道教、西式、日式及環保葬。">
-    <link rel="canonical" href="https://24hour.台灣/Shiangan/index.html">
-
-    <meta property="og:title" content="祥安生命 | 國家認證禮儀師、費用公開、24H溫暖守護">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/logo.png">
-    <meta property="og:description" content="甲級立案，方案完整公開，24H撥打 0978-583-699 專業禮儀師立即協助。">
-
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <title>祥安生命有限公司 | 喪葬費用公開透明 | 24H禮儀服務推薦</title>
+    <meta name="description" content="祥安生命提供24小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，方案費用公開透明。涵蓋雙北、桃園，提供佛道教、西式、日式與環保葬客製化規劃。">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary-dark: #2c3e2d; /* 穩重的墨綠色 */
-            --gold-accent: #c5a059;  /* 質感的金色 */
-            --soft-white: #f9f7f2;   /* 溫潤的米白色 */
-            --text-gray: #555555;
+            --primary-green: #1a2a1b;   /* 深邃墨綠：莊重安穩 */
+            --gold-matte: #b8975a;      /* 霧面金：尊榮質感 */
+            --bg-silk: #fcfaf7;         /* 暖心絲綢白 */
+            --text-dark: #2c2c2c;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 基礎設定 */
+        /* --- 基礎設定 --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            margin: 0; 
             font-family: 'Noto Sans TC', sans-serif; 
-            background: var(--soft-white); 
-            color: #333;
-            line-height: 1.8;
+            background-color: var(--bg-silk); 
+            color: var(--text-dark); 
+            line-height: 1.8; 
+            overflow-x: hidden;
         }
 
-        /* --- 核心：精緻浮字背景 Hero 區塊 --- */
+        /* --- 1. 玻璃質感導覽列 (完美精緻版) --- */
+        .main-header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(184, 151, 90, 0.15);
+            transition: var(--transition);
+        }
+        .header-container {
+            max-width: 1400px; margin: 0 auto; padding: 10px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .site-logo { height: 50px; width: auto; transition: 0.3s; }
+
+        /* 選單保護：絕對不跳行 */
+        .main-nav ul { list-style: none; display: flex; align-items: center; gap: 10px; }
+        .main-nav a { 
+            text-decoration: none; color: var(--primary-green); 
+            font-weight: 500; font-size: 0.95rem; padding: 10px 18px; 
+            white-space: nowrap; transition: var(--transition);
+            letter-spacing: 1px;
+        }
+        .main-nav a:hover { color: var(--gold-matte); }
+
+        /* 下拉選單高級質感 */
+        .dropdown { position: relative; }
+        .submenu-container {
+            position: absolute; top: 100%; left: 0; min-width: 250px;
+            background: white; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            opacity: 0; visibility: hidden; transform: translateY(20px);
+            transition: var(--transition); border-top: 3px solid var(--gold-matte);
+        }
+        .dropdown:hover .submenu-container { opacity: 1; visibility: visible; transform: translateY(0); }
+        .submenu li a { 
+            display: block; padding: 15px 25px; font-size: 0.9rem; color: #555; 
+            border-bottom: 1px solid #f9f9f9; 
+        }
+        .submenu li a:hover { background: #fdfaf3; color: var(--gold-matte); padding-left: 35px; }
+
+        /* --- 2. 終極質感浮字 Hero Section --- */
         .hero-section {
-            position: relative;
-            height: 75vh;
-            min-height: 550px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--primary-dark);
-            overflow: hidden;
-            text-align: center;
-            color: #fff;
+            position: relative; height: 90vh; min-height: 700px;
+            display: flex; align-items: center; justify-content: center;
+            background-color: var(--primary-green); overflow: hidden;
+            text-align: center; color: #fff;
         }
-
-        /* 英文浮字背景層 */
-        .hero-bg-floating {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+        /* 底層：藝術背景圖 */
+        .hero-bg-art {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://r.jina.ai/i/065113d04e574164be65682859188d40') center/cover no-repeat;
-            opacity: 0.5; /* 讓浮字隱約可見 */
-            filter: brightness(0.6) contrast(1.2);
-            z-index: 1;
-            transition: transform 10s ease-out; /* 緩慢微動效 */
+            opacity: 0.4; filter: brightness(0.6) contrast(1.1);
+            z-index: 1; animation: bgSlowMotion 30s infinite alternate linear;
         }
+        /* 中層：英文浮字裝飾 (Shiangan Life) */
+        .hero-floating-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif; font-size: 15vw; color: rgba(255,255,255,0.04);
+            white-space: nowrap; z-index: 2; pointer-events: none; letter-spacing: 2rem;
+        }
+        @keyframes bgSlowMotion { from { transform: scale(1); } to { transform: scale(1.1); } }
         
-        .hero-section:hover .hero-bg-floating { transform: scale(1.05); }
-
-        /* 文字遮罩漸層：確保底部與網頁融合 */
         .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 50%;
-            background: linear-gradient(to top, var(--soft-white) 0%, transparent 100%);
-            z-index: 2;
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 45%;
+            background: linear-gradient(to top, var(--bg-silk), transparent); z-index: 3;
+        }
+        .hero-content { position: relative; z-index: 10; padding: 0 20px; }
+        .eng-tag { 
+            font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold-matte); 
+            letter-spacing: 0.6rem; margin-bottom: 1.5rem; display: block;
+            animation: fadeInDown 1.5s ease;
+        }
+        /* 標題強制不跳行保護 */
+        .display-title { 
+            font-family: 'Noto Serif TC', serif; 
+            font-size: clamp(2.5rem, 7.5vw, 4.8rem); 
+            letter-spacing: 0.8rem; margin-bottom: 1.5rem;
+            white-space: nowrap; 
+            text-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            animation: fadeInUp 1.5s ease;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            padding: 0 20px;
+        /* --- 3. 精緻內容區塊 --- */
+        .container { max-width: 1250px; margin: 0 auto; padding: 0 30px; }
+        .section-padding { padding: 120px 0; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-header h2 { font-family: 'Noto Serif TC', serif; font-size: 2.6rem; color: var(--primary-green); margin-bottom: 20px; }
+        .section-header .divider { width: 60px; height: 3px; background: var(--gold-matte); margin: 0 auto; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .elegant-card {
+            background: #fff; padding: 70px 45px; border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.04); transition: var(--transition);
+            text-align: center; border: 1px solid rgba(184, 151, 90, 0.1);
         }
+        .elegant-card:hover { transform: translateY(-15px); border-color: var(--gold-matte); box-shadow: 0 30px 80px rgba(184, 151, 90, 0.1); }
+        .elegant-card i { font-size: 3.5rem; color: var(--gold-matte); margin-bottom: 35px; display: block; }
+        .elegant-card h3 { font-size: 1.6rem; margin-bottom: 20px; color: var(--primary-green); }
 
-        .hero-content h1 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            letter-spacing: 0.3rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        .hero-content .subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.6rem);
-            color: var(--gold-accent);
-            font-weight: 400;
-            letter-spacing: 0.1rem;
-            margin-bottom: 2rem;
-        }
-
-        /* 按鈕設計 */
-        .cta-group .btn {
-            display: inline-block;
-            padding: 14px 40px;
-            margin: 10px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-            border-radius: 4px;
-        }
-
-        .btn-gold { background: var(--gold-accent); color: white; }
-        .btn-outline { border: 1px solid white; color: white; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-
-        /* 容器與區塊 */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
-        .section-padding { padding: 80px 0; }
-        .text-center { text-align: center; }
-
-        /* 七大流程圖案美化 */
-        .flow-container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 50px;
-        }
-        .flow-item {
-            flex: 1;
-            min-width: 140px;
-            padding: 20px;
+        /* --- 4. 完美分類 Footer (SEO 高階版) --- */
+        .site-footer { 
+            background: var(--primary-green); color: #fff; padding: 120px 0 50px; 
             position: relative;
         }
-        .flow-item i { font-size: 2rem; color: var(--gold-accent); margin-bottom: 15px; }
-        .flow-item h4 { font-size: 0.95rem; margin-top: 10px; color: var(--primary-dark); }
+        .footer-grid { 
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; 
+            gap: 60px; margin-bottom: 80px;
+        }
+        .footer-col h4 { 
+            font-family: 'Noto Serif TC', serif; color: var(--gold-matte); 
+            font-size: 1.25rem; margin-bottom: 30px; letter-spacing: 2px;
+            position: relative; padding-bottom: 10px;
+        }
+        .footer-col h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 30px; height: 2px; background: var(--gold-matte); }
+        
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 15px; }
+        .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--gold-matte); padding-left: 10px; }
+        
+        .footer-tel { font-size: 2.5rem; color: var(--gold-matte); font-weight: 700; text-decoration: none; display: block; margin: 20px 0; font-family: 'Cinzel', serif; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; text-align: center; font-size: 0.85rem; opacity: 0.4; letter-spacing: 1px; }
 
-        /* 導覽列與頁尾 (略，建議直接引用您現有的 CSS) */
+        /* --- 5. 懸浮聯絡系統 --- */
+        .floating-action { position: fixed; bottom: 40px; right: 40px; z-index: 999; display: flex; flex-direction: column; gap: 20px; }
+        .float-btn { 
+            width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 28px; text-decoration: none; box-shadow: 0 15px 40px rgba(0,0,0,0.3); transition: 0.4s;
+        }
+        .bg-gold { background: var(--gold-matte); }
+        .bg-line { background: #00c300; }
+        .float-btn:hover { transform: scale(1.15) rotate(10deg); }
+
+        /* 動畫定義 */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .main-nav { display: none; }
+            .display-title { letter-spacing: 0.3rem; }
+        }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-tel { font-size: 2rem; }
+        }
     </style>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "祥安生命有限公司",
-      "telephone": "+886-978-583-699",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "三重區永福街135巷13號",
-        "addressLocality": "新北市",
-        "postalCode": "241",
-        "addressCountry": "TW"
-      },
-      "openingHours": "Mo-Su 00:00-23:59"
-    }
-    </script>
 </head>
 
-<body class="js-loading">
+<body>
 
     <header class="main-header">
-        </header>
+        <div class="header-container">
+            <a href="index.html" class="site-logo">
+                <img src="images/logo.png" alt="祥安生命有限公司 Logo">
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="about.html">品牌故事</a></li>
+                    <li class="dropdown">
+                        <a href="services.html">禮儀服務項目 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                        <div class="submenu-container">
+                            <ul class="submenu">
+                                <li><a href="services.html#buddhist">中式佛道教禮儀</a></li>
+                                <li><a href="services.html#western">西式基督天主禮儀</a></li>
+                                <li><a href="services.html#japanese">日式禮儀 (日蓮/創價)</a></li>
+                                <li><a href="services.html#eco">現代環保葬/樹葬專區</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="plans.html">費用公開方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                        <div class="submenu-container">
+                            <ul class="submenu">
+                                <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
+                                <li><a href="plans.html#eighty-eight">中式契約 8.8萬起</a></li>
+                                <li><a href="plans.html#seventeen-eight">尊榮契約 17.8萬</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="order.html">花禮訂購</a></li>
+                    <li><a href="blog.html">治喪百科</a></li>
+                    <li><a href="contact.html">聯絡諮詢</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
 
-    <main id="content">
-        <section id="hero" class="hero-section">
-            <div class="hero-bg-floating"></div>
-            <div class="hero-content container">
-                <h1>祥安生命有限公司</h1>
-                <p class="subtitle">喪葬費用公開透明，24H 溫馨陪伴</p>
-                <div class="cta-group">
-                    <a href="plans.html" class="btn btn-gold">查看透明方案費用</a>
-                    <a href="blog.html#service-videos" class="btn btn-outline">🎥 服務案例影片</a>
+    <main>
+        <section class="hero-section">
+            <div class="hero-bg-art"></div>
+            <div class="hero-floating-text">SHIANGAN LIFE</div>
+            <div class="hero-content">
+                <span class="eng-tag">ETERNAL PEACE & HONOR</span>
+                <h1 class="display-title">祥安生命有限公司</h1>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.5rem); letter-spacing: 5px; font-weight: 300; margin-bottom: 3.5rem; opacity: 0.9;">喪葬費用公開透明，24H 溫馨陪伴</p>
+                <div class="cta-btns">
+                    <a href="plans.html" style="text-decoration:none; display:inline-block; padding: 20px 50px; background: var(--gold-matte); color: white; border-radius: 2px; letter-spacing: 2px; transition: 0.3s; font-weight: 600;">查看公開透明方案</a>
                 </div>
             </div>
         </section>
 
-        <section id="process-flow" class="section-padding">
-            <div class="container text-center">
-                <h2 style="font-family: 'Noto Serif TC';">治喪服務七大流程</h2>
-                <p style="color: var(--text-gray);">我們以專業引導，讓繁雜的細節變得清晰有序。</p>
-                
-                <div class="flow-container">
-                    <div class="flow-item"><i class="fas fa-phone-alt"></i><h4>1.接體啟動</h4></div>
-                    <div class="flow-item"><i class="fas fa-file-signature"></i><h4>2.方案確認</h4></div>
-                    <div class="flow-item"><i class="fas fa-calendar-check"></i><h4>3.治喪協調</h4></div>
-                    <div class="flow-item"><i class="fas fa-home"></i><h4>4.靈堂設立</h4></div>
-                    <div class="flow-item"><i class="fas fa-dove"></i><h4>5.告別奠禮</h4></div>
-                    <div class="flow-item"><i class="fas fa-mountain"></i><h4>6.發引晉塔</h4></div>
-                    <div class="flow-item"><i class="fas fa-heart"></i><h4>7.後續關懷</h4></div>
-                </div>
+        <section class="section-padding container">
+            <div class="section-header">
+                <h2>專業生命禮儀服務</h2>
+                <div class="divider"></div>
             </div>
-        </section>
-
-        <section id="commitment" class="section-padding" style="background: #efecdf;">
-            <div class="container">
-                <div class="text-center" style="margin-bottom: 40px;">
-                    <h2 style="font-family: 'Noto Serif TC';">安心交付：專業、透明、政府肯定</h2>
+            <div class="feature-grid">
+                <div class="elegant-card">
+                    <i class="fas fa-scroll"></i>
+                    <h3>宗教禮儀規劃</h3>
+                    <p>從傳統佛道教到西式追思，我們尊重每一份信仰，為逝者量身打造專屬的圓滿儀式。</p>
+                    <a href="services.html" style="color:var(--gold-matte); text-decoration:none; font-weight:700; font-size:0.9rem;">探索服務項目 →</a>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                    <div style="background: white; padding: 40px; border-top: 4px solid var(--gold-accent);">
-                        <i class="fas fa-file-invoice-dollar" style="font-size: 2rem; color: var(--gold-accent);"></i>
-                        <h3>費用 100% 透明</h3>
-                        <p>合約明訂項目，絕不事後加價，杜絕隱藏開銷。</p>
-                    </div>
-                    <div style="background: white; padding: 40px; border-top: 4px solid var(--gold-accent);">
-                        <i class="fas fa-medal" style="font-size: 2rem; color: var(--gold-accent);"></i>
-                        <h3>國家級禮儀師</h3>
-                        <p>證照編號公開可查，流程符合內政部殯葬管理條例。</p>
-                    </div>
+                <div class="elegant-card">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3>費用公開承諾</h3>
+                    <p>透明報價、絕無額外紅包文化。讓家屬在最悲傷的時刻，無須為費用感到徬徨與擔憂。</p>
+                    <a href="plans.html" style="color:var(--gold-matte); text-decoration:none; font-weight:700; font-size:0.9rem;">查看合約方案 →</a>
+                </div>
+                <div class="elegant-card">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h3>24H 溫馨諮詢</h3>
+                    <p>國家認證禮儀師團隊，隨時待命提供接體、治喪諮詢，給予家屬最溫暖的依靠。</p>
+                    <a href="contact.html" style="color:var(--gold-matte); text-decoration:none; font-weight:700; font-size:0.9rem;">聯繫專業團隊 →</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="section-padding" style="background: var(--primary-dark); color: white; text-align: center;">
+    <footer class="site-footer">
         <div class="container">
-            <p>祥安生命有限公司 &copy; <span id="current-year"></span> 版權所有</p>
-            <p style="font-size: 0.9rem; opacity: 0.7;">地址：新北市三重區永福街135巷13號 | 24H專線：0978-583-699</p>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="images/logo.png" alt="祥安生命" style="height: 65px; filter: brightness(0) invert(1); margin-bottom: 25px;">
+                    <p style="font-size: 0.95rem; opacity: 0.6; padding-right: 30px;">
+                        專業、誠信、圓滿。祥安生命致力於打破殯葬業不透明的印象，以國家級專業證照與家人的心情，陪伴您走過生命最重要的謝幕時刻。
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速導覽</h4>
+                    <ul>
+                        <li><a href="about.html">關於祥安</a></li>
+                        <li><a href="services.html">服務項目</a></li>
+                        <li><a href="plans.html">費用方案</a></li>
+                        <li><a href="blog.html">殯葬百科</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>禮儀分類</h4>
+                    <ul>
+                        <li><a href="services.html#buddhist">中式佛道教</a></li>
+                        <li><a href="services.html#western">西式追思禮拜</a></li>
+                        <li><a href="services.html#japanese">日式禮儀規劃</a></li>
+                        <li><a href="services.html#eco">環保葬/樹葬諮詢</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>聯絡諮詢</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.6;">24H 全年無休緊急諮詢</p>
+                    <a href="tel:0978583699" class="footer-tel">0978-583-699</a>
+                    <p style="font-size: 0.9rem; opacity: 0.6;">地址：新北市三重區永福街135巷13號</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                祥安生命有限公司 &copy; <span id="year"></span> 版權所有 | 台北．新北．桃園專業禮儀推薦
+            </div>
         </div>
     </footer>
 
-    <div style="position: fixed; bottom: 30px; right: 30px; z-index: 100;">
-        <a href="tel:+886978583699" style="background: var(--gold-accent); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-            <i class="fas fa-phone-alt" style="font-size: 24px;"></i>
-        </a>
+    <div class="floating-action">
+        <a href="https://line.me/ti/p/@yourid" class="float-btn bg-line" title="LINE 諮詢"><i class="fab fa-line"></i></a>
+        <a href="tel:0978583699" class="float-btn bg-gold" title="撥打電話"><i class="fas fa-phone-alt"></i></a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            // 移除載入動畫類別
-            setTimeout(() => { document.body.classList.remove('js-loading'); }, 500);
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 頁面滾動時導覽列動效
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.main-header');
+            if (window.scrollY > 80) {
+                header.style.background = "rgba(255, 255, 255, 0.98)";
+                header.style.boxShadow = "0 10px 40px rgba(0,0,0,0.1)";
+                header.style.padding = "5px 0";
+            } else {
+                header.style.background = "rgba(255, 255, 255, 0.85)";
+                header.style.boxShadow = "none";
+                header.style.padding = "10px 0";
+            }
         });
     </script>
 </body>
