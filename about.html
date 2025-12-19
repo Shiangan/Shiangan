@@ -20,102 +20,101 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root {
-            --mose-green: #243526;    /* 暮綠：沉穩如大地的包容 */
-            --silk-gold: #D4AF37;     /* 絹金：思念的微光 */
-            --warm-ivory: #FDFBF8;    /* 暖象牙：溫潤的宣紙感 */
-            --clay-gray: #5D635F;     /* 泥灰：內斂的文字色 */
-            --ease-out: cubic-bezier(0.2, 1, 0.2, 1);
+              :root {
+            --mose-green: #243526;    /* 雅緻暮綠：具深度但不沈重的色澤 */
+            --accent-gold: #C5A368;   /* 霧面絲綢金 */
+            --bg-silk: #FCFAF7;       /* 溫潤絹絲米 */
+            --text-main: #3E463F;     /* 深炭綠 */
+            --transition: cubic-bezier(0.2, 1, 0.2, 1);
+            --header-h: 110px;
         }
 
-        /* 1. 基礎美學設定 */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        /* 1. 極致平滑基礎 */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         body { 
-            background: var(--warm-ivory); color: var(--clay-gray); 
-            font-family: 'Noto Sans TC', sans-serif; line-height: 2; letter-spacing: 0.12em; 
-            -webkit-font-smoothing: antialiased; width: 100%; overflow-x: hidden;
+            background: var(--bg-silk); color: var(--text-main); 
+            font-family: 'Noto Sans TC', sans-serif; line-height: 2.2; letter-spacing: 0.12em; 
+            -webkit-font-smoothing: antialiased;
         }
+
         .serif { font-family: 'Noto Serif TC', serif; font-weight: 500; }
         .cinzel { font-family: 'Cinzel', serif; letter-spacing: 0.4em; }
 
-        /* 2. 溫潤導航系統 (不制式、階層式) */
+        /* 2. 精品懸浮導航 */
         header {
-            position: fixed; top: 0; width: 100%; height: 100px; z-index: 2000;
+            position: fixed; top: 0; width: 100%; height: var(--header-h); z-index: 2000;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 6%; transition: 0.6s var(--ease-out);
+            padding: 0 8%; transition: 0.7s var(--transition);
         }
         header.scrolled {
-            height: 80px; background: rgba(253, 251, 248, 0.98);
-            backdrop-filter: blur(15px); box-shadow: 0 10px 50px rgba(36, 53, 38, 0.04);
+            height: 85px; background: rgba(252, 250, 247, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(36, 53, 38, 0.05);
         }
-        .logo img { height: clamp(40px, 5vw, 48px); width: auto; }
 
-        .nav-desktop { display: flex; list-style: none; gap: 40px; height: 100%; }
-        .nav-item { position: relative; display: flex; align-items: center; height: 100%; }
+        .logo-wrap img { height: clamp(38px, 4vw, 45px); transition: 0.5s; }
+
+        /* 桌面選單 */
+        .nav-desktop { display: flex; list-style: none; gap: 55px; }
         .nav-link { 
-            text-decoration: none; color: var(--mose-green); font-size: 0.95rem; 
-            font-weight: 500; transition: 0.3s; padding: 10px 0;
+            text-decoration: none; color: var(--mose-green); font-size: 1rem; 
+            transition: 0.4s; position: relative; font-weight: 500;
         }
-        .nav-item:hover .nav-link { color: var(--silk-gold); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 50%; width: 0; height: 1px;
+            background: var(--accent-gold); transition: 0.4s; transform: translateX(-50%);
+        }
+        .nav-link:hover { color: var(--accent-gold); }
+        .nav-link:hover::after { width: 100%; }
 
-        /* 「選單中的選單」：絲絨感下拉盒 */
-        .dropdown-panel {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(20px);
-            width: 260px; background: #fff; opacity: 0; visibility: hidden;
-            padding: 30px; border-radius: 2px; border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 20px 20px 60px rgba(0,0,0,0.05); transition: 0.5s var(--ease-out);
-        }
-        .nav-item:hover .dropdown-panel { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .dropdown-panel a {
-            display: block; padding: 12px 0; text-decoration: none; color: var(--clay-gray);
-            font-size: 0.9rem; transition: 0.3s; border-bottom: 1px dotted #eee;
-        }
-        .dropdown-panel a:last-child { border: none; }
-        .dropdown-panel a:hover { color: var(--silk-gold); padding-left: 10px; }
-
-        /* 3. 手機版：呼吸感抽屜選單 */
+        /* 3. 懸浮側邊精品選單 (非全螢幕) */
         .menu-btn { display: none; background: none; border: none; cursor: pointer; z-index: 3001; }
-        .menu-btn span { display: block; width: 28px; height: 1.2px; background: var(--mose-green); margin: 8px auto; transition: 0.4s; }
-        .menu-btn.active .l1 { transform: translateY(9.2px) rotate(45deg); }
+        .menu-btn span { display: block; width: 26px; height: 1px; background: var(--mose-green); margin: 9px auto; transition: 0.4s; }
+        .menu-btn.active span { background: #fff; }
+        .menu-btn.active .l1 { transform: translateY(10px) rotate(45deg); }
         .menu-btn.active .l2 { opacity: 0; }
-        .menu-btn.active .l3 { transform: translateY(-9.2px) rotate(-45deg); }
+        .menu-btn.active .l3 { transform: translateY(-10px) rotate(-45deg); }
 
         .side-nav {
-            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
-            background: var(--warm-ivory); z-index: 2500; padding: 120px 12% 60px;
-            display: flex; flex-direction: column; transition: 0.8s var(--ease-out);
+            position: fixed; top: 15px; right: -320px; width: 280px; height: calc(100vh - 30px);
+            background: var(--mose-green); z-index: 2500; padding: 100px 40px;
+            display: flex; flex-direction: column; gap: 30px; border-radius: 25px;
+            transition: 0.6s var(--transition); box-shadow: -20px 0 60px rgba(0,0,0,0.1);
         }
-        .side-nav.active { right: 0; }
-        .side-item { margin-bottom: 5px; }
-        .side-link { color: var(--mose-green); text-decoration: none; font-size: 1.4rem; display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid rgba(36, 53, 38, 0.05); }
-        .side-submenu { max-height: 0; overflow: hidden; transition: 0.6s var(--ease-out); padding-left: 20px; }
-        .side-submenu.open { max-height: 400px; padding-top: 10px; padding-bottom: 20px; }
-        .side-submenu a { display: block; color: var(--clay-gray); text-decoration: none; padding: 12px 0; font-size: 1rem; }
+        .side-nav.active { right: 15px; }
+        .side-nav a { 
+            font-size: 1.25rem; text-decoration: none; color: rgba(255,255,255,0.7); 
+            transition: 0.3s; letter-spacing: 0.15em;
+        }
+        .side-nav a:hover { color: var(--accent-gold); padding-left: 8px; }
 
-        /* 4. 感性大圖：光影交織 */
+        .overlay {
+            position: fixed; inset: 0; background: rgba(36, 53, 38, 0.2);
+            z-index: 2400; opacity: 0; visibility: hidden; transition: 0.5s; backdrop-filter: blur(5px);
+        }
+        .overlay.active { opacity: 1; visibility: visible; }
+
+        /* 4. 英雄視覺：慢動作沈浸感 */
         .hero { 
-            height: 100svh; width: 100%; background: #000; position: relative;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            height: 100svh; width: 100%; background: #1a231b; position: relative;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: #fff;
+            overflow: hidden;
         }
-        .hero-video-bg {
+        .hero-bg {
             position: absolute; inset: 0; opacity: 0.5;
-            background: url('https://images.unsplash.com/photo-1505933383163-e3801750e371?q=80&w=1920') center/cover no-repeat;
-            filter: grayscale(30%);
-            animation: slowPan 30s infinite alternate;
+            background: url('https://images.unsplash.com/photo-1516589174184-c685266e4303?q=80&w=1920') center/cover;
+            animation: slowMove 30s infinite alternate;
         }
-        @keyframes slowPan { from { transform: scale(1); } to { transform: scale(1.1); } }
+        @keyframes slowMove { from { transform: scale(1); } to { transform: scale(1.1); } }
         
-        .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; padding: 0 10%; }
-        .hero-tag { color: var(--silk-gold); font-size: 0.8rem; margin-bottom: 25px; display: block; letter-spacing: 0.6em; }
-        .hero h1 { font-size: clamp(1.6rem, 5.5vw, 3rem); line-height: 1.7; font-weight: 300; letter-spacing: 0.3em; margin-bottom: 30px; }
-        .hero-btn { 
-            display: inline-block; padding: 18px 50px; border: 1px solid rgba(255,255,255,0.3); 
-            color: #fff; text-decoration: none; font-size: 0.85rem; transition: 0.5s;
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(5px);
+        .hero-content { position: relative; z-index: 10; padding: 0 10%; }
+        .hero-tag { color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 25px; display: block; font-weight: 700; letter-spacing: 0.6em; }
+        .hero h1 { 
+            font-size: clamp(1.8rem, 7vw, 3.8rem); line-height: 1.6; font-weight: 300; 
+            letter-spacing: 0.3em; margin-bottom: 30px; 
         }
-        .hero-btn:hover { background: #fff; color: var(--mose-green); border-color: #fff; }
-
+        
         /* 5. 貼近人心的內容區塊 */
         section { padding: 120px 10%; max-width: 1400px; margin: 0 auto; width: 100%; }
         .reveal { opacity: 0; transform: translateY(30px); transition: 1.5s var(--ease-out); }
