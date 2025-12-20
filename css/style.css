@@ -632,232 +632,149 @@ blockquote {
 
 /* ==================================================== */
 /* /* ==================================================== */
-/* 💻 桌面版樣式 (min-width: 902px) */
+//* 💻 桌面版導覽 (min-width: 992px) */
 /* ==================================================== */
-@media screen and (min-width: 902px) {
-    /* 1. 隱藏手機版專用按鈕與遮罩 */
-    .menu-toggle, .nav-overlay {
-        display: none !important;
-    }
+@media screen and (min-width: 992px) {
+    .menu-toggle, .nav-overlay { display: none !important; }
 
-    /* 2. 導覽列容器重置：恢復為水平排列 */
-    .main-nav {
-        position: static !important;
-        width: auto !important;
-        height: auto !important;
-        background: transparent !important;
+    #main-nav {
         display: block !important;
-        box-shadow: none !important;
-        padding: 0 !important;
+        position: static !important;
     }
 
-    .main-nav ul {
-        display: flex !important;
-        flex-direction: row !important;
+    #main-nav ul {
+        display: flex;
         align-items: center;
-        gap: 15px; /* 項目間距 */
-        margin: 0;
-        padding: 0;
+        gap: 20px;
     }
 
-    /* 3. 一級菜單連結樣式 */
-    .main-nav ul li > a {
-        color: var(--deep-text);
-        padding: 10px 15px;
-        font-weight: 600;
-        font-size: 1.05rem;
-        position: relative;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    /* 4. 滑過時的金色下底線動畫 */
-    .main-nav ul li > a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 2px;
-        background: var(--primary-gold);
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-    }
-
-    .main-nav ul li > a:hover {
-        color: var(--primary-gold);
-    }
-
-    .main-nav ul li > a:hover::after {
-        width: 70%;
-    }
-
-    /* 5. 下拉選單高級感優化 */
-    .dropdown {
-        position: relative;
-    }
-
+    /* 一級選單 */
+    .dropdown { position: relative; }
+    
+    /* 桌面版下拉容器 */
     .submenu-container {
         position: absolute;
         top: 100%;
         left: 50%;
         transform: translateX(-50%) translateY(15px);
         background: var(--white);
-        min-width: 240px;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        min-width: 260px;
         opacity: 0;
         visibility: hidden;
-        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
-                    opacity 0.3s ease;
+        transition: var(--transition-smooth);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        z-index: 1100;
         padding: 10px 0;
-        border: 1px solid rgba(166, 124, 82, 0.1);
-        z-index: 100;
     }
 
-    /* 桌面版 Hover 觸發選單 */
+    /* Hover 觸發展開 */
     .dropdown:hover .submenu-container {
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) translateY(5px);
-        max-height: none !important; /* 覆寫手機版的 0px 設定 */
+        transform: translateX(-50%) translateY(0);
+        max-height: none !important; /* 覆寫手機版限制 */
     }
 
-    /* 子選單內連結 */
     .submenu li a {
-        padding: 12px 20px !important;
-        font-size: 0.95rem !important;
-        color: var(--deep-text) !important;
-        display: block !important;
-        text-align: left;
-        border-bottom: none !important;
+        display: block;
+        padding: 12px 25px;
+        font-size: 0.95rem;
     }
 
     .submenu li a:hover {
-        background-color: rgba(166, 124, 82, 0.05) !important;
-        color: var(--primary-gold) !important;
-        padding-left: 25px !important; /* 滑動效果 */
-    }
-
-    /* 6. 特殊樣式：24H 聯絡我們按鈕化 */
-    .contact-nav a {
-        background: var(--primary-gold);
-        color: white !important;
-        border-radius: 50px;
-        padding: 10px 22px !important;
-        margin-left: 10px;
-        transition: all 0.3s ease !important;
-    }
-
-    .contact-nav a:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(166, 124, 82, 0.3);
+        background: rgba(166, 124, 82, 0.05);
+        color: var(--primary-gold);
+        padding-left: 30px;
     }
 }
 
+/* ======================
+/* ==================================================== */============================== */
+/* 📱 手機版導覽 (max-width: 991px) */
 /* ==================================================== */
-/* 📱 手機版導覽列與子選單修正 (991px 以下) */
-/* ==================================================== */
-@media (max-width: 991px) {
-    /* 1. 外層導航容器：修正 right 定位與 z-index */
+@media screen and (max-width: 991px) {
+    /* 選單主體 */
     #main-nav {
         position: fixed;
         top: 0;
-        right: -100%; /* 預設完全隱藏在右側 */
+        right: -100%; /* 預設隱藏 */
         width: 300px;
         height: 100vh;
         background: var(--white);
-        z-index: 9999; 
-        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: block !important; /* 確保不是 none，動畫才有效 */
-        overflow-y: auto; /* 選單過長時可捲動 */
-        padding-top: 60px; /* 為頂部留白 */
+        z-index: 1001;
+        transition: var(--transition-smooth);
+        display: block !important; 
+        overflow-y: auto;
+        padding-top: 80px;
         box-shadow: -5px 0 20px rgba(0,0,0,0.1);
     }
 
-    /* 2. 當選單被啟動時 */
-    #main-nav.active {
-        right: 0 !important;
-    }
+    #main-nav.active { right: 0; }
 
-    /* 3. 清單結構調整：改為垂直佈局 */
-    #main-nav ul {
-        flex-direction: column;
-        display: flex;
-        padding: 0;
-        margin: 0;
-    }
+    #main-nav ul { flex-direction: column; }
 
-    #main-nav ul li {
-        width: 100%;
-        list-style: none;
-    }
-
-    /* 4. 連結樣式：加大觸控範圍 */
     #main-nav ul li a {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         padding: 16px 25px;
-        width: 100%;
-        color: var(--deep-text);
         border-bottom: 1px solid rgba(0,0,0,0.05);
-        font-size: 1.1rem;
-        text-decoration: none;
     }
 
-    /* 5. 子選單容器：使用 max-height 實現平滑摺疊 */
+    /* 關鍵：子選單摺疊邏輯 */
     .submenu-container {
-        display: block; /* 必須為 block，JS 才能計算高度 */
-        max-height: 0; 
+        display: block; /* 必須顯示，由 max-height 控制開合 */
+        max-height: 0;
         overflow: hidden;
-        background: #fdfaf7; /* 淺米色背景區分層級 */
+        background: #fdfaf7;
         transition: max-height 0.4s ease-out;
     }
 
-    /* 6. 當子選單被啟動時 (由 JS 切換 .dropdown 的 .active) */
+    /* 當 JS 觸發 active */
     .dropdown.active > .submenu-container {
-        max-height: 1000px; /* JS 會動態計算，此處為保險值 */
         border-left: 4px solid var(--primary-gold);
-        animation: fadeInDown 0.3s ease-out;
     }
 
-    /* 7. 子選單內的連結縮進 */
-    .submenu-container ul li a {
+    .submenu li a {
         padding-left: 45px !important;
         font-size: 0.95rem;
-        background: transparent;
     }
 
-    /* 8. 旋轉箭頭動畫 */
-    .dropdown .fa-chevron-down {
-        transition: transform 0.3s ease;
-        font-size: 0.8rem;
-    }
-    .dropdown.active > a .fa-chevron-down {
-        transform: rotate(180deg);
-        color: var(--primary-gold);
+    /* 漢堡按鈕層級提升 */
+    .menu-toggle {
+        position: relative;
+        z-index: 1002;
+        cursor: pointer;
     }
 
-    /* 9. 遮罩層：修正 z-index 確保在選單下方 */
+    /* 遮罩層 */
     .nav-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
         backdrop-filter: blur(4px);
+        z-index: 1000;
         display: none;
-        z-index: 9998; /* 低於 #main-nav */
         opacity: 0;
         transition: opacity 0.3s;
     }
-    .nav-overlay.active {
-        display: block;
-        opacity: 1;
+    .nav-overlay.active { display: block; opacity: 1; }
+    
+    /* 箭頭旋轉 */
+    .dropdown.active .fa-chevron-down {
+        transform: rotate(180deg);
+        color: var(--primary-gold);
     }
+}
+
+/* 輔助樣式 */
+.submenu-title {
+    padding: 10px 25px;
+    font-size: 0.85rem;
+    color: var(--primary-gold);
+    font-weight: bold;
+    background: rgba(166, 124, 82, 0.03);
 }
 
 
