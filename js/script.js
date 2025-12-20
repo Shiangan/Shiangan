@@ -385,89 +385,86 @@ window.SALife.setupDuinianCalculator = function() {
     // D. 導航菜單模組
     // ====================================================
 
-    /** 關閉所有行動裝置子選單 (優化動畫) */
-    const closeAllMobileSubmenus = (excludeLi = null) => {
-        if (mainNav) {
-            Array.from(mainNav.querySelectorAll('li.dropdown.active')).forEach(li => {
-                if (li === excludeLi) return;
-                
-                const submenu = li.querySelector('.submenu-container, .submenu');
-                const targetLink = li.querySelector('a');
+        // ====================================================
+    // D. 導覽菜單模組 - 修正 V3.3 (解決 iOS 穿透與動畫衝突)
+    // ====================================================
 
-                if (submenu && targetLink) {
-                    li.classList.remove('active');
-                    targetLink.setAttribute('aria-expanded', 'false');
-                    
-                    if (submenu.style.maxHeight !== '0px') {
-                        submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
-                        submenu.style.overflow = 'hidden';
-                        requestAnimationFrame(() => {
-                            submenu.style.maxHeight = '0px';
-                            onTransitionEndCleanup(submenu);
-                        });
-                    }
-                }
-            });
+    let scrollPosition = 0;
+
+    /** 鎖定/解鎖捲軸 (相容 iOS) */
+    const toggleBodyLock = (lock) => {
+        if (lock) {
+            scrollPosition = window.pageYOffset;
+            body.style.overflow = 'hidden';
+            body.style.position = 'fixed';
+            body.style.top = `-${scrollPosition}px`;
+            body.style.width = '100%';
+        } else {
+            body.style.removeProperty('overflow');
+            body.style.removeProperty('position');
+            body.style.removeProperty('top');
+            body.style.removeProperty('width');
+            window.scrollTo(0, scrollPosition);
         }
     };
 
-    /** 關閉主菜單 (V3.2 修正焦點管理) */
+    /** 關閉所有行動裝置子選單 */
+    const closeAllMobileSubmenus = (excludeLi = null) => {
+        const activeItems = mainNav?.querySelectorAll('li.dropdown.active');
+        activeItems?.forEach(li => {
+            if (li === excludeLi) return;
+            const submenu = li.querySelector('.submenu-container, .submenu');
+            const targetLink = li.querySelector('a');
+
+            li.classList.remove('active');
+            targetLink?.setAttribute('aria-expanded', 'false');
+            if (submenu) {
+                submenu.style.maxHeight = '0px'; // 直接設為 0，CSS 需有 transition
+            }
+        });
+    };
+
+    /** 關閉主菜單 */
     const closeMainMenu = () => {
         if (mainNav?.classList.contains('active')) {
             mainNav.classList.remove('active');
-            if (menuToggle) {
-                menuToggle.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-                const menuIcon = menuToggle.querySelector('i');
-                if (menuIcon) menuIcon.classList.replace('fa-times', 'fa-bars');
-                
-                // 修正：將焦點返回給 menuToggle
-                menuToggle.focus(); 
-            }
-            body.classList.remove('no-scroll');
-            body.classList.remove('menu-open');
-            closeAllMobileSubmenus(); 
+            menuToggle?.classList.remove('active');
+            menuToggle?.setAttribute('aria-expanded', 'false');
+            const menuIcon = menuToggle?.querySelector('i');
+            if (menuIcon) menuIcon.classList.replace('fa-times', 'fa-bars');
+            
+            toggleBodyLock(false); // 使用新的鎖定邏輯
+            closeAllMobileSubmenus();
         }
     };
 
-    /** 處理頁面滾動時 Header 的樣式變化 */
-    const handleHeaderScroll = () => {
-        const updateHeaderScrollClass = () => {
-            const scrollY = window.scrollY;
-            if (header) header.classList.toggle('scrolled', scrollY > SCROLL_THRESHOLD);
-            if (backToTopButton) backToTopButton.classList.toggle('show', scrollY > 300);
-        };
-        updateHeaderScrollClass();
-        window.addEventListener('scroll', debounce(updateHeaderScrollClass, 10), { passive: true });
-    };
+    /** 設置行動裝置手風琴 */
+    const setupMobileAccordion = () => {
+        if (!mainNav) return;
+        mainNav.querySelectorAll('li.dropdown > a').forEach(targetLink => {
+            targetLink.addEventListener('click', (e) => {
+                if (!isMobileView()) return;
+                
+                const parentLi = targetLink.parentElement;
+                const submenu = parentLi.querySelector('.submenu-container, .submenu');
+                if (!submenu) return;
 
-    /** 設置 RWD 菜單開關功能 */
-    const setupRwdMenuToggle = () => {
-        if (menuToggle && mainNav) {
-            const menuIcon = menuToggle.querySelector('i');
-            menuToggle.addEventListener('click', function () {
-                const isExpanded = mainNav.classList.contains('active');
-                if (!isExpanded) {
-                    mainNav.classList.add('active');
-                    this.classList.add('active');
-                    this.setAttribute('aria-expanded', 'true');
-                    if (menuIcon) menuIcon.classList.replace('fa-bars', 'fa-times');
-                    if (isMobileView()) body.classList.add('no-scroll');
+                e.preventDefault();
+                const isOpen = parentLi.classList.contains('active');
+
+                closeAllMobileSubmenus(parentLi); // 關閉其他的
+
+                if (!isOpen) {
+                    parentLi.classList.add('active');
+                    targetLink.setAttribute('aria-expanded', 'true');
+                    submenu.style.maxHeight = `${submenu.scrollHeight}px`;
                 } else {
-                    closeMainMenu();
+                    parentLi.classList.remove('active');
+                    targetLink.setAttribute('aria-expanded', 'false');
+                    submenu.style.maxHeight = '0px';
                 }
             });
-
-            // 點擊菜單連結後關閉主菜單 (行動裝置視圖下)
-            mainNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (isMobileView() && link.hash.length > 0 && link.hash !== '#') {
-                        // 給予足夠時間讓瀏覽器處理滾動
-                        setTimeout(closeMainMenu, TRANSITION_DURATION_MS + 50); 
-                    }
-                });
-            });
-        }
+        });
     };
 
     /** 設置行動裝置菜單手風琴效果 (Accordion) */
