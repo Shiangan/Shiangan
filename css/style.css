@@ -631,7 +631,236 @@ blockquote {
 }
 
 /* ==================================================== */
-/* 2. 【桌面版樣式】 (min-width: 901px) */
+/* /* ==================================================== */
+/* 💻 桌面版樣式 (min-width: 902px) */
+/* ==================================================== */
+@media screen and (min-width: 902px) {
+    /* 1. 隱藏手機版專用按鈕與遮罩 */
+    .menu-toggle, .nav-overlay {
+        display: none !important;
+    }
+
+    /* 2. 導覽列容器重置：恢復為水平排列 */
+    .main-nav {
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        background: transparent !important;
+        display: block !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    .main-nav ul {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        gap: 15px; /* 項目間距 */
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 3. 一級菜單連結樣式 */
+    .main-nav ul li > a {
+        color: var(--deep-text);
+        padding: 10px 15px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        position: relative;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    /* 4. 滑過時的金色下底線動畫 */
+    .main-nav ul li > a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gold);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    .main-nav ul li > a:hover {
+        color: var(--primary-gold);
+    }
+
+    .main-nav ul li > a:hover::after {
+        width: 70%;
+    }
+
+    /* 5. 下拉選單高級感優化 */
+    .dropdown {
+        position: relative;
+    }
+
+    .submenu-container {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(15px);
+        background: var(--white);
+        min-width: 240px;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                    opacity 0.3s ease;
+        padding: 10px 0;
+        border: 1px solid rgba(166, 124, 82, 0.1);
+        z-index: 100;
+    }
+
+    /* 桌面版 Hover 觸發選單 */
+    .dropdown:hover .submenu-container {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(5px);
+        max-height: none !important; /* 覆寫手機版的 0px 設定 */
+    }
+
+    /* 子選單內連結 */
+    .submenu li a {
+        padding: 12px 20px !important;
+        font-size: 0.95rem !important;
+        color: var(--deep-text) !important;
+        display: block !important;
+        text-align: left;
+        border-bottom: none !important;
+    }
+
+    .submenu li a:hover {
+        background-color: rgba(166, 124, 82, 0.05) !important;
+        color: var(--primary-gold) !important;
+        padding-left: 25px !important; /* 滑動效果 */
+    }
+
+    /* 6. 特殊樣式：24H 聯絡我們按鈕化 */
+    .contact-nav a {
+        background: var(--primary-gold);
+        color: white !important;
+        border-radius: 50px;
+        padding: 10px 22px !important;
+        margin-left: 10px;
+        transition: all 0.3s ease !important;
+    }
+
+    .contact-nav a:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(166, 124, 82, 0.3);
+    }
+}
+
+/* ==================================================== */
+/* 📱 手機版導覽列與子選單修正 (991px 以下) */
+/* ==================================================== */
+@media (max-width: 991px) {
+    /* 1. 外層導航容器：修正 right 定位與 z-index */
+    #main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* 預設完全隱藏在右側 */
+        width: 300px;
+        height: 100vh;
+        background: var(--white);
+        z-index: 9999; 
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: block !important; /* 確保不是 none，動畫才有效 */
+        overflow-y: auto; /* 選單過長時可捲動 */
+        padding-top: 60px; /* 為頂部留白 */
+        box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+    }
+
+    /* 2. 當選單被啟動時 */
+    #main-nav.active {
+        right: 0 !important;
+    }
+
+    /* 3. 清單結構調整：改為垂直佈局 */
+    #main-nav ul {
+        flex-direction: column;
+        display: flex;
+        padding: 0;
+        margin: 0;
+    }
+
+    #main-nav ul li {
+        width: 100%;
+        list-style: none;
+    }
+
+    /* 4. 連結樣式：加大觸控範圍 */
+    #main-nav ul li a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 25px;
+        width: 100%;
+        color: var(--deep-text);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        font-size: 1.1rem;
+        text-decoration: none;
+    }
+
+    /* 5. 子選單容器：使用 max-height 實現平滑摺疊 */
+    .submenu-container {
+        display: block; /* 必須為 block，JS 才能計算高度 */
+        max-height: 0; 
+        overflow: hidden;
+        background: #fdfaf7; /* 淺米色背景區分層級 */
+        transition: max-height 0.4s ease-out;
+    }
+
+    /* 6. 當子選單被啟動時 (由 JS 切換 .dropdown 的 .active) */
+    .dropdown.active > .submenu-container {
+        max-height: 1000px; /* JS 會動態計算，此處為保險值 */
+        border-left: 4px solid var(--primary-gold);
+        animation: fadeInDown 0.3s ease-out;
+    }
+
+    /* 7. 子選單內的連結縮進 */
+    .submenu-container ul li a {
+        padding-left: 45px !important;
+        font-size: 0.95rem;
+        background: transparent;
+    }
+
+    /* 8. 旋轉箭頭動畫 */
+    .dropdown .fa-chevron-down {
+        transition: transform 0.3s ease;
+        font-size: 0.8rem;
+    }
+    .dropdown.active > a .fa-chevron-down {
+        transform: rotate(180deg);
+        color: var(--primary-gold);
+    }
+
+    /* 9. 遮罩層：修正 z-index 確保在選單下方 */
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        display: none;
+        z-index: 9998; /* 低於 #main-nav */
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .nav-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
+
 /* ==================================================== */
 /* ==================================================== */
 /* 💻 桌面版導航：統一斷點與高級感優化 (992px 以上) */
@@ -754,38 +983,46 @@ blockquote {
 /* 📱 手機版選單優化：極致響應與流暢動畫 */
 /* ==================================================== */
 /* 將 .main-nav 改為 #main-nav 確保權重最高 */
+/* ==================================================== */
+/* 📱 手機版導覽列與子選單修正 (991px 以下) */
+/* ==================================================== */
 @media (max-width: 991px) {
+    /* 1. 外層導航容器：修正 right 定位與 z-index */
     #main-nav {
         position: fixed;
         top: 0;
-        right: -100%; /* 預設藏在右邊 */
+        right: -100%; /* 預設完全隱藏在右側 */
         width: 300px;
         height: 100vh;
         background: var(--white);
-        z-index: 9999; /* 提高層級，確保不被內容遮擋 */
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: block !important; /* 強制顯示，透過 right 來切換位置 */
+        z-index: 9999; 
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: block !important; /* 確保不是 none，動畫才有效 */
+        overflow-y: auto; /* 選單過長時可捲動 */
+        padding-top: 60px; /* 為頂部留白 */
+        box-shadow: -5px 0 20px rgba(0,0,0,0.1);
     }
 
+    /* 2. 當選單被啟動時 */
     #main-nav.active {
-        right: 0 !important; /* 點擊後移入畫面 */
+        right: 0 !important;
     }
-}
 
-
-    .main-nav ul {
+    /* 3. 清單結構調整：改為垂直佈局 */
+    #main-nav ul {
         flex-direction: column;
-        align-items: flex-start;
+        display: flex;
         padding: 0;
+        margin: 0;
     }
 
-    .main-nav ul li {
+    #main-nav ul li {
         width: 100%;
         list-style: none;
     }
 
-    /* 連結樣式：增加垂直點擊空間 (符合 44px 觸控原則) */
-    .main-nav ul li a {
+    /* 4. 連結樣式：加大觸控範圍 */
+    #main-nav ul li a {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -794,56 +1031,43 @@ blockquote {
         color: var(--deep-text);
         border-bottom: 1px solid rgba(0,0,0,0.05);
         font-size: 1.1rem;
+        text-decoration: none;
     }
 
-    /* 下拉選單動畫化 */
- 
-
-@media (max-width: 991px) {
-    /* 修正：子選單容器 */
+    /* 5. 子選單容器：使用 max-height 實現平滑摺疊 */
     .submenu-container {
-        /* 不要用 display: none，否則 JS 抓不到 scrollHeight */
-        display: block; 
+        display: block; /* 必須為 block，JS 才能計算高度 */
         max-height: 0; 
         overflow: hidden;
-        background: #fdfaf7;
-        width: 100%;
-        padding-left: 0; /* 縮進改到 a 標籤上 */
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑展開 */
+        background: #fdfaf7; /* 淺米色背景區分層級 */
+        transition: max-height 0.4s ease-out;
     }
 
-    /* 當父層 active 時，由 JS 注入 style="max-height: XXpx" */
+    /* 6. 當子選單被啟動時 (由 JS 切換 .dropdown 的 .active) */
     .dropdown.active > .submenu-container {
-        /* 此處不需要再寫 display: block */
+        max-height: 1000px; /* JS 會動態計算，此處為保險值 */
         border-left: 4px solid var(--primary-gold);
-    }
-
-    .submenu-container ul li a {
-        padding-left: 40px !important; /* 增加子選項的層級感 */
-        font-size: 0.95rem;
-    }
-}
-
-
-
-    /* 當 active 時使用 JavaScript 控制 slideDown 或此處 display */
-    .dropdown.active > .submenu-container {
-
         animation: fadeInDown 0.3s ease-out;
     }
 
-    /* 旋轉箭頭動畫 */
+    /* 7. 子選單內的連結縮進 */
+    .submenu-container ul li a {
+        padding-left: 45px !important;
+        font-size: 0.95rem;
+        background: transparent;
+    }
+
+    /* 8. 旋轉箭頭動畫 */
     .dropdown .fa-chevron-down {
         transition: transform 0.3s ease;
         font-size: 0.8rem;
-        opacity: 0.6;
     }
     .dropdown.active > a .fa-chevron-down {
         transform: rotate(180deg);
         color: var(--primary-gold);
     }
-    
-    /* 遮罩層：提升質感 */
+
+    /* 9. 遮罩層：修正 z-index 確保在選單下方 */
     .nav-overlay {
         position: fixed;
         top: 0;
@@ -851,9 +1075,9 @@ blockquote {
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px); /* 背景模糊，顯得更高級 */
+        backdrop-filter: blur(4px);
         display: none;
-        z-index: 1000;
+        z-index: 9998; /* 低於 #main-nav */
         opacity: 0;
         transition: opacity 0.3s;
     }
@@ -861,11 +1085,6 @@ blockquote {
         display: block;
         opacity: 1;
     }
-}
-
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* -------------------------------------------
