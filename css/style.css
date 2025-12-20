@@ -563,44 +563,47 @@ main {
 }
 
 
+/* 🏆 行動版選單核心控制 (900px 以下) */
 @media screen and (max-width: 900px) {
-    /* 🏆 修正：這裡是大括號開始，包住所有 <=900px 的樣式 */
-    
-    /* 在行動版隱藏聯繫導覽按鈕 */
-    .contact-nav {
-        display: none;
+    /* 確保選單本體 */
+    .main-nav {
+        position: fixed;
+        top: 80px; /* 需對應您的 Header 高度 */
+        right: -100%;
+        width: 80%;
+        height: calc(100vh - 80px);
+        background: #ffffff;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 999;
+        overflow-y: auto;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
     }
     
-    /* 行動版選單開關 */
-    .menu-toggle {
-        display: block; /* 在行動版顯示 menu-toggle */
-        background: none;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-        color: var(--primary-color);
-        padding: 5px 10px;
-        font-weight: 700;
-        border: 1px solid var(--primary-color);
-        border-radius: 4px;
-        transition: background-color var(--transition-speed);
-        z-index: 1001;
-        will-change: background-color, transform;
-    }
-    
-    .menu-toggle:hover, .menu-toggle:focus-visible {
-        background-color: rgba(26, 55, 90, 0.1);
-        outline: 2px solid var(--accent-color); 
-        outline-offset: 2px;
-    }
-    
-    .menu-toggle i {
-        transition: transform var(--transition-speed) ease-in-out;
-        font-size: 1.2rem;
-        vertical-align: middle;
-    }
-} /* 🏆 修正：在這裡閉合 media query */
+    .main-nav.active { right: 0; }
 
+    /* 關鍵修正：子選單容器 */
+    .submenu-container {
+        display: block !important; /* 絕對不能用 display: none */
+        max-height: 0;             /* 初始高度 0 */
+        overflow: hidden;          /* 隱藏內容 */
+        background-color: #f8f9fa;
+        transition: max-height 0.4s ease-out; /* 平滑展開動畫 */
+    }
+
+    /* 選單展開時的標題背景與箭頭旋轉 */
+    .dropdown.active > a {
+        background-color: rgba(30, 58, 106, 0.05);
+        color: var(--primary-color);
+    }
+
+    .dropdown a i.fa-chevron-down {
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown.active a i.fa-chevron-down {
+        transform: rotate(180deg);
+    }
+}
 
 /* -------------------------------------------
  * 2. CTA 按鈕與共通元件 (這部分在所有尺寸都適用)
