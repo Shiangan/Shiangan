@@ -227,6 +227,41 @@ dropdowns.forEach(link => {
         }, 200));
     };
 
+    document.addEventListener('DOMContentLoaded', () => {
+    const dropdownLinks = document.querySelectorAll('.dropdown > a');
+
+    dropdownLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // 只在手機版 (<= 991px) 執行
+            if (window.innerWidth <= 991) {
+                e.preventDefault(); // 攔截跳轉
+                
+                const parent = this.parentElement;
+                const submenu = parent.querySelector('.submenu-container');
+                const isActive = parent.classList.contains('active');
+
+                // 關閉其他已開啟的子選單
+                document.querySelectorAll('.dropdown.active').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('active');
+                        item.querySelector('.submenu-container').style.maxHeight = '0px';
+                    }
+                });
+
+                // 切換當前選單
+                if (!isActive) {
+                    parent.classList.add('active');
+                    // 核心：利用 scrollHeight 獲取真實內容高度
+                    submenu.style.maxHeight = submenu.scrollHeight + "px";
+                } else {
+                    parent.classList.remove('active');
+                    submenu.style.maxHeight = "0px";
+                }
+            }
+        });
+    });
+
+
     /**
      * [4. FAQ 組件] 手風琴高度自動計算
      */
