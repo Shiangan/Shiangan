@@ -637,12 +637,7 @@ blockquote {
 /* 💻 桌面版導航：統一斷點與高級感優化 (992px 以上) */
 /* ==================================================== */
 @media screen and (min-width: 992px) {
-    /* 隱藏行動版漢堡按鈕 */
-    .menu-toggle {
-        display: none !important;
-    }
-
-    /* 確保導航列顯示並移除行動版可能殘留的定位 */
+   /* 確保導航列顯示並移除行動版可能殘留的定位 */
     .main-nav {
         display: block !important;
         position: static !important;
@@ -802,17 +797,38 @@ blockquote {
     }
 
     /* 下拉選單動畫化 */
+ 
+
+@media (max-width: 991px) {
+    /* 修正：子選單容器 */
     .submenu-container {
-        display: none; /* 預設隱藏 */
-        background: #fdfaf7; /* 淺米色背景區分層級 */
+        /* 不要用 display: none，否則 JS 抓不到 scrollHeight */
+        display: block; 
+        max-height: 0; 
+        overflow: hidden;
+        background: #fdfaf7;
         width: 100%;
-        padding-left: 15px; /* 子選項縮進 */
-        border-left: 4px solid var(--primary-gold); /* 左側點綴色 */
+        padding-left: 0; /* 縮進改到 a 標籤上 */
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑展開 */
     }
+
+    /* 當父層 active 時，由 JS 注入 style="max-height: XXpx" */
+    .dropdown.active > .submenu-container {
+        /* 此處不需要再寫 display: block */
+        border-left: 4px solid var(--primary-gold);
+    }
+
+    .submenu-container ul li a {
+        padding-left: 40px !important; /* 增加子選項的層級感 */
+        font-size: 0.95rem;
+    }
+}
+
+
 
     /* 當 active 時使用 JavaScript 控制 slideDown 或此處 display */
     .dropdown.active > .submenu-container {
-        display: block;
+
         animation: fadeInDown 0.3s ease-out;
     }
 
