@@ -559,33 +559,44 @@ blockquote {
 :target {
     scroll-margin-top: var(--header-height); 
 }
+/* ==================================================== */
+/* 🛠️ 全域變量預設值 (若尚未定義則生效) */
+/* ==================================================== */
+:root {
+    --header-height: 80px;
+    --header-height-scrolled: 65px;
+    --white: #ffffff;
+    --deep-text: #333333;
+    --primary-gold: #a67c52;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+/* ==================================================== */
 /* --- Header 容器主體 --- */
+/* ==================================================== */
 .main-header {
-    position: sticky;
+    position: fixed; /* 建議用 fixed 確保 sticky 在某些捲動容器中失效的問題 */
     top: 0;
+    left: 0;
     width: 100%;
     height: var(--header-height);
     z-index: 1000;
     background: rgba(255, 255, 255, 0.95);
-    /* 強化毛玻璃相容性 */
     backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px); 
     border-bottom: 1px solid rgba(166, 124, 82, 0.15);
     box-shadow: 0 2px 20px rgba(0,0,0,0.05);
     transition: var(--transition-smooth);
     display: flex;
-    align-items: center; /* 確保內容垂直置中 */
+    align-items: center;
 }
 
-/* 捲動時的狀態 (由 JS 切換 .scrolled 類別) */
 .main-header.scrolled {
     height: var(--header-height-scrolled);
     background-color: rgba(255, 255, 255, 0.98); 
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* 修正：合併重複的 .header-container，保持簡潔 */
 .header-container {
     display: flex;
     align-items: center;
@@ -601,433 +612,203 @@ blockquote {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    transition: var(--transition-smooth);
 }
 
 .site-logo {
     width: auto;
-    max-width: 160px; /* 放大一點提升品牌辨識度 */
+    max-width: 160px;
     height: 45px;
     object-fit: contain;
     transition: var(--transition-smooth);
 }
 
 .main-header.scrolled .site-logo {
-    height: 38px; /* 捲動時 Logo 微縮，質感更好 */
+    height: 38px;
 }
 
-/* --- 子選單 (Submenu) 共用結構 --- */
+/* --- 子選單 (Submenu) 通用核心 --- */
 .submenu {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.submenu a {
-    padding: 12px 25px; /* 增加點擊範圍 */
-    display: block;
-    color: var(--deep-text);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: background 0.2s ease;
 }
 
 .submenu-title {
     font-weight: 700;
-    color: var(--primary-gold); /* 統一使用金色系 */
+    color: var(--primary-gold);
     padding: 10px 25px;
     font-size: 0.8rem;
-    background-color: rgba(166, 124, 82, 0.05); /* 淡淡的金色背襯 */
+    background-color: rgba(166, 124, 82, 0.05);
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-.submenu-separator {
-    height: 1px;
-    background-color: rgba(0,0,0,0.05); /* 柔和的分隔線 */
-    margin: 8px 20px;
+    display: block;
 }
 
 /* ==================================================== */
-/* /* ==================================================== */
-//* 💻 桌面版導覽 (min-width: 992px) */
+/* 💻 桌面版導覽列 (992px 以上) */
 /* ==================================================== */
 @media screen and (min-width: 992px) {
-    .menu-toggle, .nav-overlay { display: none !;
+    .menu-toggle, .nav-overlay { 
+        display: none !important; 
+    }
+
+    #main-nav {
+        position: static !important;
+        display: block !important;
+        background: transparent !important;
+        padding: 0 !important;
     }
 
     #main-nav ul {
         display: flex;
         align-items: center;
-        gap: 20px;
-    }
- @media (min-width: 992px) {
-    #main-nav {
-        /* 💡 桌面版必須恢復成 static，不要固定在旁邊 */
-        position: static !important;
-        width: auto !important;
-        height: auto !important;
-        display: block !important;
-        box-shadow: none !important;
-    }
-}
-
-
-    /* 一級選單 */
-    .dropdown { position: relative; }
-    
-    /* 桌面版下拉容器 */
-    .submenu-container {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(15px);
-        background: var(--white);
-        min-width: 260px;
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition-smooth);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        z-index: 1100;
-        padding: 10px 0;
-    }
-
-    /* Hover 觸發展開 */
-    .dropdown:hover .submenu-container {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
-        max-height: none !important; /* 覆寫手機版限制 */
-    }
-
-    .submenu li a {
-        display: block;
-        padding: 12px 25px;
-        font-size: 0.95rem;
-    }
-
-    .submenu li a:hover {
-        background: rgba(166, 124, 82, 0.05);
-        color: var(--primary-gold);
-        padding-left: 30px;
-    }
-}
-
-/* ======================
-/* ==================================================== */============================== */
-/* 📱 手機版導覽 (max-width: 991px) */
-/* ==================================================== */
-@media screen and (max-width: 991px) {
-    /* 選單主體 */
-    #main-nav {
-        position: fixed;
-        top: 0;
-        right: -100%; /* 預設隱藏 */
-        width: 300px;
-        height: 100vh;
-        background: var(--white);
-        z-index: 1001;
-        transition: var(--transition-smooth);
-        display: block !important; 
-        overflow-y: auto;
-        padding-top: 80px;
-        box-shadow: -5px 0 20px rgba(0,0,0,0.1);
-    }
-
-    #main-nav.active { right: 0; }
-
-    #main-nav ul { flex-direction: column; }
-
-    #main-nav ul li a {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px 25px;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-    /* 關鍵：子選單摺疊邏輯 */
-    .submenu-container {
-        display: block; /* 必須顯示，由 max-height 控制開合 */
-        max-height: 0;
-        overflow: hidden;
-        background: #fdfaf7;
-        transition: max-height 0.4s ease-out;
-    }
-
-    /* 當 JS 觸發 active */
-    .dropdown.active > .submenu-container {
-        border-left: 4px solid var(--primary-gold);
-    }
-
-    .submenu li a {
-        padding-left: 45px !important;
-        font-size: 0.95rem;
-    }
-
-    /* 漢堡按鈕層級提升 */
-    .menu-toggle {
-        position: relative;
-        z-index: 1002;
-        cursor: pointer;
-    }
-
-    /* 遮罩層 */
-    .nav-overlay {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(4px);
-        z-index: 1000;
-        display: none;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-    .nav-overlay.active { display: block; opacity: 1; }
-    
-    /* 箭頭旋轉 */
-    .dropdown.active .fa-chevron-down {
-        transform: rotate(180deg);
-        color: var(--primary-gold);
-    }
-}
-
-/* 輔助樣式 */
-.submenu-title {
-    padding: 10px 25px;
-    font-size: 0.85rem;
-    color: var(--primary-gold);
-    font-weight: bold;
-    background: rgba(166, 124, 82, 0.03);
-}
-
-
-/* ==================================================== */
-/* ==================================================== */
-/* 💻 桌面版導航：統一斷點與高級感優化 (992px 以上) */
-/* ==================================================== */
-@media screen and (min-width: 992px) {
-   /* 確保導航列顯示並移除行動版可能殘留的定位 */
-    .main-nav {
-        display: block !important;
-        position: static !important;
-        width: auto !important;
-        height: auto !important;
-        background: transparent !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        transition: none !important;
-    }
-
-    .main-nav ul {
-        display: flex;
+        gap: 5px; /* 稍微縮小間隔，增加呼吸感 */
         list-style: none;
-        margin: 0;
-        padding: 0;
-        align-items: center;
-        gap: 5px; /* 增加項目間的小間距 */
     }
 
-    /* 一級選單連結樣式 */
-    .main-nav ul li > a {
+    #main-nav ul li > a {
         text-decoration: none;
         color: var(--deep-text);
-        padding: 10px 18px;
-        font-weight: 600; /* 稍微加粗更莊嚴 */
-        font-size: 1.05rem;
-        transition: all 0.3s ease;
+        padding: 8px 16px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: var(--transition-smooth);
         display: flex;
         align-items: center;
         gap: 6px;
-        border-radius: 8px; /* 增加滑過時的背景圓角 */
+        border-radius: 6px;
     }
 
-    .main-nav ul li > a:hover {
+    #main-nav ul li > a:hover {
         color: var(--primary-gold);
-        background-color: rgba(166, 124, 82, 0.05); /* 滑過時淡淡的金色背景 */
+        background-color: rgba(166, 124, 82, 0.05);
     }
 
- <div class="deco-bg">Respectful Goodbye</div>
+    .dropdown { position: relative; }
 
-    /* 下拉選單容器定位 */
-    .dropdown {
-        position: relative;
-    }
-
-    /* 🏆 精緻下拉選單樣式 */
-    .submenu-container {
-        position: absolute;
-        top: 110%; /* 稍微留一點間隙，防止滑鼠滑過時斷開 */
-        left: 50%;
-        transform: translateX(-50%) translateY(15px); /* 初始位置向下偏 */
-        background: var(--white);
-        min-width: 260px;
-        border-radius: 12px;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15); /* 加深陰影層次感 */
-        opacity: 0;
-        visibility: hidden;
-        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
-                    opacity 0.3s ease;
-        padding: 15px 0;
-        border: 1px solid rgba(166, 124, 82, 0.1);
-        z-index: 1100;
-    }
-
-    /* 滑過顯示：優雅的浮現動畫 */
-    .dropdown:hover .submenu-container {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
-    }
-
-    /* 防止鼠標在間隙中斷開，增加一個隱形熱區 */
+    /* 隱形墊片：防止鼠標移動到下拉框時斷開 */
     .dropdown::after {
         content: '';
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
-        height: 20px;
-        display: block;
+        height: 15px;
     }
 
-    /* 子選單連結 */
+    .submenu-container {
+        position: absolute;
+        top: 100%;
+        margin-top: 10px;
+        left: 50%;
+        transform: translateX(-50%) translateY(15px);
+        background: var(--white);
+        min-width: 240px;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s ease;
+        padding: 10px 0;
+        border: 1px solid rgba(166, 124, 82, 0.1);
+        z-index: 1100;
+        overflow: hidden;
+    }
+
+    .dropdown:hover .submenu-container {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
     .submenu li a {
-        padding: 12px 25px;
-        font-size: 0.95rem;
-        color: var(--deep-text);
         display: block;
-        transition: all 0.2s ease;
-        text-align: left;
+        padding: 12px 25px;
+        color: var(--deep-text);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: var(--transition-smooth);
     }
 
     .submenu li a:hover {
-        background-color: rgba(166, 124, 82, 0.08);
+        background: rgba(166, 124, 82, 0.06);
         color: var(--primary-gold);
-        padding-left: 30px; /* 滑過時微幅向右移動，增加動態感 */
-    }
-
-    .submenu-title {
-        padding: 8px 25px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--primary-gold);
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        border-bottom: 1px solid rgba(0,0,0,0.03);
-        margin-bottom: 5px;
+        padding-left: 30px;
     }
 }
 
 /* ==================================================== */
-/* 3. 【手機版樣式】 (max-width: 900px)核心/* ==================================================== */
-/* 📱 手機版選單優化：極致響應與流暢動畫 */
+/* 📱 手機版導覽列 (991px 以下) */
 /* ==================================================== */
-/* 將 .main-nav 改為 #main-nav 確保權重最高 */
-/* ==================================================== */
-/* 📱 手機版導覽列與子選單修正 (991px 以下) */
-/* ==================================================== */
-@media (max-width: 991px) {
-    /* 1. 外層導航容器：修正 right 定位與 z-index */
+@media screen and (max-width: 991px) {
     #main-nav {
         position: fixed;
         top: 0;
-        right: -100%; /* 預設完全隱藏在右側 */
-        width: 300px;
+        right: -100%; /* 隱藏於側邊 */
+        width: 280px;
         height: 100vh;
         background: var(--white);
-        z-index: 9999; 
+        z-index: 9999;
         transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: block !important; /* 確保不是 none，動畫才有效 */
-        overflow-y: auto; /* 選單過長時可捲動 */
-        padding-top: 60px; /* 為頂部留白 */
+        overflow-y: auto;
+        padding-top: var(--header-height);
         box-shadow: -5px 0 20px rgba(0,0,0,0.1);
     }
 
-    /* 2. 當選單被啟動時 */
-    #main-nav.active {
-        right: 0 !important;
-    }
+    #main-nav.active { right: 0; }
 
-    /* 3. 清單結構調整：改為垂直佈局 */
     #main-nav ul {
         flex-direction: column;
-        display: flex;
         padding: 0;
-        margin: 0;
     }
 
-    #main-nav ul li {
-        width: 100%;
-        list-style: none;
-    }
-
-    /* 4. 連結樣式：加大觸控範圍 */
     #main-nav ul li a {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 16px 25px;
-        width: 100%;
+        padding: 15px 25px;
         color: var(--deep-text);
         border-bottom: 1px solid rgba(0,0,0,0.05);
-        font-size: 1.1rem;
         text-decoration: none;
     }
 
-    /* 5. 子選單容器：使用 max-height 實現平滑摺疊 */
     .submenu-container {
-        display: block; /* 必須為 block，JS 才能計算高度 */
-        max-height: 0; 
+        max-height: 0;
         overflow: hidden;
-        background: #fdfaf7; /* 淺米色背景區分層級 */
+        background: #fdfaf7;
         transition: max-height 0.4s ease-out;
     }
 
-    /* 6. 當子選單被啟動時 (由 JS 切換 .dropdown 的 .active) */
     .dropdown.active > .submenu-container {
-        max-height: 1000px; /* JS 會動態計算，此處為保險值 */
+        max-height: 800px;
         border-left: 4px solid var(--primary-gold);
-        animation: fadeInDown 0.3s ease-out;
     }
 
-    /* 7. 子選單內的連結縮進 */
-    .submenu-container ul li a {
-        padding-left: 45px !important;
-        font-size: 0.95rem;
-        background: transparent;
+    .submenu li a {
+        padding-left: 40px !important;
+        font-size: 0.9rem;
+        border-bottom: none !important;
     }
 
-    /* 8. 旋轉箭頭動畫 */
-    .dropdown .fa-chevron-down {
-        transition: transform 0.3s ease;
-        font-size: 0.8rem;
-    }
-    .dropdown.active > a .fa-chevron-down {
-        transform: rotate(180deg);
-        color: var(--primary-gold);
-    }
-
-    /* 9. 遮罩層：修正 z-index 確保在選單下方 */
     .nav-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
         backdrop-filter: blur(4px);
+        z-index: 9998;
         display: none;
-        z-index: 9998; /* 低於 #main-nav */
         opacity: 0;
         transition: opacity 0.3s;
     }
+
     .nav-overlay.active {
         display: block;
         opacity: 1;
+    }
+
+    .dropdown.active .fa-chevron-down {
+        transform: rotate(180deg);
+        color: var(--primary-gold);
     }
 }
 
