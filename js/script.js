@@ -25,6 +25,35 @@ window.SALife = window.SALife || {};
         };
     };
 
+    const dropdowns = document.querySelectorAll('.dropdown > a');
+
+dropdowns.forEach(link => {
+    link.addEventListener('click', function (e) {
+        // 只有在手機版寬度才執行攔截
+        if (window.innerWidth <= 991) {
+            e.preventDefault(); // 停止跳轉到 services.html
+            e.stopPropagation(); // 防止事件冒泡
+            
+            const parent = this.parentElement;
+            const submenu = parent.querySelector('.submenu-container');
+            
+            if (submenu) {
+                const isActive = parent.classList.contains('active');
+                
+                // 關閉其他已打開的子選單 (互斥)
+                document.querySelectorAll('.dropdown.active').forEach(other => {
+                    if (other !== parent) {
+                        other.classList.remove('active');
+                        other.querySelector('.submenu-container').style.maxHeight = '0px';
+                    }
+                });
+
+                // 切換目前點擊的選單
+                parent.classList.toggle('active', !isActive);
+                submenu.style.maxHeight = !isActive ? (submenu.scrollHeight + 'px') : '0px';
+            }
+        }
+    });
     /**
      * [1. 佈局防護] 絕對防止頁面左右溢出
      */
