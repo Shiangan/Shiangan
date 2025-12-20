@@ -410,6 +410,36 @@ window.SALife.setupDuinianCalculator = function() {
     // ====================================================
     // D. 導航菜單模組
     // ====================================================
+// 確保 DOM 載入後執行
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. 手機版選單切換
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !expanded);
+            mainNav.classList.toggle('is-active');
+        });
+    }
+
+    // 2. 簡單的圖片懶加載觀察器 (優化效能)
+    const lazyImages = document.querySelectorAll('.lazy-load');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.add('fade-in'); // 可配合 CSS 做淡入效果
+                observer.unobserve(img);
+            }
+        });
+    });
+
+    lazyImages.forEach(img => imageObserver.observe(img));
+});
 
     /** 關閉所有行動裝置子選單 (優化動畫) */
     const closeAllMobileSubmenus = (excludeLi = null) => {
