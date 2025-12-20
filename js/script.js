@@ -1,201 +1,170 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 完善版 V3.2
+ * 祥安生命網站核心腳本 (SA Life Core Script) - 最終修正版 V3.6
  * ====================================================================
  */
 
 'use strict';
 
-window.SALife = window.SALife || {};
-
 (function () {
     // ====================================================
-    // 0. 環境設定與常量 (提升到最頂層確保作用域)
+    // 0. 環境配置與快取
     // ====================================================
-    const MOBILE_BREAKPOINT = 900;
-    const SCROLL_THRESHOLD = 50;
-    const TRANSITION_DURATION_MS = 350;
-    const FIT_TEXT_SELECTOR = '.text-line-container span';
-    const TAB_MAP = ['buddhist-taoist', 'western', 'japen', 'eco', 'custom', 'comparison', 'united']; 
-    
-    // 元素快取 (一次性選取)
-    const header = document.querySelector('.main-header');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.getElementById('main-nav');
-    const body = document.body;
-    const backToTopButton = document.querySelector('.back-to-top');
-
-    // ====================================================
-    // A. 輔助函數 (性能優化)
-    // ====================================================
-    const isMobileView = () => window.innerWidth <= MOBILE_BREAKPOINT;
-
-    const debounce = (func, delay = 50) => {
-        let timeoutId = null;
-        return function (...args) {
-            if (timeoutId) clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                requestAnimationFrame(() => func.apply(this, args));
-            }, delay);
-        };
+    const CONFIG = {
+        MOBILE_BREAKPOINT: 901, // 配合 CSS 的 900px
+        RESIZE_DELAY: 250,
+        ANIMATION_EASING: 'cubic-bezier(0.4, 0, 0.2, 1)'
     };
 
-    const onTransitionEndCleanup = (el) => {
-        const handler = (e) => {
-            if (e.target !== el || (e.propertyName !== 'max-height' && e.propertyName !== 'opacity')) return;
-            if (el.style.maxHeight === '0px') {
-                el.style.removeProperty('max-height');
-                el.style.removeProperty('overflow');
+    const DOM = {
+        html: document.documentElement,
+        body: document.body,
+        menuToggle: document.querySelector('.menu-toggle'),
+        mainNav: document.getElementById('main-nav'),
+        dropdowns: document.querySelectorAll('.dropdown'),
+        dropdownLinks: document.querySelectorAll('.dropdown > a')
+    };
+
+    const isMobile = () => window.innerWidth < CONFIG.MOBILE_BREAKPOINT;
+
+    // ====================================================
+    // 1. 導覽系統控制 (Navigation Controller)
+    // ====================================================
+
+    /** 關閉並重置所有導覽狀態 */
+    const resetNavigation = () => {
+        if (!DOM.mainNav) return;
+        
+        DOM.mainNav.classList.remove('active');
+        if (DOM.menuToggle) {
+            DOM.menuToggle.classList.remove('active');
+            const icon = DOM.menuToggle.querySelector('i');
+            if (icon) {
+                icon.className = 'fas fa-bars'; // 強制恢復為漢堡圖示
             }
-            el.removeEventListener('transitionend', handler);
-        };
-        el.addEventListener('transitionend', handler);
-    };
-
-    // ====================================================
-    // B. 選單模組 (修正邏輯衝突點)
-    // ====================================================
-
-    /** 關閉主菜單與所有子選單 */
-    const closeMainMenu = () => {
-        if (!mainNav || !mainNav.classList.contains('active')) return;
-
-        mainNav.classList.remove('active');
-        if (menuToggle) {
-            menuToggle.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            const icon = menuToggle.querySelector('i');
-            if (icon) icon.classList.replace('fa-times', 'fa-bars');
         }
-        body.classList.remove('no-scroll');
-        
-        // 收起手機版所有展開的子選單
-        mainNav.querySelectorAll('li.dropdown.active').forEach(li => {
-            li.classList.remove('active');
-            const submenu = li.querySelector('.submenu-container, .submenu');
-            if (submenu) {
-                submenu.style.maxHeight = '0px';
-                onTransitionEndCleanup(submenu);
-            }
+        DOM.body.style.overflow = ''; // 恢復捲動
+
+        // 收合所有子選單並移除 active 類別
+        document.querySelectorAll('.submenu-container, .submenu').forEach(sub => {
+            sub.style.maxHeight = '0px';
         });
+        DOM.dropdowns.forEach(li => li.classList.remove('active'));
     };
 
-    /** 設置 RWD 菜單開關 (唯一控制來源) */
-    const setupRwdMenuToggle = () => {
-        if (!menuToggle || !mainNav) return;
+    /** 初始化行動版漢堡選單 */
+    const initMenuToggle = () => {
+        if (!DOM.menuToggle || !DOM.mainNav) return;
 
-        menuToggle.addEventListener('click', (e) => {
-            const isActive = mainNav.classList.contains('active');
-            if (!isActive) {
-                mainNav.classList.add('active');
-                menuToggle.classList.add('active');
-                menuToggle.setAttribute('aria-expanded', 'true');
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.classList.replace('fa-bars', 'fa-times');
-                if (isMobileView()) body.classList.add('no-scroll');
+        DOM.menuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isOpen = DOM.mainNav.classList.contains('active');
+            
+            if (!isOpen) {
+                DOM.mainNav.classList.add('active');
+                DOM.menuToggle.classList.add('active');
+                const icon = DOM.menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-times'; // 切換為 X 圖示
+                if (isMobile()) DOM.body.style.overflow = 'hidden'; // 鎖定背景
             } else {
-                closeMainMenu();
+                resetNavigation();
             }
-        });
-
-        // 點擊連結後自動關閉選單 (手機版)
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (isMobileView() && link.hash && link.hash !== '#') {
-                    setTimeout(closeMainMenu, 100);
-                }
-            });
         });
     };
 
-    /** 行動裝置子選單手風琴 */
-    const setupMobileAccordion = () => {
-        if (!mainNav) return;
-        mainNav.querySelectorAll('li.dropdown > a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (!isMobileView()) return;
-                
-                const parentLi = this.parentElement;
-                const submenu = parentLi.querySelector('.submenu-container, .submenu');
-                if (!submenu) return;
+    /** 行動版：子選單手風琴邏輯 (核心修正點) */
+    const initMobileAccordion = () => {
+        DOM.dropdownLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                // 只有在行動端寬度時攔截跳轉
+                if (isMobile()) {
+                    const parentLi = this.parentElement;
+                    const submenu = parentLi.querySelector('.submenu-container') || parentLi.querySelector('.submenu');
 
-                e.preventDefault(); // 防止手機版點擊父項目時直接跳轉
-                const isActive = parentLi.classList.contains('active');
+                    if (submenu) {
+                        e.preventDefault(); // 禁止 <a> 標籤跳轉
+                        e.stopPropagation();
 
-                // 關閉其他同層
-                parentLi.parentElement.querySelectorAll(':scope > li.active').forEach(li => {
-                    if (li !== parentLi) {
-                        li.classList.remove('active');
-                        const otherSub = li.querySelector('.submenu-container, .submenu');
-                        if (otherSub) otherSub.style.maxHeight = '0px';
+                        const isActive = parentLi.classList.contains('active');
+
+                        // 互斥效果：收起同層其他已展開的選單
+                        const siblingDropdowns = parentLi.parentElement.querySelectorAll('.dropdown.active');
+                        siblingDropdowns.forEach(sib => {
+                            if (sib !== parentLi) {
+                                sib.classList.remove('active');
+                                const sibSub = sib.querySelector('.submenu-container') || sib.querySelector('.submenu');
+                                if (sibSub) sibSub.style.maxHeight = '0px';
+                            }
+                        });
+
+                        // 切換當前選單展開/收合
+                        if (!isActive) {
+                            parentLi.classList.add('active');
+                            // 核心：scrollHeight 能計算出內容的原始高度 (px)
+                            submenu.style.maxHeight = submenu.scrollHeight + "px";
+                        } else {
+                            parentLi.classList.remove('active');
+                            submenu.style.maxHeight = '0px';
+                        }
                     }
-                });
-
-                if (!isActive) {
-                    parentLi.classList.add('active');
-                    submenu.style.maxHeight = submenu.scrollHeight + "px";
-                } else {
-                    parentLi.classList.remove('active');
-                    submenu.style.maxHeight = '0px';
                 }
             });
         });
     };
 
     // ====================================================
-    // C. 功能模組：對年計算、試算機、懶加載 (維持原邏輯並優化)
+    // 2. 視窗適配與性能 (Performance & Adaptability)
     // ====================================================
-    
-    // (保留你提供的 calculateLaborInsurance, calculateDuinian 等函式邏輯)
-    // ... 原有 Z 系列功能 ...
 
-    const setupLazyLoading = () => {
-        const lazyImages = document.querySelectorAll('.lazy-load');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) img.src = img.dataset.src;
-                    img.classList.add('fade-in');
-                    observer.unobserve(img);
+    /** 視窗縮放處理：防止 RWD 切換時樣式殘留 */
+    const initResizeHandler = () => {
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (!isMobile()) {
+                    resetNavigation();
+                    // 清除 JS 寫入的內聯樣式，讓 CSS hover 恢復運作
+                    document.querySelectorAll('.submenu-container, .submenu').forEach(sub => {
+                        sub.style.removeProperty('max-height');
+                    });
                 }
-            });
+            }, CONFIG.RESIZE_DELAY);
         });
-        lazyImages.forEach(img => observer.observe(img));
     };
 
-    // ====================================================
-    // D. 總初始化 (DOMContentLoaded)
-    // ====================================================
-    const init = () => {
-        // 移除 FOUC
-        document.documentElement.classList.remove('js-loading');
-        
-        // 啟動各個模組
-        setupRwdMenuToggle();
-        setupMobileAccordion();
-        setupLazyLoading();
-        
-        // 視窗縮放清理
-        window.addEventListener('resize', debounce(() => {
-            if (!isMobileView()) {
-                closeMainMenu();
-                document.querySelectorAll('.submenu-container, .submenu').forEach(el => {
-                    el.style.removeProperty('max-height');
-                });
+    /** 修正標題與長文字不換行 */
+    const initFitText = () => {
+        const fitLines = document.querySelectorAll('.fit-text-line');
+        fitLines.forEach(line => {
+            const container = line.parentElement;
+            if (container && line.offsetWidth > container.offsetWidth) {
+                const ratio = container.offsetWidth / line.offsetWidth;
+                line.style.fontSize = (ratio * 95) + '%';
+                line.style.display = 'block';
             }
-        }, 200));
-
-        // 啟動試算機按鈕監聽 (如果你 HTML 裡有按鈕)
-        if (window.SALife.setupDuinianCalculator) window.SALife.setupDuinianCalculator();
-        
-        console.log('祥安生命核心 V3.2 已就緒');
+        });
     };
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    // ====================================================
+    // 3. 系統初始化 (System Startup)
+    // ====================================================
+    const boot = () => {
+        // 移除 CSS 的加載預防機制
+        DOM.html.classList.remove('js-loading');
+        
+        initMenuToggle();
+        initMobileAccordion();
+        initResizeHandler();
+        initFitText();
 
+        console.log('祥安生命核心系統 V3.6 載入完畢');
+    };
+
+    // 啟動監聽
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
 })();
