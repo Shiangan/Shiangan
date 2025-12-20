@@ -196,6 +196,26 @@
             margin-bottom: 25px;
         }
 
+@media (max-width: 991px) {
+    #main-nav {
+        display: block !important; 
+        position: fixed;
+        top: 0;
+        /* 💡 這裡最重要：一定要是 -100% 才會藏在右邊外面 */
+        right: -100%; 
+        width: 300px;
+        height: 100vh;
+        z-index: 9999;
+        transition: right 0.4s ease; /* 讓它滑動進來 */
+    }
+
+    /* 💡 只有當 active 類別存在時，才讓它變為 0 (顯示) */
+    #main-nav.active {
+        right: 0 !important;
+    }
+}
+
+
 
 
 /* 基本重置 */
@@ -635,11 +655,7 @@ blockquote {
 //* 💻 桌面版導覽 (min-width: 992px) */
 /* ==================================================== */
 @media screen and (min-width: 992px) {
-    .menu-toggle, .nav-overlay { display: none !important; }
-
-    #main-nav {
-        display: block !important;
-        position: static !important;
+    .menu-toggle, .nav-overlay { display: none !;
     }
 
     #main-nav ul {
@@ -647,6 +663,17 @@ blockquote {
         align-items: center;
         gap: 20px;
     }
+ @media (min-width: 992px) {
+    #main-nav {
+        /* 💡 桌面版必須恢復成 static，不要固定在旁邊 */
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        display: block !important;
+        box-shadow: none !important;
+    }
+}
+
 
     /* 一級選單 */
     .dropdown { position: relative; }
