@@ -393,6 +393,161 @@ main {
 /* ---------------------------------------------------- */
 /* 【桌面版】下拉選單質感優化 */
 /* ---------------------------------------------------- */
+/* ====================================================
+   祥安生命 - 導覽列 UI 核心樣式 (CSS 整合修正版)
+   ==================================================== */
+
+/* --- 1. 桌面版 (Desktop: > 991px) --- */
+@media (min-width: 992px) {
+    .main-nav ul {
+        display: flex;
+        align-items: center;
+    }
+
+    .has-dropdown {
+        position: relative;
+    }
+
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 240px;
+        background-color: #fff; /* 建議使用明確顏色或變數 */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        border-top: 4px solid var(--accent-color);
+        list-style: none;
+        padding: 10px 0;
+        z-index: 100;
+        
+        /* 桌面預設隱藏屬性 */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* 桌面 Hover 效果 */
+    .has-dropdown:hover > .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .has-dropdown:hover > a i.fa-chevron-down {
+        transform: rotate(180deg);
+    }
+}
+
+/* --- 2. 手機版 (Mobile: <= 991px) --- */
+@media (max-width: 991px) {
+    /* 選單開合容器 */
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* 預設在右側外面 */
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background-color: #fff;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        padding-top: 80px;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        overflow-y: auto;
+        display: block !important; /* 蓋掉桌面的 flex */
+    }
+
+    .main-nav.active {
+        right: 0;
+    }
+
+    /* 漢堡按鈕顯示 */
+    .menu-toggle {
+        display: block;
+        position: relative;
+        z-index: 1001;
+    }
+
+    /* 手機版子選單 (關鍵：配合 JS 的 maxHeight) */
+    .main-nav .submenu {
+        display: block !important; /* 必須為 block 讓 JS 算高度 */
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border-top: none;
+        background-color: rgba(0, 0, 0, 0.03); /* 淡淡背景色區隔 */
+        padding: 0;
+        
+        /* 動態動畫屬性 */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+
+    /* 當 JS 觸發 active 類名時 */
+    .has-dropdown.active > .submenu {
+        opacity: 1;
+        border-left: 3px solid var(--accent-color);
+    }
+
+    .has-dropdown.active > a i.fa-chevron-down {
+        transform: rotate(180deg);
+    }
+
+    /* 手機版連結間距縮進 */
+    .submenu a {
+        padding: 12px 30px !important;
+    }
+}
+
+/* --- 3. 通用細節樣式 --- */
+.submenu li {
+    width: 100%;
+}
+
+.submenu a {
+    color: var(--text-dark);
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.submenu a:hover, 
+.submenu a:focus-visible {
+    background-color: var(--primary-color);
+    color: #fff;
+    outline: none;
+}
+
+/* 選單內的標題與分隔線 */
+.submenu-title {
+    font-weight: 700;
+    color: var(--accent-color);
+    padding: 12px 20px 5px;
+    font-size: 0.85rem;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.submenu-separator {
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 20px;
+}
+
+/* 箭頭旋轉過渡 */
+.fa-chevron-down {
+    transition: transform 0.3s ease;
+    margin-left: 5px;
+    font-size: 0.8rem;
+}
+
 @media screen and (min-width: 901px) {
     .submenu {
         position: absolute;
