@@ -51,7 +51,39 @@
     --breakpoint-mobile: 576px; 
     --breakpoint-tablet: 900px; 
     --breakpoint-mid: 680px; 
+
+
+    /* 補齊後半段需要的映射變數 */
+    --color-primary: var(--primary-color);
+    --color-accent: var(--accent-color);
+    --color-border: var(--border-color);
+    --color-text-dark: var(--text-dark);
+    --color-text-medium: var(--secondary-color);
+    --color-light-gray: #f5f5f5;
+    --radius-default: 8px;
+    --shadow-subtle: 0 2px 5px rgba(0,0,0,0.05);
+    --shadow-medium: 0 4px 15px rgba(0,0,0,0.1);
+
 }
+
+/* SEO 輔助：螢幕閱讀器專用 (不影響視覺但利於 Index) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* 改善 CLS (累計佈局位移) */
+img {
+    aspect-ratio: attr(width) / attr(height);
+    background-color: var(--bg-light); /* 圖片載入前的底色 */
+}
+
 
 /* 1. 基礎重置與優化 */
 *, *::before, *::after {
@@ -387,40 +419,282 @@ blockquote {
     border: none; color: white; font-size: 18px; cursor: pointer; z-index: 2001;
     transition: background-color 0.2s, transform 0.2s;
 }
-.close-btn:hover { background: var(--color-accent); transform: rotate(90deg); }
+.close-btn:hover { background: var(--color-accent); transform: rotate(/* ========================================================= */
+/* 💎 SA Life 祥安生命 - 核心樣式系統 V4.2 (終極優化版)        */
+/* ========================================================= */
 
+:root {
+    /* --- 🏆 品牌色系與基礎定義 --- */
+    --primary-color: #1e3a6a;    
+    --primary-dark: #12213b;     
+    --accent-color: #ce9d4a;     
+    --secondary-color: #4a5c78;  
+    
+    --text-dark: #2c2c2c;
+    --text-light: #ffffff;
+    --bg-light: #f9f9f9; 
+    --border-color: #e8e8e8;
+    --shadow-color: rgba(0, 0, 0, 0.08);
 
-/* --- 4. RWD 響應式設計 (優化斷點) --- */
+    /* --- 🔗 後半段組件映射變數 (修復變數斷點) --- */
+    --color-primary: var(--primary-color);
+    --color-accent: var(--accent-color);
+    --color-border: var(--border-color);
+    --color-text-dark: var(--text-dark);
+    --color-text-medium: var(--secondary-color);
+    --color-light-gray: #f5f5f5;
+    --radius-default: 10px;
+    --shadow-subtle: 0 2px 8px var(--shadow-color);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+    /* --- 📐 佈局與字體 --- */
+    --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
+    --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    --header-height: 80px;
+    --content-max-width: 1200px;
+    --transition-standard: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 1. 全域效能優化與重置 */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    color: var(--text-dark);
+    background-color: var(--text-light);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* 🏆 防止佈局跳動 (SEO 優化) */
+img, video { 
+    max-width: 100%; 
+    height: auto; 
+    content-visibility: auto; 
+}
+
+/* 2. 目錄與標籤系統 (Sticky Directory) */
+.plan-directory {
+    position: sticky;
+    top: 0; 
+    z-index: 1000;
+    background: #ffffff; 
+    padding: 15px 0 0 0;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.plan-tabs { 
+    display: flex; 
+    justify-content: center; 
+    border-bottom: 2px solid var(--color-border);
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+}
+
+.tab-button {
+    padding: 15px 25px; 
+    cursor: pointer; 
+    border: none; 
+    background: transparent; 
+    font-size: 1.05rem; 
+    font-weight: 600;
+    color: var(--color-text-medium);
+    border-bottom: 3px solid transparent; 
+    transition: var(--transition-standard);
+    position: relative;
+    top: 2px;
+}
+
+.tab-button:hover:not(.active) {
+    color: var(--color-primary);
+}
+
+.tab-button.active { 
+    color: var(--color-primary); 
+    border-bottom-color: var(--color-primary); 
+}
+
+/* 特別突出的燈箱按鈕 */
+.button-accent {
+    background: var(--color-accent); 
+    color: white; 
+    padding: 10px 24px;
+    border-radius: 50px; 
+    margin-left: 20px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(206, 157, 74, 0.3);
+    align-self: center;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-standard);
+}
+
+.button-accent:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(206, 157, 74, 0.4);
+}
+
+/* 3. 內容排版系統 (Content & Tables) */
+.plan-tab-content-wrapper {
+    background: white;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    border: 1px solid var(--color-border);
+    border-top: none;
+}
+
+.plan-tab-content { 
+    padding: 60px 40px; 
+}
+
+.plan-tab-content h3 {
+    text-align: center;
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    color: var(--color-primary);
+    margin-bottom: 40px;
+    font-family: var(--font-serif);
+}
+
+/* 🏆 優化表格：提升行動端 Index 抓取力 */
+.service-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 30px 0; 
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-default);
+    overflow: hidden; /* 確保圓角生效 */
+}
+
+.service-table th {
+    background-color: var(--color-light-gray);
+    color: var(--color-text-dark);
+    font-weight: 700;
+    text-align: left;
+    padding: 18px 20px;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.table-header-group th { 
+    background-color: var(--color-primary); 
+    color: white; 
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.service-table td { 
+    padding: 16px 20px; 
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.service-table tr:nth-child(even) td {
+    background-color: #fafafa;
+}
+
+/* 4. Modal 彈窗系統 */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    display: none; justify-content: center; align-items: center; 
+    z-index: 9999; opacity: 0;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active { opacity: 1; display: flex; }
+
+.modal-content { 
+    background: white; border-radius: 15px; 
+    max-width: 900px; width: 95%; max-height: 85vh; 
+    overflow-y: auto; position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content { transform: translateY(0); }
+
+.close-btn {
+    position: absolute; top: 15px; right: 15px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(0,0,0,0.1); border: none; cursor: pointer;
+    font-size: 20px; transition: 0.2s;
+}
+
+.close-btn:hover { background: var(--color-accent); color: white; transform: rotate(90deg); }
+
+/* 5. 🚀 終極 RWD 響應式策略 */
 
 @media (max-width: 1024px) {
-    /* 調整平板斷點，讓 Tab 在 1024px 以下變成兩列 */
-    .plan-tabs { flex-wrap: wrap; border-bottom: none; justify-content: space-between; }
-    .tab-button:not(.button-accent) { /* 🌟 優化：使用 .tab-button */
-        flex: 1 1 48%; 
-        margin: 5px 0;
-        font-size: 1rem;
-        border: 1px solid var(--color-border);
-        box-shadow: var(--shadow-subtle);
-        background: white;
+    .plan-tabs { 
+        flex-wrap: wrap; 
+        padding: 0 10px;
     }
+    
+    .tab-button:not(.button-accent) {
+        flex: 1 1 48%; 
+        margin: 4px;
+        padding: 12px;
+        font-size: 0.95rem;
+        background: #fdfdfd;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        text-align: center;
+    }
+
     .button-accent {
         flex: 1 1 100%; 
-        margin: 10px 0 5px 0;
-        font-size: 1rem;
-        padding: 12px;
+        margin: 8px 4px 15px 4px;
+        text-align: center;
     }
+
+    /* 🛡 表格 RWD 滾動保護 */
+    .plan-tab-content {
+        overflow-x: hidden;
+    }
+
     .plan-tab-content table {
         display: block;
         width: 100%;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        /* 增加陰影提示右側可滾動 */
+        background: linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+                    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,0.1), rgba(0,0,0,0));
+        background-repeat: no-repeat;
+        background-size: 40px 100%, 10px 100%;
     }
-    .service-table { min-width: 900px; }
+    
+    .service-table { min-width: 750px; } /* 平板端最小寬度限制 */
 }
 
 @media (max-width: 600px) {
-    /* 手機斷點 */
-    .plan-page-container { padding: 0; margin-top: 20px; }
-    .plan-directory { padding-top: 10px; border-radius: 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
-    .plan-tab-content { padding: 20px 15px; }
-    .plan-tab-content-wrapper { border-radius: 0; box-shadow: none; border: none; }
+    :root { --header-height: 65px; }
+    
+    .plan-tab-content { padding: 30px 15px; }
+    
+    .tab-button:not(.button-accent) {
+        flex: 1 1 100%; /* 手機端標籤全寬 */
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    .plan-tab-content h3 { font-size: 1.5rem; }
+}
+
+/* SEO 專用：隱藏但不影響爬蟲 */
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
