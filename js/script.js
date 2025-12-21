@@ -1,19 +1,19 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 旗艦究極整合版 V5.5
+ * 祥安生命網站核心腳本 (SA Life Core Script) - 旗艦究極整合版 V5.7
  * 更新日期：2025/12/21
- * 修正項目：
- * 1. iOS Safari 滾動穿透毀滅性修正 (Fixed Overlay 方案)
- * 2. 試算機：勞保級距動態校正與遺屬建議邏輯
- * 3. 試算機：對年日期精確解析（防跨時區誤差）
- * 4. 導覽：手風琴互斥開合邏輯優化
- * 5. 效能：ResizeObserver 取代舊式 Debounce Resize
+ * * [功能整合清單]
+ * 1. 導覽系統：支援多級選單、手風琴互斥開合、點擊外部收合。
+ * 2. 行動優化：徹底修正 iOS Safari 滾動穿透 (Fixed Overlay 方案)。
+ * 3. 勞保試算：動態校正 2025 投保薪資級距與遺屬建議邏輯。
+ * 4. 對年計算：精確日期解析，自動處理 2025 閏月習俗提醒。
+ * 5. 效能引擎：ResizeObserver 字體自適應、防抖動滾動偵測。
  * ====================================================================
  */
 
 'use strict';
 
-// 建立全域命名空間，防止與其他插件衝突
+// 建立全域命名空間
 window.SALife = window.SALife || {};
 
 // ====================================================
@@ -63,13 +63,23 @@ window.SALife.calculateLaborInsurance = function() {
     if (hasSurvivor === 'yes') {
         recommendationText = `
             ${salaryNote}
-            <div class="result-item">✅ <strong>喪葬津貼 (一次金)：</strong> <span class="price">${formatCurrency(funeralAllowance)}</span> (${allowanceMonths}個月)</div>
-            <p class="advice">⚠️ <strong>專業建議：</strong> 由於有符合資格之遺屬，建議優先評估「遺屬年金」，其領取總額通常遠高於一次性喪葬津貼。</p>
+            <div class="result-item" style="margin-bottom:10px;">
+                ✅ <strong>喪葬津貼 (一次金)：</strong> 
+                <span class="price" style="color:#bfa15d; font-size:1.4em; font-weight:bold;">${formatCurrency(funeralAllowance)}</span> 
+                (${allowanceMonths}個月)
+            </div>
+            <p class="advice" style="background:#f9f9f9; padding:10px; border-left:4px solid #bfa15d; font-size:0.95em;">
+                ⚠️ <strong>專業建議：</strong> 由於有符合資格之遺屬，建議優先評估「遺屬年金」，其領取總額通常遠高於一次性喪葬津貼。
+            </p>
         `;
     } else {
         recommendationText = `
             ${salaryNote}
-            <div class="result-item">✅ <strong>喪葬津貼：</strong> <span class="price">${formatCurrency(funeralAllowance)}</span> (${allowanceMonths}個月)</div>
+            <div class="result-item">
+                ✅ <strong>喪葬津貼：</strong> 
+                <span class="price" style="color:#bfa15d; font-size:1.4em; font-weight:bold;">${formatCurrency(funeralAllowance)}</span> 
+                (${allowanceMonths}個月)
+            </div>
             <p class="advice">因無符合資格之遺屬，應請領此筆 10 個月的喪葬津貼。</p>
         `;
     }
@@ -89,21 +99,18 @@ window.SALife.setupDuinianCalculator = function() {
         const solarDateStr = document.getElementById('dateOfDeath').value;
         if (!solarDateStr) { alert('請選擇往生日期。'); return; }
 
-        // 核心修正：手動解析 YYYY-MM-DD 字串，避免瀏覽器因時區判定成前一天
         const parts = solarDateStr.split('-');
         const year = parseInt(parts[0], 10);
         const month = parseInt(parts[1], 10);
         const day = parseInt(parts[2], 10);
 
-        // 模擬農曆對年邏輯 (傳統：農曆次年同月同日)
-        // 注意：2025 為閏六月，若在農曆六月後需特殊處理
+        // 2025 閏六月處理邏輯
         const isLeapYearInFuneral = (year === 2025); 
         let dYear = year + 1;
         let dMonth = month;
         let note = '本次計算為正常年度，不涉及閏月處理。';
 
         if (isLeapYearInFuneral && month > 6) {
-            // 簡略邏輯：遇閏月對年需提前一個月
             dMonth -= 1;
             if (dMonth <= 0) { dMonth = 12; dYear -= 1; }
             note = '<strong>⚠️ 閏月習俗提醒：</strong> 治喪期間遇閏月，按傳統習俗對年需<strong>提前一個月</strong>，此計算已自動應用。';
@@ -114,23 +121,24 @@ window.SALife.setupDuinianCalculator = function() {
         const noteDisplay = document.getElementById('duinianNote');
 
         if(lunarDisplay) lunarDisplay.innerHTML = `<strong>陽曆：</strong> ${solarDateStr} &nbsp; | &nbsp; <strong>農曆估算：</strong> ${year}年${month}月${day}日`;
-        if(duinianDisplay) duinianDisplay.innerHTML = `<strong>建議對年日期：</strong> <span class="highlight">${dYear}年${dMonth}月${day}日</span>`;
-        if(noteDisplay) noteDisplay.innerHTML = `${note}<br><span class="alert-text">🚨 注意：此為自動化估算，請務必與禮儀師核對農民曆確定最終日期。</span>`;
+        if(duinianDisplay) duinianDisplay.innerHTML = `<strong>建議對年日期：</strong> <span class="highlight" style="color:#e67e22; font-weight:bold; font-size:1.2em;">${dYear}年${dMonth}月${day}日</span>`;
+        if(noteDisplay) noteDisplay.innerHTML = `${note}<br><span class="alert-text" style="color:#d9534f; font-size:0.85em;">🚨 注意：此為自動化估算，請務必與禮儀師核對農民曆確定最終日期。</span>`;
         
         const output = document.getElementById('resultOutput');
         if (output) {
             output.classList.remove('hidden');
+            output.style.display = 'block';
             output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     });
 };
 
 // ====================================================
-// 3. 核心系統啟動與導覽 (Core System & Nav)
+// 3. 核心系統：導覽、選單與效能 (Core Engine)
 // ====================================================
 (function () {
     const CONFIG = {
-        MOBILE_BREAKPOINT: 991, // 調整至一般平板常用斷點
+        MOBILE_BREAKPOINT: 991,
         SCROLL_THRESHOLD: 80,
         SMOOTH_OFFSET: 100
     };
@@ -140,6 +148,7 @@ window.SALife.setupDuinianCalculator = function() {
         body: document.body,
         header: document.querySelector('.main-header'),
         menuToggle: document.querySelector('.menu-toggle'),
+        navContainer: document.querySelector('.nav-container'),
         mainNav: document.querySelector('#main-nav'),
         dropdowns: document.querySelectorAll('.has-dropdown'),
         backToTop: document.querySelector('.back-to-top')
@@ -151,7 +160,7 @@ window.SALife.setupDuinianCalculator = function() {
         isMobile: () => window.innerWidth < CONFIG.MOBILE_BREAKPOINT
     };
 
-    // --- A. iOS 深度滾動鎖定 (最強解決方案) ---
+    // --- A. iOS 深度滾動鎖定 (防止開啟選單時底層頁面滾動) ---
     const toggleScrollLock = (lock) => {
         if (lock) {
             state.scrollLockY = window.pageYOffset;
@@ -170,7 +179,7 @@ window.SALife.setupDuinianCalculator = function() {
         }
     };
 
-    // --- B. 導覽邏輯 ---
+    // --- B. 導覽列與選單呈現邏輯 ---
     const resetNavigation = () => {
         state.isNavOpen = false;
         DOM.mainNav?.classList.remove('active');
@@ -188,7 +197,7 @@ window.SALife.setupDuinianCalculator = function() {
     };
 
     const initNavigation = () => {
-        // 漢堡按鈕觸發
+        // 漢堡鈕觸發
         DOM.menuToggle?.addEventListener('click', (e) => {
             e.preventDefault();
             const isOpen = DOM.mainNav.classList.contains('active');
@@ -205,11 +214,13 @@ window.SALife.setupDuinianCalculator = function() {
             }
         });
 
-        // 行動版二級選單 (手風琴互斥)
+        // 處理所有下拉選單
         DOM.dropdowns.forEach(li => {
             const link = li.querySelector('a');
+            
+            // 點擊處理
             link?.addEventListener('click', (e) => {
-                if (!state.isMobile()) return;
+                if (!state.isMobile()) return; // 桌機版走 Hover
                 
                 const sub = li.querySelector('.submenu');
                 if (!sub) return;
@@ -217,7 +228,7 @@ window.SALife.setupDuinianCalculator = function() {
                 e.preventDefault();
                 const isActive = li.classList.contains('active');
 
-                // 互斥：關閉其他同級選單
+                // 互斥開合：關閉其他選單
                 DOM.dropdowns.forEach(other => {
                     if (other !== li) {
                         other.classList.remove('active');
@@ -226,7 +237,7 @@ window.SALife.setupDuinianCalculator = function() {
                     }
                 });
 
-                // 切換當前選單
+                // 切換當前選單高度 (實現平滑過渡)
                 if (!isActive) {
                     li.classList.add('active');
                     sub.style.maxHeight = sub.scrollHeight + "px";
@@ -235,17 +246,31 @@ window.SALife.setupDuinianCalculator = function() {
                     sub.style.maxHeight = null;
                 }
             });
+
+            // 桌機版滑鼠滑入補強
+            li.addEventListener('mouseenter', () => {
+                if (!state.isMobile()) {
+                    const sub = li.querySelector('.submenu');
+                    if (sub) sub.style.maxHeight = sub.scrollHeight + "px";
+                }
+            });
+            li.addEventListener('mouseleave', () => {
+                if (!state.isMobile()) {
+                    const sub = li.querySelector('.submenu');
+                    if (sub) sub.style.maxHeight = null;
+                }
+            });
         });
 
-        // 點擊外部區域自動收合
+        // 點擊導覽列外部收合
         document.addEventListener('click', (e) => {
-            if (state.isNavOpen && !DOM.mainNav.contains(e.target) && !DOM.menuToggle.contains(e.target)) {
+            if (state.isNavOpen && !DOM.navContainer?.contains(e.target) && !DOM.menuToggle?.contains(e.target)) {
                 resetNavigation();
             }
         });
     };
 
-    // --- C. 高效能輔助功能 ---
+    // --- C. 平滑滾動與 Scroll 事件 ---
     const initScrollEffects = () => {
         let ticking = false;
         window.addEventListener('scroll', () => {
@@ -260,13 +285,13 @@ window.SALife.setupDuinianCalculator = function() {
             }
         }, { passive: true });
 
-        // 平滑滾動錨點
+        // 全域錨點平滑滾動
         document.addEventListener('click', (e) => {
             const anchor = e.target.closest('a[href^="#"]:not([href="#"])');
             if (anchor) {
-                e.preventDefault();
                 const target = document.querySelector(anchor.hash);
                 if (target) {
+                    e.preventDefault();
                     const top = target.getBoundingClientRect().top + window.scrollY - CONFIG.SMOOTH_OFFSET;
                     window.scrollTo({ top, behavior: 'smooth' });
                     if (state.isNavOpen) resetNavigation();
@@ -275,8 +300,8 @@ window.SALife.setupDuinianCalculator = function() {
         });
     };
 
+    // --- D. 標題文字自動適應 (Fit Text) ---
     const initFitText = () => {
-        // 使用 ResizeObserver 達成響應式標題縮放，效能優於 window.resize
         if (!window.ResizeObserver) return;
         const observer = new ResizeObserver(entries => {
             entries.forEach(entry => {
@@ -293,30 +318,32 @@ window.SALife.setupDuinianCalculator = function() {
         document.querySelectorAll('.fit-container').forEach(c => observer.observe(c));
     };
 
-    // --- D. 啟動與初始化 ---
+    // --- E. 初始化啟動程序 ---
     const boot = () => {
-        // 移除載入狀態
+        // 更新狀態類別
         DOM.html.classList.replace('js-loading', 'js-ready');
         
+        // 啟動功能模組
         initNavigation();
         initScrollEffects();
         initFitText();
         
-        // 初始化特定頁面組件
+        // 啟動外部頁面組件
         window.SALife.setupDuinianCalculator();
         
-        // 更新頁腳版權年份
+        // 頁腳年份
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // 監聽螢幕旋轉/縮放，重置導覽狀態避免 UI 鎖死
+        // 視窗縮放重置選單
         window.addEventListener('resize', () => {
             if (!state.isMobile() && state.isNavOpen) resetNavigation();
         });
 
-        console.log('%cSA LIFE V5.5 | 旗艦整合版啟動成功', 'background:#bfa15d; color:white; padding:4px 10px; border-radius:3px; font-family: sans-serif;');
+        console.log('%cSA LIFE V5.7 | 旗艦整合版啟動成功', 'background:#bfa15d; color:white; padding:4px 10px; border-radius:3px; font-weight:bold;');
     };
 
+    // 確保 DOM 載入後執行
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', boot);
     } else {
