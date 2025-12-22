@@ -48,22 +48,24 @@
     });
 
     // 「兩段式點擊」：手機版展開子選單邏輯
-    DOM.dropdowns.forEach(li => {
-        const toggleBtn = li.querySelector('.dropdown-toggle');
-        toggleBtn?.addEventListener('click', function(e) {
-            if (window.innerWidth <= 991) {
-                // 如果該選單還沒被打開，則攔截跳轉並展開
-                if (!li.classList.contains('active')) {
-                    e.preventDefault(); 
-                    DOM.dropdowns.forEach(item => {
-                        if (item !== li) item.classList.remove('active');
-                    });
-                    li.classList.add('active');
-                }
-                // 如果已經是 active，第二次點擊會正常執行 <a> 的跳轉
+// 手機版子選單展開邏輯
+DOM.dropdowns.forEach(li => {
+    const link = li.querySelector('.dropdown-toggle');
+    link?.addEventListener('click', function(e) {
+        if (window.innerWidth <= 991) {
+            // 檢查是否已經開啟，若無則展開並攔截跳轉
+            if (!li.classList.contains('active')) {
+                e.preventDefault();
+                // 關閉其他已展開的子選單 (Accordion 效果)
+                DOM.dropdowns.forEach(other => {
+                    if (other !== li) other.classList.remove('active');
+                });
+                li.classList.add('active');
             }
-        });
+        }
     });
+});
+
 
     // 滾動時 Header 變色
     window.addEventListener('scroll', () => {
