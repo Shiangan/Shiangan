@@ -1,61 +1,89 @@
 /**
  * 祥安生命 官方網站核心腳本 V6.5 (2025 終極整合版)
- * 修正內容：手機選單點擊、閏月日期溢位、試算機邏輯
+ * 整合內容：手機選單防呆、2025 閏月日期校正、勞保試算、UI 交互優化
  */
 
 'use strict';
 
 (function() {
-    // --- 1. 導覽系統核心 ---
+    // --- 1. 導覽系統與 UI 控制 ---
     const DOM = {
         header: document.querySelector('.main-header'),
         menuToggle: document.getElementById('menu-toggle'),
         mainNav: document.getElementById('main-nav'),
+        navOverlay: document.getElementById('navOverlay'), // 確保 HTML 有這個 div
         dropdowns: document.querySelectorAll('.has-dropdown'),
         yearSpan: document.getElementById('current-year')
     };
 
+    // 切換選單狀態
     const toggleMenu = (forceClose = false) => {
         const isOpen = forceClose ? false : !DOM.mainNav.classList.contains('active');
+        
         DOM.mainNav.classList.toggle('active', isOpen);
         DOM.menuToggle.classList.toggle('active', isOpen);
         DOM.menuToggle.setAttribute('aria-expanded', isOpen);
-        document.body.style.overflow = isOpen ? 'hidden' : ''; // 避免選單打開時後方滾動
+        
+        if (DOM.navOverlay) {
+            DOM.navOverlay.classList.toggle('active', isOpen);
+        }
+        
+        // 鎖定身體捲動，防止選單開啟時後方頁面滑動
+        document.body.style.overflow = isOpen ? 'hidden' : '';
     };
 
+    // 監聽漢堡按鈕
     if (DOM.menuToggle) {
-        DOM.menuToggle.addEventListener('click', () => toggleMenu());
+        DOM.menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
     }
 
-    // 「兩段式點擊」：手機版點擊母選單先展開，再點一次才跳轉
+    // 點擊 Overlay 或選單外區域自動關閉
+    document.addEventListener('click', (e) => {
+        if (DOM.mainNav.classList.contains('active') && !DOM.mainNav.contains(e.target)) {
+            toggleMenu(true);
+        }
+    });
+
+    // 「兩段式點擊」：手機版展開子選單邏輯
     DOM.dropdowns.forEach(li => {
         const toggleBtn = li.querySelector('.dropdown-toggle');
         toggleBtn?.addEventListener('click', function(e) {
             if (window.innerWidth <= 991) {
+                // 如果該選單還沒被打開，則攔截跳轉並展開
                 if (!li.classList.contains('active')) {
-                    e.preventDefault(); // 攔截跳轉
-                    DOM.dropdowns.forEach(item => item.classList.remove('active')); // 關閉其他
-                    li.classList.add('active'); // 展開當前
+                    e.preventDefault(); 
+                    DOM.dropdowns.forEach(item => {
+                        if (item !== li) item.classList.remove('active');
+                    });
+                    li.classList.add('active');
                 }
+                // 如果已經是 active，第二次點擊會正常執行 <a> 的跳轉
             }
         });
     });
 
-    // 捲動效果
+    // 滾動時 Header 變色
     window.addEventListener('scroll', () => {
-        DOM.header?.classList.toggle('scrolled', window.scrollY > 50);
+        if (window.scrollY > 50) {
+            DOM.header?.classList.add('scrolled');
+        } else {
+            DOM.header?.classList.remove('scrolled');
+        }
     }, { passive: true });
 
-    // --- 2. 2025 對年計算機 (修正日期溢位問題) ---
+    // --- 2. 2025 對年計算機 (修正日期溢位) ---
     window.calculateDuinian = function() {
         const input = document.getElementById('dateOfDeath')?.value;
         const resArea = document.getElementById('resultOutput');
-        if (!input || !resArea) return alert('請選擇日期');
+        if (!input || !resArea) return;
 
         let [y, m, d] = input.split('-').map(Number);
         let dy = y + 1;
         let dm = m;
-        let note = "一般對年估算：往生後的一週年（對年）。";
+        let note = "一般對年估算：往生後的一週年。";
 
         // 2025 閏六月傳統習俗校正
         if (y === 2025 && m > 6) {
@@ -64,17 +92,17 @@
             note = "⚠️ 偵測到 2025 閏六月，按傳統習俗對年需「提前一個月」計算。";
         }
 
-        // 處理特殊日期（如 2/31 變 2/28）
+        // 處理日期溢位 (例如 2/31 自動轉為 2/28)
         let target = new Date(dy, dm - 1, d);
         if (target.getMonth() !== dm - 1) {
-            target = new Date(dy, dm, 0); // 取該月最後一天
+            target = new Date(dy, dm, 0); 
         }
 
         resArea.innerHTML = `
-            <div class="res-box" style="border-left:5px solid #bfa15d; padding:15px; background:#f4f4f4;">
-                <p>${note}</p>
-                <h3 style="color:#bfa15d; margin:5px 0;">建議對年日期：${target.getFullYear()}年${target.getMonth()+1}月${target.getDate()}日</h3>
-                <small style="color:#888;">*此為自動估算，精確日期請與禮儀師核對農民曆。*</small>
+            <div class="res-box" style="border-left:5px solid #bfa15d; padding:15px; background:#f9f9f9; margin-top:15px;">
+                <p style="margin:0; font-size:0.9rem; color:#666;">${note}</p>
+                <h3 style="color:#bfa15d; margin:10px 0;">建議對年日期：${target.getFullYear()}年${target.getMonth()+1}月${target.getDate()}日</h3>
+                <small style="color:#999;">*精確日子建議仍須由禮儀師核對農民曆。*</small>
             </div>
         `;
         resArea.classList.remove('hidden');
@@ -83,24 +111,27 @@
     // --- 3. 勞保喪葬給付試算 ---
     window.calculateLabor = function() {
         const salary = parseFloat(document.getElementById('avgSalary')?.value);
-        const survivor = document.getElementById('hasSurvivor')?.value;
+        const survivor = document.getElementById('hasSurvivor')?.value; // yes/no
         const resArea = document.getElementById('laborResult');
         if (!salary || !resArea) return;
 
-        const finalSalary = Math.min(Math.max(salary, 27470), 45800);
+        // 自動套用目前勞保上限與下限級距 (2025 參考值)
+        const finalSalary = Math.min(Math.max(salary, 28590), 45800);
         const months = (survivor === 'yes') ? 5 : 10;
         const total = finalSalary * months;
 
         resArea.innerHTML = `
-            <div style="margin-top:10px; padding:15px; background:#fffbe6; border:1px solid #ffe58f;">
-                <p style="margin:0;">預估給付：<strong style="font-size:1.4rem; color:#d48806;">NT$ ${total.toLocaleString()}</strong></p>
-                <p style="font-size:0.8rem; color:#888; margin:5px 0 0;">(依投保薪資級距 ${finalSalary.toLocaleString()} 元計算)</p>
+            <div style="margin-top:15px; padding:15px; background:#fffbe6; border:1px solid #ffe58f; border-radius:4px;">
+                <p style="margin:0; color:#856404;">預估最高給付金額：</p>
+                <strong style="font-size:1.5rem; color:#d48806;">NT$ ${total.toLocaleString()}</strong>
+                <p style="font-size:0.8rem; color:#999; margin-top:5px;">(依月投保薪資級距 ${finalSalary.toLocaleString()} 元估算)</p>
             </div>
         `;
     };
 
-    // 版權年份自動更新
+    // 版權年份與頁面初始化
     if (DOM.yearSpan) DOM.yearSpan.textContent = new Date().getFullYear();
+    document.body.classList.remove('js-loading');
 
-    console.log("祥安生命 V6.5 核心載入完畢");
+    console.log("%c祥安生命 V6.5 腳本已完成整合部署", "color: #bfa15d; font-weight: bold;");
 })();
