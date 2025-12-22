@@ -1,10 +1,12 @@
 /* =========================================================================
  * 完整修正與優化後的 CSS 程式碼
- * - 修正了流程圖 RWD 邏輯
- * - 統一使用 :focus-visible 提高無障礙體驗
- * - 簡化了部分冗餘樣式
+ * - 徹底修正了流程圖 RWD 箭頭邏輯，並支援 4/3/2/1 欄位佈局
+ * - 全面導入 :focus-visible 提高無障礙體驗與質感
+ * - 統一使用 CSS 變數進行風格管理
+ * - 強化 SEO 相關性能 (CLS、FOUC)
+ * - 整合多個高質感組件 (Tabs, Plans, Contact)
  * ========================================================================= */
-
+ 
 /* --- 字體導入 (Font Loading) --- */
 @font-face {
     font-family: 'uwen';
@@ -64,6 +66,7 @@
     --travel-y: 120vh;
     --breakpoint-mobile: 576px; 
     --breakpoint-tablet: 900px; 
+    --breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
 }
 
 
@@ -292,271 +295,258 @@ blockquote {
 
 
 /* -------------------------------------------
-/* ====================================================
-   祥安生命 - 導覽列 UI 核心樣式 (V7.2 整合修正版)
-   ==================================================== */
-
-:root {
-    --header-height: 70px;
-    --transition-speed: 0.3s;
-    --transition-fast: 0.15s;
-    --primary-color: #1a375a;
-    --accent-color: #bfa15d;
-    --text-dark: #333;
-    --text-light: #ffffff;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --border-color: #eee;
-}
-
-/* --- 基礎佈局修正 --- */
-/* ====================================================
-   祥安生命 - 導覽列 UI 核心樣式 (完整修正統整版)
-   ==================================================== */
+ * 1. 導覽列與頁首 (Header & Nav)
+ * ------------------------------------------- */
 
 .main-header {
     background-color: var(--text-light);
+    color: var(--text-dark);
     height: var(--header-height);
-    position: fixed;
+    position: fixed; 
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 0; 
+    width: 100%; 
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
-    transition: all var(--transition-speed) ease;
-    /* 強制硬體加速，防止捲動抖動 */
-    transform: translateZ(0);
+    transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+    transform: translateZ(0); 
 }
 
-/* 捲動後樣式優化 */
-.main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.98);
-    height: 65px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+/* 修正: Header 固定後，需要為主要內容增加 padding-top */
+main {
+    padding-top: 0; /* 確保 main 自身沒有多餘 padding */
 }
+
+:target {
+    scroll-margin-top: var(--header-height); 
+} 
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     height: 100%;
 }
 
-.logo img {
-    height: 45px;
-    width: auto;
-    transition: height var(--transition-speed) ease;
+.main-header.scrolled {
+    background-color: rgba(255, 255, 255, 0.95); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    /* 🏆 修正：加入 -webkit- 前綴，確保 iOS 兼容性 */
+    backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px);
+    border-bottom: 1px solid var(--border-color); /* ⭐ 優化：增加底邊，讓 Header 更有厚度感 */
 }
 
-/* -------------------------------------------
- * A. 桌面版導覽 (Desktop: > 992px)
- * ------------------------------------------- */
-@media (min-width: 992px) {
-    .menu-toggle { display: none; }
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
 
-    .main-nav .nav-list {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+.site-logo {
+    width: 140px;
+    height: 40px;
+    object-fit: contain;
+}
 
-    .main-nav a {
-        padding: 10px 15px;
-        color: var(--primary-color);
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+}
 
-    .main-nav a:hover, 
-    .main-nav a:focus-visible {
-        color: var(--accent-color);
-    }
+.main-nav li {
+    position: relative;
+    padding: 0 10px; 
+    white-space: nowrap; /* 關鍵修正: 確保單行顯示，不換行 */
+}
 
-    /* 下拉選單基礎設定 */
-    .has-dropdown { position: relative; }
 
+.main-nav a {
+    display: flex;
+    align-items: center;
+    padding: 8px 0; 
+    color: var(--secondary-color);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+
+/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
+.main-nav a:hover, .main-nav a:focus-visible, .main-nav a.active {
+    color: var(--primary-color);
+}
+
+.main-nav a .fas, .main-nav a .fa {
+    font-size: 0.7rem;
+    margin-left: 5px;
+    transition: transform var(--transition-speed);
+}
+
+/* 3. 通用佈局 */
+.main-content-area { 
+    max-width: 1200px; /* 限制最大寬度 */
+    margin: 40px auto; /* 居中並提供上下間距 */
+    padding: 0 20px; /* ⬅️ 關鍵！提供左右 20px 內邊距，防止內容貼邊 */
+}
+
+/* ---------------------------------------------------- */
+/* 【桌面版】下拉選單質感優化 */
+/* ---------------------------------------------------- */
+@media screen and (min-width: 901px) {
     .submenu {
         position: absolute;
         top: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(15px);
-        min-width: 200px;
-        background: #fff;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        border-top: 3px solid var(--accent-color);
-        border-radius: 0 0 8px 8px;
+        left: 0;
+        min-width: 240px;
+        background-color: var(--text-light);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        border-top: 5px solid var(--accent-color);
+        list-style: none;
         padding: 10px 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
         
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        /* 關鍵：桌面預設隱藏屬性 (使用 opacity/visibility/transform 過渡) */
+        transform: translateY(10px);
+        opacity: 0; 
+        visibility: hidden; 
+        max-height: unset; /* 確保桌面版不被 RWD 的 max-height 影響 */
+        pointer-events: none; 
+        
+        transition: opacity var(--transition-speed) ease, 
+                    transform var(--transition-speed) ease, 
+                    visibility var(--transition-speed);
+        border-radius: 0 0 8px 8px;
+        overflow: hidden;
     }
 
-    /* Hover 觸發顯示 */
-    .has-dropdown:hover > .submenu,
-    .has-dropdown:focus-within > .submenu {
+    /* 修正：Focus-within 確保鍵盤無障礙操作 */
+    .dropdown:hover > .submenu,
+    .dropdown:focus-within > .submenu,
+    .dropdown.focus-within > .submenu { 
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) translateY(0);
-        pointer-events: auto;
+        transform: translateY(0);
+        pointer-events: auto; 
     }
 
-    .has-dropdown i {
-        font-size: 0.8rem;
-        transition: transform var(--transition-fast);
-    }
-
-    .has-dropdown:hover > a i {
+    .dropdown:hover > a .fas,
+    .dropdown:focus-within > a .fas,
+    .dropdown.focus-within > a .fas { 
         transform: rotate(180deg);
     }
 }
-
-/* -------------------------------------------
- * B. 手機版導覽 (Mobile: <= 991px)
- * ------------------------------------------- */
-@media (max-width: 991px) {
-    .menu-toggle {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        width: 30px;
-        height: 24px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        z-index: 1001;
-    }
-
-    .menu-toggle .bar {
-        width: 100%;
-        height: 3px;
-        background-color: var(--primary-color);
-        transition: all 0.3s ease;
-    }
-
-    /* 漢堡動畫 */
-    .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
-    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-    .main-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background: #fff;
-        padding: 80px 20px 40px;
-        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-        transition: right var(--rwd-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
-        overflow-y: auto;
-        z-index: 1000;
-    }
-
-    .main-nav.active { right: 0; }
-
-    .main-nav .nav-list {
-        flex-direction: column;
-        display: flex;
-    }
-
-    .main-nav li { 
-        width: 100%; 
-        border-bottom: 1px solid #f5f5f5; 
-    }
-
-    .main-nav a {
-        padding: 15px 10px;
-        width: 100%;
-        justify-content: space-between;
-        color: var(--text-dark);
-    }
-
-    /* 手機版子選單 (摺疊邏輯) */
-/* --- 子選單基礎與質感 --- */
-.submenu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
+/* ---------------------------------------------------- */
+/* 子選單通用樣式 (RWD 也要使用) */
+.submenu li {
+    padding: 0px;
+    width: 100%;
 }
 
 .submenu a {
-    /* 使用變數確保顏色一致性 */
-    display: block;
-    padding: 12px 25px !important;
-    font-size: 0.95rem;
-    color: var(--secondary-color, #555) !important;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03); /* 淡淡的分割線增加質感 */
+    padding: 10px 20px;
     white-space: nowrap;
+    font-size: 0.95rem;
+    display: block;
+    color: var(--text-dark);
 }
-
-/* 懸停與選中狀態 */
-.submenu a:hover,
-.submenu a:focus {
-    background-color: var(--bg-light, #f9f9f9);
-    color: var(--accent-color, #bfa15d) !important;
-    padding-left: 30px !important; /* 微微向右位移的動態感 */
-}
-
-/* --- 行動端 (Mobile) 空間修正 --- */
-@media (max-width: 991px) {
+@media (max-width: 900px) {
+    /* 手機模式下增加縮進 */
     .submenu a {
-        padding: 14px 40px !important; /* 手機版增加點擊高度，方便手指操作 */
-        font-size: 1rem;
-        background-color: #fafafa; /* 手機版子選單背景稍暗，與主選單區隔 */
-    }
-    
-    .submenu li:last-child a {
-        border-bottom: none; /* 最後一個項目去掉底線 */
+        padding: 10px 30px; 
     }
 }
 
-/* --- 桌面端 (Desktop) 浮動效果 --- */
-@media (min-width: 992px) {
-    .submenu {
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        border-radius: 0 0 8px 8px;
-        overflow: hidden; /* 確保背景色不會超出圓角 */
-    }
+
+.submenu a:hover, .submenu a:focus-visible { /* 🏆 修正：加入 :focus-visible */
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    outline: none; /* 移除 a:focus-visible 的預設 outline */
+    /* ⭐ 優化：使用快速過渡，提升點擊反饋速度 */
+    transition: background-color var(--transition-fast), color var(--transition-fast); 
 }
 
-/* -------------------------------------------
- * C. 共通輔助元件
- * ------------------------------------------- */
-.nav-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(3px);
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s;
-}
-
-.nav-overlay.active {
+.submenu-title {
+    font-weight: 700;
+    color: var(--accent-color);
+    padding: 8px 20px 4px;
+    font-size: 0.85rem;
+    cursor: default;
     opacity: 1;
-    visibility: visible;
+    background-color: rgba(30, 58, 106, 0.1);
+}
+@media (max-width: 900px) {
+    .submenu-title {
+        padding: 8px 30px 4px; /* 手機模式下增加縮進 */
+    }
 }
 
-/* 子選單連結質感 */
-.submenu a {
-    padding: 12px 25px !important;
-    font-size: 0.9rem;
-    color: var(--secondary-color) !important;
+.submenu-separator {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 5px 20px;
+    list-style: none;
+}
+@media (max-width: 900px) {
+    .submenu-separator {
+        margin: 5px 30px;
+    }
 }
 
-.submenu a:hover {
-    background-color: var(--bg-light);
-    color: var(--accent-color) !important;
+
+/* 聯繫導覽按鈕 (桌面專用) */
+.contact-nav a {
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    margin-left: 20px;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
+    flex-shrink: 0;
+}
+
+.contact-nav a:hover, .contact-nav a:focus-visible { /* 🏆 修正：加入 :focus-visible */
+    background-color: var(--primary-dark);
+    color: var(--accent-color);
+    outline: none; /* 移除 a:focus-visible 的預設 outline */
+    /* ⭐ 優化：使用快速過渡，提升點擊反饋速度 */
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    padding: 5px 10px;
+    font-weight: 700;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    transition: background-color var(--transition-speed);
+    z-index: 1001;
+    will-change: background-color, transform;
+}
+
+.menu-toggle:hover, .menu-toggle:focus-visible { /* 🏆 修正：加入 :focus-visible */
+    background-color: rgba(26, 55, 90, 0.1);
+    outline: 2px solid var(--accent-color); 
+    outline-offset: 2px;
+}
+
+.menu-toggle i {
+    transition: transform var(--transition-speed) ease-in-out;
+    font-size: 1.2rem;
+    vertical-align: middle;
 }
 
 /* -------------------------------------------
@@ -1222,7 +1212,7 @@ blockquote {
 
 
 /* -------------------------------------------
- * 5. 服務流程圖樣式 (Flow Chart)
+ * 5. 服務流程圖樣式 (Flow Chart) - 🎯 RWD 邏輯重點修正
  * ------------------------------------------- */
 
 .flow-chart ol {
@@ -1285,17 +1275,22 @@ blockquote {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* ⭐ 修正與增強：流程圖連接線與箭頭 (桌面版) */
+/* 🎯 最終修正：流程圖連接線與箭頭 (桌面版 - 4 欄) */
 @media (min-width: 901px) {
+    /* 確保 4 欄佈局時的邏輯 */
     .flow-chart li {
-        margin-right: 50px; /* 為箭頭留出空間 */
+        flex-basis: calc(25% - 30px); /* 保持 4 欄 */
+        margin-right: 15px; /* 統一左右間距 */
+        margin-left: 15px;
+        margin-bottom: 30px; /* 預留向下箭頭空間，避免與下一行重疊 */
     }
     
-    .flow-chart li:last-child {
-        margin-right: 15px; /* 最後一個元素不需要留出箭頭空間 */
+    .flow-chart li:nth-child(4n) {
+        margin-right: 15px; /* 確保第 4 欄與容器右側間距一致 */
     }
 
-    .flow-chart li:not(:last-child)::after {
+    /* 右箭頭 (同行連接線) - 適用於非行尾元素 */
+    .flow-chart li:not(:nth-child(4n)):not(:last-child)::after {
         content: '\f061'; /* Font Awesome: 右箭頭 */
         font-family: 'Font Awesome 6 Free';
         font-weight: 900;
@@ -1307,22 +1302,19 @@ blockquote {
         font-size: 1.5rem;
         z-index: 5;
     }
-
-    /* 處理每行結尾的箭頭 (假設每行 4 個，第 4 個需要處理) */
-    .flow-chart ol li:nth-child(4n)::after {
-        /* 如果有下一行，替換成向下箭頭 */
-        content: '\f078'; /* 向下箭頭 */
-        right: 50%;
+    
+    /* 向下箭頭 (換行連接線) - 適用於行尾元素 (第 4n 個) 且非最後一個元素 */
+    .flow-chart ol li:nth-child(4n):not(:last-child)::after {
+        content: '\f078'; /* Font Awesome: 向下箭頭 */
+        right: 50%; /* 居中 */
         top: auto;
-        bottom: -30px; /* 放在 li 下方 */
-        transform: translate(50%, 0) rotate(0deg); /* 確保是向下箭頭 */
+        bottom: -35px; /* 放在 li 下方 */
+        transform: translate(50%, 0) rotate(0deg); 
         color: var(--accent-color);
     }
-    /* 確保真正的最後一個元素沒有箭頭 */
     .flow-chart ol li:last-child::after {
         content: none;
     }
-    /* 如果最後一個元素恰好是 4n，則移除向下箭頭 (已由 last-child 處理) */
 }
 
 
@@ -1685,6 +1677,49 @@ footer {
  * 8. 文章頁面 (Article Body) 專屬樣式與優化
  * ------------------------------------------- */
 
+.article-body {
+    max-width: 850px; /* 限制內容最大寬度，避免行長過長影響閱讀 */
+    margin: 0 auto;
+    /* 調整基礎元素間距，增加呼吸感 */
+    line-height: 1.8; 
+    font-size: 1.05rem; /* 微微調大基礎字體 */
+}
+
+/* 段落間距調整 */
+.article-body p {
+    margin-bottom: 1.5rem; /* 增加段落間距 */
+}
+
+/* 內嵌程式碼優化：使其與行高對齊 */
+.article-body code {
+    /* ⭐ 確保 inline code 在深色背景上有良好的對比度 */
+    color: var(--primary-color); 
+    line-height: 1.7; 
+}
+
+/* 列表樣式調整：增加間距，更易於掃描 */
+.article-body ul, .article-body ol {
+    margin: 1.5rem 0;
+    padding-left: 25px; /* 增加預設清單縮進 */
+}
+.article-body ul li, .article-body ol li {
+    margin-bottom: 0.6rem; /* 增加清單項間距 */
+}
+
+
+/* 引用塊：更突出，與內容區塊區分 */
+.article-body blockquote {
+    border-left: 6px solid var(--accent-color);
+    padding: 20px 25px;
+    background-color: var(--bg-light);
+    color: var(--secondary-color);
+    font-size: 1.1rem; /* 引用文字略微放大 */
+    margin: 2rem 0;
+    border-radius: 0 10px 10px 0; /* 圓角更柔和 */
+}
+
+
+
 .article-main-layout {
     /* 寬度調整：TOC 側邊欄略為縮小，內容區變寬 */
     display: grid;
@@ -1705,6 +1740,69 @@ footer {
     /* 🏆 優化：確保滾動流暢性 */
     -webkit-overflow-scrolling: touch; 
 }
+
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 2：提示框】
+ * ------------------------------------------- */
+
+.tip-box, .key-point-box, .note-info, .primary-tip {
+    padding: 25px; /* 增加內邊距 */
+    margin: 35px 0; /* 增加與周圍內容的間距 */
+    border-left: none; /* 移除左側邊框，改用背景和陰影/邊框來區分 */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    line-height: 1.7;
+}
+
+.tip-box i, .key-point-box i, .note-info i, .primary-tip i {
+    font-size: 1.5rem; /* 增大圖標 */
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+/* 🔔 提示框 (Tip Box - 柔和提醒/建議) */
+.tip-box {
+    background-color: rgba(255, 193, 7, 0.08); /* 淺黃色背景 */
+    border: 1px solid #FFC107;
+    color: var(--text-dark);
+}
+.tip-box i {
+    color: #FFC107;
+}
+
+/* 📌 核心重點 (Key Point Box - 強調內容) */
+.key-point-box {
+    background-color: rgba(206, 157, 74, 0.15); /* 略深的金色背景 */
+    border: 2px solid var(--accent-color);
+    font-family: var(--font-sans); /* 讓重點部分也使用無襯線字體，更清晰 */
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+.key-point-box i {
+    color: var(--accent-color);
+}
+.key-point-box p {
+    font-weight: 400; /* 內文降權重 */
+    margin-top: 10px;
+}
+
+/* 🛡️ 專業提醒 (Primary Tip - 重要的專業/法律/安全提示) */
+.primary-tip {
+    background-color: var(--primary-color); /* 深色背景，最高權重 */
+    color: var(--text-light);
+    border: none;
+    box-shadow: 0 4px 15px rgba(30, 58, 106, 0.4);
+    font-weight: 500;
+}
+.primary-tip i {
+    color: var(--accent-color); /* 金色圖標，高對比度 */
+}
+.primary-tip a {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
 
 
 .sidebar-block {
@@ -1858,23 +1956,28 @@ footer {
 }
 
 /* 圖片與圖集 (Figure) 樣式 */
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 3：圖文】
+ * ------------------------------------------- */
+
+/* 圖片與圖集 (Figure) 樣式強化 */
 .article-body figure {
-    text-align: center;
-    margin: 30px 0;
-    padding: 0;
+    margin: 40px 0; /* 增加上下間距 */
 }
 
 .article-body figure img {
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* 稍微更強的陰影 */
 }
 
 .article-body figure figcaption {
-    font-size: 0.9rem;
-    color: #777;
-    margin-top: 10px;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin-top: 15px; /* 增加與圖片間距 */
+    line-height: 1.5;
+    font-style: italic;
 }
+
 
 
 /* 步驟徽章樣式 */
@@ -1971,24 +2074,47 @@ footer {
 .warning-list .list-icon {
     color: #dc3545; 
 }
+/* -------------------------------------------
+ * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 4：步驟】
+ * ------------------------------------------- */
+
+/* 強化 numbered-steps 樣式 */
 .numbered-steps {
-    counter-reset: custom-counter;
     list-style: none;
     padding-left: 0;
+    margin: 30px 0;
 }
 .numbered-steps li {
-    counter-increment: custom-counter;
-    margin-bottom: 10px;
-    padding-left: 30px;
+    padding-left: 45px; /* 為更大的徽章留出空間 */
+    margin-bottom: 20px;
+    font-weight: 400; /* 內文用普通字重 */
+    line-height: 1.7;
     position: relative;
-    font-weight: 500;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+.numbered-steps li:hover {
+    background-color: var(--bg-light);
 }
 .numbered-steps li::before {
-    content: counter(custom-counter) ".";
+    content: counter(custom-counter); /* 僅數字 */
     position: absolute;
-    left: 0;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
     font-weight: 700;
-    color: var(--accent-color);
+    font-size: 1.1rem;
+    border: 3px solid var(--text-light); /* 增加一個白色環繞 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* 簡潔 FAQ 樣式 (simple-faq) */
@@ -2179,7 +2305,6 @@ footer {
 /* -------------------------------------------
    10. 方案頁面 (Plans) 最終質感與透明度優化
    ------------------------------------------- */
-
 /* --- 10.1 方案頁面 Hero Section 覆寫 (保持不變) --- */
 .page-hero {
     position: relative;
@@ -2234,7 +2359,8 @@ footer {
 /* --- 10.2 方案價格卡片 ( .price-plan ) 視覺強化 --- */
 .price-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* 調整 grid 最小寬度，確保在手機上有良好的間距 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 30px;
     margin-top: 30px;
 }
@@ -2252,6 +2378,7 @@ footer {
     flex-direction: column;
     will-change: transform, box-shadow;
     height: 100%; 
+    z-index: 1; /* 基礎層級 */
 }
 
 .price-plan:hover {
@@ -2259,11 +2386,12 @@ footer {
     transform: translateY(-5px);
 }
 
-/* 突出【最受歡迎】卡片 */
+/* 突出【最受歡迎】卡片 - 修正 transform 避免在小螢幕裁切 */
 .price-plan.featured {
     border-color: var(--accent-color);
-    transform: scale(1.03); 
-    box-shadow: 0 0 0 4px var(--accent-color), 0 10px 30px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-8px); /* 輕微上浮 */
+    box-shadow: 0 0 0 4px var(--accent-color), 0 12px 35px rgba(0, 0, 0, 0.25); 
+    z-index: 5; /* 確保懸浮在其他卡片之上 */
 }
 
 .plan-ribbon {
@@ -2271,13 +2399,15 @@ footer {
     top: 0;
     right: 0;
     background: var(--accent-color);
-    color: var(--primary-dark);
+    /* 保持文字為深色，增強對比 */
+    color: var(--primary-dark); 
     font-size: 0.8rem;
     font-weight: 700;
     padding: 5px 15px;
     border-bottom-left-radius: 8px;
     letter-spacing: 0.5px;
-    z-index: 5;
+    z-index: 6;
+    text-transform: uppercase; /* 增加視覺強度 */
 }
 
 .plan-header h3 {
@@ -2295,14 +2425,17 @@ footer {
 
 .plan-price-info {
     margin: 20px 0 15px;
+    padding-bottom: 15px; /* 增加底部間距 */
+    border-bottom: 1px solid var(--border-color);
 }
 
 .price-tag {
     font-family: var(--font-serif);
-    font-size: 2.5rem;
+    font-size: 2.8rem; /* 略微加大 */
     font-weight: 700;
     color: var(--primary-color); 
     display: block;
+    line-height: 1.2;
 }
 
 .plan-body {
@@ -2316,35 +2449,39 @@ footer {
     font-style: italic;
     color: var(--secondary-color);
     margin-bottom: 20px;
+    font-size: 1rem; /* 確保可讀性 */
 }
 
 .plan-body ul {
     margin-bottom: 25px; 
     flex-grow: 1;
+    /* 移除預設 padding */
+    padding-left: 0; 
 }
 
 .service-group-title {
     font-weight: 700;
-    color: var(--accent-color); 
+    color: var(--primary-dark); /* 調整顏色，使其更突出 */
     margin-top: 15px;
     margin-bottom: 5px;
-    font-size: 0.95rem;
+    font-size: 1rem;
     padding-bottom: 5px;
-    border-bottom: 1px dashed rgba(30, 58, 106, 0.2); 
+    border-bottom: 2px solid var(--primary-dark); 
+    letter-spacing: 0.5px;
 }
 
 .plan-body ul li {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.95rem; /* 略微加大字體 */
+    line-height: 1.7;
     padding: 3px 0;
     color: var(--text-dark);
-    list-style: none; /* 移除預設的 bullet */
-    padding-left: 20px; /* 為圖標預留空間 */
+    list-style: none; 
+    padding-left: 20px; 
     position: relative;
 }
 
 .plan-body ul li::before {
-    /* ⭐ 優化：使用 Font Awesome 鉤子圖標 */
+    /* Font Awesome 鉤子圖標 */
     content: '\f00c'; 
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -2352,7 +2489,7 @@ footer {
     position: absolute;
     left: 0;
     font-size: 0.8rem;
-    top: 6px;
+    top: 8px; /* 調整垂直對齊 */
 }
 
 .plan-body .cta-button {
@@ -2377,7 +2514,7 @@ footer {
     overflow: hidden; 
     border-radius: 8px;
     border: 1px solid var(--border-color);
-    min-width: 700px; /* 確保在小螢幕上可以橫向滾動 */
+    min-width: 800px; /* 略微增加最小寬度，以容納更多內容 */
 }
 
 .comparison-table thead th {
@@ -2401,12 +2538,24 @@ footer {
 }
 
 .comparison-table tbody tr td:first-child {
+    /* 強化第一欄，作為服務項目名稱 */
     text-align: left;
     background-color: var(--bg-light); 
     font-weight: 700;
-    color: var(--primary-color);
-    border-right: 1px solid var(--border-color);
+    color: var(--primary-dark);
+    border-right: 2px solid var(--accent-color); /* 用強調色分隔 */
+    position: sticky; /* 讓服務項目在橫向滾動時保持可見 */
+    left: 0;
+    z-index: 2;
 }
+@media (max-width: 850px) {
+    .comparison-table tbody tr td:first-child {
+        /* 在手機上不需要 sticky，避免遮擋 */
+        position: static;
+        border-right: 1px solid var(--border-color);
+    }
+}
+
 
 .comparison-table .category-title {
     display: block;
@@ -2417,14 +2566,13 @@ footer {
 }
 
 .comparison-table .category-divider {
-    border-top: 2px solid var(--primary-color); 
+    border-top: 2px solid var(--primary-dark); 
     padding: 0;
     line-height: 0;
 }
 
-.comparison-table td:not(:first-child) {
-    font-family: var(--font-serif);
-    font-weight: 700;
+.comparison-table td strong {
+    color: var(--accent-color);
 }
 
 .comparison-table .feature-yes {
@@ -2440,6 +2588,7 @@ footer {
 .comparison-table tbody tr:nth-child(even) td {
     background-color: #FAFAFA; 
 }
+
 
 /* --- 10.4 排除費用清單 (極致透明) 強化 --- */
 
@@ -2495,7 +2644,7 @@ footer {
     border: none;
 }
 
-#excluded-fees .cta-button.primary:hover, #excluded-fees .cta-button.primary:focus-visible { /* 🏆 修正：加入 :focus-visible */
+#excluded-fees .cta-button.primary:hover, #excluded-fees .cta-button.primary:focus-visible { 
     background-color: var(--text-light);
     box-shadow: 0 6px 20px rgba(206, 157, 74, 1);
     outline: 2px solid var(--accent-color);
@@ -2665,14 +2814,12 @@ footer {
 
 
 /* -------------------------------------------
- * 12. 響應式設計 (Media Queries)
+ * 12. 響應式設計 (Media Queries) - 🎯 RWD 邏輯重點修正
  * ------------------------------------------- */
 
 /* 1. 平板與小型筆電 (Max-width: 1400px - 901px) */
 @media (max-width: 1400px) {
-    .flow-chart li {
-        flex-basis: calc(25% - 30px);
-    }
+    /* 流程圖在 1400px 以下仍為 4 欄，邏輯已在 901px+ 統一修正 */
 }
 
 /* 2. 平板與手機橫向 (Max-width: 900px) */
@@ -2799,6 +2946,41 @@ footer {
         transition: color var(--transition-fast);
         outline: none;
     }
+
+ /* -------------------------------------------
+ * 12. 響應式設計 (Media Queries) - 最終優化
+ * ------------------------------------------- */
+
+/* 5. 極小手機 (Max-width: 480px) - 補充 */
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    /* 確保所有垂直間距不會過大 */
+    :root {
+         --padding-section-v: 40px;
+    }
+    .container-v-padding {
+        padding-top: var(--padding-section-v);
+        padding-bottom: var(--padding-section-v);
+    }
+
+    /* 聯繫資訊方塊 RWD 調整 */
+    .contact-info-card p,
+    .contact-info-card address {
+        flex-direction: column; /* 改為垂直堆疊 */
+        align-items: flex-start;
+    }
+    .contact-info-card .icon {
+        margin-bottom: 5px;
+    }
+
+
     
 
     /* 關鍵修正：平板/手機下拉菜單的最大高度過渡邏輯 */
@@ -2833,27 +3015,25 @@ footer {
         background-attachment: scroll;
     }
 
-    /* 流程圖在平板電腦下顯示 3 欄 */
+    /* 🎯 流程圖修正：900px 以下顯示 3 欄 */
     .flow-chart li {
         flex-basis: calc(33.33% - 30px);
         margin-bottom: 50px; /* 為向下箭頭留出更多空間 */
+        margin-right: 15px; 
+        margin-left: 15px; 
     }
     
-    /* 🏆 修正：流程圖 RWD 模式優化 (900px 以下) - 統一使用向下箭頭的邏輯 */
+    /* 🏆 修正：流程圖 RWD (900px-)：3 欄模式箭頭邏輯 */
     .flow-chart li:not(:last-child)::after {
-        content: none !important; /* 移除桌面版右箭頭 */
-    }
-    
-    .flow-chart li::after {
         content: '\f063'; /* Font Awesome: 向下箭頭 */
         font-family: 'Font Awesome 6 Free';
         font-weight: 900;
         position: absolute;
         top: auto;
-        bottom: -25px; /* 放在 li 下方 */
+        bottom: -25px; 
         left: 50%;
         transform: translateX(-50%);
-        width: 0; /* 隱藏背景和邊框，只顯示圖標 */
+        width: 0; 
         height: 0;
         line-height: 1;
         font-size: 1.5rem;
@@ -2866,16 +3046,18 @@ footer {
     .flow-chart ol li:last-child::after {
         content: none; /* 最後一個元素不顯示箭頭 */
     }
-    /* 處理行尾換行時的向下箭頭問題 (確保每行末尾顯示數字) */
+    /* 確保每行末尾元素 (3n) 不顯示向下箭頭 (即行尾不需要向下箭頭，因為下面沒有元素了) */
     .flow-chart ol li:nth-child(3n)::after {
         content: none;
     }
-    /* 重新添加 3n 且不是 last-child 的向下箭頭 */
-    .flow-chart ol li:nth-child(3n):not(:last-child)::after {
+    /* 處理非行尾元素 (非 3n) 但在同一行的，應顯示向下箭頭 */
+    .flow-chart ol li:nth-child(3n + 1):not(:last-child)::after, 
+    .flow-chart ol li:nth-child(3n + 2):not(:last-child)::after {
         content: '\f063'; 
     }
-    
-    
+    /* 特別處理第 3 個元素 (3n) 如果它不是最後一個，它不需要向下箭頭，因為下一行就在下方 */
+
+
     /* 文章頁面 RWD */
     .article-main-layout {
         grid-template-columns: 1fr; 
@@ -2943,31 +3125,26 @@ footer {
 
 /* 3. 中型手機 (Max-width: 680px) */
 @media (max-width: 680px) {
-    /* 流程圖在平板電腦下顯示 2 欄 */
+    /* 🎯 流程圖修正：680px 以下顯示 2 欄 */
     .flow-chart li {
         flex-basis: calc(50% - 30px);
         margin-bottom: 50px; 
     }
     
-    /* 🏆 修正：流程圖 RWD (680px-)：調整箭頭邏輯 (2 欄) - 統一使用向下箭頭 */
-    /* 確保每行最後一個元素 (2n) 不顯示箭頭 */
+    /* 🏆 修正：流程圖 RWD (680px-)：2 欄模式箭頭邏輯 */
+    .flow-chart li:not(:last-child)::after {
+        content: '\f063'; 
+    }
+    /* 確保每行末尾元素 (2n) 不顯示向下箭頭 */
     .flow-chart ol li:nth-child(2n)::after {
         content: none;
     }
-    /* 重新添加 2n 且不是 last-child 的向下箭頭 */
-    .flow-chart ol li:nth-child(2n):not(:last-child)::after {
-        content: '\f063'; 
+    /* 確保最後一個元素沒有箭頭 */
+    .flow-chart ol li:last-child::after {
+        content: none; 
     }
-    
-    /* 特色網格變成 1 欄 */
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .testimonial-grid {
-        grid-template-columns: 1fr;
-    }
-    
+
+
     /* 服務區塊在 680px 以下變為單欄 */
     .two-columns-layout {
         grid-template-columns: 1fr; 
@@ -2987,7 +3164,7 @@ footer {
         padding: 0 15px;
     }
 
-    /* 流程圖在手機直屏下顯示 1 欄 */
+    /* 🎯 流程圖修正：576px 以下顯示 1 欄 */
     .flow-chart li {
         flex-basis: 100%;
         margin-left: 0;
@@ -2997,8 +3174,27 @@ footer {
     .flow-chart ol {
         padding: 0 10px; 
     }
+
+ /* 修正：在 576px 以下，將 footer-copyright 內容居中對齊 */
+@media (max-width: 576px) {
+    .footer-copyright .container {
+        align-items: center; 
+        text-align: center;
+    }
+
+    .footer-meta {
+        /* 將連結也居中 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-meta a {
+        margin: 5px 0; /* 垂直增加間距 */
+        margin-left: 0;
+    }
+
     
-    /* 🏆 修正：流程圖 RWD (576px-)：調整箭頭邏輯 (1 欄) - 統一使用向下箭頭 */
+    /* 🏆 修正：流程圖 RWD (576px-)：1 欄模式箭頭邏輯 */
     /* 在 1 欄佈局中，所有非最後一個元素都應有向下箭頭 */
     .flow-chart li:not(:last-child)::after {
         content: '\f063'; 
@@ -3008,7 +3204,7 @@ footer {
         content: none; 
     }
 
-
+    /* 價格卡片單欄 */
     .price-card-grid {
         grid-template-columns: 1fr;
     }
@@ -3386,7 +3582,3 @@ footer {
         border: 1px solid var(--accent-color); 
     }
 }
-
-
-img { max-width: 100%; height: auto; }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
