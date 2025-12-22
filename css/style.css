@@ -478,25 +478,53 @@ blockquote {
     }
 
     /* 手機版子選單 (摺疊邏輯) */
+/* --- 子選單基礎與質感 --- */
+.submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.submenu a {
+    /* 使用變數確保顏色一致性 */
+    display: block;
+    padding: 12px 25px !important;
+    font-size: 0.95rem;
+    color: var(--secondary-color, #555) !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03); /* 淡淡的分割線增加質感 */
+    white-space: nowrap;
+}
+
+/* 懸停與選中狀態 */
+.submenu a:hover,
+.submenu a:focus {
+    background-color: var(--bg-light, #f9f9f9);
+    color: var(--accent-color, #bfa15d) !important;
+    padding-left: 30px !important; /* 微微向右位移的動態感 */
+}
+
+/* --- 行動端 (Mobile) 空間修正 --- */
+@media (max-width: 991px) {
+    .submenu a {
+        padding: 14px 40px !important; /* 手機版增加點擊高度，方便手指操作 */
+        font-size: 1rem;
+        background-color: #fafafa; /* 手機版子選單背景稍暗，與主選單區隔 */
+    }
+    
+    .submenu li:last-child a {
+        border-bottom: none; /* 最後一個項目去掉底線 */
+    }
+}
+
+/* --- 桌面端 (Desktop) 浮動效果 --- */
+@media (min-width: 992px) {
     .submenu {
-        max-height: 0;
-        overflow: hidden;
-        background: #fcfcfc;
-        transition: max-height var(--rwd-transition-duration) ease-in-out;
-    }
-
-    .has-dropdown.active .submenu {
-        max-height: 500px; /* 這裡應與 JS 動態高度配合 */
-        border-bottom: 2px solid var(--bg-light);
-    }
-
-    .has-dropdown.active > a {
-        color: var(--accent-color);
-        font-weight: 700;
-    }
-
-    .has-dropdown.active i {
-        transform: rotate(180deg);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        border-radius: 0 0 8px 8px;
+        overflow: hidden; /* 確保背景色不會超出圓角 */
     }
 }
 
