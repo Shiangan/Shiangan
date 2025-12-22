@@ -309,26 +309,31 @@ blockquote {
 }
 
 /* --- 基礎佈局修正 --- */
+/* ====================================================
+   祥安生命 - 導覽列 UI 核心樣式 (完整修正統整版)
+   ==================================================== */
+
 .main-header {
     background-color: var(--text-light);
-    color: var(--text-dark);
     height: var(--header-height);
-    position: fixed; 
-    top: 0; left: 0; width: 100%; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: all var(--transition-speed) ease;
-    transform: translateZ(0); 
+    /* 強制硬體加速，防止捲動抖動 */
+    transform: translateZ(0);
 }
 
 /* 捲動後樣式優化 */
 .main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.98); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-    backdrop-filter: blur(8px); 
+    background-color: rgba(255, 255, 255, 0.98);
+    height: 65px;
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border-color);
-    height: 65px; /* 捲動後稍微縮小高度 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .header-container {
@@ -341,51 +346,49 @@ blockquote {
 .logo img {
     height: 45px;
     width: auto;
-    object-fit: contain;
-    transition: height 0.3s ease;
+    transition: height var(--transition-speed) ease;
 }
 
-/* --- 1. 桌面版導覽 (Desktop: > 991px) --- */
+/* -------------------------------------------
+ * A. 桌面版導覽 (Desktop: > 992px)
+ * ------------------------------------------- */
 @media (min-width: 992px) {
-    .main-nav ul {
-        list-style: none;
+    .menu-toggle { display: none; }
+
+    .main-nav .nav-list {
         display: flex;
         align-items: center;
-        gap: 5px;
-    }
-
-    .main-nav li {
-        position: relative;
-        white-space: nowrap;
+        gap: 10px;
     }
 
     .main-nav a {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px; 
+        padding: 10px 15px;
         color: var(--primary-color);
         font-weight: 500;
-        text-decoration: none;
-        transition: color var(--transition-speed);
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    .main-nav a:hover, .main-nav a:focus-visible {
+    .main-nav a:hover, 
+    .main-nav a:focus-visible {
         color: var(--accent-color);
     }
 
-    /* 下拉選單桌面質感 */
+    /* 下拉選單基礎設定 */
+    .has-dropdown { position: relative; }
+
     .submenu {
         position: absolute;
         top: 100%;
         left: 50%;
         transform: translateX(-50%) translateY(15px);
-        min-width: 220px;
+        min-width: 200px;
         background: #fff;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         border-top: 3px solid var(--accent-color);
         border-radius: 0 0 8px 8px;
         padding: 10px 0;
-        list-style: none;
         
         opacity: 0;
         visibility: hidden;
@@ -393,6 +396,7 @@ blockquote {
         transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
+    /* Hover 觸發顯示 */
     .has-dropdown:hover > .submenu,
     .has-dropdown:focus-within > .submenu {
         opacity: 1;
@@ -401,12 +405,19 @@ blockquote {
         pointer-events: auto;
     }
 
+    .has-dropdown i {
+        font-size: 0.8rem;
+        transition: transform var(--transition-fast);
+    }
+
     .has-dropdown:hover > a i {
         transform: rotate(180deg);
     }
 }
 
-/* --- 2. 手機版導覽 (Mobile: <= 991px) --- */
+/* -------------------------------------------
+ * B. 手機版導覽 (Mobile: <= 991px)
+ * ------------------------------------------- */
 @media (max-width: 991px) {
     .menu-toggle {
         display: flex;
@@ -417,7 +428,6 @@ blockquote {
         background: transparent;
         border: none;
         cursor: pointer;
-        padding: 0;
         z-index: 1001;
     }
 
@@ -428,7 +438,7 @@ blockquote {
         transition: all 0.3s ease;
     }
 
-    /* 漢堡轉叉叉動畫 */
+    /* 漢堡動畫 */
     .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
     .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -437,80 +447,88 @@ blockquote {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 85%;
-        max-width: 320px;
+        width: 80%;
+        max-width: 300px;
         height: 100vh;
         background: #fff;
-        padding: 90px 20px 40px;
+        padding: 80px 20px 40px;
         box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: right var(--rwd-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
         overflow-y: auto;
         z-index: 1000;
     }
 
     .main-nav.active { right: 0; }
 
-    .main-nav ul {
+    .main-nav .nav-list {
         flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
+        display: flex;
     }
 
-    .main-nav li { width: 100%; padding: 0; }
+    .main-nav li { 
+        width: 100%; 
+        border-bottom: 1px solid #f5f5f5; 
+    }
 
     .main-nav a {
         padding: 15px 10px;
-        border-bottom: 1px solid #f5f5f5;
         width: 100%;
         justify-content: space-between;
+        color: var(--text-dark);
     }
 
-    /* 手機版子選單摺疊邏輯 */
+    /* 手機版子選單 (摺疊邏輯) */
     .submenu {
-        display: none; /* 由 JS 控制 toggle */
-        background: #f9f9f9;
-        list-style: none;
-        padding-left: 15px;
+        max-height: 0;
+        overflow: hidden;
+        background: #fcfcfc;
+        transition: max-height var(--rwd-transition-duration) ease-in-out;
     }
 
     .has-dropdown.active .submenu {
-        display: block;
-        animation: slideDown 0.3s ease-out;
+        max-height: 500px; /* 這裡應與 JS 動態高度配合 */
+        border-bottom: 2px solid var(--bg-light);
     }
 
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .has-dropdown.active > a {
+        color: var(--accent-color);
+        font-weight: 700;
+    }
+
+    .has-dropdown.active i {
+        transform: rotate(180deg);
     }
 }
 
-/* --- 3. 通用元件與細節 --- */
+/* -------------------------------------------
+ * C. 共通輔助元件
+ * ------------------------------------------- */
 .nav-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(2px);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
     z-index: 999;
     opacity: 0;
     visibility: hidden;
     transition: 0.3s;
 }
-.nav-overlay.active { opacity: 1; visibility: visible; }
 
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 子選單連結質感 */
 .submenu a {
-    color: var(--text-dark) !important;
-    font-size: 0.95rem;
-    padding: 12px 20px !important;
+    padding: 12px 25px !important;
+    font-size: 0.9rem;
+    color: var(--secondary-color) !important;
 }
 
 .submenu a:hover {
-    background-color: var(--accent-color);
-    color: #fff !important;
-}
-
-/* 確保內容不被 Header 擋住 */
-main {
-    margin-top: var(--header-height);
+    background-color: var(--bg-light);
+    color: var(--accent-color) !important;
 }
 
 /* -------------------------------------------
