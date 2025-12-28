@@ -1510,104 +1510,79 @@ main {
  * 7. 頁尾 (Footer) - 品牌色系收尾
  * ------------------------------------------- */
 
-footer {
-    background-color: var(--secondary-color);
-    color: var(--text-light);
-    padding-top: 50px;
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-    gap: 40px;
-    padding-bottom: 40px;
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.footer-block h4 {
-    color: var(--accent-color);
-    font-size: 1.15rem;
-    margin-bottom: 15px;
-    font-family: var(--font-serif);
-    font-weight: 700;
-    border-left: 3px solid var(--accent-color);
-    padding-left: 10px;
-}
-
-.footer-block ul {
-    list-style: none;
-    margin-bottom: 30px;
-}
-
-.footer-block li {
-    margin-bottom: 8px;
-}
-
-.footer-block a {
-    color: rgba(255, 255, 255, 0.85);
+.site-footer {
+    background-color: #2c3e50; /* 深質感背景 */
+    color: #ffffff;
+    padding: 60px 0 20px;
     font-size: 0.95rem;
 }
 
-.footer-block a:hover, .footer-block a:focus-visible { /* 🏆 修正：加入 :focus-visible */
-    color: var(--accent-color);
-    outline: none;
+.footer-grid-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 40px;
 }
 
-.footer-contact p {
-    font-size: 1rem;
+.footer-column h4 {
+    color: #f1c40f; /* 金色標題，增加高級感 */
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    border-left: 3px solid #f1c40f;
+    padding-left: 10px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #f1c40f;
+}
+
+.footer-phone a {
+    display: block;
+    background: #e74c3c;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
-.footer-contact p strong a {
-    color: var(--accent-color);
-    font-weight: 700;
-    letter-spacing: 1px;
+.footer-line a {
+    display: block;
+    background: #00b900;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
-
-.footer-contact address p {
-    margin-bottom: 5px;
+.footer-bottom {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
 }
 
-.footer-social-links a {
-    font-size: 1.2rem;
-    margin-right: 20px;
-    color: var(--accent-color);
-}
-
-/* 🏆 修正：將 :focus 改為 :focus-visible，提供更好的無障礙體驗 */
-.footer-social-links a:hover, .footer-social-links a:focus-visible {
-    color: var(--text-light);
-    outline: none;
-}
-
-.footer-copyright {
-    background-color: var(--primary-dark);
-    padding: 15px 0;
-}
-
-.footer-copyright .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-}
-
-.footer-logo {
-    color: var(--text-light);
-}
-
-.footer-meta a {
-    color: rgba(255, 255, 255, 0.7);
-    margin-left: 15px;
-}
-
-.footer-meta a:hover, .footer-meta a:focus-visible { /* 🏆 修正：加入 :focus-visible */
-    color: var(--text-light);
-    outline: none;
+/* 行動裝置調整 */
+@media (max-width: 768px) {
+    .footer-grid-layout {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* 浮動 CTA 按鈕容器 */
