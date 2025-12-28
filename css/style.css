@@ -1506,84 +1506,71 @@ main {
 }
 
 
-/* -------------------------------------------
- * 7. 頁尾 (Footer) - 品牌色系收尾
- * ------------------------------------------- */
-
+/* -------------------------------------------/* Footer 整體風格 */
 .site-footer {
-    background-color: #2c3e50; /* 深質感背景 */
-    color: #ffffff;
-    padding: 60px 0 20px;
-    font-size: 0.95rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    color: #e0e0e0;
+    padding: 80px 0 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    border-top: 4px solid #d4af37; /* 金色頂邊 */
 }
 
-.footer-grid-layout {
+.footer-grid-wrapper {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-    gap: 40px;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr; /* 五欄佈局 */
+    gap: 30px;
 }
 
-.footer-column h4 {
-    color: #f1c40f; /* 金色標題，增加高級感 */
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    border-left: 3px solid #f1c40f;
-    padding-left: 10px;
+.footer-title {
+    color: #d4af37; /* 質感金 */
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    position: relative;
 }
 
-.footer-links {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-links li {
-    margin-bottom: 12px;
-}
-
-.footer-links a {
-    color: #ecf0f1;
+/* 底部按鈕優化 */
+.footer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 50px;
     text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: #f1c40f;
-}
-
-.footer-phone a {
-    display: block;
-    background: #e74c3c;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
 }
 
-.footer-line a {
-    display: block;
-    background: #00b900;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    font-weight: bold;
+.phone-btn { background-color: #c0392b; color: white; }
+.line-btn { background-color: #00b900; color: white; }
+
+.footer-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+/* 底層法律資訊欄 */
+.footer-legal {
+    background-color: #111;
+    padding: 25px 0;
+    margin-top: 60px;
+    font-size: 0.85rem;
+    color: #888;
 }
 
-.footer-bottom {
-    margin-top: 50px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    text-align: center;
+.legal-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* 行動裝置調整 */
-@media (max-width: 768px) {
-    .footer-grid-layout {
-        grid-template-columns: 1fr;
-    }
+/* RWD 回應式設計 */
+@media (max-width: 1024px) {
+    .footer-grid-wrapper { grid-template-columns: 1fr 1fr; }
 }
+@media (max-width: 600px) {
+    .footer-grid-wrapper { grid-template-columns: 1fr; }
+}
+
+
 
 /* 浮動 CTA 按鈕容器 */
 .floating-cta {
