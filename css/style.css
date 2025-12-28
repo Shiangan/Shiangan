@@ -1507,70 +1507,132 @@ main {
 
 
 /* -------------------------------------------/* Footer 整體風格 */
+/* --- 旗艦 Footer 樣式 --- */
 .site-footer {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    background: #1a1c1e; /* 配合星空深色的底色 */
     color: #e0e0e0;
-    padding: 80px 0 0;
+    padding-top: 80px;
     font-family: 'Noto Sans TC', sans-serif;
-    border-top: 4px solid #d4af37; /* 金色頂邊 */
+    position: relative;
+    overflow: hidden;
 }
 
-.footer-grid-wrapper {
+/* 頂部細金色分界線 */
+.footer-divider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+.footer-main-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr; /* 五欄佈局 */
+    grid-template-columns: 1.2fr 2fr 1.2fr;
+    gap: 60px;
+    padding-bottom: 60px;
+}
+
+.footer-logo-full {
+    max-width: 180px;
+    margin-bottom: 25px;
+    filter: brightness(1.1);
+}
+
+.footer-mission-text {
+    line-height: 1.8;
+    color: #b0b0b0;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.footer-trust-labels .trust-tag {
+    display: inline-block;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+/* 連結區域設計 */
+.footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
-.footer-title {
-    color: #d4af37; /* 質感金 */
-    font-size: 1.25rem;
-    font-weight: 700;
+.footer-link-group h5, .footer-contact-section h5 {
+    color: #ffffff;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.1rem;
     margin-bottom: 25px;
-    position: relative;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 10px;
+    display: inline-block;
 }
 
-/* 底部按鈕優化 */
-.footer-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    border-radius: 50px;
+.footer-link-group ul { list-style: none; padding: 0; }
+.footer-link-group ul li { margin-bottom: 15px; }
+.footer-link-group ul li a {
+    color: #b0b0b0;
     text-decoration: none;
-    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+.footer-link-group ul li a:hover {
+    color: #d4af37;
+    padding-left: 5px;
+}
+
+/* 聯絡卡片設計 */
+.cta-card {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-decoration: none;
     margin-bottom: 15px;
     transition: transform 0.3s ease;
 }
+.cta-card.phone { background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%); color: white; }
+.cta-card.line { background: #00b900; color: white; }
+.cta-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 
-.phone-btn { background-color: #c0392b; color: white; }
-.line-btn { background-color: #00b900; color: white; }
+.cta-label { font-size: 0.75rem; opacity: 0.9; margin-bottom: 4px; }
+.cta-value { font-size: 1.2rem; font-weight: bold; }
 
-.footer-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-
-/* 底層法律資訊欄 */
-.footer-legal {
-    background-color: #111;
+/* 底部法律欄 */
+.footer-bottom-bar {
+    background: #111111;
     padding: 25px 0;
-    margin-top: 60px;
-    font-size: 0.85rem;
-    color: #888;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.legal-flex {
+.footer-bottom-flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 0.85rem;
+    color: #666;
 }
 
-/* RWD 回應式設計 */
+.legal-info a { color: #888; text-decoration: none; margin: 0 5px; }
+.social-links a { color: #fff; margin-left: 20px; font-size: 1.2rem; opacity: 0.7; transition: 0.3s; }
+.social-links a:hover { opacity: 1; color: #d4af37; }
+
+/* 行動版 RWD 優化 */
 @media (max-width: 1024px) {
-    .footer-grid-wrapper { grid-template-columns: 1fr 1fr; }
+    .footer-main-grid { grid-template-columns: 1fr 1fr; }
+    .footer-brand-section { grid-column: span 2; text-align: center; }
 }
-@media (max-width: 600px) {
-    .footer-grid-wrapper { grid-template-columns: 1fr; }
+@media (max-width: 768px) {
+    .footer-main-grid { grid-template-columns: 1fr; }
+    .footer-brand-section, .footer-links-grid { grid-column: span 1; }
+    .footer-links-grid { grid-template-columns: 1fr; }
 }
-
-
 
 /* 浮動 CTA 按鈕容器 */
 .floating-cta {
