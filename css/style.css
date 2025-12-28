@@ -1399,10 +1399,12 @@ main {
  * 6. FAQ 手風琴樣式 (Accordion) - 質感強化
  * ------------------------------------------- */
 
-.accordion-container {
-    max-width: 900px;
-    margin: 40px auto 0;
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
 }
+
 
 .accordion-item {
     background-color: var(--text-light);
