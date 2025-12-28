@@ -4,221 +4,273 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
-    <title>【治喪行政終極指南】臨終準備、死亡證明、除籍與喪葬補助：不省略的圓滿百科 | 祥安生命</title>
-    <meta name="description" content="由國家認證禮儀師團隊編修，最完整的治喪準備清單：包含死亡證明申請份數、行政相驗流程、30日內戶政除籍、各項喪葬補助文件與遺產稅申報時限。全方位守護家屬權益。">
-    <meta name="keywords" content="治喪行政, 死亡證明份數, 除籍登記, 喪葬補助申請, 勞保死亡給付, 遺產繼承流程, 祥安生命">
+    <title>【治喪行政終極指南】臨終準備、死亡證明、除籍與喪葬補助全攻略 | 祥安生命</title>
+    <meta name="description" content="國家認證禮儀師團隊整理：提供最完整的治喪行政SOP。涵蓋死亡證明申請、30日內戶政除籍規定、各項喪葬補助文件與遺產稅申報時限。全設備優化閱讀，陪您圓滿親人最後的旅程。">
     
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-navy: #1a2a3a;
-            --accent-gold: #b39359;
+            --navy: #1a2a3a;
+            --gold: #b39359;
             --soft-gold: #fdfaf5;
             --text-main: #333333;
             --text-light: #666666;
-            --border-color: #e5e5e5;
-            --alert-red: #c0392b;
-            --shadow-soft: 0 10px 40px rgba(0,0,0,0.06);
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
-        /* 基礎設置與平滑滾動 */
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.85; color: var(--text-main); background-color: #fcfcfc; margin: 0; }
+        /* 基礎重置 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.8; color: var(--text-main); background: #fff; overflow-x: hidden; }
+        h1, h2, h3, .serif { font-family: 'Noto Serif TC', serif; }
+        a { text-decoration: none; transition: 0.3s; }
 
-        /* 全設備適配容器 */
-        .page-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .main-layout { display: flex; gap: 40px; margin: 40px 0; }
-
-        /* 文章主體 */
-        .content-body { flex: 3; min-width: 0; }
-        h1, h2, h3, h4 { font-family: 'Noto Serif TC', serif; color: var(--primary-navy); }
-
-        /* 頂級 Hero 視覺 */
-        .article-hero { 
-            background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%); 
-            color: #fff; padding: 80px 40px; border-radius: 20px; margin-top: 20px;
-            text-align: center; box-shadow: var(--shadow-soft);
+        /* --- Header 全站選單樣式 --- */
+        .main-header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
         }
-        .article-hero h1 { color: #fff; font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 15px; }
-
-        /* 引言卡片 - 專業與溫度 */
-        .intro-quote { 
-            background: var(--soft-gold); border-left: 6px solid var(--accent-gold); 
-            padding: 30px; border-radius: 0 15px 15px 0; margin: 40px 0; font-style: italic;
+        .header-container {
+            max-width: 1200px; margin: 0 auto; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
+        .logo img { height: 50px; display: block; }
+        .nav-menu { display: flex; list-style: none; gap: 25px; }
+        .nav-menu a { color: var(--navy); font-weight: 500; font-size: 0.95rem; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--gold); }
+        .mobile-toggle { display: none; font-size: 1.5rem; color: var(--navy); cursor: pointer; }
 
-        /* 核心章節樣式 */
-        .section-box { background: #fff; border: 1px solid var(--border-color); padding: 35px; border-radius: 15px; margin-bottom: 40px; box-shadow: var(--shadow-soft); }
-        .section-badge { background: var(--accent-gold); color: #fff; padding: 4px 15px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; display: inline-block; }
-
-        /* 列表與核對 */
-        .check-list-pro { list-style: none; padding: 0; }
-        .check-list-pro li { padding: 15px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: flex-start; }
-        .check-list-pro li i { color: var(--accent-gold); margin-top: 6px; margin-right: 15px; font-size: 1.2rem; }
-        .check-list-pro strong { color: var(--primary-navy); display: block; }
-
-        /* 響應式表格：完美顯示 */
-        .table-container { width: 100%; overflow-x: auto; margin: 30px 0; border-radius: 10px; border: 1px solid var(--border-color); }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { background: #f8f9fa; padding: 20px; text-align: left; border-bottom: 2px solid var(--accent-gold); }
-        td { padding: 20px; border-bottom: 1px solid #eee; }
-
-        /* 側邊欄設計 */
+        /* --- 文章布局 --- */
+        .article-hero {
+            background: linear-gradient(rgba(26,42,58,0.8), rgba(26,42,58,0.8)), url('images/blog-hero-bg.jpg') center/cover;
+            color: #fff; padding: 100px 20px; text-align: center;
+        }
+        .main-content { max-width: 1200px; margin: 50px auto; padding: 0 20px; display: flex; gap: 40px; }
+        .article-body { flex: 3; min-width: 0; }
         .sidebar { flex: 1; min-width: 300px; }
-        .sticky-box { position: sticky; top: 100px; }
-        .cta-card { background: var(--primary-navy); color: #fff; padding: 30px; border-radius: 15px; text-align: center; }
-        .cta-card h4 { color: var(--accent-gold); margin-top: 0; }
-        .cta-btn { display: block; background: var(--accent-gold); color: #fff; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 20px; transition: 0.3s; }
-        .cta-btn:hover { filter: brightness(1.1); }
 
-        /* 手機端微調 */
+        /* --- 內容深度組件 --- */
+        .expert-intro { 
+            background: var(--soft-gold); border-left: 5px solid var(--gold); 
+            padding: 30px; border-radius: 0 15px 15px 0; margin-bottom: 40px;
+        }
+        h2 { font-size: 1.8rem; color: var(--navy); margin: 45px 0 25px; border-bottom: 2px solid var(--soft-gold); padding-bottom: 10px; }
+        
+        .step-box { background: var(--bg-light); border-radius: 15px; padding: 30px; margin-bottom: 30px; }
+        .step-label { background: var(--gold); color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        
+        .info-table { width: 100%; border-collapse: collapse; margin: 25px 0; box-shadow: var(--shadow); border-radius: 10px; overflow: hidden; }
+        .info-table th { background: var(--navy); color: #fff; padding: 15px; text-align: left; }
+        .info-table td { padding: 15px; border-bottom: 1px solid #eee; background: #fff; }
+
+        /* --- Sidebar & CTA --- */
+        .sidebar-card { background: var(--white); border: 1px solid #eee; padding: 25px; border-radius: 15px; box-shadow: var(--shadow); margin-bottom: 30px; }
+        .cta-button { 
+            display: block; background: var(--gold); color: #fff; text-align: center; 
+            padding: 15px; border-radius: 8px; font-weight: bold; margin-top: 20px;
+        }
+
+        /* --- Footer 全站底欄樣式 --- */
+        .main-footer { background: var(--navy); color: rgba(255,255,255,0.8); padding: 80px 20px 30px; }
+        .footer-grid { 
+            max-width: 1200px; margin: 0 auto; 
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px;
+        }
+        .footer-logo img { height: 60px; margin-bottom: 20px; filter: brightness(0) invert(1); }
+        .footer-title { color: var(--gold); font-size: 1.2rem; margin-bottom: 25px; font-weight: bold; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--gold); padding-left: 5px; }
+        .footer-bottom { 
+            max-width: 1200px; margin: 50px auto 0; padding-top: 30px; 
+            border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.85rem;
+        }
+
+        /* --- 手機版行動按鈕 --- */
+        .floating-action {
+            position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 999;
+        }
+        .float-btn {
+            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .btn-phone { background: var(--gold); }
+        .btn-line { background: #06c755; }
+
+        /* --- 響應式優化 --- */
         @media (max-width: 991px) {
-            .main-layout { flex-direction: column; }
+            .nav-menu { display: none; } /* 可配合 JS 開啟手機選單 */
+            .mobile-toggle { display: block; }
+            .main-content { flex-direction: column; }
             .sidebar { order: -1; }
-            .article-hero { padding: 50px 20px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .article-hero { padding: 60px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="page-wrapper">
-        <header class="article-hero">
-            <span style="letter-spacing: 3px; font-weight: 300;">COMPREHENSIVE GUIDE</span>
-            <h1>治喪行政與權益準備終極手冊</h1>
-            <p style="opacity: 0.9;">這是一份陪您走過慌亂、圓滿親人最後一哩路的完整清單</p>
-        </header>
-
-        <div class="main-layout">
-            <article class="content-body">
-                
-                <div class="intro-quote">
-                    「在最深沉的悲傷中，行政流程不應成為您的負擔。祥安生命為您統整這份不省略、最豐富的行政百科，從臨終前的意願，到身後的各項權益申請，我們陪您一步步圓滿。」
-                    <p style="text-align: right; margin-top: 15px; font-weight: 700; color: var(--primary-navy);">—— 國家認證禮儀師團隊 謹製</p>
-                </div>
-
-                <h2 id="part1"><i class="fas fa-heart"></i> 第一篇：臨終預備——賦予尊嚴的告別</h2>
-                <div class="section-box">
-                    <span class="section-badge">臨終期建議</span>
-                    <ul class="check-list-pro">
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>遺照挑選（決定未來的懷念樣貌）</strong>
-                                建議挑選逝者生前最自豪、最具代表性且神韻自然的數位原檔或 2 吋以上照片。
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>壽衣選擇（給予最後的體面）</strong>
-                                現代治喪已不限於傳統五層三褲，可準備親人生前最喜愛的正式套裝、西裝或旗袍。
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>重要證件預備（行政效率關鍵）</strong>
-                                備妥逝者身分證正本、戶口名簿、健保卡，並建議影印 10 份備用。
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <h2 id="part2"><i class="fas fa-file-invoice"></i> 第二篇：初終行政——死亡證明申請細節</h2>
-                <p>死亡證明書是啟動所有程序（接體、冰存、除籍、火化、理賠）的「唯一通行證」。</p>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>往生情境</th>
-                                <th>行政相驗/司法相驗流程</th>
-                                <th>建議份數</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>在醫院病逝</strong></td>
-                                <td>最簡單。由主治醫師簽發，在櫃台完成繳費後即可領取。</td>
-                                <td><strong>15 份</strong> (正本)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>家中自然老死</strong></td>
-                                <td>聯繫轄區衛生所或診所醫師到府相驗。需準備病歷或診斷書供醫師參考。</td>
-                                <td><strong>10 - 15 份</strong></td>
-                            </tr>
-                            <tr>
-                                <td><strong>意外/自殺/非病逝</strong></td>
-                                <td>需報警(110)，由檢察官偕同法醫相驗。現場須維持原狀不得隨意移動遺體。</td>
-                                <td><strong>10 份</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div style="background: #fff4f4; border: 1px solid #f8d7da; padding: 25px; border-radius: 12px; margin: 30px 0;">
-                    <h4 style="color: var(--alert-red); margin-top: 0;"><i class="fas fa-exclamation-triangle"></i> 法令紅線：除戶登記 30 日時限</h4>
-                    <p style="margin-bottom: 0;">依據《戶籍法》第 47 條，家屬須於死亡發生後 <strong>30 日內</strong> 持死亡證明書與相關文件至戶政事務所完成「除戶登記」，以免產生行政罰鍰及後續法律爭議。</p>
-                </div>
-
-                <h2 id="part3"><i class="fas fa-coins"></i> 第三篇：權益與補助——別讓您的權益睡著了</h2>
-                <div class="section-box">
-                    <span class="section-badge">給付申請攻略</span>
-                    <ul class="check-list-pro">
-                        <li>
-                            <i class="fas fa-hand-holding-dollar"></i>
-                            <div>
-                                <strong>勞保/國保喪葬津貼</strong>
-                                被保險人死亡，最高可申領 5 個月投保薪資。若家屬（配偶/父母/子女）有勞保，亦可申請家屬給付。
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-balance-scale"></i>
-                            <div>
-                                <strong>遺產稅申報 (時限 6 個月)</strong>
-                                死亡後 6 個月內需向國稅局申報遺產稅。即使無須繳稅也必須進行申報程序方可辦理過戶。
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-university"></i>
-                            <div>
-                                <strong>金融機構銷戶與保險理賠</strong>
-                                憑除戶謄本與死亡證明，聯繫保險業務員進行理賠，並前往銀行結算遺留存款。
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </article>
-
-            <aside class="sidebar">
-                <div class="sticky-box">
-                    <div class="cta-card">
-                        <h4>行政流程有困難？</h4>
-                        <p>我們提供全程行政代辦服務，從開立證明到補助申領，專業團隊一手包辦。</p>
-                        <a href="tel:0978583699" class="cta-btn">📞 24H 諮詢：0978-583-699</a>
-                    </div>
-
-                    <div style="margin-top: 30px; background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee;">
-                        <h4 style="margin-top:0; border-bottom: 2px solid var(--accent-gold); padding-bottom: 10px;">快速文件檢核</h4>
-                        <ul style="list-style: none; padding: 0; font-size: 0.9rem;">
-                            <li style="margin: 10px 0;"><input type="checkbox"> 死亡證明書 (正本15份)</li>
-                            <li style="margin: 10px 0;"><input type="checkbox"> 逝者身分證正本</li>
-                            <li style="margin: 10px 0;"><input type="checkbox"> 戶口名簿</li>
-                            <li style="margin: 10px 0;"><input type="checkbox"> 申請人印章與身分證</li>
-                        </ul>
-                    </div>
-                </div>
-            </aside>
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="祥安生命 Logo">
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="about.html">關於祥安</a></li>
+                    <li><a href="services.html">服務項目</a></li>
+                    <li><a href="plans.html">費用方案</a></li>
+                    <li><a href="blog.html" class="active">殯葬百科</a></li>
+                    <li><a href="contact.html">聯絡我們</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
         </div>
+    </header>
+
+    <section class="article-hero">
+        <div class="page-wrapper">
+            <h1 class="serif">治喪行政與權益全書</h1>
+            <p>不省略任何步驟，從臨終準備到補助申領，專業禮儀師陪您圓滿處理</p>
+        </div>
+    </section>
+
+    <main class="main-content">
+        
+        <div class="article-body">
+            <div class="expert-intro">
+                <p>「在處理親人後事的過程中，行政庶務往往最令家屬疲憊。我們整理這份終極清單，是為了讓您能安心告別，剩下的法規與繁瑣，我們幫您守護。」</p>
+            </div>
+
+            <h2 id="phase1">一、臨終前的尊嚴準備</h2>
+            <div class="step-box">
+                <span class="step-label">第一階段</span>
+                <p style="margin-top:15px;"><strong>● 意願確認：</strong> 尊重親人對於宗教（如：佛教、基督徒、日蓮正宗）及葬法（土葬、火化、環保葬）的遺願。</p>
+                <p><strong>● 照片與壽衣：</strong> 挑選 2 吋以上清晰近照，及一套親人生前最喜愛的正式服裝作為壽衣。</p>
+                <p><strong>● 證件集中：</strong> 預先備好逝者身分證正本、戶口名簿、健保卡。</p>
+            </div>
+
+            <h2 id="phase2">二、初終 24 小時：死亡證明申請</h2>
+            <p>死亡證明書是後續所有流程（接體、火化、領補助）的關鍵文件。</p>
+            <div class="table-container">
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th>往生場景</th>
+                            <th>申辦方式</th>
+                            <th>建議份數</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>醫院病逝</strong></td>
+                            <td>主治醫師開立，櫃台繳費領取。</td>
+                            <td>15 份正本</td>
+                        </tr>
+                        <tr>
+                            <td><strong>家中辭世</strong></td>
+                            <td>聯繫衛生所或診所醫師到府相驗。</td>
+                            <td>10-15 份正本</td>
+                        </tr>
+                        <tr>
+                            <td><strong>意外/非病逝</strong></td>
+                            <td>報警 110，經檢察官法醫司法相驗。</td>
+                            <td>10 份正本</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 id="phase3">三、不可忽視的法律與補助時限</h2>
+            <div class="step-box" style="border-left: 5px solid #e74c3c;">
+                <p><strong>1. 戶籍除籍 (30日內)：</strong> 需至戶政事務所辦理，否則會產生罰鍰。</p>
+                <p><strong>2. 勞保/國保喪葬津貼 (5年內)：</strong> 最高可申領 5 個月投保薪資。</p>
+                <p><strong>3. 遺產稅申報 (6個月內)：</strong> 需向逝者戶籍地國稅局申報。</p>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h4 class="serif" style="color:var(--gold);">文件核對清單</h4>
+                <ul style="list-style: none; padding-top:15px; font-size: 0.9rem;">
+                    <li style="margin-bottom:10px;"><i class="fas fa-check-square" style="color:var(--gold);"></i> 死亡證明正本 15 份</li>
+                    <li style="margin-bottom:10px;"><i class="fas fa-check-square" style="color:var(--gold);"></i> 逝者身分證與印章</li>
+                    <li style="margin-bottom:10px;"><i class="fas fa-check-square" style="color:var(--gold);"></i> 戶口名簿正本</li>
+                    <li style="margin-bottom:10px;"><i class="fas fa-check-square" style="color:var(--gold);"></i> 申請人身分證與印章</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-card" style="background: var(--navy); color: #fff; text-align: center;">
+                <h4 class="serif" style="color:var(--gold);">24H 專人代辦</h4>
+                <p style="font-size:0.85rem; margin-top:10px; opacity:0.8;">繁雜手續不需親自奔波，祥安專業團隊為您代辦所有行政流程。</p>
+                <a href="tel:0978583699" class="cta-button">立即撥打諮詢專線</a>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <div class="footer-logo"><img src="images/logo.png" alt="祥安生命"></div>
+                <p style="font-size: 0.9rem;">祥安生命致力於提供最有溫度的生命禮儀服務。我們以專業、透明、尊重的態度，陪伴每一個家庭走過生命中最艱難的時刻。</p>
+            </div>
+            <div>
+                <h4 class="footer-title">快速連結</h4>
+                <ul class="footer-links">
+                    <li><a href="plans.html">喪葬費用公開方案</a></li>
+                    <li><a href="services.html">客製化禮儀服務</a></li>
+                    <li><a href="blog.html">殯葬百科知識庫</a></li>
+                    <li><a href="privacy.html">隱私權政策</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">專業服務</h4>
+                <ul class="footer-links">
+                    <li><a href="article-hospital-death.html">臨終行政手續</a></li>
+                    <li><a href="article-eco-burial.html">環保葬規劃</a></li>
+                    <li><a href="article-fuwen.html">訃聞稱謂寫法</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">聯絡我們</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 10px;"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> 服務地區：台北、新北、桃園、基隆</p>
+                <p style="font-size: 0.9rem; margin-bottom: 10px;"><i class="fas fa-phone-alt" style="color:var(--gold);"></i> 24H 服務：0978-583-699</p>
+                <p style="font-size: 0.9rem;"><i class="fab fa-line" style="color:var(--gold);"></i> LINE ID：(請輸入ID)</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>祥安生命有限公司 © 2025 All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div class="floating-action">
+        <a href="https://line.me/ti/p/..." class="float-btn btn-line"><i class="fab fa-line"></i></a>
+        <a href="tel:0978583699" class="float-btn btn-phone"><i class="fas fa-phone-alt"></i></a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("祥安生命 - 治喪百科已載入");
+        // 手機版選單切換 (簡單範例)
+        const toggle = document.querySelector('.mobile-toggle');
+        const nav = document.querySelector('.nav-menu');
+        toggle.addEventListener('click', () => {
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            nav.style.flexDirection = 'column';
+            nav.style.position = 'absolute';
+            nav.style.top = '70px';
+            nav.style.left = '0';
+            nav.style.width = '100%';
+            nav.style.background = '#fff';
+            nav.style.padding = '20px';
         });
     </script>
 </body>
