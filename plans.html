@@ -41,257 +41,230 @@
     }
     </script>
 
+  
+    <title>透明方案價格表 | 祥安生命：國家認證禮儀師團隊</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        :root { --navy: #0a192f; --gold: #b3935d; --gold-dark: #8c7344; --off-white: #f8f9fa; }
-        body { font-family: 'Noto Sans TC', sans-serif; background: #fff; color: #333; line-height: 1.8; }
-        .serif { font-family: 'Noto Serif TC', serif; }
-
-        /* 導覽列與首頁一致 */
-        .main-header { position: sticky; top:0; z-index:1000; background:#fff; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
-
-        /* 英雄區：溫情質感 */
-        .plans-hero {
-            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), url('images/plans-hero.jpg') center/cover;
-            padding: 160px 20px 100px; text-align: center; color: white;
+        :root {
+            --primary-gold: #C5A059;
+            --deep-navy: #1C2B39;
+            --silk-bg: #F8F7F2;      /* 全域背景，確保不跳白 */
+            --mist-bg: #EFEDE7;      /* 區塊深色轉場 */
+            --white: #FFFFFF;
+            --text-main: #3A3A3A;
+            --text-muted: #777777;
+            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .hero-badge { display: inline-block; border: 1px solid var(--gold); color: var(--gold); padding: 5px 20px; border-radius: 50px; font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 2px; }
-        .plans-hero h1 { font-size: 3.2rem; color: var(--gold); margin-bottom: 25px; }
-        .plans-hero p { max-width: 850px; margin: 0 auto; font-size: 1.1rem; opacity: 0.95; font-weight: 300; }
 
-        /* 方案矩陣設計 */
-        .matrix-section { padding: 100px 0; background: #fff; }
-        .section-header { text-align: center; margin-bottom: 70px; }
-        .section-header h2 { font-size: 2.2rem; color: var(--navy); margin-bottom: 15px; }
-        .divider { width: 50px; height: 3px; background: var(--gold); margin: 0 auto; }
+        /* 基礎樣式 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--silk-bg);
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+        .serif { font-family: 'Noto Serif TC', serif; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
 
-        .table-container { overflow-x: auto; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.08); background: #fff; }
-        table { width: 100%; border-collapse: collapse; min-width: 1250px; }
+        /* --- 導覽列 --- */
+        .nav-header {
+            position: fixed; top: 0; width: 100%; height: 75px;
+            background: rgba(248, 247, 242, 0.95); backdrop-filter: blur(15px);
+            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 5%;
+        }
+        .logo img { height: 42px; }
+
+        /* --- 方案標題區 --- */
+        .plans-header {
+            padding: 150px 0 60px; text-align: center;
+            background: linear-gradient(to bottom, var(--silk-bg), var(--mist-bg));
+        }
+        .plans-header h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--deep-navy); margin-bottom: 15px; }
+
+        /* --- 方案選擇網格 (極響應) --- */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px; padding-bottom: 80px;
+        }
+
+        .plan-card {
+            background: var(--white); border-radius: 24px; padding: 45px 30px;
+            display: flex; flex-direction: column; transition: var(--transition);
+            border: 1px solid rgba(197, 160, 89, 0.1); position: relative;
+        }
+        .plan-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.06); }
+        .plan-card.featured { border: 2px solid var(--primary-gold); }
+        .badge {
+            position: absolute; top: 20px; right: 20px; background: var(--primary-gold);
+            color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;
+        }
+
+        .plan-name { font-size: 1.8rem; color: var(--deep-navy); margin-bottom: 10px; }
+        .plan-price { font-size: 2.2rem; font-weight: 700; color: var(--primary-gold); margin-bottom: 25px; }
+        .plan-price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
+
+        /* 服務清單細項 */
+        .service-list { list-style: none; margin-bottom: 30px; flex-grow: 1; }
+        .service-list li { 
+            padding: 12px 0; border-bottom: 1px solid #f0f0f0; 
+            display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem;
+        }
+        .service-list li i { color: var(--primary-gold); margin-top: 5px; }
+
+        /* 詳情摺疊控制 */
+        .details-btn {
+            background: none; border: 1px solid #ddd; padding: 10px; width: 100%;
+            border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-muted);
+            margin-bottom: 20px; transition: 0.3s;
+        }
+        .details-btn:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
         
-        thead th { background: var(--navy); color: #fff; padding: 50px 15px; border-right: 1px solid #1a2a44; cursor: pointer; position: relative; }
-        .plan-title { color: var(--gold); font-size: 1.4rem; display: block; margin-bottom: 10px; }
-        .plan-price { font-size: 2.5rem; font-weight: 700; display: block; }
-        .plan-price small { font-size: 1rem; font-weight: 400; opacity: 0.8; }
-        .btn-view { display: inline-block; margin-top: 20px; padding: 6px 15px; border: 1px solid var(--gold); color: var(--gold); border-radius: 4px; font-size: 0.8rem; transition: 0.3s; }
-        .btn-view:hover { background: var(--gold); color: #fff; }
+        .full-details { display: none; background: #fafafa; padding: 15px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 20px; }
+        .full-details ul { padding-left: 15px; }
 
-        .cat-title { background: #fdfaf4; color: var(--navy); font-weight: 700; text-align: left; padding: 25px 40px; font-size: 1.2rem; border-left: 5px solid var(--gold); border-top: 1px solid #eee; }
-        .row-label { background: #fafafa; font-weight: 600; text-align: left; padding-left: 40px; width: 260px; border: 1px solid #eee; color: #555; }
-        td { padding: 30px 20px; text-align: center; border: 1px solid #eee; font-size: 1rem; }
-        .highlight-text { color: var(--navy); font-weight: 600; }
+        .btn-action {
+            display: block; text-align: center; padding: 16px; border-radius: 50px;
+            background: var(--deep-navy); color: white; text-decoration: none; font-weight: 700; transition: 0.3s;
+        }
+        .plan-card.featured .btn-action { background: var(--primary-gold); }
 
-        /* 燈箱細節 */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,25,47,0.98); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(10px); }
-        .modal-card { background: #fff; width: 95%; max-width: 1000px; border-radius: 30px; padding: 50px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 50px 100px rgba(0,0,0,0.5); }
-        .modal-close { position: absolute; top: 30px; right: 35px; font-size: 2.5rem; cursor: pointer; color: var(--navy); }
-        
-        .modal-header { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 30px; margin-bottom: 40px; }
-        .modal-header h2 { font-size: 2.2rem; color: var(--navy); }
-        .modal-header .price { color: var(--gold); font-size: 1.6rem; font-weight: 700; }
+        /* --- 備註與補充 (圖片下方小字統整) --- */
+        .notes-section { padding: 60px 0; background: var(--mist-bg); font-size: 0.9rem; color: var(--text-muted); }
+        .notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
 
-        .modal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
-        .grid-item h3 { font-size: 1.25rem; color: var(--navy); margin-bottom: 20px; display: flex; align-items: center; border-bottom: 2px solid var(--off-white); padding-bottom: 10px; }
-        .grid-item h3 i { color: var(--gold); margin-right: 15px; }
-        .grid-item ul { list-style: none; padding: 0; }
-        .grid-item li { padding: 10px 0; display: flex; align-items: flex-start; border-bottom: 1px solid #f9f9f9; font-size: 1rem; }
-        .grid-item li::before { content: "✔"; color: var(--gold); margin-right: 15px; font-weight: bold; }
+        @media (max-width: 768px) {
+            .plans-grid { grid-template-columns: 1fr; }
+            .plans-header { padding-top: 120px; }
+        }
 
-        .modal-footer-note { background: #fff9f0; padding: 25px; border-radius: 15px; margin-top: 40px; border: 1px dashed var(--gold); }
-        .modal-footer-note p { margin: 0; font-size: 0.9rem; color: #8c7344; line-height: 1.6; }
-
-        @media (max-width: 992px) { .modal-grid { grid-template-columns: 1fr; } .plans-hero h1 { font-size: 2.4rem; } }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-
 <body>
 
-    <header class="main-header">
-        <div class="header-container container">
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命" class="site-logo"></a>
-            </div>
-            <nav class="main-nav">
-                <ul role="menubar">
-                    <li><a href="index.html">首頁</a></li>
-                    <li><a href="about.html">關於我們</a></li> 
-                    <li class="dropdown">
-                        <a href="services.html">專業生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
-                        <div class="submenu-container">
-                            <ul class="submenu">
-                                <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道教)</a></li>
-                                <li><a href="services.html#western-etiquette">西式禮儀 (基督/天主)</a></li>
-                                <li><a href="services.html#eco-burial">樹葬/花葬專區</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="plans.html" class="active">喪葬費用公開專案</a></li>
-                    <li><a href="ta-wei-choice-guide.html">塔位晉塔指引</a></li>
-                    <li class="contact-nav"><a href="tel:+886978583699">24H 聯絡我們</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    
 
-    <main id="main-content">
-        <section class="plans-hero">
+    <main>
+        <section class="plans-header">
             <div class="container">
-                <span class="hero-badge">誠信 ． 專業 ． 圓滿</span>
-                <h1 class="serif">生命終章的溫柔守護</h1>
-                <p>祥安生命堅持「費用公開、項目不省略」的經營理念。我們深信，每位逝者都應享有尊嚴的告別，而家屬在哀慟之際，不應再受隱藏費用的困擾。我們將繁瑣轉化為圓滿，守護您最珍視的思念。</p>
+                <h1 class="serif reveal">透明、尊嚴、不負所託</h1>
+                <p class="reveal">我們將所有繁雜的細項公開，讓您在平靜中做出最適合的選擇。</p>
             </div>
         </section>
 
-        <section class="matrix-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="serif">全系列方案詳情對照</h2>
-                    <div class="divider"></div>
-                </div>
+        <section class="container">
+            <div class="plans-grid">
+                
+                <article class="plan-card reveal">
+                    <span class="plan-type serif" style="color:#888;">ECONOMY</span>
+                    <h2 class="plan-name serif">聯合奠祭專案</h2>
+                    <div class="plan-price">NT$ 35,000 <span>(參萬伍仟元整)</span></div>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> 24小時禮儀諮詢服務</li>
+                        <li><i class="fas fa-check-circle"></i> 專任禮儀師協助處理遺體安置</li>
+                        <li><i class="fas fa-check-circle"></i> 配合政府指定場所搭設靈堂</li>
+                        <li><i class="fas fa-check-circle"></i> 包含環保棺木與基本安置物品</li>
+                    </ul>
+                    <button class="details-btn" onclick="toggleDetails('d1')">查看完整服務內容項</button>
+                    <div id="d1" class="full-details">
+                        <strong>包含內容：</strong>
+                        <ul>
+                            <li>遺體接送：24小時專線、接體車輛(20公里內)</li>
+                            <li>豎靈服務：安置法師、Q版靈位、蘭花、水果盤</li>
+                            <li>進思美禮：襄儀、入殮人員、紅色/白色紅包包裝</li>
+                            <li>後續關懷：百日、對年通知、悲傷輔導諮詢</li>
+                        </ul>
+                    </div>
+                    <a href="tel:+886978583699" class="btn-action">立即諮詢</a>
+                </article>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>服務明細 \ 方案名稱</th>
-                                <th onclick="openPlan(1)">
-                                    <span class="plan-title serif">聯合奠祭專案</span>
-                                    <span class="plan-price">3.5<small>萬</small></span>
-                                    <span class="btn-view">不省略細項內容</span>
-                                </th>
-                                <th onclick="openPlan(2)">
-                                    <span class="plan-title serif">尊榮奠祭專案</span>
-                                    <span class="plan-price">16.8<small>萬</small></span>
-                                    <span class="btn-view">不省略細項內容</span>
-                                </th>
-                                <th onclick="openPlan(3)">
-                                    <span class="plan-title serif">精緻奠祭專案</span>
-                                    <span class="plan-price">22.8<small>萬</small></span>
-                                    <span class="btn-view">不省略細項內容</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td colspan="4" class="cat-title">【宗教儀軌、法事與蓮花】</td></tr>
-                            <tr>
-                                <td class="row-label">宗教法事場次</td>
-                                <td>引魂法事、豎靈安置</td>
-                                <td class="highlight-text">全七場 (一至滿七) 誦經法會</td>
-                                <td class="highlight-text">全七場 + 滿七藥師功德法會</td>
-                            </tr>
-                            <tr>
-                                <td class="row-label">手工九華蓮花</td>
-                                <td>-</td>
-                                <td>108 份小蓮花被</td>
-                                <td class="highlight-text">180 份極致手工九華蓮花</td>
-                            </tr>
-                            <tr>
-                                <td class="row-label">供品與祭品細項</td>
-                                <td>基本三牲四果組</td>
-                                <td>豪華 12 菜碗祭品 (葷/素)</td>
-                                <td>頂級功德全套祭品 + 冥幣包</td>
-                            </tr>
-                            <tr><td colspan="4" class="cat-title">【專業人力、靈車與硬體佈置】</td></tr>
-                            <tr>
-                                <td class="row-label">奠禮靈車規格</td>
-                                <td>24H 接體車 (20公里)</td>
-                                <td class="highlight-text">凱迪拉克 / 賓士進口靈車</td>
-                                <td class="highlight-text">頂級加長型進口尊榮靈車</td>
-                            </tr>
-                            <tr>
-                                <td class="row-label">團隊人力編制</td>
-                                <td>襄儀 1 名</td>
-                                <td>司儀 1 / 襄儀 2 / 樂隊 5 名</td>
-                                <td>首席司儀 / 完整禮賓襄儀團</td>
-                            </tr>
-                            <tr>
-                                <td class="row-label">會場視覺設計</td>
-                                <td>聯合奠祭花山</td>
-                                <td>18尺精緻花藝 + LED花圈</td>
-                                <td class="highlight-text">24尺大山花壇佈置 + 攝影紀錄</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <article class="plan-card featured reveal">
+                    <div class="badge">最受家屬信任</div>
+                    <span class="plan-type serif">PREMIUM</span>
+                    <h2 class="plan-name serif">精緻奠祭專案</h2>
+                    <div class="plan-price">NT$ 288,000 <span>(貳拾捌萬捌仟元整)</span></div>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> 完整治喪協調與擇日服務</li>
+                        <li><i class="fas fa-check-circle"></i> 包含頭七、二七至滿七誦經法事</li>
+                        <li><i class="fas fa-check-circle"></i> 莊嚴進思美禮：含襄儀與優質樂隊</li>
+                        <li><i class="fas fa-check-circle"></i> 文化安葬進塔：代辦文化手續與專車</li>
+                    </ul>
+                    <button class="details-btn" onclick="toggleDetails('d2')">查看完整服務內容項</button>
+                    <div id="d2" class="full-details">
+                        <strong>包含內容：</strong>
+                        <ul>
+                            <li>法事安排：頭七至六七、滿七共七場法事</li>
+                            <li>進思美禮：司儀、襄儀4名、優質樂隊5名、會場花藝佈置</li>
+                            <li>文化安葬：代辦火化/進塔手續、靈車、骨灰罈盒</li>
+                            <li>準備事項：壽衣、蓮花被、各項隨身內用品</li>
+                        </ul>
+                    </div>
+                    <a href="tel:+886978583699" class="btn-action">了解詳情</a>
+                </article>
+
+                <article class="plan-card reveal">
+                    <span class="plan-type serif" style="color:var(--deep-navy);">ULTIMATE</span>
+                    <h2 class="plan-name serif">尊榮奠祭專案</h2>
+                    <div class="plan-price">NT$ 1,168,000 <span>(壹拾陸萬捌仟元整)</span></div>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> 全程頂級專業團隊一對一服務</li>
+                        <li><i class="fas fa-check-circle"></i> 包含高規格七場完整誦經功德法事</li>
+                        <li><i class="fas fa-check-circle"></i> 頂級會場佈置與大規模襄儀團隊</li>
+                        <li><i class="fas fa-check-circle"></i> 含括所有後續百日、對年關懷</li>
+                    </ul>
+                    <button class="details-btn" onclick="toggleDetails('d3')">查看完整服務內容項</button>
+                    <div id="d3" class="full-details">
+                        <strong>包含內容：</strong>
+                        <ul>
+                            <li>法事規劃：完整七場功德法事，含法師、祭品</li>
+                            <li>進思美禮：司儀、襄儀4名、優質樂隊5名、18尺高級花藝、中央走道花、淨水台</li>
+                            <li>物品備置：高級絲綢壽衣、尊貴型骨灰罈、專屬靈車</li>
+                            <li>文化安葬：代辦全套進塔手續、安葬擇日、地理師指引</li>
+                        </ul>
+                    </div>
+                    <a href="tel:+886978583699" class="btn-action">專人到府規劃</a>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="notes-section">
+            <div class="container">
+                <div class="notes-grid">
+                    <div>
+                        <h4 class="serif" style="margin-bottom:15px; color: var(--deep-navy);">⚠️ 不包含部分 (實報實銷)</h4>
+                        <p>殯儀館規費、火葬場費用、冰櫃、暨靈會館、陳頭、功德壇、紙紮、庫錢、塔位、尊體SPA等相關費用。</p>
+                    </div>
+                    <div>
+                        <h4 class="serif" style="margin-bottom:15px; color: var(--deep-navy);">💡 貼心提醒</h4>
+                        <p>內容服務及奠祭現場整體規劃設計，本公司將依當地習俗調整，或以等值用品提供給客戶。本契約僅提供殯儀館出殯及設置會館或牌位區。</p>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <div id="pModal" class="modal" onclick="closePlan()">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <span class="modal-close" onclick="closePlan()">&times;</span>
-            <div id="mContent"></div>
-        </div>
-    </div>
-
-    <footer class="main-footer" style="background:var(--navy); color:#fff; padding:100px 0 50px;">
-        <div class="container" style="text-align:center;">
-            <p class="serif" style="font-size:1.8rem; color:var(--gold);">祥安生命有限公司</p>
-            <p style="letter-spacing:1px; opacity:0.8; margin:15px 0;">國家認證禮儀師團隊 ． 政府甲級立案 ． 24小時專業守護</p>
-            <div style="margin:40px 0;">
-                <a href="tel:+886978583699" style="color:var(--gold); text-decoration:none; font-size:2.2rem; font-weight:700;">0978-583-699</a>
-            </div>
-            <p style="opacity:0.6; font-size:0.9rem;">新北市三重區永福街135巷13號 (服務範圍：台北、新北、桃園、基隆)</p>
-            <div style="margin-top:60px; padding-top:30px; border-top:1px solid rgba(255,255,255,0.1); font-size:0.8rem; opacity:0.4;">
-                © 2025 祥安生命有限公司 版權所有 | 誠信服務 ‧ 圓滿生命
-            </div>
-        </div>
-    </footer>
-
     <script>
-        const plans = {
-            1: {
-                title: "聯合奠祭專案", price: "參萬伍仟元整",
-                data: [
-                    { h: "接體與安置", items: ["24小時臨終關懷諮詢","接體車(20公里內)","陀羅尼經被、唸佛機","安置法師引魂、豎立牌位"] },
-                    { h: "奠禮服務明細", items: ["15吋放大相(含框)","三牲、四果、12菜碗祭品組","禮儀襄儀一名、致專工人二名","引魂押父一名、聯合奠祭花山"] },
-                    { h: "治喪手續", items: ["代辦火化/禮廳申請手續","治喪行事表規劃","百日、對年合爐通知"] }
-                ],
-                note: "本方案主要配合政府設施辦理，適合預算有限或欲請領各項補助之家庭。"
-            },
-            2: {
-                title: "尊榮奠祭專案", price: "壹拾陸萬捌仟元整",
-                data: [
-                    { h: "全場次法事 (不省略)", items: ["頭七至滿七共七場誦經法會","每場三名法師、祭品全套","108份小蓮花被、冥財箱、冥紙包"] },
-                    { h: "硬體與靈車規格", items: ["凱迪拉克或賓士進口靈車","精緻五層文化木棺、精選壽衣","18尺精緻花藝佈置、LED花圈一對","精緻五層紙紮屋一套、陶瓷骨灰罐"] },
-                    { h: "專業執行團隊", items: ["專業司儀一名主持奠禮","專業襄儀二名協助儀式","五名優質樂隊老師演奏","法師一名隨行晉塔服務"] }
-                ],
-                note: "祥安推薦首選：包含完整傳統儀軌，讓逝者在莊嚴與尊榮中啟程。"
-            },
-            3: {
-                title: "精緻奠祭專案", price: "貳拾貳萬捌仟元整",
-                data: [
-                    { h: "極致法事功德", items: ["滿七升級為「藥師功德法會」(七位法師)","180份極致手工九華蓮花","特大號精緻紙紮屋一套","全套頂級功德祭品、冥紙大包組"] },
-                    { h: "頂級規格硬體", items: ["旗艦級加長型進口靈車","24尺超大山莊嚴花壇佈置佈置","頂級五層文化木棺、頂級玉石骨灰罐","會場專業紀錄拍攝一式"] },
-                    { h: "首席團隊配置", items: ["首席司儀主持規劃","完整禮賓襄儀團協助","專業國樂隊老師演奏","全流程禮儀專人專車協助"] }
-                ],
-                note: "旗艦級守護：適合追求極致功德、場面盛大且希望完整紀錄留存的家庭。"
-            }
-        };
-
-        function openPlan(id) {
-            const p = plans[id];
-            let html = `
-                <div class="modal-header">
-                    <h2>${p.title}</h2>
-                    <div class="price">${p.price}</div>
-                </div>
-                <div class="modal-grid">`;
-            p.data.forEach(sec => {
-                html += `<div class="grid-item"><h3><i class="fas fa-feather-alt"></i> ${sec.h}</h3><ul>`;
-                sec.items.forEach(item => html += `<li>${item}</li>`);
-                html += `</ul></div>`;
-            });
-            html += `</div>
-                <div class="modal-footer-note">
-                    <p><strong>💡 禮儀顧問小提醒：</strong> ${p.note}</p>
-                    <p style="margin-top:10px; opacity:0.8;">*本專案不含殯儀館規費、火葬場、靈骨塔位、紙錢等依實支實付項目。內容可依家屬需求進行微調。</p>
-                </div>
-                <div style="text-align:center; margin-top:40px;">
-                    <a href="tel:0978583699" class="btn-view" style="padding:15px 50px; font-size:1.1rem; background:var(--gold); color:#fff;">24小時 諮詢陳禮儀師</a>
-                </div>`;
-            document.getElementById('mContent').innerHTML = html;
-            document.getElementById('pModal').style.display = 'flex';
+        // 摺疊詳情邏輯
+        function toggleDetails(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
         }
-        function closePlan() { document.getElementById('pModal').style.display = 'none'; }
+
+        // 動態揭示邏輯
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
