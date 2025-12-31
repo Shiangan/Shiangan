@@ -16,14 +16,39 @@
 
     <title>2025 喪葬費用完整百科 | 祥安生命：每一項服務均公開透明</title>
     <meta name="description" content="祥安生命費用透明化：詳列聯合奠祭(3.5萬)、精緻奠祭(28.8萬)、尊榮奠祭(116.8萬)完整項目。包含14員團隊編制、完整7場法事、旗艦花藝佈置等細項對比。">
+    <meta name="keywords" content="喪葬費用公開, 禮儀公司方案, 台北殯葬費, 新北禮儀服務, 祥安生命費用, 禮儀師陳妍如">
     
     <link rel="canonical" href="https://24hour.xn--kpry57d/Shiangan/plans.html">
+
+    <meta property="og:title" content="2025 喪葬費用完整百科 | 祥安生命：每一項服務均公開透明">
+    <meta property="og:description" content="100% 還原實體包單內容，拒絕殯葬紅包陷阱。">
+    <meta property="og:image" content="https://24hour.xn--kpry57d/Shiangan/images/logo.png">
+    <meta property="og:type" content="website">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "祥安生命禮儀服務方案",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "祥安生命有限公司"
+      },
+      "areaServed": ["Taipei", "New Taipei", "Taoyuan"],
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "TWD",
+        "lowPrice": "35000",
+        "highPrice": "1168000"
+      }
+    }
+    </script>
+
     <style>
-        /* 深度優化百科頁面視覺 */
         :root {
             --gold: #D4AF37;
             --deep-navy: #050A10;
@@ -35,17 +60,18 @@
             background: var(--deep-navy); 
             background-image: radial-gradient(circle at 50% 0%, #1B263B 0%, #050A10 70%);
             color: #fff;
+            margin: 0; padding: 0;
         }
 
         .plans-hero { padding: 180px 0 60px; text-align: center; }
         .plans-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); color: var(--gold); margin-bottom: 20px; }
         
-        /* 響應式比較表 */
         .comp-container { 
-            margin: 50px 0; background: var(--glass-bg); 
+            margin: 50px auto; background: var(--glass-bg); 
             border-radius: 30px; border: 1px solid var(--border-gold);
             backdrop-filter: blur(15px); overflow-x: auto;
             box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            max-width: 1200px;
         }
         table { width: 100%; border-collapse: collapse; min-width: 1000px; }
         th { padding: 35px 20px; background: rgba(212, 175, 55, 0.1); color: var(--gold); font-size: 1.2rem; }
@@ -54,7 +80,6 @@
         .price-val { font-size: 2.2rem; font-weight: 900; color: #fff; display: block; }
         .price-unit { font-size: 0.8rem; color: var(--gold); letter-spacing: 1px; }
 
-        /* 卡片與燈箱樣式 */
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-bottom: 100px; }
         .info-card { 
             background: var(--glass-bg); border: 1px solid var(--border-gold);
@@ -64,6 +89,7 @@
         .info-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.07); border-color: var(--gold); }
         .info-card.best-value { border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(212,175,55,0.2); }
 
+        /* 燈箱樣式 */
         .m-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.98); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;
@@ -72,48 +98,69 @@
             background: #0D1B2A; border: 1px solid var(--gold); width: 100%; max-width: 1100px;
             max-height: 90vh; border-radius: 40px; padding: 50px; overflow-y: auto; position: relative;
         }
-        .m-close { position: absolute; top: 25px; right: 35px; color: var(--gold); font-size: 3rem; cursor: pointer; }
+        .m-close { position: absolute; top: 25px; right: 35px; color: var(--gold); font-size: 3rem; cursor: pointer; line-height: 1; }
 
         .list-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
         .list-box { background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px; border-left: 5px solid var(--gold); }
-        .list-box h4 { color: var(--gold); margin-bottom: 20px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 10px; }
+        .list-box h4 { color: var(--gold); margin-bottom: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 10px; margin-top: 0;}
         .row { display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 1rem; }
         .row b { color: #fff; }
+
+        /* 浮動按鈕同步首頁 */
+        .floating-cta { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 999; }
+        .floating-cta a { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; text-decoration: none; box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.3s; }
+        .bg-phone { background: #D4AF37; }
+        .bg-line { background: #06C755; }
+        .floating-cta a:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .plans-hero { padding: 120px 20px 40px; }
+            .m-content { padding: 40px 20px; }
+        }
     </style>
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link" style="position:absolute; top:-40px; left:0; background:#000; color:#fff; padding:8px; z-index:100;">跳至主要內容</a>
+
     <header class="main-header" role="banner">
         <div class="header-container container">
             <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命" class="site-logo"></a>
+                <a href="index.html" title="祥安生命有限公司 - 回到首頁">
+                    <img src="images/logo.png" alt="祥安生命有限公司 Logo" class="site-logo">
+                </a>
             </div>
-            <nav class="main-nav" id="main-nav">
+
+            <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
                 <ul role="menubar">
-                    <li><a href="index.html"><strong>首頁</strong></a></li>
-                    <li><a href="about.html"><strong>關於我們</strong></a></li> 
-                    <li class="dropdown">
-                        <a href="services.html"><strong>專業禮儀服務</strong> <i class="fas fa-chevron-down"></i></a>
+                    <li role="menuitem"><a href="index.html"><strong>首頁</strong></a></li>
+                    <li role="menuitem"><a href="about.html"><strong>關於我們</strong></a></li> 
+                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
+                        <a href="services.html"><strong>專業生命禮儀服務</strong> <i class="fas fa-chevron-down"></i></a>
                         <div class="submenu-container">
-                            <ul class="submenu">
-                                <li><a href="services.html#buddhist-taoist">中式禮儀</a></li>
-                                <li><a href="services.html#western-etiquette">西式禮儀</a></li>
-                                <li><a href="services.html#eco-burial">環保葬專區</a></li>
+                            <ul class="submenu" role="menu">
+                                <li role="menuitem"><a href="services.html#buddhist-taoist"><strong>中式禮儀 (佛/道教)</strong></a></li>
+                                <li role="menuitem"><a href="services.html#western-etiquette"><strong>西式禮儀 (基/天主教)</strong></a></li>
+                                <li role="menuitem"><a href="services.html#eco-burial"><strong>樹葬/花葬專區</strong></a></li>
                             </ul>
                         </div>
                     </li>
-                    <li><a href="plans.html" class="active"><strong>喪葬費用公開方案</strong></a></li>
-                    <li><a href="blog.html"><strong>殯葬百科知識</strong></a></li>
-                    <li class="contact-nav"><a href="tel:+886978583699"><strong>24H 聯絡我們</strong></a></li>
+                    <li role="menuitem"><a href="plans.html" class="active"><strong>喪葬費用公開方案</strong></a></li>
+                    <li role="menuitem"><a href="blog.html"><strong>殯葬百科知識</strong></a></li>
+                    <li class="contact-nav" role="menuitem"><a href="tel:+886978583699"><strong>24H 聯絡我們</strong></a></li>
                 </ul>
             </nav>
+
+            <button class="menu-toggle" aria-label="切換選單">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <main class="container">
+    <main id="main-content" class="container">
         <section class="plans-hero">
             <h1 class="serif">方案百科．全明細公開</h1>
-            <p>我們不省略任何一筆開支，不隱藏任何一位人力編制。以下為三張實體服務包單的完整數位化版本。</p>
+            <p>100% 同步實體服務包單內容。我們堅持費用透明，讓每一份思念都獲得最尊嚴的安放。</p>
         </section>
 
         <div class="comp-container">
@@ -159,17 +206,17 @@
             <div class="info-card" onclick="openM('m1')">
                 <h3 class="serif">聯合奠祭 完整百科</h3>
                 <p>簡約、環保、零開支負擔</p>
-                <span class="btn" style="margin-top:20px;">查看全清單項目</span>
+                <span class="cta-button" style="margin-top:20px; display:inline-block; padding:10px 20px; border:1px solid var(--gold); border-radius:5px; color:var(--gold);">查看全清單項目</span>
             </div>
             <div class="info-card best-value" onclick="openM('m2')">
                 <h3 class="serif">精緻奠祭 完整百科</h3>
-                <p style="color:var(--gold)">家屬一致推薦：最完整治喪流程</p>
-                <span class="btn" style="margin-top:20px;">查看全清單項目</span>
+                <p style="color:var(--gold)">家屬一致推薦：14員專業團隊服務</p>
+                <span class="cta-button" style="margin-top:20px; display:inline-block; padding:10px 20px; background:var(--gold); border-radius:5px; color:#000;">查看全清單項目</span>
             </div>
             <div class="info-card" onclick="openM('m3')">
                 <h3 class="serif">尊榮奠祭 完整百科</h3>
-                <p>極致美學：精品級謝幕儀式</p>
-                <span class="btn" style="margin-top:20px;">查看全清單項目</span>
+                <p>極致美學：18尺旗艦精品花藝佈置</p>
+                <span class="cta-button" style="margin-top:20px; display:inline-block; padding:10px 20px; border:1px solid var(--gold); border-radius:5px; color:var(--gold);">查看全清單項目</span>
             </div>
         </div>
     </main>
@@ -177,21 +224,19 @@
     <div id="m1" class="m-overlay">
         <div class="m-content">
             <span class="m-close" onclick="closeM()">&times;</span>
-            <h2 class="serif" style="color:var(--gold); margin-bottom: 30px;">聯合奠祭 (3.5萬) 完整內容清單</h2>
+            <h2 class="serif" style="color:var(--gold);">聯合奠祭 (3.5萬) 全內容百科</h2>
             <div class="list-section">
                 <div class="list-box">
-                    <h4>人員與諮詢服務</h4>
+                    <h4>人員服務</h4>
                     <div class="row">襄儀服務人員 <b>1 名</b></div>
                     <div class="row">入殮服務人員 <b>2 名</b></div>
                     <div class="row">24H 禮儀諮詢 <b>全含</b></div>
-                    <div class="row">治喪流程引導 <b>全含</b></div>
                 </div>
                 <div class="list-box">
                     <h4>儀軌與硬體</h4>
                     <div class="row">安置法師服務 <b>1 名</b></div>
                     <div class="row">Q版靈位 / 15吋照 <b>含</b></div>
-                    <div class="row">環保棺木 / 骨灰罐 <b>全含</b></div>
-                    <div class="row">蘭花一對 / 水果盤 <b>全含</b></div>
+                    <div class="row">環保棺木 / 骨罐 <b>含</b></div>
                 </div>
             </div>
         </div>
@@ -200,26 +245,20 @@
     <div id="m2" class="m-overlay">
         <div class="m-content">
             <span class="m-close" onclick="closeM()">&times;</span>
-            <h2 class="serif" style="color:var(--gold); margin-bottom: 30px;">精緻奠祭 (28.8萬) 完整內容清單</h2>
+            <h2 class="serif" style="color:var(--gold);">精緻奠祭 (28.8萬) 全內容百科</h2>
             <div class="list-section">
                 <div class="list-box">
-                    <h4>法事儀軌 (完整7場)</h4>
-                    <div class="row">頭七至滿七法事 <b>含法師</b></div>
-                    <div class="row">治喪規劃與擇日 <b>全含</b></div>
-                    <div class="row">火化手續代辦 <b>全含</b></div>
-                </div>
-                <div class="list-box">
-                    <h4>核心團隊 (14員編制)</h4>
+                    <h4>14員核心團隊</h4>
                     <div class="row">專業司儀 / 襄儀 <b>1+4 名</b></div>
                     <div class="row">優質西樂隊 <b>5 名</b></div>
-                    <div class="row">專業入殮師團隊 <b>4 名</b></div>
+                    <div class="row">專業入殮團隊 <b>4 名</b></div>
                 </div>
                 <div class="list-box">
-                    <h4>美學、硬體與車輛</h4>
-                    <div class="row">精品花藝佈置 / 地毯 <b>全含</b></div>
-                    <div class="row">壽衣帽/祭品/蘭花盤 <b>全含</b></div>
-                    <div class="row">專屬靈車服務 <b>1 輛</b></div>
-                    <div class="row">高級木棺 / 尊貴型骨罐 <b>全含</b></div>
+                    <h4>儀軌與美學</h4>
+                    <div class="row">完整 7 場法事 <b>含法師</b></div>
+                    <div class="row">精品花藝佈置/地毯 <b>全含</b></div>
+                    <div class="row">壽衣帽/祭品/蘭花 <b>全含</b></div>
+                    <div class="row">專屬靈車 <b>1 輛</b></div>
                 </div>
             </div>
         </div>
@@ -228,25 +267,19 @@
     <div id="m3" class="m-overlay">
         <div class="m-content">
             <span class="m-close" onclick="closeM()">&times;</span>
-            <h2 class="serif" style="color:var(--gold); margin-bottom: 30px;">尊榮奠祭 (116.8萬) 完整內容清單</h2>
+            <h2 class="serif" style="color:var(--gold);">尊榮奠祭 (116.8萬) 全內容百科</h2>
             <div class="list-section">
                 <div class="list-box">
-                    <h4>旗艦美學佈置</h4>
-                    <div class="row">18尺高級精品花藝佈置 <b>頂規</b></div>
-                    <div class="row">中央走道花與淨水台 <b>全含</b></div>
-                    <div class="row">尊爵靈位與精品照 <b>含</b></div>
-                </div>
-                <div class="list-box">
-                    <h4>頂規團隊與法事</h4>
+                    <h4>旗艦級規格</h4>
+                    <div class="row">18尺高級花藝佈置 <b>頂規</b></div>
+                    <div class="row">凱迪拉克高級靈車 <b>全含</b></div>
                     <div class="row">滿七大功德法事全場 <b>含法師團</b></div>
-                    <div class="row">資深司儀 / 襄儀 / 入殮 <b>8 員編制</b></div>
-                    <div class="row">頂級西樂隊(含領隊) <b>5 名</b></div>
                 </div>
                 <div class="list-box">
-                    <h4>旗艦硬體規格</h4>
-                    <div class="item-line row">旗艦級精品文化棺 <b>1 式</b></div>
-                    <div class="item-line row">尊榮型特選骨灰罐 <b>1 式</b></div>
-                    <div class="item-line row">凱迪拉克高級靈車 <b>全含</b></div>
+                    <h4>硬體與人力</h4>
+                    <div class="row">精品文化木棺 <b>1 式</b></div>
+                    <div class="row">特選尊榮型骨罐 <b>1 式</b></div>
+                    <div class="row">資深司儀/襄儀/入殮 <b>8 員</b></div>
                 </div>
             </div>
         </div>
@@ -265,9 +298,7 @@
                     <h5 class="gold-title">公司資訊</h5>
                     <p><i class="fas fa-map-marker-alt"></i> 新北市三重區永福街135巷13號</p>
                     <p><i class="fas fa-phone-alt"></i> 0978-583-699</p>
-                    <div class="legal-tags" style="margin-top:15px;">
-                        <span style="font-size:0.8rem; opacity:0.7;"><i class="fas fa-certificate"></i> 政府甲級立案</span>
-                    </div>
+                    <div class="legal-tags"><small>政府甲級立案 (新北府殯字第111000號)</small></div>
                 </div>
             </div>
         </div>
@@ -276,7 +307,20 @@
         </div>
     </footer>
 
+    <div class="floating-cta">
+        <a href="tel:+886978583699" class="bg-phone" aria-label="撥打專線"><i class="fas fa-phone"></i></a>
+        <a href="https://line.me/ti/p/@yourlineid" class="bg-line" aria-label="LINE 諮詢"><i class="fab fa-line"></i></a>
+    </div>
+
     <script>
+        // 選單控制
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNav = document.getElementById('main-nav');
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('is-open');
+        });
+
+        // 燈箱控制
         function openM(id) {
             document.getElementById(id).style.display = 'flex';
             document.body.style.overflow = 'hidden';
