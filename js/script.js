@@ -1,86 +1,142 @@
 /**
  * ====================================================================
- * 祥安生命網站核心腳本 (SA Life Core Script) - 最終精煉整合版 V3.6
+ * 祥安生命全站核心腳本 (SA Life Integrated) - 2025 最終整合版
+ * 整合功能：導航選單、方案過濾、FAQ 手風琴、計算器、燈箱、滾動動畫
  * ====================================================================
  */
 
 (function () {
     'use strict';
 
-    // 建立全域命名空間
+    // 1. 全域命名空間與參數設定
     window.SALife = window.SALife || {};
-
-    // --- 設定參數 ---
-    const MOBILE_BREAKPOINT = 900;
-    const LABOR_CONFIG = {
-        MIN: 27470, // 2025年最新基本工資
-        MAX: 45800,
-        MONTHS_SURVIVOR: 5,
-        MONTHS_NO_SURVIVOR: 10
+    
+    const CONFIG = {
+        MOBILE_BREAKPOINT: 900,
+        LABOR: {
+            MIN: 27470, // 2025年最新基本工資
+            MAX: 45800, // 勞保投保薪資最高上限
+            MONTHS_SURVIVOR: 5,
+            MONTHS_NO_SURVIVOR: 10
+        }
     };
 
-    // --- 工具函式 ---
     const formatTWD = (amt) => amt.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
 
-    /** A. 導航選單功能 */
-    const initNav = () => {
-        const menuToggle = document.querySelector('.menu-toggle');
+    /** A. 導航選單邏輯 (漢堡選單與下拉) */
+    const initNavigation = () => {
+        const menuBtn = document.querySelector('.mobile-menu-btn') || document.querySelector('.menu-toggle');
         const mainNav = document.getElementById('main-nav');
-        const dropdowns = document.querySelectorAll('.dropdown');
-        const body = document.body;
+        const dropdowns = document.querySelectorAll('.has-dropdown, .dropdown');
 
-        if (!menuToggle || !mainNav) return;
+        if (!menuBtn || !mainNav) return;
 
-        // 漢堡選單
-        menuToggle.addEventListener('click', (e) => {
+        menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isActive = mainNav.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', isActive);
-            menuToggle.querySelector('i').className = isActive ? 'fas fa-times' : 'fas fa-bars';
-            body.style.overflow = isActive ? 'hidden' : '';
+            menuBtn.setAttribute('aria-expanded', isActive);
+            
+            // 圖示切換
+            const icon = menuBtn.querySelector('i');
+            if (icon) icon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
+            
+            document.body.style.overflow = isActive ? 'hidden' : '';
         });
 
-        // 手機版下拉選單 (點擊文字展開)
+        // 手機版下拉選單點擊處理
         dropdowns.forEach(dropdown => {
             const trigger = dropdown.querySelector('a');
             trigger.addEventListener('click', (e) => {
-                if (window.innerWidth <= MOBILE_BREAKPOINT) {
-                    e.preventDefault();
-                    const isActive = dropdown.classList.contains('active');
-                    dropdowns.forEach(d => d.classList.remove('active'));
-                    if (!isActive) dropdown.classList.add('active');
+                if (window.innerWidth <= CONFIG.MOBILE_BREAKPOINT) {
+                    const submenu = dropdown.querySelector('.submenu');
+                    if (submenu) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('active');
+                    }
                 }
             });
         });
     };
 
-    /** B. FAQ 手風琴動畫 (動態高度) */
-    const initAccordion = () => {
-        const headers = document.querySelectorAll('.accordion-header');
-        headers.forEach(header => {
-            header.addEventListener('click', function() {
-                const item = this.parentElement;
-                const content = this.nextElementSibling;
-                const isActive = item.classList.contains('active');
-                
-                // 關閉同層級其他
-                const container = item.parentElement;
-                container.querySelectorAll('.accordion-item').forEach(i => {
-                    i.classList.remove('active');
-                    const c = i.querySelector('.accordion-content');
-                    if (c) c.style.maxHeight = null;
+    /** B. 方案分頁過濾邏輯 (核心交互) */
+    const initPlanFiltering = () => {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const planCards = document.querySelectorAll('.plan-card');
+
+        if (!tabBtns.length) return;
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 1. 切換按鈕狀態
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const selectedCategory = btn.getAttribute('data-tab');
+
+                // 2. 執行卡片過濾動畫
+                planCards.forEach(card => {
+                    // 出場效果
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95) translateY(10px)';
+                    
+                    setTimeout(() => {
+                        if (selectedCategory === 'all' || card.getAttribute('data-category') === selectedCategory) {
+                            card.style.display = 'flex';
+                            // 進場效果
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'scale(1) translateY(0)';
+                                card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                            }, 50);
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }, 300);
                 });
+            });
+        });
+    };
 
-                // 開啟當前
-                if (!isActive) {
-                    item.classList.add('active');
-                    if (content) content.style.maxHeight = content.scrollHeight + "px";
+    /** C. FAQ 手風琴與折疊邏輯 (Accordion) */
+    const initAccordion = () => {
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-toggle');
+                const targetContent = document.getElementById(targetId) || this.nextElementSibling;
+                const icon = this.querySelector('.accordion-icon');
+                const isOpen = this.getAttribute('aria-expanded') === 'true';
+
+                // 關閉同組其他 (選用)
+                const container = this.closest('.accordion-container');
+                if (container) {
+                    container.querySelectorAll('.accordion-header').forEach(h => {
+                        if (h !== this) {
+                            h.setAttribute('aria-expanded', 'false');
+                            const content = document.getElementById(h.getAttribute('data-toggle')) || h.nextElementSibling;
+                            if (content && content.classList.contains('accordion-content')) content.style.maxHeight = null;
+                            const otherIcon = h.querySelector('.accordion-icon');
+                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                }
+
+                // 切換當前項目
+                if (isOpen) {
+                    this.setAttribute('aria-expanded', 'false');
+                    if (targetContent) targetContent.style.maxHeight = null;
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                    this.setAttribute('aria-expanded', 'true');
+                    if (targetContent) targetContent.style.maxHeight = targetContent.scrollHeight + "px";
+                    if (icon) icon.style.transform = 'rotate(180deg)';
                 }
             });
         });
     };
 
-    /** C. 試算機功能模組 */
+    /** D. 勞保與對年計算器模組 */
     window.SALife.calculateLaborInsurance = function() {
         const avgSalaryInput = document.getElementById('avgSalary');
         const hasSurvivorSelect = document.getElementById('hasSurvivor');
@@ -94,21 +150,20 @@
             return;
         }
 
-        const finalSalary = Math.min(Math.max(inputVal, LABOR_CONFIG.MIN), LABOR_CONFIG.MAX);
-        const months = hasSurvivorSelect.value === 'yes' ? LABOR_CONFIG.MONTHS_SURVIVOR : LABOR_CONFIG.MONTHS_NO_SURVIVOR;
+        const finalSalary = Math.min(Math.max(inputVal, CONFIG.LABOR.MIN), CONFIG.LABOR.MAX);
+        const months = hasSurvivorSelect.value === 'yes' ? CONFIG.LABOR.MONTHS_SURVIVOR : CONFIG.LABOR.MONTHS_NO_SURVIVOR;
         const allowance = finalSalary * months;
 
         resultBox.innerHTML = `
-            <div class="calc-result-content">
-                ${inputVal > LABOR_CONFIG.MAX ? `<p class="note" style="color:#ff8c00;">⚠️ 依上限 ${formatTWD(LABOR_CONFIG.MAX)} 計算</p>` : ''}
+            <div class="calc-result-content" style="animation: fadeInUp 0.5s ease;">
+                ${inputVal > CONFIG.LABOR.MAX ? `<p class="note" style="color:#ff8c00;">⚠️ 依上限 ${formatTWD(CONFIG.LABOR.MAX)} 計算</p>` : ''}
                 <p>✅ 預計給付月數：${months} 個月</p>
-                <h3 style="color: #ce9d4a;">試算金額：${formatTWD(allowance)}</h3>
+                <h3 style="color: #ce9d4a; margin-top:10px;">試算金額：${formatTWD(allowance)}</h3>
             </div>
         `;
         resultBox.style.display = 'block';
     };
 
-    /** D. 對年計算器啟動器 */
     window.SALife.setupDuinianCalculator = function() {
         const btn = document.getElementById('calculateDuinian');
         const dateInput = document.getElementById('dateOfDeath');
@@ -120,12 +175,29 @@
             const duinianDate = new Date(deathDate);
             duinianDate.setFullYear(deathDate.getFullYear() + 1);
             
-            document.getElementById('duinianDate').innerHTML = `預計對年日期：${duinianDate.toLocaleDateString('zh-TW')}`;
-            document.getElementById('resultOutput').classList.remove('hidden');
+            const resText = document.getElementById('duinianDate');
+            if (resText) resText.innerHTML = `預計對年日期：<strong>${duinianDate.toLocaleDateString('zh-TW')}</strong>`;
+            const outDiv = document.getElementById('resultOutput');
+            if (outDiv) outDiv.classList.remove('hidden');
         });
     };
 
-    /** E. AOS 滾動動畫 */
+    /** E. 燈箱與滾動動畫 (AOS) */
+    const initLightbox = () => {
+        const lightbox = document.getElementById('plansLightbox');
+        const closeBtn = document.querySelector('.lightbox-close');
+        if (!lightbox || !closeBtn) return;
+
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeBtn.click();
+        });
+    };
+
     const initAOS = () => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -135,25 +207,28 @@
                 }
             });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        document.querySelectorAll('.animate-on-scroll, .plan-card').forEach(el => observer.observe(el));
     };
 
     /** F. 初始化入口 */
     document.addEventListener('DOMContentLoaded', () => {
-        initNav();
+        initNavigation();
+        initPlanFiltering();
         initAccordion();
+        initLightbox();
         initAOS();
         window.SALife.setupDuinianCalculator();
-        
-        // 捲動 Header 效果
-        const header = document.querySelector('.main-header');
+
+        // 更新全站年份
+        document.querySelectorAll('#current-year, #current-year-plans').forEach(span => {
+            span.textContent = new Date().getFullYear();
+        });
+
+        // Header 捲動效果
+        const header = document.querySelector('header');
         window.addEventListener('scroll', () => {
             if (header) header.classList.toggle('scrolled', window.scrollY > 50);
         }, { passive: true });
-
-        // 年份自動更新
-        const yearSpan = document.getElementById('current-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
     });
 
 })();
