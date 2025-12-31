@@ -1,46 +1,63 @@
 /*
  * 檔案：plans.css
- * 說明：喪葬費用公開方案頁面專屬樣式 V2.5
- * 整合項目：2025 RWD 最佳化、燈箱互動、方案卡片齊高處理
+ * 說明：喪葬費用公開方案頁面專屬樣式 V2.5 (2025 修正版)
+ * 整合項目：2025 RWD 最佳化、燈箱互動、方案卡片齊高處理、無障礙增強
  */
+
 @charset "UTF-8";
+
 /* ========================================= */
-/* 0. 核心變數 (與主樣式表 style.css 保持一致) */
+/* 0. 核心變數與重置 (Core Variables) */
 /* ========================================= */
 :root {
+    /* 顏色定義 */
     --primary-color: #2c3e50;
     --secondary-color: #555;
     --accent-color: #c0392b;
     --gold-color: #d4af37;
     --light-bg: #f8f9fa;
     --white: #ffffff;
-    --shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    
+    /* 互動與陰影 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --lightbox-bg: rgba(0, 0, 0, 0.9);
+    
+    /* 燈箱與疊層 */
+    --lightbox-bg: rgba(10, 10, 10, 0.95);
+    --z-index-nav: 100;
+    --z-index-lightbox: 9999;
+}
+
+/* 基礎平滑滾動 */
+html {
+    scroll-behavior: smooth;
 }
 
 /* ========================================= */
 /* 1. 頁面標頭 (Page Hero) */
 /* ========================================= */
 .page-hero { 
-    padding: 120px 0 60px;
-    background-color: var(--light-bg); 
+    padding: clamp(80px, 15vh, 120px) 1.5rem 60px;
+    background: linear-gradient(180deg, var(--white) 0%, var(--light-bg) 100%);
     text-align: center; 
 }
 
 .page-hero h1 {
     color: var(--primary-color);
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    margin-bottom: 15px;
-    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .page-hero .lead {
-    max-width: 800px;
+    max-width: 720px;
     margin: 0 auto 30px;
-    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
     color: var(--secondary-color);
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
 /* ========================================= */
@@ -49,41 +66,49 @@
 .tabs-navigation {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 40px 0;
-    border-bottom: 2px solid #eee;
+    gap: 15px;
+    margin: 0 auto 40px;
+    padding: 0 1rem;
+    max-width: 1200px;
+    border-bottom: 2px solid #ebebeb;
     flex-wrap: wrap;
+    position: sticky; /* 2025 常用：滾動到頂部時固定分頁導覽 */
+    top: 0;
+    background: var(--white);
+    z-index: var(--z-index-nav);
 }
 
 .tab-btn {
     background: none;
     border: none;
-    padding: 12px 25px;
+    padding: 15px 30px;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #888;
+    color: #7f8c8d;
     cursor: pointer;
     transition: var(--transition);
     border-bottom: 4px solid transparent;
-    margin-bottom: -2px;
+    margin-bottom: -2px; /* 覆蓋邊框 */
+    outline: none;
 }
 
-.tab-btn i {
-    margin-right: 8px;
-}
-
-.tab-btn:hover {
+.tab-btn:hover, .tab-btn:focus {
     color: var(--accent-color);
 }
 
 .tab-btn.active {
     color: var(--accent-color);
-    border-bottom: 4px solid var(--accent-color);
+    border-bottom-color: var(--accent-color);
 }
 
 .plan-tab-content {
     display: none;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.6s forwards;
+    padding: 0 1rem;
+}
+
+.plan-tab-content.active {
+    display: block;
 }
 
 /* ========================================= */
@@ -91,182 +116,231 @@
 /* ========================================= */
 .plan-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px 0;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0 60px;
 }
 
 .plan-card {
     background: var(--white);
-    border-radius: 15px;
-    padding: 35px 25px;
-    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 40px 30px;
+    border: 1px solid rgba(0,0,0,0.05);
     text-align: center;
     transition: var(--transition);
     position: relative;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-sm);
 }
 
 .plan-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
 }
 
+/* 強調方案 (推薦方案) */
 .plan-card.featured-card {
     border: 2px solid var(--gold-color);
-    background: linear-gradient(to bottom, #fff, #fffcf5);
+    background: linear-gradient(180deg, #fff 0%, #fffdf5 100%);
+}
+
+.plan-card.featured-card::after {
+    content: "推薦方案";
+    position: absolute;
+    top: 20px;
+    right: -10px;
+    background: var(--gold-color);
+    color: white;
+    padding: 4px 15px;
+    font-size: 0.8rem;
+    border-radius: 4px 0 0 4px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
 }
 
 .plan-card h3 {
     color: var(--primary-color);
-    font-size: 1.6rem;
-    margin-bottom: 15px;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
 }
 
 .price {
-    font-size: 2.8rem;
+    font-size: 3rem;
     font-weight: 800;
     color: var(--accent-color);
-    margin: 10px 0;
+    margin: 15px 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
 .price small {
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+    margin-left: 4px;
 }
 
 .plan-features {
     list-style: none;
-    padding: 20px 0;
-    margin: 20px 0;
+    padding: 25px 0;
+    margin: 25px 0;
     text-align: left;
     border-top: 1px solid #f0f0f0;
-    flex-grow: 1; /* 確保內容撐開，讓按鈕對齊底部 */
+    flex-grow: 1;
 }
 
 .plan-features li {
-    padding: 8px 0;
-    font-size: 1rem;
+    padding: 10px 0;
+    font-size: 1.05rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* 改為 flex-start 處理多行文字 */
+    color: #444;
 }
 
 .plan-features li i {
     color: #27ae60;
     margin-right: 12px;
-    width: 20px;
+    margin-top: 4px; /* 對齊第一行 */
+    font-size: 0.9rem;
 }
 
-/* Badge 標籤 */
-.badge {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--gold-color);
-    color: #fff;
-    padding: 5px 20px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* 方案按鈕樣式 */
+.btn-select {
+    display: inline-block;
+    padding: 15px 30px;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-select:hover {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
 }
 
 /* ========================================= */
-/* 4. Lightbox (燈箱) 樣式 */
+/* 4. Lightbox (燈箱) 現代化優化 */
 /* ========================================= */
 .lightbox-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0; /* 現代語法代替 top/left/width/height */
     background: var(--lightbox-bg);
-    z-index: 9999;
-    display: none; /* 由 JS 控制顯示 */
+    z-index: var(--z-index-lightbox);
+    display: none;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease;
 }
 
 .lightbox-content {
     position: relative;
-    max-width: 90%;
-    max-height: 85vh;
+    width: 90%;
+    max-width: 1000px;
+    transform: scale(0.95);
+    transition: var(--transition);
+}
+
+.lightbox-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s forwards;
+}
+
+.lightbox-overlay.active .lightbox-content {
+    transform: scale(1);
 }
 
 #lightbox-image {
-    max-width: 100%;
-    max-height: 85vh;
-    border: 3px solid #fff;
-    border-radius: 4px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
 }
 
 .lightbox-close {
     position: absolute;
     top: -50px;
-    right: 0;
-    color: #fff;
-    font-size: 35px;
+    right: -10px;
+    color: var(--white);
+    font-size: 40px;
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: var(--transition);
-}
-
-.lightbox-close:hover {
-    color: var(--gold-color);
-    transform: rotate(90deg);
+    line-height: 1;
 }
 
 /* ========================================= */
-/* 5. 響應式優化 (RWD) */
+/* 5. 響應式優化 (RWD) & 輔助類別 */
 /* ========================================= */
 @media (max-width: 768px) {
     .page-hero {
-        padding: 100px 15px 40px;
+        padding: 100px 20px 40px;
     }
 
     .tabs-navigation {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 5px;
-        border-bottom: none;
-    }
-
-    .tab-btn {
-        background: #eee;
-        border: none;
-        border-radius: 5px;
-        font-size: 0.95rem;
+        gap: 8px;
         padding: 10px;
     }
 
-    .tab-btn.active {
-        background: var(--primary-color);
-        color: #fff;
+    .tab-btn {
+        flex: 1 1 calc(50% - 10px); /* 兩欄佈局 */
+        padding: 12px 10px;
+        font-size: 0.95rem;
+        background: #f1f1f1;
+        border-radius: 8px;
         border-bottom: none;
     }
 
+    .tab-btn.active {
+        background: var(--accent-color);
+        color: var(--white);
+    }
+
+    .plan-grid {
+        grid-template-columns: 1fr;
+        padding: 10px 15px;
+    }
+
     .plan-card {
-        padding: 30px 20px;
+        padding: 35px 25px;
     }
 
-    .table-responsive {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border: 1px solid #eee;
-        margin: 20px 0;
-    }
-
-    .table-responsive table {
-        min-width: 600px; /* 強制水平捲動 */
+    .price {
+        font-size: 2.5rem;
     }
 }
 
-/* 動畫 */
+/* 表格響應式包裝 (若方案內容包含明細表) */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 動畫定義 */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* 列印優化 */
+@media print {
+    .tabs-navigation, .lightbox-overlay, .btn-select {
+        display: none !important;
+    }
+    .plan-card {
+        border: 1px solid #ccc;
+        break-inside: avoid;
+    }
 }
