@@ -344,3 +344,114 @@ html {
         break-inside: avoid;
     }
 }
+
+/* ========================================= */
+/* 6. JS 交互專屬補強 (Interaction Enhancements) */
+/* ========================================= */
+
+/* 方案卡片過濾動畫 - 配合 JS 中的 scale(0.95) */
+.plan-card {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+/* FAQ 手風琴樣式補強 */
+.accordion-item {
+    background: var(--white);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.accordion-item.active {
+    border-color: var(--gold-color);
+    box-shadow: var(--shadow-md);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #fafafa;
+}
+
+.accordion-content p {
+    padding: 0 25px 20px;
+    color: var(--secondary-color);
+    line-height: 1.8;
+}
+
+/* 旋轉箭頭圖示 */
+.accordion-icon {
+    transition: transform 0.4s ease;
+    color: var(--gold-color);
+}
+
+/* ========================================= */
+/* 7. 視覺引導與裝飾 */
+/* ========================================= */
+
+/* 方案標章 (Badge) */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: var(--light-bg);
+    color: var(--primary-color);
+}
+
+.plan-card[data-category="economic"] .badge { background: #e1f5fe; color: #0288d1; }
+.plan-card[data-category="standard"] .badge { background: #fff8e1; color: #fbc02d; }
+.plan-card[data-category="premium"] .badge { background: #ede7f6; color: #5e35b1; }
+
+/* 行動端懸浮按鈕 (Floating CTA) */
+.floating-cta {
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 99;
+}
+
+.floating-cta a {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.floating-cta a[title*="電話"] { background-color: var(--accent-color); }
+.floating-cta a[title*="LINE"] { background-color: #06C755; }
+
+.floating-cta a:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
