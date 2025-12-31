@@ -1757,6 +1757,72 @@ main {
     .footer-links-grid { grid-template-columns: 1fr; }
 }
 
+/* -------------------------------------------/* Footer 整體風格 */
+.site-footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    color: #e0e0e0;
+    padding: 80px 0 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    border-top: 4px solid #d4af37; /* 金色頂邊 */
+}
+
+.footer-grid-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr; /* 五欄佈局 */
+    gap: 30px;
+}
+
+.footer-title {
+    color: #d4af37; /* 質感金 */
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* 底部按鈕優化 */
+.footer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.phone-btn { background-color: #c0392b; color: white; }
+.line-btn { background-color: #00b900; color: white; }
+
+.footer-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+/* 底層法律資訊欄 */
+.footer-legal {
+    background-color: #111;
+    padding: 25px 0;
+    margin-top: 60px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.legal-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* RWD 回應式設計 */
+@media (max-width: 1024px) {
+    .footer-grid-wrapper { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+    .footer-grid-wrapper { grid-template-columns: 1fr; }
+}
+
+
+
 /* 浮動 CTA 按鈕容器 */
 .floating-cta {
     position: fixed;
