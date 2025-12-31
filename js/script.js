@@ -2,6 +2,7 @@
  * ====================================================================
  * 祥安生命全站核心腳本 (SA Life Integrated) - 2025 最終整合版
  * 整合功能：導航選單、方案過濾、FAQ 手風琴、計算器、燈箱、滾動動畫
+ * 修正重點：對接星空 Footer 年份、優化滾動效能、強化行動端選單體驗
  * ====================================================================
  */
 
@@ -31,19 +32,31 @@
 
         if (!menuBtn || !mainNav) return;
 
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isActive = mainNav.classList.toggle('active');
+        // 切換選單狀態
+        const toggleMenu = (forceState) => {
+            const isActive = forceState !== undefined ? forceState : mainNav.classList.toggle('active');
+            if (forceState !== undefined) {
+                isActive ? mainNav.classList.add('active') : mainNav.classList.remove('active');
+            }
             menuBtn.setAttribute('aria-expanded', isActive);
-            
-            // 圖示切換
             const icon = menuBtn.querySelector('i');
             if (icon) icon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-            
             document.body.style.overflow = isActive ? 'hidden' : '';
+        };
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
         });
 
-        // 手機版下拉選單點擊處理
+        // 點擊選單外部自動關閉
+        document.addEventListener('click', (e) => {
+            if (mainNav.classList.contains('active') && !mainNav.contains(e.target) && !menuBtn.contains(e.target)) {
+                toggleMenu(false);
+            }
+        });
+
+        // 手機版下拉選單處理
         dropdowns.forEach(dropdown => {
             const trigger = dropdown.querySelector('a');
             trigger.addEventListener('click', (e) => {
@@ -58,7 +71,7 @@
         });
     };
 
-    /** B. 方案分頁過濾邏輯 (核心交互) */
+    /** B. 方案分頁過濾邏輯 */
     const initPlanFiltering = () => {
         const tabBtns = document.querySelectorAll('.tab-btn');
         const planCards = document.querySelectorAll('.plan-card');
@@ -67,27 +80,27 @@
 
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // 1. 切換按鈕狀態
                 tabBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
                 const selectedCategory = btn.getAttribute('data-tab');
 
-                // 2. 執行卡片過濾動畫
                 planCards.forEach(card => {
-                    // 出場效果
+                    // 出場動畫
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.95) translateY(10px)';
                     
                     setTimeout(() => {
                         if (selectedCategory === 'all' || card.getAttribute('data-category') === selectedCategory) {
                             card.style.display = 'flex';
-                            // 進場效果
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'scale(1) translateY(0)';
-                                card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                            }, 50);
+                            // 進場動畫 (使用 requestAnimationFrame 確保瀏覽器順暢渲染)
+                            requestAnimationFrame(() => {
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'scale(1) translateY(0)';
+                                    card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                                }, 50);
+                            });
                         } else {
                             card.style.display = 'none';
                         }
@@ -97,7 +110,7 @@
         });
     };
 
-    /** C. FAQ 手風琴與折疊邏輯 (Accordion) */
+    /** C. FAQ 手風琴 (Accordion) */
     const initAccordion = () => {
         const accordionHeaders = document.querySelectorAll('.accordion-header');
 
@@ -108,19 +121,17 @@
                 const icon = this.querySelector('.accordion-icon');
                 const isOpen = this.getAttribute('aria-expanded') === 'true';
 
-                // 關閉同組其他 (選用)
-                const container = this.closest('.accordion-container');
-                if (container) {
-                    container.querySelectorAll('.accordion-header').forEach(h => {
-                        if (h !== this) {
-                            h.setAttribute('aria-expanded', 'false');
-                            const content = document.getElementById(h.getAttribute('data-toggle')) || h.nextElementSibling;
-                            if (content && content.classList.contains('accordion-content')) content.style.maxHeight = null;
-                            const otherIcon = h.querySelector('.accordion-icon');
-                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-                        }
-                    });
-                }
+                // 關閉同組其他項目
+                const container = this.closest('.accordion-container') || document;
+                container.querySelectorAll('.accordion-header').forEach(h => {
+                    if (h !== this) {
+                        h.setAttribute('aria-expanded', 'false');
+                        const content = document.getElementById(h.getAttribute('data-toggle')) || h.nextElementSibling;
+                        if (content && content.classList.contains('accordion-content')) content.style.maxHeight = null;
+                        const otherIcon = h.querySelector('.accordion-icon');
+                        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
 
                 // 切換當前項目
                 if (isOpen) {
@@ -207,7 +218,9 @@
                 }
             });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.animate-on-scroll, .plan-card').forEach(el => observer.observe(el));
+        
+        // 監視方案卡片與所有設定動態的元素，並加入 Footer 區塊
+        document.querySelectorAll('.animate-on-scroll, .plan-card, .footer-section').forEach(el => observer.observe(el));
     };
 
     /** F. 初始化入口 */
@@ -219,16 +232,29 @@
         initAOS();
         window.SALife.setupDuinianCalculator();
 
-        // 更新全站年份
-        document.querySelectorAll('#current-year, #current-year-plans').forEach(span => {
-            span.textContent = new Date().getFullYear();
+        // 1. 全站年份更新 (確保包含 footer 的 ID)
+        const currentYear = new Date().getFullYear();
+        const yearSelectors = ['#current-year', '#current-year-plans', '#current-year-footer'];
+        document.querySelectorAll(yearSelectors.join(',')).forEach(span => {
+            span.textContent = currentYear;
         });
 
-        // Header 捲動效果
+        // 2. Header 捲動效果 (使用節流優化滾動效能)
         const header = document.querySelector('header');
+        let isScrolling = false;
         window.addEventListener('scroll', () => {
-            if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+            if (!isScrolling) {
+                window.requestAnimationFrame(() => {
+                    if (header) {
+                        header.classList.toggle('scrolled', window.scrollY > 50);
+                    }
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
         }, { passive: true });
+
+        console.log("祥安生命官網腳本已載入 - 2025 最終完整版");
     });
 
 })();
