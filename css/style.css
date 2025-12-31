@@ -69,16 +69,31 @@
     --breakpoint-tablet: 900px; 
     --breakpoint-mid: 680px; /* 新增一個斷點，用於流程圖 2 欄切換 */
 
-    /* --- 星空版旗艦 Footer 核心 --- */
-.starry-footer {
-    /* 深邃渐层，配合背景星空 */
+}
+
+/* --- 星空版旗艦 Footer 核心 --- */
+.site-footer.starry-footer {
+    /* 深藍漸層，配合背景星空 */
     background: linear-gradient(180deg, rgba(20, 29, 38, 0.8) 0%, rgba(10, 15, 20, 0.98) 100%);
-    color: #f8f9fa;
+    color: var(--text-light);
     padding: 80px 0 0;
-    backdrop-filter: blur(12px); /* 磨砂玻璃感 */
+    backdrop-filter: blur(12px); /* 磨砂玻璃效果 */
     -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid rgba(206, 157, 74, 0.3); /* 金色地平線 */
-    font-family: 'Noto Sans TC', sans-serif;
+    position: relative;
+    z-index: 10;
+    font-family: var(--font-sans);
+}
+
+/* 視覺遮罩：用於與上方內容平滑過渡 */
+.footer-blend-shroud {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(20, 29, 38, 0.8));
+    pointer-events: none;
 }
 
 .footer-wrapper {
@@ -86,54 +101,62 @@
     grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
     gap: 40px;
     padding-bottom: 60px;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* 標題金色微光 */
 .footer-title {
-    color: #ce9d4a;
+    color: var(--accent-color);
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 25px;
     text-shadow: 0 0 10px rgba(206, 157, 74, 0.3);
 }
 
-.footer-links li { list-style: none; margin-bottom: 15px; }
+.footer-links li { list-style: none; margin-bottom: 12px; }
 .footer-links a {
-    color: #d1d5db;
+    color: #bdc3c7;
     text-decoration: none;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-speed);
 }
 .footer-links a:hover {
-    color: #ce9d4a;
+    color: var(--accent-color);
     padding-left: 8px;
-    text-shadow: 0 0 5px rgba(206, 157, 74, 0.5);
 }
 
-/* 24H 電話強視覺化 */
+/* 24H 緊急專線呼吸燈動畫 */
 .emergency-number {
     display: block;
-    font-size: 2.2rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
     font-weight: 900;
-    color: #ce9d4a;
+    color: var(--accent-color);
     text-decoration: none;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     animation: glow-pulse 3s infinite ease-in-out;
 }
+.emergency-label { color: #bdc3c7; font-size: 0.9rem; margin-bottom: 25px; }
 
 @keyframes glow-pulse {
     0%, 100% { text-shadow: 0 0 5px rgba(206, 157, 74, 0.2); }
     50% { text-shadow: 0 0 20px rgba(206, 157, 74, 0.6); }
 }
 
+.footer-brand-logo { height: 50px; margin-bottom: 15px; filter: brightness(0) invert(1); }
+.brand-mission { font-size: 0.95rem; line-height: 1.6; color: #d1d5db; }
+
+/* 認證標籤樣式 */
 .cert-tag {
     display: inline-block;
     border: 1px solid rgba(206, 157, 74, 0.5);
-    color: #ce9d4a;
+    color: var(--accent-color);
     font-size: 0.75rem;
     padding: 2px 10px;
     border-radius: 4px;
-    margin-right: 8px;
+    margin: 5px 5px 0 0;
 }
+.license-id { font-size: 0.75rem; color: #7f8c8d; margin-top: 10px; }
 
 /* 底部版權區 */
 .footer-copyright {
@@ -148,19 +171,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-/* 極致 RWD 響應 */
+/* 📱 極致響應式適配 */
+
 @media (max-width: 1024px) {
     .footer-wrapper { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .footer-wrapper { grid-template-columns: 1fr; text-align: center; }
-    .emergency-number { font-size: 1.8rem; }
-    .copyright-flex { flex-direction: column; gap: 15px; }
+    .footer-title::after { margin: 8px auto 0; }
+    .emergency-number { font-size: 2rem; }
+    .copyright-flex { flex-direction: column; gap: 15px; text-align: center; }
+    .social-icon { margin: 0 10px; }
 }
 
-}
 
 
 /* 基本重置 */
