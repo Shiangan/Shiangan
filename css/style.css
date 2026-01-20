@@ -49,6 +49,13 @@
     --font-serif: 'uwen', 'Noto Serif TC', 'Microsoft YaHei', serif; 
     --font-sans: 'Iansui', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
+
+    --h1: (1.8clamp5vw, 3rem);
+    --h2: clamp(1.4rem, 3.5vw, 2.2rem);
+    --h3: clamp(1.1rem, 2.5vw, 1.5rem);
+    --body: clamp(1rem, 2.5vw, 1.1rem);
+
+
     /* 尺寸定義 */
     --header-height: 80px; /* 桌面版 Header 高度 */
     --content-max-width: 1200px;
@@ -255,6 +262,24 @@ a:hover, a:focus-visible {
 .js-loading { opacity: 0; transition: opacity 0.5s; }
 body.no-scroll { overflow: hidden; position: fixed; width: 100%; height: 100%; top: 0; left: 0; } 
 
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+.text-line-container {
+  max-width: 22ch;
+  margin-inline: auto;
+}
+.footer-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+.cta-button.large {
+  padding: clamp(0.8rem, 2.5vw, 1.1rem)
+           clamp(1.2rem, 4vw, 2rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+}
 
 /* 標題樣式 */
 h1, h2, h3, h4, h5, h6 { 
@@ -392,9 +417,8 @@ blockquote {
 
 /* 容器與通用佈局 */
 .container {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 0 20px;
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
 }
 
 .container-v-padding {
@@ -956,8 +980,10 @@ main {
             to bottom,
             rgba(0, 0, 0, 0.8) 0%, 
             rgba(18, 33, 59, 0.7) 60%,
-            var(--primary-dark) 100%
-        );
+           min-height: 100svh;
+  padding-block: clamp(4rem, 10vh, 8rem);
+  display: grid;
+  place-items: center;
     z-index: 2;
     pointer-events: none;
 }
