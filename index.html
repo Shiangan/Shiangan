@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='copyright' content='codeglim'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>祥安生命・尊榮生命規劃｜國家認證禮儀師團隊 24H 圓滿陪伴</title>
     
-   <!-- Title Tag-->
-    <title> 尊榮生命規劃｜真心傾聽．圓滿謝幕</title>
-    <meta name="keywords" content="葬儀社、生命禮儀、殯儀館、馬祖生命禮儀、桃園生命禮儀公司、桃園葬儀社">
-    <meta name="description" content=" 公司位於三重，專營:葬儀社、生命禮儀、殯儀館、生命禮儀等高品質服務，以人性為關懷起點，讓親人在尊嚴、平靜的氛圍中，走完人生最後的旅程，為人生謝幕式畫下圓滿句點。">  
+    <meta name="description" content="由國家認證禮儀師陳妍如團隊主理。提供台北、新北、桃園專業生命禮儀服務。費用公開透明、杜絕紅包。24小時全年無休，陪伴家屬圓滿人生謝幕。">
+    <meta name="keywords" content="生命禮儀, 葬儀社, 禮儀師, 三重葬儀社, 桃園生命禮儀, 費用透明, 國民契約">
 
-    <!-- Google Fonts & Google Maps API -->
-   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet"> 
-   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@300;400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -26,448 +18,214 @@
             --gold: #C5A059;
             --gold-gradient: linear-gradient(135deg, #C5A059 0%, #F1D592 50%, #94763D 100%);
             --midnight: #0F1115;
-            --charcoal: #1E2126;
-            --paper-silk: #FBF9F7;
-            --glass-white: rgba(255, 255, 255, 0.9);
-            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --paper: #FBF9F7;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background-color: var(--paper-silk);
-            color: #2c2c2c;
-            overflow-x: hidden;
-            letter-spacing: 0.06em;
+            background-color: var(--paper);
+            color: #333;
             line-height: 1.8;
+            scroll-behavior: smooth;
         }
 
-        h1, h2, h3, h4, .serif { font-family: 'Noto Serif TC', serif; font-weight: 700; }
-        .english-title { font-family: 'Cinzel', serif; letter-spacing: 0.4em; font-size: 0.75rem; color: var(--gold); text-transform: uppercase; }
+        .serif { font-family: 'Noto Serif TC', serif; }
+        .eng { font-family: 'Cinzel', serif; letter-spacing: 0.2em; color: var(--gold); font-size: 0.8rem; }
 
-        /* --- 頂級導覽 --- */
-        .navbar { padding: 25px 0; transition: var(--transition); z-index: 1050; }
+        /* Navbar */
+        .navbar { transition: var(--transition); padding: 20px 0; }
         .navbar.scrolled {
-            background: var(--glass-white) !important;
-            backdrop-filter: blur(20px);
-            padding: 12px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            background: rgba(255, 255, 255, 0.98) !important;
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-        .nav-link { color: var(--midnight) !important; font-weight: 500; margin: 0 15px; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold) !important; }
+        .navbar-brand { font-size: 1.5rem; color: #fff !important; }
+        .navbar.scrolled .navbar-brand { color: var(--midnight) !important; }
+        .nav-link { color: rgba(255,255,255,0.8) !important; margin: 0 10px; }
+        .navbar.scrolled .nav-link { color: #555 !important; }
+        .navbar.scrolled .nav-link:hover { color: var(--gold) !important; }
 
-        /* --- Hero Section --- */
-        .hero-section {
-            height: 100vh; width: 100%; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .hero-video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;
-            filter: brightness(0.65);
+        /* Hero */
+        .hero {
+            height: 100vh; position: relative; display: flex; align-items: center; justify-content: center;
+            background: #000; overflow: hidden;
         }
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(15,17,21,0.3) 0%, rgba(15,17,21,0.8) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)); z-index: 2;
         }
-        .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; max-width: 900px; }
-        .hero-content h1 { font-size: clamp(2.2rem, 6vw, 4.5rem); letter-spacing: 0.2em; margin-bottom: 25px; }
-        .hero-content .divider { width: 60px; height: 2px; background: var(--gold); margin: 30px auto; }
+        .hero-video {
+            position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 3; color: #fff; text-align: center; }
 
-        /* --- 質感按鈕 --- */
-        .btn-gold {
-            background: var(--gold-gradient); color: #fff; border: none;
-            padding: 15px 45px; border-radius: 0; font-weight: 600;
-            transition: var(--transition); position: relative; overflow: hidden;
-        }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(197, 160, 89, 0.3); color: #fff; }
+        /* Section Global */
+        .section-padding { padding: 80px 0; }
+        .title-line { width: 40px; height: 2px; background: var(--gold); margin: 20px auto; }
 
-        /* --- 服務優勢區 --- */
-        .value-card {
-            background: #fff; padding: 50px 40px; border-radius: 0;
-            transition: var(--transition); height: 100%; border: 1px solid rgba(0,0,0,0.05);
+        /* Plan Cards */
+        .plan-card {
+            background: #fff; border: 1px solid #eee; transition: var(--transition);
+            position: relative; overflow: hidden; height: 100%;
         }
-        .value-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.05); border-color: var(--gold); }
-        .value-icon { font-size: 2.5rem; color: var(--gold); margin-bottom: 25px; display: block; }
+        .plan-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .plan-price { font-size: 1.8rem; color: var(--gold); font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 15px; }
 
-        /* --- 圓滿六部曲 (進階流程) --- */
-        .process-grid { border-top: 1px solid rgba(197, 160, 89, 0.2); }
-        .process-box {
-            padding: 40px 20px; border-right: 1px solid rgba(197, 160, 89, 0.2);
-            transition: var(--transition); cursor: default;
-        }
-        .process-box:hover { background: #fff; box-shadow: inset 0 -5px 0 var(--gold); }
-        .process-num { font-family: 'Cinzel'; font-size: 1.2rem; color: var(--gold); opacity: 0.5; display: block; margin-bottom: 10px; }
-
-        /* --- 契約卡片進化 --- */
-        .contract-card {
-            background: #fff; position: relative; transition: var(--transition);
-            border: 1px solid #eee; overflow: hidden;
-        }
-        .contract-card:hover { transform: scale(1.02); z-index: 5; box-shadow: 0 50px 100px rgba(0,0,0,0.1); }
-        .contract-img { height: 250px; overflow: hidden; }
-        .contract-img img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; }
-        .contract-card:hover img { transform: scale(1.1); }
-        .contract-list { list-style: none; padding: 0; font-size: 0.9rem; color: #666; }
-        .contract-list li { margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
-        .contract-list li i { color: var(--gold); margin-right: 8px; }
-
-        /* --- 地點資訊裝飾 --- */
-        .location-card {
-            background: var(--charcoal); color: #fff; padding: 40px;
-            position: relative; border-left: 5px solid var(--gold);
-        }
-        .location-card h5 { color: var(--gold); margin-bottom: 20px; }
-        .location-card p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 8px; }
-
-        /* --- 24H 浮動通訊 --- */
-        .contact-widget {
-            position: fixed; right: 30px; bottom: 30px; z-index: 1000;
-        }
-        .widget-btn {
-            width: 60px; height: 60px; background: #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-top: 15px;
+        /* Floating Contact */
+        .float-btns { position: fixed; right: 20px; bottom: 30px; z-index: 1000; }
+        .btn-float {
+            width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: #fff; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             text-decoration: none; transition: 0.3s;
         }
-        .widget-btn.line { color: #00c300; font-size: 2rem; }
-        .widget-btn.phone { background: var(--gold-gradient); color: #fff; }
-        .widget-btn:hover { transform: scale(1.1); }
+        .btn-line { background: #00c300; }
+        .btn-phone { background: var(--gold-gradient); }
+        .btn-float:hover { transform: scale(1.1); color: #fff; }
 
-        @media (max-width: 991px) {
-            .process-box { border-right: none; border-bottom: 1px solid rgba(197, 160, 89, 0.2); }
+        @media (max-width: 768px) {
+            .navbar { background: #fff !important; }
+            .navbar-brand, .nav-link { color: var(--midnight) !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="contact-widget d-none d-md-block">
-        <a href="https://lin.ee/ypfkbLf" class="widget-btn line"><i class="fab fa-line"></i></a>
-        <a href="tel:0978583699" class="widget-btn phone"><i class="fa fa-phone"></i></a>
+    <div class="float-btns">
+        <a href="https://line.me/" class="btn-float btn-line"><i class="fab fa-line fa-2x"></i></a>
+        <a href="tel:0978583699" class="btn-float btn-phone"><i class="fa fa-phone fa-lg"></i></a>
     </div>
 
-    <!-- Start Header -->
-<header class="header clearfix" id="header">
-	<!-- <div class="line">
-		<img src="img/line.png" alt="">
-	</div> -->
-	
-	<!-- Header Inner -->
-	<div class="header-inner">
-		<!-- <div class="container"> -->
-			<div class="row">
-				<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-					<!-- Logo -->
-					<div class="logo">
-						<a class="index.html" href="index.php">
-							<img src="img/logo/logo.png" alt="#">
-						</a>
-					</div>
-					<!--/End Logo -->
-					
-					<!-- Mobile Menu -->
-					<div class="mobile-menu"></div>	
-					<!--/ End Mobile Menu -->
-				</div>
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-					<!-- Main Menu -->
-					<div class="main-menu">
-												
-						<!-- Search Form -->
-						<form class="search-form">
-							<input type="text" placeholder="search here" name="search">
-							<input type="submit" value="search">
-						</form>
-						<!--/ End Search Form -->
-						
-						<!-- Navigation -->
-						<nav class="navbar">
-							<div class="collapse navbar-collapse">
-								<ul class="nav menu navbar-nav">
-									<li><a href="#">關於我們</a>
-										<ul class="dropdown">
-											<li><a href="about01.php">公司簡介</a></li>
-											<li><a href="about02.php">專業與肯定</a></li>
-										</ul>
-									</li>
-									<li><a href="#">服務流程</a>
-										<ul class="dropdown">
-											<li><a href="services01.php">中式服務流程</a></li>
-											<li><a href="services02.php">西式服務流程</a></li>
-										</ul>
-									</li>
-									<li><a href="#">服務契約</a>
-										<ul class="dropdown">
-											<li><a href="deed01.php">國民契約6.8萬</a></li>
-								            <li><a href="deed02.php">中式契約8.8萬</a></li>
-								            <li><a href="deed03.php">中式契約11.8萬</a></li>
-								            <li><a href="deed04.php">中式契約14.8萬</a></li>
-								            <li><a href="deed05.php">中式契約17.8萬</a></li>
-								            <li><a href="deed06.php">正信佛教契約15.8萬</a></li>
-								            <li><a href="deed07.php">西式契約10萬</a></li>
-										</ul>
-									</li>
-									<li><a href="compare.php">契約比較表</a></li>
-									<li><a href="#">特殊批發專區</a>
-										<ul class="dropdown">
-											  <li><a href="special01.php">土葬專區</a></li>
-											  <li><a href="special04.php">棺木製造專區</a></li>
-								              <li><a href="special02.php">馬祖禮儀專區</a></li>
-								              <li><a href="special03.php">榮民專區</a></li>
-										</ul>
-										
-									</li>
-									<li><a href="#">禮儀百科</a>
-										<ul class="dropdown">
-											<li><a href="courtesy01.php">臨終諮詢關懷</a></li>
-								            <li><a href="courtesy02.php">葬禮安排</a></li>
-								            <li><a href="courtesy03.php">樹、灑葬</a></li>
-								            <li><a href="courtesy04.php">海葬</a></li>
-								            <li><a href="courtesy05.php">法鼓山植葬</a></li>
-										</ul>
-									</li>										
-									<li><a href="#">相關資訊</a>
-										<ul class="dropdown">
-											<li><a href="question01.php">問題Q & A</a></li>
-								            <li><a href="question02.php">概括繼承有限責任</a></li>
-								            <li><a href="question03.php">拋棄繼承</a></li>
-								            <li><a href="question04.php">遺產稅</a></li>
-								            <li><a href="question05.php">福利補助-健保</a></li>
-						                    <li><a href="question06.php">福利補助-勞保</a></li>
-								            <li><a href="question07.php">福利補助-國民年金</a></li>
-								            <li><a href="question08.php">福利補助-公保</a></li>
-								            <li><a href="question09.php">福利補助-農保</a></li>
-								            <li><a href="question10.php">福利補助-榮民喪葬津貼</a></li>
-										</ul>
-									</li>
-									<li><a href="contact.php">聯絡我們</a></li>
-									<li class="contact-header"><a href="tel:0800887989"><span>24H免付費禮儀諮詢</span><span>0800-88-7989</span></a></li>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand serif fw-bold" href="#">祥安生命｜尊榮規劃</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto text-center">
+                    <li class="nav-item"><a class="nav-link" href="#about">關於我們</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#process">圓滿流程</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#plans">服務方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">殯葬百科</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold text-gold" href="tel:0978583699">24H 專線：0978-583-699</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-									
-								</ul>
-							</div>
-						</nav>
-						<!--/ End Navigation -->
-					</div>
-					<!--/ End Main Menu -->
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--/ End Header Inner -->
-</header>
-<!--/ End Header-->
-<!-- Start Slider -->
-<!-- <section class="sufia-slider clearfix">
-	<div class="slider-main">
-		<div class="single-slider" style="background-image:url(img/slider-bg4.jpg)">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="welcome-text">
-							<h1>真心傾聽，溫馨圓滿的禮儀服務</h1>
-							<p class="a" >全程關懷陪伴　傾聽家屬心聲</p>
-							<p class="b">完成治喪託付　彰顯生命尊嚴</p>
-							<p class="c">　值得您安心託付</p>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
-</section> -->
-    <div class="uk-position-relative uk-visible-toggle uk-light slider-bac" tabindex="-1" uk-slideshow="animation: push;">
-
-    <section class="hero-section">
+    <section class="hero">
         <div class="hero-overlay"></div>
-        <iframe class="hero-video" src="https://www.youtube.com/embed/Iofjj3q069g?autoplay=1&mute=1&loop=1&playlist=Iofjj3q069g&controls=0&modestbranding=1" frameborder="0"></iframe>
-        <div class="hero-content">
-            <div class="english-title" data-aos="fade-up">Professionalism & Empathy</div>
-            <h1 class="serif mt-3" data-aos="fade-up" data-aos-delay="200">真心傾聽 ‧ 溫馨圓滿</h1>
-            <div class="divider" data-aos="zoom-in" data-aos-delay="400"></div>
-            <p class="lead mb-5" data-aos="fade-up" data-aos-delay="500">陪伴您走過生命最重要的時刻，讓愛與思念優雅謝幕</p>
+        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920" class="hero-video" alt="背景">
+        <div class="hero-content container">
+            <span class="eng" data-aos="fade-up">Dignity • Peace • Professionalism</span>
+            <h1 class="serif display-3 mt-3 fw-bold" data-aos="fade-up" data-aos-delay="200">真心傾聽．圓滿如親</h1>
+            <div class="title-line" data-aos="zoom-in" data-aos-delay="400"></div>
+            <p class="lead mb-5" data-aos="fade-up" data-aos-delay="500">讓愛與思念，在莊嚴中優雅謝幕</p>
             <div data-aos="fade-up" data-aos-delay="600">
-                <a href="#projects" class="btn btn-gold me-md-3 mb-3 mb-md-0">瀏覽圓滿專案</a>
-                <a href="#about" class="btn btn-outline-light px-5 py-3 rounded-0 mb-3 mb-md-0">了解服務初衷</a>
+                <a href="#plans" class="btn btn-gold px-5 py-3">查看服務契約</a>
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-5" style="margin-top: 100px;">
-        <div class="container py-5">
+    <section id="about" class="section-padding">
+        <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
-                    <div class="position-relative pe-lg-5">
-                        <img src="img/about09_2026.jpg" class="img-fluid shadow-lg" alt="服務細節">
-                        <div style="position:absolute; top:-20px; right:30px; width:150px; height:150px; border: 2px solid var(--gold); z-index:-1;"></div>
+                <div class="col-lg-6" data-aos="fade-right">
+                    <span class="eng">About Shiangan</span>
+                    <h2 class="serif mt-2 mb-4">國家認證禮儀師團隊</h2>
+                    <p class="text-muted">祥安生命由國家考試合格禮儀師<b>陳妍如</b>主理。我們堅持「服務人性化、價格透明化」，不隨意追加費用，不收取紅包。在最艱難的時刻，我們是您最堅實、最溫暖的依靠。</p>
+                    <div class="row mt-4 g-3">
+                        <div class="col-md-6 border-start border-gold border-3 ps-3">
+                            <h5 class="serif fw-bold">政府立案</h5>
+                            <p class="small text-muted">甲級評鑑優良業者，合法保障。</p>
+                        </div>
+                        <div class="col-md-6 border-start border-gold border-3 ps-3">
+                            <h5 class="serif fw-bold">全天守護</h5>
+                            <p class="small text-muted">24H 專人專車，雙北桃園一小時抵達。</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="english-title">Our Pillars</div>
-                    <h2 class="serif mt-3 mb-4">專業用心，感念託付</h2>
-                    <p class="text-muted">我們以「人性」為關懷起點。我們不僅提供儀式，更致力於為家屬提供心靈的撫慰與依靠。每一場禮儀都是一段生命故事的最後篇章，我們以最高規格嚴謹看待。</p>
-                    <div class="row g-4 mt-2">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-start">
-                                <i class="fa fa-certificate text-gold mt-1 me-3 fs-4"></i>
-                                <div>
-                                    <h6 class="fw-bold">專業認證</h6>
-                                    <small class="text-muted">新北市政府評鑑優良業者</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-start">
-                                <i class="fa fa-hand-holding-heart text-gold mt-1 me-3 fs-4"></i>
-                                <div>
-                                    <h6 class="fw-bold">全程陪伴</h6>
-                                    <small class="text-muted">國家級禮儀師 24H 指導</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-lg-6 mt-5 mt-lg-0" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=800" class="img-fluid shadow-lg" alt="服務細節">
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="process" class="py-5 bg-white">
-        <div class="container-fluid px-0 py-5">
+    <section id="plans" class="section-padding bg-light">
+        <div class="container">
             <div class="text-center mb-5">
-                <div class="english-title">The Journey</div>
-                <h2 class="serif mt-2">圓滿人生六部曲</h2>
+                <span class="eng">Our Plans</span>
+                <h2 class="serif mt-2">透明化服務專案</h2>
+                <div class="title-line"></div>
             </div>
-            <div class="row g-0 process-grid">
-                <div class="col-lg-2 col-md-4 col-6 process-box" data-aos="fade-up" data-aos-delay="100">
-                    <span class="process-num">01</span>
-                    <h6 class="fw-bold">臨終諮詢</h6>
-                    <p class="small text-muted mb-0">提供治喪流程、證件辦理及宗教習俗建議。</p>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 process-box" data-aos="fade-up" data-aos-delay="200">
-                    <span class="process-num">02</span>
-                    <h6 class="fw-bold">接體安靈</h6>
-                    <p class="small text-muted mb-0">專車接引往生者，安置靈位並規劃靈堂佈置。</p>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 process-box" data-aos="fade-up" data-aos-delay="300">
-                    <span class="process-num">03</span>
-                    <h6 class="fw-bold">治喪規劃</h6>
-                    <p class="small text-muted mb-0">選定禮儀專案、訃聞設計及奠禮細節商討。</p>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 process-box" data-aos="fade-up" data-aos-delay="400">
-                    <span class="process-num">04</span>
-                    <h6 class="fw-bold">奠禮執行</h6>
-                    <p class="small text-muted mb-0">司儀引導儀式進行，莊嚴感念逝者生前功德。</p>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 process-box" data-aos="fade-up" data-aos-delay="500">
-                    <span class="process-num">05</span>
-                    <h6 class="fw-bold">火化晉塔</h6>
-                    <p class="small text-muted mb-0">協助骨灰研磨入罐，圓滿安奉於預定塔位。</p>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 process-box" data-aos="fade-up" data-aos-delay="600">
-                    <span class="process-num">06</span>
-                    <h6 class="fw-bold">後續關懷</h6>
-                    <p class="small text-muted mb-0">提供百日、對年、合爐及各項習俗諮詢。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-5">
-        <div class="container py-5">
-            <div class="row align-items-end mb-5">
-                <div class="col-md-8">
-                    <div class="english-title">Package & Contracts</div>
-                    <h2 class="serif mt-2">生命服務專案</h2>
-                </div>
-                <div class="col-md-4 text-md-end">
-                    <p class="text-muted small">所有專案皆可依宗教信仰調整內容</p>
-                </div>
-            </div>
-            
             <div class="row g-4">
                 <div class="col-lg-4" data-aos="fade-up">
-                    <div class="contract-card">
-                        <div class="contract-img"><img src="img/project/01.jpg" alt="國民專案"></div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="serif mb-0">國民平價專案</h5>
-                                <span class="text-gold fw-bold">NT$ 6.8 萬</span>
-                            </div>
-                            <ul class="contract-list mb-4">
-                                <li><i class="fa fa-check"></i> 專業禮儀人員服務</li>
-                                <li><i class="fa fa-check"></i> 精緻中/西式棺木</li>
-                                <li><i class="fa fa-check"></i> 靈堂鮮花/背景佈置</li>
-                                <li><i class="fa fa-check"></i> 火化場各項手續代辦</li>
-                            </ul>
-                            <a href="#" class="btn btn-outline-dark w-100 rounded-0">查看完整清單</a>
-                        </div>
+                    <div class="plan-card p-4">
+                        <h4 class="serif fw-bold">國民平價專案</h4>
+                        <div class="plan-price my-4">NT$ 68,000</div>
+                        <ul class="list-unstyled mb-4 text-muted small">
+                            <li><i class="fa fa-check text-gold me-2"></i>專業禮儀人員全程指導</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>精緻中/西式火化棺木</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>靈堂鮮花佈置與用品</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>各項行政手續代辦</li>
+                        </ul>
+                        <a href="tel:0978583699" class="btn btn-outline-dark w-100 rounded-0">立即洽詢</a>
                     </div>
                 </div>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="contract-card" style="border-top: 5px solid var(--gold);">
-                        <div class="contract-img"><img src="img/project/02.jpg" alt="尊榮專案"></div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="serif mb-0">中式尊榮契約</h5>
-                                <span class="text-gold fw-bold">NT$ 8.8 ~ 17.8 萬</span>
-                            </div>
-                            <ul class="contract-list mb-4">
-                                <li><i class="fa fa-check"></i> 國家認證禮儀師全程陪同</li>
-                                <li><i class="fa fa-check"></i> 頂級實木/彩繪棺木</li>
-                                <li><i class="fa fa-check"></i> 高規公祭奠禮禮廳規劃</li>
-                                <li><i class="fa fa-check"></i> 訃聞/禮簿/周邊配件全備</li>
-                            </ul>
-                            <a href="#" class="btn btn-dark w-100 rounded-0 shadow-sm">熱門推薦選項</a>
-                        </div>
+                    <div class="plan-card p-4 border-gold shadow">
+                        <span class="badge bg-gold position-absolute top-0 end-0 m-3">熱門首選</span>
+                        <h4 class="serif fw-bold">中式尊榮專案</h4>
+                        <div class="plan-price my-4">NT$ 88,000 <small class="fs-6">起</small></div>
+                        <ul class="list-unstyled mb-4 text-muted small">
+                            <li><i class="fa fa-check text-gold me-2"></i>國家認證禮儀師 1對1 服務</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>頂級奠禮禮廳設計佈置</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>專業司儀、襄儀引導儀式</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>含訃聞、答禮毛巾等配件</li>
+                        </ul>
+                        <a href="tel:0978583699" class="btn btn-gold w-100 py-2">聯繫詳情</a>
                     </div>
                 </div>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="contract-card">
-                        <div class="contract-img"><img src="img/project/04.jpg" alt="佛教專案"></div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="serif mb-0">正信佛教契約</h5>
-                                <span class="text-gold fw-bold">NT$ 15.8 萬</span>
-                            </div>
-                            <ul class="contract-list mb-4">
-                                <li><i class="fa fa-check"></i> 遵照正信佛教儀軌設計</li>
-                                <li><i class="fa fa-check"></i> 往生被/念佛機/蓮花座</li>
-                                <li><i class="fa fa-check"></i> 專用環保經文木棺</li>
-                                <li><i class="fa fa-check"></i> 祥和雅緻之奠禮佈置</li>
-                            </ul>
-                            <a href="#" class="btn btn-outline-dark w-100 rounded-0">查看完整清單</a>
-                        </div>
+                    <div class="plan-card p-4">
+                        <h4 class="serif fw-bold">正信佛教專案</h4>
+                        <div class="plan-price my-4">NT$ 158,000</div>
+                        <ul class="list-unstyled mb-4 text-muted small">
+                            <li><i class="fa fa-check text-gold me-2"></i>遵照佛教儀軌設計</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>專用環保經文棺、往生被</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>祥和莊嚴之禪風奠禮佈置</li>
+                            <li><i class="fa fa-check text-gold me-2"></i>協助後續晉塔與七七法事</li>
+                        </ul>
+                        <a href="tel:0978583699" class="btn btn-outline-dark w-100 rounded-0">立即洽詢</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="pt-5 mt-5" style="background: var(--midnight); color: rgba(255,255,255,0.7);">
-        <div class="container py-5">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-4">
-                    <div class="location-card">
-                        <h5>三重總公司</h5>
-                        <p><i class="fa fa-phone me-2"></i> 0978-583-699</p>
-                        <p><i class="fa fa-map-marker-alt me-2"></i> 新北市三重區永福街</p>
-                    </div>
-                </div>
-                
-            
-            <hr class="border-secondary">
-            
-            <div class="row pt-4 align-items-center">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <img src="img/logo/logo.png" style="height: 50px; filter: brightness(0) invert(1);" class="mb-3" alt="">
-                    <p class="small">© 2026 禮儀有限公司 ‧ 生命禮儀專業服務</p>
+    <footer id="contact" class="bg-dark text-white pt-5">
+        <div class="container pb-4 border-bottom border-secondary">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h4 class="serif text-gold mb-4">祥安生命有限公司</h4>
+                    <p class="small text-white-50">我們以服務自家親人的心，對待每一位託付給我們的逝者與家屬。</p>
+                    <p class="mt-4"><i class="fa fa-phone text-gold me-2"></i> 24H 諮詢：0978-583-699</p>
+                    <p><i class="fa fa-map-marker-alt text-gold me-2"></i> 服務範圍：台北、新北、桃園、馬祖</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <h3 class="serif text-white mb-2">24H 專線：0978-583-699</h3>
-                    <p class="small text-gold">誠心關懷 ‧ 圓滿如親</p>
+                    <h3 class="serif">24H 禮儀諮詢專線</h3>
+                    <h2 class="text-gold serif display-6 fw-bold">0800-887-989</h2>
+                    <div class="mt-4">
+                        <a href="#" class="btn btn-outline-light rounded-circle me-2"><i class="fab fa-line"></i></a>
+                        <a href="#" class="btn btn-outline-light rounded-circle"><i class="fab fa-facebook-f"></i></a>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="text-center py-4">
+            <p class="small text-white-50 mb-0">© 2026 祥安生命有限公司 ‧ 生命禮儀專業服務｜國家認證禮儀師團隊</p>
         </div>
     </footer>
 
@@ -475,10 +233,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1200, once: true, easing: 'ease-out-back' });
-
+        AOS.init({ duration: 1000, once: true });
+        
+        // 捲動效果
         $(window).scroll(function() {
-            if ($(this).scrollTop() > 100) {
+            if ($(this).scrollTop() > 80) {
                 $('.navbar').addClass('scrolled');
             } else {
                 $('.navbar').removeClass('scrolled');
