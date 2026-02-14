@@ -1,0 +1,285 @@
+/* * 祥安生命 2025 品牌方案頁專屬樣式 
+ * 修正重點：視覺一致性、RWD 深層優化、與首頁 ID 對接、A11Y 強化
+ */
+
+/* ==========================================
+   1. 互動式方案卡片 (頂部三大主推)
+   ========================================== */
+.project-cards { 
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 30px; 
+    margin: 40px 0; 
+}
+
+.card-interactive { 
+    background: #ffffff; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); 
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+    cursor: pointer; 
+    width: 30%; 
+    min-width: 300px; 
+    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    border: 1px solid #eaeaea;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 懸停效果優化：模仿首頁的高級感 */
+.card-interactive:hover { 
+    transform: translateY(-12px); 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); 
+    border-color: #007BFF;
+}
+
+/* 尊榮方案 (17.8萬) 特殊標記 */
+.card-interactive.honor-highlight {
+    border: 3px solid #D4AF37; 
+    background: linear-gradient(180deg, #ffffff 0%, #fffdf0 100%);
+}
+
+.card-interactive h3 { 
+    color: #1C2833; 
+    font-size: 1.6em; 
+    margin-bottom: 15px; 
+    font-family: 'Noto Serif TC', serif;
+}
+
+/* 價格標籤強化 */
+.card-interactive .price { 
+    color: #8B0000; 
+    font-size: 1.8em; 
+    font-weight: 800;
+    margin: 10px 0;
+    display: block;
+}
+
+.card-interactive .view-btn { 
+    margin-top: 20px; 
+    padding: 14px 20px; 
+    background-color: #1C2833; 
+    color: #ffffff; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: 700; 
+    transition: 0.3s; 
+    width: 100%;
+}
+
+.card-interactive:hover .view-btn { 
+    background-color: #007BFF; 
+}
+
+/* ==========================================
+   2. 燈箱/模態視窗 (方案細節彈窗)
+   ========================================== */
+.modal { 
+    display: none; 
+    position: fixed; 
+    z-index: 99999; /* 確保在所有層級之上 */
+    left: 0; top: 0; 
+    width: 100%; height: 100%; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    backdrop-filter: blur(5px); /* 現代感模糊效果 */
+    align-items: center; 
+    justify-content: center; 
+}
+
+.modal-content { 
+    background-color: #ffffff; 
+    padding: 40px; 
+    border-radius: 16px; 
+    width: 90%; 
+    max-width: 900px; 
+    position: relative; 
+    animation: modalSlideIn 0.5s ease; 
+    max-height: 85vh; 
+    overflow-y: auto; 
+}
+
+@keyframes modalSlideIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-btn { 
+    position: absolute;
+    top: 20px; right: 25px;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ==========================================
+   3. 契約手風琴 (對應首頁下拉選單 ID)
+   ========================================== */
+.accordion-container {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.plan-item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #fff;
+    transition: border-color 0.3s;
+}
+
+.plan-item.active {
+    border-color: #007BFF;
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 25px 30px;
+    background: #fdfdfd;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.accordion-header i {
+    color: #007BFF;
+    margin-right: 15px;
+}
+
+/* 價格顯示在 Header 右側 */
+.accordion-header span {
+    color: #8B0000;
+    margin-left: auto;
+    margin-right: 25px;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    background-color: #fff;
+}
+
+.plan-item.active .accordion-content {
+    border-top: 1px solid #eee;
+}
+
+.content-inner {
+    padding: 30px;
+    line-height: 1.8;
+}
+
+/* 尊榮 17.8 萬 (seventeen-eight) 專屬樣式 */
+#seventeen-eight.plan-item {
+    border: 2px solid #D4AF37;
+}
+#seventeen-eight .accordion-header {
+    background: #fffdf2;
+}
+
+/* ==========================================
+   4. 深度比較表 (對應透明方案)
+   ========================================== */
+.table-scroll-wrapper {
+    overflow-x: auto;
+    margin: 30px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+table th {
+    background: #1C2833;
+    color: #fff;
+    padding: 20px;
+    font-weight: 600;
+}
+
+table td {
+    padding: 18px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+table td:first-child {
+    background: #f8f9fa;
+    font-weight: 700;
+    text-align: left;
+    width: 220px;
+}
+
+.highlight-cell {
+    background-color: #fffde7;
+    color: #8B0000;
+    font-weight: 800;
+}
+
+/* ==========================================
+   5. 流程與塔位指南適配
+   ========================================== */
+.flow-step-list li {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 20px;
+    list-style: none;
+}
+
+.flow-step-list li::before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0; top: 0;
+    width: 35px; height: 35px;
+    background: #007BFF;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* ==========================================
+   6. RWD 響應式佈局修正
+   ========================================== */
+@media (max-width: 992px) {
+    .card-interactive { width: 45%; }
+}
+
+@media (max-width: 768px) {
+    .card-interactive { width: 100%; }
+    
+    .accordion-header {
+        padding: 20px;
+        font-size: 1.1rem;
+        flex-wrap: wrap;
+    }
+    
+    .accordion-header span {
+        width: 100%;
+        margin: 10px 0 0 0;
+        font-size: 1.2rem;
+    }
+
+    .modal-content {
+        padding: 25px;
+        width: 95%;
+        margin: 5% auto;
+    }
+}
