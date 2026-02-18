@@ -368,6 +368,417 @@ pre code { background: none; color: inherit; padding: 0; }
     .submenu a { padding-left: 40px; color: #555; }
     .submenu-title { padding-left: 40px; }
     
+    
+
+/* 24H 緊急專線按鈕 (通用) */
+.contact-nav a {
+    background-color: var(--accent-color);
+    color: var(--primary-dark) !important;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(206, 157, 74, 0.4);
+}
+.contact-nav a:hover {
+    background-color: var(--primary-dark);
+    color: var(--accent-color) !important;
+    transform: translateY(-2px);
+}
+/* 桌面版左邊距修正 */
+@media (min-width: 901px) { .contact-nav a { margin-left: 20px; } }
+
+
+/* =========================================
+   6. Hero 區塊與動畫 (Hero Section)
+   ========================================= */
+
+.hero-section {
+    position: relative;
+    background: var(--bg-dark);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.star-layer {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+}
+
+/* 流星本體動畫邏輯 */
+@keyframes shooting-star {
+    0% { transform: rotate(var(--rotation)) translateX(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: rotate(var(--rotation)) translateX(var(--travel-x)); opacity: 0; }
+}
+
+.star-layer::before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(206,157,74,0), var(--accent-color));
+    animation: shooting-star 3s linear infinite;
+    opacity: 0;
+}
+
+/* 🏆 流程圖 (Flow Chart)
+
+
+/* 漸層遮罩 */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(30,58,106,0.4), var(--primary-dark));
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.hero-content h1 { text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.hero-content p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; }
+
+/* 🌟 星星背景動畫 */
+@keyframes move-star {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-100px, 100px, 0); }
+}
+@keyframes blink {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.3; }
+}
+
+#stars, #stars2, #stars3 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 200%; height: 200%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#stars { animation: move-star 200s linear infinite; }
+#stars::before {
+    content: ""; position: absolute; width: 1px; height: 1px;
+    background: white;
+    box-shadow: 10vw 20vh #fff, 30vw 80vh #fff, 80vw 10vh #fff; /* 簡化範例 */
+}
+
+/* ☄️ 流星動畫 */
+.meteor {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 5px var(--accent-color);
+    transform: rotate(var(--rotation));
+    z-index: 4;
+    opacity: 0;
+    /* 動畫需在 HTML 中定義 delay 或在 CSS 增加具體 keyframes */
+}
+
+.meteor::after {
+   content: "";
+   position: absolute;
+   top: 50%
+   transform: translateY(-50%);
+   width: 60px;
+   height: 1px;
+   background: linear-gradient(90deg, var(--accent-color), transparent);
+}
+
+@keyfrmes meteor-rain {
+   0% { transform: rotate(var(--rotation))
+      translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+ 100% { transform: rotate(var(--rotation))
+      translateX(var(--travel-x)); opacity: 0; }
+}
+
+/* =========================================
+   7. 內容組件 (Components)
+   ========================================= */
+
+/* 按鈕 CTA */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+.cta-button.primary {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    box-shadow: 0 5px 15px rgba(30, 58, 106, 0.4);
+}
+.cta-button.primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+}
+.cta-button.secondary {
+    background: transparent;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+.cta-button.secondary:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
+}
+
+/* 特色網格 (Features) */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+.feature-item {
+    padding: 30px;
+    background: var(--text-light);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    transition: transform var(--transition-speed);
+    border: 1px solid var(--border-color);
+}
+.feature-item:hover { transform: translateY(-5px); }
+.feature-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px; }
+
+/* 團隊介紹 (Team) */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+}
+.team-member-card {
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: transform var(--transition-speed);
+}
+.team-member-card:hover { transform: translateY(-5px); }
+.member-photo-wrap {
+    width: 120px; height: 120px; margin: 0 auto 15px;
+    border-radius: 50%; overflow: hidden;
+    border: 3px solid var(--accent-color);
+}
+.member-photo { width: 100%; height: 100%; object-fit: cover; }
+
+/* 數據統計 (Stats) */
+.stat-section { background-color: var(--primary-color); color: #fff; }
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    text-align: center;
+}
+.stat-number { font-size: 2.5rem; font-weight: 700; color: var(--accent-color); font-family: var(--font-serif); }
+
+/* Logo 牆 */
+.logo-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;
+}
+.logo-item img {
+    height: 50px; width: auto; opacity: 0.6; filter: grayscale(100%);
+    transition: all var(--transition-speed);
+}
+.logo-item img:hover { opacity: 1; filter: none; }
+
+/* =========================================
+ 
+   5. 導覽列 (Header & Nav) - 核心邏輯
+   ========================================= *//* 🏆 導覽列 (Header & Nav) */
+.main-header {
+    height: var(--header-height);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 20px var(--shadow-color);
+}
+
+.header-container {
+    max-width: var(--content-max-width);
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.site-logo {
+    height: 50px;
+    transition: transform var(--transition-speed);
+}
+.site-logo:hover { transform: scale(1.05); }
+
+
+.main-header.scrolled {
+    background-color: rgba(255, 255, 255, 0.95); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+
+/* 🏆 導覽列 (Header & Nav) */
+.main-header {
+    height: var(--header-height);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 20px var(--shadow-color);
+}
+
+.header-container {
+    max-width: var(--content-max-width);
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.site-logo {
+    height: 50px;
+    transition: transform var(--transition-speed);
+}
+.site-logo:hover { transform: scale(1.05); }
+
+
+/* 導覽連結通用樣式 */
+.main-nav ul { list-style: none; padding: 0; margin: 0; }
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    display: block;
+    transition: color var(--transition-fast);
+}
+.main-nav a:hover, .main-nav a:focus-visible { color: var(--primary-color); }
+
+/* --- 5.1 桌面版導覽 (min-width: 901px) --- */
+@media screen and (min-width: 901px) {
+    .menu-toggle { display: none; } /* 隱藏手機按鈕 */
+
+    .main-nav ul {
+        display: flex;
+        align-items: center;
+    }
+
+    .main-nav > ul > li {
+        position: relative;
+        padding: 0 10px;
+    }
+
+    .main-nav > ul > li > a {
+        padding: 8px 0;
+        position: relative;
+    }
+
+    /* 桌面版下拉選單 (懸停顯示) */
+    .submenu-container {
+        position: absolute;
+        top: 100%; left: 0;
+        min-width: 240px;
+        background: #fff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all var(--transition-speed) ease;
+        z-index: 1000;
+        border-top: 3px solid var(--accent-color);
+        border-radius: 0 0 4px 4px;
+    }
+
+    .dropdown:hover .submenu-container,
+    .dropdown:focus-within .submenu-container {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .submenu a { padding: 12px 20px; border-bottom: 1px solid #f0f0f0; }
+    .submenu a:hover { background-color: var(--bg-light); padding-left: 25px; }
+}
+
+/* --- 5.2 手機版導覽 (max-width: 900px) --- */
+@media screen and (max-width: 900px) {
+    /* 漢堡選單按鈕 */
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        color: var(--primary-color);
+        padding: 8px 12px;
+        font-weight: 700;
+        border: 1px solid var(--primary-color);
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    /* 手機版導覽容器 (預設隱藏) */
+    .main-nav {
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background: #fff;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out; /* 滑動展開效果 */
+    }
+
+    .main-nav.is-active {
+        max-height: 80vh; /* 展開高度 */
+        overflow-y: auto;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .main-nav ul { flex-direction: column; width: 100%; }
+    .main-nav li { width: 100%; border-bottom: 1px solid #f5f5f5; }
+    .main-nav a { padding: 15px 20px; }
+
+    /* 手機版下拉選單 (點擊展開) */
+    .submenu-container {
+        display: none; /* JS 控制 style.display = 'block' */
+        background-color: #f8f9fa;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    /* 縮進設計 */
+    .submenu a { padding-left: 40px; color: #555; }
+    .submenu-title { padding-left: 40px; }
+    
     /* 聯繫按鈕手機版 */
     .contact-nav { padding: 15px 20px; text-align: center; }
     .contact-nav a { margin: 0; width: 100%; justify-content: center; }
