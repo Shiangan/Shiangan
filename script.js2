@@ -1,0 +1,106 @@
+    /** * 根據當前 URL 匹配並高亮導航連結 
+     * @param {NodeList} navLinks - 所有導航連結元素
+     */
+    function highlightActiveLink(navLinks) {
+        const { CLASS_ACTIVE, DROPDOWN_SELECTOR } = CONSTANTS;
+        const cleanPath = (url) => url?.split('?')[0].split('#')[0] || 'index.html';
+        const currentPath = cleanPath(window.location.pathname.split('/').pop() || 'index.html'); 
+        
+        navLinks.forEach(item => {
+            const itemHref = cleanPath(item.getAttribute('href'));
+            item.classList.remove(CLASS_ACTIVE);
+
+            // 1. 精確匹配當前頁面
+            if (itemHref === currentPath) {
+                 item.classList.add(CLASS_ACTIVE);
+                 
+            } else if (item.closest(DROPDOWN_SELECTOR)) {
+                 // 2. 修正：如果此連結位於下拉選單內 (L2/L3)，檢查它的父級 L1 是否應該高亮
+                 const parentL1 = item.closest(`li:not(.${DROPDOWN_SELECTOR})`)?.closest(DROPDOWN_SELECTOR);
+                 
+                 // 如果當前頁面路徑包含 L1 連結的路徑 (例如 /service/item.html 包含 /service.html)，則高亮 L1
+                 if (parentL1 && cleanPath(parentL1.querySelector('a')?.getAttribute('href')) === currentPath) {
+                      parentL1.querySelector('a')?.classList.add(CLASS_ACTIVE);
+                 }
+            }
+        });
+    }
+
+        // 1.2 行動端下拉選單 (手風琴) 邏輯
+        function handleMobileDropdown(e, item, dropdownLink, icon) {
+            // 僅在行動模式下啟用手風琴效果
+            if (window.innerWidth <= MOBILE_BREAKPOINT) {
+                
+                // 核心邏輯：先切換手風琴狀態
+                const currentlyActive = item.classList.contains(CLASS_ACTIVE);
+                
+                // 1. 實作單一展開模式 (收合其他已開啟的項目)
+                dropdownItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains(CLASS_ACTIVE)) {
+                        otherItem.classList.remove(CLASS_ACTIVE);
+                        const otherIcon = otherItem.querySelector('.fa-chevron-down');
+                        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // 2. 切換當前項目的狀態
+                item.classList.toggle(CLASS_ACTIVE, !currentlyActive);
+                
+                // 3. 旋轉箭頭圖標
+                if (icon) {
+                    icon.style.transform = !currentlyActive ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+                
+                // 4. 行動端點擊 L1 連結的處理：
+                if (item.classList.contains(CLASS_ACTIVE)) {
+                    // 如果是展開，阻止預設行為，讓用戶看到子選單
+                    e.preventDefault(); 
+                } else if (currentlyActive) {
+                    // 如果是收合，但已經收合完畢，我們允許點擊導航到 L1 頁面
+                    // 這裡不需額外 action，因為已允許預設行為。
+                } else if (!item.classList.contains(CLASS_ACTIVE) && !e.target.closest('.submenu')) {
+                    // 如果是點擊 L1 標題但沒有子選單，或者點擊的是已經展開的 L1 標題
+                    // 這裡的邏輯需要更精確，但最簡單的方法是：
+                    // 如果點擊 L1 標題時菜單已收合，允許導航。
+                    // 為了避免複雜化，我們採用較簡單的做法：點擊 L1 標題總是切換手風琴。
+                    e.preventDefault(); 
+                }
+                
+            } 
+            // 桌面模式：保持預設行為 (允許導航或 hover 展開)
+        }
+
+
+        /**
+         * 1.1 行動選單切換邏輯
+         * @param {boolean} isToggling - true: 開啟, false: 關閉, null/undefined: 切換
+         */
+        function toggleMobileMenu(isToggling) {
+             const shouldOpen = isToggling ?? !mainNav.classList.contains(CLASS_ACTIVE); 
+
+             mainNav.classList.toggle(CLASS_ACTIVE, shouldOpen);
+             document.body.classList.toggle('menu-open', shouldOpen); 
+             
+             mobileMenuBtn.innerHTML = shouldOpen 
+                 ? '<i class="fas fa-times"></i> 關閉' 
+                 : initialBtnHtml;
+             mobileMenuBtn.setAttribute('aria-expanded', shouldOpen);
+
+             // 關閉主選單時，收合所有子選單 (清爽化狀態)
+             if (!shouldOpen) {
+                // 修正：確保在主選單關閉時，所有下拉手風琴狀態被清除
+                dropdownItems.forEach(item => {
+                    item.classList.remove(CLASS_ACTIVE);
+                    const icon = item.querySelector('.fa-chevron-down');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                });
+                
+                // 額外保險：如果 CSS 有設定 overflow-y: auto，這裡強制覆寫
+                mainNav.style.overflowY = 'hidden'; 
+                
+             } else {
+                 // 展開時允許滾動
+                 mainNav.style.overflowY = 'auto';
+             }
+        }
+
