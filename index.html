@@ -663,4 +663,107 @@ body {
 }
 
     </style>
+    <script>
+        /**
+ * 祥安生命 2026 旗艦版交互系統
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    'use strict';
+
+    // 1. 高性能流星雨引擎 (物理模擬)
+    const initMeteors = () => {
+        const hero = document.getElementById('hero');
+        if (!hero) return;
+
+        const spawnMeteor = () => {
+            const meteor = document.createElement('div');
+            meteor.className = 'meteor';
+            
+            // 隨機軌跡點
+            const startX = Math.random() * 120; // 超出螢幕一點
+            const startY = Math.random() * 40;
+            const duration = 2000 + Math.random() * 2000;
+
+            Object.assign(meteor.style, {
+                left: `${startX}%`,
+                top: `${startY}%`,
+                opacity: '0'
+            });
+
+            hero.appendChild(meteor);
+
+            // 使用 Web Animations API 優雅處理
+            const animation = meteor.animate([
+                { opacity: 0, transform: 'translate(0, 0) rotate(-35deg)' },
+                { opacity: 1, offset: 0.2 },
+                { opacity: 1, offset: 0.8 },
+                { opacity: 0, transform: 'translate(-1000px, 700px) rotate(-35deg)' }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.4, 0, 1, 1)'
+            });
+
+            animation.onfinish = () => meteor.remove();
+        };
+
+        // 定時噴發與初始噴發
+        setInterval(spawnMeteor, 3000);
+        setTimeout(spawnMeteor, 1000);
+    };
+
+    // 2. 視差滾動效果 (Parallax)
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) {
+            heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+            heroContent.style.opacity = 1 - (scrolled / 600);
+        }
+    }, { passive: true });
+
+    // 3. 揭幕式加載動畫 (Reveal)
+    const revealOnScroll = () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // 釋放資源
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('section, .card-item, .flow-chart li').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px)';
+            el.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+            observer.observe(el);
+        });
+    };
+
+    // 4. 手機選單高級交互
+    const toggleMenu = () => {
+        const btn = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        if (!btn || !nav) return;
+
+        btn.addEventListener('click', () => {
+            const isOpen = nav.classList.toggle('is-active');
+            btn.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            nav.style.clipPath = isOpen ? 'circle(150% at 100% 0%)' : 'circle(0% at 100% 0%)';
+        });
+    };
+
+    // 啟動所有引擎
+    initMeteors();
+    revealOnScroll();
+    toggleMenu();
+
+    // 注入 Revealed 樣式
+    const style = document.createElement('style');
+    style.innerHTML = '.revealed { opacity: 1 !important; transform: translateY(0) !important; }';
+    document.head.appendChild(style);
+});
+
+    </script>
 </html>
