@@ -50,7 +50,8 @@
     --travel-x: -150vw;
     --travel-y: 120vh;
 
-   --ease-standed: cubic-bezier(0.4, 0, 0.2 1);
+   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+   --rwd-transition-duration: 0.4s;
 
    transition; transform var(--transition-speed) var(--ease-standard);
     /* 滾動修正 */
@@ -490,6 +491,25 @@ pre code { background: none; color: inherit; padding: 0; }
     z-index: 4;
     opacity: 0;
     /* 動畫需在 HTML 中定義 delay 或在 CSS 增加具體 keyframes */
+}
+
+.meteor::after {
+   content: "";
+   position: absolute;
+   top: 50%
+   transform: translateY(-50%);
+   width: 60px;
+   height: 1px;
+   background: linear-gradient(90deg, var(--accent-color), transparent);
+}
+
+@keyfrmes meteor-rain {
+   0% { transform: rotate(var(--rotation))
+      translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+ 100% { transform: rotate(var(--rotation))
+      translateX(var(--travel-x)); opacity: 0; }
 }
 
 /* =========================================
