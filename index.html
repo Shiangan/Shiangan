@@ -113,17 +113,18 @@
         .menu-toggle { display: none; font-size: 1.8rem; color: var(--accent); cursor: pointer; z-index: 3001; }
 
         /* --- 手機版 RWD 樣式修正 --- */
+        }
+
+        /* --- 手機版 RWD 樣式修正 --- */
         @media (max-width: 1024px) {
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
                 background: var(--white); flex-direction: column; padding: 100px 30px;
                 box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease-in-out;
-                overflow-y: auto; gap: 10px;
+                overflow-y: auto; gap: 10px; display: flex; /* 確保在手機版是顯示的 */
             }
-            /* JavaScript 控制這個 class 開關 */
             .nav-links.active { right: 0; }
-
             .nav-links > li { width: 100%; border-bottom: 1px solid #f0f0f0; }
             
             /* 手機版子選單改為點擊展開 */
@@ -133,6 +134,7 @@
             }
             .nav-links li.active .submenu { display: block; }
         }
+
         /* Hero */
         .hero {
             height: 100vh; background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
