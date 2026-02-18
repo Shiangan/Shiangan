@@ -64,7 +64,7 @@
     </script>
 
     <style>
-        /* --- 2026 旗艦視覺 CSS --- */
+        /* --- 2026 旗艦視覺變數 --- */
         :root {
             --primary: #0f172a;    
             --accent: #c5a059;     
@@ -80,7 +80,7 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* Header & 完整多級選單 */
+        /* --- 導覽列與多級選單 --- */
         .main-header {
             position: fixed; top: 0; width: 100%; height: 90px; z-index: 2000;
             background: var(--glass); backdrop-filter: blur(15px);
@@ -92,12 +92,12 @@
         .logo img { height: 50px; transition: var(--transition); }
         .scrolled .logo img { height: 40px; }
 
-              .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links { display: flex; list-style: none; gap: 20px; }
         .nav-links > li { position: relative; padding: 10px 0; }
         .nav-links a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent); }
 
-        /* 電腦版下拉選單 */
+        /* 下拉選單基礎樣式 */
         .submenu {
             position: absolute; top: 100%; left: 0; background: white; min-width: 240px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1); border-top: 3px solid var(--accent);
@@ -109,25 +109,23 @@
         .submenu a { display: block; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-weight: 400; font-size: 0.9rem; }
         .submenu-title { font-weight: 700; color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.7; }
 
-        /* 手機版選單切換開關 */
+        /* 漢堡選單按鈕 */
         .menu-toggle { display: none; font-size: 1.8rem; color: var(--accent); cursor: pointer; z-index: 3001; }
 
-        /* --- 手機版 RWD 樣式修正 --- */
-        }
-
-        /* --- 手機版 RWD 樣式修正 --- */
+        /* --- 手機版 RWD 樣式 (核心修復) --- */
         @media (max-width: 1024px) {
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
                 background: var(--white); flex-direction: column; padding: 100px 30px;
                 box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease-in-out;
-                overflow-y: auto; gap: 10px; display: flex; /* 確保在手機版是顯示的 */
+                overflow-y: auto; gap: 10px;
+                display: flex !important; /* 強制覆蓋 display: none */
             }
             .nav-links.active { right: 0; }
             .nav-links > li { width: 100%; border-bottom: 1px solid #f0f0f0; }
             
-            /* 手機版子選單改為點擊展開 */
+            /* 手機版下拉選單改為垂直展開 */
             .submenu {
                 position: static; opacity: 1; visibility: visible; transform: none;
                 display: none; box-shadow: none; border-top: none; padding: 10px 0 10px 15px;
@@ -135,17 +133,17 @@
             .nav-links li.active .submenu { display: block; }
         }
 
-        /* Hero */
+        /* --- Hero 主視覺 --- */
         .hero {
             height: 100vh; background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
             display: flex; align-items: center; justify-content: center; text-align: center; color: white;
             position: relative; overflow: hidden;
         }
-        .hero-content { z-index: 10; max-width: 800px; }
-        .hero h1 { font-size: clamp(2.2rem, 8vw, 4rem); letter-spacing: 0.1em; margin-bottom: 20px; background: linear-gradient(45deg, #fff, var(--soft-gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .meteor { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px 2px var(--accent); opacity: 0; }
+        .hero-content { z-index: 10; max-width: 800px; padding: 0 20px; }
+        .hero h1 { font-size: clamp(2.2rem, 8vw, 4rem); letter-spacing: 0.1em; margin-bottom: 20px; background: linear-gradient(45deg, #fff, var(--soft-gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; }
 
-        /* Sections */
+        /* --- 區塊通用樣式 --- */
         .section-padding { padding: 80px 0; }
         .section-title { text-align: center; margin-bottom: 50px; }
         .section-title h2 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
@@ -156,28 +154,28 @@
         .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
         .card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; display: block; }
 
-        /* Buttons */
-        .btn { display: inline-block; padding: 14px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s; cursor: pointer; border: 1px solid var(--accent); }
+        /* --- 按鈕 --- */
+        .btn { display: inline-block; padding: 14px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s; cursor: pointer; border: 1px solid var(--accent); text-align: center; }
         .btn-gold { background: var(--accent); color: white; }
         .btn-gold:hover { background: transparent; color: var(--accent); }
 
-        /* FAQ Accordion */
+        /* --- FAQ 手風琴 --- */
         .faq-item { border-bottom: 1px solid #eee; padding: 20px 0; cursor: pointer; }
         .faq-question { font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
         .faq-answer { max-height: 0; overflow: hidden; transition: 0.5s; color: #666; font-size: 0.95rem; }
         .faq-item.active .faq-answer { max-height: 200px; padding-top: 15px; }
 
-        /* Floating Contact */
+        /* --- 右下角浮動按鈕 --- */
         .floating-cta { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-        .float-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: 0.3s; }
+        .float-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: 0.3s; text-decoration: none; }
         .btn-phone { background: var(--accent); }
         .btn-line { background: #00c300; }
+        .float-btn:hover { transform: scale(1.1); }
 
-        .menu-toggle { display: none; font-size: 1.5rem; color: var(--accent); }
-        @media (max-width: 1024px) { .nav-links { display: none; } .menu-toggle { display: block; } }
-
+        /* --- 進場動畫特效 --- */
         .reveal { opacity: 0; transform: translateY(30px); transition: 1s; }
         .revealed { opacity: 1; transform: translateY(0); }
+        .meteor { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px 2px var(--accent); opacity: 0; }
     </style>
 </head>
 
@@ -195,7 +193,7 @@
                     <li><a href="about.html">關於祥安</a></li>
                     
                     <li>
-                        <a href="services.html">專業生命禮儀 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="#">專業生命禮儀 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
                         <ul class="submenu">
                             <li class="submenu-title">依信仰分類</li>
                             <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道教)</a></li>
@@ -208,7 +206,7 @@
                     </li>
 
                     <li>
-                        <a href="plans.html">喪葬費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="#">喪葬費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
                         <ul class="submenu">
                             <li class="submenu-title">公開透明契約</li>
                             <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
@@ -221,7 +219,7 @@
                     </li>
 
                     <li>
-                        <a href="blog.html">殯葬百科 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="#">殯葬百科 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
                         <ul class="submenu">
                             <li><a href="blog.html#first-step">臨終/初終處理</a></li>
                             <li><a href="blog.html#law-guide">法規與補助指南</a></li>
@@ -240,10 +238,10 @@
         <section class="hero" id="home">
             <div class="hero-content">
                 <h1 class="reveal">祥安生命有限公司</h1>
-                <p class="reveal">喪葬費用公開透明，24H 溫馨陪伴</p>
+                <p class="reveal">喪葬費用公開透明，24H 溫馨陪伴，讓愛圓滿告別</p>
                 <div class="reveal" style="margin-top: 30px;">
                     <a href="plans.html" class="btn btn-gold">查看所有公開方案</a>
-                    <a href="tel:+886978583699" class="btn" style="color: white; border-color: white; margin-left: 10px;">🎥 觀看服務案例</a>
+                    <a href="tel:+886978583699" class="btn" style="color: white; border-color: white; margin-left: 10px;">立即通報諮詢</a>
                 </div>
             </div>
         </section>
@@ -267,12 +265,12 @@
                 <div class="card reveal">
                     <i class="fas fa-leaf"></i>
                     <h3>環保葬/樹葬</h3>
-                    <p>回歸自然大地的純粹，推廣樹葬、花葬，為地球留下永續綠意。</p>
+                    <p>回歸自然大地的純粹，推廣樹葬、花葬、海葬，為地球留下永續綠意。</p>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding bg-section" style="background: var(--bg-light);">
+        <section class="section-padding" style="background: var(--bg-light);">
             <div class="container">
                 <div class="section-title reveal">
                     <h2>塔位選擇與殯葬指南</h2>
@@ -281,18 +279,18 @@
                 <div class="card-grid">
                     <div class="card reveal" style="background: white;">
                         <h3>🛡️ 塔位合法性查詢</h3>
-                        <p>確認靈骨塔是否合法是首要步驟。我們提供官方查詢指南，避開轉售詐騙陷阱。</p>
-                        <a href="ta-wei-he-fa-xing-query-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none;">立即查看攻略 &raquo;</a>
+                        <p>確認靈骨塔是否合法是首要步驟。我們提供官方查詢指南，避開詐騙陷阱。</p>
+                        <a href="ta-wei-he-fa-xing-query-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">立即查看攻略 &raquo;</a>
                     </div>
                     <div class="card reveal" style="background: white;">
-                        <h3>🏞️ 塔位選擇指南</h3>
-                        <p>從價格預算、地理位置、交通便利性到風水格局，提供您全面的塔位挑選建議。</p>
-                        <a href="ta-wei-choice-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none;">了解選擇細節 &raquo;</a>
+                        <h3>🏞️ 塔位選擇建議</h3>
+                        <p>從價格預算、地理位置、交通到風水格局，提供您最全面的塔位挑選專業建議。</p>
+                        <a href="ta-wei-choice-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">了解選擇細節 &raquo;</a>
                     </div>
                     <div class="card reveal" style="background: white;">
                         <h3>🔔 晉塔流程詳解</h3>
                         <p>治喪結束後，如何圓滿晉塔？專業禮儀師教您準備文件、選擇吉日與儀式細節。</p>
-                        <a href="jin-ta-process-details.html" style="color: var(--accent); font-weight: 700; text-decoration: none;">查看流程詳解 &raquo;</a>
+                        <a href="jin-ta-process-details.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">查看流程詳解 &raquo;</a>
                     </div>
                 </div>
             </div>
@@ -300,21 +298,21 @@
 
         <section class="section-padding container">
             <div class="section-title reveal">
-                <h2>💖 治喪服務：暖心解答</h2>
+                <h2>治喪服務：暖心解答</h2>
                 <div class="line"></div>
             </div>
             <div class="reveal" style="max-width: 800px; margin: 0 auto;">
                 <div class="faq-item">
                     <div class="faq-question">Q1. 費用是否完全公開透明？ <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">是的。祥安生命最重視費用透明，所有細節皆在簽約前書面確認，絕無隱藏費用。</div>
+                    <div class="faq-answer">是的。祥安生命重視誠信，所有服務項目與費用皆在簽約前書面確認，鄭重承諾絕無任何隱藏費用。</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">Q2. 親人離世第一時間要做什麼？ <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">請保持冷靜，撥打 24H 專線 0978-583-699，我們會立即派員抵達現場協助。</div>
+                    <div class="faq-answer">請保持冷靜，第一時間撥打 24H 專線 0978-583-699，我們會立即派員抵達現場協助處理所有後續事宜。</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">Q3. 可以客製化仪式嗎？ <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">當然可以。我們會與您一對一溝通，依照信仰與預算打造獨一無二的告別。</div>
+                    <div class="faq-question">Q3. 可以依照特定信仰客製化儀式嗎？ <i class="fas fa-plus"></i></div>
+                    <div class="faq-answer">當然可以。我們會依照家屬的宗教信仰（佛、道、基、天主、日蓮正宗等）或特殊遺願，量身打造最符合需求的圓滿告別。</div>
                 </div>
             </div>
         </section>
@@ -323,48 +321,82 @@
     <footer style="background: #020617; color: rgba(255,255,255,0.6); padding: 60px 0 20px;">
         <div class="container" style="text-align: center;">
             <img src="images/logo.png" alt="Logo" style="height: 50px; filter: brightness(0) invert(1); margin-bottom: 20px;">
-            <p>新北市三重區永福街135巷13號 | 24H：0978-583-699</p>
+            <p>新北市三重區永福街135巷13號 | 24H 諮詢：0978-583-699</p>
+            <p>服務區域：台北、新北、桃園全區</p>
             <p style="margin-top: 20px; font-size: 0.8rem;">祥安生命有限公司 © <span id="year"></span> 版權所有</p>
         </div>
     </footer>
 
     <div class="floating-cta">
-        <a href="https://line.me/ti/p/@yourid" class="float-btn btn-line"><i class="fab fa-line"></i></a>
+        <a href="https://line.me/ti/p/@yourid" class="float-btn btn-line" target="_blank"><i class="fab fa-line"></i></a>
         <a href="tel:+886978583699" class="float-btn btn-phone"><i class="fas fa-phone"></i></a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. 漢堡選單控制
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
+            const dropdowns = document.querySelectorAll('.nav-links > li');
             
-            menuToggle.addEventListener('click', () => {
+            // 1. 漢堡選單點擊切換
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 navLinks.classList.toggle('active');
                 const icon = menuToggle.querySelector('i');
                 icon.classList.toggle('fa-bars');
                 icon.classList.toggle('fa-xmark');
             });
 
-            // 2. 手機版子選單展開 (點擊箭頭或連結)
-            const dropdowns = document.querySelectorAll('.nav-links > li');
+            // 2. 手機版下拉選單點擊
             dropdowns.forEach(item => {
                 const link = item.querySelector('a');
                 link.addEventListener('click', (e) => {
                     if (window.innerWidth <= 1024 && item.querySelector('.submenu')) {
                         e.preventDefault();
+                        e.stopPropagation();
+                        // 切換 active 類別以顯示 submenu
                         item.classList.toggle('active');
                     }
                 });
             });
 
-            // 3. 導覽列滾動變色
+            // 3. 點擊外部自動關閉選單
+            document.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                dropdowns.forEach(item => item.classList.remove('active'));
+                const icon = menuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
+            });
+
+            // 4. 導覽列滾動變色
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
                 navbar.classList.toggle('scrolled', window.scrollY > 50);
             });
 
-            // 4. 流星特效
+            // 5. FAQ 手風琴功能
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    const icon = item.querySelector('i');
+                    if (icon.classList.contains('fa-plus')) {
+                        icon.classList.replace('fa-plus', 'fa-minus');
+                    } else {
+                        icon.classList.replace('fa-minus', 'fa-plus');
+                    }
+                });
+            });
+
+            // 6. 進場動畫 Observer
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) entry.target.classList.add('revealed');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+            // 7. 英雄區流星效果
             const hero = document.getElementById('home');
             setInterval(() => {
                 const meteor = document.createElement('div');
@@ -379,25 +411,7 @@
                 ], { duration: 2500, easing: 'linear' }).onfinish = () => meteor.remove();
             }, 3000);
 
-            // 5. FAQ 手風琴
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    item.classList.toggle('active');
-                    const icon = item.querySelector('i');
-                    if (icon.classList.contains('fa-plus')) {
-                        icon.classList.replace('fa-plus', 'fa-minus');
-                    } else {
-                        icon.classList.replace('fa-minus', 'fa-plus');
-                    }
-                });
-            });
-
-            // 6. 進場動畫
-            const obs = new IntersectionObserver(ents => {
-                ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
+            // 8. 動態更新版權年份
             document.getElementById('year').textContent = new Date().getFullYear();
         });
     </script>
