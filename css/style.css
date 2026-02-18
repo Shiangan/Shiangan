@@ -192,16 +192,34 @@ pre code { background: none; color: inherit; padding: 0; }
 
 /* =========================================
    5. 導覽列 (Header & Nav) - 核心邏輯
-   ========================================= */
+   ========================================= *//* 🏆 導覽列 (Header & Nav) */
 .main-header {
-    background-color: var(--text-light);
     height: var(--header-height);
-    position: fixed; 
-    top: 0; left: 0; width: 100%; 
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
     z-index: 1000;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    transition: all var(--transition-speed);
+    box-shadow: 0 2px 20px var(--shadow-color);
 }
+
+.header-container {
+    max-width: var(--content-max-width);
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.site-logo {
+    height: 50px;
+    transition: transform var(--transition-speed);
+}
+.site-logo:hover { transform: scale(1.05); }
+
 
 .main-header.scrolled {
     background-color: rgba(255, 255, 255, 0.95); 
@@ -210,14 +228,35 @@ pre code { background: none; color: inherit; padding: 0; }
     border-bottom: 1px solid var(--border-color);
 }
 
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
+
+/* 🏆 導覽列 (Header & Nav) */
+.main-header {
+    height: var(--header-height);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 20px var(--shadow-color);
 }
 
-.site-logo { height: 40px; object-fit: contain; }
+.header-container {
+    max-width: var(--content-max-width);
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.site-logo {
+    height: 50px;
+    transition: transform var(--transition-speed);
+}
+.site-logo:hover { transform: scale(1.05); }
+
 
 /* 導覽連結通用樣式 */
 .main-nav ul { list-style: none; padding: 0; margin: 0; }
@@ -353,17 +392,42 @@ pre code { background: none; color: inherit; padding: 0; }
 /* =========================================
    6. Hero 區塊與動畫 (Hero Section)
    ========================================= */
+
 .hero-section {
     position: relative;
-    height: 100vh;
-    min-height: 600px;
-    background-color: var(--primary-dark);
+    background: var(--bg-dark);
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    z-index: 1;
 }
+
+.star-layer {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+}
+
+/* 流星本體動畫邏輯 */
+@keyframes shooting-star {
+    0% { transform: rotate(var(--rotation)) translateX(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: rotate(var(--rotation)) translateX(var(--travel-x)); opacity: 0; }
+}
+
+.star-layer::before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(206,157,74,0), var(--accent-color));
+    animation: shooting-star 3s linear infinite;
+    opacity: 0;
+}
+
+/* 🏆 流程圖 (Flow Chart)
+
 
 /* 漸層遮罩 */
 .hero-section::before {
@@ -524,6 +588,52 @@ pre code { background: none; color: inherit; padding: 0; }
    8. 流程圖 (Flow Chart) - RWD 箭頭修正
    ========================================= */
 .flow-chart ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    list-style: none;
+    counter-reset: flow-step;
+}
+
+.flow-chart li {
+    position: relative;
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: 12px;
+    border-top: 4px solid var(--accent-color);
+    transition: var(--transition-speed);
+}
+
+.flow-chart li::before {
+    content: counter(flow-step);
+    counter-increment: flow-step;
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+/* 🏆 箭頭圖示邏輯 (FontAwesome) */
+.flow-chart li::after {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+/* 平面螢幕：向右箭頭 */
+@media (min-width: 992px) {
+    .flow-chart li:not(:last-child)::after {
+        content: '\f061';
+        right: -30px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.flow-chart ol {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -626,27 +736,37 @@ pre code { background: none; color: inherit; padding: 0; }
    10. 頁尾與懸浮按鈕 (Footer & Floating)
    ========================================= */
 footer {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-dark);
     color: var(--text-light);
     padding-top: 60px;
 }
+
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: 2fr 1fr 1fr;
     gap: 40px;
     padding-bottom: 40px;
 }
+
 .footer-block h4 {
     color: var(--accent-color);
-    border-left: 3px solid var(--accent-color);
-    padding-left: 10px;
+    margin-bottom: 20px;
+    font-family: var(--font-serif);
 }
+
 .footer-copyright {
-    background-color: var(--primary-dark);
-    padding: 15px 0;
-    text-align: center;
-    font-size: 0.9rem;
+    background-color: #080f1d;
+    padding: 20px 0;
+    font-size: 0.85rem;
 }
+
+.footer-copyright .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 
 /* 懸浮 CTA */
 .floating-cta {
@@ -679,6 +799,73 @@ footer {
 }
 .back-to-top.show { opacity: 1; pointer-events: auto; }
 /* =========================================
+
+==== */
+
+@media (max-width: 992px) {
+    .price-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --header-height: 70px;
+    }
+    .price-card.featured {
+        transform: none;
+    }
+    .flow-chart li::after {
+        display: none; /* 平板端隱藏橫向箭頭 */
+    }
+}
+
+/* 🏆 您提供的 576px 以下優化 */
+@media (max-width: 576px) {
+    .footer-copyright .container {
+        flex-direction: column; /* 堆疊排列 */
+        align-items: center; 
+        text-align: center;
+    }
+
+    .footer-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .footer-meta a {
+        margin: 5px 0;
+        margin-left: 0;
+    }
+
+    /* 箭頭邏輯切換為向下 */
+    .flow-chart li:not(:last-child)::after {
+        display: block;
+        content: '\f063'; 
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .price-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        padding: 0 15px 40px;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
 
 /* -------------------------------------------
  * 8. 文章頁面 (Article Body) 專屬樣式與優化 - 【優化區塊 2：提示框】
@@ -766,7 +953,6 @@ footer {
     margin-right: 8px;
 }
 
-/* 文章目錄 (TOC) */
 
 /* 文章目錄 (TOC) - 新增標題區塊 */
 .table-of-contents {
