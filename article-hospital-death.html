@@ -16,51 +16,60 @@ permalink: /article-hospital-death.html
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 文章頁面專用邏輯排版 */
+        /* 文章頁面核心邏輯 */
         :root {
             --accent: #c6a15b;
             --deep-ink: #1a1a1a;
             --text-muted: #666;
+            --bg-light: #fdfcfb;
         }
 
-        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.8; color: #333; background: #fdfcfb; }
+        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.8; color: #333; background: var(--bg-light); margin: 0; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
         /* 麵包屑導航 */
-        .breadcrumb { padding: 20px 0; font-size: 0.9rem; color: var(--text-muted); }
-        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb { padding: 25px 0; font-size: 0.9rem; color: var(--text-muted); }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
         .breadcrumb a:hover { color: var(--accent); }
 
-        /* 主佈局 */
-        .blog-flex-layout { display: flex; gap: 40px; margin-bottom: 60px; }
-        .article-main { flex: 2.5; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        /* 雙欄佈局控制 */
+        .blog-flex-layout { display: flex; gap: 40px; margin-bottom: 60px; align-items: flex-start; }
+        .article-main { flex: 2.5; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; }
         .article-sidebar { flex: 1; }
 
-        /* 文章內文樣式 */
+        /* 文章細節排版 */
         .article-h1 { font-family: 'Noto Serif TC', serif; font-size: 2.2rem; line-height: 1.4; color: var(--deep-ink); margin-bottom: 20px; }
-        .article-meta { font-size: 0.9rem; color: #999; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .article-meta { font-size: 0.9rem; color: #999; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; display: flex; gap: 15px; }
         
-        .main-image { width: 100%; border-radius: 8px; margin-bottom: 30px; }
+        .main-image { width: 100%; border-radius: 8px; margin-bottom: 30px; object-fit: cover; }
         
-        .summary-box { background: #f9f6f0; border-left: 5px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
+        .summary-box { background: #f9f6f0; border-left: 5px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; font-size: 1.05rem; }
         
-        h2 { font-family: 'Noto Serif TC', serif; color: var(--deep-ink); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-top: 40px; display: flex; align-items: center; gap: 10px; }
-        h2 i { color: var(--accent); font-size: 1.5rem; }
+        h2 { font-family: 'Noto Serif TC', serif; color: var(--deep-ink); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-top: 45px; display: flex; align-items: center; gap: 12px; }
+        h2 i { color: var(--accent); }
 
-        .process-card { background: #fff; border: 1px solid #eec; padding: 20px; border-radius: 8px; margin: 20px 0; position: relative; }
-        .process-card h3 { margin-top: 0; color: #856404; font-size: 1.1rem; }
+        .process-card { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin: 20px 0; border-top: 3px solid var(--accent); }
+        .process-card h3 { margin-top: 0; color: #856404; font-size: 1.15rem; }
 
-        /* 側邊欄 Sticky 邏輯 */
-        .sticky-sidebar { position: sticky; top: 100px; }
-        .sidebar-widget { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; }
-        .emergency-call { background: var(--deep-ink); color: #fff; text-align: center; }
-        .emergency-call h4 { color: var(--accent); margin-top: 0; }
-        .btn-call { background: var(--accent); color: #fff; display: block; padding: 12px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
-        .btn-call:hover { filter: brightness(1.1); }
+        /* 側邊欄元件 */
+        .sticky-sidebar { position: sticky; top: 120px; }
+        .sidebar-widget { background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .emergency-call { background: var(--deep-ink); color: #fff; text-align: center; border: none; }
+        .emergency-call h4 { color: var(--accent); margin-top: 0; font-size: 1.3rem; }
+        .btn-call { background: var(--accent); color: #fff; display: block; padding: 14px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 15px; transition: 0.3s; font-size: 1.1rem; }
+        .btn-call:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(198, 161, 91, 0.4); }
 
+        /* 延伸閱讀區塊 */
+        .related-articles { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; }
+        .related-link { color: var(--accent); text-decoration: none; display: flex; align-items: center; padding: 10px 0; transition: 0.3s; }
+        .related-link:hover { padding-left: 10px; color: var(--deep-ink); }
+
+        /* 手機版適應 */
         @media (max-width: 992px) {
             .blog-flex-layout { flex-direction: column; }
-            .article-main { padding: 20px; }
+            .article-main { padding: 25px; order: 1; }
+            .article-sidebar { order: 2; width: 100%; }
+            .article-h1 { font-size: 1.7rem; }
         }
     </style>
 </head>
@@ -69,8 +78,8 @@ permalink: /article-hospital-death.html
     {% include header.html %}
 
     <div class="container">
-        <nav class="breadcrumb">
-            <a href="index.html">首頁</a> 〉<a href="blog.html">殯葬百科</a> 〉正文
+        <nav class="breadcrumb" aria-label="breadcrumb">
+            <a href="index.html">首頁</a> 〉<a href="blog.html">殯葬百科</a> 〉醫院過世SOP
         </nav>
 
         <main class="blog-flex-layout">
@@ -78,61 +87,72 @@ permalink: /article-hospital-death.html
                 <header>
                     <h1 class="article-h1" itemprop="headline">【醫院死亡緊急SOP】親人在醫院過世後：<strong>死亡證明、接體與冰存</strong> 5 個關鍵步驟</h1>
                     <div class="article-meta">
-                        <span><i class="far fa-user"></i> 陳妍如 禮儀師</span> | 
-                        <span><i class="far fa-calendar-alt"></i> 更新於 2026/02/20</span>
+                        <span><i class="far fa-user"></i> 陳妍如 禮儀師</span>
+                        <span><i class="far fa-calendar-alt"></i> 2026/02/20</span>
                     </div>
                 </header>
 
                 <img src="images/blog-first-step-1.jpg" alt="醫院往生流程指引" class="main-image" onerror="this.src='https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'">
 
                 <div class="summary-box">
-                    <strong>🚨 禮儀師提醒：</strong> 當院方宣告親人往生，家屬心情悲慟之餘，仍需面對繁雜的行政流程。請記住，您有權**拒絕太平間業者的強行包攬**。冷靜撥打專線，由我們為您接手最艱難的時刻。
+                    <strong>🚨 禮儀師提醒：</strong> 當院方宣告親人往生，請保持冷靜。您擁有自主選擇禮儀公司的權利。不論深夜或清晨，撥打 24H 專線，由專業團隊接手安置，讓您能專心陪伴摯愛最後一程。
                 </div>
 
                 <div class="article-content" itemprop="articleBody">
                     <h2 id="step-1"><i class="fas fa-file-signature"></i> 步驟一：取得足夠份數的死亡證明</h2>
-                    <p>醫師宣告後，請醫院開立「死亡證明書」。這不是一張紙而已，而是後續所有法律程序的通行證。</p>
+                    <p>醫師宣告後，請醫院開立「死亡證明書」。建議一次申請 <strong>15-20 份正本</strong>。這對後續除戶、申報遺產稅、領取各項保險給付及津貼至關重要。</p>
+                    
                     <div class="process-card">
-                        <h3>💡 為什麼要開 15-20 份？</h3>
-                        <p>因為以下程序皆需「正本」：</p>
-                        <ul style="font-size: 0.9rem; color: #666;">
-                            <li>除戶登記、遺產稅申報</li>
-                            <li>勞保津貼、商業保險理賠</li>
-                            <li>火化許可證、納骨塔位申請</li>
-                        </ul>
+                        <h3>💡 為什麼需要這麼多份？</h3>
+                        <p>每一項行政程序（如勞保、國保、銀行結清、產險理賠、火化許可）通常都需要繳交正本，事後補發費時費力，建議首批即辦足。</p>
                     </div>
 
                     <h2 id="step-2"><i class="fas fa-phone-volume"></i> 步驟二：即時聯繫專業禮儀師</h2>
-                    <p>一旦確定親人往生，請立即聯繫祥安生命：<strong>0978-583-699</strong>。我們會立即派遣接體車輛，並指導您如何應對醫院往生室的行政流程，避免產生爭議費用。</p>
+                    <p>取得證明後，請撥打 24H 服務專線：<strong>0978-583-699</strong>。禮儀師會安排專車前往醫院，並指引家屬避開不必要的行政收費糾紛。</p>
 
-                    <h2 id="step-3"><i class="fas fa-sign-out-alt"></i> 步驟三：結清住院帳目與辦理出院</h2>
-                    <p>禮儀師抵達後，會陪同家屬持死亡證明書前往結帳櫃檯辦理出院手續。取得出院許可後，方可由接體車接運遺體離院。</p>
+                    <h2 id="step-3"><i class="fas fa-sign-out-alt"></i> 步驟三：結清住院帳目與辦理離院</h2>
+                    <p>禮儀師抵達後，會協助您辦理出院與醫療費用結帳。取得出院許可後，方能由接體車護送遺體前往冰存地點。</p>
 
-                    <h2 id="step-4"><i class="fas fa-monument"></i> 步驟四：決定安置地點（冰存或返家）</h2>
-                    <p>目前多數家屬選擇將大體移往**市立殯儀館冰存**，優點是環境專業、設施齊全。若欲遵照傳統運回自宅，則需預先確認家中空間並租借冰櫃。</p>
+                    <h2 id="step-4"><i class="fas fa-monument"></i> 步驟四：決定大體安置地點</h2>
+                    <ul>
+                        <li><strong>市立殯儀館冰存：</strong> 環境衛生、管理專業，後續告別式場地銜接最方便。</li>
+                        <li><strong>運回自宅設靈：</strong> 需提前佈置環境並租借冰櫃。</li>
+                    </ul>
 
-                    <h2 id="step-5"><i class="fas fa-heart"></i> 步驟五：設置靈堂與治喪協調</h2>
-                    <p>安置完畢後，禮儀師會與家屬進行一對一協調，根據預算與宗教信仰（佛、道、西式），規劃最圓滿的告別流程。</p>
+                    <h2 id="step-5"><i class="fas fa-heart"></i> 步驟五：治喪協調與後續安排</h2>
+                    <p>大體安置妥當後，禮儀師將與家屬討論宗教禮儀、訃聞印製及告別式細節，確保治喪過程尊嚴圓滿。</p>
+
+                    <section class="related-articles">
+                        <h3 style="font-family: 'Noto Serif TC', serif; font-size: 1.3rem;">🔍 延伸閱讀：治喪必看資訊</h3>
+                        <nav>
+                            <a href="article-taboo.html" class="related-link">
+                                <i class="fas fa-chevron-circle-right" style="margin-right: 10px;"></i> 【守喪禁忌】治喪期間有哪些日常禮俗規範？
+                            </a>
+                            <a href="article-labor-insurance.html" class="related-link">
+                                <i class="fas fa-chevron-circle-right" style="margin-right: 10px;"></i> 【補助申請】勞保喪葬津貼如何請領？(附檢附清單)
+                            </a>
+                        </nav>
+                    </section>
                 </div>
             </article>
 
             <aside class="article-sidebar">
                 <div class="sticky-sidebar">
                     <div class="sidebar-widget emergency-call">
-                        <h4>24H 緊急協助</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.8;">親人在醫院往生，時間緊迫<br>我們承諾 1 小時內抵達</p>
+                        <h4>24H 禮儀服務</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">不論時段，我們承諾<br>大台北地區 1 小時內抵達</p>
                         <a href="tel:0978583699" class="btn-call"><i class="fas fa-phone-alt"></i> 0978-583-699</a>
                     </div>
 
                     <div class="sidebar-widget">
-                        <h4 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom:10px;">快速目錄</h4>
-                        <nav style="font-size: 0.9rem;">
-                            <ul style="list-style: none; padding: 0; line-height: 2.2;">
-                                <li><a href="#step-1" style="text-decoration:none; color:#555;">1. 死亡證明份數</a></li>
-                                <li><a href="#step-2" style="text-decoration:none; color:#555;">2. 聯繫禮儀師</a></li>
-                                <li><a href="#step-3" style="text-decoration:none; color:#555;">3. 出院手續辦理</a></li>
-                                <li><a href="#step-4" style="text-decoration:none; color:#555;">4. 大體安置選擇</a></li>
-                                <li><a href="#step-5" style="text-decoration:none; color:#555;">5. 治喪流程協調</a></li>
+                        <h4 style="margin-top:0; border-bottom: 2px solid var(--bg-light); padding-bottom:10px;">快速目錄</h4>
+                        <nav style="font-size: 0.95rem;">
+                            <ul style="list-style: none; padding: 0; line-height: 2.5;">
+                                <li><a href="#step-1" style="text-decoration:none; color:var(--text-muted);">1. 死亡證明書申請</a></li>
+                                <li><a href="#step-2" style="text-decoration:none; color:var(--text-muted);">2. 聯繫祥安專線</a></li>
+                                <li><a href="#step-3" style="text-decoration:none; color:var(--text-muted);">3. 辦理離院手續</a></li>
+                                <li><a href="#step-4" style="text-decoration:none; color:var(--text-muted);">4. 大體安置地點</a></li>
+                                <li><a href="#step-5" style="text-decoration:none; color:var(--text-muted);">5. 治喪規劃細節</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -145,13 +165,17 @@ permalink: /article-hospital-death.html
     {% include floating-cta.html %}
 
     <script>
-        // 邏輯優化：捲動時平滑跳轉至對應標題
+        // 平滑捲動
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
