@@ -6,63 +6,109 @@ layout: null
 <head>
     {% include head.html %}
     <style>
-        /* 頁面專屬核心樣式 */
+        /* 1. 基礎層級修正：確保內容不擋住選單 */
+        body { 
+            background-color: #ffffff; 
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 2. 英雄區：質感拉升 - 增加漸層深度 */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(26, 36, 26, 0.7), rgba(26, 36, 26, 0.7)), 
-                        url('https://images.unsplash.com/photo-1516564730364-70678859733a?auto=format&fit=crop&q=80') center/cover;
+            background: linear-gradient(rgba(20, 30, 20, 0.8), rgba(26, 36, 26, 0.6)), 
+                        url('https://images.unsplash.com/photo-1516564730364-70678859733a?auto=format&fit=crop&q=1920') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
             position: relative;
-            overflow: hidden;
+            z-index: 1; /* 降低層級，不擋住 header */
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 20px;
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
-            color: #c5a059; /* 金箔色 */
-            margin-bottom: 20px;
-            letter-spacing: 5px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 4rem;
+            color: #c5a059;
+            margin-bottom: 25px;
+            letter-spacing: 8px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .section-padding { padding: 100px 0; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
-        .section-title { text-align: center; margin-bottom: 60px; }
-        .section-title h2 { font-size: 2.2rem; color: #1a241a; position: relative; padding-bottom: 15px; }
-        .section-title h2::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 60px; height: 3px; background: #c5a059;
+        .hero-content p {
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            font-weight: 300;
         }
 
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { 
-            background: white; padding: 40px; border-radius: 5px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-bottom: 4px solid transparent;
-            transition: 0.3s;
-        }
-        .card:hover { border-bottom: 4px solid #c5a059; transform: translateY(-10px); }
-        .card i { font-size: 2.5rem; color: #c5a059; margin-bottom: 20px; }
-
+        /* 3. 按鈕優化：增加金箔光澤感 */
         .btn { 
-            display: inline-block; padding: 15px 35px; text-decoration: none; 
-            border-radius: 2px; font-weight: 700; transition: 0.3s;
-            margin: 10px;
+            display: inline-block; padding: 16px 40px; text-decoration: none; 
+            border-radius: 2px; font-weight: 700; transition: all 0.4s ease;
+            margin: 10px; letter-spacing: 2px;
+            font-size: 0.95rem;
         }
-        .btn-gold { background: #c5a059; color: #1a241a; }
-        .btn-outline { border: 2px solid white; color: white; }
-        .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .btn-gold { 
+            background: linear-gradient(135deg, #c5a059 0%, #f1d396 50%, #c5a059 100%);
+            color: #1a241a;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+            border: none;
+        }
+        .btn-outline { 
+            border: 1px solid rgba(255,255,255,0.6); 
+            color: white; 
+        }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 
-        /* FAQ 樣式 */
-        .faq-item { background: #f9f9f9; margin-bottom: 15px; border-radius: 5px; cursor: pointer; }
-        .faq-question { padding: 20px; display: flex; justify-content: space-between; font-weight: 700; color: #1a241a; }
-        .faq-answer { padding: 0 20px 20px; display: none; color: #666; line-height: 1.8; }
+        /* 4. 區塊間距與質感 */
+        .section-padding { padding: 120px 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+
+        .section-title { text-align: center; margin-bottom: 80px; }
+        .section-title h2 { 
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem; 
+            color: #1a241a; 
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+        .section-title .line {
+            width: 50px; height: 3px; background: #c5a059; margin: 0 auto;
+        }
+
+        /* 5. 卡片效果：微陰影與優雅邊框 */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .card { 
+            background: #fff; padding: 50px 40px; border-radius: 0; 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.04);
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid #f0f0f0;
+            text-align: center;
+        }
+        .card:hover { transform: translateY(-10px); border-color: #c5a059; box-shadow: 0 20px 50px rgba(26,36,26,0.1); }
+        .card i { font-size: 3rem; color: #c5a059; margin-bottom: 30px; display: block; }
+        .card h3 { font-size: 1.5rem; margin-bottom: 20px; color: #1a241a; }
+        .card p { color: #666; line-height: 1.8; font-size: 1rem; }
+
+        /* 6. FAQ 質感提升 */
+        .faq-item { background: #fff; margin-bottom: 20px; border: 1px solid #eee; transition: 0.3s; }
+        .faq-item:hover { border-color: #c5a059; }
+        .faq-question { padding: 25px 30px; display: flex; justify-content: space-between; font-weight: 700; color: #1a241a; align-items: center; }
+        .faq-answer { padding: 0 30px 30px; display: none; color: #555; line-height: 2; border-top: 1px dashed #eee; padding-top: 20px; }
         .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question { color: #c5a059; }
 
         @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content h1 { font-size: 2.5rem; letter-spacing: 4px; }
+            .section-padding { padding: 80px 0; }
         }
     </style>
 </head>
@@ -75,10 +121,10 @@ layout: null
         <section class="hero" id="home">
             <div class="hero-content">
                 <h1 class="reveal">祥安生命有限公司</h1>
-                <p class="reveal" style="font-size: 1.2rem; opacity: 0.9;">喪葬費用公開透明，24H 溫馨陪伴，讓愛圓滿告別</p>
-                <div class="reveal" style="margin-top: 30px;">
-                    <a href="{{ site.baseurl }}/plans.html" class="btn btn-gold">查看所有公開方案</a>
-                    <a href="tel:+886978583699" class="btn btn-outline">立即通報諮詢</a>
+                <p class="reveal">24H 溫馨陪伴・費用公開透明・讓愛圓滿告別</p>
+                <div class="reveal" style="margin-top: 40px;">
+                    <a href="{{ site.baseurl }}/plans.html" class="btn btn-gold">查看所有服務方案</a>
+                    <a href="tel:+886978583699" class="btn btn-outline">立即諮詢 0978-583-699</a>
                 </div>
             </div>
         </section>
@@ -86,46 +132,48 @@ layout: null
         <section class="section-padding container">
             <div class="section-title reveal">
                 <h2>專業多元禮儀服務</h2>
+                <div class="line"></div>
             </div>
             <div class="card-grid">
                 <div class="card reveal">
                     <i class="fas fa-om"></i>
                     <h3>中式傳統禮儀</h3>
-                    <p>遵循佛道教經典科儀，專業禮儀師全程引導，莊嚴告別人生旅程。</p>
+                    <p>遵循佛道教經典科儀，由專業禮儀師全程引導，以最至誠的心，莊嚴告別人生旅程。</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-cross"></i>
                     <h3>西式追思禮拜</h3>
-                    <p>基督教、天主教溫馨儀式，以愛與希望緬懷故人，符合教會規範。</p>
+                    <p>基督教、天主教溫馨儀式規劃，配合教會規範，在主愛中以平安與希望緬懷故人。</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-leaf"></i>
-                    <h3>環保葬/樹葬</h3>
-                    <p>回歸自然大地的純粹，推廣樹葬、花葬、海葬，為地球留下永續綠意。</p>
+                    <h3>現代環保葬</h3>
+                    <p>推廣樹葬、花葬、海葬。回歸自然大地的純粹，為地球留下綠意，讓生命延續於自然。</p>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding" style="background: #f4f4f4;">
+        <section class="section-padding" style="background: #fcfcfc; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0;">
             <div class="container">
                 <div class="section-title reveal">
-                    <h2>塔位選擇與殯葬指南</h2>
+                    <h2>殯葬指南與百科</h2>
+                    <div class="line"></div>
                 </div>
                 <div class="card-grid">
                     <div class="card reveal">
-                        <h3>🛡️ 塔位合法性查詢</h3>
-                        <p>確認靈骨塔是否合法是首要步驟。避開詐騙陷阱。</p>
-                        <a href="{{ site.baseurl }}/ta-wei-he-fa-xing-query-guide.html" style="color: #c5a059; text-decoration: none; font-weight: 700;">立即查看 &raquo;</a>
+                        <h3 style="color: #c5a059;">🛡️ 塔位合法查詢</h3>
+                        <p>確認靈骨塔合法性是圓滿安置的首要步驟。我們整理了官方查詢指南，協助您避開詐騙陷阱。</p>
+                        <a href="{{ site.baseurl }}/ta-wei-he-fa-xing-query-guide.html" style="color: #1a241a; text-decoration: none; font-weight: 700; border-bottom: 2px solid #c5a059;">立即查看 &raquo;</a>
                     </div>
                     <div class="card reveal">
-                        <h3>🏞️ 塔位選擇建議</h3>
-                        <p>預算、交通、風水格局，提供最全面的專業建議。</p>
-                        <a href="{{ site.baseurl }}/ta-wei-choice-guide.html" style="color: #c5a059; text-decoration: none; font-weight: 700;">了解細節 &raquo;</a>
+                        <h3 style="color: #c5a059;">🏞️ 塔位選擇建議</h3>
+                        <p>從交通、預算、風水格局到長期維護，提供最理性的專業挑選建議，協助家屬做出最好的決定。</p>
+                        <a href="{{ site.baseurl }}/ta-wei-choice-guide.html" style="color: #1a241a; text-decoration: none; font-weight: 700; border-bottom: 2px solid #c5a059;">了解細節 &raquo;</a>
                     </div>
                     <div class="card reveal">
-                        <h3>🔔 晉塔流程詳解</h3>
-                        <p>準備文件、選擇吉日與儀式細節，專業禮儀師全程陪同。</p>
-                        <a href="{{ site.baseurl }}/jin-ta-process-details.html" style="color: #c5a059; text-decoration: none; font-weight: 700;">流程詳解 &raquo;</a>
+                        <h3 style="color: #c5a059;">🔔 晉塔流程詳解</h3>
+                        <p>治喪結束後的圓滿安置。專業禮儀師詳解晉塔公文、準備物品與祭祀流程，讓您不再忙亂。</p>
+                        <a href="{{ site.baseurl }}/jin-ta-process-details.html" style="color: #1a241a; text-decoration: none; font-weight: 700; border-bottom: 2px solid #c5a059;">流程詳解 &raquo;</a>
                     </div>
                 </div>
             </div>
@@ -133,16 +181,17 @@ layout: null
 
         <section class="section-padding container">
             <div class="section-title reveal">
-                <h2>治喪服務：暖心解答</h2>
+                <h2>常見問題解答</h2>
+                <div class="line"></div>
             </div>
-            <div style="max-width: 800px; margin: 0 auto;">
+            <div style="max-width: 900px; margin: 0 auto;">
                 <div class="faq-item reveal">
-                    <div class="faq-question">Q1. 費用是否完全公開透明？ <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">是的。祥安生命重視誠信，所有服務項目皆在簽約前確認，鄭重承諾絕無任何隱藏費用。</div>
+                    <div class="faq-question">Q1. 治喪費用是否完全公開透明？ <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">是的。祥安生命重視契約精神，所有服務項目、器材規格皆在簽約前詳盡說明，鄭重承諾絕無事後隱藏加費。</div>
                 </div>
                 <div class="faq-item reveal">
-                    <div class="faq-question">Q2. 親人離世第一時間要做什麼？ <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">請保持冷靜，第一時間撥打 24H 專線 0978-583-699，我們會立即派員抵達現場協助。</div>
+                    <div class="faq-question">Q2. 親人離世第一時間該如何處理？ <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">請保持冷靜。只需撥打 24H 服務專線 0978-583-699，我們的禮儀顧問會立即抵達現場引導家屬處理醫師診斷、遺體安置及後續所有治喪事宜。</div>
                 </div>
             </div>
         </section>
@@ -150,6 +199,27 @@ layout: null
 
     {% include footer.html %}
     {% include floating-cta.html %}
-    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 捲動顯示動畫
+            const revealObs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+            // FAQ 開關邏輯
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
