@@ -1,4 +1,4 @@
-footer>
+<footer>
         <div class="footer-floating-text">SHIANGAN</div> <div class="footer-content">
             <div class="footer-grid">
                 <div class="footer-col">
