@@ -64,7 +64,7 @@
     ]
     </script>
     
-    
+   
     <style>
         :root {
             --bg-master: #f2efeb;      /* 全站羊絨灰 */
@@ -79,7 +79,7 @@
 
         /* 基礎重置 */
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; letter-spacing: 0.05em; }
-        html, body { overflow-x: hidden; width: 100%; position: relative; }
+        html, body { overflow-x: hidden; width: 100%; position: relative; scroll-behavior: smooth; }
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--bg-master);
@@ -87,11 +87,11 @@
             margin: 0; line-height: 1.8;
         }
 
-        /* 導航欄補償：防止遮擋內容 */
+        /* 導航欄補償 */
         main { padding-top: 90px; }
         @media (max-width: 1100px) { main { padding-top: 80px; } }
 
-        /* 浮水印：pointer-events: none 確保不遮擋點擊 */
+        /* 浮水印 */
         .watermark {
             position: absolute; font-family: 'Playfair Display', serif; 
             font-style: italic; font-size: clamp(5rem, 15vw, 15rem); 
@@ -140,81 +140,36 @@
         @media (min-width: 1024px) { .flex-container { flex-direction: row; align-items: center; } }
         
         .img-holder { position: relative; flex: 1; }
-        .img-holder img { width: 100%; border-radius: 2px; box-shadow: 20px 20px 0 var(--accent); }
-        @media (max-width: 768px) { .img-holder img { box-shadow: 10px 10px 0 var(--accent); } }
+        .img-holder img { width: 100%; border-radius: 2px; box-shadow: 20px 20px 0 var(--accent); transition: 0.5s; }
+        .img-holder img:hover { transform: translate(-5px, -5px); box-shadow: 25px 25px 0 var(--accent); }
 
         /* --- 服務清單 --- */
         .service-list { margin-top: 40px; border-top: 1px solid var(--line-soft); }
         .service-row {
             padding: 35px 0; border-bottom: 1px solid var(--line-soft);
             display: grid; grid-template-columns: 50px 1fr; gap: 20px;
-            transition: 0.4s; cursor: pointer;
+            transition: 0.4s; cursor: pointer; text-decoration: none; color: inherit;
         }
         .service-row:hover { background: rgba(168, 142, 106, 0.05); padding-left: 15px; }
         .service-row .idx { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; }
         .service-row h3 { font-size: 1.8rem; margin: 0; font-family: 'Noto Serif TC', serif; }
 
-     /* --- FAQ 修正版樣式 --- */
-.faq-list { max-width: 900px; margin: 0 auto; }
-.faq-item { 
-    border-bottom: 1px solid var(--line-soft); 
-    padding: 5px 0;
-}
+        /* --- FAQ 樣式 --- */
+        .faq-list { max-width: 900px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid var(--line-soft); padding: 5px 0; }
+        .faq-toggle { 
+            width: 100%; padding: 25px 0; display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer; text-align: left; outline: none;
+        }
+        .faq-toggle h4 { font-size: 1.15rem; color: var(--deep-ink); margin: 0; flex: 1; font-family: 'Noto Sans TC', sans-serif; }
+        .faq-icon { color: var(--accent); transition: transform 0.4s; font-size: 1.5rem; margin-left: 20px; display: flex; align-items: center; justify-content: center; width: 30px; }
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.3s ease; color: #555; font-size: 1rem; line-height: 1.8; }
+        
+        .faq-item.active .faq-content { max-height: 1000px; padding-bottom: 30px; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); color: var(--deep-ink); }
 
-.faq-toggle { 
-    width: 100%; 
-    padding: 25px 0; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    text-align: left;
-    outline: none;
-}
-
-.faq-toggle h4 { 
-    font-size: 1.15rem; 
-    color: var(--deep-ink); 
-    margin: 0; 
-    flex: 1; /* 讓文字佔滿剩餘空間 */
-    font-family: 'Noto Sans TC', sans-serif;
-}
-
-.faq-icon { 
-    color: var(--accent); 
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-    font-size: 1.5rem; 
-    margin-left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-}
-
-.faq-content { 
-    max-height: 0; 
-    overflow: hidden; 
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease; 
-    color: #555; 
-    font-size: 1rem;
-    line-height: 1.8;
-}
-
-/* 展開狀態 */
-.faq-item.active .faq-content { 
-    max-height: 1000px; /* 足夠大的高度以容納長文本 */
-    padding-bottom: 30px; 
-}
-
-.faq-item.active .faq-icon { 
-    transform: rotate(45deg); /* + 變 x */
-    color: var(--deep-ink);
-}
-
-
-        /* 動畫 */
+        /* 動畫啟動類別 */
         .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--transition-prime); }
         .reveal.revealed { opacity: 1; transform: translateY(0); }
     </style>
+</head>
