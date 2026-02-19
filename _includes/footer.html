@@ -1,7 +1,7 @@
 <style>
-    /* --- 墨綠金箔 Footer 專屬 CSS --- */
+    /* --- 墨綠金箔 Footer 視覺定義 --- */
     .site-footer {
-        background: #1a241a; /* 墨綠背景 */
+        background: #1a241a; /* 深墨綠底色，展現莊重感 */
         color: #ffffff;
         padding: 100px 0 40px;
         position: relative;
@@ -9,7 +9,7 @@
         font-family: 'Noto Sans TC', 'Noto Serif TC', serif;
     }
 
-    /* 背景裝飾大字：展現品牌張力 */
+    /* 背景裝飾水印：SHIANGAN 字樣 */
     .footer-floating-text {
         position: absolute;
         top: -10px;
@@ -17,7 +17,7 @@
         transform: translateX(-50%);
         font-size: 12vw;
         font-weight: 900;
-        color: rgba(197, 160, 89, 0.04); /* 極淡金箔壓紋感 */
+        color: rgba(197, 160, 89, 0.04); /* 極淡的金箔壓紋效果 */
         white-space: nowrap;
         pointer-events: none;
         letter-spacing: 25px;
@@ -39,7 +39,7 @@
     }
 
     .footer-col h4 {
-        color: #c5a059; /* 金箔色標題 */
+        color: #c5a059; /* 標題採用金箔色 */
         font-size: 1.1rem;
         margin-bottom: 25px;
         font-weight: 700;
@@ -57,7 +57,7 @@
 
     .footer-col a:hover {
         color: #c5a059;
-        transform: translateX(5px); /* 滑鼠懸停位移效果 */
+        transform: translateX(5px); /* 懸停時優雅位移 */
     }
 
     .footer-tel {
@@ -68,7 +68,6 @@
         margin-bottom: 10px !important;
     }
 
-    /* 底部版權區 */
     .footer-bottom {
         text-align: center;
         margin-top: 80px;
@@ -79,7 +78,7 @@
         letter-spacing: 2px;
     }
 
-    /* RWD 手機版適應邏輯 */
+    /* RWD 手機版自動適應 */
     @media (max-width: 992px) {
         .footer-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -98,7 +97,7 @@
     <div class="footer-content">
         <div class="footer-grid">
             <div class="footer-col">
-                <img src="{{ site.baseurl }}/images/logo.png" style="height: 55px; filter: brightness(0) invert(1); margin-bottom: 25px;" alt="祥安生命 logo">
+                <img src="{{ site.baseurl }}/images/logo.png" style="height: 55px; filter: brightness(0) invert(1); margin-bottom: 25px;" alt="祥安生命有限公司">
                 <p style="opacity: 0.5; font-size: 0.9rem; line-height: 1.8;">
                     國家證照團隊，承諾費用透明。提供台北、新北、桃園專業禮儀規劃，圓滿生命的每一場謝幕。
                 </p>
@@ -136,13 +135,13 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         /**
-         * 1. FAQ 手風琴邏輯
+         * 1. FAQ 手風琴交互功能
          */
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             item.addEventListener('click', () => {
                 const isActive = item.classList.contains('active');
-                faqItems.forEach(i => i.classList.remove('active')); // 關閉其他
+                faqItems.forEach(i => i.classList.remove('active')); 
                 if (!isActive) item.classList.add('active');
                 
                 const icon = item.querySelector('i');
@@ -153,7 +152,7 @@
         });
 
         /**
-         * 2. 導覽列捲動變色
+         * 2. 導覽列捲動變色效果
          */
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
@@ -161,7 +160,7 @@
         });
 
         /**
-         * 3. 手機版選單切換
+         * 3. 手機版選單切換開關
          */
         const menuBtn = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
@@ -170,12 +169,11 @@
                 e.stopPropagation();
                 navLinks.classList.toggle('active');
             });
-            // 點擊外面關閉選單
             document.addEventListener('click', () => navLinks.classList.remove('active'));
         }
 
         /**
-         * 4. 視差進場動畫
+         * 4. 內容區進場動畫 (Intersection Observer)
          */
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -185,7 +183,7 @@
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         /**
-         * 5. 英雄區流星背景效果
+         * 5. 英雄區流星特效渲染
          */
         const hero = document.getElementById('home') || document.getElementById('hero-space');
         if (hero) {
