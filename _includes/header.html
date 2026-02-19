@@ -1,5 +1,4 @@
 <style>
-    /* --- 核心層級與顯示修復 --- */
     :root {
         --deep-green: #1a241a;
         --gold-solid: #c5a059;
@@ -9,16 +8,15 @@
         position: fixed;
         top: 0; left: 0; width: 100%;
         display: flex; justify-content: center;
-        padding: 20px 0; /* 縮小一點讓視覺更精緻 */
-        z-index: 999999 !important; /* 絕對最高層級 */
+        padding: 20px 0;
+        z-index: 1000; /* 設為 1000 即可，避免過大影響其他元件 */
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         background: transparent;
     }
 
-    /* 捲動後的狀態 */
     #navbar.scrolled {
         padding: 10px 0;
-        background: rgba(26, 36, 26, 0.98); /* 深綠色背景 */
+        background: rgba(26, 36, 26, 0.98);
         backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(197, 160, 89, 0.3);
     }
@@ -31,16 +29,14 @@
         align-items: center;
     }
 
-    /* Logo 修正：移除 filter，保持原色 */
     .logo img { 
         height: 60px; 
         width: auto;
-        filter: none !important; /* 強制移除任何濾鏡 */
+        filter: none !important;
         transition: 0.3s; 
     }
     #navbar.scrolled .logo img { height: 45px; }
 
-    /* 桌機選單列 */
     .nav-links {
         display: flex;
         list-style: none;
@@ -62,7 +58,7 @@
     }
     .nav-links > li > a:hover { color: var(--gold-solid); }
 
-    /* 下拉選單 */
+    /* 下拉選單基礎樣式 */
     .submenu {
         position: absolute;
         top: 100%; left: 50%;
@@ -78,7 +74,6 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    /* 桌機懸浮顯示 */
     @media (min-width: 1101px) {
         .nav-links li:hover .submenu {
             opacity: 1;
@@ -96,16 +91,15 @@
     }
     .submenu li a:hover { color: var(--gold-solid); background: rgba(255,255,255,0.05); }
 
-    /* 手機版按鈕 */
     .menu-toggle {
         display: none;
         color: var(--gold-solid);
         font-size: 1.8rem;
         cursor: pointer;
         padding: 10px;
-        z-index: 1000001;
     }
 
+    /* 手機版樣式修正 */
     @media (max-width: 1100px) {
         .menu-toggle { display: block !important; }
         
@@ -113,11 +107,11 @@
             position: fixed;
             top: 0; right: -100%;
             width: 80%; height: 100vh;
-            background: #1a241a;
+            background: var(--deep-green);
             flex-direction: column;
-            padding: 100px 50px;
+            padding: 100px 40px;
             transition: 0.4s ease-in-out;
-            z-index: 1000000;
+            overflow-y: auto; /* 避免選單太長刷不動 */
         }
 
         .nav-links.active { right: 0; }
@@ -125,45 +119,48 @@
         .submenu { 
             position: static; transform: none !important; 
             opacity: 1; visibility: visible; 
-            width: 100%; display: none; /* 點擊才展開 */
-            background: rgba(0,0,0,0.2);
-            box-shadow: none; border: none;
+            width: 100%; display: none;
+            background: rgba(0,0,0,0.3);
+            border: none; box-shadow: none;
+            padding: 0; margin-top: 10px;
         }
 
-        .nav-links li.show-submenu .submenu { display: block; margin-top: 10px; }
+        .nav-links li.show-submenu .submenu { display: block; }
+        .nav-links li.has-submenu > a i { transition: 0.3s; }
+        .nav-links li.show-submenu > a i { transform: rotate(180deg); }
     }
 </style>
 
 <header id="navbar">
     <div class="nav-wrapper">
         <div class="logo">
-            <a href="{{ site.baseurl }}/index.html">
-                <img src="{{ site.baseurl }}/images/logo.png" alt="祥安生命">
+            <a href="./index.html">
+                <img src="./images/logo.png" alt="祥安生命">
             </a>
         </div>
         
         <nav>
             <ul class="nav-links" id="main-nav">
-                <li><a href="{{ site.baseurl }}/index.html">首頁</a></li>
-                <li><a href="{{ site.baseurl }}/about.html">關於祥安</a></li>
+                <li><a href="./index.html">首頁</a></li>
+                <li><a href="./about.html">關於祥安</a></li>
                 <li class="has-submenu">
-                    <a href="javascript:void(0)">生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+                    <a href="javascript:void(0)">生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="{{ site.baseurl }}/services.html#buddhist-taoist">中式禮儀</a></li>
-                        <li><a href="{{ site.baseurl }}/services.html#western-etiquette">西式禮儀</a></li>
-                        <li><a href="{{ site.baseurl }}/services.html#eco-burial">環保葬專區</a></li>
+                        <li><a href="./services.html#buddhist-taoist">中式禮儀</a></li>
+                        <li><a href="./services.html#western-etiquette">西式禮儀</a></li>
+                        <li><a href="./services.html#eco-burial">環保葬專區</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="javascript:void(0)">費用方案 <i class="fas fa-chevron-down"></i></a>
+                    <a href="javascript:void(0)">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="{{ site.baseurl }}/plans.html#basic">6.8萬方案</a></li>
-                        <li><a href="{{ site.baseurl }}/plans.html#eighty-eight">8.8萬方案</a></li>
-                        <li><a href="{{ site.baseurl }}/plans.html#seventeen-eight">17.8萬方案</a></li>
+                        <li><a href="./plans.html#basic">6.8萬方案</a></li>
+                        <li><a href="./plans.html#eighty-eight">8.8萬方案</a></li>
+                        <li><a href="./plans.html#seventeen-eight">17.8萬方案</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ site.baseurl }}/blog.html">殯葬百科</a></li>
-                <li><a href="{{ site.baseurl }}/order.html" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
+                <li><a href="./blog.html">殯葬百科</a></li>
+                <li><a href="./order.html" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
             </ul>
         </nav>
         <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
@@ -178,34 +175,44 @@
             const navLinks = document.getElementById('main-nav');
             const hasSubmenus = document.querySelectorAll('.has-submenu');
 
-            // 捲動變色邏輯
+            // 捲動變色
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 50) { navbar.classList.add('scrolled'); }
                 else { navbar.classList.remove('scrolled'); }
             });
 
-            // 手機版漢堡按鈕點擊
+            // 手機版開關
             menuBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 navLinks.classList.toggle('active');
-                this.querySelector('i').classList.toggle('fa-bars');
-                this.querySelector('i').classList.toggle('fa-times');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
             });
 
-            // 手機版下拉選單點擊
+            // 手機版下拉選單切換
             hasSubmenus.forEach(item => {
-                item.addEventListener('click', function(e) {
+                const link = item.querySelector('a');
+                link.addEventListener('click', function(e) {
                     if (window.innerWidth <= 1100) {
+                        e.preventDefault();
                         e.stopPropagation();
-                        this.classList.toggle('show-submenu');
+                        item.classList.toggle('show-submenu');
                     }
                 });
             });
 
-            // 點擊空白處關閉選單
+            // 點擊選單外部自動關閉
             document.addEventListener('click', function() {
-                navLinks.classList.remove('active');
-                menuBtn.querySelector('i').className = 'fas fa-bars';
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+
+            // 防止點擊選單內部時關閉自身
+            navLinks.addEventListener('click', function(e) {
+                e.stopPropagation();
             });
         });
     })();
