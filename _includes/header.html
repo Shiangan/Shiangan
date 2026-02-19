@@ -1,52 +1,244 @@
-  <header class="main-header" id="navbar">
-        <div class="container nav-wrapper">
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命"></a>
-            </div>
-            
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html">首頁</a></li>
-                    <li><a href="about.html">關於祥安</a></li>
-                    
-                    <li>
-                        <a href="#">專業生命禮儀 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
-                        <ul class="submenu">
-                            <li class="submenu-title">依信仰分類</li>
-                            <li><a href="services.html#buddhist-taoist">中式禮儀 (佛/道教)</a></li>
-                            <li><a href="services.html#western-etiquette">西式禮儀 (基/天主教)</a></li>
-                            <li><a href="services.html#japanese-etiquette">日式禮儀 (日蓮正宗)</a></li>
-                            <li class="submenu-title">現代環保</li>
-                            <li><a href="services.html#eco-burial">環保葬 (樹/花/海葬)</a></li>
-                            <li><a href="services.html#customized-etiquette">客製化禮儀服務</a></li>
-                        </ul>
-                    </li>
+<style>
+    /* --- 導覽列旗艦視覺定義 --- */
+    #navbar {
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        display: flex; justify-content: center;
+        padding: 20px 0;
+        z-index: 1000;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent; /* 預設透明 */
+        box-sizing: border-box;
+    }
 
-                    <li>
-                        <a href="#">喪葬費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
-                        <ul class="submenu">
-                            <li class="submenu-title">公開透明契約</li>
-                            <li><a href="plans.html#basic">國民契約 6.8萬</a></li>
-                            <li><a href="plans.html#eighty-eight">中式契約 8.8萬起</a></li>
-                            <li><a href="plans.html#seventeen-eight">尊榮契約 17.8萬</a></li>
-                            <li class="submenu-title">其它類別</li>
-                            <li><a href="plans.html#west">西式契約方案</a></li>
-                            <li><a href="plans.html#japen">日式契約方案</a></li>
-                        </ul>
-                    </li>
+    /* 捲動後轉為墨綠色 */
+    #navbar.scrolled {
+        background: rgba(26, 36, 26, 0.98);
+        padding: 12px 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+    }
 
-                    <li>
-                        <a href="#">殯葬百科 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
-                        <ul class="submenu">
-                            <li><a href="blog.html#first-step">臨終/初終處理</a></li>
-                            <li><a href="blog.html#law-guide">法規與補助指南</a></li>
-                            <li><a href="ta-wei-he-fa-xing-query-guide.html">塔位合法性查詢</a></li>
-                        </ul>
-                    </li>
+    .nav-wrapper {
+        width: 90%;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-                    <li><a href="order.html">花禮訂購</a></li>
-                </ul>
-            </nav>
-            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    /* Logo 縮放與顏色 */
+    .logo img {
+        height: 55px;
+        width: auto;
+        filter: brightness(0) invert(1); /* 轉為亮白色 */
+        transition: 0.3s;
+    }
+
+    #navbar.scrolled .logo img { height: 45px; }
+
+    /* 一級導覽選單 */
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 25px;
+        margin: 0; padding: 0;
+        align-items: center;
+    }
+
+    .nav-links > li { position: relative; }
+
+    .nav-links > li > a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        letter-spacing: 1px;
+        padding: 10px 0;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .nav-links > li:hover > a { color: #c5a059; }
+
+    /* --- 下拉選單 (Submenu) 旗艦設計 --- */
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(15px);
+        background: #1a241a;
+        width: 240px;
+        padding: 15px 0;
+        list-style: none;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        border-top: 3px solid #c5a059;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 0 0 4px 4px;
+    }
+
+    .nav-links > li:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .submenu-title {
+        color: #c5a059;
+        font-size: 0.75rem;
+        font-weight: 900;
+        padding: 12px 25px 5px;
+        letter-spacing: 2px;
+        opacity: 0.8;
+    }
+
+    .submenu li a {
+        color: #e0e0e0;
+        text-decoration: none;
+        padding: 10px 25px;
+        display: block;
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .submenu li a:hover {
+        background: rgba(197, 160, 89, 0.15);
+        color: #c5a059;
+        padding-left: 30px;
+    }
+
+    /* 手機版漢堡選單 */
+    .menu-toggle {
+        display: none;
+        color: #c5a059;
+        font-size: 1.6rem;
+        cursor: pointer;
+    }
+
+    /* --- RWD 手機版響應式設計 --- */
+    @media (max-width: 1024px) {
+        .menu-toggle { display: block; }
+        .nav-links {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 75%; height: 100vh;
+            background: #1a241a;
+            flex-direction: column;
+            padding: 80px 30px;
+            transition: 0.4s;
+            overflow-y: auto;
+            gap: 0;
+        }
+        .nav-links.active { right: 0; }
+        .nav-links > li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .submenu { 
+            position: static; transform: none; 
+            opacity: 1; visibility: visible; 
+            width: 100%; background: rgba(0,0,0,0.2);
+            box-shadow: none; border: none;
+            display: none; /* 手機版點擊展開 */
+        }
+        .nav-links li.active .submenu { display: block; }
+        .nav-links > li > a { padding: 15px 0; font-size: 1.1rem; display: flex; justify-content: space-between; }
+    }
+</style>
+
+<header class="main-header" id="navbar">
+    <div class="nav-wrapper">
+        <div class="logo">
+            <a href="{{ site.baseurl }}/index.html">
+                <img src="{{ site.baseurl }}/images/logo.png" alt="祥安生命">
+            </a>
         </div>
-    </header>
+        
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{{ site.baseurl }}/index.html">首頁</a></li>
+                <li><a href="{{ site.baseurl }}/about.html">關於祥安</a></li>
+                
+                <li class="has-submenu">
+                    <a href="javascript:void(0)">專業生命禮儀 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                    <ul class="submenu">
+                        <li class="submenu-title">依信仰分類</li>
+                        <li><a href="{{ site.baseurl }}/services.html#buddhist-taoist">中式禮儀 (佛/道教)</a></li>
+                        <li><a href="{{ site.baseurl }}/services.html#western-etiquette">西式禮儀 (基/天主教)</a></li>
+                        <li><a href="{{ site.baseurl }}/services.html#japanese-etiquette">日式禮儀 (日蓮正宗)</a></li>
+                        <li class="submenu-title">現代環保</li>
+                        <li><a href="{{ site.baseurl }}/services.html#eco-burial">環保葬 (樹/花/海葬)</a></li>
+                        <li><a href="{{ site.baseurl }}/services.html#customized-etiquette">客製化禮儀服務</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)">喪葬費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                    <ul class="submenu">
+                        <li class="submenu-title">公開透明契約</li>
+                        <li><a href="{{ site.baseurl }}/plans.html#basic">國民契約 6.8萬</a></li>
+                        <li><a href="{{ site.baseurl }}/plans.html#eighty-eight">中式契約 8.8萬起</a></li>
+                        <li><a href="{{ site.baseurl }}/plans.html#seventeen-eight">尊榮契約 17.8萬</a></li>
+                        <li class="submenu-title">其它類別</li>
+                        <li><a href="{{ site.baseurl }}/plans.html#west">西式契約方案</a></li>
+                        <li><a href="{{ site.baseurl }}/plans.html#japen">日式契約方案</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)">殯葬百科 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ site.baseurl }}/blog.html#first-step">臨終/初終處理</a></li>
+                        <li><a href="{{ site.baseurl }}/blog.html#law-guide">法規與補助指南</a></li>
+                        <li><a href="{{ site.baseurl }}/ta-wei-he-fa-xing-query-guide.html">塔位合法性查詢</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="{{ site.baseurl }}/order.html" style="color: #c5a059; font-weight: 700;">花禮訂購</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </div>
+</header>
+
+<script>
+/**
+ * 導航列互動邏輯
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const navbar = document.getElementById('navbar');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdowns = document.querySelectorAll('.has-submenu');
+
+    // 1. 捲動變色
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // 2. 手機版漢堡選單
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+        menuToggle.querySelector('i').classList.toggle('fa-bars');
+        menuToggle.querySelector('i').classList.toggle('fa-times');
+    });
+
+    // 3. 手機版下拉選單點擊切換
+    dropdowns.forEach(drop => {
+        const link = drop.querySelector('a');
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 1024) {
+                e.preventDefault();
+                drop.classList.toggle('active');
+            }
+        });
+    });
+
+    // 點擊外部自動關閉
+    document.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        dropdowns.forEach(drop => drop.classList.remove('active'));
+    });
+});
+</script>
