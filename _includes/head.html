@@ -143,3 +143,54 @@
     .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--transition-prime); }
     .reveal.revealed { opacity: 1; transform: translateY(0); }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. FAQ 展開邏輯 (修正版) ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const btn = item.querySelector('.faq-toggle');
+            if (btn) {
+                btn.addEventListener('click', function(e) {
+                    // 阻止按鈕預設行為
+                    e.preventDefault();
+                    
+                    // 取得目前狀態
+                    const isActive = item.classList.contains('active');
+                    
+                    // 先關閉所有其他的 FAQ (手風琴效果)
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+                    
+                    // 如果原本是關閉的，則開啟它
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // --- 2. 捲動揭幕動畫 (Intersection Observer) ---
+        const revealOptions = { 
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px" // 提前一點觸發
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // 觸發後就停止觀察該元素，節省效能
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+    });
+</script>
+
