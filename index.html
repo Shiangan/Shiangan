@@ -9,14 +9,14 @@ layout: null
 
 <body>
 
-   {% include header.html %}
+    {% include header.html %}
     
     <main>
         <section class="hero" id="home">
             <div class="hero-content">
                 <h1 class="reveal">祥安生命有限公司</h1>
                 <p class="reveal">喪葬費用公開透明，24H 溫馨陪伴，讓愛圓滿告別</p>
-                                <div class="reveal" style="margin-top: 30px;">
+                <div class="reveal" style="margin-top: 30px;">
                     <a href="{{ site.baseurl }}/plans.html" class="btn btn-gold">查看所有公開方案</a>
                     <a href="tel:+886978583699" class="btn" style="color: white; border-color: white; margin-left: 10px;">立即通報諮詢</a>
                 </div>
@@ -57,17 +57,17 @@ layout: null
                     <div class="card reveal" style="background: white;">
                         <h3>🛡️ 塔位合法性查詢</h3>
                         <p>確認靈骨塔是否合法是首要步驟。我們提供官方查詢指南，避開詐騙陷阱。</p>
-                        <a href="ta-wei-he-fa-xing-query-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">立即查看攻略 &raquo;</a>
+                        <a href="{{ site.baseurl }}/ta-wei-he-fa-xing-query-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">立即查看攻略 &raquo;</a>
                     </div>
                     <div class="card reveal" style="background: white;">
                         <h3>🏞️ 塔位選擇建議</h3>
                         <p>從價格預算、地理位置、交通到風水格局，提供您最全面的塔位挑選專業建議。</p>
-                        <a href="ta-wei-choice-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">了解選擇細節 &raquo;</a>
+                        <a href="{{ site.baseurl }}/ta-wei-choice-guide.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">了解選擇細節 &raquo;</a>
                     </div>
                     <div class="card reveal" style="background: white;">
                         <h3>🔔 晉塔流程詳解</h3>
                         <p>治喪結束後，如何圓滿晉塔？專業禮儀師教您準備文件、選擇吉日與儀式細節。</p>
-                        <a href="jin-ta-process-details.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">查看流程詳解 &raquo;</a>
+                        <a href="{{ site.baseurl }}/jin-ta-process-details.html" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 15px;">查看流程詳解 &raquo;</a>
                     </div>
                 </div>
             </div>
@@ -98,88 +98,5 @@ layout: null
     {% include footer.html %}
     {% include floating-cta.html %}
     
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            const dropdowns = document.querySelectorAll('.nav-links > li');
-            
-            // 1. 漢堡選單點擊切換
-            menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                navLinks.classList.toggle('active');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-xmark');
-            });
-
-            // 2. 手機版下拉選單點擊
-            dropdowns.forEach(item => {
-                const link = item.querySelector('a');
-                link.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 1024 && item.querySelector('.submenu')) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // 切換 active 類別以顯示 submenu
-                        item.classList.toggle('active');
-                    }
-                });
-            });
-
-            // 3. 點擊外部自動關閉選單
-            document.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                dropdowns.forEach(item => item.classList.remove('active'));
-                const icon = menuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-xmark');
-            });
-
-            // 4. 導覽列滾動變色
-            const navbar = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
-                navbar.classList.toggle('scrolled', window.scrollY > 50);
-            });
-
-            // 5. FAQ 手風琴功能
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    item.classList.toggle('active');
-                    const icon = item.querySelector('i');
-                    if (icon.classList.contains('fa-plus')) {
-                        icon.classList.replace('fa-plus', 'fa-minus');
-                    } else {
-                        icon.classList.replace('fa-minus', 'fa-plus');
-                    }
-                });
-            });
-
-            // 6. 進場動畫 Observer
-            const obs = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) entry.target.classList.add('revealed');
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-            // 7. 英雄區流星效果
-            const hero = document.getElementById('home');
-            setInterval(() => {
-                const meteor = document.createElement('div');
-                meteor.className = 'meteor';
-                meteor.style.left = Math.random() * 100 + '%';
-                meteor.style.top = Math.random() * 30 + '%';
-                hero.appendChild(meteor);
-                meteor.animate([
-                    { transform: 'rotate(-35deg) translateX(0)', opacity: 0 },
-                    { opacity: 1, offset: 0.2 },
-                    { transform: 'rotate(-35deg) translateX(-1000px)', opacity: 0 }
-                ], { duration: 2500, easing: 'linear' }).onfinish = () => meteor.remove();
-            }, 3000);
-
-            // 8. 動態更新版權年份
-            document.getElementById('year').textContent = new Date().getFullYear();
-        });
-    </script>
 </body>
 </html>
