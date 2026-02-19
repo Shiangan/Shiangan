@@ -106,20 +106,64 @@ layout: null
         .service-row .idx { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; }
         .service-row h3 { font-size: 1.8rem; margin: 0; font-family: 'Noto Serif TC', serif; }
 
-        /* --- FAQ --- */
-        .faq-list { max-width: 900px; margin: 0 auto; }
-        .faq-item { border-bottom: 1px solid var(--line-soft); }
-        .faq-toggle { 
-            width: 100%; padding: 25px 0; display: flex; justify-content: space-between; align-items: center;
-            background: none; border: none; cursor: pointer; text-align: left;
-        }
-        .faq-toggle h4 { font-size: 1.1rem; color: var(--deep-ink); margin: 0; }
-        .faq-icon { color: var(--accent); transition: 0.4s; font-size: 1.5rem; display: inline-block; }
-        .faq-content { 
-            max-height: 0; overflow: hidden; transition: 0.5s ease; color: #666; font-size: 0.95rem;
-        }
-        .faq-item.active .faq-content { max-height: 200px; padding-bottom: 30px; }
-        .faq-item.active .faq-icon { transform: rotate(45deg); }
+       /* --- FAQ 修正版樣式 --- */
+.faq-list { max-width: 900px; margin: 0 auto; }
+.faq-item { 
+    border-bottom: 1px solid var(--line-soft); 
+    padding: 5px 0;
+}
+
+.faq-toggle { 
+    width: 100%; 
+    padding: 25px 0; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    text-align: left;
+    outline: none;
+}
+
+.faq-toggle h4 { 
+    font-size: 1.15rem; 
+    color: var(--deep-ink); 
+    margin: 0; 
+    flex: 1; /* 讓文字佔滿剩餘空間 */
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.faq-icon { 
+    color: var(--accent); 
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+    font-size: 1.5rem; 
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+}
+
+.faq-content { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease; 
+    color: #555; 
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* 展開狀態 */
+.faq-item.active .faq-content { 
+    max-height: 1000px; /* 足夠大的高度以容納長文本 */
+    padding-bottom: 30px; 
+}
+
+.faq-item.active .faq-icon { 
+    transform: rotate(45deg); /* + 變 x */
+    color: var(--deep-ink);
+}
 
         /* 動畫 */
         .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--transition-prime); }
@@ -216,20 +260,28 @@ layout: null
     {% include floating-cta.html %}
 
     <script>
-        // 全站腳本：整合 FAQ 與 滾動動畫
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. FAQ 交互邏輯 (閉包保護)
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const btn = item.querySelector('.faq-toggle');
-                btn.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    // 關閉其他已開啟的項目
-                    faqItems.forEach(i => i.classList.remove('active'));
-                    // 切換當前項目
-                    if (!isActive) item.classList.add('active');
-                });
-            });
+     document.addEventListener('DOMContentLoaded', function() {
+    // FAQ 展開/收合邏輯
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const toggleBtn = item.querySelector('.faq-toggle');
+        
+        toggleBtn.addEventListener('click', (e) => {
+            // 防止點擊文字時重複觸發
+            e.preventDefault();
+
+            // 檢查當前是否已開啟
+            const isOpen = item.classList.contains('active');
+
+            // 1. 先關閉所有其他的 FAQ (手風琴效果)
+            faqItems.forEach(i => i.classList.remove('active'));
+
+            // 2. 如果原本是關閉的，就把它打開
+            if (!isOpen) {
+                item.classList.add('active');
+            }
+        });
 
             // 2. 滾動動畫偵測 (Intersection Observer)
             const revealOptions = { threshold: 0.15 };
