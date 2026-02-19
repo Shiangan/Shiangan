@@ -1,16 +1,37 @@
+# --------------------
+# 基礎資訊設定
+# --------------------
 title: "祥安生命有限公司"
-email: ava85110@yahoo.com.tw
+email: "ava85110@yahoo.com.tw"
 description: "提供往生接體、喪葬補助、習俗流程等生命服務專業知識。"
-baseurl: "/Shiangan" # 💡 根據您的 GitHub Pages URL 調整
+
+# 💡 如果您的網址是 https://24hour.台灣/Shiangan/
 url: "https://24hour.xn--kpry57d" 
+baseurl: "/Shiangan" 
+
 # --------------------
-# Jekyll 配置
+# Jekyll 核心配置
 # --------------------
-permalink: /:title.html 
+permalink: /:title/   # 💡 建議改為 /:title/，這樣網址會更漂亮 (例如 about/ 而非 about.html)
+timezone: Asia/Taipei
+encoding: "utf-8"
+
+# --------------------
+# 分頁與插件
+# --------------------
 paginate: 10 
 paginate_path: "/blog/page:num/"
-timezone: Asia/Taipei
-# --------------------
+
+# GitHub Pages 官方支援的插件宣告方式
 plugins:
   - jekyll-paginate
+  - jekyll-sitemap # 建議增加這個，對 SEO 很有幫助
+
 # --------------------
+# 檔案排除 (避免上傳不必要的檔案)
+# --------------------
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
