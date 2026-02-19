@@ -1,47 +1,55 @@
 <style>
-    /* --- 導覽列旗艦視覺定義 --- */
+    /* --- 頂級視覺定義：墨綠金箔 --- */
+    :root {
+        --deep-green: #1a241a;
+        --gold-linear: linear-gradient(135deg, #c5a059 0%, #f1d396 50%, #c5a059 100%);
+        --gold-solid: #c5a059;
+        --text-light: rgba(255, 255, 255, 0.9);
+    }
+
     #navbar {
         position: fixed;
         top: 0; left: 0; width: 100%;
         display: flex; justify-content: center;
-        padding: 20px 0;
-        z-index: 1000;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        background: transparent; /* 預設透明 */
-        box-sizing: border-box;
+        padding: 30px 0;
+        z-index: 2000;
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        background: transparent;
     }
 
-    /* 捲動後轉為墨綠色 */
+    /* 捲動後：極致磨砂質感 */
     #navbar.scrolled {
-        background: rgba(26, 36, 26, 0.98);
-        padding: 12px 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        background: rgba(26, 36, 26, 0.85);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(197, 160, 89, 0.2);
     }
 
     .nav-wrapper {
-        width: 90%;
-        max-width: 1200px;
+        width: 92%;
+        max-width: 1400px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    /* Logo 縮放與顏色 */
+    /* Logo 呼吸動效 */
     .logo img {
-        height: 55px;
+        height: 60px;
         width: auto;
-        filter: brightness(0) invert(1); /* 轉為亮白色 */
-        transition: 0.3s;
+        filter: brightness(0) invert(1);
+        transition: all 0.5s ease;
     }
 
-    #navbar.scrolled .logo img { height: 45px; }
+    #navbar.scrolled .logo img { height: 48px; }
 
-    /* 一級導覽選單 */
+    /* 選單連結：優雅間距與字體 */
     .nav-links {
         display: flex;
         list-style: none;
-        gap: 25px;
+        gap: 40px;
         margin: 0; padding: 0;
         align-items: center;
     }
@@ -49,104 +57,124 @@
     .nav-links > li { position: relative; }
 
     .nav-links > li > a {
-        color: rgba(255,255,255,0.9);
+        color: var(--text-light);
         text-decoration: none;
-        font-weight: 500;
-        font-size: 0.95rem;
-        letter-spacing: 1px;
+        font-weight: 400;
+        font-size: 1rem;
+        letter-spacing: 2px;
         padding: 10px 0;
         display: block;
-        transition: 0.3s;
+        transition: color 0.3s ease;
     }
 
-    .nav-links > li:hover > a { color: #c5a059; }
+    /* 懸停動態金線 */
+    .nav-links > li > a::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 50%;
+        width: 0; height: 1px;
+        background: var(--gold-linear);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateX(-50%);
+    }
 
-    /* --- 下拉選單 (Submenu) 旗艦設計 --- */
+    .nav-links > li:hover > a { color: var(--gold-solid); }
+    .nav-links > li:hover > a::after { width: 100%; }
+
+    /* --- 下拉選單：奢華浮窗 --- */
     .submenu {
         position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(15px);
-        background: #1a241a;
-        width: 240px;
-        padding: 15px 0;
+        top: 100%; left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #1e2b1e;
+        width: 260px;
+        padding: 25px 0;
         list-style: none;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-        border-top: 3px solid #c5a059;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        border: 1px solid rgba(197, 160, 89, 0.3);
         opacity: 0;
         visibility: hidden;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border-radius: 0 0 4px 4px;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        border-radius: 4px;
     }
 
     .nav-links > li:hover .submenu {
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) translateY(0);
+        transform: translateX(-50%) translateY(10px);
     }
 
     .submenu-title {
-        color: #c5a059;
-        font-size: 0.75rem;
-        font-weight: 900;
-        padding: 12px 25px 5px;
-        letter-spacing: 2px;
-        opacity: 0.8;
+        color: var(--gold-solid);
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0 30px 10px;
+        letter-spacing: 3px;
+        opacity: 0.6;
+        text-transform: uppercase;
     }
 
     .submenu li a {
-        color: #e0e0e0;
+        color: rgba(255,255,255,0.7);
         text-decoration: none;
-        padding: 10px 25px;
+        padding: 12px 30px;
         display: block;
-        font-size: 0.9rem;
-        transition: 0.3s;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
     }
 
     .submenu li a:hover {
-        background: rgba(197, 160, 89, 0.15);
-        color: #c5a059;
-        padding-left: 30px;
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--gold-solid);
+        padding-left: 35px;
     }
 
-    /* 手機版漢堡選單 */
+    /* 特別強調按鈕：花禮訂購 */
+    .btn-cta {
+        background: var(--gold-linear);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        border: 1px solid var(--gold-solid) !important;
+        padding: 8px 20px !important;
+        border-radius: 2px;
+        font-weight: 700 !important;
+    }
+
+    .btn-cta:hover {
+        background: var(--gold-linear) !important;
+        -webkit-text-fill-color: var(--deep-green) !important;
+    }
+
+    /* 手機版：漢堡按鈕 */
     .menu-toggle {
         display: none;
-        color: #c5a059;
-        font-size: 1.6rem;
-        cursor: pointer;
+        color: var(--gold-solid);
+        font-size: 1.8rem;
     }
 
-    /* --- RWD 手機版響應式設計 --- */
-    @media (max-width: 1024px) {
-        .menu-toggle { display: block; }
+    @media (max-width: 1100px) {
+        .menu-toggle { display: block; cursor: pointer; }
         .nav-links {
             position: fixed;
             top: 0; right: -100%;
-            width: 75%; height: 100vh;
-            background: #1a241a;
+            width: 80%; height: 100vh;
+            background: #141d14;
             flex-direction: column;
-            padding: 80px 30px;
-            transition: 0.4s;
-            overflow-y: auto;
-            gap: 0;
+            padding: 100px 50px;
+            transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav-links.active { right: 0; }
-        .nav-links > li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        
         .submenu { 
-            position: static; transform: none; 
+            position: static; transform: none !important; 
             opacity: 1; visibility: visible; 
-            width: 100%; background: rgba(0,0,0,0.2);
-            box-shadow: none; border: none;
-            display: none; /* 手機版點擊展開 */
+            width: 100%; background: transparent; box-shadow: none; border: none;
+            display: none; padding: 10px 0;
         }
         .nav-links li.active .submenu { display: block; }
-        .nav-links > li > a { padding: 15px 0; font-size: 1.1rem; display: flex; justify-content: space-between; }
     }
 </style>
 
-<header class="main-header" id="navbar">
+<header id="navbar">
     <div class="nav-wrapper">
         <div class="logo">
             <a href="{{ site.baseurl }}/index.html">
@@ -160,7 +188,7 @@
                 <li><a href="{{ site.baseurl }}/about.html">關於祥安</a></li>
                 
                 <li class="has-submenu">
-                    <a href="javascript:void(0)">專業生命禮儀 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                    <a href="javascript:void(0)">專業生命禮儀 <i class="fas fa-chevron-down" style="font-size: 0.6rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
                         <li class="submenu-title">依信仰分類</li>
                         <li><a href="{{ site.baseurl }}/services.html#buddhist-taoist">中式禮儀 (佛/道教)</a></li>
@@ -173,7 +201,7 @@
                 </li>
 
                 <li class="has-submenu">
-                    <a href="javascript:void(0)">喪葬費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                    <a href="javascript:void(0)">喪葬費用方案 <i class="fas fa-chevron-down" style="font-size: 0.6rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
                         <li class="submenu-title">公開透明契約</li>
                         <li><a href="{{ site.baseurl }}/plans.html#basic">國民契約 6.8萬</a></li>
@@ -186,7 +214,7 @@
                 </li>
 
                 <li class="has-submenu">
-                    <a href="javascript:void(0)">殯葬百科 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                    <a href="javascript:void(0)">殯葬百科 <i class="fas fa-chevron-down" style="font-size: 0.6rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
                         <li><a href="{{ site.baseurl }}/blog.html#first-step">臨終/初終處理</a></li>
                         <li><a href="{{ site.baseurl }}/blog.html#law-guide">法規與補助指南</a></li>
@@ -194,7 +222,7 @@
                     </ul>
                 </li>
 
-                <li><a href="{{ site.baseurl }}/order.html" style="color: #c5a059; font-weight: 700;">花禮訂購</a></li>
+                <li><a href="{{ site.baseurl }}/order.html" class="btn-cta">花禮訂購</a></li>
             </ul>
         </nav>
         <div class="menu-toggle"><i class="fas fa-bars"></i></div>
@@ -202,43 +230,43 @@
 </header>
 
 <script>
-/**
- * 導航列互動邏輯
- */
 document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const dropdowns = document.querySelectorAll('.has-submenu');
 
-    // 1. 捲動變色
+    // 1. 高平滑度滾動監聽
     window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
+        if (window.scrollY > 30) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     });
 
-    // 2. 手機版漢堡選單
+    // 2. 手機版選單切換
     menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         navLinks.classList.toggle('active');
-        menuToggle.querySelector('i').classList.toggle('fa-bars');
-        menuToggle.querySelector('i').classList.toggle('fa-times');
+        const icon = menuToggle.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
     });
 
-    // 3. 手機版下拉選單點擊切換
+    // 3. 手機版下拉邏輯
     dropdowns.forEach(drop => {
         const link = drop.querySelector('a');
         link.addEventListener('click', (e) => {
-            if (window.innerWidth <= 1024) {
+            if (window.innerWidth <= 1100) {
                 e.preventDefault();
                 drop.classList.toggle('active');
             }
         });
     });
 
-    // 點擊外部自動關閉
     document.addEventListener('click', () => {
         navLinks.classList.remove('active');
-        dropdowns.forEach(drop => drop.classList.remove('active'));
     });
 });
 </script>
