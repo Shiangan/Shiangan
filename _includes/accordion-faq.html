@@ -1,0 +1,37 @@
+<div class="faq-accordion">
+    <div class="faq-item">
+        <button class="faq-question">治喪期間有理髮、刮鬍子的禁忌嗎？ <i class="fas fa-plus"></i></button>
+        <div class="faq-answer">
+            <p>傳統習俗中為表達哀戚會不修邊幅。現代禮儀則建議維持基本整潔，肅穆的儀容是對逝者最好的致敬。</p>
+        </div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">懷孕家屬可以參加喪禮嗎？ <i class="fas fa-plus"></i></button>
+        <div class="faq-answer">
+            <p>可以。建議在腰間繫上紅布以求心安，祥安禮儀師也會協助安排家屬在舒適且通風的位置參與。</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.faq-accordion { margin: 20px 0; }
+.faq-item { border-bottom: 1px solid #eee; }
+.faq-question {
+    width: 100%; padding: 20px; text-align: left; background: none; border: none;
+    font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between;
+}
+.faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.3s; }
+.faq-item.active .faq-answer { padding-bottom: 20px; max-height: 200px; }
+</style>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const item = button.parentElement;
+        item.classList.toggle('active');
+        const icon = button.querySelector('i');
+        icon.classList.toggle('fa-plus');
+        icon.classList.toggle('fa-minus');
+    });
+});
+</script>
