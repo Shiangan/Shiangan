@@ -1,15 +1,15 @@
 <style>
-    /* --- 墨綠金箔 Footer 專屬樣式 --- */
+    /* --- 墨綠金箔 Footer 專屬 CSS --- */
     .site-footer {
         background: #1a241a; /* 墨綠背景 */
         color: #ffffff;
         padding: 100px 0 40px;
         position: relative;
         overflow: hidden;
-        font-family: 'Noto Sans TC', sans-serif;
+        font-family: 'Noto Sans TC', 'Noto Serif TC', serif;
     }
 
-    /* 背景裝飾大字 */
+    /* 背景裝飾大字：展現品牌張力 */
     .footer-floating-text {
         position: absolute;
         top: -10px;
@@ -17,7 +17,7 @@
         transform: translateX(-50%);
         font-size: 12vw;
         font-weight: 900;
-        color: rgba(197, 160, 89, 0.04); /* 極淡金箔色 */
+        color: rgba(197, 160, 89, 0.04); /* 極淡金箔壓紋感 */
         white-space: nowrap;
         pointer-events: none;
         letter-spacing: 25px;
@@ -39,7 +39,7 @@
     }
 
     .footer-col h4 {
-        color: #c5a059; /* 金箔色 */
+        color: #c5a059; /* 金箔色標題 */
         font-size: 1.1rem;
         margin-bottom: 25px;
         font-weight: 700;
@@ -57,7 +57,7 @@
 
     .footer-col a:hover {
         color: #c5a059;
-        transform: translateX(5px);
+        transform: translateX(5px); /* 滑鼠懸停位移效果 */
     }
 
     .footer-tel {
@@ -68,7 +68,7 @@
         margin-bottom: 10px !important;
     }
 
-    /* 版權宣告區 */
+    /* 底部版權區 */
     .footer-bottom {
         text-align: center;
         margin-top: 80px;
@@ -79,7 +79,7 @@
         letter-spacing: 2px;
     }
 
-    /* 手機版 RWD 修正 */
+    /* RWD 手機版適應邏輯 */
     @media (max-width: 992px) {
         .footer-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -87,7 +87,7 @@
         .site-footer { padding: 80px 0 30px; }
         .footer-grid { grid-template-columns: 1fr; text-align: center; }
         .footer-col { text-align: center !important; }
-        .footer-floating-text { font-size: 20vw; top: 20px; }
+        .footer-floating-text { font-size: 20vw; top: 20px; letter-spacing: 10px; }
         .footer-tel { font-size: 1.5rem !important; }
     }
 </style>
@@ -134,21 +134,73 @@
 {% include floating-cta.html %}
 
 <script>
-    // 統一在此放置 FAQ、滾動與動畫腳本，確保全站生效
     document.addEventListener('DOMContentLoaded', () => {
-        // FAQ 手風琴
-        document.querySelectorAll('.faq-item').forEach(item => {
+        /**
+         * 1. FAQ 手風琴邏輯
+         */
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
             item.addEventListener('click', () => {
-                item.classList.toggle('active');
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active')); // 關閉其他
+                if (!isActive) item.classList.add('active');
+                
                 const icon = item.querySelector('i');
-                if (icon) icon.classList.toggle('fa-plus'), icon.classList.toggle('fa-minus');
+                if (icon) {
+                    icon.className = isActive ? 'fas fa-plus' : 'fas fa-minus';
+                }
             });
         });
 
-        // 進場動畫 Observer
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('revealed'); });
+        /**
+         * 2. 導覽列捲動變色
+         */
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        /**
+         * 3. 手機版選單切換
+         */
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navLinks.classList.toggle('active');
+            });
+            // 點擊外面關閉選單
+            document.addEventListener('click', () => navLinks.classList.remove('active'));
+        }
+
+        /**
+         * 4. 視差進場動畫
+         */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('revealed');
+            });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /**
+         * 5. 英雄區流星背景效果
+         */
+        const hero = document.getElementById('home') || document.getElementById('hero-space');
+        if (hero) {
+            setInterval(() => {
+                const m = document.createElement('div');
+                m.className = 'meteor';
+                m.style.left = Math.random() * 100 + '%';
+                m.style.top = Math.random() * 30 + '%';
+                hero.appendChild(m);
+                m.animate([
+                    { transform: 'rotate(-35deg) translateX(0)', opacity: 0 },
+                    { opacity: 1, offset: 0.2 },
+                    { transform: 'rotate(-35deg) translateX(-1000px)', opacity: 0 }
+                ], { duration: 2500, easing: 'linear' }).onfinish = () => m.remove();
+            }, 3000);
+        }
     });
 </script>
