@@ -5,69 +5,58 @@ layout: null
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
-    <title>關於祥安生命 | 國家認證禮儀師團隊，書寫生命最終的溫柔</title>
+    <title>關於祥安生命 | 國家認證禮儀師陳妍如團隊：溫暖守護、專業圓滿</title>
     <style>
-        /* 專屬美學設定 */
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.85);
-        }
-
-        .about-hero {
-            height: 70vh;
+        /* 頁面專屬精緻化樣式 */
+        .inner-hero {
+            height: 60vh;
+            min-height: 450px;
+            background: var(--deep-ink);
             display: flex;
             align-items: center;
-            justify-content: center;
             position: relative;
-            background: var(--deep-ink);
             overflow: hidden;
-            text-align: center;
+            padding: 0 var(--side-gap);
         }
 
-        .hero-title-group {
-            z-index: 5;
-            color: #fff;
-        }
-
-        /* 團隊卡片懸浮效果 */
         .member-card {
-            position: relative;
             background: #fff;
             border: 1px solid var(--line-soft);
-            overflow: hidden;
             transition: var(--transition-prime);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .member-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 60px rgba(168, 142, 106, 0.12);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(168, 142, 106, 0.1);
         }
 
-        .member-card img {
+        .member-img-box {
+            overflow: hidden;
+            aspect-ratio: 4/5;
+        }
+
+        .member-img-box img {
             width: 100%;
-            aspect-ratio: 3/4;
+            height: 100%;
             object-fit: cover;
-            filter: grayscale(20%);
             transition: 0.8s ease;
         }
 
-        .member-card:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.05);
+        .member-card:hover .member-img-box img {
+            transform: scale(1.08);
         }
 
-        /* 核心價值區塊 */
-        .value-item {
-            padding: 60px 40px;
-            border-right: 1px solid var(--line-soft);
-            transition: 0.4s;
+        .quote-box {
+            border-left: 3px solid var(--accent);
+            padding-left: 25px;
+            margin: 40px 0;
         }
-        
-        .value-item:last-child { border-right: none; }
-        
-        .value-item:hover { background: var(--glass-bg); }
 
-        @media (max-width: 992px) {
-            .value-item { border-right: none; border-bottom: 1px solid var(--line-soft); }
+        @media (max-width: 768px) {
+            .inner-hero { height: 50vh; text-align: center; }
         }
     </style>
 </head>
@@ -75,95 +64,112 @@ layout: null
 <body class="about-page">
     {% include header.html %}
 
-    <main>
-        <section class="about-hero">
-            <div class="watermark" style="top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 15vw; opacity: 0.03; color: #fff;">Sincere</div>
-            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'); filter: brightness(0.4);"></div>
-            <div class="hero-title-group">
-                <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:6px; display:block; margin-bottom:20px;">OUR JOURNEY</span>
-                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.2;">以同理心<br>圓滿每一場告別</h1>
+    <main id="main-content">
+        <section class="inner-hero">
+            <div class="watermark" style="top: 15%; left: -2%; color: rgba(255,255,255,0.05);">Sincere</div>
+            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'); opacity: 0.4;"></div>
+            <div class="hero-content" style="z-index: 5;">
+                <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:5px; display:block; margin-bottom:20px;">ABOUT US</span>
+                <h1 class="reveal" style="color:#fff; font-family: 'Noto Serif TC', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.2;">以職人之手，<br>圓滿生命每一段旅程。</h1>
             </div>
         </section>
 
         <section class="section wrapper">
-            <div class="flex-container" style="align-items: center; gap: 80px;">
-                <div class="img-holder reveal" style="position: relative;">
-                    <img src="images/about-story.jpg" alt="品牌初衷" style="box-shadow: 30px 30px 0 var(--accent-light);">
-                    <div style="position: absolute; bottom: -30px; right: -30px; background: var(--accent); color: #fff; padding: 30px; font-family: 'Noto Serif TC', serif; font-size: 1.2rem;">
-                         since 2010
+            <div class="flex-container" style="align-items: center; gap: 60px;">
+                <div class="text-holder reveal" style="flex: 1.3;">
+                    <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:3px;">OUR PHILOSOPHY</span>
+                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; line-height: 1.4; margin: 20px 0;">源於一份深刻的理解</h2>
+                    
+                    <div class="quote-box">
+                        <p style="font-size: 1.25rem; font-style: italic; color: var(--accent); line-height: 1.6; font-family: 'Noto Serif TC', serif;">
+                            「當無常來臨，家屬需要的不是冰冷的流程，而是溫柔的接手與陪伴。」
+                        </p>
                     </div>
+
+                    <p style="font-size: 1.1rem; opacity: 0.8; margin-bottom: 25px; line-height: 1.8;">
+                        祥安生命的創立，源於我們對親人離世時「無助感」的體認。我們明白在悲痛交集時刻，繁瑣的儀軌不應成為家屬的負擔。
+                    </p>
+                    <p style="font-size: 1.1rem; opacity: 0.8; line-height: 1.8;">
+                        我們不只是禮儀執行者，更是傾聽者與守護者。透過細膩的溝通，將逝者的生平故事化作莊嚴的謝幕，讓告別充滿愛與溫度。
+                    </p>
                 </div>
-                <div class="text-holder reveal">
-                    <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:3px;">THE FOUNDATION</span>
-                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.8rem; margin: 25px 0;">源於一份深刻的理解</h2>
-                    <p style="font-size: 1.15rem; line-height: 1.8; color: #555; margin-bottom: 30px;">
-                        祥安生命的創立，源於我們對親人離世時「無助感」的體認。我們深知在悲痛交集時刻，繁瑣的儀軌不應成為家屬的負擔。
-                    </p>
-                    <p style="font-size: 1.15rem; line-height: 1.8; color: #555;">
-                        我們將傳統禮儀去蕪存菁，注入現代人文關懷，讓「送別」不再只有憂傷，更是一份對生命精彩謝幕的敬意。
-                    </p>
+                
+                <div class="img-holder reveal">
+                    <img src="images/about-story.jpg" alt="祥安生命精神形象" style="box-shadow: 20px 20px 0 var(--accent-light);">
                 </div>
             </div>
         </section>
 
-        <section class="section" style="background: #fcfbf9; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);">
+        <section class="section" style="background: rgba(168, 142, 106, 0.03); border-top: 1px solid var(--line-soft);">
             <div class="wrapper">
-                <div class="flex-container" style="gap: 0;">
-                    <div class="value-item reveal" style="flex: 1;">
-                        <span style="font-size: 0.8rem; color: var(--accent); font-weight: 700;">01. PROFESSIONAL</span>
-                        <h3 style="margin: 20px 0; font-family: 'Noto Serif TC', serif;">國家認證</h3>
-                        <p style="opacity: 0.7; font-size: 0.95rem;">由考試合格之禮儀師團隊執行，確保儀軌如法且莊嚴。</p>
+                <div class="reveal" style="text-align: center; margin-bottom: 60px;">
+                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem;">專業是基礎，透明是良心</h2>
+                </div>
+                
+                <div class="stats-grid" style="background: transparent; border: none; padding: 0;">
+                    <div class="stat-box reveal" style="border: none; background: #fff; padding: 50px 30px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                        <i class="fas fa-medal" style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;"></i>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 15px; font-family: 'Noto Serif TC', serif;">國家認證禮儀師</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.7; line-height: 1.8;">專業執照團隊帶領，確保每一細節皆符合專業規範與文化禮俗。</p>
                     </div>
-                    <div class="value-item reveal" style="flex: 1;">
-                        <span style="font-size: 0.8rem; color: var(--accent); font-weight: 700;">02. TRANSPARENT</span>
-                        <h3 style="margin: 20px 0; font-family: 'Noto Serif TC', serif;">透明報價</h3>
-                        <p style="opacity: 0.7; font-size: 0.95rem;">杜絕追加、拒收紅包。所有合約品項完全公開透明。</p>
+                    
+                    <div class="stat-box reveal" style="border: none; background: #fff; padding: 50px 30px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                        <i class="fas fa-file-invoice-dollar" style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;"></i>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 15px; font-family: 'Noto Serif TC', serif;">費用公開不隱藏</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.7; line-height: 1.8;">品項全透明，簽約後絕無惡意追加。您需要的信任，我們用透明守護。</p>
                     </div>
-                    <div class="value-item reveal" style="flex: 1;">
-                        <span style="font-size: 0.8rem; color: var(--accent); font-weight: 700;">03. EMPATHETIC</span>
-                        <h3 style="margin: 20px 0; font-family: 'Noto Serif TC', serif;">暖心守護</h3>
-                        <p style="opacity: 0.7; font-size: 0.95rem;">24小時即時待命，我們是您在最脆弱時刻的堅定後盾。</p>
+                    
+                    <div class="stat-box reveal" style="border: none; background: #fff; padding: 50px 30px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                        <i class="fas fa-gavel" style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;"></i>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 15px; font-family: 'Noto Serif TC', serif;">政府甲級立案</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.7; line-height: 1.8;">通過政府最嚴格的殯葬服務評鑑，在地經營，信譽保證。</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="section wrapper">
-            <div class="watermark" style="bottom: 5%; right: -2%;">Legacy</div>
-            <div class="reveal" style="text-align: center; margin-bottom: 80px;">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 3rem;">專業，來自溫度的傳承</h2>
-                <p style="opacity: 0.6; margin-top: 15px; letter-spacing: 2px;">MEET OUR PROFESSIONALS</p>
+            <div class="watermark" style="bottom: 5%; right: -5%;">Legacy</div>
+            <div class="reveal" style="text-align: center; margin-bottom: 70px;">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem;">誠摯且溫暖的服務團隊</h2>
             </div>
-
-            <div class="flex-container" style="align-items: stretch; gap: 40px;">
-                <div class="member-card reveal" style="flex: 1;">
-                    <img src="images/team-member-1.jpg" alt="陳妍如 禮儀師">
+            
+            <div class="flex-container" style="gap: 40px; align-items: stretch;">
+                <div class="reveal member-card" style="flex: 1;">
+                    <div class="member-img-box">
+                        <img src="images/team-member-1.jpg" alt="主理人陳妍如禮儀師">
+                    </div>
                     <div style="padding: 40px;">
-                        <h3 style="font-family: 'Noto Serif TC', serif; font-size: 1.8rem; margin-bottom: 5px;">陳妍如</h3>
-                        <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem; letter-spacing: 2px;">主理人 / 國家認證禮儀師</span>
-                        <hr style="border: 0; border-top: 1px solid var(--line-soft); margin: 25px 0;">
-                        <p style="font-size: 1rem; line-height: 1.8; opacity: 0.8;">「將告別視為對逝者人生的最高致敬。」逾10年治喪經驗，專精於女性細膩視角的客製化規劃。</p>
+                        <span style="color:var(--accent); font-weight:700; font-size:0.8rem; letter-spacing:2px;">DIRECTOR</span>
+                        <h3 style="font-size: 1.6rem; margin: 10px 0; font-family: 'Noto Serif TC', serif;">陳妍如 禮儀師</h3>
+                        <p style="font-style: italic; color: #888; margin-bottom: 20px;">「將告別視為對逝者人生的最高致敬。」</p>
+                        <p style="font-size: 1rem; opacity: 0.8; line-height: 1.8;">擁有逾10年治喪經驗，專精於客製化追思規劃，以細膩視角圓滿每一段生命故事。</p>
                     </div>
                 </div>
-
-                <div class="member-card reveal" style="flex: 1;">
-                    <img src="images/team-member-2.jpg" alt="林文傑 顧問">
+                
+                <div class="reveal member-card" style="flex: 1;">
+                    <div class="member-img-box">
+                        <img src="images/team-member-2.jpg" alt="行政顧問團隊">
+                    </div>
                     <div style="padding: 40px;">
-                        <h3 style="font-family: 'Noto Serif TC', serif; font-size: 1.8rem; margin-bottom: 5px;">專業團隊顧問</h3>
-                        <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem; letter-spacing: 2px;">行政顧問 / 流程規劃師</span>
-                        <hr style="border: 0; border-top: 1px solid var(--line-soft); margin: 25px 0;">
-                        <p style="font-size: 1rem; line-height: 1.8; opacity: 0.8;">精通政府各類補助申請與法律流程，為家屬擋下所有繁瑣，讓您能安心陪伴摯愛最後一程。</p>
+                        <span style="color:var(--accent); font-weight:700; font-size:0.8rem; letter-spacing:2px;">CONSULTANT</span>
+                        <h3 style="font-size: 1.6rem; margin: 10px 0; font-family: 'Noto Serif TC', serif;">專業團隊顧問</h3>
+                        <p style="font-style: italic; color: #888; margin-bottom: 20px;">「處理繁瑣行政，是給家屬最大的平靜。」</p>
+                        <p style="font-size: 1rem; opacity: 0.8; line-height: 1.8;">精通政府各項補助申請與繁瑣流程，確保行政無縫接軌，讓家屬無須為手續傷神。</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section wrapper" style="padding-top: 0;">
-            <div class="reveal" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px; opacity: 0.4;">
-                <div style="text-align: center;"><i class="fas fa-certificate fa-3x"></i><p>政府評鑑甲級</p></div>
-                <div style="text-align: center;"><i class="fas fa-stamp fa-3x"></i><p>定型化契約</p></div>
-                <div style="text-align: center;"><i class="fas fa-id-card fa-3x"></i><p>禮儀師執照</p></div>
-                <div style="text-align: center;"><i class="fas fa-balance-scale fa-3x"></i><p>價格透明保障</p></div>
+        <section class="section" style="background: var(--deep-ink); color: #fff; text-align: center; padding: 100px 0;">
+            <div class="wrapper reveal">
+                <h3 style="font-family: 'Noto Serif TC', serif; font-size: 2rem; margin-bottom: 25px;">24H 全天候，守護在您身邊</h3>
+                <p style="opacity: 0.7; margin-bottom: 45px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    無論深夜或清晨，雙北、桃園地區我們承諾於 1 小時內抵達協助。
+                </p>
+                <a href="tel:+886978583699" style="background: var(--accent); color: #fff; padding: 20px 60px; text-decoration: none; font-weight: 700; display: inline-block; border-radius: 2px; font-size: 1.15rem; transition: 0.3s;">
+                    立即撥打諮詢專線
+                </a>
             </div>
         </section>
     </main>
@@ -173,7 +179,8 @@ layout: null
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+            // 捲動揭幕動畫
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
