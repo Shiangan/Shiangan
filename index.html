@@ -5,7 +5,116 @@ layout: null
 <html lang="zh-Hant">
 <head>
     {% include head.html %}
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
     
+    <style>
+        :root {
+            --bg-master: #f2efeb;      /* 全站羊絨灰 */
+            --accent: #a88e6a;         /* 職人金 */
+            --deep-ink: #1e1e1e;       /* 石墨黑 */
+            --text-main: #3d3d3d;      /* 炭灰 */
+            --line-soft: rgba(168, 142, 106, 0.15);
+            --side-gap: clamp(1.2rem, 6vw, 10rem); 
+            --section-gap: clamp(50px, 8vh, 100px);
+            --transition-prime: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* 基礎重置 */
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; letter-spacing: 0.05em; }
+        html, body { overflow-x: hidden; width: 100%; position: relative; }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-master);
+            color: var(--text-main);
+            margin: 0; line-height: 1.8;
+        }
+
+        /* 導航欄補償：防止遮擋內容 */
+        main { padding-top: 90px; }
+        @media (max-width: 1100px) { main { padding-top: 80px; } }
+
+        /* 浮水印：pointer-events: none 確保不遮擋點擊 */
+        .watermark {
+            position: absolute; font-family: 'Playfair Display', serif; 
+            font-style: italic; font-size: clamp(5rem, 15vw, 15rem); 
+            color: rgba(168, 142, 106, 0.04);
+            white-space: nowrap; pointer-events: none; z-index: 0;
+            user-select: none;
+        }
+
+        /* --- Hero 區塊 --- */
+        .hero {
+            height: 80vh; min-height: 600px; display: flex; align-items: center;
+            padding: 0 var(--side-gap); position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; right: 0; top: 0; width: 85%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1494194123974-02393a002811?auto=format&fit=crop&q=80') center/cover;
+            mask-image: linear-gradient(to left, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
+            z-index: 1; opacity: 0.95;
+        }
+        @media (max-width: 768px) { .hero-bg { width: 100%; opacity: 0.2; mask-image: none; } }
+        
+        .hero-content { position: relative; z-index: 10; max-width: 800px; }
+        .hero h1 { 
+            font-family: 'Noto Serif TC', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            line-height: 1.2; margin-bottom: 25px; color: var(--deep-ink); font-weight: 900;
+        }
+
+        /* --- 信任數據 --- */
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; padding: 40px var(--side-gap);
+            background: rgba(255,255,255,0.3);
+            border-top: 1px solid var(--line-soft);
+        }
+        @media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+        .stat-box { text-align: center; border-left: 2px solid var(--accent); padding: 10px 0; }
+        .stat-val { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--accent); font-style: italic; display: block; }
+        .stat-lab { font-size: 0.8rem; letter-spacing: 2px; font-weight: 700; opacity: 0.7; }
+
+        /* --- 通用佈局 --- */
+        .section { padding: var(--section-gap) 0; position: relative; }
+        .wrapper { max-width: 1400px; margin: 0 auto; padding: 0 var(--side-gap); }
+        
+        .flex-container { display: flex; flex-direction: column; gap: 60px; }
+        @media (min-width: 1024px) { .flex-container { flex-direction: row; align-items: center; } }
+        
+        .img-holder { position: relative; flex: 1; }
+        .img-holder img { width: 100%; border-radius: 2px; box-shadow: 20px 20px 0 var(--accent); }
+        @media (max-width: 768px) { .img-holder img { box-shadow: 10px 10px 0 var(--accent); } }
+
+        /* --- 服務清單 --- */
+        .service-list { margin-top: 40px; border-top: 1px solid var(--line-soft); }
+        .service-row {
+            padding: 35px 0; border-bottom: 1px solid var(--line-soft);
+            display: grid; grid-template-columns: 50px 1fr; gap: 20px;
+            transition: 0.4s; cursor: pointer;
+        }
+        .service-row:hover { background: rgba(168, 142, 106, 0.05); padding-left: 15px; }
+        .service-row .idx { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; }
+        .service-row h3 { font-size: 1.8rem; margin: 0; font-family: 'Noto Serif TC', serif; }
+
+        /* --- FAQ --- */
+        .faq-list { max-width: 900px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid var(--line-soft); }
+        .faq-toggle { 
+            width: 100%; padding: 25px 0; display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer; text-align: left;
+        }
+        .faq-toggle h4 { font-size: 1.1rem; color: var(--deep-ink); margin: 0; }
+        .faq-icon { color: var(--accent); transition: 0.4s; font-size: 1.5rem; }
+        .faq-content { 
+            max-height: 0; overflow: hidden; transition: 0.5s ease; color: #666; 
+        }
+        .faq-item.active .faq-content { max-height: 200px; padding-bottom: 30px; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
+        /* 動畫 */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--transition-prime); }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
 
 <body>
@@ -18,7 +127,7 @@ layout: null
             <div class="hero-content">
                 <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:4px; display:block; margin-bottom:15px;">ART OF HUMANITY</span>
                 <h1 class="reveal">祥安生命<br>書寫生命最終的溫柔</h1>
-                <p class="reveal">我們將離別轉化為深刻的追思，透過細膩的職人工法與現代美學，在悲傷時刻為您撐起一份平靜與堅定。</p>
+                <p class="reveal" style="max-width: 500px; margin-bottom: 40px;">我們將離別轉化為深刻的追思，透過細膩的職人工法與現代美學，在悲傷時刻為您撐起一份平靜與堅定。</p>
                 <div class="reveal" style="display: flex; gap: 20px; flex-wrap: wrap;">
                     <a href="{{ site.baseurl }}/plans.html" style="background: var(--deep-ink); color: #fff; padding: 18px 45px; text-decoration: none; font-weight: 700; border-radius: 2px;">服務方案</a>
                     <a href="tel:+886978583699" style="color: var(--deep-ink); text-decoration: none; border-bottom: 2px solid var(--accent); font-weight: 700; padding: 10px 0;">24H 專人諮詢 &rarr;</a>
@@ -39,11 +148,11 @@ layout: null
                 <div class="img-holder reveal">
                     <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80" alt="祥安品牌精神">
                 </div>
-                <div class="text-holder reveal">
+                <div class="text-holder reveal" style="flex: 1.2;">
                     <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:3px;">OUR PHILOSOPHY</span>
-                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; line-height: 1.4; margin: 20px 0;">以職人之手，<br>圓滿生命每一段旅程。</h2>
-                    <p>祥安生命秉持對生命的最高禮讚。我們將繁瑣流程轉化為隱形守護，讓家屬能全心沈浸於追思。在最脆弱的時刻，我們為您提供最莊嚴的支持。</p>
-                    <a href="{{ site.baseurl }}/about.html" style="color:var(--deep-ink); text-decoration:none; font-weight:700; border-bottom:1.5px solid var(--accent); padding-bottom:3px;">關於我們 &rarr;</a>
+                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; line-height: 1.4; margin: 20px 0;">以職人之手，<br>圓滿生命每一段旅程。</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 30px;">祥安生命秉持對生命的最高禮讚。我們將繁瑣流程轉化為隱形守護，讓家屬能全心沈浸於追思。在最脆弱的時刻，我們為您提供最莊嚴的支持。</p>
+                    <a href="{{ site.baseurl }}/about.html" style="color:var(--deep-ink); text-decoration:none; font-weight:700; border-bottom:2.5px solid var(--accent); padding-bottom:5px;">關於我們 &rarr;</a>
                 </div>
             </div>
         </section>
@@ -97,18 +206,16 @@ layout: null
     {% include floating-cta.html %}
 
     <script>
-        // FAQ 交互修復
+        // FAQ 交互 (移出 DOMContentLoaded 確保 onclick 能抓到)
         function toggleFaq(btn) {
-            const item = btn.parentElement;
+            const item = btn.closest('.faq-item');
             const isActive = item.classList.contains('active');
-            // 先關閉其他
             document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-            // 切換當前
             if (!isActive) item.classList.add('active');
         }
 
-        // 滾動動畫偵測
         document.addEventListener('DOMContentLoaded', function() {
+            // 滾動動畫偵測
             const obs = new IntersectionObserver((es) => {
                 es.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
             }, { threshold: 0.1 });
