@@ -4,14 +4,14 @@
   "@type": "Article",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "{{ page.url | absolute_url }}"
+    "@id": "https://24hour.台灣/Shiangan/{{ page.url }}"
   },
   "headline": "{{ page.title }}",
   "description": "{{ page.description }}",
-  "image": "{{ page.og_image | default: '/images/taboo-hero.jpg' | absolute_url }}",  
+  "image": "https://24hour.台灣/Shiangan/{{ page.og_image | default: 'images/taboo-hero.jpg' }}",  
   "author": {
     "@type": "Organization",
-    "name": "祥安生命專業禮儀師團隊",
+    "name": "祥安生命專業禮儀團隊",
     "url": "https://24hour.台灣/Shiangan/about.html"
   },  
   "publisher": {
@@ -19,11 +19,11 @@
     "name": "祥安生命有限公司",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ '/images/logo.png' | absolute_url }}"
+      "url": "https://24hour.台灣/Shiangan/images/logo.png"
     }
   },
   "datePublished": "2024-12-16",
-  "dateModified": "{{ site.time | date: '%Y-%m-%d' }}"
+  "dateModified": "2026-02-20"
 }
 </script>
 
@@ -35,13 +35,20 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "治喪期間可以理髮剃鬚嗎？",
+      "name": "治喪期間有理髮、刮鬍子的禁忌嗎？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現代禮儀解讀中，為了維持職場與日常生活的整潔，是可以適度修整儀容的，重點在於維持肅穆且整潔的態度。"
+        "text": "傳統習俗為表達哀戚會不修邊幅。現代禮儀則建議維持整潔，以肅穆的儀容是對逝者最好的致敬。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "懷孕家屬可以參加喪禮嗎？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。傳統上建議在腰間繫上紅布以隔絕磁場，祥安禮儀師也會協助安排家屬在舒適且通風的位置參與。"
       }
     }
-    // 可持續增加
   ]
 }
 </script>
