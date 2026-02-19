@@ -1,0 +1,48 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  "headline": "{{ page.title }}",
+  "description": "{{ page.description }}",
+  "image": "{{ page.og_image | default: '/images/taboo-hero.jpg' | absolute_url }}",  
+  "author": {
+    "@type": "Organization",
+    "name": "祥安生命專業禮儀師團隊",
+    "url": "https://24hour.台灣/Shiangan/about.html"
+  },  
+  "publisher": {
+    "@type": "Organization",
+    "name": "祥安生命有限公司",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ '/images/logo.png' | absolute_url }}"
+    }
+  },
+  "datePublished": "2024-12-16",
+  "dateModified": "{{ site.time | date: '%Y-%m-%d' }}"
+}
+</script>
+
+{% if page.has_faq %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "治喪期間可以理髮剃鬚嗎？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "現代禮儀解讀中，為了維持職場與日常生活的整潔，是可以適度修整儀容的，重點在於維持肅穆且整潔的態度。"
+      }
+    }
+    // 可持續增加
+  ]
+}
+</script>
+{% endif %}
