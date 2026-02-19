@@ -1,18 +1,20 @@
+---
+layout: null
+permalink: /blog.html
+---
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
+    {% include head.html %}
     <title>【殯葬百科知識庫】治喪流程SOP、費用分析、法規補助與禮儀指南 | 祥安生命</title>
     <meta name="description" content="祥安生命國家認證禮儀師提供最完整的殯葬百科知識：涵蓋臨終處理SOP、治喪完整流程細節、公開費用分析、最新喪葬補助與法規指南。幫助您清晰、從容地處理後事。">
-    <link rel="canonical" href="https://24hour.台灣/Shiangan/blog.html">
-    <meta name="robots" content="index, follow">
     
+    <link rel="canonical" href="https://24hour.xn--kpry57d/Shiangan/blog.html">
+
     <meta property="og:title" content="祥安生命 - 殯葬百科知識庫：專業指引與溫暖解答">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.台灣/Shiangan/blog.html">
-    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/blog-hero-bg.jpg">
+    <meta property="og:url" content="https://24hour.xn--kpry57d/Shiangan/blog.html">
+    <meta property="og:image" content="https://24hour.xn--kpry57d/Shiangan/images/blog-hero-bg.jpg">
     <meta property="og:description" content="國家認證禮儀師團隊整理，最貼近人心的殯葬知識與流程指南。">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -26,35 +28,17 @@
             --accent-color: #c6a15b;
             --text-color: #333;
             --bg-light: #fdfcfb;
-            --header-height: 80px;
         }
 
-        /* 基礎佈局 */
-        * { box-sizing: border-box; }
         body { 
             font-family: 'Noto Sans TC', sans-serif; 
             line-height: 1.6; 
             color: var(--text-color); 
             margin: 0; 
             background-color: var(--bg-light);
-            scroll-padding-top: var(--header-height);
         }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Header & Nav */
-        .main-header { 
-            height: var(--header-height); 
-            background: #fff; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-        }
-        .header-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo img { height: 50px; }
-        .main-nav ul { display: flex; list-style: none; gap: 20px; margin: 0; }
-        .main-nav a { text-decoration: none; color: var(--primary-dark); font-weight: 500; }
-        .cta-button.primary { background: var(--accent-color); color: #fff; padding: 8px 15px; border-radius: 5px; }
 
         /* Blog Layout */
         .blog-main-layout { display: flex; gap: 30px; margin-top: 40px; }
@@ -75,14 +59,14 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
+            border: 1px solid #eee;
         }
         .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card-image-wrap { height: 200px; background: #eee; }
+        .card-image-wrap { height: 200px; background: #eee; overflow: hidden; }
         .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
         .card-body { padding: 20px; }
         .article-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
         .primary-tag { background: var(--primary-light); color: var(--primary-dark); }
-        .cost-tag { background: #fff3e0; color: #ef6c00; }
         
         /* FAQ Style */
         .faq-item { background: #fff; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; }
@@ -91,588 +75,80 @@
         .faq-item[open] summary::after { content: '-'; }
         .faq-item p { padding: 0 15px 15px; margin: 0; color: #666; }
 
-        /* Floating CTA */
-        .floating-cta { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
-        .floating-cta a { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .floating-cta .fa-phone { background: #28a745; }
-        .floating-cta .fa-line { background: #06c755; }
-
-        /* Mobile Adjustments */
         @media (max-width: 992px) {
             .blog-main-layout { flex-direction: column; }
-            .sidebar { order: 2; }
-            .menu-toggle { display: block; background: none; border: none; font-size: 24px; cursor: pointer; }
-            .main-nav { display: none; width: 100%; position: absolute; top: 80px; left: 0; background: #fff; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
-            .main-nav.active { display: block; }
-            .main-nav ul { flex-direction: column; }
         }
     </style>
 </head>
-<body>
 
-    <header class="main-header">
-        <div class="header-container container"> 
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命"></a>
-            </div>
-            <button class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></button>
-            <nav class="main-nav" id="nav-menu">
-                <ul>
-                    <li><a href="index.html">首頁</a></li>
-                    <li><a href="about.html">關於我們</a></li> 
-                    <li><a href="services.html">服務項目</a></li>
-                    <li><a href="plans.html">費用方案</a></li>
-                    <li><a href="blog.html" style="color:var(--accent-color)">殯葬百科</a></li>
-                    <li><a href="tel:0978583699" class="cta-button primary">📞 24H 撥打專線</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body class="blog-page">
+    {% include header.html %}
 
     <main>
-        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/blog-hero-bg.jpg') center/cover; padding: 100px 0; color: #fff; text-align: center;">
+        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/blog-hero-bg.jpg') center/cover; padding: 120px 0; color: #fff; text-align: center;">
             <div class="container">
-                <h1>殯葬百科知識庫</h1>
-                <p>專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 20px;">殯葬百科知識庫</h1>
+                <p style="font-size: 1.2rem; opacity: 0.9;">專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
             </div>
         </section>
 
         <div class="container">
             <div class="blog-main-layout">
                 <div class="article-content">
-                    <h2 id="first-step"><i class="fas fa-ambulance"></i> 臨終/初終處理 SOP</h2>
+                    <h2 id="first-step" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin-bottom: 30px;">
+                        <i class="fas fa-ambulance" style="color: var(--accent-color); margin-right: 10px;"></i> 臨終/初終處理 SOP
+                    </h2>
+                    
                     <div class="article-grid">
                         <article class="blog-card">
                             <div class="card-image-wrap">
-                                <img src="images/blog-first-step-1.jpg" alt="醫院往生流程">
+                                <img src="images/blog-first-step-1.jpg" alt="醫院往生流程" onerror="this.src='https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'">
                             </div>
                             <div class="card-body">
                                 <span class="article-tag primary-tag">醫院 SOP</span>
-                                <h3><a href="article-hospital-death.html" style="text-decoration:none; color:inherit;">醫院過世後的 5 個關鍵步驟</a></h3>
-                                <p>詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
+                                <h3 style="font-size: 1.25rem; margin: 10px 0;">醫院過世後的 5 個關鍵步驟</h3>
+                                <p style="font-size: 0.95rem; color: #666;">詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
+                                <a href="article-hospital-death.html" style="color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 0.9rem;">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </article>
-                        </div>
+                    </div>
 
-                    <h2 id="quick-faq">治喪常見問答 (FAQ)</h2>
+                    <h2 id="quick-faq" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin: 50px 0 30px;">治喪常見問答 (FAQ)</h2>
                     <div class="faq-list">
                         <details class="faq-item">
                             <summary>親人在醫院過世，我應該先找誰？</summary>
-                            <p>建議先聯繫您信任的禮儀公司（如祥安生命 24H 專線），由專業人員接體並引導後續，避免被醫院駐點業者誤導。</p>
+                            <p>建議第一時間聯繫您信任的禮儀公司（如祥安生命 24H 專線）。專業人員會立即前往引導接體與後續流程，避免被醫院駐點業者強力推銷而產生不必要的支出。</p>
                         </details>
                         <details class="faq-item">
                             <summary>喪葬補助金該如何申請？</summary>
-                            <p>包含勞保、國保、農保皆有提供喪葬津貼，只要具備支出證明並符合投保條件即可申請。</p>
+                            <p>勞保、國保、農保皆有喪葬津貼。通常需檢附死亡證明書正本、支出收據、以及家屬的存摺影本，向所屬社會保險局提出申請。</p>
                         </details>
                     </div>
                 </div>
 
                 <aside class="sidebar">
-                    <div style="background: var(--primary-dark); color: #fff; padding: 25px; border-radius: 12px; text-align: center; position: sticky; top: 100px;">
-                        <i class="fas fa-headset" style="font-size: 40px; margin-bottom: 15px;"></i>
-                        <h3>24H 諮詢專線</h3>
-                        <p>面對突發狀況不驚慌</p>
-                        <a href="tel:0978583699" style="background: #fff; color: var(--primary-dark); padding: 10px 20px; display: block; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px;">0978-583-699</a>
+                    <div style="background: var(--primary-dark); color: #fff; padding: 30px 20px; border-radius: 12px; text-align: center; position: sticky; top: 100px;">
+                        <i class="fas fa-headset" style="font-size: 40px; color: var(--accent-color); margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;">24H 諮詢專線</h3>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px;">面對突發狀況不驚慌<br>由專業禮儀師線上引導</p>
+                        <a href="tel:0978583699" style="background: var(--accent-color); color: #fff; padding: 12px 20px; display: block; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">0978-583-699</a>
                     </div>
                 </aside>
             </div>
         </div>
     </main>
 
-    <footer style="background: #333; color: #fff; padding: 50px 0; margin-top: 50px;">
-        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
-            <div>
-                <h4>祥安生命有限公司</h4>
-                <p>內政部核准合法禮儀公司，提供全台專業生命禮儀服務。</p>
-            </div>
-            <div>
-                <h4>快速連結</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="article-taboo.html" style="color: #ccc;">守喪禁忌</a></li>
-                    <li><a href="article-labor-insurance.html" style="color: #ccc;">補助請領</a></li>
-                    <li><a href="privacy.html" style="color: #ccc;">隱私政策</a></li>
-                </ul>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 30px; border-top: 1px solid #444; padding-top: 20px;">
-            祥安生命 © <span id="current-year"></span> All Rights Reserved.
-        </div>
-    </footer>
-
-    <div class="floating-cta">
-        <a href="tel:0978583699" class="fa-phone"></a>
-        <a href="https://line.me/ti/p/YourID" class="fab fa-line"></a>
-    </div>
+    {% include footer.html %}
+    {% include floating-cta.html %}
 
     <script>
-        // 1. 動態年份
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // 2. 手機版選單切換
+        // 手機版選單切換 (如有需要)
         const menuBtn = document.getElementById('menu-btn');
-        const navMenu = document.getElementById('nav-menu');
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // 3. 點擊導覽連結後自動關閉選單 (手機版)
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
+        if(menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.toggle('active');
             });
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <title>【殯葬百科知識庫】治喪流程SOP、費用分析、法規補助與禮儀指南 | 祥安生命</title>
-    <meta name="description" content="祥安生命國家認證禮儀師提供最完整的殯葬百科知識：涵蓋臨終處理SOP、治喪完整流程細節、公開費用分析、最新喪葬補助與法規指南。幫助您清晰、從容地處理後事。">
-    <link rel="canonical" href="https://24hour.台灣/Shiangan/blog.html">
-    <meta name="robots" content="index, follow">
-    
-    <meta property="og:title" content="祥安生命 - 殯葬百科知識庫：專業指引與溫暖解答">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.台灣/Shiangan/blog.html">
-    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/blog-hero-bg.jpg">
-    <meta property="og:description" content="國家認證禮儀師團隊整理，最貼近人心的殯葬知識與流程指南。">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #5d4037;
-            --primary-dark: #3e2723;
-            --primary-light: #efebe9;
-            --accent-color: #c6a15b;
-            --text-color: #333;
-            --bg-light: #fdfcfb;
-            --header-height: 80px;
         }
-
-        /* 基礎佈局 */
-        * { box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            line-height: 1.6; 
-            color: var(--text-color); 
-            margin: 0; 
-            background-color: var(--bg-light);
-            scroll-padding-top: var(--header-height);
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Header & Nav */
-        .main-header { 
-            height: var(--header-height); 
-            background: #fff; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-        }
-        .header-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo img { height: 50px; }
-        .main-nav ul { display: flex; list-style: none; gap: 20px; margin: 0; }
-        .main-nav a { text-decoration: none; color: var(--primary-dark); font-weight: 500; }
-        .cta-button.primary { background: var(--accent-color); color: #fff; padding: 8px 15px; border-radius: 5px; }
-
-        /* Blog Layout */
-        .blog-main-layout { display: flex; gap: 30px; margin-top: 40px; }
-        .article-content { flex: 3; }
-        .sidebar { flex: 1; min-width: 280px; }
-        
-        .article-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        /* Card Styles */
-        .blog-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card-image-wrap { height: 200px; background: #eee; }
-        .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .card-body { padding: 20px; }
-        .article-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
-        .primary-tag { background: var(--primary-light); color: var(--primary-dark); }
-        .cost-tag { background: #fff3e0; color: #ef6c00; }
-        
-        /* FAQ Style */
-        .faq-item { background: #fff; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; }
-        .faq-item summary { padding: 15px; cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
-        .faq-item summary::after { content: '+'; color: var(--accent-color); }
-        .faq-item[open] summary::after { content: '-'; }
-        .faq-item p { padding: 0 15px 15px; margin: 0; color: #666; }
-
-        /* Floating CTA */
-        .floating-cta { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
-        .floating-cta a { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .floating-cta .fa-phone { background: #28a745; }
-        .floating-cta .fa-line { background: #06c755; }
-
-        /* Mobile Adjustments */
-        @media (max-width: 992px) {
-            .blog-main-layout { flex-direction: column; }
-            .sidebar { order: 2; }
-            .menu-toggle { display: block; background: none; border: none; font-size: 24px; cursor: pointer; }
-            .main-nav { display: none; width: 100%; position: absolute; top: 80px; left: 0; background: #fff; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
-            .main-nav.active { display: block; }
-            .main-nav ul { flex-direction: column; }
-        }
-    </style>
-</head>
-<body>
-
-    <header class="main-header">
-        <div class="header-container container"> 
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命"></a>
-            </div>
-            <button class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></button>
-            <nav class="main-nav" id="nav-menu">
-                <ul>
-                    <li><a href="index.html">首頁</a></li>
-                    <li><a href="about.html">關於我們</a></li> 
-                    <li><a href="services.html">服務項目</a></li>
-                    <li><a href="plans.html">費用方案</a></li>
-                    <li><a href="blog.html" style="color:var(--accent-color)">殯葬百科</a></li>
-                    <li><a href="tel:0978583699" class="cta-button primary">📞 24H 撥打專線</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/blog-hero-bg.jpg') center/cover; padding: 100px 0; color: #fff; text-align: center;">
-            <div class="container">
-                <h1>殯葬百科知識庫</h1>
-                <p>專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
-            </div>
-        </section>
-
-        <div class="container">
-            <div class="blog-main-layout">
-                <div class="article-content">
-                    <h2 id="first-step"><i class="fas fa-ambulance"></i> 臨終/初終處理 SOP</h2>
-                    <div class="article-grid">
-                        <article class="blog-card">
-                            <div class="card-image-wrap">
-                                <img src="images/blog-first-step-1.jpg" alt="醫院往生流程">
-                            </div>
-                            <div class="card-body">
-                                <span class="article-tag primary-tag">醫院 SOP</span>
-                                <h3><a href="article-hospital-death.html" style="text-decoration:none; color:inherit;">醫院過世後的 5 個關鍵步驟</a></h3>
-                                <p>詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
-                            </div>
-                        </article>
-                        </div>
-
-                    <h2 id="quick-faq">治喪常見問答 (FAQ)</h2>
-                    <div class="faq-list">
-                        <details class="faq-item">
-                            <summary>親人在醫院過世，我應該先找誰？</summary>
-                            <p>建議先聯繫您信任的禮儀公司（如祥安生命 24H 專線），由專業人員接體並引導後續，避免被醫院駐點業者誤導。</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>喪葬補助金該如何申請？</summary>
-                            <p>包含勞保、國保、農保皆有提供喪葬津貼，只要具備支出證明並符合投保條件即可申請。</p>
-                        </details>
-                    </div>
-                </div>
-
-                <aside class="sidebar">
-                    <div style="background: var(--primary-dark); color: #fff; padding: 25px; border-radius: 12px; text-align: center; position: sticky; top: 100px;">
-                        <i class="fas fa-headset" style="font-size: 40px; margin-bottom: 15px;"></i>
-                        <h3>24H 諮詢專線</h3>
-                        <p>面對突發狀況不驚慌</p>
-                        <a href="tel:0978583699" style="background: #fff; color: var(--primary-dark); padding: 10px 20px; display: block; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px;">0978-583-699</a>
-                    </div>
-                </aside>
-            </div>
-        </div>
-    </main>
-
-    <footer style="background: #333; color: #fff; padding: 50px 0; margin-top: 50px;">
-        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
-            <div>
-                <h4>祥安生命有限公司</h4>
-                <p>內政部核准合法禮儀公司，提供全台專業生命禮儀服務。</p>
-            </div>
-            <div>
-                <h4>快速連結</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="article-taboo.html" style="color: #ccc;">守喪禁忌</a></li>
-                    <li><a href="article-labor-insurance.html" style="color: #ccc;">補助請領</a></li>
-                    <li><a href="privacy.html" style="color: #ccc;">隱私政策</a></li>
-                </ul>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 30px; border-top: 1px solid #444; padding-top: 20px;">
-            祥安生命 © <span id="current-year"></span> All Rights Reserved.
-        </div>
-    </footer>
-
-    <div class="floating-cta">
-        <a href="tel:0978583699" class="fa-phone"></a>
-        <a href="https://line.me/ti/p/YourID" class="fab fa-line"></a>
-    </div>
-
-    <script>
-        // 1. 動態年份
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // 2. 手機版選單切換
-        const menuBtn = document.getElementById('menu-btn');
-        const navMenu = document.getElementById('nav-menu');
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // 3. 點擊導覽連結後自動關閉選單 (手機版)
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-            });
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <title>【殯葬百科知識庫】治喪流程SOP、費用分析、法規補助與禮儀指南 | 祥安生命</title>
-    <meta name="description" content="祥安生命國家認證禮儀師提供最完整的殯葬百科知識：涵蓋臨終處理SOP、治喪完整流程細節、公開費用分析、最新喪葬補助與法規指南。幫助您清晰、從容地處理後事。">
-    <link rel="canonical" href="https://24hour.台灣/Shiangan/blog.html">
-    <meta name="robots" content="index, follow">
-    
-    <meta property="og:title" content="祥安生命 - 殯葬百科知識庫：專業指引與溫暖解答">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.台灣/Shiangan/blog.html">
-    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/blog-hero-bg.jpg">
-    <meta property="og:description" content="國家認證禮儀師團隊整理，最貼近人心的殯葬知識與流程指南。">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #5d4037;
-            --primary-dark: #3e2723;
-            --primary-light: #efebe9;
-            --accent-color: #c6a15b;
-            --text-color: #333;
-            --bg-light: #fdfcfb;
-            --header-height: 80px;
-        }
-
-        /* 基礎佈局 */
-        * { box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            line-height: 1.6; 
-            color: var(--text-color); 
-            margin: 0; 
-            background-color: var(--bg-light);
-            scroll-padding-top: var(--header-height);
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Header & Nav */
-        .main-header { 
-            height: var(--header-height); 
-            background: #fff; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-        }
-        .header-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo img { height: 50px; }
-        .main-nav ul { display: flex; list-style: none; gap: 20px; margin: 0; }
-        .main-nav a { text-decoration: none; color: var(--primary-dark); font-weight: 500; }
-        .cta-button.primary { background: var(--accent-color); color: #fff; padding: 8px 15px; border-radius: 5px; }
-
-        /* Blog Layout */
-        .blog-main-layout { display: flex; gap: 30px; margin-top: 40px; }
-        .article-content { flex: 3; }
-        .sidebar { flex: 1; min-width: 280px; }
-        
-        .article-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        /* Card Styles */
-        .blog-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card-image-wrap { height: 200px; background: #eee; }
-        .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .card-body { padding: 20px; }
-        .article-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
-        .primary-tag { background: var(--primary-light); color: var(--primary-dark); }
-        .cost-tag { background: #fff3e0; color: #ef6c00; }
-        
-        /* FAQ Style */
-        .faq-item { background: #fff; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; }
-        .faq-item summary { padding: 15px; cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
-        .faq-item summary::after { content: '+'; color: var(--accent-color); }
-        .faq-item[open] summary::after { content: '-'; }
-        .faq-item p { padding: 0 15px 15px; margin: 0; color: #666; }
-
-        /* Floating CTA */
-        .floating-cta { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
-        .floating-cta a { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .floating-cta .fa-phone { background: #28a745; }
-        .floating-cta .fa-line { background: #06c755; }
-
-        /* Mobile Adjustments */
-        @media (max-width: 992px) {
-            .blog-main-layout { flex-direction: column; }
-            .sidebar { order: 2; }
-            .menu-toggle { display: block; background: none; border: none; font-size: 24px; cursor: pointer; }
-            .main-nav { display: none; width: 100%; position: absolute; top: 80px; left: 0; background: #fff; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
-            .main-nav.active { display: block; }
-            .main-nav ul { flex-direction: column; }
-        }
-    </style>
-</head>
-<body>
-
-    <header class="main-header">
-        <div class="header-container container"> 
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="祥安生命"></a>
-            </div>
-            <button class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></button>
-            <nav class="main-nav" id="nav-menu">
-                <ul>
-                    <li><a href="index.html">首頁</a></li>
-                    <li><a href="about.html">關於我們</a></li> 
-                    <li><a href="services.html">服務項目</a></li>
-                    <li><a href="plans.html">費用方案</a></li>
-                    <li><a href="blog.html" style="color:var(--accent-color)">殯葬百科</a></li>
-                    <li><a href="tel:0978583699" class="cta-button primary">📞 24H 撥打專線</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/blog-hero-bg.jpg') center/cover; padding: 100px 0; color: #fff; text-align: center;">
-            <div class="container">
-                <h1>殯葬百科知識庫</h1>
-                <p>專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
-            </div>
-        </section>
-
-        <div class="container">
-            <div class="blog-main-layout">
-                <div class="article-content">
-                    <h2 id="first-step"><i class="fas fa-ambulance"></i> 臨終/初終處理 SOP</h2>
-                    <div class="article-grid">
-                        <article class="blog-card">
-                            <div class="card-image-wrap">
-                                <img src="images/blog-first-step-1.jpg" alt="醫院往生流程">
-                            </div>
-                            <div class="card-body">
-                                <span class="article-tag primary-tag">醫院 SOP</span>
-                                <h3><a href="article-hospital-death.html" style="text-decoration:none; color:inherit;">醫院過世後的 5 個關鍵步驟</a></h3>
-                                <p>詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
-                            </div>
-                        </article>
-                        </div>
-
-                    <h2 id="quick-faq">治喪常見問答 (FAQ)</h2>
-                    <div class="faq-list">
-                        <details class="faq-item">
-                            <summary>親人在醫院過世，我應該先找誰？</summary>
-                            <p>建議先聯繫您信任的禮儀公司（如祥安生命 24H 專線），由專業人員接體並引導後續，避免被醫院駐點業者誤導。</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>喪葬補助金該如何申請？</summary>
-                            <p>包含勞保、國保、農保皆有提供喪葬津貼，只要具備支出證明並符合投保條件即可申請。</p>
-                        </details>
-                    </div>
-                </div>
-
-                <aside class="sidebar">
-                    <div style="background: var(--primary-dark); color: #fff; padding: 25px; border-radius: 12px; text-align: center; position: sticky; top: 100px;">
-                        <i class="fas fa-headset" style="font-size: 40px; margin-bottom: 15px;"></i>
-                        <h3>24H 諮詢專線</h3>
-                        <p>面對突發狀況不驚慌</p>
-                        <a href="tel:0978583699" style="background: #fff; color: var(--primary-dark); padding: 10px 20px; display: block; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px;">0978-583-699</a>
-                    </div>
-                </aside>
-            </div>
-        </div>
-    </main>
-
-    <footer style="background: #333; color: #fff; padding: 50px 0; margin-top: 50px;">
-        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
-            <div>
-                <h4>祥安生命有限公司</h4>
-                <p>內政部核准合法禮儀公司，提供全台專業生命禮儀服務。</p>
-            </div>
-            <div>
-                <h4>快速連結</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="article-taboo.html" style="color: #ccc;">守喪禁忌</a></li>
-                    <li><a href="article-labor-insurance.html" style="color: #ccc;">補助請領</a></li>
-                    <li><a href="privacy.html" style="color: #ccc;">隱私政策</a></li>
-                </ul>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 30px; border-top: 1px solid #444; padding-top: 20px;">
-            祥安生命 © <span id="current-year"></span> All Rights Reserved.
-        </div>
-    </footer>
-
-    <div class="floating-cta">
-        <a href="tel:0978583699" class="fa-phone"></a>
-        <a href="https://line.me/ti/p/YourID" class="fab fa-line"></a>
-    </div>
-
-    <script>
-        // 1. 動態年份
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // 2. 手機版選單切換
-        const menuBtn = document.getElementById('menu-btn');
-        const navMenu = document.getElementById('nav-menu');
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // 3. 點擊導覽連結後自動關閉選單 (手機版)
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-            });
-        });
     </script>
 </body>
 </html>
