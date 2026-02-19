@@ -9,7 +9,7 @@ layout: null
     
     <style>
         :root {
-            --bg-master: #f2efeb;      /* 全站統一羊絨灰 */
+            --bg-master: #f2efeb;      /* 全站羊絨灰 */
             --accent: #a88e6a;         /* 職人金 */
             --deep-ink: #1e1e1e;       /* 石墨黑 */
             --text-main: #3d3d3d;      /* 炭灰 */
@@ -29,7 +29,11 @@ layout: null
             margin: 0; line-height: 1.8;
         }
 
-        /* 修正後的浮水印系統：手機自動縮放 */
+        /* 導航欄補償：防止固定導航遮擋 Hero 標題 */
+        main { padding-top: 80px; }
+        @media (max-width: 1100px) { main { padding-top: 70px; } }
+
+        /* 浮水印系統：手機自動縮放且不干擾點擊 */
         .watermark {
             position: absolute; font-family: 'Playfair Display', serif; 
             font-style: italic; font-size: clamp(5rem, 15vw, 15rem); 
@@ -40,7 +44,7 @@ layout: null
 
         /* --- [1] Hero：手機端光影優化 --- */
         .hero {
-            height: 85vh; min-height: 600px; display: flex; align-items: center;
+            height: 80vh; min-height: 550px; display: flex; align-items: center;
             padding: 0 var(--side-gap); position: relative; overflow: hidden;
         }
         .hero-bg {
@@ -51,27 +55,28 @@ layout: null
             z-index: 1; opacity: 0.95;
         }
         @media (max-width: 768px) {
-            .hero-bg { width: 100%; opacity: 0.2; mask-image: none; } /* 手機版背景轉淡確保文字清晰 */
+            .hero-bg { width: 100%; opacity: 0.25; mask-image: none; }
         }
         .hero-content { position: relative; z-index: 10; max-width: 800px; }
         .hero h1 { 
-            font-family: 'Noto Serif TC', serif; font-size: clamp(2.2rem, 6vw, 4.8rem); 
+            font-family: 'Noto Serif TC', serif; font-size: clamp(2.2rem, 6vw, 4.5rem); 
             line-height: 1.25; margin-bottom: 25px; color: var(--deep-ink); font-weight: 900;
         }
-        .hero p { font-size: clamp(1rem, 1.5vw, 1.2rem); max-width: 550px; margin-bottom: 40px; color: var(--text-main); }
+        .hero p { font-size: clamp(1rem, 1.5vw, 1.15rem); max-width: 500px; margin-bottom: 40px; }
 
-        /* --- [2] 信任數據：2x2 手機排列 --- */
+        /* --- [2] 信任數據：2x2 排列修正 --- */
         .stats-grid { 
             display: grid; grid-template-columns: repeat(2, 1fr); 
             gap: 20px; padding: 40px var(--side-gap);
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+            background: rgba(255,255,255,0.2);
+            border-top: 1px solid var(--line-soft);
         }
         @media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
-        .stat-box { text-align: center; border-left: 1px solid var(--line-soft); padding: 10px 0; }
-        .stat-val { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.5rem); color: var(--accent); display: block; line-height: 1; font-style: italic; }
-        .stat-lab { font-size: 0.75rem; letter-spacing: 3px; font-weight: 700; opacity: 0.6; margin-top: 10px; }
+        .stat-box { text-align: center; border-left: 2px solid var(--accent); padding: 10px 0; }
+        .stat-val { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--accent); font-style: italic; display: block; line-height: 1; }
+        .stat-lab { font-size: 0.75rem; letter-spacing: 2px; font-weight: 700; opacity: 0.6; margin-top: 8px; }
 
-        /* --- [3] 核心內容：配飾與流線 --- */
+        /* --- [3] 核心內容：圖片配飾大小優化 --- */
         .section { padding: var(--section-gap) 0; position: relative; }
         .wrapper { max-width: 1400px; margin: 0 auto; padding: 0 var(--side-gap); }
         
@@ -81,57 +86,42 @@ layout: null
         .img-holder { position: relative; width: 100%; flex: 1; }
         .img-holder img { 
             width: 100%; border-radius: 2px; 
-            box-shadow: 10px 10px 0 var(--accent); /* 手機端陰影縮小 */
+            box-shadow: 10px 10px 0 var(--accent); /* 手機端縮小陰影 */
             opacity: 0.95; 
         }
         @media (min-width: 1024px) { .img-holder img { box-shadow: 20px 20px 0 var(--accent); } }
-        .text-holder { flex: 1.2; }
 
-        /* --- [4] 服務清單：階梯式流線 --- */
+        /* --- [4] 服務清單：階梯式呈現 --- */
         .service-list { margin-top: 40px; border-top: 1px solid var(--line-soft); }
         .service-row {
             padding: 35px 0; border-bottom: 1px solid var(--line-soft);
             display: flex; flex-direction: column; gap: 10px;
-            transition: var(--transition-prime); cursor: pointer;
+            transition: 0.3s; cursor: pointer;
         }
-        @media (min-width: 768px) { .service-row { display: grid; grid-template-columns: 40px 1fr; gap: 20px; } }
-        .service-row .idx { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; }
-        .service-row h3 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin: 0 0 5px 0; font-family: 'Noto Serif TC', serif; }
-        .service-row p { font-size: 1rem; color: var(--text-muted); margin: 0; line-height: 1.7; }
+        @media (min-width: 768px) { .service-row { display: grid; grid-template-columns: 50px 1fr; gap: 20px; } }
+        .service-row:hover { background: rgba(168, 142, 106, 0.03); }
+        .service-row .idx { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-style: italic; }
+        .service-row h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 0; font-family: 'Noto Serif TC', serif; }
 
-        /* --- [5] 資源導引：視覺中心設計 --- */
-        .resource-card {
-            border: 1px solid var(--accent); padding: 50px 30px; text-align: center;
-            background: rgba(255,255,255,0.4); backdrop-filter: blur(5px); position: relative;
-        }
-        .resource-card h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); color: var(--accent); margin-bottom: 15px; }
-        .resource-links { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
-        @media (min-width: 768px) { .resource-links { flex-direction: row; justify-content: center; gap: 40px; } }
-        .res-link { color: var(--deep-ink); text-decoration: none; font-weight: 700; border-bottom: 1.5px solid var(--accent); padding-bottom: 3px; transition: 0.3s; }
-        .res-link:hover { color: var(--accent); border-color: var(--deep-ink); }
-
-        /* --- [6] FAQ：手機端極致交互 --- */
+        /* --- [5] FAQ：修復手機端點擊與動畫 --- */
+        .faq-list { max-width: 900px; margin: 0 auto; }
         .faq-item { border-bottom: 1px solid var(--line-soft); }
         .faq-toggle { 
             width: 100%; padding: 25px 0; display: flex; justify-content: space-between; align-items: center;
-            background: none; border: none; text-align: left; cursor: pointer; outline: none;
+            background: none; border: none; text-align: left; cursor: pointer;
         }
-        .faq-toggle h4 { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--deep-ink); margin: 0; flex: 1; padding-right: 15px; }
-        .faq-icon { color: var(--accent); transition: transform 0.4s; font-size: 1.2rem; font-weight: 300; }
+        .faq-toggle h4 { font-size: 1.15rem; color: var(--deep-ink); margin: 0; flex: 1; padding-right: 20px; }
+        .faq-icon { color: var(--accent); transition: 0.4s; font-size: 1.4rem; font-weight: 300; }
         .faq-content { 
             max-height: 0; overflow: hidden; transition: all 0.5s ease; 
-            color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;
+            color: #555; font-size: 1.05rem; line-height: 1.8;
         }
-        .faq-item.active .faq-content { max-height: 400px; padding-bottom: 30px; }
-        .faq-item.active .faq-icon { transform: rotate(45deg); }
+        .faq-item.active .faq-content { max-height: 500px; padding-bottom: 30px; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); color: var(--deep-ink); }
 
-        /* 進場動畫系統 */
-        .reveal { opacity: 0; transform: translateY(25px); transition: 1.2s var(--transition-prime); }
+        /* 動畫觸發 */
+        .reveal { opacity: 0; transform: translateY(25px); transition: 1s var(--transition-prime); }
         .reveal.revealed { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 600px) {
-            .hero { padding-top: 100px; height: auto; padding-bottom: 60px; }
-        }
     </style>
 </head>
 
@@ -143,11 +133,11 @@ layout: null
             <div class="watermark" style="top: 10%; left: -5%;">Care</div>
             <div class="hero-bg"></div>
             <div class="hero-content">
-                <span class="hero-tag reveal" style="color: var(--accent); font-weight: 700; letter-spacing: 4px;">ART OF HUMANITY</span>
+                <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:4px; display:block; margin-bottom:15px;">ART OF HUMANITY</span>
                 <h1 class="reveal">祥安生命<br>書寫生命最終的溫柔</h1>
-                <p class="reveal">每一場告別都是一份珍貴託付，我們以專業職人之心與現代人文美學，為摯愛規劃最圓滿的謝幕，讓愛得以在歲月中溫暖延續。</p>
+                <p class="reveal">我們將離別轉化為深刻的追思，透過細膩的職人工法與現代美學，在悲傷時刻為您撐起一份平靜與堅定。</p>
                 <div class="reveal" style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <a href="{{ site.baseurl }}/plans.html" style="background: var(--deep-ink); color: #fff; padding: 18px 45px; text-decoration: none; font-weight: 700;">方案計畫</a>
+                    <a href="{{ site.baseurl }}/plans.html" style="background: var(--deep-ink); color: #fff; padding: 18px 45px; text-decoration: none; font-weight: 700; border-radius: 2px;">服務方案</a>
                     <a href="tel:+886978583699" style="color: var(--deep-ink); text-decoration: none; border-bottom: 2px solid var(--accent); font-weight: 700; padding: 10px 0;">24H 專人諮詢 &rarr;</a>
                 </div>
             </div>
@@ -157,57 +147,40 @@ layout: null
             <div class="stat-box"><span class="stat-val">15+</span><span class="stat-lab">專業年資</span></div>
             <div class="stat-box"><span class="stat-val">100%</span><span class="stat-lab">費用透明</span></div>
             <div class="stat-box"><span class="stat-val">24H</span><span class="stat-lab">即時待命</span></div>
-            <div class="stat-box"><span class="stat-val">4.9</span><span class="stat-lab">家屬評分</span></div>
+            <div class="stat-box"><span class="stat-val">4.9</span><span class="stat-lab">暖心評分</span></div>
         </div>
 
         <section class="section wrapper">
-            <div class="watermark" style="bottom: 5%; right: -5%; transform: rotate(-3deg);">Respect</div>
+            <div class="watermark" style="bottom: 5%; right: -5%; transform: rotate(-3deg);">Legacy</div>
             <div class="flex-container">
                 <div class="img-holder reveal">
                     <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80" alt="祥安品牌精神">
                 </div>
                 <div class="text-holder reveal">
-                    <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem; letter-spacing: 3px;">PHILOSOPHY</span>
-                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; line-height: 1.35; margin: 20px 0;">以職人之手，<br>圓滿生命每一段旅程。</h2>
-                    <p>祥安生命秉持對生命的最高敬意。我們將繁瑣流程轉化為隱形守護，讓家屬專注於思念。在最脆弱的時刻，我們不只是禮儀執行者，更是您最堅實的依靠。</p>
-                    <a href="{{ site.baseurl }}/about.html" class="res-link" style="margin-top: 20px; display: inline-block;">品牌故事詳解</a>
+                    <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:3px;">OUR PHILOSOPHY</span>
+                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; line-height: 1.4; margin: 20px 0;">以職人之手，<br>圓滿生命每一段旅程。</h2>
+                    <p>祥安生命秉持對生命的最高禮讚。我們將繁瑣流程轉化為隱形守護，讓家屬能全心沈浸於追思。在最脆弱的時刻，我們為您提供最莊嚴的支持。</p>
+                    <a href="{{ site.baseurl }}/about.html" style="color:var(--deep-ink); text-decoration:none; font-weight:700; border-bottom:1.5px solid var(--accent); padding-bottom:3px;">關於我們 &rarr;</a>
                 </div>
             </div>
         </section>
 
         <section class="section wrapper" style="padding-top: 0;">
             <div class="reveal">
-                <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem; letter-spacing: 3px;">SERVICES</span>
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin: 20px 0 40px 0;">專業規劃 · 細膩執行</h2>
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 40px;">專業規劃 · 細膩執行</h2>
             </div>
             <div class="service-list">
-                <div class="service-row reveal">
+                <div class="service-row reveal" onclick="location.href='{{ site.baseurl }}/services.html#buddhist-taoist'">
                     <span class="idx">01</span>
-                    <div><h3>佛道傳統禮儀</h3><p>結合古典底蘊與現代美學，保留儀軌莊嚴本質，為親人規劃圓滿成佛盛典。</p></div>
+                    <div><h3>佛道傳統禮儀</h3><p>結合古典底蘊與現代美學，保留儀軌莊嚴本質。</p></div>
                 </div>
-                <div class="service-row reveal">
+                <div class="service-row reveal" onclick="location.href='{{ site.baseurl }}/services.html#western-etiquette'">
                     <span class="idx">02</span>
-                    <div><h3>西式尊榮追思</h3><p>專注生平故事敘事，透過花藝與影音策劃，營造充滿愛與盼望的人文謝幕。</p></div>
+                    <div><h3>西式尊榮追思</h3><p>專注生平故事敘事，營造充滿愛與盼望的人文謝幕。</p></div>
                 </div>
-                <div class="service-row reveal">
+                <div class="service-row reveal" onclick="location.href='{{ site.baseurl }}/services.html#eco-burial'">
                     <span class="idx">03</span>
-                    <div><h3>自然生態葬儀</h3><p>樹葬、海葬、花葬。以輕柔方式回歸大地，成就生命對自然的永續守護。</p></div>
-                </div>
-                <div class="service-row reveal">
-                    <span class="idx">04</span>
-                    <div><h3>客製化顧問服務</h3><p>一對一專屬服務，根據家族需求量身定制，確保每一細節皆符合託付期待。</p></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="wrapper reveal">
-            <div class="resource-card">
-                <h2>治喪資源百科</h2>
-                <p style="color: var(--text-main); opacity: 0.8; max-width: 700px; margin: 0 auto;">統整全台補助指南與合法塔位查詢，打破資訊不對稱，成為您焦慮時刻最堅實的後盾。</p>
-                <div class="resource-links">
-                    <a href="{{ site.baseurl }}/ta-wei-he-fa-xing-query-guide.html" class="res-link">🛡️ 合法塔位查詢</a>
-                    <a href="{{ site.baseurl }}/blog.html" class="res-link">📜 補助申請指南</a>
-                    <a href="{{ site.baseurl }}/plans.html" class="res-link">📋 服務契約範本</a>
+                    <div><h3>環保自然葬儀</h3><p>樹葬、海葬、花葬。以輕柔方式回歸大地守護。</p></div>
                 </div>
             </div>
         </section>
@@ -221,7 +194,7 @@ layout: null
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-content">
-                        祥安生命所有服務均簽署政府核可之定型化契約，品項與金額完全透明，受法律嚴格保障，杜絕任何惡意追加費用的可能。
+                        祥安生命所有服務均簽署政府核可之定型化契約，品項與金額完全透明，杜絕惡意追加費用的可能。
                     </div>
                 </div>
                 <div class="faq-item reveal">
@@ -230,7 +203,7 @@ layout: null
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-content">
-                        請隨時撥打 24H 專線 0978-583-699。我們的值班顧問會即刻提供指引並安排接體車輛前往現場，給您最即時的專業守護。
+                        請隨時撥打 24H 專線 0978-583-699。我們的值班顧問會即刻提供指引並安排接體服務，給您最即時的專業守護。
                     </div>
                 </div>
             </div>
@@ -241,18 +214,18 @@ layout: null
     {% include floating-cta.html %}
 
     <script>
-        // FAQ 交互功能
+        // FAQ 交互修復
         function toggleFaq(btn) {
             const item = btn.parentElement;
             const isActive = item.classList.contains('active');
+            // 先關閉其他
             document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-            if (!isActive) {
-                item.classList.add('active');
-            }
+            // 切換當前
+            if (!isActive) item.classList.add('active');
         }
 
+        // 滾動動畫偵測
         document.addEventListener('DOMContentLoaded', function() {
-            // 優雅進場偵測 (滾動動畫)
             const obs = new IntersectionObserver((es) => {
                 es.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
             }, { threshold: 0.1 });
