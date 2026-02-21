@@ -1,6 +1,23 @@
-<a href="{{ post.url | relative_url }}">
+<div class="post-card" data-category="{{ post.tags | first }}">
+    
+    <a href="{{ post.url | relative_url }}" class="card-img-link">
+        <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}{{ '/images/default-blog.jpg' | relative_url }}{% endif %}" alt="{{ post.title }}">
     </a>
-<h3 class="card-title">
-    <a href="{{ post.url | relative_url }}" itemprop="url">
-        </a>
-</h3>
+
+    <div class="card-content">
+        <h3 class="card-title" itemprop="headline">
+            <a href="{{ post.url | relative_url }}" itemprop="url">
+                {{ post.title }}
+            </a>
+        </h3>
+        
+        <p class="card-excerpt">
+            {{ post.description | truncate: 60 }}
+        </p>
+
+        <div class="card-footer">
+            <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.date | date: "%Y-%m-%d" }}</span>
+            <span class="post-tag-label">#{{ post.tags | first }}</span>
+        </div>
+    </div>
+</div>
