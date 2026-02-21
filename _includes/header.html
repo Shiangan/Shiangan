@@ -139,49 +139,58 @@
             </a>
         </div>
         
+        <header id="navbar">
+    <div class="nav-wrapper">
+        <div class="logo">
+            <a href="{{ '/' | relative_url }}">
+                <img src="{{ '/images/logo.png' | relative_url }}" alt="祥安生命">
+            </a>
+        </div>
+        
         <nav>
             <ul class="nav-links" id="main-nav">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="about.html">關於祥安</a></li>
+                <li><a href="{{ '/' | relative_url }}">首頁</a></li>
+                <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
+                
                 <li class="has-submenu">
                     <a href="javascript:void(0)">生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="services.html#buddhist-taoist">中式禮儀</a></li>
-                        <li><a href="services.html#western-etiquette">西式禮儀</a></li>
-                        <li><a href="services.html#eco-burial">環保葬專區</a></li>
+                        <li><a href="{{ '/services.html#buddhist-taoist' | relative_url }}">中式禮儀</a></li>
+                        <li><a href="{{ '/services.html#western-etiquette' | relative_url }}">西式禮儀</a></li>
+                        <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
                     </ul>
                 </li>
+
                 <li class="has-submenu">
                     <a href="javascript:void(0)">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="plans.html#basic">6.8萬方案</a></li>
-                        <li><a href="plans.html#eighty-eight">8.8萬方案</a></li>
-                        <li><a href="plans.html#seventeen-eight">17.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
                     </ul>
                 </li>
-                <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
-    <a href="blog.html" aria-expanded="false">服務案例與百科 <i class="fas fa-chevron-down"></i></a>
-    <ul class="submenu" role="menu">
-        <li class="submenu-title">精選案例實錄</li>
-        <li role="menuitem">
-            <a href="article-custom-case.html" style="font-weight: bold; color: var(--accent-gold) !important;">
-                <i class="fas fa-star" style="font-size: 0.8rem;"></i> 退休老師主題追思案例
-            </a>
-        </li>
-        <li role="menuitem"><a href="blog.html#cases-articles">更多案例分享</a></li>
-        <li class="submenu-separator" role="separator"></li>
-        <li class="submenu-title">殯葬知識百科</li>
-        <li role="menuitem"><a href="article-taboo.html">現代喪禮禁忌解析</a></li>
-        <li role="menuitem"><a href="blog.html#faq-process">治喪流程 Q&A</a></li>
-    </ul>
-</li>
 
-                <li><a href="order.html" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
+                <li class="has-submenu"> <a href="{{ '/blog.html' | relative_url }}">服務案例與百科 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="submenu">
+                        <li class="submenu-title" style="padding: 10px 25px; color: var(--gold-solid); font-size: 0.8rem; letter-spacing: 1px;">精選案例實錄</li>
+                        <li>
+                            <a href="{{ '/article-custom-case.html' | relative_url }}" style="font-weight: bold;">
+                                <i class="fas fa-star" style="font-size: 0.8rem;"></i> 退休老師主題追思案例
+                            </a>
+                        </li>
+                        <li><a href="{{ '/blog.html#cases-articles' | relative_url }}">更多案例分享</a></li>
+                        <li><a href="{{ '/article-taboo.html' | relative_url }}">現代喪禮禁忌解析</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
             </ul>
         </nav>
         <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
     </div>
 </header>
+
+        
 
 <script>
     (function() {
