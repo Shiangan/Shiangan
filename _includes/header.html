@@ -9,12 +9,11 @@
         top: 0; left: 0; width: 100%;
         display: flex; justify-content: center;
         padding: 20px 0;
-        z-index: 1000;
+        z-index: 1000; /* 設為 1000 即可，避免過大影響其他元件 */
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         background: transparent;
     }
 
-    /* 捲動後的效果 */
     #navbar.scrolled {
         padding: 10px 0;
         background: rgba(26, 36, 26, 0.98);
@@ -33,6 +32,7 @@
     .logo img { 
         height: 60px; 
         width: auto;
+        filter: none !important;
         transition: 0.3s; 
     }
     #navbar.scrolled .logo img { height: 45px; }
@@ -51,13 +51,14 @@
         text-decoration: none;
         font-size: 1rem;
         font-weight: 500;
+        letter-spacing: 1px;
         padding: 10px 0;
         display: block;
         transition: 0.3s;
     }
     .nav-links > li > a:hover { color: var(--gold-solid); }
 
-    /* 下拉選單 */
+    /* 下拉選單基礎樣式 */
     .submenu {
         position: absolute;
         top: 100%; left: 50%;
@@ -100,7 +101,8 @@
 
     /* 手機版樣式修正 */
     @media (max-width: 1100px) {
-        .menu-toggle { display: block; }
+        .menu-toggle { display: block !important; }
+        
         .nav-links {
             position: fixed;
             top: 0; right: -100%;
@@ -109,61 +111,72 @@
             flex-direction: column;
             padding: 100px 40px;
             transition: 0.4s ease-in-out;
-            overflow-y: auto;
+            overflow-y: auto; /* 避免選單太長刷不動 */
         }
+
         .nav-links.active { right: 0; }
+
         .submenu { 
             position: static; transform: none !important; 
             opacity: 1; visibility: visible; 
             width: 100%; display: none;
-            background: rgba(0,0,0,0.2);
-            border: none;
+            background: rgba(0,0,0,0.3);
+            border: none; box-shadow: none;
+            padding: 0; margin-top: 10px;
         }
+
         .nav-links li.show-submenu .submenu { display: block; }
+        .nav-links li.has-submenu > a i { transition: 0.3s; }
+        .nav-links li.show-submenu > a i { transform: rotate(180deg); }
     }
 </style>
 
 <header id="navbar">
     <div class="nav-wrapper">
         <div class="logo">
-            <a href="{{ '/' | relative_url }}">
-                <img src="{{ '/images/logo.png' | relative_url }}" alt="祥安生命">
+            <a href="index.html">
+                <img src="images/logo.png" alt="祥安生命">
             </a>
         </div>
         
         <nav>
             <ul class="nav-links" id="main-nav">
-                <li><a href="{{ '/' | relative_url }}">首頁</a></li>
-                <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
-                
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="about.html">關於祥安</a></li>
                 <li class="has-submenu">
                     <a href="javascript:void(0)">生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="{{ '/services.html#buddhist-taoist' | relative_url }}">中式禮儀</a></li>
-                        <li><a href="{{ '/services.html#western-etiquette' | relative_url }}">西式禮儀</a></li>
-                        <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
+                        <li><a href="services.html#buddhist-taoist">中式禮儀</a></li>
+                        <li><a href="services.html#western-etiquette">西式禮儀</a></li>
+                        <li><a href="services.html#eco-burial">環保葬專區</a></li>
                     </ul>
                 </li>
-
                 <li class="has-submenu">
                     <a href="javascript:void(0)">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
-                        <li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
-                        <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
+                        <li><a href="plans.html#basic">6.8萬方案</a></li>
+                        <li><a href="plans.html#eighty-eight">8.8萬方案</a></li>
+                        <li><a href="plans.html#seventeen-eight">17.8萬方案</a></li>
                     </ul>
                 </li>
+                <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
+    <a href="blog.html" aria-expanded="false">服務案例與百科 <i class="fas fa-chevron-down"></i></a>
+    <ul class="submenu" role="menu">
+        <li class="submenu-title">精選案例實錄</li>
+        <li role="menuitem">
+            <a href="article-custom-case.html" style="font-weight: bold; color: var(--accent-gold) !important;">
+                <i class="fas fa-star" style="font-size: 0.8rem;"></i> 退休老師主題追思案例
+            </a>
+        </li>
+        <li role="menuitem"><a href="blog.html#cases-articles">更多案例分享</a></li>
+        <li class="submenu-separator" role="separator"></li>
+        <li class="submenu-title">殯葬知識百科</li>
+        <li role="menuitem"><a href="article-taboo.html">現代喪禮禁忌解析</a></li>
+        <li role="menuitem"><a href="blog.html#faq-process">治喪流程 Q&A</a></li>
+    </ul>
+</li>
 
-                <li class="has-submenu">
-                    <a href="javascript:void(0)">服務案例 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
-                    <ul class="submenu">
-                        <li><a href="{{ '/article-custom-case.html' | relative_url }}">退休老師主題追思案例</a></li>
-                        <li><a href="{{ '/blog.html' | relative_url }}">更多案例分享</a></li>
-                        <li><a href="{{ '/article-taboo.html' | relative_url }}">現代喪禮禁忌解析</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
+                <li><a href="order.html" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
             </ul>
         </nav>
         <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
@@ -178,13 +191,13 @@
             const navLinks = document.getElementById('main-nav');
             const hasSubmenus = document.querySelectorAll('.has-submenu');
 
-            // 捲動效果
+            // 捲動變色
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 50) { navbar.classList.add('scrolled'); }
                 else { navbar.classList.remove('scrolled'); }
             });
 
-            // 手機版漢堡選單
+            // 手機版開關
             menuBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 navLinks.classList.toggle('active');
@@ -193,23 +206,30 @@
                 icon.classList.toggle('fa-times');
             });
 
-            // 手機版下拉點擊切換
+            // 手機版下拉選單切換
             hasSubmenus.forEach(item => {
                 const link = item.querySelector('a');
                 link.addEventListener('click', function(e) {
                     if (window.innerWidth <= 1100) {
                         e.preventDefault();
+                        e.stopPropagation();
                         item.classList.toggle('show-submenu');
                     }
                 });
             });
 
-            // 點擊空白處關閉
+            // 點擊選單外部自動關閉
             document.addEventListener('click', function() {
-                navLinks.classList.remove('active');
-                menuBtn.querySelector('i').className = 'fas fa-bars';
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuBtn.querySelector('i').className = 'fas fa-bars';
+                }
             });
-            navLinks.addEventListener('click', (e) => e.stopPropagation());
+
+            // 防止點擊選單內部時關閉自身
+            navLinks.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
         });
     })();
 </script>
