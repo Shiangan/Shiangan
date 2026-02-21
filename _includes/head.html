@@ -10,151 +10,116 @@
     gtag('config', 'G-445583766'); 
 </script>
 
-<title>{% if page.title %}{{ page.title }} | 祥安生命{% else %}祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務{% endif %}</title>
-<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。{% endif %}">
+<title>{% if page.title %}{{ page.title }} | 祥安生命{% else %}祥安生命 | 24H 國家認證禮儀師服務{% endif %}</title>
 
 <link rel="icon" href="{{ '/images/logo.png' | relative_url }}" type="image/png">
 
-<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}祥安生命 | 國家認證禮儀師、喪葬費用公開{% endif %}">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://24hour.台灣/Shiangan{{ page.url }}">
+<meta property="og:title" content="祥安生命 | 喪葬費用公開透明">
 <meta property="og:image" content="{{ '/images/logo.png' | relative_url }}">
-<meta property="og:description" content="國家認證禮儀師團隊，甲級立案，喪葬費用方案完整公開透明。">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700;900&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
-
-<script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "祥安生命有限公司",
-    "url": "https://24hour.台灣/Shiangan/",
-    "logo": "https://24hour.台灣/Shiangan/images/logo.png",
-    "telephone": "+886978583699",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "新北市三重區永福街135巷13號",
-      "addressLocality": "新北",
-      "postalCode": "241",
-      "addressRegion": "TW"
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "服務費用是否透明公開？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "是的。祥安生命禮儀致力於價格透明化，所有費用與服務細節皆提供書面文件，鄭重承諾絕無任何隱藏費用。"
-        }
-      }
-    ]
-  }
-]
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
+    /* 全站基礎重設 - 防止跑版 */
     :root {
-        --bg-master: #f2efeb;      /* 全站羊絨灰 */
-        --accent: #a88e6a;         /* 職人金 */
-        --deep-ink: #1e1e1e;       /* 石墨黑 */
-        --text-main: #3d3d3d;      /* 炭灰 */
-        --line-soft: rgba(168, 142, 106, 0.15);
-        --side-gap: clamp(1.2rem, 6vw, 10rem); 
-        --section-gap: clamp(50px, 8vh, 100px);
-        --transition-prime: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        --bg-master: #f2efeb;
+        --accent: #a88e6a;
+        --deep-ink: #1e1e1e;
+        --text-main: #3d3d3d;
+        --side-gap: clamp(1.25rem, 5vw, 8rem); 
     }
 
-    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; letter-spacing: 0.05em; }
-    html, body { overflow-x: hidden; width: 100%; position: relative; scroll-behavior: smooth; }
-    body {
-        font-family: 'Noto Sans TC', sans-serif;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body { 
+        width: 100%;
+        overflow-x: hidden; /* 徹底解決手機版左右晃動跑版 */
         background-color: var(--bg-master);
         color: var(--text-main);
-        margin: 0; line-height: 1.8;
+        font-family: 'Noto Sans TC', sans-serif;
+        line-height: 1.7;
     }
 
-    /* 修正：確保內容不被固定導覽列遮擋 */
-    main { padding-top: 90px; min-height: 60vh; }
-    @media (max-width: 1100px) { main { padding-top: 80px; } }
-
-    .watermark {
-        position: absolute; font-family: 'Playfair Display', serif; 
-        font-style: italic; font-size: clamp(5rem, 15vw, 15rem); 
-        color: rgba(168, 142, 106, 0.04);
-        white-space: nowrap; pointer-events: none; z-index: 0;
-        user-select: none;
+    /* 導覽列與主內容間距修正 */
+    main { 
+        padding-top: 80px; /* 依照您的 Navbar 高度調整 */
+        min-height: 70vh;
     }
 
-    /* 首頁專用樣式 - 加上 .home-page 限制防止影響文章頁 */
+    .wrapper { 
+        max-width: 1300px; 
+        margin: 0 auto; 
+        padding: 0 var(--side-gap); 
+    }
+
+    /* 首頁 Hero 修正 */
     .hero {
-        height: 80vh; min-height: 600px; display: flex; align-items: center;
-        padding: 0 var(--side-gap); position: relative; overflow: hidden;
+        position: relative;
+        width: 100%;
+        height: 75vh;
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
     }
+
     .hero-bg {
-        position: absolute; right: 0; top: 0; width: 85%; height: 100%;
-        background: url('https://images.unsplash.com/photo-1494194123974-02393a002811?auto=format&fit=crop&q=80') center/cover;
-        mask-image: linear-gradient(to left, black 50%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
-        z-index: 1; opacity: 0.95;
+        position: absolute;
+        top: 0; right: 0;
+        width: 100%; height: 100%;
+        background: url('https://images.unsplash.com/photo-1494194123974-02393a002811?auto=format&fit=crop&q=80') center/cover no-repeat;
+        z-index: 1;
+        opacity: 0.2;
     }
-    @media (max-width: 768px) { .hero-bg { width: 100%; opacity: 0.2; mask-image: none; } }
-    
-    .hero-content { position: relative; z-index: 10; max-width: 800px; }
-    .hero h1 { font-family: 'Noto Serif TC', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.2; margin-bottom: 25px; color: var(--deep-ink); font-weight: 900; }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 40px var(--side-gap); background: rgba(255,255,255,0.3); border-top: 1px solid var(--line-soft); }
-    @media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
-    .stat-box { text-align: center; border-left: 2px solid var(--accent); padding: 10px 0; }
-    .stat-val { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--accent); font-style: italic; display: block; }
+    @media (min-width: 992px) {
+        .hero-bg {
+            width: 80%;
+            opacity: 1;
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        }
+    }
 
-    .section { padding: var(--section-gap) 0; position: relative; }
-    .wrapper { max-width: 1400px; margin: 0 auto; padding: 0 var(--side-gap); }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        padding-left: var(--side-gap);
+        max-width: 700px;
+    }
 
-    /* FAQ 樣式 */
-    .faq-list { max-width: 900px; margin: 0 auto; }
-    .faq-item { border-bottom: 1px solid var(--line-soft); padding: 5px 0; }
-    .faq-toggle { width: 100%; padding: 25px 0; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; text-align: left; }
-    .faq-icon { color: var(--accent); transition: transform 0.4s; font-size: 1.5rem; }
-    .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; color: #555; }
-    .faq-item.active .faq-content { max-height: 1000px; padding-bottom: 30px; }
-    .faq-item.active .faq-icon { transform: rotate(45deg); }
+    /* FAQ 手風琴基礎樣式 */
+    .faq-item { border-bottom: 1px solid rgba(168, 142, 106, 0.2); }
+    .faq-toggle { width: 100%; padding: 20px 0; background: none; border: none; display: flex; justify-content: space-between; cursor: pointer; font-size: 1.1rem; font-weight: 700; color: var(--deep-ink); text-align: left; }
+    .faq-content { max-height: 0; overflow: hidden; transition: all 0.4s ease; opacity: 0; }
+    .faq-item.active .faq-content { max-height: 500px; padding-bottom: 25px; opacity: 1; }
 
-    .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--transition-prime); }
+    /* 通用揭幕動畫 */
+    .reveal { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
     .reveal.revealed { opacity: 1; transform: translateY(0); }
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // FAQ 邏輯
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const btn = item.querySelector('.faq-toggle');
-            if (btn) {
-                btn.addEventListener('click', function(e) {
-                    const isActive = item.classList.contains('active');
-                    faqItems.forEach(i => i.classList.remove('active'));
-                    if (!isActive) item.classList.add('active');
-                });
-            }
+    document.addEventListener('DOMContentLoaded', () => {
+        // FAQ Toggle
+        document.querySelectorAll('.faq-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                item.classList.toggle('active');
+            });
         });
 
-        // 揭幕動畫邏輯
-        const revealObserver = new IntersectionObserver((entries) => {
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
-                    revealObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     });
 </script>
