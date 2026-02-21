@@ -1,10 +1,10 @@
-<div class="floating-cta">
-    <a href="https://line.me/R/ti/p/@yourid" class="cta-item cta-line" target="_blank" rel="noopener noreferrer">
+<div class="floating-cta" aria-label="聯絡工具欄">
+    <a href="https://line.me/R/ti/p/@yourid" class="cta-item cta-line" target="_blank" rel="noopener noreferrer" title="Line 諮詢">
         <span class="cta-label">Line 諮詢</span>
         <i class="fab fa-line"></i>
     </a>
     
-    <a href="tel:+886978583699" class="cta-item cta-phone">
+    <a href="tel:+886978583699" class="cta-item cta-phone" title="撥打電話">
         <span class="cta-label">立即通話</span>
         <i class="fas fa-phone-alt"></i>
     </a>
@@ -15,7 +15,7 @@
         position: fixed;
         bottom: 30px;
         right: 25px;
-        z-index: 9999; /* 確保在所有層級之上 */
+        z-index: 10001; /* 確保比 Header (10000) 更高一點點 */
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -31,23 +31,23 @@
         color: #fff;
         text-decoration: none;
         position: relative;
-        box-shadow: 0 8px 15px rgba(0,0,0,0.25);
-        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 增加一點彈跳感 */
     }
 
-    /* 文字標籤：預設隱藏，滑入或在特定情境顯示 */
     .cta-label {
         position: absolute;
         right: 70px;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(26, 36, 26, 0.9); /* 使用您的深綠色 */
         color: white;
-        padding: 5px 12px;
+        padding: 6px 14px;
         border-radius: 4px;
         font-size: 0.85rem;
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
         transition: 0.3s;
+        border: 1px solid rgba(197, 160, 89, 0.3); /* 淡淡的金邊 */
     }
 
     .cta-item:hover .cta-label {
@@ -55,34 +55,26 @@
         right: 65px;
     }
 
-    .cta-line {
-        background: #06C755; /* Line 官方標準綠 */
-        font-size: 1.8rem;
-    }
+    .cta-line { background: #06C755; font-size: 1.8rem; }
+    .cta-phone { background: #c5a059; font-size: 1.4rem; }
 
-    .cta-phone {
-        background: #c5a059; /* 祥安職人金 */
-        font-size: 1.4rem;
-        animation: phonePulse 2s infinite;
+    /* 優化脈衝動畫：讓它看起來更平穩 */
+    @keyframes phonePulse {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.7); }
+        70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); }
+        100% { transform: scale(1); }
     }
+    
+    .cta-phone { animation: phonePulse 2s infinite; }
 
     .cta-item:hover {
-        transform: scale(1.1);
+        transform: scale(1.15);
         filter: brightness(1.1);
     }
 
-    /* 針對電話按鈕的優雅脈衝效果 */
-    @keyframes phonePulse {
-        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.6); }
-        70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); }
-        100% { transform: scale(1); }
-    }
-
-    /* 手機版微調：稍微縮小避免遮擋 */
     @media (max-width: 768px) {
-        .floating-cta { bottom: 20px; right: 20px; gap: 10px; }
-        .cta-item { width: 50px; height: 50px; }
-        /* 手機版可以考慮顯示標籤，或保持隱藏 */
-        .cta-label { display: none; } 
+        .floating-cta { bottom: 25px; right: 20px; gap: 12px; }
+        .cta-item { width: 52px; height: 52px; }
+        .cta-label { display: none; } /* 手機版通常空間有限，隱藏文字 */
     }
 </style>
