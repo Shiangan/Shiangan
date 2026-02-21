@@ -22,13 +22,40 @@ permalink: /blog.html
             --accent-color: #c6a15b;
             --text-color: #333;
             --bg-light: #fdfcfb;
+            --sa-border: #e0ddd7;
         }
 
-        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.6; color: var(--text-color); margin: 0; background-color: var(--bg-light); }
+        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.6; color: var(--text-color); margin: 0; background-color: var(--bg-light); padding-top: 0; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
+        /* --- 新增：搜尋與分類區塊 --- */
+        .filter-section { background: var(--primary-light); padding: 40px 0; border-bottom: 1px solid var(--sa-border); margin-bottom: 20px; }
+        .category-nav { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 10px 25px; border: 1px solid var(--primary-color); background: #fff;
+            color: var(--primary-color); border-radius: 4px; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        .filter-btn.active { background: var(--primary-color); color: #fff; }
+
+        .search-wrapper { position: relative; max-width: 600px; margin: 0 auto; }
+        #blog-search-input {
+            width: 100%; padding: 15px 50px; border: 2px solid var(--sa-border);
+            border-radius: 50px; font-size: 1rem; outline: none; transition: 0.3s; box-sizing: border-box;
+        }
+        #blog-search-input:focus { border-color: var(--accent-color); box-shadow: 0 5px 15px rgba(198,161,91,0.1); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--accent-color); }
+        .clear-btn { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ccc; cursor: pointer; display: none; }
+
+        .tag-cloud-wrap { text-align: center; margin-top: 25px; }
+        .tag-item {
+            display: inline-block; padding: 4px 12px; margin: 4px; background: #fff;
+            color: var(--accent-color); text-decoration: none; border-radius: 20px; font-size: 0.85rem;
+            border: 1px solid var(--sa-border); transition: 0.3s;
+        }
+        .tag-item:hover { border-color: var(--accent-color); background: var(--accent-color); color: #fff; }
+
         /* Blog Layout */
-        .blog-main-layout { display: flex; gap: 30px; margin-top: 40px; }
+        .blog-main-layout { display: flex; gap: 30px; margin-top: 20px; }
         .article-content { flex: 3; }
         .sidebar { flex: 1; min-width: 280px; }
         
@@ -41,41 +68,28 @@ permalink: /blog.html
 
         /* Card Styles */
         .blog-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
+            background: #fff; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;
+            border: 1px solid #eee; display: flex; flex-direction: column;
         }
         .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .blog-card.hidden { display: none; } /* 搜尋隱藏用 */
         
-        /* 圖片縮放效果 */
         .card-image-link { display: block; height: 200px; overflow: hidden; }
+        .card-image-wrap { height: 100%; }
         .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .blog-card:hover .card-image-wrap img { transform: scale(1.1); }
 
         .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title { font-size: 1.25rem; margin: 10px 0; font-family: 'Noto Serif TC', serif; }
+        .card-title { font-size: 1.25rem; margin: 10px 0; font-family: 'Noto Serif TC', serif; height: 3.6em; overflow: hidden; }
         .card-title a { text-decoration: none; color: var(--primary-color); transition: 0.3s; }
-        .card-title a:hover { color: var(--accent-color); }
 
         .article-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
         .primary-tag { background: var(--primary-light); color: var(--primary-dark); }
         
-        /* 閱讀全文按鈕 */
         .read-more-btn { color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: auto; padding-top: 15px; }
-        .read-more-btn i { transition: transform 0.3s ease; margin-left: 5px; }
-        .read-more-btn:hover i { transform: translateX(5px); }
-
-        /* FAQ Style */
-        .faq-item { background: #fff; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; }
-        .faq-item summary { padding: 15px; cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
-        .faq-item summary::after { content: '+'; color: var(--accent-color); }
-        .faq-item[open] summary::after { content: '-'; }
-        .faq-item p { padding: 0 15px 15px; margin: 0; color: #666; }
+        
+        #no-results { display: none; text-align: center; padding: 60px 0; grid-column: 1 / -1; }
 
         @media (max-width: 992px) { .blog-main-layout { flex-direction: column; } }
     </style>
@@ -85,10 +99,35 @@ permalink: /blog.html
     {% include header.html %}
 
     <main>
-        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/blog-hero-bg.jpg') center/cover; padding: 100px 0; color: #fff; text-align: center;">
+        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/blog-hero-bg.jpg') center/cover; padding: 80px 0; color: #fff; text-align: center;">
             <div class="container">
-                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 20px;">殯葬百科知識庫</h1>
-                <p style="font-size: 1.2rem; opacity: 0.9;">專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 20px;">殯葬百科知識庫</h1>
+                <p style="font-size: 1.1rem; opacity: 0.9;">專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
+            </div>
+        </section>
+
+        <section class="filter-section">
+            <div class="container">
+                <div class="category-nav">
+                    <button class="filter-btn active" data-filter="all">全部文章</button>
+                    <button class="filter-btn" data-filter="殯葬百科">殯葬百科</button>
+                    <button class="filter-btn" data-filter="儀式流程">儀式流程</button>
+                    <button class="filter-btn" data-filter="服務案例">服務案例</button>
+                </div>
+
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="blog-search-input" placeholder="搜尋百科文章，例如：做七、流程...">
+                    <button id="clear-search" class="clear-btn"><i class="fas fa-times"></i></button>
+                </div>
+
+                <div class="tag-cloud-wrap">
+                    <span style="font-size: 0.8rem; color: #888; margin-right: 10px;"><i class="fas fa-fire"></i> 熱門標籤:</span>
+                    {% assign all_tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq %}
+                    {% for tag in all_tags %}
+                        <a href="{{ '/blog-tag.html' | relative_url }}?tag={{ tag | url_encode }}" class="tag-item">#{{ tag }}</a>
+                    {% endfor %}
+                </div>
             </div>
         </section>
 
@@ -96,12 +135,8 @@ permalink: /blog.html
             <div class="blog-main-layout">
                 <div class="article-content">
                     
-                    <h2 id="all-articles" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin-bottom: 30px;">
-                        <i class="fas fa-book-open" style="color: var(--accent-color); margin-right: 10px;"></i> 最新文章
-                    </h2>
-                    
-                    <div class="article-grid">
-                        <article class="blog-card">
+                    <div class="article-grid" id="post-grid">
+                        <article class="blog-card" data-category="儀式流程">
                             <a href="article-hospital-death.html" class="card-image-link">
                                 <div class="card-image-wrap">
                                     <img src="images/blog-first-step-1.jpg" alt="醫院往生流程" onerror="this.src='https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'">
@@ -110,13 +145,13 @@ permalink: /blog.html
                             <div class="card-body">
                                 <span class="article-tag primary-tag">醫院 SOP</span>
                                 <h3 class="card-title"><a href="article-hospital-death.html">醫院過世後的 5 個關鍵步驟</a></h3>
-                                <p style="font-size: 0.95rem; color: #666;">詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
+                                <p class="card-excerpt" style="font-size: 0.95rem; color: #666;">詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
                                 <a href="article-hospital-death.html" class="read-more-btn">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </article>
 
                         {% for post in site.posts %}
-                        <article class="blog-card" itemscope itemtype="http://schema.org/BlogPosting">
+                        <article class="blog-card" data-category="{{ post.tags | first }}" itemscope itemtype="http://schema.org/BlogPosting">
                             <a href="{{ post.url | relative_url }}" class="card-image-link">
                                 <div class="card-image-wrap">
                                     <img src="{{ post.image | default: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80' }}" alt="{{ post.title }}" itemprop="image">
@@ -129,25 +164,18 @@ permalink: /blog.html
                                 <h3 class="card-title" itemprop="headline">
                                     <a href="{{ post.url | relative_url }}" itemprop="url">{{ post.title }}</a>
                                 </h3>
-                                <p style="font-size: 0.9rem; color: #666;" itemprop="description">
+                                <p class="card-excerpt" style="font-size: 0.9rem; color: #666;" itemprop="description">
                                     {{ post.description | truncate: 50 }}
                                 </p>
                                 <a href="{{ post.url | relative_url }}" class="read-more-btn">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </article>
                         {% endfor %}
-                    </div>
 
-                    <h2 id="quick-faq" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin: 50px 0 30px;">治喪常見問答 (FAQ)</h2>
-                    <div class="faq-list">
-                        <details class="faq-item">
-                            <summary>親人在醫院過世，我應該先找誰？</summary>
-                            <p>建議第一時間聯繫您信任的禮儀公司（如祥安生命 24H 專線）。專業人員會立即前往引導接體與後續流程。</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>喪葬補助金該如何申請？</summary>
-                            <p>勞保、國保、農保皆有喪葬津貼。通常需檢附死亡證明書正本、收據及存摺影本提出申請。</p>
-                        </details>
+                        <div id="no-results">
+                            <i class="fas fa-search-minus fa-3x" style="color:#ccc; margin-bottom:15px;"></i>
+                            <p>找不到符合關鍵字的百科文章</p>
+                        </div>
                     </div>
                 </div>
 
@@ -155,7 +183,7 @@ permalink: /blog.html
                     <div style="background: var(--primary-dark); color: #fff; padding: 30px 20px; border-radius: 12px; text-align: center; position: sticky; top: 100px;">
                         <i class="fas fa-headset" style="font-size: 40px; color: var(--accent-color); margin-bottom: 15px;"></i>
                         <h3 style="margin-bottom: 10px;">24H 諮詢專線</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px;">專業禮儀師線上引導</p>
+                        <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 20px;">遇到治喪問題？禮儀師即時解答</p>
                         <a href="tel:0978583699" style="background: var(--accent-color); color: #fff; padding: 12px 20px; display: block; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">0978-583-699</a>
                     </div>
                 </aside>
@@ -164,6 +192,58 @@ permalink: /blog.html
     </main>
 
     {% include footer.html %}
-    {% include floating-cta.html %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('blog-search-input');
+            const clearBtn = document.getElementById('clear-search');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const posts = document.querySelectorAll('.blog-card');
+            const noResults = document.getElementById('no-results');
+
+            let currentCat = 'all';
+
+            function performFilter() {
+                const query = searchInput.value.toLowerCase().trim();
+                let visibleCount = 0;
+
+                posts.forEach(post => {
+                    const title = post.querySelector('.card-title').textContent.toLowerCase();
+                    const excerpt = post.querySelector('.card-excerpt').textContent.toLowerCase();
+                    const category = post.getAttribute('data-category');
+
+                    const matchesSearch = title.includes(query) || excerpt.includes(query);
+                    const matchesCat = (currentCat === 'all' || category === currentCat);
+
+                    if (matchesSearch && matchesCat) {
+                        post.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        post.classList.add('hidden');
+                    }
+                });
+
+                noResults.style.display = (visibleCount === 0) ? 'block' : 'none';
+                clearBtn.style.display = (query.length > 0) ? 'block' : 'none';
+            }
+
+            searchInput.addEventListener('input', performFilter);
+            
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                performFilter();
+                searchInput.focus();
+            });
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCat = btn.getAttribute('data-filter');
+                    performFilter();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
