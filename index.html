@@ -94,44 +94,119 @@ layout: null
             </div>
         </section>
 
-   <section class="section wrapper">
+   <section class="section wrapper" style="background: transparent;">
     <div class="reveal">
-        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 40px; text-align: center;">生命禮讚：精選案例</h2>
+        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 20px; text-align: center; color: var(--deep-ink);">生命禮讚：精選案例</h2>
+        <div style="width: 40px; height: 1.5px; background: var(--accent); margin: 0 auto 50px;"></div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px;">
         
-        {% assign latest_post = site.posts.sample %}
+        {% assign latest_post = site.posts | sample %}
         {% if latest_post %}
-            <a href="{{ latest_post.url | relative_url }}" style="text-decoration: none; color: inherit;">
-                <div style="border: 1px solid var(--line-soft); border-radius: 8px; overflow: hidden; background: #fff; transition: 0.3s;">
-                    <div style="width: 100%; height: 250px; overflow: hidden; position: relative;">
-                        <img src="{{ latest_post.image | default: '/images/blog-hero-bg.jpg' | relative_url }}" 
-                             style="width: 100%; height: 100%; object-fit: cover;" alt="{{ latest_post.title }}">
+            <a href="{{ latest_post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
+                <div style="background: transparent; transition: 0.4s;">
+                    
+                    <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
+                        {% if latest_post.image %}
+                            {% assign post_img = latest_post.image | relative_url %}
+                        {% else %}
+                            {% assign post_img = '/images/blog-hero-bg.jpg' | relative_url %}
+                        {% endif %}
+                        <img src="{{ post_img }}" 
+                             style="width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease;" 
+                             alt="{{ latest_post.title }}">
                     </div>
-                    <div style="padding: 25px;">
-                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700;">LATEST CASE</span>
-                        <h3 style="margin: 10px 0; font-family: 'Noto Serif TC', serif;">{{ latest_post.title }}</h3>
-                        <p style="font-size: 0.95rem; opacity: 0.7; line-height: 1.6;">{{ latest_post.excerpt | strip_html | truncate: 60 }}</p>
-                        <span style="color: var(--accent); font-weight: 700;">閱讀更多 &rarr;</span>
+
+                    <div style="padding: 25px 0 10px 0;">
+                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; display: block; margin-bottom: 10px;">LATEST STORY</span>
+                        <h3 style="margin-bottom: 15px; font-family: 'Noto Serif TC', serif; font-size: 1.5rem; line-height: 1.4; color: var(--deep-ink);">{{ latest_post.title }}</h3>
+                        <p style="font-size: 1rem; opacity: 0.75; line-height: 1.8; margin-bottom: 20px; font-weight: 300;">
+                            {{ latest_post.description | default: latest_post.excerpt | strip_html | truncate: 75 }}
+                        </p>
+                        <div style="display: inline-block; color: var(--deep-ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 3px; font-size: 0.9rem;">
+                            進入生命故事 &rarr;
+                        </div>
                     </div>
                 </div>
             </a>
         {% else %}
-            <div style="border: 1px dashed var(--accent); padding: 50px; text-align: center; border-radius: 8px;">
-                <p style="opacity: 0.5;">精彩案例整理中，敬請期待</p>
+            <div style="padding: 60px; text-align: center; border: 1px solid var(--line-soft); grid-column: 1 / -1;">
+                <p style="opacity: 0.4; font-family: 'Noto Serif TC', serif; letter-spacing: 2px;">敘事整理中</p>
             </div>
         {% endif %}
 
     </div>
 </section>
 
-
 <style>
-/* 增加卡片滑入特效 */
-.case-card-entry:hover { transform: translateY(-12px); box-shadow: 0 15px 45px rgba(181, 149, 93, 0.15); }
-.case-card-entry:hover .case-thumb img { transform: scale(1.1); }
+    /* 1. 統一融合特效：去掉白底陰影，改用職人質感位移 */
+    .case-card-blend {
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .case-card-blend:hover {
+        transform: translateY(-8px); /* 輕微上浮 */
+    }
+
+    .case-card-blend:hover img {
+        transform: scale(1.05); /* 照片微擴張 */
+    }
+
+    .case-card-blend:hover h3 {
+        color: var(--accent) !important; /* 標題變色引導點擊 */
+    }
+
+    /* 2. 手機版適配：確保兩側不會撞牆 */
+    @media (max-width: 768px) {
+        .case-card-blend {
+            padding: 0 15px;
+            margin-bottom: 30px;
+        }
+    }
 </style>
+
+<section class="section wrapper">
+    <div class="reveal">
+        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 20px; text-align: center;">生命禮讚：精選案例</h2>
+        <div style="width: 40px; height: 1.5px; background: var(--accent); margin: 0 auto 50px;"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
+        
+        {% assign latest_post = site.posts | sample %}
+        {% if latest_post %}
+            <a href="{{ latest_post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
+                <div>
+                    <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
+                        {% if latest_post.image %}
+                            {% assign post_img = latest_post.image | relative_url %}
+                        {% else %}
+                            {% assign post_img = '/images/blog-hero-bg.jpg' | relative_url %}
+                        {% endif %}
+                        <img src="{{ post_img }}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease;" alt="{{ latest_post.title }}">
+                    </div>
+
+                    <div style="padding: 25px 0;">
+                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; display: block; margin-bottom: 12px;">LATEST STORY</span>
+                        <h3 style="margin-bottom: 15px; font-family: 'Noto Serif TC', serif; font-size: 1.5rem; line-height: 1.4; color: var(--deep-ink);">{{ latest_post.title }}</h3>
+                        <p style="font-size: 1rem; opacity: 0.75; line-height: 1.8; margin-bottom: 20px; font-weight: 300;">
+                            {{ latest_post.description | default: latest_post.excerpt | strip_html | truncate: 75 }}
+                        </p>
+                        <div style="display: inline-block; color: var(--deep-ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 3px; font-size: 0.9rem;">
+                            進入生命故事 &rarr;
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <div style="padding: 60px; text-align: center; border: 1px solid var(--line-soft); grid-column: 1 / -1;">
+                <p style="opacity: 0.4; font-family: 'Noto Serif TC', serif; letter-spacing: 2px;">敘事整理中</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
 
     </main>
 
