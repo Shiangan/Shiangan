@@ -9,11 +9,12 @@
         top: 0; left: 0; width: 100%;
         display: flex; justify-content: center;
         padding: 20px 0;
-        z-index: 1000; /* 設為 1000 即可，避免過大影響其他元件 */
+        z-index: 1000;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         background: transparent;
     }
 
+    /* 捲動後的效果 */
     #navbar.scrolled {
         padding: 10px 0;
         background: rgba(26, 36, 26, 0.98);
@@ -32,7 +33,6 @@
     .logo img { 
         height: 60px; 
         width: auto;
-        filter: none !important;
         transition: 0.3s; 
     }
     #navbar.scrolled .logo img { height: 45px; }
@@ -51,14 +51,13 @@
         text-decoration: none;
         font-size: 1rem;
         font-weight: 500;
-        letter-spacing: 1px;
         padding: 10px 0;
         display: block;
         transition: 0.3s;
     }
     .nav-links > li > a:hover { color: var(--gold-solid); }
 
-    /* 下拉選單基礎樣式 */
+    /* 下拉選單 */
     .submenu {
         position: absolute;
         top: 100%; left: 50%;
@@ -101,8 +100,7 @@
 
     /* 手機版樣式修正 */
     @media (max-width: 1100px) {
-        .menu-toggle { display: block !important; }
-        
+        .menu-toggle { display: block; }
         .nav-links {
             position: fixed;
             top: 0; right: -100%;
@@ -111,35 +109,21 @@
             flex-direction: column;
             padding: 100px 40px;
             transition: 0.4s ease-in-out;
-            overflow-y: auto; /* 避免選單太長刷不動 */
+            overflow-y: auto;
         }
-
         .nav-links.active { right: 0; }
-
         .submenu { 
             position: static; transform: none !important; 
             opacity: 1; visibility: visible; 
             width: 100%; display: none;
-            background: rgba(0,0,0,0.3);
-            border: none; box-shadow: none;
-            padding: 0; margin-top: 10px;
+            background: rgba(0,0,0,0.2);
+            border: none;
         }
-
         .nav-links li.show-submenu .submenu { display: block; }
-        .nav-links li.has-submenu > a i { transition: 0.3s; }
-        .nav-links li.show-submenu > a i { transform: rotate(180deg); }
     }
 </style>
 
 <header id="navbar">
-    <div class="nav-wrapper">
-        <div class="logo">
-            <a href="index.html">
-                <img src="images/logo.png" alt="祥安生命">
-            </a>
-        </div>
-        
-        <header id="navbar">
     <div class="nav-wrapper">
         <div class="logo">
             <a href="{{ '/' | relative_url }}">
@@ -170,15 +154,11 @@
                     </ul>
                 </li>
 
-                <li class="has-submenu"> <a href="{{ '/blog.html' | relative_url }}">服務案例與百科 <i class="fas fa-chevron-down"></i></a>
+                <li class="has-submenu">
+                    <a href="javascript:void(0)">服務案例 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li class="submenu-title" style="padding: 10px 25px; color: var(--gold-solid); font-size: 0.8rem; letter-spacing: 1px;">精選案例實錄</li>
-                        <li>
-                            <a href="{{ '/article-custom-case.html' | relative_url }}" style="font-weight: bold;">
-                                <i class="fas fa-star" style="font-size: 0.8rem;"></i> 退休老師主題追思案例
-                            </a>
-                        </li>
-                        <li><a href="{{ '/blog.html#cases-articles' | relative_url }}">更多案例分享</a></li>
+                        <li><a href="{{ '/article-custom-case.html' | relative_url }}">退休老師主題追思案例</a></li>
+                        <li><a href="{{ '/blog.html' | relative_url }}">更多案例分享</a></li>
                         <li><a href="{{ '/article-taboo.html' | relative_url }}">現代喪禮禁忌解析</a></li>
                     </ul>
                 </li>
@@ -190,8 +170,6 @@
     </div>
 </header>
 
-        
-
 <script>
     (function() {
         document.addEventListener('DOMContentLoaded', function() {
@@ -200,13 +178,13 @@
             const navLinks = document.getElementById('main-nav');
             const hasSubmenus = document.querySelectorAll('.has-submenu');
 
-            // 捲動變色
+            // 捲動效果
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 50) { navbar.classList.add('scrolled'); }
                 else { navbar.classList.remove('scrolled'); }
             });
 
-            // 手機版開關
+            // 手機版漢堡選單
             menuBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 navLinks.classList.toggle('active');
@@ -215,30 +193,23 @@
                 icon.classList.toggle('fa-times');
             });
 
-            // 手機版下拉選單切換
+            // 手機版下拉點擊切換
             hasSubmenus.forEach(item => {
                 const link = item.querySelector('a');
                 link.addEventListener('click', function(e) {
                     if (window.innerWidth <= 1100) {
                         e.preventDefault();
-                        e.stopPropagation();
                         item.classList.toggle('show-submenu');
                     }
                 });
             });
 
-            // 點擊選單外部自動關閉
+            // 點擊空白處關閉
             document.addEventListener('click', function() {
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    menuBtn.querySelector('i').className = 'fas fa-bars';
-                }
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').className = 'fas fa-bars';
             });
-
-            // 防止點擊選單內部時關閉自身
-            navLinks.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+            navLinks.addEventListener('click', (e) => e.stopPropagation());
         });
     })();
 </script>
