@@ -1,23 +1,29 @@
-<div class="post-card" data-category="{{ post.tags | first }}">
+<article class="blog-card" 
+         data-category="{{ post.tags | first }}" 
+         data-search-content="{{ post.title }} {{ post.description }}">
     
-    <a href="{{ post.url | relative_url }}" class="card-img-link">
-        <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}{{ '/images/default-blog.jpg' | relative_url }}{% endif %}" alt="{{ post.title }}">
+    <a href="{{ post.url | relative_url }}" class="card-image-link">
+        <div class="card-image-wrap">
+            <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" alt="{{ post.title }}">
+        </div>
     </a>
 
-    <div class="card-content">
+    <div class="card-body">
+        {% if post.tags.size > 0 %}
+            <span class="article-tag primary-tag">
+                <i class="fas fa-tag"></i> {{ post.tags | first }}
+            </span>
+        {% endif %}
+
         <h3 class="card-title" itemprop="headline">
             <a href="{{ post.url | relative_url }}" itemprop="url">
                 {{ post.title }}
             </a>
         </h3>
-        
-        <p class="card-excerpt">
-            {{ post.description | truncate: 60 }}
-        </p>
 
-        <div class="card-footer">
-            <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.date | date: "%Y-%m-%d" }}</span>
-            <span class="post-tag-label">#{{ post.tags | first }}</span>
-        </div>
+        <p class="card-excerpt">{{ post.description | truncate: 50 }}</p>
+        <a href="{{ post.url | relative_url }}" class="read-more-btn">
+            閱讀全文 <i class="fas fa-arrow-right"></i>
+        </a>
     </div>
-</div>
+</article>
