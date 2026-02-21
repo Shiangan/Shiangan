@@ -10,17 +10,18 @@
     gtag('config', 'G-445583766'); 
 </script>
 
-<title>祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務</title>
-<meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。立即諮詢：0978-583-699。">
+<title>{% if page.title %}{{ page.title }}{% else %}祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務{% endif %}</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。專業服務涵蓋台北、新北、桃園。{% endif %}">
 
+<link rel="icon" href="{{ '/images/logo.png' | relative_url }}" type="image/png">
+<link rel="canonical" href="https://24hour.台灣/Shiangan{{ page.url }}">
 
-<link rel="icon" href="./images/logo.png" type="image/png">
-
-<meta property="og:title" content="祥安生命 | 國家認證禮儀師、喪葬費用公開、24H隨時諮詢">
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}祥安生命 | 國家認證禮儀師、喪葬費用公開{% endif %}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://24hour.台灣/Shiangan/">
-<meta property="og:image" content="./images/logo.png">
-<meta property="og:description" content="國家認證禮儀師團隊，甲級立案，喪葬費用方案完整公開透明。">
+<meta property="og:url" content="https://24hour.台灣/Shiangan{{ page.url }}">
+<meta property="og:image" content="{% if page.image %}{{ page.image | relative_url }}{% else %}{{ '/images/logo.png' | relative_url }}{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}國家認證禮儀師團隊，甲級立案，喪葬費用方案完整公開透明。{% endif %}">
+
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -34,13 +35,20 @@
     "name": "祥安生命有限公司",
     "url": "https://24hour.台灣/Shiangan/",
     "logo": "https://24hour.台灣/Shiangan/images/logo.png",
+    "image": "https://24hour.台灣/Shiangan/images/logo.png",
     "telephone": "+886978583699",
+    "priceRange": "TWD",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "新北市三重區永福街135巷13號",
       "addressLocality": "新北",
       "postalCode": "241",
       "addressRegion": "TW"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 25.0716, 
+      "longitude": 121.4828
     }
   },
   {
@@ -84,15 +92,7 @@
     main { padding-top: 90px; }
     @media (max-width: 1100px) { main { padding-top: 80px; } }
 
-    .watermark {
-        position: absolute; font-family: 'Playfair Display', serif; 
-        font-style: italic; font-size: clamp(5rem, 15vw, 15rem); 
-        color: rgba(168, 142, 106, 0.04);
-        white-space: nowrap; pointer-events: none; z-index: 0;
-        user-select: none;
-    }
-
-    /* 首頁組件樣式 (保留在 head 確保渲染不閃爍) */
+    /* 首頁組件樣式 */
     .hero {
         height: 80vh; min-height: 600px; display: flex; align-items: center;
         padding: 0 var(--side-gap); position: relative; overflow: hidden;
@@ -117,21 +117,8 @@
 
     .section { padding: var(--section-gap) 0; position: relative; }
     .wrapper { max-width: 1400px; margin: 0 auto; padding: 0 var(--side-gap); }
-    
-    .flex-container { display: flex; flex-direction: column; gap: 60px; }
-    @media (min-width: 1024px) { .flex-container { flex-direction: row; align-items: center; } }
-    
-    .img-holder { position: relative; flex: 1; }
-    .img-holder img { width: 100%; border-radius: 2px; box-shadow: 20px 20px 0 var(--accent); transition: 0.5s; }
-    .img-holder img:hover { transform: translate(-5px, -5px); box-shadow: 25px 25px 0 var(--accent); }
 
-    .service-list { margin-top: 40px; border-top: 1px solid var(--line-soft); }
-    .service-row { padding: 35px 0; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 50px 1fr; gap: 20px; transition: 0.4s; cursor: pointer; text-decoration: none; color: inherit; }
-    .service-row:hover { background: rgba(168, 142, 106, 0.05); padding-left: 15px; }
-    .service-row .idx { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; }
-    .service-row h3 { font-size: 1.8rem; margin: 0; font-family: 'Noto Serif TC', serif; }
-
-    .faq-list { max-width: 900px; margin: 0 auto; }
+    /* FAQ 與 動畫樣式 */
     .faq-item { border-bottom: 1px solid var(--line-soft); padding: 5px 0; }
     .faq-toggle { width: 100%; padding: 25px 0; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; text-align: left; outline: none; }
     .faq-toggle h4 { font-size: 1.15rem; color: var(--deep-ink); margin: 0; flex: 1; font-family: 'Noto Sans TC', sans-serif; }
@@ -146,51 +133,30 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- 1. FAQ 展開邏輯 (修正版) ---
+        // FAQ 手風琴邏輯
         const faqItems = document.querySelectorAll('.faq-item');
-        
         faqItems.forEach(item => {
             const btn = item.querySelector('.faq-toggle');
             if (btn) {
-                btn.addEventListener('click', function(e) {
-                    // 阻止按鈕預設行為
+                btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
-                    // 取得目前狀態
                     const isActive = item.classList.contains('active');
-                    
-                    // 先關閉所有其他的 FAQ (手風琴效果)
-                    faqItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                    });
-                    
-                    // 如果原本是關閉的，則開啟它
-                    if (!isActive) {
-                        item.classList.add('active');
-                    }
+                    faqItems.forEach(i => i.classList.remove('active'));
+                    if (!isActive) item.classList.add('active');
                 });
             }
         });
 
-        // --- 2. 捲動揭幕動畫 (Intersection Observer) ---
-        const revealOptions = { 
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px" // 提前一點觸發
-        };
-
+        // 捲動揭幕動畫
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
-                    // 觸發後就停止觀察該元素，節省效能
                     revealObserver.unobserve(entry.target);
                 }
             });
-        }, revealOptions);
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            revealObserver.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     });
 </script>
-
