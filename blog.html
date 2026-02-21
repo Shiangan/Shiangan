@@ -11,12 +11,6 @@ permalink: /blog.html
     
     <link rel="canonical" href="https://24hour.xn--kpry57d/Shiangan/blog.html">
 
-    <meta property="og:title" content="祥安生命 - 殯葬百科知識庫：專業指引與溫暖解答">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.xn--kpry57d/Shiangan/blog.html">
-    <meta property="og:image" content="https://24hour.xn--kpry57d/Shiangan/images/blog-hero-bg.jpg">
-    <meta property="og:description" content="國家認證禮儀師團隊整理，最貼近人心的殯葬知識與流程指南。">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
@@ -30,14 +24,7 @@ permalink: /blog.html
             --bg-light: #fdfcfb;
         }
 
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            line-height: 1.6; 
-            color: var(--text-color); 
-            margin: 0; 
-            background-color: var(--bg-light);
-        }
-
+        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.6; color: var(--text-color); margin: 0; background-color: var(--bg-light); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         /* Blog Layout */
@@ -60,14 +47,29 @@ permalink: /blog.html
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
         }
         .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card-image-wrap { height: 200px; background: #eee; overflow: hidden; }
-        .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .card-body { padding: 20px; }
+        
+        /* 圖片縮放效果 */
+        .card-image-link { display: block; height: 200px; overflow: hidden; }
+        .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .blog-card:hover .card-image-wrap img { transform: scale(1.1); }
+
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.25rem; margin: 10px 0; font-family: 'Noto Serif TC', serif; }
+        .card-title a { text-decoration: none; color: var(--primary-color); transition: 0.3s; }
+        .card-title a:hover { color: var(--accent-color); }
+
         .article-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
         .primary-tag { background: var(--primary-light); color: var(--primary-dark); }
         
+        /* 閱讀全文按鈕 */
+        .read-more-btn { color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: auto; padding-top: 15px; }
+        .read-more-btn i { transition: transform 0.3s ease; margin-left: 5px; }
+        .read-more-btn:hover i { transform: translateX(5px); }
+
         /* FAQ Style */
         .faq-item { background: #fff; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; }
         .faq-item summary { padding: 15px; cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
@@ -75,9 +77,7 @@ permalink: /blog.html
         .faq-item[open] summary::after { content: '-'; }
         .faq-item p { padding: 0 15px 15px; margin: 0; color: #666; }
 
-        @media (max-width: 992px) {
-            .blog-main-layout { flex-direction: column; }
-        }
+        @media (max-width: 992px) { .blog-main-layout { flex-direction: column; } }
     </style>
 </head>
 
@@ -85,7 +85,7 @@ permalink: /blog.html
     {% include header.html %}
 
     <main>
-        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/blog-hero-bg.jpg') center/cover; padding: 120px 0; color: #fff; text-align: center;">
+        <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/blog-hero-bg.jpg') center/cover; padding: 100px 0; color: #fff; text-align: center;">
             <div class="container">
                 <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 20px;">殯葬百科知識庫</h1>
                 <p style="font-size: 1.2rem; opacity: 0.9;">專業禮儀師團隊，陪您從容面對生命最後一堂課</p>
@@ -95,33 +95,58 @@ permalink: /blog.html
         <div class="container">
             <div class="blog-main-layout">
                 <div class="article-content">
-                    <h2 id="first-step" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin-bottom: 30px;">
-                        <i class="fas fa-ambulance" style="color: var(--accent-color); margin-right: 10px;"></i> 臨終/初終處理 SOP
+                    
+                    <h2 id="all-articles" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin-bottom: 30px;">
+                        <i class="fas fa-book-open" style="color: var(--accent-color); margin-right: 10px;"></i> 最新文章
                     </h2>
                     
                     <div class="article-grid">
                         <article class="blog-card">
-                            <div class="card-image-wrap">
-                                <img src="images/blog-first-step-1.jpg" alt="醫院往生流程" onerror="this.src='https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'">
-                            </div>
+                            <a href="article-hospital-death.html" class="card-image-link">
+                                <div class="card-image-wrap">
+                                    <img src="images/blog-first-step-1.jpg" alt="醫院往生流程" onerror="this.src='https://images.unsplash.com/photo-1516589174184-c68526674fd6?auto=format&fit=crop&q=80'">
+                                </div>
+                            </a>
                             <div class="card-body">
                                 <span class="article-tag primary-tag">醫院 SOP</span>
-                                <h3 style="font-size: 1.25rem; margin: 10px 0;">醫院過世後的 5 個關鍵步驟</h3>
+                                <h3 class="card-title"><a href="article-hospital-death.html">醫院過世後的 5 個關鍵步驟</a></h3>
                                 <p style="font-size: 0.95rem; color: #666;">詳細說明死亡證明申請、接體、殯儀館安排等細節...</p>
-                                <a href="article-hospital-death.html" style="color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 0.9rem;">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                                <a href="article-hospital-death.html" class="read-more-btn">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </article>
+
+                        {% for post in site.posts %}
+                        <article class="blog-card" itemscope itemtype="http://schema.org/BlogPosting">
+                            <a href="{{ post.url | relative_url }}" class="card-image-link">
+                                <div class="card-image-wrap">
+                                    <img src="{{ post.image | default: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80' }}" alt="{{ post.title }}" itemprop="image">
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                {% if post.tags.size > 0 %}
+                                    <span class="article-tag primary-tag"><i class="fas fa-tag"></i> {{ post.tags | first }}</span>
+                                {% endif %}
+                                <h3 class="card-title" itemprop="headline">
+                                    <a href="{{ post.url | relative_url }}" itemprop="url">{{ post.title }}</a>
+                                </h3>
+                                <p style="font-size: 0.9rem; color: #666;" itemprop="description">
+                                    {{ post.description | truncate: 50 }}
+                                </p>
+                                <a href="{{ post.url | relative_url }}" class="read-more-btn">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </article>
+                        {% endfor %}
                     </div>
 
                     <h2 id="quick-faq" style="border-left: 5px solid var(--accent-color); padding-left: 15px; margin: 50px 0 30px;">治喪常見問答 (FAQ)</h2>
                     <div class="faq-list">
                         <details class="faq-item">
                             <summary>親人在醫院過世，我應該先找誰？</summary>
-                            <p>建議第一時間聯繫您信任的禮儀公司（如祥安生命 24H 專線）。專業人員會立即前往引導接體與後續流程，避免被醫院駐點業者強力推銷而產生不必要的支出。</p>
+                            <p>建議第一時間聯繫您信任的禮儀公司（如祥安生命 24H 專線）。專業人員會立即前往引導接體與後續流程。</p>
                         </details>
                         <details class="faq-item">
                             <summary>喪葬補助金該如何申請？</summary>
-                            <p>勞保、國保、農保皆有喪葬津貼。通常需檢附死亡證明書正本、支出收據、以及家屬的存摺影本，向所屬社會保險局提出申請。</p>
+                            <p>勞保、國保、農保皆有喪葬津貼。通常需檢附死亡證明書正本、收據及存摺影本提出申請。</p>
                         </details>
                     </div>
                 </div>
@@ -130,7 +155,7 @@ permalink: /blog.html
                     <div style="background: var(--primary-dark); color: #fff; padding: 30px 20px; border-radius: 12px; text-align: center; position: sticky; top: 100px;">
                         <i class="fas fa-headset" style="font-size: 40px; color: var(--accent-color); margin-bottom: 15px;"></i>
                         <h3 style="margin-bottom: 10px;">24H 諮詢專線</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px;">面對突發狀況不驚慌<br>由專業禮儀師線上引導</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px;">專業禮儀師線上引導</p>
                         <a href="tel:0978583699" style="background: var(--accent-color); color: #fff; padding: 12px 20px; display: block; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">0978-583-699</a>
                     </div>
                 </aside>
@@ -140,15 +165,5 @@ permalink: /blog.html
 
     {% include footer.html %}
     {% include floating-cta.html %}
-
-    <script>
-        // 手機版選單切換 (如有需要)
-        const menuBtn = document.getElementById('menu-btn');
-        if(menuBtn) {
-            menuBtn.addEventListener('click', () => {
-                document.getElementById('nav-menu').classList.toggle('active');
-            });
-        }
-    </script>
 </body>
 </html>
