@@ -94,6 +94,29 @@ permalink: /blog/buddha-vs-tao/
         details[open] summary::after { content: '\2212'; }
         .faq-inner { padding: 0 18px 25px; color: #555; font-size: 1rem; line-height: 1.8; border-top: 1px solid #f9f9f9; padding-top: 15px; }
 
+        /* --- 導航列寬度強制校正 --- */
+#navbar .nav-wrapper {
+    width: 92% !important;   /* 強制恢復原本的比例 */
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+}
+
+/* 確保 Logo 大小不受文章樣式影響 */
+.logo img { 
+    height: 60px !important; 
+    width: auto !important; 
+}
+
+/* 修正下拉選單的字體間距，避免被文章的 1.9 倍行高撐肥 */
+.submenu li a {
+    line-height: 1.2 !important;
+    padding: 12px 25px !important;
+}
+
+
         /* --- RWD --- */
         @media (max-width: 992px) {
             .sa-sidebar { width: 100%; }
