@@ -1,6 +1,17 @@
 ---
 layout: null
 ---
+{% comment %} 
+隨機圖片邏輯：如果文章沒設定 image，則根據標題內容隨機分配圖庫中的一張 
+{% endcomment %}
+{% assign title_seed = page.title.size | modulo: 3 | plus: 1 %}
+{% if page.image %}
+    {% assign final_hero_img = page.image | relative_url %}
+{% else %}
+    {% capture default_path %}/images/hero-{{ title_seed }}.jpg{% endcapture %}
+    {% assign final_hero_img = default_path | relative_url %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -9,10 +20,13 @@ layout: null
     <style>
         :root { --sa-green: #2d3e2a; --sa-gold: #a68b5a; --sa-bg: #fdfaf5; }
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; line-height: 1.9; margin: 0; padding-top: 80px; }
+        
         .post-hero { 
-            height: 50vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ page.image | relative_url }}') center/cover;
+            height: 50vh; min-height: 400px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ final_hero_img }}') center/cover;
             display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
         }
+
         .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
         .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
         .post-main { flex: 1; min-width: 0; }
@@ -25,15 +39,17 @@ layout: null
         }
         .tag-button:hover { background: var(--sa-gold); border-color: var(--sa-gold); }
 
-        .entry-content img { max-width: 100%; border-radius: 8px; margin: 20px 0; }
-        .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 12px; text-align: center; }
-        .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+        .entry-content img { max-width: 100%; border-radius: 8px; margin: 20px 0; display: block; }
+        .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 12px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        .cta-btn:hover { background: #b89a6a; transform: translateY(-2px); }
 
-        @media (max-width: 992px) { .post-sidebar { width: 100%; } }
+        @media (max-width: 992px) { .post-sidebar { width: 100%; } .post-hero { height: 40vh; } }
     </style>
 </head>
 <body>
     {% include header.html %}
+
     <div class="post-hero">
         <div class="container">
             <h1 style="font-family:'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 3.2rem); margin:0;">{{ page.title }}</h1>
@@ -50,25 +66,30 @@ layout: null
     <div class="container">
         <div class="layout-grid">
             <article class="post-main">
-                <p style="font-size:1.2rem; color:#666; border-left:4px solid var(--sa-gold); padding-left:20px;">{{ page.description }}</p>
+                <div style="font-size:1.2rem; color:#666; border-left:4px solid var(--sa-gold); padding-left:20px; margin-bottom: 30px;">
+                    {{ page.description }}
+                </div>
                 <div class="entry-content">
                     {{ content }}
                 </div>
                 <div style="margin-top:60px; padding-top:30px; border-top:1px solid #eee;">
-                    <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold;">← 返回百科列表</a>
+                    <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold;">
+                        <i class="fas fa-arrow-left"></i> 返回百科列表
+                    </a>
                 </div>
             </article>
 
             <aside class="post-sidebar">
                 <div class="sticky-cta">
-                    <h3>24H 禮儀諮詢</h3>
-                    <p>祥安專業禮儀師全程陪同</p>
-                    <a href="tel:0978583699" style="font-size:1.5rem; color:#fff; text-decoration:none; font-weight:bold;">0978-583-699</a>
+                    <h3 style="color: var(--sa-gold); margin-top: 0;">24H 禮儀諮詢</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">祥安專業禮儀師全程陪同</p>
+                    <a href="tel:0978583699" style="font-size:1.6rem; color:#fff; text-decoration:none; font-weight:bold; display: block; margin: 15px 0;">0978-583-699</a>
                     <a href="tel:0978583699" class="cta-btn">立即聯繫顧問</a>
                 </div>
             </aside>
         </div>
     </div>
+
     {% include footer.html %}
 </body>
 </html>
