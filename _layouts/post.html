@@ -18,7 +18,6 @@ layout: null
         .post-main { flex: 1; min-width: 0; }
         .post-sidebar { width: 320px; }
         
-        /* 你要求的標籤按鈕樣式 */
         .post-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
         .tag-button { 
             background: rgba(255,255,255,0.2); color: #fff; padding: 6px 15px; border-radius: 20px; 
@@ -56,7 +55,7 @@ layout: null
                     {{ content }}
                 </div>
                 <div style="margin-top:60px; padding-top:30px; border-top:1px solid #eee;">
-                    <a href="/blog.html" style="text-decoration:none; color:var(--sa-green); font-weight:bold;">← 返回百科列表</a>
+                    <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold;">← 返回百科列表</a>
                 </div>
             </article>
 
