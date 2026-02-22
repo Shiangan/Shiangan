@@ -4,26 +4,26 @@
   "@type": "Article",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://24hour.台灣/Shiangan/{{ page.url }}"
+    "@id": "{{ page.url | absolute_url }}"
   },
-  "headline": "{{ page.title }}",
-  "description": "{{ page.description }}",
-  "image": "https://24hour.台灣/Shiangan/{{ page.og_image | default: 'images/taboo-hero.jpg' }}",  
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "image": "{{ site.url }}{{ site.baseurl }}/{{ page.og_image | default: 'images/taboo-hero.jpg' }}",  
   "author": {
     "@type": "Organization",
     "name": "祥安生命專業禮儀團隊",
-    "url": "https://24hour.台灣/Shiangan/about.html"
+    "url": "{{ '/about.html' | absolute_url }}"
   },  
   "publisher": {
     "@type": "Organization",
     "name": "祥安生命有限公司",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://24hour.台灣/Shiangan/images/logo.png"
+      "url": "{{ '/images/logo.png' | absolute_url }}"
     }
   },
-  "datePublished": "2024-12-16",
-  "dateModified": "2026-02-20"
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ site.time | date_to_xmlschema }}"
 }
 </script>
 
