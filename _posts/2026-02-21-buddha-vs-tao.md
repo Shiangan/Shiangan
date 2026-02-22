@@ -1,300 +1,175 @@
 ---
-layout: null
+layout: post
 title: "【佛道喪禮比較】儀式、做七、功德法事差異全解析 | 祥安生命"
 description: "專業禮儀師深入解析華人佛教與道教喪禮的十大核心差異，包含做七計算、法事內容與預算規劃建議。"
 tags: ["佛道比較", "喪禮儀式", "殯葬百科", "做七功德"]
 permalink: /blog/buddha-vs-tao/
-
 ---
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{{ page.title }}</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { 
-            --sa-green: #2d3e2a; 
-            --sa-gold: #a68b5a; 
-            --sa-bg: #fdfaf5; 
-            --sa-text: #2c2c2c;
-            --sa-border: #e0ddd7;
-        }
 
-        /* 核心優化：鎖定橫向溢出，解決手機滑動不穩與左右晃動問題 */
-        html, body { overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
-        body { font-family: 'Noto Sans TC', sans-serif; color: var(--sa-text); line-height: 1.9; background: #fff; margin: 0; padding: 0; }
-        h1, h2, h3 { font-family: 'Noto Serif TC', serif; color: var(--sa-green); font-weight: 700; margin-top: 0; }
+<style>
+    :root { 
+        --sa-green: #2d3e2a; 
+        --sa-gold: #a68b5a; 
+        --sa-bg: #fdfaf5; 
+        --sa-text: #2c2c2c;
+        --sa-border: #e0ddd7;
+    }
 
-        .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+    /* 導航列強制修正 */
+    #navbar { z-index: 10000 !important; line-height: normal !important; }
+    .logo img { height: 60px !important; width: auto !important; }
+    .submenu li a { line-height: 1.2 !important; padding: 12px 25px !important; }
 
-        /* --- Hero Section --- */
-        .hero-banner { 
-            height: 50vh; min-height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80');
-            background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #fff;
-        }
-        .hero-content { text-align: center; }
-        .hero-content h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); color: #fff; margin-bottom: 15px; letter-spacing: 2px; line-height: 1.3; }
-        .sa-tag-top { color: var(--sa-gold); font-weight: bold; letter-spacing: 4px; font-size: 0.9rem; display: block; text-transform: uppercase; margin-bottom: 10px; }
+    /* 主排版系統 */
+    .sa-main-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 40px 0 80px; }
+    .sa-post-body { flex: 1; min-width: 0; }
+    .sa-sidebar { width: 320px; }
 
-        /* --- 標籤樣式 --- */
-        .post-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-        .tag-button { 
-            background: rgba(255,255,255,0.15); color: #fff; padding: 6px 18px; 
-            border-radius: 20px; text-decoration: none; font-size: 0.85rem; 
-            border: 1px solid rgba(255,255,255,0.3); transition: 0.3s; backdrop-filter: blur(5px);
-        }
-        .tag-button:hover { background: var(--sa-gold); border-color: var(--sa-gold); }
+    /* Hero Banner 覆蓋全螢幕寬度（若佈局檔有容器限制請注意） */
+    .hero-banner { 
+        margin-top: -20px; /* 抵消可能的間距 */
+        height: 50vh; min-height: 400px;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80');
+        background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #fff;
+        width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
+    }
+    .hero-content { text-align: center; }
+    .hero-content h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); color: #fff; margin-bottom: 15px; letter-spacing: 2px; line-height: 1.3; }
+    .sa-tag-top { color: var(--sa-gold); font-weight: bold; letter-spacing: 4px; font-size: 0.9rem; display: block; margin-bottom: 10px; }
 
-        /* --- 主排版系統 --- */
-        .sa-main-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 80px 0; }
-        .sa-post-body { flex: 1; min-width: 0; }
-        .sa-sidebar { width: 320px; }
+    /* 內容元素樣式 */
+    .sa-lead { font-size: 1.25rem; line-height: 2; color: #444; border-left: 5px solid var(--sa-gold); padding-left: 25px; margin-bottom: 50px; text-align: justify; }
+    .table-scroll-wrap { width: 100%; overflow-x: auto; border-radius: 8px; border: 1px solid var(--sa-border); margin: 40px 0; -webkit-overflow-scrolling: touch; }
+    .comparison-table { width: 100%; border-collapse: collapse; min-width: 750px; background: #fff; }
+    .comparison-table th { background: var(--sa-green); color: #fff; padding: 22px; text-align: left; }
+    .comparison-table td { padding: 22px; border-bottom: 1px solid var(--sa-border); vertical-align: top; }
+    .row-head { font-weight: bold; color: var(--sa-gold); width: 130px; background: var(--sa-bg); text-align: center; border-right: 1px solid var(--sa-border); }
 
-        /* --- 內容引導區 --- */
-        .sa-lead { font-size: 1.25rem; line-height: 2; color: #444; border-left: 5px solid var(--sa-gold); padding-left: 25px; margin-bottom: 50px; text-align: justify; }
+    .content-section { margin-bottom: 60px; }
+    .content-section h2 { font-size: 2rem; border-bottom: 1px solid var(--sa-gold); padding-bottom: 12px; margin-bottom: 30px; font-family: 'Noto Serif TC', serif; }
+    .content-section h3 { font-size: 1.4rem; color: var(--sa-gold); margin: 35px 0 15px; display: flex; align-items: center; font-family: 'Noto Serif TC', serif; }
+    .content-section h3::before { content: ''; width: 8px; height: 8px; background: var(--sa-gold); display: inline-block; margin-right: 12px; border-radius: 50%; }
 
-        /* --- 表格優化：內部捲動，外部不滑動 --- */
-        .table-scroll-wrap { width: 100%; overflow-x: auto; border-radius: 8px; border: 1px solid var(--sa-border); margin: 40px 0; -webkit-overflow-scrolling: touch; }
-        .comparison-table { width: 100%; border-collapse: collapse; min-width: 750px; background: #fff; }
-        .comparison-table th { background: var(--sa-green); color: #fff; padding: 22px; text-align: left; font-size: 1.1rem; }
-        .comparison-table td { padding: 22px; border-bottom: 1px solid var(--sa-border); vertical-align: top; }
-        .row-head { font-weight: bold; color: var(--sa-gold); width: 130px; background: var(--sa-bg); text-align: center; border-right: 1px solid var(--sa-border); }
+    .feature-list { list-style: none; padding: 0; }
+    .feature-list li { padding-left: 28px; position: relative; margin-bottom: 15px; }
+    .feature-list li::before { content: '◈'; position: absolute; left: 0; color: var(--sa-gold); }
 
-        /* --- 文章節點樣式 --- */
-        .content-section { margin-bottom: 60px; }
-        .content-section h2 { font-size: 2rem; border-bottom: 1px solid var(--sa-gold); padding-bottom: 12px; margin-bottom: 30px; }
-        .content-section h3 { font-size: 1.4rem; color: var(--sa-gold); margin: 35px 0 15px; display: flex; align-items: center; }
-        .content-section h3::before { content: ''; width: 8px; height: 8px; background: var(--sa-gold); display: inline-block; margin-right: 12px; border-radius: 50%; }
-        .content-section p { margin-bottom: 25px; text-align: justify; }
+    /* 側邊欄卡片 */
+    .sa-sticky-card { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 4px; }
+    .sa-phone { display: block; font-size: 1.6rem; font-weight: bold; margin: 25px 0; color: #fff; text-decoration: none; text-align: center; }
+    .sa-cta { display: block; background: var(--sa-gold); color: #fff; text-align: center; padding: 18px; text-decoration: none; font-weight: bold; }
 
-        .feature-list { list-style: none; padding: 0; margin-bottom: 30px; }
-        .feature-list li { padding-left: 28px; position: relative; margin-bottom: 15px; }
-        .feature-list li::before { content: '◈'; position: absolute; left: 0; color: var(--sa-gold); font-weight: bold; }
+    /* FAQ */
+    details { border: 1px solid var(--sa-border); border-radius: 4px; margin-bottom: 15px; }
+    summary { padding: 18px; cursor: pointer; font-weight: bold; color: var(--sa-green); list-style: none; display: flex; justify-content: space-between; }
+    summary::after { content: '+'; color: var(--sa-gold); font-size: 1.5rem; }
 
-        /* --- 側邊欄固定卡片 --- */
-        .sa-sticky-card { position: sticky; top: 100px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .sa-sticky-card h4 { color: var(--sa-gold); font-size: 1.5rem; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        .sa-phone { display: block; font-size: 1.6rem; font-weight: bold; margin: 25px 0; color: #fff; text-decoration: none; transition: 0.3s; }
-        .sa-phone:hover { color: var(--sa-gold); }
-        .sa-cta { display: block; background: var(--sa-gold); color: #fff; text-align: center; padding: 18px; text-decoration: none; font-weight: bold; border-radius: 2px; letter-spacing: 1px; transition: 0.3s; }
-        .sa-cta:hover { background: #fff; color: var(--sa-green); }
+    @media (max-width: 992px) {
+        .sa-sidebar { width: 100%; }
+        .sa-sticky-card { position: static; }
+        .hero-banner { width: 100%; left: 0; margin-left: 0; }
+    }
+</style>
 
-        /* --- FAQ --- */
-        details { border: 1px solid var(--sa-border); border-radius: 4px; margin-bottom: 15px; background: #fff; transition: 0.3s; }
-        details[open] { border-color: var(--sa-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        summary { padding: 18px; cursor: pointer; font-weight: bold; outline: none; display: flex; justify-content: space-between; align-items: center; color: var(--sa-green); list-style: none; }
-        summary::-webkit-details-marker { display: none; }
-        summary::after { content: '\2b'; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.2rem; color: var(--sa-gold); }
-        details[open] summary::after { content: '\2212'; }
-        .faq-inner { padding: 0 18px 25px; color: #555; font-size: 1rem; line-height: 1.8; border-top: 1px solid #f9f9f9; padding-top: 15px; }
-
- /* 強制修正導航列在長文章中的穩定性 */
-#navbar {
-    z-index: 10000 !important; /* 確保在最頂層 */
-    line-height: normal !important; /* 防止繼承文章的 1.9 倍行高 */
-}
-
-/* 修正文章內圖片自動寬度 */
-.entry-content img, .sa-post-body img {
-    height: auto !important;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* 解決手機版可能出現的左右晃動 */
-body {
-    position: relative;
-    width: 100vw;
-    overflow-x: hidden;
-}
-
-
-/* 確保 Logo 大小不受文章樣式影響 */
-.logo img { 
-    height: 60px !important; 
-    width: auto !important; 
-}
-
-/* 修正下拉選單的字體間距，避免被文章的 1.9 倍行高撐肥 */
-.submenu li a {
-    line-height: 1.2 !important;
-    padding: 12px 25px !important;
-}
-
-
-        /* --- RWD --- */
-        @media (max-width: 992px) {
-            .sa-sidebar { width: 100%; }
-            .sa-sticky-card { position: static; }
-            .sa-main-grid { gap: 40px; padding: 40px 0; }
-        }
-        @media (max-width: 768px) {
-            .hero-banner { height: 45vh; }
-            .sa-post-body { padding: 0; }
-            .row-head { width: 100px; padding: 15px 10px; font-size: 0.9rem; }
-            .comparison-table td { padding: 15px; font-size: 0.95rem; }
-            .sa-lead { font-size: 1.1rem; padding-left: 15px; }
-        }
-    </style>
-</head>
-
-<body>
-    {% include header.html %}
-
-    <main>
-        <section class="hero-banner">
-            <div class="hero-content">
-                <span class="sa-tag-top">Professional Funeral Guide</span>
-                <h1>佛道喪禮比較全解析：<br>從核心精神到法事流程</h1>
-                <div class="post-tags">
-                    {% for tag in page.tags %}
-                        <a href="/Shiangan/blog-tag.html?tag={{ tag | url_encode }}" class="tag-button">
-                            <i class="fas fa-tag"></i> {{ tag }}
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-
-        <div class="container">
-            <div class="sa-main-grid">
-                
-                <article class="sa-post-body">
-                    <p style="font-size: 0.9rem; color: #888; letter-spacing: 1px;">
-                        <i class="fas fa-certificate"></i> 祥安生命專業禮儀顧問團隊 審訂 | 2026年2月更新
-                    </p>
-                    
-                    <div class="sa-lead">
-                        在台灣的治喪過程中，家屬常因宗教細節差異而感到茫然。佛教主張「慈悲引導，放下解脫」，道教則重視「拔度超薦，功德開路」。本文將深入剖析兩者的法事內容、做七差異與預算規劃，協助您做出最圓滿的決定。
-                    </div>
-
-                    <div class="content-section">
-                        <h2>一、佛道差異深度對照表</h2>
-                        <div class="table-scroll-wrap">
-                            <table class="comparison-table">
-                                <thead>
-                                    <tr>
-                                        <th>維度</th>
-                                        <th>道教 (Taoism - 求登仙界)</th>
-                                        <th>佛教 (Buddhism - 求生淨土)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="row-head">核心思想</td>
-                                        <td>**拔度赦罪**。認為靈魂需經歷地府十殿審判，透過科儀救拔罪業，讓魂魄升天仙界。</td>
-                                        <td>**助念往生**。引導神識放下執著，隨佛號加持與願力往生西方極樂世界。</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="row-head">主導法事</td>
-                                        <td>破地獄、過橋、開路關、鬧廳、焚燒庫錢、大型紙紮供養。</td>
-                                        <td>八至十二小時助念、持誦佛號、法師誦經開示、三時繫念。</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="row-head">祭品準備</td>
-                                        <td>重視祭品豐富，可備三牲酒禮、五果、豐盛菜餚供奉神明與亡親。</td>
-                                        <td>**嚴禁葷食**。僅使用鮮花、素果、香茗，強調清淨莊嚴。</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="row-head">做七意義</td>
-                                        <td>對應冥府殿王審判期，需透過法事為逝者「求情」與「赦罪」。</td>
-                                        <td>視為中陰身轉世期，家屬誦經積累功德，作為逝者往生的資糧。</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>二、佛教儀式：以願力送行，心無罣礙</h2>
-                        <p>佛教喪禮強調「萬法唯心」。最關鍵環節在於臨終後的 8-12 小時，此時神識尚未完全離開，家屬齊聲助念「阿彌陀佛」是送給親人最珍貴的禮物。</p>
-                        <h3>重點細節解析：</h3>
-                        <ul class="feature-list">
-                            <li><strong>助念力量：</strong> 穩定逝者情緒，使其不生恐懼，順著光與佛號前行。</li>
-                            <li><strong>儀軌選擇：</strong> 常見如《地藏經》或《彌陀經》，旨在回向功德。</li>
-                            <li><strong>環保簡約：</strong> 多不主張焚燒紙紮品，強調心香一柱，費用相對較精簡。</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>三、道教儀式：以科儀開路，報答親恩</h2>
-                        <p>道教相信逝者在冥界需要資糧與指引。透過道長（法師）的演法，為亡者備妥通往仙界的通行證，也讓家屬在具象的儀式中得到哀傷的宣洩。</p>
-                        <h3>重點細節解析：</h3>
-                        <ul class="feature-list">
-                            <li><strong>破地獄：</strong> 象徵救拔苦難中的靈魂，道長帶領家屬繞行法壇，展現孝思。</li>
-                            <li><strong>紙紮供養：</strong> 準備精緻房舍、座車，象徵讓親人在另一世界享有尊榮生活。</li>
-                            <li><strong>做功德：</strong> 這是道教喪禮的高潮，場面通常較為莊嚴熱鬧，涉及人力較多。</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>💡 專業治喪 Q&A</h2>
-                        <details>
-                            <summary>做七的時間如何計算？</summary>
-                            <div class="faq-inner">
-                                傳統上以「逝世當天」為第一天。每逢七天為一個「七」。<br>
-                                **道教**：通常講究正期（當天）法事。<br>
-                                **佛教**：可在正期或提前一天誦經，重點在於心念與迴向。
-                            </div>
-                        </details>
-                        <details>
-                            <summary>費用預算上會有很大落差嗎？</summary>
-                            <div class="faq-inner">
-                                一般而言，**道教儀式**支出較高。主因在於較多的人力（道長團）、法器耗材、紙紮品以及庫錢。佛教則將支出簡化，多用於供僧與法事場租。
-                            </div>
-                        </details>
-                        <details>
-                            <summary>可以選擇「佛道混合」嗎？</summary>
-                            <div class="faq-inner">
-                                台灣目前常見「佛道混用」（例如告別式用佛法，作七採傳統），但顧問建議大框架應**擇一為主**。心念專一能讓逝者走得更安穩，家屬也不易在複雜流程中疲於奔命。
-                            </div>
-                        </details>
-                    </div>
-
-                    <div style="background: var(--sa-bg); padding: 40px; border-radius: 8px; border: 1px dashed var(--sa-gold); margin-top: 50px;">
-                        <h3 style="margin-top: 0; color: var(--sa-green); font-size: 1.5rem;">祥安生命的圓滿建議：</h3>
-                        <p style="margin-bottom: 0;">儀式是給在世者的慰藉，也是對逝者的尊重。建議尊重逝者生前交代；若無特定信仰，則以家屬感到最安心、最能釋懷的方式進行。祥安生命提供 24 小時專業諮詢，陪伴您規劃最圓滿的尊榮方案。</p>
-                    </div>
-
-                    <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--sa-border); padding-top: 30px;">
-    <a href="{{ '/blog.html' | relative_url }}" style="color: var(--sa-green); text-decoration: none; font-weight: bold;">
-        <i class="fas fa-chevron-left"></i> 返回百科列表
-    </a>
-    <div class="share-buttons" style="display: flex; gap: 15px;">
-        <span style="font-size: 0.9rem; color: #888;">分享文章：</span>
-        <a href="https://social-plugins.line.me/lineit/share?url={{ page.url | absolute_url }}" target="_blank" style="color: #00b900;"><i class="fab fa-line fa-lg"></i></a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" style="color: #1877f2;"><i class="fab fa-facebook fa-lg"></i></a>
+<section class="hero-banner">
+    <div class="hero-content">
+        <span class="sa-tag-top">Professional Funeral Guide</span>
+        <h1>{{ page.title }}</h1>
+        <div class="post-tags" style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            {% for tag in page.tags %}
+                <a href="{{ '/blog-tag.html' | relative_url }}?tag={{ tag | url_encode }}" style="background: rgba(255,255,255,0.2); color: #fff; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.3);"># {{ tag }}</a>
+            {% endfor %}
+        </div>
     </div>
-</div>
+</section>
 
-                </article>
+<div class="sa-main-grid">
+    <article class="sa-post-body">
+        <p style="font-size: 0.9rem; color: #888;">
+            <i class="fas fa-certificate"></i> 祥安生命專業禮儀顧問團隊 審訂 | 2026年2月更新
+        </p>
+        
+        <div class="sa-lead">
+            在台灣的治喪過程中，家屬常因宗教細節差異而感到茫然。佛教主張「慈悲引導，放下解脫」，道教則重視「拔度超薦，功德開路」。本文將深入剖析兩者的法事內容、做七差異與預算規劃，協助您做出最圓滿的決定。
+        </div>
 
-                <aside class="sa-sidebar">
-                    <div class="sa-sticky-card">
-                        <h4>24H 禮儀諮詢</h4>
-                        <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.6;">面對宗教儀軌感到茫然嗎？<br>讓專業禮儀師為您詳盡解答。</p>
-                        <a href="tel:+886978583699" class="sa-phone">
-                            <i class="fas fa-phone-alt"></i> 0978-583-699
-                        </a>
-                        <a href="tel:+886978583699" class="sa-cta">立即與顧問連繫</a>
-                        <div style="margin-top: 25px; font-size: 0.8rem; text-align: center; opacity: 0.7;">
-                            國家認證禮儀師團隊 · 價格透明
-                        </div>
-                    </div>
-                </aside>
-
+        <div class="content-section">
+            <h2>一、佛道差異深度對照表</h2>
+            <div class="table-scroll-wrap">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>維度</th>
+                            <th>道教 (Taoism)</th>
+                            <th>佛教 (Buddhism)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-head">核心思想</td>
+                            <td>**拔度赦罪**。認為靈魂需經歷地府十殿審判，透過科儀救拔罪業。</td>
+                            <td>**助念往生**。引導神識放下執著，隨佛號加持往生極樂世界。</td>
+                        </tr>
+                        <tr>
+                            <td class="row-head">主導法事</td>
+                            <td>破地獄、過橋、開路關、鬧廳、焚燒庫錢、大型紙紮。</td>
+                            <td>助念、持誦佛號、法師誦經開示、三時繫念。</td>
+                        </tr>
+                        <tr>
+                            <td class="row-head">祭品準備</td>
+                            <td>重視祭品豐富，可備三牲酒禮、菜餚供奉。</td>
+                            <td>**嚴禁葷食**。僅使用鮮花、素果、香茗。</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </main>
 
-    {% include footer.html %}
+        <div class="content-section">
+            <h2>二、佛教儀式：以願力送行</h2>
+            <p>佛教喪禮強調「萬法唯心」。最關鍵環節在於臨終後的 8-12 小時，此時神識尚未完全離開，家屬齊聲助念「阿彌陀佛」是最好的送行。</p>
+            <ul class="feature-list">
+                <li><strong>助念力量：</strong> 穩定逝者情緒，使其不生恐懼。</li>
+                <li><strong>儀軌選擇：</strong> 常見如《地藏經》或《彌陀經》。</li>
+            </ul>
+        </div>
 
-</body>
-</html>
+        <div class="content-section">
+            <h2>三、道教儀式：以科儀開路</h2>
+            <p>道教相信逝者需要資糧。透過道長演法，為亡者備妥通行證，也讓家屬在儀式中宣洩哀傷。</p>
+            <ul class="feature-list">
+                <li><strong>破地獄：</strong> 象徵救拔苦難中的靈魂。</li>
+                <li><strong>做功德：</strong> 場面通常較為莊嚴熱鬧，涉及人力與法器較多。</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>💡 專業治喪 Q&A</h2>
+            <details>
+                <summary>做七的時間如何計算？</summary>
+                <div style="padding: 15px; color: #555;">傳統上以「逝世當天」為第一天。每逢七天為一個「七」。</div>
+            </details>
+            <details>
+                <summary>費用預算上會有很大落差嗎？</summary>
+                <div style="padding: 15px; color: #555;">道教儀式因人力、紙紮與庫錢需求，支出通常較佛教精簡方案高。</div>
+            </details>
+        </div>
+
+        <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 30px; display: flex; justify-content: space-between;">
+            <a href="{{ '/blog.html' | relative_url }}" style="font-weight: bold; color: var(--sa-green); text-decoration: none;">← 返回百科列表</a>
+            <div class="share">
+                分享：
+                <a href="https://social-plugins.line.me/lineit/share?url={{ page.url | absolute_url }}" target="_blank" style="color:#00b900; margin-left:10px;"><i class="fab fa-line fa-lg"></i></a>
+            </div>
+        </div>
+    </article>
+
+    <aside class="sa-sidebar">
+        <div class="sa-sticky-card">
+            <h4 style="color:var(--sa-gold); margin-top:0;">24H 禮儀諮詢</h4>
+            <p style="font-size:0.9rem; opacity:0.8;">面對宗教儀軌感到茫然嗎？讓專業禮儀師為您詳盡解答。</p>
+            <a href="tel:0978583699" class="sa-phone">0978-583-699</a>
+            <a href="tel:0978583699" class="sa-cta">立即連繫顧問</a>
+        </div>
+    </aside>
+</div>
