@@ -1,29 +1,50 @@
-<article class="blog-card" 
-         data-category="{{ post.tags | first }}" 
-         data-search-content="{{ post.title }} {{ post.description }}">
-    
-    <a href="{{ post.url | relative_url }}" class="card-image-link">
-        <div class="card-image-wrap">
-            <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" alt="{{ post.title }}">
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    {% include head.html %}
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background: #fdfaf5; padding-top: 100px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+        .tag-title { text-align: center; margin-bottom: 50px; }
+        .blog-card { 
+            background: #fff; border: 1px solid #eee; border-radius: 12px; 
+            padding: 30px; margin-bottom: 20px; display: block; text-decoration: none; color: inherit;
+            border-left: 6px solid #a68b5a; transition: 0.3s;
+        }
+        .blog-card:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+    {% include header.html %}
+    <div class="container">
+        <div class="tag-title">
+            <h1 style="font-family:'Noto Serif TC', serif;">關於「<span id="current-tag" style="color:#a68b5a;"></span>」的文章</h1>
+            <a href="/blog.html" style="color:#666;">← 查看所有百科</a>
         </div>
-    </a>
 
-    <div class="card-body">
-        {% if post.tags.size > 0 %}
-            <span class="article-tag primary-tag">
-                <i class="fas fa-tag"></i> {{ post.tags | first }}
-            </span>
-        {% endif %}
-
-        <h3 class="card-title" itemprop="headline">
-            <a href="{{ post.url | relative_url }}" itemprop="url">
-                {{ post.title }}
+        <div id="tag-results">
+            {% for post in site.posts %}
+            <a href="{{ post.url | relative_url }}" class="blog-card" data-tags="{{ post.tags | join: ',' }}">
+                <h3 style="margin:0 0 10px 0; color:#2d3e2a;">{{ post.title }}</h3>
+                <p style="margin:0; color:#666;">{{ post.description | truncate: 100 }}</p>
             </a>
-        </h3>
-
-        <p class="card-excerpt">{{ post.description | truncate: 50 }}</p>
-        <a href="{{ post.url | relative_url }}" class="read-more-btn">
-            閱讀全文 <i class="fas fa-arrow-right"></i>
-        </a>
+            {% endfor %}
+        </div>
     </div>
-</article>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const tag = urlParams.get('tag');
+        if (tag) {
+            document.getElementById('current-tag').textContent = tag;
+            document.querySelectorAll('.blog-card').forEach(card => {
+                const postTags = card.dataset.tags.split(',');
+                card.style.display = postTags.includes(tag) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
