@@ -1,163 +1,267 @@
 ---
-layout: post
-title: "2026 雙北殯儀館規費懶人包：臺北懷愛館/板殯費用與市民優惠解析"
-description: "整理 2026 最新雙北殯葬規費：臺北懷愛館市民冰存前 7 天免費！板殯 7 日內火化亦享免冷藏費。內建最新雙北階梯式計算器，助您精算規費避免超支。"
-date: 2026-02-23 09:00:00 +0800
-category: "治喪百科"
-tags: ["規費計算", "臺北懷愛館", "板橋殯儀館", "市民優惠"]
-image: "/images/blog/article-07-main.jpg"
-has_faq: true
-faqs:
-  - question: "臺北市民辦理冰存真的有免費嗎？"
-    answer: "是的，根據臺北市規費表，設籍本市之市民「前 7 日」冷藏費為 0 元。但需注意，若超過 7 日，第 8 日起將按表列金額累計（第 8-14 日每日 $400）。"
-  - question: "新北市板殯的冷藏費如何計算？"
-    answer: "新北市民若在進館「7 日內」完成出殯或火化，冷藏費全免。但若超過 7 日，則會從第 1 天起開始計費（追溯計費），這與臺北市的直接免收逻辑不同。"
-  - question: "如何判定符合「市民資格」？"
-    answer: "只要「逝者本人」、「配偶」或「直系血親」（父母、子女）任一人設籍於該市滿 6 個月，即可申請市民價格優惠。辦理時需檢附載明關係之戶籍謄本。"
+layout: null
 ---
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<title>祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務</title>
+<meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。立即諮詢：0978-583-699。">
 
-<div style="background: #f4f1ea; padding: 25px; border-radius: 8px; border: 1px solid var(--sa-gold); margin-bottom: 40px;">
-    <p style="margin: 0; font-size: 0.95rem; color: var(--sa-green);">
-        <i class="fas fa-user-shield"></i> <strong>專業審訂：</strong> 本文依據雙北殯葬管理處最新規費表（如板殯收費標準）更新。
-        <br>
-        <i class="fas fa-check-circle"></i> <strong>最新優惠：</strong> 臺北市民享「前 7 日冷藏免費」；新北市民「7 日內火化」亦享免收優惠。
-    </p>
-</div>
+<head>
+    {% include head.html %}
+</head>
 
-## 一、2026 雙北規費核心政策對照
-
-根據最新官方資料，雙北對於「市民優惠」的認定與計算邏輯有顯著差異：
-
-| 比較項目 | 臺北市 (懷愛館) | 新北市 (板橋殯儀館) |
-| :--- | :--- | :--- |
-| **市民免收期** | **前 7 日免費** | **7 日內火化免收** |
-| **超過免收期** | 第 8 日起開始計費 | **追溯自第 1 日起計費** |
-| **冰存費 (市民)** | 第 8-14 日 $400/日 | 第 1-14 日 $400/日 |
-| **冰存費 (非市民)** | 第 1-7 日 $400/日 (半價) | 第 1-14 日 $800/日 |
-
----
-
-## 二、最新遺體冷藏規費試算器 (雙北綜合版)
-
-此試算器已納入 **臺北直接免收** 與 **新北追溯計費** 的官方邏輯。
-
-<div style="background: #fdfaf5; border: 1px solid var(--sa-gold); padding: 30px; border-radius: 10px; margin: 30px 0;">
-    <h3 style="margin-top: 0; color: var(--sa-green); text-align: center;">雙北階梯式規費估算器</h3>
-    <form id="fee-calculator" style="display: grid; gap: 15px;">
-        <div>
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">1. 選擇辦理場館</label>
-            <select id="location" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                <option value="TP">臺北懷愛館 (二殯)</option>
-                <option value="NTP">新北板橋殯儀館</option>
-            </select>
-        </div>
-        <div>
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">2. 進館與出殯日期</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <input type="date" id="date-deceased" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
-                <input type="date" id="date-funeral" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
-            </div>
-        </div>
-        <div>
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">3. 是否符合該市民資格</label>
-            <select id="is-citizen" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                <option value="true">是 (市民)</option>
-                <option value="false">否 (非本市)</option>
-            </select>
-        </div>
-        <button type="button" onclick="calculateComplexFee()" style="background: var(--sa-green); color: #fff; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">精算規費支出</button>
-    </form>
-
-    <div id="calc-result" style="display: none; margin-top: 20px; padding: 20px; background: #fff; border-left: 5px solid var(--sa-gold);">
-        <p style="margin: 0;">總計天數：<span id="days-count" style="font-weight: bold;">0</span> 天</p>
-        <p style="margin: 10px 0 0; font-size: 1.2rem; color: var(--sa-gold);">預估冷藏費：<span id="estimated-fee" style="font-weight: bold;">NT$ 0</span></p>
-        <p id="fee-note" style="font-size: 0.8rem; color: #888; margin-top: 10px;"></p>
-    </div>
-</div>
-
-<script>
-function calculateComplexFee() {
-    const start = new Date(document.getElementById('date-deceased').value);
-    const end = new Date(document.getElementById('date-funeral').value);
-    const isCitizen = document.getElementById('is-citizen').value === 'true';
-    const loc = document.getElementById('location').value;
+<body>
+    {% include header.html %}
     
-    if (!start || !end || end <= start) {
-        alert('日期填寫錯誤'); return;
+    <main>
+        <section class="hero">
+            <div class="watermark" style="top: 10%; left: -5%;">Care</div>
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:4px; display:block; margin-bottom:15px;">ART OF HUMANITY</span>
+                <h1 class="reveal">祥安生命<br>書寫生命最終的溫柔</h1>
+                <p class="reveal" style="max-width: 500px; margin-bottom: 40px; font-size: 1.1rem; opacity: 0.8;">我們將離別轉化為深刻的追思，透過細膩的職人工法與現代美學，在悲傷時刻為您撐起一份平靜與堅定。</p>
+                <div class="reveal" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <a href="./plans.html" style="background: var(--deep-ink); color: #fff; padding: 18px 45px; text-decoration: none; font-weight: 700; border-radius: 2px; transition: 0.3s;">服務方案</a>
+                    <a href="tel:+886978583699" style="color: var(--deep-ink); text-decoration: none; border-bottom: 2px solid var(--accent); font-weight: 700; padding: 10px 0; transition: 0.3s;">24H 專人諮詢 &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="stats-grid reveal">
+            <div class="stat-box"><span class="stat-val">15+</span><span class="stat-lab">專業年資</span></div>
+            <div class="stat-box"><span class="stat-val">100%</span><span class="stat-lab">費用透明</span></div>
+            <div class="stat-box"><span class="stat-val">24H</span><span class="stat-lab">即時待命</span></div>
+            <div class="stat-box"><span class="stat-val">4.9</span><span class="stat-lab">暖心評分</span></div>
+        </div>
+
+        <section class="section wrapper">
+            <div class="watermark" style="bottom: 5%; right: -5%; transform: rotate(-3deg);">Legacy</div>
+            <div class="flex-container">
+                <div class="img-holder reveal">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80" alt="祥安品牌精神">
+                </div>
+                <div class="text-holder reveal" style="flex: 1.2;">
+                    <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:3px;">OUR PHILOSOPHY</span>
+                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; line-height: 1.4; margin: 20px 0;">以職人之手，<br>圓滿生命每一段旅程。</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 30px; opacity: 0.8;">祥安生命秉持對生命的最高禮讚。我們將繁瑣流程轉化為隱形守護，讓家屬能全心沈浸於追思。在最脆弱的時刻，我們為您提供最莊嚴的支持。</p>
+                    <a href="./about.html" style="color:var(--deep-ink); text-decoration:none; font-weight:700; border-bottom:2.5px solid var(--accent); padding-bottom:5px;">關於我們 &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section wrapper" style="padding-top: 0;">
+            <div class="reveal">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 40px;">專業規劃 · 細膩執行</h2>
+            </div>
+            <div class="service-list">
+                <a href="./services.html#buddhist-taoist" class="service-row reveal">
+                    <span class="idx">01</span>
+                    <div><h3>佛道傳統禮儀</h3><p>結合古典底蘊與現代美學，保留儀軌莊嚴本質。</p></div>
+                </a>
+                <a href="./services.html#western-etiquette" class="service-row reveal">
+                    <span class="idx">02</span>
+                    <div><h3>西式尊榮追思</h3><p>專注生平故事敘事，營造充滿愛與盼望的人文謝幕。</p></div>
+                </a>
+                <a href="./services.html#eco-burial" class="service-row reveal">
+                    <span class="idx">03</span>
+                    <div><h3>環保自然葬儀</h3><p>樹葬、海葬、花葬。以輕柔方式回歸大地守護。</p></div>
+                </a>
+            </div>
+        </section>
+
+        <section class="section wrapper">
+            <h2 style="text-align: center; margin-bottom: 50px; font-family: 'Noto Serif TC', serif; font-size: 2.2rem;">常見疑問解答</h2>
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <button class="faq-toggle">
+                        <h4>關於服務契約是否有法律保障？</h4>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-content">
+                        祥安生命所有服務均簽署政府核可之定型化契約，品項與金額完全透明，杜絕惡意追加費用的可能。
+                    </div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-toggle">
+                        <h4>若在深夜需要協助，該如何聯絡？</h4>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-content">
+                        請隨時撥打 24H 專線 0978-583-699。我們的值班顧問會即刻提供指引並安排接體服務，給您最即時的專業守護。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+   <section class="section wrapper" style="background: transparent;">
+    <div class="reveal">
+        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 20px; text-align: center; color: var(--deep-ink);">生命禮讚：精選案例</h2>
+        <div style="width: 40px; height: 1.5px; background: var(--accent); margin: 0 auto 50px;"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px;">
+        
+        {% assign latest_post = site.posts | sample %}
+        {% if latest_post %}
+            <a href="{{ latest_post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
+                <div style="background: transparent; transition: 0.4s;">
+                    
+                    <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
+                        {% if latest_post.image %}
+                            {% assign post_img = latest_post.image | relative_url %}
+                        {% else %}
+                            {% assign post_img = '/images/blog-hero-bg.jpg' | relative_url %}
+                        {% endif %}
+                        <img src="{{ post_img }}" 
+                             style="width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease;" 
+                             alt="{{ latest_post.title }}">
+                    </div>
+
+                    <div style="padding: 25px 0 10px 0;">
+                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; display: block; margin-bottom: 10px;">LATEST STORY</span>
+                        <h3 style="margin-bottom: 15px; font-family: 'Noto Serif TC', serif; font-size: 1.5rem; line-height: 1.4; color: var(--deep-ink);">{{ latest_post.title }}</h3>
+                        <p style="font-size: 1rem; opacity: 0.75; line-height: 1.8; margin-bottom: 20px; font-weight: 300;">
+                            {{ latest_post.description | default: latest_post.excerpt | strip_html | truncate: 75 }}
+                        </p>
+                        <div style="display: inline-block; color: var(--deep-ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 3px; font-size: 0.9rem;">
+                            進入生命故事 &rarr;
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <div style="padding: 60px; text-align: center; border: 1px solid var(--line-soft); grid-column: 1 / -1;">
+                <p style="opacity: 0.4; font-family: 'Noto Serif TC', serif; letter-spacing: 2px;">敘事整理中</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<style>
+    /* 1. 統一融合特效：去掉白底陰影，改用職人質感位移 */
+    .case-card-blend {
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-    let totalFee = 0;
-    let note = "";
-
-    if (loc === "TP") {
-        note = isCitizen ? "臺北市民：前7日$0，8-14日$400/日，15日以上$800/日" : "外縣市：前7日$400/日，8-14日$800/日，15日以上$1600/日";
-        for (let i = 1; i <= diffDays; i++) {
-            if (isCitizen) {
-                if (i > 14) totalFee += 800;
-                else if (i > 7) totalFee += 400;
-            } else {
-                if (i > 14) totalFee += 1600;
-                else if (i > 7) totalFee += 800;
-                else totalFee += 400;
-            }
-        }
-    } else {
-        note = isCitizen ? "新北市民：7日內火化免收；逾7日按第1日起計費($400/日)" : "外縣市：按日計費($800/日)";
-        if (isCitizen && diffDays <= 7) {
-            totalFee = 0;
-        } else {
-            for (let i = 1; i <= diffDays; i++) {
-                const base = isCitizen ? 400 : 800;
-                totalFee += (i >= 15) ? (base * 2) : base;
-            }
-        }
+    .case-card-blend:hover {
+        transform: translateY(-8px); /* 輕微上浮 */
     }
 
-    document.getElementById('days-count').innerText = diffDays;
-    document.getElementById('estimated-fee').innerText = 'NT$ ' + totalFee.toLocaleString();
-    document.getElementById('fee-note').innerText = "*註：" + note;
-    document.getElementById('calc-result').style.display = 'block';
-}
+    .case-card-blend:hover img {
+        transform: scale(1.05); /* 照片微擴張 */
+    }
+
+    .case-card-blend:hover h3 {
+        color: var(--accent) !important; /* 標題變色引導點擊 */
+    }
+
+    /* 2. 手機版適配：確保兩側不會撞牆 */
+    @media (max-width: 768px) {
+        .case-card-blend {
+            padding: 0 15px;
+            margin-bottom: 30px;
+        }
+    }
+</style>
+
+<section class="section wrapper">
+    <div class="reveal">
+        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 20px; text-align: center;">生命禮讚：精選案例</h2>
+        <div style="width: 40px; height: 1.5px; background: var(--accent); margin: 0 auto 50px;"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
+        
+        {% assign latest_post = site.posts | sample %}
+        {% if latest_post %}
+            <a href="{{ latest_post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
+                <div>
+                    <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
+                        {% if latest_post.image %}
+                            {% assign post_img = latest_post.image | relative_url %}
+                        {% else %}
+                            {% assign post_img = '/images/blog-hero-bg.jpg' | relative_url %}
+                        {% endif %}
+                        <img src="{{ post_img }}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease;" alt="{{ latest_post.title }}">
+                    </div>
+
+                    <div style="padding: 25px 0;">
+                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; display: block; margin-bottom: 12px;">LATEST STORY</span>
+                        <h3 style="margin-bottom: 15px; font-family: 'Noto Serif TC', serif; font-size: 1.5rem; line-height: 1.4; color: var(--deep-ink);">{{ latest_post.title }}</h3>
+                        <p style="font-size: 1rem; opacity: 0.75; line-height: 1.8; margin-bottom: 20px; font-weight: 300;">
+                            {{ latest_post.description | default: latest_post.excerpt | strip_html | truncate: 75 }}
+                        </p>
+                        <div style="display: inline-block; color: var(--deep-ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 3px; font-size: 0.9rem;">
+                            進入生命故事 &rarr;
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <div style="padding: 60px; text-align: center; border: 1px solid var(--line-soft); grid-column: 1 / -1;">
+                <p style="opacity: 0.4; font-family: 'Noto Serif TC', serif; letter-spacing: 2px;">敘事整理中</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+    </main>
+
+    {% include footer.html %}
+    {% include floating-cta.html %}
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. FAQ 展開邏輯 (修正版) ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const btn = item.querySelector('.faq-toggle');
+            if (btn) {
+                btn.addEventListener('click', function(e) {
+                    // 阻止按鈕預設行為
+                    e.preventDefault();
+                    
+                    // 取得目前狀態
+                    const isActive = item.classList.contains('active');
+                    
+                    // 先關閉所有其他的 FAQ (手風琴效果)
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+                    
+                    // 如果原本是關閉的，則開啟它
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // --- 2. 捲動揭幕動畫 (Intersection Observer) ---
+        const revealOptions = { 
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px" // 提前一點觸發
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // 觸發後就停止觀察該元素，節省效能
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+    });
 </script>
 
----
-
-## 三、常用規費對照表 (2026 官方版)
-
-根據您的文件核對之重點項目：
-
-| 項目 | 臺北市 (懷愛館) | 新北市 (板橋殯儀館) |
-| :--- | :--- | :--- |
-| **冷藏費 (市民)** | 前 7 日 $0 | 7 日內火化 $0 (逾期補收) |
-| **冷藏費 (非市民)** | 前 7 日 $400/日 | $800/日 |
-| **丁級禮廳** | **免收費** | **$100 /三小時** |
-| **火化費 (市民)** | $2,000 | $2,000 |
-
----
-
-## 四、常見問題 Q&A
-
-<div class="faq-section" style="margin-top: 30px;">
-    {% for faq in page.faqs %}
-    <details style="background: #fff; border: 1px solid #eee; margin-bottom: 15px; border-radius: 8px; overflow: hidden;">
-        <summary style="padding: 20px; font-weight: bold; color: var(--sa-green); cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none;">
-            {{ faq.question }}
-            <i class="fas fa-plus" style="font-size: 0.8rem; color: var(--sa-gold);"></i>
-        </summary>
-        <div style="padding: 0 20px 20px; color: #666; line-height: 1.8; border-top: 1px solid #f9f9f9; background: #fafafa;">
-            {{ faq.answer }}
-        </div>
-    </details>
-    {% endfor %}
-</div>
-
----
-
-<div style="background: var(--sa-green); color: #fff; padding: 35px; border-radius: 12px; margin-top: 50px; text-align: center;">
-    <h3 style="color: var(--sa-gold); margin-top: 0;">對規費細目還有疑問？</h3>
-    <p>祥安生命 24 小時專業團隊，為您現場核對規費收據，確保不花冤枉錢。</p>
-    <a href="tel:0978583699" style="background: var(--sa-gold); color: #fff; padding: 15px 40px; border-radius: 30px; display: inline-block; text-decoration: none; font-weight: bold; font-size: 1.2rem; margin-top: 20px;">
-        <i class="fas fa-phone-alt"></i> 0978-583-699
-    </a>
-</div>
+</body>
+</html>
