@@ -1,0 +1,69 @@
+{% assign random_faqs = site.data.faqs | sample: 3 %}
+
+<section class="sa-faq-premium">
+    <div class="sa-faq-header">
+        <span class="sa-faq-label">FAQ KNOWLEDGE</span>
+        <h2 class="sa-faq-main-title">治喪百科・常見問答</h2>
+        <div class="sa-title-line"></div>
+    </div>
+
+    <div class="sa-accordion">
+        {% for item in random_faqs %}
+        <div class="sa-accordion-item">
+            <div class="sa-accordion-header" onclick="toggleAccordion(this)">
+                <div class="sa-q-content">
+                    <span class="sa-q-prefix">Q.</span>
+                    <span class="sa-q-text">{{ item.q }}</span>
+                </div>
+                <div class="sa-icon-box">
+                    <div class="sa-plus-line v-line"></div>
+                    <div class="sa-plus-line h-line"></div>
+                </div>
+            </div>
+            <div class="sa-accordion-body">
+                <div class="sa-a-inner">
+                    <p>{{ item.a }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+    /* 這裡放入我之前提供給您的「旗艦級」CSS 樣式 */
+    .sa-faq-premium { max-width: 850px; margin: 60px auto; padding: 0 20px; font-family: "Noto Serif TC", serif; }
+    .sa-faq-header { text-align: center; margin-bottom: 40px; }
+    .sa-faq-label { color: #a68b5a; letter-spacing: 4px; font-size: 0.85rem; font-weight: 700; display: block; }
+    .sa-faq-main-title { color: #2d3e2a; font-size: 2rem; margin: 10px 0; }
+    .sa-title-line { width: 40px; height: 3px; background: #a68b5a; margin: 0 auto; }
+    .sa-accordion { border-top: 1px solid #e0ddd7; text-align: left; }
+    .sa-accordion-item { border-bottom: 1px solid #e0ddd7; transition: 0.4s; }
+    .sa-accordion-header { padding: 25px 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .sa-q-content { display: flex; align-items: center; gap: 15px; }
+    .sa-q-prefix { color: #a68b5a; font-weight: 700; font-size: 1.2rem; }
+    .sa-q-text { color: #2c2c2c; font-size: 1.1rem; font-weight: 600; }
+    .sa-icon-box { position: relative; width: 18px; height: 18px; transition: 0.4s; }
+    .sa-plus-line { position: absolute; background: #a68b5a; }
+    .v-line { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+    .h-line { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+    .sa-accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; background: #fdfaf5; }
+    .sa-a-inner { padding: 0 45px 30px 45px; color: #555; line-height: 1.8; font-family: "Noto Sans TC", sans-serif; }
+    .sa-accordion-item.is-open .sa-icon-box { transform: rotate(135deg); }
+    .sa-accordion-item.is-open .sa-q-text { color: #a68b5a; }
+</style>
+
+<script>
+    function toggleAccordion(element) {
+        const item = element.parentElement;
+        const body = item.querySelector('.sa-accordion-body');
+        const isOpen = item.classList.contains('is-open');
+        if (isOpen) {
+            item.classList.remove('is-open');
+            body.style.maxHeight = null;
+        } else {
+            item.classList.add('is-open');
+            body.style.maxHeight = body.scrollHeight + "px";
+        }
+    }
+</script>
