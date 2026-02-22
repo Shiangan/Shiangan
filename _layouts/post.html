@@ -1,7 +1,75 @@
-<div class="post-tags">
-    {% for tag in page.tags %}
-        <a href="{{ '/blog-tag.html' | relative_url }}?tag={{ tag | url_encode }}" class="tag-button">
-            <i class="fas fa-tag"></i> {{ tag }}
-        </a>
-    {% endfor %}
-</div>
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    {% include head.html %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --sa-green: #2d3e2a; --sa-gold: #a68b5a; --sa-bg: #fdfaf5; }
+        body { font-family: 'Noto Sans TC', sans-serif; color: #333; line-height: 1.9; margin: 0; padding-top: 80px; }
+        .post-hero { 
+            height: 50vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ page.image | relative_url }}') center/cover;
+            display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
+        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+        .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
+        .post-main { flex: 1; min-width: 0; }
+        .post-sidebar { width: 320px; }
+        
+        /* 你要求的標籤按鈕樣式 */
+        .post-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+        .tag-button { 
+            background: rgba(255,255,255,0.2); color: #fff; padding: 6px 15px; border-radius: 20px; 
+            text-decoration: none; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4); transition: 0.3s;
+        }
+        .tag-button:hover { background: var(--sa-gold); border-color: var(--sa-gold); }
+
+        .entry-content img { max-width: 100%; border-radius: 8px; margin: 20px 0; }
+        .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 12px; text-align: center; }
+        .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+
+        @media (max-width: 992px) { .post-sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+    {% include header.html %}
+    <div class="post-hero">
+        <div class="container">
+            <h1 style="font-family:'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 3.2rem); margin:0;">{{ page.title }}</h1>
+            <div class="post-tags">
+                {% for tag in page.tags %}
+                <a href="{{ '/blog-tag.html' | relative_url }}?tag={{ tag | url_encode }}" class="tag-button">
+                    <i class="fas fa-tag"></i> {{ tag }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="layout-grid">
+            <article class="post-main">
+                <p style="font-size:1.2rem; color:#666; border-left:4px solid var(--sa-gold); padding-left:20px;">{{ page.description }}</p>
+                <div class="entry-content">
+                    {{ content }}
+                </div>
+                <div style="margin-top:60px; padding-top:30px; border-top:1px solid #eee;">
+                    <a href="/blog.html" style="text-decoration:none; color:var(--sa-green); font-weight:bold;">← 返回百科列表</a>
+                </div>
+            </article>
+
+            <aside class="post-sidebar">
+                <div class="sticky-cta">
+                    <h3>24H 禮儀諮詢</h3>
+                    <p>祥安專業禮儀師全程陪同</p>
+                    <a href="tel:0978583699" style="font-size:1.5rem; color:#fff; text-decoration:none; font-weight:bold;">0978-583-699</a>
+                    <a href="tel:0978583699" class="cta-btn">立即聯繫顧問</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+    {% include footer.html %}
+</body>
+</html>
