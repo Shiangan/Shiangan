@@ -1,104 +1,242 @@
----
-layout: null
----
-{% comment %} 隨機圖片邏輯：根據標題長度決定隨機圖 index {% endcomment %}
-{% assign random_index = page.title.size | modulo: 3 | plus: 1 %}
-{% if page.image %}
-    {% assign final_hero = page.image | relative_url %}
-{% else %}
-    {% capture default_img %}/images/hero-{{ random_index }}.jpg{% endcapture %}
-    {% assign final_hero = default_img | relative_url %}
-{% endif %}
+<style>
+    :root {
+        --deep-green: #1a241a;
+        --gold-solid: #c5a059;
+        --nav-height: 80px;
+        --nav-scrolled-height: 65px;
+    }
 
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    {% include head.html %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root { --sa-green: #2d3e2a; --sa-gold: #a68b5a; --sa-bg: #fdfaf5; }
-        body { font-family: 'Noto Sans TC', sans-serif; color: #333; line-height: 1.9; margin: 0; padding-top: 80px; }
+    /* 基礎導航容器 */
+    #navbar {
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        display: flex; justify-content: center;
+        height: var(--nav-height);
+        z-index: 9999; /* 確保永遠在最上層 */
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent;
+    }
+
+    /* 滾動後的樣式 */
+    #navbar.scrolled {
+        height: var(--nav-scrolled-height);
+        background: rgba(26, 36, 26, 0.98);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .nav-wrapper {
+        width: 92%;
+        max-width: 1400px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Logo 處理 */
+    .logo a { display: flex; align-items: center; }
+    .logo img { 
+        height: 60px; 
+        width: auto;
+        transition: 0.3s ease;
+    }
+    #navbar.scrolled .logo img { height: 45px; }
+
+    /* 電腦版選單樣式 */
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 35px;
+        margin: 0; padding: 0;
+        align-items: center;
+    }
+
+    .nav-links > li { position: relative; height: 100%; display: flex; align-items: center; }
+
+    .nav-links > li > a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.05rem;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        padding: 10px 0;
+        transition: 0.3s;
+    }
+    
+    .nav-links > li > a:hover { color: var(--gold-solid); }
+
+    /* 下拉選單基礎樣式 */
+    .submenu {
+        position: absolute;
+        top: 100%; 
+        left: 50%;
+        transform: translateX(-50%) translateY(15px);
+        background: #1e2b1e;
+        width: 220px;
+        padding: 15px 0;
+        list-style: none;
+        border: 1px solid var(--gold-solid);
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* 滑鼠游標移入顯示下拉 */
+    @media (min-width: 1101px) {
+        .nav-links li:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    .submenu li a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        padding: 12px 25px;
+        display: block;
+        font-size: 0.95rem;
+        transition: 0.3s;
+    }
+    .submenu li a:hover { 
+        color: var(--gold-solid); 
+        background: rgba(255,255,255,0.05); 
+        padding-left: 30px;
+    }
+
+    /* 手機版三槓按鈕 */
+    .menu-toggle {
+        display: none;
+        color: var(--gold-solid);
+        font-size: 1.8rem;
+        cursor: pointer;
+        z-index: 10001;
+    }
+
+    /* 手機版響應式修正 */
+    @media (max-width: 1100px) {
+        .menu-toggle { display: block; }
         
-        /* 文章 Hero 區塊 */
-        .post-hero { 
-            height: 50vh; min-height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover;
-            display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
+        .nav-links {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 80%; height: 100vh;
+            background: var(--deep-green);
+            flex-direction: column;
+            padding: 120px 40px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            gap: 20px;
+            align-items: flex-start;
         }
 
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-        .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
-        .post-main { flex: 1; min-width: 0; }
-        .post-sidebar { width: 320px; }
+        .nav-links.active { right: 0; }
 
-        /* 標籤按鈕 */
-        .post-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
-        .tag-button { 
-            background: rgba(255,255,255,0.15); color: #fff; padding: 6px 16px; border-radius: 20px; 
-            text-decoration: none; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4); transition: 0.3s;
+        .submenu { 
+            position: static; transform: none !important; 
+            opacity: 1; visibility: visible; 
+            width: 100%; display: none;
+            background: rgba(0,0,0,0.2);
+            border: none; box-shadow: none;
+            padding: 0; margin-top: 10px;
         }
-        .tag-button:hover { background: var(--sa-gold); border-color: var(--sa-gold); }
 
-        /* 文章內容 */
-        .entry-content { font-size: 1.05rem; }
-        .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid var(--sa-bg); padding-bottom: 10px; margin-top: 40px; }
-        .entry-content img { max-width: 100%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 30px 0; }
+        .nav-links li.show-submenu .submenu { display: block; }
+        .nav-links li { width: 100%; flex-direction: column; align-items: flex-start; }
+    }
+</style>
 
-        /* 側邊欄卡片 */
-        .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 15px; text-align: center; }
-        .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
-        .cta-btn:hover { background: #b89a6a; transform: translateY(-2px); }
-
-        @media (max-width: 992px) { .post-sidebar { width: 100%; } .post-hero { height: 40vh; } }
-    </style>
-</head>
-<body>
-    {% include header.html %}
-
-    <header class="post-hero">
-        <div class="container">
-            <h1 style="font-family:'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 3.2rem); margin:0; line-height: 1.2;">{{ page.title }}</h1>
-            <div class="post-tags">
-                {% for tag in page.tags %}
-                <a href="{{ '/blog-tag.html' | relative_url }}?tag={{ tag | url_encode }}" class="tag-button">
-                    <i class="fas fa-tag"></i> {{ tag }}
-                </a>
-                {% endfor %}
-            </div>
+<header id="navbar">
+    <div class="nav-wrapper">
+        <div class="logo">
+            <a href="{{ site.baseurl }}/">
+                <img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
+            </a>
         </div>
-    </header>
-
-    <div class="container">
-        <div class="layout-grid">
-            <main class="post-main">
-                <div style="font-size:1.2rem; color:#555; border-left:5px solid var(--sa-gold); padding-left:25px; margin-bottom:50px; line-height: 1.8;">
-                    {{ page.description }}
-                </div>
+        
+        <nav>
+            <ul class="nav-links" id="main-nav">
+                <li><a href="{{ site.baseurl }}/">首頁</a></li>
+                <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
                 
-                <div class="entry-content">
-                    {{ content }}
-                </div>
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="menu-item">生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ '/services.html#buddhist-taoist' | relative_url }}">中式禮儀</a></li>
+                        <li><a href="{{ '/services.html#western-etiquette' | relative_url }}">西式禮儀</a></li>
+                        <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
+                    </ul>
+                </li>
+                
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="menu-item">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
+                    </ul>
+                </li>
 
-                <div style="margin-top:80px; padding-top:40px; border-top:1px solid #eee;">
-                    <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold; font-size: 1.1rem;">
-                        <i class="fas fa-th-list"></i> 返回百科列表
-                    </a>
-                </div>
-            </main>
-
-            <aside class="post-sidebar">
-                <div class="sticky-cta">
-                    <h3 style="color:var(--sa-gold); margin-top:0; font-family:'Noto Serif TC';">24H 禮儀諮詢</h3>
-                    <p style="font-size:0.95rem; opacity:0.9; line-height:1.6;">面臨親人往生感到無助？<br>專業禮儀師全程引導與陪伴。</p>
-                    <a href="tel:0978583699" style="font-size:1.6rem; color:#fff; text-decoration:none; display:block; margin:20px 0; font-weight:800;">
-                        <i class="fas fa-phone-alt"></i> 0978-583-699
-                    </a>
-                    <a href="tel:0978583699" class="cta-btn">立即聯繫顧問</a>
-                </div>
-            </aside>
+                <li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
+                <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight: bold; border: 1px solid var(--gold-solid); padding: 8px 15px; border-radius: 4px;">花禮訂購</a></li>
+            </ul>
+        </nav>
+        
+        <div class="menu-toggle" id="menu-btn">
+            <i class="fas fa-bars"></i>
         </div>
     </div>
+</header>
 
-    {% include footer.html %}
-</body>
-</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.getElementById('navbar');
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('main-nav');
+        const hasSubmenus = document.querySelectorAll('.has-submenu');
+
+        // 滾動監控
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 手機版側邊欄開關
+        menuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 手機版下拉選單點擊邏輯
+        hasSubmenus.forEach(item => {
+            const link = item.querySelector('.menu-item');
+            link.addEventListener('click', function(e) {
+                if (window.innerWidth <= 1100) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // 關閉其他已打開的選單 (可選)
+                    hasSubmenus.forEach(other => {
+                        if (other !== item) other.classList.remove('show-submenu');
+                    });
+                    
+                    item.classList.toggle('show-submenu');
+                }
+            });
+        });
+
+        // 點擊空白處關閉選單
+        document.addEventListener('click', function() {
+            navLinks.classList.remove('active');
+            menuBtn.querySelector('i').className = 'fas fa-bars';
+        });
+    });
+</script>
