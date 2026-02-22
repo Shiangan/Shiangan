@@ -4,6 +4,8 @@
         --gold-solid: #c5a059;
     }
 
+  }
+
     #navbar {
         position: fixed;
         top: 0; left: 0; width: 100%;
@@ -134,49 +136,44 @@
 <header id="navbar">
     <div class="nav-wrapper">
         <div class="logo">
-            <a href="index.html">
-                <img src="images/logo.png" alt="祥安生命">
+            <a href="{{ site.baseurl }}/">
+                <img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
             </a>
         </div>
         
         <nav>
             <ul class="nav-links" id="main-nav">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="about.html">關於祥安</a></li>
+                <li><a href="{{ site.baseurl }}/">首頁</a></li>
+                <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
+                
                 <li class="has-submenu">
                     <a href="javascript:void(0)">生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="services.html#buddhist-taoist">中式禮儀</a></li>
-                        <li><a href="services.html#western-etiquette">西式禮儀</a></li>
-                        <li><a href="services.html#eco-burial">環保葬專區</a></li>
+                        <li><a href="{{ '/services.html#buddhist-taoist' | relative_url }}">中式禮儀</a></li>
+                        <li><a href="{{ '/services.html#western-etiquette' | relative_url }}">西式禮儀</a></li>
+                        <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
                     </ul>
                 </li>
+                
                 <li class="has-submenu">
                     <a href="javascript:void(0)">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                     <ul class="submenu">
-                        <li><a href="plans.html#basic">6.8萬方案</a></li>
-                        <li><a href="plans.html#eighty-eight">8.8萬方案</a></li>
-                        <li><a href="plans.html#seventeen-eight">17.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
+                        <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
                     </ul>
                 </li>
-                <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
-    <a href="blog.html" aria-expanded="false">服務案例與百科 <i class="fas fa-chevron-down"></i></a>
-    <ul class="submenu" role="menu">
-        <li class="submenu-title">精選案例實錄</li>
-        <li role="menuitem">
-            <a href="article-custom-case.html" style="font-weight: bold; color: var(--accent-gold) !important;">
-                <i class="fas fa-star" style="font-size: 0.8rem;"></i> 退休老師主題追思案例
-            </a>
-        </li>
-        <li role="menuitem"><a href="blog.html#cases-articles">更多案例分享</a></li>
-        <li class="submenu-separator" role="separator"></li>
-        <li class="submenu-title">殯葬知識百科</li>
-        <li role="menuitem"><a href="article-taboo.html">現代喪禮禁忌解析</a></li>
-        <li role="menuitem"><a href="blog.html#faq-process">治喪流程 Q&A</a></li>
-    </ul>
-</li>
+                
+                <li class="has-submenu">
+                    <a href="{{ '/blog.html' | relative_url }}">服務案例與百科 <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ '/blog.html#cases-articles' | relative_url }}">精選案例分享</a></li>
+                        <li><a href="{{ '/article-taboo.html' | relative_url }}">現代喪禮禁忌解析</a></li>
+                        <li><a href="{{ '/blog.html#faq-process' | relative_url }}">治喪流程 Q&A</a></li>
+                    </ul>
+                </li>
 
-                <li><a href="order.html" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
+                <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight: bold;">花禮訂購</a></li>
             </ul>
         </nav>
         <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
@@ -191,13 +188,11 @@
             const navLinks = document.getElementById('main-nav');
             const hasSubmenus = document.querySelectorAll('.has-submenu');
 
-            // 捲動變色
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 50) { navbar.classList.add('scrolled'); }
                 else { navbar.classList.remove('scrolled'); }
             });
 
-            // 手機版開關
             menuBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 navLinks.classList.toggle('active');
@@ -206,19 +201,20 @@
                 icon.classList.toggle('fa-times');
             });
 
-            // 手機版下拉選單切換
             hasSubmenus.forEach(item => {
                 const link = item.querySelector('a');
                 link.addEventListener('click', function(e) {
                     if (window.innerWidth <= 1100) {
-                        e.preventDefault();
+                        // 如果有點擊行為且是下拉項目，才阻擋跳轉
+                        if (this.getAttribute('href') === 'javascript:void(0)') {
+                            e.preventDefault();
+                        }
                         e.stopPropagation();
                         item.classList.toggle('show-submenu');
                     }
                 });
             });
 
-            // 點擊選單外部自動關閉
             document.addEventListener('click', function() {
                 if (navLinks.classList.contains('active')) {
                     navLinks.classList.remove('active');
@@ -226,7 +222,6 @@
                 }
             });
 
-            // 防止點擊選單內部時關閉自身
             navLinks.addEventListener('click', function(e) {
                 e.stopPropagation();
             });
