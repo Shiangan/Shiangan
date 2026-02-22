@@ -1,87 +1,78 @@
 ---
 layout: null
+permalink: /blog.html
 ---
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
+    <title>殯葬百科知識庫 | 祥安生命</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --sa-green: #2d3e2a; --sa-gold: #a68b5a; --sa-bg: #fdfaf5; --sa-text: #2c2c2c; }
-        body { font-family: 'Noto Sans TC', sans-serif; color: var(--sa-text); line-height: 1.9; margin: 0; padding-top: 80px; }
-        h1, h2, h3 { font-family: 'Noto Serif TC', serif; color: var(--sa-green); }
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+        :root { --sa-green: #2d3e2a; --sa-gold: #a68b5a; --sa-bg: #fdfaf5; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: #fff; margin: 0; padding-top: 80px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* 搜尋與分類 */
+        .filter-section { background: var(--sa-bg); padding: 50px 0; border-bottom: 1px solid #eee; text-align: center; }
+        .search-box { max-width: 600px; margin: 20px auto; position: relative; }
+        #blog-search { width: 100%; padding: 15px 50px; border-radius: 50px; border: 2px solid #ddd; outline: none; font-size: 1rem; }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--sa-gold); }
 
-        /* 文章 Hero */
-        .post-hero { 
-            height: 50vh; min-height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ page.image | relative_url }}') center/cover;
-            display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
-        }
-
-        .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
-        .post-main { flex: 1; min-width: 0; }
-        .post-sidebar { width: 320px; }
-
-        /* 排版組件 */
-        .lead-text { font-size: 1.2rem; border-left: 5px solid var(--sa-gold); padding-left: 20px; margin-bottom: 40px; color: #444; }
-        .table-wrap { width: 100%; overflow-x: auto; margin: 30px 0; border: 1px solid #ddd; border-radius: 8px; }
-        table { width: 100%; min-width: 600px; border-collapse: collapse; background: #fff; }
-        th { background: var(--sa-green); color: #fff; padding: 15px; }
-        td { padding: 15px; border-bottom: 1px solid #eee; }
-
-        /* 標籤按鈕 */
-        .tag-pill { display: inline-block; padding: 5px 15px; border: 1px solid var(--sa-gold); color: var(--sa-gold); border-radius: 20px; text-decoration: none; margin: 5px; font-size: 0.9rem; transition: 0.3s; }
-        .tag-pill:hover { background: var(--sa-gold); color: #fff; }
-
-        /* 側邊欄諮詢卡 */
-        .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 12px; text-align: center; }
-        .phone-link { font-size: 1.6rem; color: #fff; text-decoration: none; display: block; margin: 20px 0; font-weight: bold; }
-        .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 5px; font-weight: bold; }
-
-        @media (max-width: 992px) { .post-sidebar { width: 100%; } .post-hero { height: 40vh; } }
+        /* 文章卡片網格 */
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 60px 0; }
+        .blog-card { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .blog-card.hidden { display: none; }
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-body { padding: 25px; flex-grow: 1; }
+        .card-title { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; color: var(--sa-green); margin: 10px 0; }
+        .article-tag { color: var(--sa-gold); font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
     {% include header.html %}
-    <div class="post-hero">
+    <section class="filter-section">
         <div class="container">
-            <h1 style="font-size: clamp(2rem, 5vw, 3rem); color:#fff; margin:0;">{{ page.title }}</h1>
-            <div style="margin-top:20px;">
-                {% for tag in page.tags %}
-                <a href="{{ '/blog-tag.html' | relative_url }}?tag={{ tag | url_encode }}" class="tag-pill">#{{ tag }}</a>
-                {% endfor %}
+            <h1 style="font-family:'Noto Serif TC', serif; color:var(--sa-green);">殯葬百科知識庫</h1>
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="blog-search" placeholder="搜尋治喪流程、費用、習俗...">
             </div>
         </div>
-    </div>
+    </section>
 
     <div class="container">
-        <div class="layout-grid">
-            <article class="post-main">
-                <div class="lead-text">{{ page.description }}</div>
-                <div class="entry-content">
-                    {{ content }}
-                </div>
-                <div style="margin-top:50px; padding-top:30px; border-top:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
-                    <a href="/blog.html" style="text-decoration:none; color:var(--sa-green); font-weight:bold;">← 返回百科列表</a>
-                    <div>
-                        分享文章：
-                        <a href="https://social-plugins.line.me/lineit/share?url={{ page.url | absolute_url }}" target="_blank" style="color:#00b900; margin-left:10px;"><i class="fab fa-line fa-2x"></i></a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" style="color:#1877f2; margin-left:10px;"><i class="fab fa-facebook fa-2x"></i></a>
-                    </div>
+        <div class="article-grid" id="post-grid">
+            {% for post in site.posts %}
+            <article class="blog-card" data-search="{{ post.title }} {{ post.description }}">
+                <a href="{{ post.url | relative_url }}">
+                    <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" class="card-img" alt="{{ post.title }}">
+                </a>
+                <div class="card-body">
+                    {% if post.tags.size > 0 %}
+                    <span class="article-tag"><i class="fas fa-tag"></i> {{ post.tags | first }}</span>
+                    {% endif %}
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <p style="color:#666; font-size:0.95rem;">{{ post.description | truncate: 60 }}</p>
+                    <a href="{{ post.url | relative_url }}" style="color:var(--sa-gold); font-weight:bold; text-decoration:none;">閱讀全文 →</a>
                 </div>
             </article>
-
-            <aside class="post-sidebar">
-                <div class="sticky-cta">
-                    <h3 style="color:var(--sa-gold); margin-top:0;">24H 禮儀諮詢</h3>
-                    <p style="font-size:0.9rem; opacity:0.8;">面對親人往生感到茫然？<br>專業禮儀師全程引導諮詢。</p>
-                    <a href="tel:0978583699" class="phone-link"><i class="fas fa-phone-alt"></i> 0978-583-699</a>
-                    <a href="tel:0978583699" class="cta-btn">立即聯繫顧問</a>
-                </div>
-            </aside>
+            {% endfor %}
         </div>
     </div>
     {% include footer.html %}
+
+    <script>
+        const searchInput = document.getElementById('blog-search');
+        const cards = document.querySelectorAll('.blog-card');
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            cards.forEach(card => {
+                const text = card.dataset.search.toLowerCase();
+                card.classList.toggle('hidden', !text.includes(query));
+            });
+        });
+    </script>
 </body>
 </html>
