@@ -13,12 +13,12 @@
     background:linear-gradient(180deg,rgba(5,10,5,.55),rgba(5,10,5,.2));
     backdrop-filter:blur(16px);
     border-bottom:1px solid rgba(255,255,255,.08);
-    transition:.45s;
+    transition:.45s ease;
 }
 
 #navbar.scrolled{
     background:rgba(10,18,10,.96);
-    box-shadow:0 25px 70px rgba(0,0,0,.8);
+    box-shadow:0 25px 70px rgba(0,0,0,.85);
 }
 
 /* ===== WRAPPER ===== */
@@ -34,13 +34,13 @@
 /* ===== LOGO ===== */
 .logo img{
     height:64px;
-    transition:.45s;
+    transition:.45s ease;
 }
 #navbar.scrolled .logo img{
     height:50px;
 }
 
-/* ===== MENU ===== */
+/* ===== DESKTOP MENU ===== */
 .nav-links{
     display:flex;
     list-style:none;
@@ -57,7 +57,7 @@
     padding:15px 0;
     display:block;
     position:relative;
-    transition:.3s;
+    transition:.3s ease;
 }
 
 /* ===== 金色光暈 Hover ===== */
@@ -69,7 +69,7 @@
     width:0%;
     height:2px;
     background:linear-gradient(90deg,transparent,var(--gold),transparent);
-    transition:.4s;
+    transition:.4s ease;
     transform:translateX(-50%);
 }
 .nav-links a:hover:after{
@@ -91,7 +91,7 @@
     opacity:0;
     visibility:hidden;
     transform:translateY(20px);
-    transition:.4s;
+    transition:.4s ease;
     box-shadow:
         0 30px 70px rgba(0,0,0,.9),
         inset 0 0 40px rgba(255,255,255,.03);
@@ -113,10 +113,12 @@
 .submenu a{
     padding:14px 24px;
     font-size:.95rem;
+    transition:.3s;
+    border-radius:8px;
 }
-
 .submenu a:hover{
-    background:rgba(255,255,255,.06);
+    background:rgba(255,212,106,.08);
+    color:var(--gold);
 }
 
 /* ===== MOBILE ===== */
@@ -138,9 +140,9 @@
     right:-100%;
     width:85%;
     height:100vh;
-    background:rgba(10,20,10,.95);
+    background:rgba(10,20,10,.96);
     flex-direction:column;
-    padding:140px 30px;
+    padding:140px 40px;
     transition:.5s cubic-bezier(.5,0,.2,1);
     backdrop-filter:blur(16px);
     box-shadow:-20px 0 60px rgba(0,0,0,.85);
@@ -149,13 +151,18 @@
 
 .nav-links.active{right:0}
 
+.nav-links li{
+    position:relative;
+    margin-bottom:0;
+}
+
 .nav-links a{
     padding:20px 0;
     font-size:1.15rem;
-    transition:.3s;
+    transition:.3s ease;
 }
 
-/* 手機手風琴層次卡片 */
+/* 手風琴效果 */
 .submenu{
     position:static;
     opacity:1;
@@ -165,7 +172,7 @@
     background:linear-gradient(145deg,rgba(255,255,255,.02),rgba(255,255,255,.05));
     border-radius:12px;
     margin:8px 0;
-    padding-left:20px;
+    padding-left:25px;
     box-shadow: inset 0 0 15px rgba(0,0,0,.2);
     transition:.4s ease;
 }
@@ -176,9 +183,9 @@
 
 .submenu a{
     font-size:1rem;
-    padding:12px 18px;
+    padding:14px 20px;
     border-radius:8px;
-    transition:.3s;
+    transition:.3s ease;
 }
 
 .submenu a:hover{
@@ -187,3 +194,83 @@
 }
 }
 </style>
+
+<header id="navbar">
+<div class="nav-wrapper">
+
+<div class="logo">
+<a href="{{ site.baseurl }}/">
+<img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命禮儀公司">
+</a>
+</div>
+
+<nav aria-label="網站主要導覽">
+<ul class="nav-links" id="mainNav">
+
+<li><a href="{{ site.baseurl }}/">首頁</a></li>
+<li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
+
+<li class="has-submenu">
+<a href="#" class="toggle">喪葬禮儀服務 ▾</a>
+<ul class="submenu">
+
+<li class="has-submenu">
+<a href="#" class="toggle">中式禮儀 ▾</a>
+<ul class="submenu">
+<li><a href="{{ '/services.html#chinese-customs' | relative_url }}">傳統習俗</a></li>
+<li><a href="{{ '/services.html#buddhist' | relative_url }}">佛教儀式</a></li>
+<li><a href="{{ '/services.html#taoist' | relative_url }}">道教儀式</a></li>
+</ul>
+</li>
+
+<li class="has-submenu">
+<a href="#" class="toggle">西式禮儀 ▾</a>
+<ul class="submenu">
+<li><a href="{{ '/services.html#christianity' | relative_url }}">基督教</a></li>
+<li><a href="{{ '/services.html#catholic' | relative_url }}">天主教</a></li>
+</ul>
+</li>
+
+<li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬</a></li>
+
+</ul>
+</li>
+
+<li><a href="{{ '/plans.html' | relative_url }}">費用方案</a></li>
+<li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
+
+</ul>
+</nav>
+
+<div class="menu-toggle" id="menuBtn">☰</div>
+
+</div>
+</header>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+
+const nav=document.getElementById("navbar");
+const btn=document.getElementById("menuBtn");
+const menu=document.getElementById("mainNav");
+
+/* 滾動效果 */
+window.addEventListener("scroll",()=>{
+ nav.classList.toggle("scrolled",window.scrollY>50);
+});
+
+/* 手機抽屜開關 */
+btn.onclick=()=>menu.classList.toggle("active");
+
+/* 手機手風琴 */
+document.querySelectorAll(".toggle").forEach(link=>{
+ link.onclick=e=>{
+  if(window.innerWidth<1100){
+   e.preventDefault();
+   link.parentElement.classList.toggle("open");
+  }
+ };
+});
+
+});
+</script>
