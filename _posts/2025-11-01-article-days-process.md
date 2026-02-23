@@ -65,6 +65,10 @@ faqs:
 </div>
 
 ---
+### 🔍 延伸閱讀與建議：
+* [**真實案例**] [看祥安如何將治喪天數與主題完美結合：王老師追思實錄](article-custom-case.html)
+* [**後續流程**] [辦完告別式後，何時該對年？日期計算與合爐禁忌](article-duinian-helu.html)
+* [**方案查詢**] [24H 禮儀師諮詢：為您規劃最適天數方案](plans.html)
 
 <div style="margin-top: 50px; padding: 40px; background: #1a241a; color: #fff; border-radius: 15px; text-align: center;">
     <h3 style="color: #c5a059; font-size: 1.8rem; margin-top:0; font-family:'Noto Serif TC';">對治喪流程還有疑問？</h3>
