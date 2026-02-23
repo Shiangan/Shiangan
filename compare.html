@@ -1,0 +1,342 @@
+---
+layout: null
+permalink: /compare.html/
+---
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>全方案規格終極對照 | 祥安生命 - 職人守護，價格透明</title>
+    
+    {% include head.html %}
+
+    <style>
+        :root {
+            --gold: #B4975A;
+            --gold-light: #D4AF37;
+            --deep-ink: #1A1A1A;
+            --bg-soft: #FDFDFB;
+            --border: #E5E5E0;
+            --text-gray: #666666;
+        }
+
+        body { background-color: #fff; color: var(--deep-ink); line-height: 1.6; }
+
+        /* 標題區 */
+        .hero-section {
+            padding: 160px 0 80px;
+            background: linear-gradient(to bottom, #F7F7F2, #FFF);
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 3rem;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        .hero-section .divider {
+            width: 50px;
+            height: 2px;
+            background: var(--gold);
+            margin: 0 auto 30px;
+        }
+
+        /* 矩陣容器 */
+        .matrix-container {
+            max-width: 1400px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .matrix-scroll-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            background: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1150px; /* 確保手機版不擠壓 */
+        }
+
+        /* 表頭：深色奢華感 */
+        thead th {
+            background: var(--deep-ink);
+            color: #fff;
+            padding: 40px 15px;
+            font-family: 'Noto Serif TC', serif;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .p-title { display: block; font-size: 1.4rem; margin-bottom: 10px; color: var(--gold); }
+        .p-price { display: block; font-size: 1.1rem; font-weight: 300; opacity: 0.9; }
+
+        /* 側邊標題欄固定 (核心技術) */
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            background: var(--bg-soft) !important;
+            z-index: 10;
+            width: 180px;
+            font-weight: 700;
+            text-align: left !important;
+            padding-left: 25px !important;
+            border-right: 2px solid var(--border) !important;
+            color: var(--deep-ink);
+        }
+
+        /* 分類標題行 */
+        .cat-row td {
+            background: #F4F4EF !important;
+            padding: 15px 25px !important;
+            text-align: left !important;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* 一般儲存格 */
+        td, th {
+            border: 1px solid var(--border);
+            padding: 22px 15px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .check-mark { color: var(--gold); font-size: 1.3rem; font-weight: bold; }
+        .spec-note { display: block; font-size: 0.8rem; color: var(--text-gray); margin-top: 6px; }
+
+        /* 行懸停效果 */
+        tbody tr:hover td { background-color: #FDFDF7; }
+
+        /* 備註區塊 */
+        .footer-disclaimer {
+            background: var(--bg-soft);
+            padding: 60px 40px;
+            border-radius: 12px;
+            margin-top: 50px;
+        }
+
+        .disclaimer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .disclaimer-item h4 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .disclaimer-item h4::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .disclaimer-list {
+            list-style: none;
+            padding: 0;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 2;
+        }
+
+        .disclaimer-list li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .disclaimer-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.2rem; }
+            .sticky-col { width: 130px; padding-left: 15px !important; font-size: 0.85rem; }
+            .footer-disclaimer { padding: 40px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+    {% include header.html %}
+    
+    <main>
+        <section class="hero-section">
+            <div class="wrapper">
+                <span style="color:var(--gold); letter-spacing: 5px; font-size: 0.85rem;">PREMIUM PLAN COMPARISON</span>
+                <h1 class="reveal">方案內容終極對照</h1>
+                <div class="divider"></div>
+                <p class="reveal" style="max-width: 700px; margin: 0 auto; color: var(--text-gray);">
+                    祥安生命堅持「規格不省略、價格不隱瞞」。透過下表您可以詳盡對照各級方案的物料等級與服務範疇，確保每一份託付都圓滿無憾。
+                </p>
+            </div>
+        </section>
+
+        <section class="matrix-container reveal">
+            <div class="matrix-scroll-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sticky-col" style="background:var(--deep-ink) !important; color:#fff; border-right: 1px solid #333 !important;">服務細項</th>
+                            <th><span class="p-title">國民專案</span><span class="p-price">6.8萬</span></th>
+                            <th><span class="p-title">中式精緻</span><span class="p-price">8.8萬</span></th>
+                            <th><span class="p-title">中式尊榮</span><span class="p-price">11.8萬</span></th>
+                            <th><span class="p-title">中式豪華</span><span class="p-price">14.8萬</span></th>
+                            <th><span class="p-title">中式頂級</span><span class="p-price">17.8萬</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cat-row">
+                            <td colspan="6">一、奠禮式場與空間佈置</td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">鮮花式場規格</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">6 呎精緻型</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">10 呎精緻型</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">15 呎大型規模</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">18 呎尊榮規模</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">22 呎頂級旗艦</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">外場牌樓</td>
+                            <td>-</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">洗淨水設施</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">西式牌樓</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">大型藝術牌樓</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">旗艦型大型牌樓</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">遺照框規格</td>
+                            <td>藝術木框</td>
+                            <td>藝術木框</td>
+                            <td>精緻藝術框</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">手工精雕框</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">頂級尊榮雕框</span></td>
+                        </tr>
+
+                        <tr class="cat-row">
+                            <td colspan="6">二、壽材用品與入殮規格</td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">火化棺木</td>
+                            <td>西式環保棺</td>
+                            <td>中西式環保棺</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">進口實木火化棺</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">高級實木火化棺</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">工藝面雕實木棺</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">壽衣等級</td>
+                            <td>五層五件組</td>
+                            <td>五層五件組</td>
+                            <td>五層五件組</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">材質升級</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">特選絲緞材質</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">骨灰容器</td>
+                            <td>黑花崗</td>
+                            <td>黑花崗</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">高級黑花崗/玉石</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">頂級特選玉石</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">特級優質玉石</span></td>
+                        </tr>
+
+                        <tr class="cat-row">
+                            <td colspan="6">三、專業禮儀人力配置</td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">奠禮司儀</td>
+                            <td>-</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">專業司儀</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">專業司儀</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">專業司儀</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">資深首席司儀</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">襄儀/服務員</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">禮儀襄儀人員</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">禮儀襄儀人員</span></td>
+                            <td><span class="check-mark">✔</span><span class="spec-note">資深服務團隊</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">洗淨入殮化妝</td>
+                            <td><span class="check-mark">✔</span></td>
+                            <td><span class="check-mark">✔</span></td>
+                            <td><span class="check-mark">✔</span></td>
+                            <td><span class="check-mark">✔</span></td>
+                            <td><span class="check-mark">✔</span></td>
+                        </tr>
+
+                        <tr style="background: #fff;">
+                            <td class="sticky-col">完整明細</td>
+                            <td><a href="/deed01.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看24項細節</a></td>
+                            <td><a href="/deed02.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看26項細節</a></td>
+                            <td><a href="/deed03.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看28項細節</a></td>
+                            <td><a href="/deed04.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看30項細節</a></td>
+                            <td><a href="/deed05.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看32項細節</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="footer-disclaimer reveal">
+                <div class="disclaimer-grid">
+                    <div class="disclaimer-item">
+                        <h4>不包含在契約內之部分</h4>
+                        <p style="margin-bottom: 20px; font-weight: bold; color: #cc0000;">以下費用均依據政府或相關單位單據，由家屬據實報實銷：</p>
+                        <ul class="disclaimer-list">
+                            <li><strong>政府殯儀館規費：</strong>包含遺體冷藏費、禮廳租金、火化爐費、各項規費。</li>
+                            <li><strong>塔位/墓園規費：</strong>靈骨塔位購置費、晉塔規費、管理費。</li>
+                            <li><strong>其他客製需求：</strong>包含訃聞郵寄郵資、特定品牌菸酒祭品、追加之花籃。</li>
+                            <li><strong>外縣市接運費：</strong>非本服務範圍（北/中/南特定區域）之長途接體車資。</li>
+                        </ul>
+                    </div>
+                    <div class="disclaimer-item">
+                        <h4>祥安生命承諾與保證</h4>
+                        <ul class="disclaimer-list">
+                            <li><strong>價格透明：</strong>合約簽定後絕不惡意追加任何費用。</li>
+                            <li><strong>真花保證：</strong>式場佈置堅持使用新鮮花材，絕不混用回收花。</li>
+                            <li><strong>專業執照：</strong>所有禮儀師均具備國家級技術士證照。</li>
+                            <li><strong>24H 守護：</strong>無論何時，只要一通電話，我們始終都在。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 50px; border-top: 1px solid var(--border); padding-top: 30px;">
+                    <p style="font-size: 0.9rem; color: var(--text-gray);">
+                        * 若對方案有任何細項微調需求，歡迎撥打 24H 諮詢專線，由專人為您提供客製化報價。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% include footer.html %}
+</body>
+</html>
