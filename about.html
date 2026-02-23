@@ -1,156 +1,241 @@
----
+用這個 把標題那邊改一行顯示完整 然後底色一致性---
 layout: null
-permalink: /about.html
+title: "/about"
 ---
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
-    <title>關於祥安生命 | 國家認證禮儀師陳妍如團隊：24H 溫暖守護、費用透明公開</title>
-    <meta name="description" content="了解祥安生命的初衷與專業。由國家認證禮儀師陳妍如主理，提供台北、新北、桃園地區甲級立案之喪葬禮儀服務。我們堅持費用公開、杜絕紅包，以同理心圓滿每一場人生告別。">
-    
-    <link rel="canonical" href="https://24hour.xn--kpry57d/Shiangan/about.html">
+    <title>關於祥安 | 守護生命圓滿的職人美學 | 祥安生命</title>
+    <style>
+        :root {
+            --brand-green: #1a241a;
+            --brand-gold: #c5a059;
+            --soft-white: #fafafa;
+            --text-gray: #4a4a4a;
+        }
 
-    <meta property="og:title" content="關於祥安生命 | 國家認證禮儀師陳妍如：專業、透明、溫暖">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.xn--kpry57d/Shiangan/about.html">
-    <meta property="og:image" content="https://24hour.xn--kpry57d/Shiangan/images/og-image-about.jpg">
-    <meta property="og:description" content="政府甲級立案，24小時全年無休。我們不只是禮儀師，更是您在艱難時刻最堅實的依靠。">
+        body { 
+            background-color: #fff; 
+            margin: 0; 
+            padding: 0;
+            font-kerning: normal;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FuneralService",
-      "name": "祥安生命有限公司",
-      "founder": {
-        "@type": "Person",
-        "name": "陳妍如",
-        "jobTitle": "國家認證禮儀師"
-      },
-      "image": "https://24hour.xn--kpry57d/Shiangan/images/logo.png",
-      "url": "https://24hour.xn--kpry57d/Shiangan/",
-      "telephone": "+886-978-583-699",
-      "priceRange": "TWD 68000 - 218000",
-      "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "板橋區雙十路二段30號",
-          "addressLocality": "新北市",
-          "postalCode": "220",
-          "addressCountry": "TW"
-      },
-      "areaServed": ["Taipei", "New Taipei", "Taoyuan"],
-      "openingHours": "Mo-Su 00:00-23:59"
-    }
-    </script>
+        .wrapper { width: 85%; max-width: 1300px; margin: 0 auto; }
+
+        /* --- 視覺之巔：劇場式 Header --- */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ site.baseurl }}/images/about-hero.jpg') center/cover;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-title-group { position: relative; z-index: 2; }
+        .hero-title-group span { 
+            display: block; letter-spacing: 12px; font-size: 1rem; margin-bottom: 20px; 
+            font-weight: 300; opacity: 0.9;
+        }
+        .hero-title-group h1 { 
+            font-family: 'Noto Serif TC', serif; font-size: 4.5rem; 
+            line-height: 1.2; margin: 0; letter-spacing: 5px;
+        }
+        .scroll-hint {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            font-size: 0.8rem; letter-spacing: 3px; opacity: 0.7;
+        }
+
+        /* --- 品牌哲學：極致對齊排版 --- */
+        .philosophy-section { padding: 160px 0; background: #fff; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .text-block h2 {
+            font-family: 'Noto Serif TC', serif; font-size: 3rem; 
+            color: var(--brand-green); margin-bottom: 50px; line-height: 1.4;
+        }
+
+        .text-block p {
+            font-size: 1.15rem;
+            line-height: 2.2; /* 增加行高防止視覺擁擠 */
+            color: var(--text-gray);
+            text-align: justify; /* 左右齊行核心 */
+            margin-bottom: 35px;
+            letter-spacing: 0.05em; /* 微調字距增加質感 */
+            word-break: break-all;
+        }
+
+        /* --- 特色亮點：浮雕感區塊 --- */
+        .feature-showcase {
+            background: var(--brand-green);
+            padding: 140px 0;
+            color: #fff;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+        }
+
+        .feature-item {
+            border-top: 1px solid rgba(197, 160, 89, 0.4);
+            padding-top: 40px;
+        }
+
+        .feature-item h3 {
+            font-family: 'Noto Serif TC', serif; font-size: 1.8rem;
+            color: var(--brand-gold); margin-bottom: 25px;
+        }
+
+        .feature-item p {
+            font-size: 1rem; line-height: 2; opacity: 0.85; text-align: justify;
+        }
+
+        /* --- 職人肖像區塊 --- */
+        .artisan-portrait {
+            padding: 160px 0;
+            background: #fcfcfc;
+        }
+
+        .portrait-layout {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 120px;
+            align-items: center;
+        }
+
+        .quote-box {
+            position: relative;
+            padding-left: 40px;
+            border-left: 1px solid var(--brand-gold);
+        }
+
+        .quote-box blockquote {
+            font-family: 'Noto Serif TC', serif; font-size: 2.2rem;
+            line-height: 1.6; color: var(--brand-green); margin: 0 0 30px;
+        }
+
+        /* --- 行動呼籲 --- */
+        .cta-elegant {
+            padding: 140px 0;
+            text-align: center;
+            background: #fff;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 22px 80px;
+            background: var(--brand-green);
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 4px;
+            font-weight: 600;
+            transition: 0.4s;
+            border: 1px solid var(--brand-green);
+        }
+
+        .cta-btn:hover {
+            background: transparent;
+            color: var(--brand-green);
+        }
+
+        /* 手機版優化 */
+        @media (max-width: 992px) {
+            .hero-title-group h1 { font-size: 2.8rem; }
+            .content-grid, .portrait-layout, .feature-grid { 
+                grid-template-columns: 1fr; gap: 60px; 
+            }
+            .text-block h2 { font-size: 2.2rem; }
+        }
+    </style>
 </head>
 
-<body class="about-page">
+<body>
     {% include header.html %}
 
-    <main id="main-content">
-        <section id="page-hero" class="hero-section inner-banner" style="background: var(--deep-ink); color: white; padding: 120px 0 80px; text-align: center;">
-            <div class="hero-content container">
-                <h1 class="reveal animate-fadeIn" style="font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 3.5rem);">國家認證禮儀師團隊，成為您最堅實的依靠</h1>
-                <p class="reveal" style="opacity: 0.8; margin-top: 20px;">祥安生命：以同理心守護每一場溫柔的告別</p>
-                <div class="hero-cta-group" style="margin-top: 40px;">
-                    <a href="#core-story" class="cta-button primary large" style="background: var(--accent); color: white; padding: 15px 30px; text-decoration: none; margin-right: 15px;">了解我們的初衷</a>
+    <main>
+        <section class="hero-section">
+            <div class="reveal hero-title-group">
+                <span>ESTABLISHED WITH COMPASSION</span>
+                <h1>祥和之境・平安之託</h1>
+            </div>
+            <div class="scroll-hint">SCROLL TO EXPLORE</div>
+        </section>
+
+        <section class="philosophy-section">
+            <div class="wrapper content-grid">
+                <div class="reveal text-block">
+                    <h2>我們不只是禮儀師，<br>更是生命溫度的轉接者。</h2>
+                    <p>
+                        祥安生命深耕於台灣這片土地，我們看見過無數次離別，卻始終相信「告別」不應只有哀傷。我們創立的初衷極為純粹：在生命最脆弱的交界處，提供一個足以支撐靈魂的肩膀。我們將傳統禮俗的厚重，轉化為現代職人的細緻，讓每一場告別都像是一部值得被珍藏的生命紀錄片。
+                    </p>
+                    <p>
+                        對於祥安而言，每一份託付都是獨一無二的生命敘事。從中式的莊嚴肅穆、西式的榮耀盼望，到日式的禪意精湛，我們要求團隊不僅在技術上做到精準，更要在心靈上做到「共感」。我們堅持價格的絕對透明，因為誠信是我們與家屬之間最神聖的契約。
+                    </p>
+                </div>
+                <div class="reveal">
+                    <img src="{{ site.baseurl }}/images/about-concept.jpg" alt="祥安生命美學" style="width: 100%; border-radius: 2px;">
                 </div>
             </div>
         </section>
 
-        <section id="core-story" class="section wrapper">
-            <div class="flex-container" style="align-items: center; gap: 60px;">
-                <div class="text-holder reveal">
-                    <span class="section-tag" style="color: var(--accent); font-weight: bold; letter-spacing: 2px;">OUR MISSION</span>
-                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; margin: 20px 0;">源於一份深刻的理解</h2>
-                    <blockquote style="border-left: 3px solid var(--accent); padding-left: 20px; font-style: italic; font-size: 1.2rem; color: #666; margin: 30px 0;">
-                        「當無常來臨，家屬需要的不是冰冷的流程，而是溫柔的接手與陪伴。」
-                    </blockquote>
-                    <p>祥安生命的創立，源於我們對親人離世時「無助感」的體認。我們不只是殯葬服務提供者，更是與家屬站在一起的夥伴。</p>
-                    <ul style="list-style: none; padding: 0; margin-top: 30px;">
-                        <li style="margin-bottom: 15px;"><i class="fas fa-hand-holding-heart" style="color: var(--accent); margin-right: 10px;"></i> <strong>專注陪伴：</strong> 處理繁雜手續，讓您專心與摯愛告別。</li>
-                        <li style="margin-bottom: 15px;"><i class="fas fa-balance-scale" style="color: var(--accent); margin-right: 10px;"></i> <strong>公開透明：</strong> 拒絕紅包與隱藏加價，預算安心掌控。</li>
-                    </ul>
-                </div>
-                <div class="img-holder reveal">
-                    <img src="images/about-story.jpg" alt="祥安生命團隊專業形象" style="width: 100%; border-radius: 4px; box-shadow: 20px 20px 0 var(--accent-light);">
-                </div>
-            </div>
-        </section>
-
-        <section id="certification" class="section" style="background: #f9f7f4;">
+        <section class="feature-showcase">
             <div class="wrapper">
-                <h2 class="text-center" style="font-family: 'Noto Serif TC', serif; text-align: center; margin-bottom: 60px;">雙重承諾：專業是基礎，透明是良心</h2>
-                <div class="stats-grid">
-                    <div class="stat-box reveal">
-                        <i class="fas fa-medal fa-2x" style="color: var(--accent);"></i>
-                        <h3>國家認證禮儀師</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.7;">考試合格人員帶領，確保每一道細節符合文化禮俗。</p>
+                <div class="feature-grid">
+                    <div class="feature-item reveal">
+                        <h3>極致工藝</h3>
+                        <p>引入日式納棺職人精神，從湯身禮到妝容修飾，我們以守護藝術品的心情，還原逝者最安詳、最有尊嚴的容顏。</p>
                     </div>
-                    <div class="stat-box reveal">
-                        <i class="fas fa-file-invoice-dollar fa-2x" style="color: var(--accent);"></i>
-                        <h3>費用公開不隱藏</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.7;">方案內容全透明，簽約後絕無追加負擔。</p>
+                    <div class="feature-item reveal" style="transition-delay: 0.2s;">
+                        <h3>透明契約</h3>
+                        <p>我們深信信任來自於誠實。祥安首創全流程公開方案，拒絕任何隱藏性收費，讓圓滿成為一項承諾，而非一種負擔。</p>
                     </div>
-                    <div class="stat-box reveal">
-                        <i class="fas fa-gavel fa-2x" style="color: var(--accent);"></i>
-                        <h3>政府甲級立案</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.7;">通過政府嚴格評鑑，在地經營，信譽保證。</p>
+                    <div class="feature-item reveal" style="transition-delay: 0.4s;">
+                        <h3>文化轉譯</h3>
+                        <p>無論是傳統佛道教、基督信仰或日蓮正宗，我們均能精確對接宗教細節，將深奧的儀軌轉化為家屬易懂的情感連結。</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="team" class="section wrapper">
-            <h2 class="text-center" style="font-family: 'Noto Serif TC', serif; text-align: center; margin-bottom: 60px;">認識我們：誠摯且溫暖的服務團隊</h2>
-            <div class="flex-container" style="gap: 40px; align-items: stretch;">
-                <article class="reveal" style="flex: 1; border: 1px solid var(--line-soft); padding: 30px; background: white;">
-                    <img src="images/team-member-1.jpg" alt="陳妍如 禮儀師" style="width: 100%; aspect-ratio: 4/5; object-fit: cover;">
-                    <h3 style="margin-top: 20px;">陳妍如 禮儀師</h3>
-                    <span style="color: var(--accent); font-size: 0.8rem; font-weight: bold;">主理人 / 國家認證禮儀師</span>
-                    <p style="margin-top: 15px; font-size: 0.95rem;">「將告別視為對逝者人生的最高致敬。」</p>
-                </article>
-
-                <article class="reveal" style="flex: 1; border: 1px solid var(--line-soft); padding: 30px; background: white;">
-                    <img src="images/team-member-2.jpg" alt="顧問團隊" style="width: 100%; aspect-ratio: 4/5; object-fit: cover;">
-                    <h3 style="margin-top: 20px;">專業服務顧問</h3>
-                    <span style="color: var(--accent); font-size: 0.8rem; font-weight: bold;">行政顧問 / 流程規劃師</span>
-                    <p style="margin-top: 15px; font-size: 0.95rem;">「細心處理行政瑣事，是給家屬最大的平靜。」</p>
-                </article>
+        <section class="artisan-portrait">
+            <div class="wrapper portrait-layout">
+                <div class="reveal">
+                    <img src="{{ site.baseurl }}/images/artisan-focus.jpg" alt="職人專注" style="width: 100%; box-shadow: 40px 40px 0 #f0f0f0;">
+                </div>
+                <div class="reveal quote-box">
+                    <blockquote>
+                        「讓地上的思念，<br>
+                        化作最莊嚴的道別。」
+                    </blockquote>
+                    <p style="font-size: 1.1rem; line-height: 2.2; color: #666; text-align: justify;">
+                        這是祥安生命創辦人的座右銘。我們不追求規模的擴張，我們追求服務的深度。在每一個深夜的接體電話後，是一整個團隊的嚴陣以待。我們守護的不僅是大體，更是一個家庭在悲傷中重新站起來的勇氣。在祥安，我們用「心」去處理每一個細節，因為我們知道，這就是生命最完美的落款。
+                    </p>
+                </div>
             </div>
         </section>
 
-        <section class="section" style="background: var(--deep-ink); color: white; text-align: center;">
-            <div class="wrapper reveal">
-                <h3>24H 全天候守護，即刻前往您的身邊</h3>
-                <p style="margin: 20px 0 40px; opacity: 0.8;">雙北、桃園地區保證 1 小時內抵達。無論深夜或清晨，祥安都在。</p>
-                <a href="tel:+886978583699" class="cta-button primary" style="background: var(--accent); color: white; padding: 20px 50px; text-decoration: none; font-weight: bold; font-size: 1.2rem;">
-                    <i class="fas fa-phone-alt"></i> 0978-583-699
-                </a>
+        <section class="cta-elegant">
+            <div class="reveal wrapper">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; margin-bottom: 40px; color: var(--brand-green);">讓圓滿，善始善終。</h2>
+                <p style="margin-bottom: 60px; font-size: 1.1rem; letter-spacing: 2px; color: #888;">如果您需要一位懂您的專業團隊，祥安隨時在此。</p>
+                <a href="{{ site.baseurl }}/contact/" class="cta-btn">與我們連繫</a>
             </div>
         </section>
     </main>
 
     {% include footer.html %}
-    {% include floating-cta.html %}
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-        });
-    </script>
 </body>
 </html>
