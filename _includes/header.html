@@ -4,18 +4,20 @@
     --gold:#c5a059;
 }
 
-/* NAV */
+/* NAVBAR */
 #navbar{
     position:fixed;
-    top:0; left:0; width:100%;
+    top:0; left:0;
+    width:100%;
     z-index:9999;
     background:transparent;
     transition:.35s;
 }
+
 #navbar.scrolled{
-    background:rgba(26,36,26,.95);
+    background:rgba(26,36,26,.96);
     backdrop-filter:blur(10px);
-    box-shadow:0 4px 20px rgba(0,0,0,.4);
+    box-shadow:0 5px 25px rgba(0,0,0,.4);
 }
 
 .nav-wrapper{
@@ -29,16 +31,21 @@
 
 .logo img{height:60px}
 
-/* DESKTOP MENU */
+/* DESKTOP */
 .nav-links{
     display:flex;
     list-style:none;
     gap:35px;
 }
+
+.nav-links li{position:relative}
+
 .nav-links a{
     color:#fff;
     text-decoration:none;
     font-size:1.05rem;
+    padding:12px 0;
+    display:block;
 }
 
 /* DROPDOWN */
@@ -50,12 +57,16 @@
     min-width:230px;
     opacity:0;
     visibility:hidden;
+    transform:translateY(10px);
     transition:.3s;
 }
+
 .nav-links li:hover>.submenu{
     opacity:1;
     visibility:visible;
+    transform:translateY(0);
 }
+
 .submenu li:hover>.submenu{
     left:100%;
     top:0;
@@ -66,7 +77,7 @@
 /* MOBILE */
 .menu-toggle{
     display:none;
-    font-size:1.8rem;
+    font-size:2rem;
     color:var(--gold);
     cursor:pointer;
 }
@@ -75,7 +86,6 @@
 
 .menu-toggle{display:block}
 
-/* slide menu */
 .nav-links{
     position:fixed;
     top:0;
@@ -86,24 +96,25 @@
     flex-direction:column;
     padding:110px 25px;
     overflow-y:auto;
-    gap:5px;
+    gap:0;
     transition:.35s;
 }
+
 .nav-links.active{right:0}
 
-/* accordion */
 .submenu{
     position:static;
     opacity:1;
     visibility:visible;
+    transform:none;
     display:none;
     background:rgba(255,255,255,.06);
     padding-left:15px;
 }
+
 .has-submenu.open>.submenu{
     display:block;
 }
-
 }
 </style>
 
@@ -113,60 +124,46 @@
 
 <div class="logo">
 <a href="{{ site.baseurl }}/">
-<img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
+<img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命有限公司">
 </a>
 </div>
 
-<nav>
-<ul class="nav-links" id="mainNav">
+<nav aria-label="網站主要導覽">
+<ul class="nav-links" id="mainNav" role="menubar">
 
-<li><a href="{{ site.baseurl }}/">首頁</a></li>
-<li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
+<li role="menuitem"><a href="{{ site.baseurl }}/">首頁</a></li>
+
+<li role="menuitem"><a href="{{ '/about.html' | relative_url }}">關於祥安生命禮儀公司</a></li>
 
 <li class="has-submenu">
-<a href="#" class="toggle">禮儀服務</a>
+<a href="#" class="toggle">喪葬禮儀服務 ▾</a>
 <ul class="submenu">
 
 <li class="has-submenu">
-<a href="#" class="toggle">中式禮儀</a>
+<a href="#" class="toggle">中式喪葬禮儀 ▾</a>
 <ul class="submenu">
-<li><a href="{{ '/services.html#chinese-customs' | relative_url }}">一般習俗</a></li>
-<li><a href="{{ '/services.html#buddhist' | relative_url }}">佛教禮儀</a></li>
-<li><a href="{{ '/services.html#taoist' | relative_url }}">道教禮儀</a></li>
+<li><a href="{{ '/services.html#chinese-customs' | relative_url }}">傳統喪葬習俗流程</a></li>
+<li><a href="{{ '/services.html#buddhist' | relative_url }}">佛教喪禮儀式</a></li>
+<li><a href="{{ '/services.html#taoist' | relative_url }}">道教告別式儀式</a></li>
 </ul>
 </li>
 
 <li class="has-submenu">
-<a href="#" class="toggle">西式禮儀</a>
+<a href="#" class="toggle">西式告別式 ▾</a>
 <ul class="submenu">
-<li><a href="{{ '/services.html#christianity' | relative_url }}">基督教</a></li>
-<li><a href="{{ '/services.html#catholic' | relative_url }}">天主教</a></li>
+<li><a href="{{ '/services.html#christianity' | relative_url }}">基督教喪禮</a></li>
+<li><a href="{{ '/services.html#catholic' | relative_url }}">天主教追思彌撒</a></li>
 </ul>
 </li>
 
-<li class="has-submenu">
-<a href="#" class="toggle">日式禮儀</a>
-<ul class="submenu">
-<li><a href="{{ '/services.html#nichiren' | relative_url }}">日蓮正宗</a></li>
-<li><a href="{{ '/services.html#soka' | relative_url }}">創價學會</a></li>
-</ul>
-</li>
-
-<li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬</a></li>
+<li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保自然葬服務</a></li>
 
 </ul>
 </li>
 
-<li class="has-submenu">
-<a href="#" class="toggle">費用方案</a>
-<ul class="submenu">
-<li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
-<li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
-<li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
-</ul>
-</li>
+<li role="menuitem"><a href="{{ '/plans.html' | relative_url }}">喪葬費用方案價格</a></li>
 
-<li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
+<li role="menuitem"><a href="{{ '/blog.html' | relative_url }}">治喪流程知識百科</a></li>
 
 </ul>
 </nav>
@@ -184,15 +181,12 @@ const nav=document.getElementById("navbar");
 const btn=document.getElementById("menuBtn");
 const menu=document.getElementById("mainNav");
 
-/* scroll effect */
 window.addEventListener("scroll",()=>{
  nav.classList.toggle("scrolled",window.scrollY>50);
 });
 
-/* mobile toggle */
 btn.onclick=()=>menu.classList.toggle("active");
 
-/* accordion */
 document.querySelectorAll(".toggle").forEach(link=>{
  link.onclick=e=>{
   if(window.innerWidth<1100){
