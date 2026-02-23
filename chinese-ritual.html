@@ -8,125 +8,134 @@ title: "/chinese-ritual"
     {% include head.html %}
     <title>中式禮儀流程 | 佛道教傳統治喪規劃 | 祥安生命</title>
     <style>
-        /* 1. 修正靠邊問題：設定全域容器寬度 */
+        /* 1. 基礎容器優化 */
+        body {
+            background-color: #fff; /* 確保全局底色一致 */
+            margin: 0;
+            padding: 0;
+        }
+
         .wrapper {
-            width: 90%;
+            width: 88%; /* 稍微縮小一點點，讓兩邊留白更優雅 */
             max-width: 1200px;
             margin: 0 auto;
         }
 
+        /* 2. Header 視覺 */
         .process-header {
-            padding: 140px 0;
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ site.baseurl }}/images/service-bg-chinese.jpg') center/cover;
+            padding: 160px 0 120px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ site.baseurl }}/images/service-bg-chinese.jpg') center/cover;
             color: #fff;
             text-align: center;
         }
 
+        /* 3. 五大步驟卡片排版優化 */
         .process-container {
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin: -70px auto 80px;
+            justify-content: center;
+            gap: 15px;
+            margin: -60px auto 80px;
             position: relative;
             z-index: 10;
+            flex-wrap: nowrap; /* 桌面版不換行 */
         }
 
         .process-step-card {
             flex: 1;
+            min-width: 0; /* 防止內容撐開 */
             background: #fff;
-            padding: 45px 15px;
+            padding: 40px 10px;
             text-align: center;
-            border: 1px solid #eee;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: 0.3s;
             text-decoration: none;
             color: inherit;
         }
 
         .process-step-card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-8px);
             border-color: var(--accent);
         }
 
-        /* 2. 修正底部顏色一致性：移除交替背景色，統一為乾淨白底或主題色 */
+        /* 4. 詳細內容區塊 - 解決跳行與切斷感 */
         .detail-section {
-            padding: 120px 0;
-            background-color: #fff; /* 統一背景 */
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        /* 移除原本可能導致突然變色的 nth-child 設定 */
-        .detail-section:nth-child(even) { background-color: #fff; }
-
-        .detail-section h2 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 2.4rem;
-            margin-bottom: 30px;
-            color: var(--deep-ink);
-        }
-
-        .detail-section h2 span {
-            font-size: 1.1rem;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 3px 12px;
-            border-radius: 50px;
-            margin-right: 10px;
-            vertical-align: middle;
+            padding: 100px 0;
+            background-color: #fff; 
+            border: none; /* 移除邊框讓顏色更統一 */
         }
 
         .detail-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px; /* 增加文字與圖片的間距 */
-            align-items: center;
+            grid-template-columns: 1.2fr 0.8fr; /* 文字佔比略大，防止句子太短就斷行 */
+            gap: 60px;
+            align-items: flex-start; /* 改為頂部對齊，排版更像雜誌 */
+        }
+
+        /* 圖片區塊修正 */
+        .detail-section:nth-child(even) .detail-content {
+            grid-template-columns: 0.8fr 1.2fr;
+        }
+
+        /* 文字排版優化 */
+        .detail-text p {
+            font-size: 1.1rem;
+            line-height: 1.8; /* 增加行高，閱讀更舒適 */
+            color: #444;
+            text-align: justify; /* 文字左右齊行，不會參差不齊 */
+            margin-bottom: 25px;
+            word-break: break-all; /* 防止長英文或網址撐開 */
+        }
+
+        .detail-section h2 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--deep-ink);
+            line-height: 1.3;
+        }
+
+        .detail-section h2 span {
+            font-size: 1rem;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 10px;
+            border-radius: 50px;
+            margin-right: 12px;
+            display: inline-block;
+            vertical-align: middle;
         }
 
         .detail-image img {
             width: 100%;
-            height: auto;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
+        /* 提示框優化 */
         .pro-note {
             background: #fdfaf4;
-            border-left: 4px solid var(--accent);
-            padding: 25px;
-            margin-top: 30px;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            border-left: 5px solid var(--accent);
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 0 8px 8px 0;
         }
 
-        .check-list {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-        .check-list li {
-            margin-bottom: 12px;
-            padding-left: 25px;
-            position: relative;
-        }
-        .check-list li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        /* 最後一個章節特別處理，確保與 Footer 銜接 */
+        /* 5. 底部銜接區塊 */
         .final-cta {
             background-color: #fff;
-            padding-bottom: 100px;
+            padding: 100px 0 120px;
+            border-top: 1px solid #f9f9f9;
         }
 
+        /* 手機版適應 */
         @media (max-width: 992px) {
             .process-container { flex-wrap: wrap; }
-            .process-step-card { min-width: 45%; }
-            .detail-content { grid-template-columns: 1fr; gap: 40px; }
-            .detail-section:nth-child(even) .detail-image { order: 2; }
+            .process-step-card { flex: 0 0 46%; margin-bottom: 10px; }
+            .detail-content, .detail-section:nth-child(even) .detail-content { 
+                grid-template-columns: 1fr; 
+                gap: 40px;
+            }
         }
     </style>
 </head>
@@ -138,9 +147,9 @@ title: "/chinese-ritual"
         <header class="process-header">
             <div class="reveal wrapper">
                 <span style="letter-spacing: 5px; font-weight: 700; color: var(--accent);">TRADITIONAL RITUALS</span>
-                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; margin: 25px 0;">中式禮儀流程</h1>
-                <p style="max-width: 700px; margin: 0 auto; opacity: 0.9; line-height: 1.8;">
-                    祥安生命深耕台灣傳統喪禮儀節，將繁雜的「做七」、「功德」轉化為家屬易懂且莊嚴的程序。我們尊重家族信仰與地方習俗，確保每一份託付都能圓滿達成。
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; margin: 25px 0;">中式禮儀服務流程</h1>
+                <p style="max-width: 800px; margin: 0 auto; opacity: 0.9; line-height: 2;">
+                    祥安生命深耕傳統治喪文化，將繁複的古禮轉化為莊嚴且現代的送別儀式。我們秉持「專業、誠信、慈悲」的核心價值，從臨終諮詢到安奉圓滿，全程陪伴家屬走過這段艱辛的生命旅程，確保每一份託付都能溫潤圓滿。
                 </p>
             </div>
         </header>
@@ -177,22 +186,22 @@ title: "/chinese-ritual"
 
         <section id="step1" class="detail-section">
             <div class="detail-content wrapper">
-                <div class="reveal">
-                    <h2><span>01</span> 臨終接體與安靈</h2>
-                    <p>當生命圓滿時，祥安提供 24 小時無休的接體服務。我們會引導家屬完成初終禮儀，協助大體安置於館內或家中，並建立初步靈堂以供家屬追思。</p>
+                <div class="reveal detail-text">
+                    <h2><span>01</span> 臨終接體與安置</h2>
+                    <p>當生命走向終點，祥安提供 24 小時無休的即時諮詢與接體服務。我們會派駐專業禮儀師抵達現場，引導家屬處理初終各項繁瑣細節，協助申請殯儀館設施，並依家屬意願將逝者接運至殯儀館或家中安置。</p>
                     <ul class="check-list">
-                        <li>協助取得死亡證明書相關諮詢</li>
-                        <li>專業接體車輛及人員第一時間抵達</li>
-                        <li>設立靈堂、豎靈、引魂儀式引導</li>
-                        <li>代辦殯儀館進館各項手續</li>
+                        <li>協助家屬申請並取得死亡證明書相關諮詢服務。</li>
+                        <li>專業接體人員第一時間抵達，引導家屬進行祝禱或簡單祭拜。</li>
+                        <li>設立靈堂、豎靈、引魂儀式引導，讓逝者靈魂安穩。</li>
+                        <li>協助代辦殯儀館進館各項手續，緩解家屬焦慮。</li>
                     </ul>
                     <div class="pro-note">
                         <strong>💡 禮儀師提醒：</strong><br>
-                        請準備逝者的身分證正本，以便即時辦理殯儀館進館手續。若是在家中安靈，需確認環境通風及空間大小。
+                        請務必先行準備逝者的身分證正本及相關證件。若是在家中安靈，我們會協助評估空間動線與通風情況，確保環境莊嚴隆重。
                     </div>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-01.jpg" alt="臨終接體與安靈">
+                    <img src="{{ site.baseurl }}/images/process-01.jpg" alt="臨終接體">
                 </div>
             </div>
         </section>
@@ -202,18 +211,19 @@ title: "/chinese-ritual"
                 <div class="reveal detail-image">
                     <img src="{{ site.baseurl }}/images/process-02.jpg" alt="治喪規劃">
                 </div>
-                <div class="reveal">
+                <div class="reveal detail-text">
                     <h2><span>02</span> 治喪規劃與擇日</h2>
-                    <p>禮儀顧問會根據逝者的生肖及農民曆，為家屬擇定入殮、出殯與火化的良辰吉日。同時會針對家屬的宗教信仰與預算，提供透明化的方案說明。</p>
+                    <p>專業禮儀顧問會與家屬進行深度溝通，根據逝者的生肖、生辰及農民曆，擇定入殮、出殯與火化的良辰吉日。我們會詳細說明各項服務方案，內容公開透明，確保每一項環節都符合家族的期待與預算。</p>
                     <ul class="check-list">
-                        <li>專業擇日建議（含入殮、奠禮、晉塔）</li>
-                        <li>代訂殯儀館禮廳與設施</li>
-                        <li>確認訃聞印製與告別式風格設計</li>
-                        <li>詳細費用清單確認，不變相加價</li>
+                        <li>專業擇日建議，包含入殮、奠禮、晉塔之良時選取。</li>
+                        <li>代訂殯儀館禮廳與各項公立設施預約服務。</li>
+                        <li>確認訃聞印製格式與發布時間，並溝通告別式整體風格。</li>
+                        <li>提供完整服務合約與費用清單，落實價格透明不加價原則。</li>
                     </ul>
                     <div class="pro-note">
-                        <strong>📖 治喪百科連結：</strong><br>
-                        <a href="{{ site.baseurl }}/funeral-days/" style="color: var(--deep-ink); text-decoration: underline;">傳統喪禮通常需要辦幾天？天數安排詳解 &rarr;</a>
+                        <strong>📖 治喪百科：</strong><br>
+                        如果您想了解傳統中式喪禮的流程長度，可以參考這篇專文：<br>
+                        <a href="{{ site.baseurl }}/funeral-days/" style="color: var(--accent); font-weight: bold;">【習俗解析】傳統喪禮通常要辦幾天？天數安排重點解析 &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -221,18 +231,18 @@ title: "/chinese-ritual"
 
         <section id="step3" class="detail-section">
             <div class="detail-content wrapper">
-                <div class="reveal">
+                <div class="reveal detail-text">
                     <h2><span>03</span> 靈事法事與做七</h2>
-                    <p>中式傳統非常重視「做七」功德。祥安會安排合格且具備素養的法師或道長，引領家屬誦經。這不僅是為了迴向逝者，更是在儀式中讓家屬找到心靈的撫慰。</p>
+                    <p>中式治喪中最核心的便是「做七」功德。祥安會安排資歷深厚且具備宗教素養的法師或道長，引領家屬進行誦經迴向。這不僅是傳統禮節，更是透過莊嚴的宗教儀式，協助家屬宣洩悲傷，並為逝者祈求福報、往生極樂。</p>
                     <ul class="check-list">
-                        <li>頭七至圓滿七法事安排</li>
-                        <li>代備法事所需各類供品與紙札</li>
-                        <li>引導家屬進行辭生、放手尾錢等傳統儀軌</li>
-                        <li>專業法師全程引導與宗教儀節說明</li>
+                        <li>頭七至圓滿七（含滿七、總七）之排期與法事主持。</li>
+                        <li>代為備辦各場法事所需之鮮花、供品、金銀紙札與精緻紙紮屋。</li>
+                        <li>引導家屬進行傳統禮俗如辭生、放手尾錢等重要儀軌。</li>
+                        <li>專業法師全程引導，解答家屬對於宗教儀節的各種疑問。</li>
                     </ul>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-03.jpg" alt="靈事法事">
+                    <img src="{{ site.baseurl }}/images/process-03.jpg" alt="法事儀式">
                 </div>
             </div>
         </section>
@@ -240,16 +250,16 @@ title: "/chinese-ritual"
         <section id="step4" class="detail-section">
             <div class="detail-content wrapper">
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-04.jpg" alt="奠禮出殯">
+                    <img src="{{ site.baseurl }}/images/process-04.jpg" alt="奠禮現場">
                 </div>
-                <div class="reveal">
-                    <h2><span>04</span> 奠禮舉行（出殯）</h2>
-                    <p>這是一生最後的舞台。我們會佈置莊嚴的會場，並由資深司儀與襄儀引導整個家奠與公奠流程，確保在肅穆且具備溫度的氛圍下，圓滿送別。</p>
+                <div class="reveal detail-text">
+                    <h2><span>04</span> 奠禮舉行（告別式）</h2>
+                    <p>告別式是生命最後的莊嚴舞台。祥安專業團隊會佈置融合傳統美學與現代溫馨的禮廳，並由經驗豐富的資深司儀控場，襄儀優雅導禮，確保家奠與公奠流程在哀戚但不失隆重的氣氛中圓滿達成。</p>
                     <ul class="check-list">
-                        <li>精緻會場花藝佈置與遺照修飾</li>
-                        <li>專業司儀全程控場與襄儀導禮</li>
-                        <li>移柩、封釘儀式協助與指導</li>
-                        <li>出殯靈車、樂隊與相關儀仗安排</li>
+                        <li>客製化會場花藝佈置、大型藝術遺照設計與生平影片製作。</li>
+                        <li>資深專業司儀全程掌控節奏，並由專業襄儀協助奠拜程序。</li>
+                        <li>傳統儀節協助，如移柩、封釘、旋棺等細部引導。</li>
+                        <li>出殯靈車、樂隊安排與交通動線規劃，確保行程順遂。</li>
                     </ul>
                 </div>
             </div>
@@ -257,35 +267,36 @@ title: "/chinese-ritual"
 
         <section id="step5" class="detail-section">
             <div class="detail-content wrapper">
-                <div class="reveal">
-                    <h2><span>05</span> 火化晉塔與圓滿</h2>
-                    <p>火化升天後，禮儀師會陪同家屬撿骨、領取火化證明，並前往預定的塔位進行晉塔儀式。最後回靈除靈，完成整個治喪任務。</p>
+                <div class="reveal detail-text">
+                    <h2><span>05</span> 火化晉塔與後續</h2>
+                    <p>在奠禮圓滿後，禮儀師會陪同家屬前往火化場，完成最後的羽化儀式。我們會引領家屬進行領骨（拾灰）、進塔安座等程序。即便治喪告一段落，祥安仍會持續提供後續諮詢，確保生命之禮善始善終。</p>
                     <ul class="check-list">
-                        <li>火化場全程陪同與領骨服務</li>
-                        <li>晉塔安座與祭拜流程指導</li>
-                        <li>除靈、洗淨、返家安靈指引</li>
-                        <li>後續對年、合爐習俗提醒</li>
+                        <li>火化場全程專業陪同，協助家屬辦理領骨與火化證明。</li>
+                        <li>進塔安座儀式指導，包含地理勘查諮詢與安座祭拜引導。</li>
+                        <li>提供除靈、洗淨、返家安靈等傳統民俗程序建議。</li>
+                        <li>主動提醒對年、合爐等後續重要習俗日期與應備物品。</li>
                     </ul>
                     <div class="pro-note">
-                        <strong>📖 關聯閱讀：</strong><br>
-                        <a href="{{ site.baseurl }}/duinian-helu/" style="color: var(--deep-ink); text-decoration: underline;">圓滿之後的功課：對年與合爐如何辦理？ &rarr;</a>
+                        <strong>📖 後續關懷：</strong><br>
+                        圓滿之後的儀式該如何準備？請參閱我們的詳細指南：<br>
+                        <a href="{{ site.baseurl }}/duinian-helu/" style="color: var(--accent); font-weight: bold;">【圓滿指引】對年與合爐儀式如何辦理？應備清單一覽 &rarr;</a>
                     </div>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-05.jpg" alt="晉塔圓滿">
+                    <img src="{{ site.baseurl }}/images/process-05.jpg" alt="火化晉塔">
                 </div>
             </div>
         </section>
 
         <section class="final-cta">
-            <div class="reveal wrapper text-center" style="padding-top: 80px;">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem;">讓思念圓滿，讓生命無憾</h2>
-                <p style="margin: 30px 0 50px; opacity: 0.8; font-size: 1.1rem;">
-                    祥安生命 24 小時守候您的需求。無論是流程諮詢或是即時協助，我們都在。
+            <div class="reveal wrapper text-center">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.8rem; margin-bottom: 20px;">誠心陪伴，圓滿所託</h2>
+                <p style="margin: 0 auto 50px; opacity: 0.8; font-size: 1.2rem; max-width: 600px;">
+                    祥安生命團隊以同理心出發，24 小時全天候待命。如果您有任何治喪流程的需求或疑問，請隨時與我們聯繫。
                 </p>
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="tel:0978583699" style="background: var(--deep-ink); color: #fff; padding: 20px 50px; text-decoration: none; font-weight: 700; border-radius: 2px;">撥打 24H 服務專線</a>
-                    <a href="{{ site.baseurl }}/plans/" style="border: 1px solid var(--deep-ink); color: var(--deep-ink); padding: 20px 50px; text-decoration: none; font-weight: 700; border-radius: 2px;">查看所有方案費用</a>
+                    <a href="tel:0978583699" style="background: var(--deep-ink); color: #fff; padding: 22px 60px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">24H 服務專線</a>
+                    <a href="{{ site.baseurl }}/plans/" style="border: 2px solid var(--deep-ink); color: var(--deep-ink); padding: 20px 60px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem;">了解服務方案</a>
                 </div>
             </div>
         </section>
@@ -295,14 +306,20 @@ title: "/chinese-ritual"
     {% include floating-cta.html %}
 
     <script>
-        // 平滑捲動
+        // 增強型平滑捲動，考慮導航高度
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if(target) {
+                    const offset = 100; // 預留導航列高度
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = target.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
                     window.scrollTo({
-                        top: target.offsetTop - 80, // 考慮到固定導航欄的高度
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
                 }
