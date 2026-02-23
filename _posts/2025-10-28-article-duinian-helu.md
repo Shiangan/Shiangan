@@ -93,6 +93,10 @@ faqs:
 </div>
 
 ---
+### 🔍 治喪圓滿後的下一步：
+* [**回顧禮儀**] [現代標準喪禮天數與流程解析：如何選擇圓滿方案？](article-funeral-days.html)
+* [**客製紀念**] [打造溫馨主題告別式：將思念轉化為永恆的生命教育實錄](article-custom-case.html)
+* [**費用透明**] [祥安生命：服務承諾與費用方案說明](plans.html)
 
 <div style="margin-top: 50px; padding: 40px; background: #1a241a; color: #fff; border-radius: 15px; text-align: center;">
     <h3 style="color: #c5a059; font-size: 1.8rem; margin-top:0; font-family:'Noto Serif TC';">💖 祥安生命：陪伴您完成最後一段溫柔的歸程</h3>
