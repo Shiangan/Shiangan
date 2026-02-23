@@ -1,222 +1,206 @@
 <style>
-:root {
-    --deep-green: #1a241a;
-    --gold-solid: #c5a059;
-    --nav-height: 80px;
-    --nav-scrolled-height: 65px;
+:root{
+    --deep-green:#1a241a;
+    --gold:#c5a059;
 }
 
-/* 導航容器 */
-#navbar {
-    position: fixed; top:0; left:0; width:100%;
-    display:flex; justify-content:center;
-    height: var(--nav-height);
+/* NAV */
+#navbar{
+    position:fixed;
+    top:0; left:0; width:100%;
     z-index:9999;
-    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-    background: transparent;
+    background:transparent;
+    transition:.35s;
 }
-#navbar.scrolled {
-    height: var(--nav-scrolled-height);
-    background: rgba(26,36,26,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(197,160,89,0.3);
-    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+#navbar.scrolled{
+    background:rgba(26,36,26,.95);
+    backdrop-filter:blur(10px);
+    box-shadow:0 4px 20px rgba(0,0,0,.4);
 }
 
-.nav-wrapper {
-    width:92%; max-width:1400px;
-    display:flex; justify-content:space-between; align-items:center;
+.nav-wrapper{
+    max-width:1400px;
+    margin:auto;
+    padding:10px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-/* Logo */
-.logo a { display:flex; align-items:center; }
-.logo img { height:60px; width:auto; transition:0.3s ease; }
-#navbar.scrolled .logo img { height:45px; }
+.logo img{height:60px}
 
-/* 桌面選單 */
-.nav-links {
-    display:flex; list-style:none; gap:35px;
-    margin:0; padding:0; align-items:center;
+/* DESKTOP MENU */
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:35px;
 }
-.nav-links > li { position:relative; display:flex; align-items:center; }
-.nav-links > li > a {
-    color:white; text-decoration:none; font-size:1.05rem;
-    font-weight:500; letter-spacing:1.5px; padding:10px 0;
-    transition: color 0.3s;
-}
-.nav-links > li > a:hover { color: var(--gold-solid); cursor:pointer; }
-
-/* 下拉選單 */
-.submenu {
-    position:absolute; top:100%; left:0;
-    background:#1e2b1e; list-style:none; padding:10px 0;
-    min-width:220px; opacity:0; visibility:hidden;
-    transition: all 0.3s ease;
-    border:1px solid var(--gold-solid);
-    box-shadow:0 10px 30px rgba(0,0,0,0.5);
-    z-index: 999;
+.nav-links a{
+    color:#fff;
+    text-decoration:none;
+    font-size:1.05rem;
 }
 
-/* 桌面 hover 顯示下拉 */
-@media (min-width:1101px){
-    .nav-links li:hover > .submenu { opacity:1; visibility:visible; top:100%; }
-    .submenu li:hover > .submenu { opacity:1; visibility:visible; top:0; left:100%; }
+/* DROPDOWN */
+.submenu{
+    position:absolute;
+    top:100%;
+    left:0;
+    background:#1e2b1e;
+    min-width:230px;
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+.nav-links li:hover>.submenu{
+    opacity:1;
+    visibility:visible;
+}
+.submenu li:hover>.submenu{
+    left:100%;
+    top:0;
+    opacity:1;
+    visibility:visible;
 }
 
-/* 子選單文字 */
-.submenu li { position:relative; }
-.submenu li a {
-    color: rgba(255,255,255,0.9); text-decoration:none;
-    padding:10px 20px; display:block; font-size:0.95rem;
-    transition: all 0.3s;
-}
-.submenu li a:hover { color: var(--gold-solid); background: rgba(255,255,255,0.05); padding-left:25px; }
-
-/* 箭頭旋轉動畫 */
-.menu-item i {
-    transition: transform 0.3s ease;
-}
-.show-submenu > .menu-item i {
-    transform: rotate(180deg);
+/* MOBILE */
+.menu-toggle{
+    display:none;
+    font-size:1.8rem;
+    color:var(--gold);
+    cursor:pointer;
 }
 
-/* 手機版三槓 */
-.menu-toggle {
-    display:none; font-size:1.8rem; color: var(--gold-solid);
-    cursor:pointer; z-index:10001;
-}
-
-/* 手機響應式 */
 @media(max-width:1100px){
-    .menu-toggle{ display:block; }
-    .nav-links {
-        position: fixed; top:0; right:-100%; width:80%; height:100vh;
-        flex-direction:column; padding:120px 30px; gap:10px; align-items:flex-start;
-        background: var(--deep-green); overflow-y:auto; transition:right 0.4s cubic-bezier(0.4,0,0.2,1);
-    }
-    .nav-links.active { right:0; }
 
-    /* 手機全部下拉改為點擊展開 */
-    .submenu { 
-        position: static !important; opacity:1 !important; visibility:visible !important; 
-        display:none; width:100%; background: rgba(0,0,0,0.1); border:none; box-shadow:none; padding:0; margin:0;
-    }
-    .nav-links li.show-submenu > .submenu { display:block; }
+.menu-toggle{display:block}
 
-    /* 多層縮排 */
-    .submenu li > .submenu { padding-left:15px; }
-    .submenu li > .submenu li > .submenu { padding-left:25px; }
+/* slide menu */
+.nav-links{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:85%;
+    height:100vh;
+    background:var(--deep-green);
+    flex-direction:column;
+    padding:110px 25px;
+    overflow-y:auto;
+    gap:5px;
+    transition:.35s;
+}
+.nav-links.active{right:0}
 
-    /* 箭頭旋轉 */
-    .menu-item i { transition: transform 0.3s; }
-    .show-submenu > .menu-item i { transform: rotate(180deg); }
+/* accordion */
+.submenu{
+    position:static;
+    opacity:1;
+    visibility:visible;
+    display:none;
+    background:rgba(255,255,255,.06);
+    padding-left:15px;
+}
+.has-submenu.open>.submenu{
+    display:block;
+}
+
 }
 </style>
 
+
 <header id="navbar">
 <div class="nav-wrapper">
-    <div class="logo">
-        <a href="{{ site.baseurl }}/">
-            <img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
-        </a>
-    </div>
 
-    <nav>
-        <ul class="nav-links" id="main-nav">
-            <li><a href="{{ site.baseurl }}/">首頁</a></li>
-            <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
+<div class="logo">
+<a href="{{ site.baseurl }}/">
+<img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
+</a>
+</div>
 
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="menu-item">生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
-                <ul class="submenu">
-                    <li class="has-submenu">
-                        <a href="javascript:void(0)" class="menu-item">中式禮儀 <i class="fas fa-chevron-right"></i></a>
-                        <ul class="submenu">
-                            <li><a href="{{ '/services.html#chinese-customs' | relative_url }}">一般習俗</a></li>
-                            <li><a href="{{ '/services.html#buddhist' | relative_url }}">正宗佛教</a></li>
-                            <li><a href="{{ '/services.html#taoist' | relative_url }}">道教</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-submenu">
-                        <a href="javascript:void(0)" class="menu-item">西式禮儀 <i class="fas fa-chevron-right"></i></a>
-                        <ul class="submenu">
-                            <li><a href="{{ '/services.html#christianity' | relative_url }}">基督教</a></li>
-                            <li><a href="{{ '/services.html#catholic' | relative_url }}">天主教</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-submenu">
-                        <a href="javascript:void(0)" class="menu-item">日式禮儀 <i class="fas fa-chevron-right"></i></a>
-                        <ul class="submenu">
-                            <li><a href="{{ '/services.html#nichiren' | relative_url }}">日蓮正宗</a></li>
-                            <li><a href="{{ '/services.html#soka' | relative_url }}">創價學會</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
-                </ul>
-            </li>
+<nav>
+<ul class="nav-links" id="mainNav">
 
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="menu-item">費用方案 <i class="fas fa-chevron-down"></i></a>
-                <ul class="submenu">
-                    <li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
-                    <li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
-                    <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
-                </ul>
-            </li>
+<li><a href="{{ site.baseurl }}/">首頁</a></li>
+<li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
 
-            <li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
-            <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight:bold; border:1px solid var(--gold-solid); padding:8px 15px; border-radius:4px;">花禮訂購</a></li>
-        </ul>
-    </nav>
+<li class="has-submenu">
+<a href="#" class="toggle">禮儀服務</a>
+<ul class="submenu">
 
-    <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
+<li class="has-submenu">
+<a href="#" class="toggle">中式禮儀</a>
+<ul class="submenu">
+<li><a href="{{ '/services.html#chinese-customs' | relative_url }}">一般習俗</a></li>
+<li><a href="{{ '/services.html#buddhist' | relative_url }}">佛教禮儀</a></li>
+<li><a href="{{ '/services.html#taoist' | relative_url }}">道教禮儀</a></li>
+</ul>
+</li>
+
+<li class="has-submenu">
+<a href="#" class="toggle">西式禮儀</a>
+<ul class="submenu">
+<li><a href="{{ '/services.html#christianity' | relative_url }}">基督教</a></li>
+<li><a href="{{ '/services.html#catholic' | relative_url }}">天主教</a></li>
+</ul>
+</li>
+
+<li class="has-submenu">
+<a href="#" class="toggle">日式禮儀</a>
+<ul class="submenu">
+<li><a href="{{ '/services.html#nichiren' | relative_url }}">日蓮正宗</a></li>
+<li><a href="{{ '/services.html#soka' | relative_url }}">創價學會</a></li>
+</ul>
+</li>
+
+<li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬</a></li>
+
+</ul>
+</li>
+
+<li class="has-submenu">
+<a href="#" class="toggle">費用方案</a>
+<ul class="submenu">
+<li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
+<li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
+<li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
+</ul>
+</li>
+
+<li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
+
+</ul>
+</nav>
+
+<div class="menu-toggle" id="menuBtn">☰</div>
+
 </div>
 </header>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-    const navbar = document.getElementById('navbar');
-    const menuBtn = document.getElementById('menu-btn');
-    const navLinks = document.getElementById('main-nav');
-    const hasSubmenus = document.querySelectorAll('.has-submenu');
+document.addEventListener("DOMContentLoaded",()=>{
 
-    // 滾動縮小
-    window.addEventListener('scroll', ()=> {
-        if(window.scrollY>50) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
-    });
+const nav=document.getElementById("navbar");
+const btn=document.getElementById("menuBtn");
+const menu=document.getElementById("mainNav");
 
-    // 手機開關
-    menuBtn.addEventListener('click', e=>{
-        e.stopPropagation();
-        navLinks.classList.toggle('active');
-        const icon = menuBtn.querySelector('i');
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
-    });
+/* scroll effect */
+window.addEventListener("scroll",()=>{
+ nav.classList.toggle("scrolled",window.scrollY>50);
+});
 
-    // 手機點擊展開子選單
-    hasSubmenus.forEach(item=>{
-        const link = item.querySelector('.menu-item');
-        if(link){
-            link.addEventListener('click', e=>{
-                if(window.innerWidth <=1100){
-                    e.preventDefault(); e.stopPropagation();
-                    const parent = item.parentElement;
-                    Array.from(parent.children).forEach(sib=>{
-                        if(sib!==item) sib.classList.remove('show-submenu');
-                    });
-                    item.classList.toggle('show-submenu');
-                }
-            });
-        }
-    });
+/* mobile toggle */
+btn.onclick=()=>menu.classList.toggle("active");
 
-    // 點擊空白收合手機選單
-    document.addEventListener('click', ()=>{
-        navLinks.classList.remove('active');
-        menuBtn.querySelector('i').className='fas fa-bars';
-        hasSubmenus.forEach(item=>item.classList.remove('show-submenu'));
-    });
+/* accordion */
+document.querySelectorAll(".toggle").forEach(link=>{
+ link.onclick=e=>{
+  if(window.innerWidth<1100){
+   e.preventDefault();
+   link.parentElement.classList.toggle("open");
+  }
+ };
+});
+
 });
 </script>
