@@ -64,6 +64,10 @@ faqs:
 </div>
 
 ---
+### 🔍 您可能也會感興趣的文章：
+* [**流程規劃**] [現代喪禮該辦幾天？天數、儀式與費用的影響解析](article-funeral-days.html)
+* [**後續習俗**] [對年合爐完整指南：日期計算、除孝脫喪與心理調適](article-duinian-helu.html)
+* [**費用參考**] [祥安生命：透明化喪葬費用方案一覽](plans.html)
 
 <div style="margin-top: 60px; padding: 45px; background: #1a241a; color: #fff; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
     <h3 style="color: #c5a059; font-size: 1.8rem; font-family:'Noto Serif TC';">您也想為摯愛規劃專屬的主題告別嗎？</h3>
