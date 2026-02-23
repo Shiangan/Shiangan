@@ -122,7 +122,7 @@
         </a>
     </div>
 
-  <nav>
+<nav>
     <ul class="nav-links" id="main-nav">
         <li><a href="{{ '/' | relative_url }}">首頁</a></li>
         <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
@@ -131,34 +131,55 @@
             <a href="javascript:void(0)" class="menu-item">生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
             <ul class="submenu">
                 <li><a href="{{ '/chinese-ritual/' | relative_url }}">中式禮儀服務</a></li>
-                
                 <li><a href="{{ '/western-ritual/' | relative_url }}">西式禮儀服務</a></li>
-
                 <li><a href="{{ '/japanese-ritual/' | relative_url }}">日式禮儀服務</a></li>
-                
             </ul>
         </li>
 
         <li class="has-submenu">
-    <a href="javascript:void(0)" class="menu-item">服務契約 <i class="fas fa-chevron-down"></i></a>
-    <ul class="submenu">
-        <li><a href="{{ '/deed01.html' | relative_url }}">國民契約 6.8萬</a></li>
-        
-        <li><a href="{{ '/deed02.html' | relative_url }}">中式契約 8.8萬</a></li>
-        
-        <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">中式契約 17.8萬</a></li>
-        
-        <li><a href="{{ '/compare.html' | relative_url }}">契約比較表</a></li>
-    </ul>
-</li>
+            <a href="javascript:void(0)" class="menu-item">服務契約方案 <i class="fas fa-chevron-down"></i></a>
+            <ul class="submenu">
+                <li style="border-bottom: 1px solid #eee;"><a href="{{ '/compare.html' | relative_url }}" style="color: var(--gold); font-weight: bold;">➔ 方案規格對照</a></li>
+                
+                <li><a href="{{ '/deed01.html' | relative_url }}">國民專案 6.8萬</a></li>
+                <li><a href="{{ '/deed02.html' | relative_url }}">中式精緻 8.8萬</a></li>
+                <li><a href="{{ '/deed03.html' | relative_url }}">中式尊榮 11.8萬</a></li>
+                <li><a href="{{ '/deed04.html' | relative_url }}">中式豪華 14.8萬</a></li>
+                <li><a href="{{ '/deed05.html' | relative_url }}">中式頂級 17.8萬</a></li>
+                
+                <li><a href="{{ '/deed06.html' | relative_url }}">正信佛教專案</a></li>
+                <li><a href="{{ '/deed07.html' | relative_url }}">西式追思專案</a></li>
 
+                <li style="border-top: 1px solid #eee;"><a href="{{ '/market-compare.html' | relative_url }}">契約比較表</a></li>
+            </ul>
+        </li>
 
         <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
-
         <li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
-        <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight:bold; border:1px solid var(--gold-solid); padding:8px 15px; border-radius:4px;">花禮訂購</a></li>
+        
+        <li><a href="{{ '/order.html' | relative_url }}" class="nav-cta-btn">花禮訂購</a></li>
     </ul>
 </nav>
+
+<style>
+    /* 額外優化花禮訂購按鈕的質感 */
+    .nav-cta-btn {
+        color: var(--gold-solid) !important;
+        font-weight: bold !important;
+        border: 1px solid var(--gold-solid);
+        padding: 8px 18px !important;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    .nav-cta-btn:hover {
+        background-color: var(--gold-solid);
+        color: #fff !important;
+    }
+    /* 修正子選單寬度以容納較長的文字 */
+    .submenu {
+        min-width: 220px;
+    }
+</style>
 
 
     <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
