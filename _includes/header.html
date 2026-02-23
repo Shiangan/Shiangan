@@ -1,242 +1,217 @@
 <style>
-    :root {
-        --deep-green: #1a241a;
-        --gold-solid: #c5a059;
-        --nav-height: 80px;
-        --nav-scrolled-height: 65px;
-    }
+:root {
+    --deep-green: #1a241a;
+    --gold-solid: #c5a059;
+    --nav-height: 80px;
+    --nav-scrolled-height: 65px;
+}
 
-    /* 基礎導航容器 */
-    #navbar {
-        position: fixed;
-        top: 0; left: 0; width: 100%;
-        display: flex; justify-content: center;
-        height: var(--nav-height);
-        z-index: 9999; /* 確保永遠在最上層 */
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        background: transparent;
-    }
+/* =============================
+   導航基礎容器
+============================= */
+#navbar {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    display: flex; justify-content: center;
+    height: var(--nav-height);
+    z-index: 9999;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    background: transparent;
+}
 
-    /* 滾動後的樣式 */
-    #navbar.scrolled {
-        height: var(--nav-scrolled-height);
-        background: rgba(26, 36, 26, 0.98);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    }
+#navbar.scrolled {
+    height: var(--nav-scrolled-height);
+    background: rgba(26,36,26,0.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(197,160,89,0.3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
 
-    .nav-wrapper {
-        width: 92%;
-        max-width: 1400px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.nav-wrapper {
+    width: 92%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    /* Logo 處理 */
-    .logo a { display: flex; align-items: center; }
-    .logo img { 
-        height: 60px; 
-        width: auto;
-        transition: 0.3s ease;
-    }
-    #navbar.scrolled .logo img { height: 45px; }
+.logo a { display:flex; align-items:center; }
+.logo img { height:60px; width:auto; transition:0.3s ease; }
+#navbar.scrolled .logo img { height:45px; }
 
-    /* 電腦版選單樣式 */
+/* =============================
+   主選單樣式
+============================= */
+.nav-links {
+    display:flex;
+    list-style:none;
+    gap:35px;
+    margin:0; padding:0;
+    align-items:center;
+}
+
+.nav-links > li { position: relative; height:100%; display:flex; align-items:center; }
+
+.nav-links > li > a {
+    color:white;
+    text-decoration:none;
+    font-size:1.05rem;
+    font-weight:500;
+    letter-spacing:1.5px;
+    padding:10px 0;
+    transition:0.3s;
+}
+
+.nav-links > li > a:hover { color: var(--gold-solid); }
+
+/* =============================
+   子選單基礎動畫
+============================= */
+.submenu {
+    position: absolute;
+    top:100%;
+    left:50%;
+    transform: translateX(-50%) translateY(15px) scaleY(0.95);
+    background: #1e2b1e;
+    width:220px;
+    padding:15px 0;
+    list-style:none;
+    border:1px solid var(--gold-solid);
+    opacity:0;
+    visibility:hidden;
+    transition: max-height 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.submenu li { opacity:0; transform: translateX(-15px) scaleY(0.95); transition: all 0.35s ease; }
+
+.has-submenu.show-submenu > .submenu li {
+    opacity:1;
+    transform: translateX(0) scaleY(1);
+}
+
+.has-submenu.show-submenu > .submenu li:nth-child(1){ transition-delay:0.05s; }
+.has-submenu.show-submenu > .submenu li:nth-child(2){ transition-delay:0.10s; }
+.has-submenu.show-submenu > .submenu li:nth-child(3){ transition-delay:0.15s; }
+.has-submenu.show-submenu > .submenu li:nth-child(4){ transition-delay:0.20s; }
+
+.has-submenu > a.menu-item .fas { float:right; transition: transform 0.35s ease; }
+.has-submenu.show-submenu > a.menu-item .fas { transform: rotate(90deg); }
+
+/* 桌面懸停顯示 */
+@media(min-width:1101px){
+    .has-submenu:hover > .submenu {
+        opacity:1;
+        visibility:visible;
+        transform: translateX(-50%) translateY(0) scaleY(1);
+    }
+    .has-submenu:hover > .submenu li { opacity:1; transform: translateX(0) scaleY(1); }
+    .has-submenu:hover > a.menu-item .fas { transform: rotate(90deg); }
+    .submenu .has-submenu:hover > .submenu { left:100%; top:0; }
+}
+
+.submenu li a {
+    color: rgba(255,255,255,0.9);
+    text-decoration:none;
+    padding:12px 25px;
+    display:block;
+    font-size:0.95rem;
+    transition: 0.3s;
+}
+.submenu li a:hover {
+    color: var(--gold-solid);
+    background: rgba(255,255,255,0.05);
+    padding-left:30px;
+}
+
+/* 手機版三槓按鈕 */
+.menu-toggle {
+    display:none;
+    color: var(--gold-solid);
+    font-size:1.8rem;
+    cursor:pointer;
+    z-index:10001;
+}
+
+/* =============================
+   手機版響應式
+============================= */
+@media(max-width:1100px){
+    .menu-toggle { display:block; }
     .nav-links {
-        display: flex;
-        list-style: none;
-        gap: 35px;
-        margin: 0; padding: 0;
-        align-items: center;
+        position:fixed;
+        top:0; right:-100%;
+        width:80%; height:100vh;
+        background: var(--deep-green);
+        flex-direction: column;
+        padding: 120px 40px;
+        transition:0.4s cubic-bezier(0.4,0,0.2,1);
+        overflow-y:auto;
+        gap:20px;
+        align-items:flex-start;
     }
 
-    .nav-links > li { position: relative; height: 100%; display: flex; align-items: center; }
-
-    .nav-links > li > a {
-        color: white;
-        text-decoration: none;
-        font-size: 1.05rem;
-        font-weight: 500;
-        letter-spacing: 1.5px;
-        padding: 10px 0;
-        transition: 0.3s;
-    }
-    
-    .nav-links > li > a:hover { color: var(--gold-solid); }
-
-    /* 下拉選單基礎樣式 */
+    .nav-links.active { right:0; }
     .submenu {
-        position: absolute;
-        top: 100%; 
-        left: 50%;
-        transform: translateX(-50%) translateY(15px);
-        background: #1e2b1e;
-        width: 220px;
-        padding: 15px 0;
-        list-style: none;
-        border: 1px solid var(--gold-solid);
-        opacity: 0;
-        visibility: hidden;
-        transition: 0.3s ease;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        position: static; transform:none !important;
+        opacity:1; visibility:visible;
+        width:100%; display:none;
+        background: rgba(0,0,0,0.2);
+        border:none; box-shadow:none;
+        padding:0; margin-top:10px;
     }
+    .nav-links li.show-submenu > .submenu { display:block; }
+    .nav-links li { width:100%; flex-direction:column; align-items:flex-start; }
+}
 
-    /* 滑鼠游標移入顯示下拉 */
-    @media (min-width: 1101px) {
-        .nav-links li:hover .submenu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-    }
-
-    .submenu li a {
-        color: rgba(255,255,255,0.9);
-        text-decoration: none;
-        padding: 12px 25px;
-        display: block;
-        font-size: 0.95rem;
-        transition: 0.3s;
-    }
-    .submenu li a:hover { 
-        color: var(--gold-solid); 
-        background: rgba(255,255,255,0.05); 
-        padding-left: 30px;
-    }
-
-    /* 手機版三槓按鈕 */
-    .menu-toggle {
-        display: none;
-        color: var(--gold-solid);
-        font-size: 1.8rem;
-        cursor: pointer;
-        z-index: 10001;
-    }
-
-    /* 手機版響應式修正 */
-    @media (max-width: 1100px) {
-        .menu-toggle { display: block; }
-        
-        .nav-links {
-            position: fixed;
-            top: 0; right: -100%;
-            width: 80%; height: 100vh;
-            background: var(--deep-green);
-            flex-direction: column;
-            padding: 120px 40px;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        .nav-links.active { right: 0; }
-
-        .submenu { 
-            position: static; transform: none !important; 
-            opacity: 1; visibility: visible; 
-            width: 100%; display: none;
-            background: rgba(0,0,0,0.2);
-            border: none; box-shadow: none;
-            padding: 0; margin-top: 10px;
-        }
-
-        .nav-links li.show-submenu .submenu { display: block; }
-        .nav-links li { width: 100%; flex-direction: column; align-items: flex-start; }
-    }
+/* 花禮訂購按鈕樣式 */
+.highlight-btn {
+    color: var(--gold-solid);
+    font-weight: bold;
+    border: 1px solid var(--gold-solid);
+    border-radius: 4px;
+    padding: 8px 15px;
+}
 </style>
 
-<header id="navbar">
-    <div class="nav-wrapper">
-        <div class="logo">
-            <a href="{{ site.baseurl }}/">
-                <img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
-            </a>
-        </div>
-        
-        <nav>
-            <ul class="nav-links" id="main-nav">
-                <li><a href="{{ site.baseurl }}/">首頁</a></li>
-                <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
-                
-                <li class="has-submenu">
-                    <a href="javascript:void(0)" class="menu-item">生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
-                    <ul class="submenu">
-                        <li><a href="{{ '/services.html#buddhist-taoist' | relative_url }}">中式禮儀</a></li>
-                        <li><a href="{{ '/services.html#western-etiquette' | relative_url }}">西式禮儀</a></li>
-                        <li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬專區</a></li>
-                    </ul>
-                </li>
-                
-                <li class="has-submenu">
-                    <a href="javascript:void(0)" class="menu-item">費用方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
-                    <ul class="submenu">
-                        <li><a href="{{ '/plans.html#basic' | relative_url }}">6.8萬方案</a></li>
-                        <li><a href="{{ '/plans.html#eighty-eight' | relative_url }}">8.8萬方案</a></li>
-                        <li><a href="{{ '/plans.html#seventeen-eight' | relative_url }}">17.8萬方案</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
-                <li><a href="{{ '/order.html' | relative_url }}" style="color: var(--gold-solid); font-weight: bold; border: 1px solid var(--gold-solid); padding: 8px 15px; border-radius: 4px;">花禮訂購</a></li>
-            </ul>
-        </nav>
-        
-        <div class="menu-toggle" id="menu-btn">
-            <i class="fas fa-bars"></i>
-        </div>
-    </div>
-</header>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const navbar = document.getElementById('navbar');
-        const menuBtn = document.getElementById('menu-btn');
-        const navLinks = document.getElementById('main-nav');
-        const hasSubmenus = document.querySelectorAll('.has-submenu');
+document.addEventListener('DOMContentLoaded', function(){
+    const navbar = document.getElementById('navbar');
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('main-nav');
+    const hasSubmenus = document.querySelectorAll('.has-submenu');
 
-        // 滾動監控
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+    // 滾動縮小
+    window.addEventListener('scroll', ()=> {
+        if(window.scrollY>50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+    });
+
+    // 手機側邊欄開關
+    menuBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+        menuBtn.querySelector('i').classList.toggle('fa-bars');
+        menuBtn.querySelector('i').classList.toggle('fa-times');
+    });
+
+    // 手機子選單
+    hasSubmenus.forEach(item=>{
+        const link = item.querySelector('.menu-item');
+        link.addEventListener('click', function(e){
+            if(window.innerWidth <= 1100){
+                e.preventDefault(); e.stopPropagation();
+                hasSubmenus.forEach(other=>{ if(other!==item) other.classList.remove('show-submenu'); });
+                item.classList.toggle('show-submenu');
             }
         });
-
-        // 手機版側邊欄開關
-        menuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navLinks.classList.toggle('active');
-            const icon = this.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-
-        // 手機版下拉選單點擊邏輯
-        hasSubmenus.forEach(item => {
-            const link = item.querySelector('.menu-item');
-            link.addEventListener('click', function(e) {
-                if (window.innerWidth <= 1100) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // 關閉其他已打開的選單 (可選)
-                    hasSubmenus.forEach(other => {
-                        if (other !== item) other.classList.remove('show-submenu');
-                    });
-                    
-                    item.classList.toggle('show-submenu');
-                }
-            });
-        });
-
-        // 點擊空白處關閉選單
-        document.addEventListener('click', function() {
-            navLinks.classList.remove('active');
-            menuBtn.querySelector('i').className = 'fas fa-bars';
-        });
     });
+
+    // 點擊空白收起
+    document.addEventListener('click', ()=>{
+        navLinks.classList.remove('active');
+        menuBtn.querySelector('i').className='fas fa-bars';
+        hasSubmenus.forEach(item=>item.classList.remove('show-submenu'));
+    });
+});
 </script>
