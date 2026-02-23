@@ -1,41 +1,50 @@
 <style>
 :root{
-    --deep-green:#1a241a;
+    --deep-green:#162116;
     --gold:#c5a059;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 #navbar{
     position:fixed;
     top:0; left:0;
     width:100%;
     z-index:9999;
-    background:transparent;
-    transition:.35s;
+    backdrop-filter:blur(6px);
+    background:rgba(10,20,10,.25);
+    transition:.4s ease;
 }
 
 #navbar.scrolled{
-    background:rgba(26,36,26,.96);
-    backdrop-filter:blur(10px);
-    box-shadow:0 5px 25px rgba(0,0,0,.4);
+    background:rgba(18,28,18,.92);
+    backdrop-filter:blur(14px);
+    box-shadow:0 10px 40px rgba(0,0,0,.45);
 }
 
+/* ===== WRAPPER ===== */
 .nav-wrapper{
     max-width:1400px;
     margin:auto;
-    padding:10px 20px;
+    padding:14px 25px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-.logo img{height:60px}
+/* ===== LOGO ===== */
+.logo img{
+    height:60px;
+    transition:.35s;
+}
+#navbar.scrolled .logo img{
+    height:48px;
+}
 
-/* DESKTOP */
+/* ===== DESKTOP MENU ===== */
 .nav-links{
     display:flex;
     list-style:none;
-    gap:35px;
+    gap:38px;
 }
 
 .nav-links li{position:relative}
@@ -44,21 +53,41 @@
     color:#fff;
     text-decoration:none;
     font-size:1.05rem;
-    padding:12px 0;
+    letter-spacing:.8px;
+    padding:14px 0;
     display:block;
+    position:relative;
 }
 
-/* DROPDOWN */
+/* ===== 金線 Hover ===== */
+.nav-links a:after{
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:0%;
+    height:2px;
+    background:var(--gold);
+    transition:.35s;
+}
+.nav-links a:hover:after{
+    width:100%;
+}
+
+/* ===== DROPDOWN 卡片 ===== */
 .submenu{
     position:absolute;
-    top:100%;
+    top:120%;
     left:0;
-    background:#1e2b1e;
-    min-width:230px;
+    min-width:240px;
+    background:linear-gradient(145deg,#1e2b1e,#111a11);
+    border-radius:12px;
+    padding:12px 0;
     opacity:0;
     visibility:hidden;
     transform:translateY(10px);
-    transition:.3s;
+    transition:.35s;
+    box-shadow:0 25px 50px rgba(0,0,0,.6);
 }
 
 .nav-links li:hover>.submenu{
@@ -74,7 +103,16 @@
     visibility:visible;
 }
 
-/* MOBILE */
+.submenu a{
+    padding:12px 20px;
+    font-size:.95rem;
+}
+
+.submenu a:hover{
+    background:rgba(255,255,255,.06);
+}
+
+/* ===== MOBILE ===== */
 .menu-toggle{
     display:none;
     font-size:2rem;
@@ -86,35 +124,43 @@
 
 .menu-toggle{display:block}
 
+/* 抽屜式側滑 */
 .nav-links{
     position:fixed;
     top:0;
     right:-100%;
     width:85%;
     height:100vh;
-    background:var(--deep-green);
+    background:#101810;
     flex-direction:column;
-    padding:110px 25px;
+    padding:120px 30px;
+    transition:.45s ease;
     overflow-y:auto;
-    gap:0;
-    transition:.35s;
 }
 
 .nav-links.active{right:0}
 
+.nav-links a{
+    padding:18px 0;
+    font-size:1.1rem;
+}
+
+/* 手風琴 */
 .submenu{
     position:static;
     opacity:1;
     visibility:visible;
     transform:none;
     display:none;
-    background:rgba(255,255,255,.06);
-    padding-left:15px;
+    background:rgba(255,255,255,.04);
+    border-radius:8px;
+    margin:5px 0;
 }
 
 .has-submenu.open>.submenu{
     display:block;
 }
+
 }
 </style>
 
@@ -124,46 +170,44 @@
 
 <div class="logo">
 <a href="{{ site.baseurl }}/">
-<img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命有限公司">
+<img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命禮儀公司">
 </a>
 </div>
 
-<nav aria-label="網站主要導覽">
-<ul class="nav-links" id="mainNav" role="menubar">
+<nav aria-label="網站導覽">
+<ul class="nav-links" id="mainNav">
 
-<li role="menuitem"><a href="{{ site.baseurl }}/">首頁</a></li>
-
-<li role="menuitem"><a href="{{ '/about.html' | relative_url }}">關於祥安生命禮儀公司</a></li>
+<li><a href="{{ site.baseurl }}/">首頁</a></li>
+<li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
 
 <li class="has-submenu">
 <a href="#" class="toggle">喪葬禮儀服務 ▾</a>
 <ul class="submenu">
 
 <li class="has-submenu">
-<a href="#" class="toggle">中式喪葬禮儀 ▾</a>
+<a href="#" class="toggle">中式禮儀</a>
 <ul class="submenu">
-<li><a href="{{ '/services.html#chinese-customs' | relative_url }}">傳統喪葬習俗流程</a></li>
-<li><a href="{{ '/services.html#buddhist' | relative_url }}">佛教喪禮儀式</a></li>
-<li><a href="{{ '/services.html#taoist' | relative_url }}">道教告別式儀式</a></li>
+<li><a href="{{ '/services.html#chinese-customs' | relative_url }}">傳統習俗</a></li>
+<li><a href="{{ '/services.html#buddhist' | relative_url }}">佛教儀式</a></li>
+<li><a href="{{ '/services.html#taoist' | relative_url }}">道教儀式</a></li>
 </ul>
 </li>
 
 <li class="has-submenu">
-<a href="#" class="toggle">西式告別式 ▾</a>
+<a href="#" class="toggle">西式禮儀</a>
 <ul class="submenu">
-<li><a href="{{ '/services.html#christianity' | relative_url }}">基督教喪禮</a></li>
-<li><a href="{{ '/services.html#catholic' | relative_url }}">天主教追思彌撒</a></li>
+<li><a href="{{ '/services.html#christianity' | relative_url }}">基督教</a></li>
+<li><a href="{{ '/services.html#catholic' | relative_url }}">天主教</a></li>
 </ul>
 </li>
 
-<li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保自然葬服務</a></li>
+<li><a href="{{ '/services.html#eco-burial' | relative_url }}">環保葬</a></li>
 
 </ul>
 </li>
 
-<li role="menuitem"><a href="{{ '/plans.html' | relative_url }}">喪葬費用方案價格</a></li>
-
-<li role="menuitem"><a href="{{ '/blog.html' | relative_url }}">治喪流程知識百科</a></li>
+<li><a href="{{ '/plans.html' | relative_url }}">費用方案</a></li>
+<li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
 
 </ul>
 </nav>
