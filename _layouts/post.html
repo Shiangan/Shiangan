@@ -8,12 +8,27 @@ layout: null
     {%- capture default_img -%}/images/hero-{{ random_index }}.jpg{%- endcapture -%}
     {%- assign final_hero = default_img | relative_url -%}
 {%- endif -%}
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+
     {% include head.html %}
+
+    <!-- Open Graph / Twitter Card -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:image" content="{{ final_hero | absolute_url }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
+    <!-- JSON-LD Article Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -21,8 +36,8 @@ layout: null
       "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ page.url | absolute_url }}" },
       "headline": {{ page.title | jsonify }},
       "description": {{ page.description | jsonify }},
-      "image": "{{ final_hero | absolute_url }}",  
-      "author": { "@type": "Organization", "name": "祥安生命專業禮儀團隊", "url": "{{ '/about.html' | absolute_url }}" },  
+      "image": "{{ final_hero | absolute_url }}",
+      "author": { "@type": "Organization", "name": "祥安生命專業禮儀團隊", "url": "{{ '/about.html' | absolute_url }}" },
       "publisher": {
         "@type": "Organization",
         "name": "祥安生命有限公司",
@@ -34,6 +49,7 @@ layout: null
     </script>
 
     {% if page.has_faq and page.faqs %}
+    <!-- JSON-LD FAQ Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,16 +67,13 @@ layout: null
     </script>
     {% endif %}
 
+    <!-- CSS -->
     <style>
         :root { --sa-green: #1a241a; --sa-gold: #c5a059; --sa-bg: #fdfaf5; }
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; line-height: 1.9; margin: 0; padding-top: 80px; background-color: var(--sa-bg); }
         #navbar { z-index: 9999 !important; }
 
-        .post-hero { 
-            height: 50vh; min-height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover;
-            display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
-        }
+        .post-hero { height: 50vh; min-height: 400px; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; }
         .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
         .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
         .post-main { flex: 1; min-width: 0; }
@@ -68,59 +81,22 @@ layout: null
 
         .entry-content { font-size: 1.05rem; }
         .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid #e0ddd7; padding-bottom: 10px; margin-top: 45px; font-family: 'Noto Serif TC', serif; }
-        
-        /* --- 精緻 FAQ 收合樣式 --- */
+
+        /* FAQ */
         .sa-faq-section { margin: 40px 0; }
-        .sa-faq-item {
-            background: #fff;
-            border: 1px solid #e0ddd7;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+        .sa-faq-item { background: #fff; border: 1px solid #e0ddd7; border-radius: 12px; margin-bottom: 15px; overflow: hidden; transition: all 0.3s ease; }
         .sa-faq-item:hover { border-color: var(--sa-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .sa-faq-question {
-            padding: 20px 25px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            color: var(--sa-green);
-            list-style: none;
-            outline: none;
-        }
+        .sa-faq-question { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--sa-green); list-style: none; outline: none; }
         .sa-faq-question::-webkit-details-marker { display: none; }
-        .sa-faq-question::after {
-            content: '\f067'; /* Plus */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: var(--sa-gold);
-            transition: transform 0.3s ease;
-        }
-        .sa-faq-item[open] .sa-faq-question::after {
-            content: '\f068'; /* Minus */
-            transform: rotate(180deg);
-        }
-        .sa-faq-answer {
-            padding: 0 25px 25px;
-            color: #666;
-            line-height: 1.8;
-            font-size: 0.95rem;
-            border-top: 1px solid #f9f9f9;
-            background: #fafafa;
-        }
+        .sa-faq-question::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--sa-gold); transition: transform 0.3s ease; }
+        .sa-faq-item[open] .sa-faq-question::after { content: '\f068'; transform: rotate(180deg); }
+        .sa-faq-answer { padding: 0 25px 25px; color: #666; line-height: 1.8; font-size: 0.95rem; border-top: 1px solid #f9f9f9; background: #fafafa; }
 
         .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
         .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
         .cta-btn:hover { background: #b89a6a; transform: translateY(-2px); }
 
-        @media (max-width: 992px) { 
-            .post-sidebar { width: 100%; } 
-            .layout-grid { gap: 30px; }
-            body { padding-bottom: 80px; }
-        }
+        @media (max-width: 992px) { .post-sidebar { width: 100%; } .layout-grid { gap: 30px; } body { padding-bottom: 80px; } }
     </style>
 </head>
 <body>
