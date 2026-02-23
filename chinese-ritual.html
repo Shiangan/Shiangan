@@ -1,0 +1,259 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    {% include head.html %}
+    <title>中式禮儀流程 | 佛道教傳統治喪規劃 | 祥安生命</title>
+    <style>
+        /* 高級感樣式補強 */
+        .process-header {
+            padding: 120px 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ site.baseurl }}/images/service-bg-chinese.jpg') center/cover;
+            color: #fff;
+            text-align: center;
+        }
+
+        .process-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin: -60px auto 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .process-step-card {
+            flex: 1;
+            background: #fff;
+            padding: 40px 15px;
+            text-align: center;
+            border: 1px solid var(--line-soft);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .process-step-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.2);
+        }
+
+        .step-num {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .step-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--deep-ink);
+        }
+
+        .detail-section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .detail-section:nth-child(even) { background-color: #fcfcfc; }
+
+        .detail-section h2 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--deep-ink);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .detail-section h2 span {
+            font-size: 1.2rem;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 10px;
+            border-radius: 50px;
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .pro-note {
+            background: rgba(197, 160, 89, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin-top: 25px;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 992px) {
+            .process-container { flex-wrap: wrap; justify-content: center; }
+            .process-step-card { min-width: 180px; margin-bottom: 15px; }
+            .detail-content { grid-template-columns: 1fr; }
+            .detail-section:nth-child(odd) .detail-image { order: 2; }
+        }
+    </style>
+</head>
+
+<body>
+    {% include header.html %}
+
+    <main>
+        <header class="process-header">
+            <div class="reveal">
+                <span style="letter-spacing: 5px; font-weight: 700; color: var(--accent);">TRADITIONAL RITUALS</span>
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; margin: 20px 0;">中式禮儀流程</h1>
+                <p style="max-width: 600px; margin: 0 auto; opacity: 0.9;">秉持「事死如事生」的溫潤情懷，我們將傳統繁瑣的儀軌轉化為莊嚴有序的告別。從臨終守候到晉塔圓滿，祥安與您併肩同行。</p>
+            </div>
+        </header>
+
+        <div class="wrapper">
+            <div class="process-container">
+                <a href="#step1" class="process-step-card reveal">
+                    <span class="step-num">STEP 01</span>
+                    <i class="fas fa-phone-alt step-icon"></i>
+                    <h4>臨終接體</h4>
+                </a>
+                <a href="#step2" class="process-step-card reveal">
+                    <span class="step-num">STEP 02</span>
+                    <i class="fas fa-scroll step-icon"></i>
+                    <h4>治喪規劃</h4>
+                </a>
+                <a href="#step3" class="process-step-card reveal">
+                    <span class="step-num">STEP 03</span>
+                    <i class="fas fa-pray step-icon"></i>
+                    <h4>靈事法事</h4>
+                </a>
+                <a href="#step4" class="process-step-card reveal">
+                    <span class="step-num">STEP 04</span>
+                    <i class="fas fa-archway step-icon"></i>
+                    <h4>奠禮出殯</h4>
+                </a>
+                <a href="#step5" class="process-step-card reveal">
+                    <span class="step-num">STEP 05</span>
+                    <i class="fas fa-mountain step-icon"></i>
+                    <h4>火化晉塔</h4>
+                </a>
+            </div>
+        </div>
+
+        <section id="step1" class="detail-section wrapper">
+            <div class="detail-content">
+                <div class="reveal">
+                    <h2><span>01</span> 臨終接體與安靈</h2>
+                    <p>當生命走向終點，祥安專業團隊 24 小時守候。我們協助申請殯儀館設施，並依家屬意願將大體接運至館內或家中。設立靈堂後，由禮儀師引導家屬完成豎靈、引魂儀式，穩定家屬哀慟心情。</p>
+                    <div class="pro-note">
+                        <strong>💡 禮儀師提醒：</strong><br>
+                        請預先準備逝者的身分證正本，以便即時辦理殯儀館進館登記。
+                    </div>
+                </div>
+                <div class="reveal detail-image">
+                    <img src="{{ site.baseurl }}/images/process-01.jpg" style="width:100%;" alt="臨終接體服務">
+                </div>
+            </div>
+        </section>
+
+        <section id="step2" class="detail-section wrapper">
+            <div class="detail-content">
+                <div class="reveal detail-image">
+                    <img src="{{ site.baseurl }}/images/process-02.jpg" style="width:100%;" alt="治喪規劃討論">
+                </div>
+                <div class="reveal">
+                    <h2><span>02</span> 治喪規劃與擇日</h2>
+                    <p>專業禮儀顧問與家屬面對面溝通，根據農民曆、逝者生肖及家庭狀況，擇定入殮、奠禮及火化之吉日良辰。詳細解說各項服務方案，內容透明清析，絕無強迫推銷。</p>
+                    <div class="pro-note">
+                        <strong>📖 關聯百科：</strong><br>
+                        <a href="{{ site.baseurl }}/funeral-days/" style="color: var(--deep-ink);">中式喪禮通常辦幾天？天數與擇日重點解析 &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="step3" class="detail-section wrapper">
+            <div class="detail-content">
+                <div class="reveal">
+                    <h2><span>03</span> 靈事法事與做七</h2>
+                    <p>依循佛、道教傳統儀軌，安排專業法師或道長引領家屬進行七七法事。透過誦經功德，迴向給逝者，助其放下執著、往生淨土，同時也透過儀式療癒在世者的悲傷。</p>
+                    <ul style="line-height: 2;">
+                        <li>頭七至圓滿七之排期與法事</li>
+                        <li>代備法事所需祭品、金銀紙札</li>
+                        <li>提供法師諮詢與流程引導</li>
+                    </ul>
+                </div>
+                <div class="reveal detail-image">
+                    <img src="{{ site.baseurl }}/images/process-03.jpg" style="width:100%;" alt="專業法事儀式">
+                </div>
+            </div>
+        </section>
+
+        <section id="step4" class="detail-section wrapper">
+            <div class="detail-content">
+                <div class="reveal detail-image">
+                    <img src="{{ site.baseurl }}/images/process-04.jpg" style="width:100%;" alt="告別式場佈置">
+                </div>
+                <div class="reveal">
+                    <h2><span>04</span> 奠禮舉行與出殯</h2>
+                    <p>在告別式當天，祥安督導全程駐場。從移柩、入殮到家奠、公奠儀式，我們精確掌控時間與節奏。現場佈置融合傳統莊嚴與現代美學，展現對生命最高的敬意。</p>
+                    <div class="pro-note">
+                        <strong>💡 服務特色：</strong><br>
+                        專業襄儀、司儀引導，確保流程順暢，讓家屬能專注於最後的告別。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="step5" class="detail-section wrapper">
+            <div class="detail-content">
+                <div class="reveal">
+                    <h2><span>05</span> 火化晉塔與圓滿</h2>
+                    <p>儀式圓滿後，由禮儀師陪同家屬前往火化場，完成最後的羽化儀式。隨後引導領骨、晉塔安座至家族墓地或納骨塔。最後進行除靈返主，為治喪期畫下莊嚴的句點。</p>
+                    <div class="pro-note">
+                        <strong>📖 關聯百科：</strong><br>
+                        <a href="{{ site.baseurl }}/duinian-helu/" style="color: var(--deep-ink);">圓滿之後：如何安排對年、合爐儀式？ &rarr;</a>
+                    </div>
+                </div>
+                <div class="reveal detail-image">
+                    <img src="{{ site.baseurl }}/images/process-05.jpg" style="width:100%;" alt="晉塔圓滿">
+                </div>
+            </div>
+        </section>
+
+        <section class="section wrapper text-center">
+            <div class="reveal">
+                <h2 style="font-family: 'Noto Serif TC', serif;">祥安生命 · 全程守護</h2>
+                <p style="margin: 20px 0 40px; opacity: 0.8;">不論是傳統儀軌還是客製需求，我們都為您提供最安心的專業服務。</p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="tel:0978583699" style="background: var(--deep-ink); color: #fff; padding: 18px 45px; text-decoration: none; font-weight: 700;">24H 諮詢專線</a>
+                    <a href="{{ site.baseurl }}/plans/" style="border: 1px solid var(--deep-ink); color: var(--deep-ink); padding: 18px 45px; text-decoration: none; font-weight: 700;">查看中式服務方案</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% include footer.html %}
+    {% include floating-cta.html %}
+
+    <script>
+        // 平滑捲動
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
