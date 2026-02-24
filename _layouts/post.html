@@ -27,7 +27,7 @@ layout: null
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root { --sa-green: #1a241a; --sa-gold: #c5a059; --sa-bg: #fdfaf5; }
+        :root { --sa-green: #1a241a; --sa-gold: #c5a059; --sa-bg: #fdfaf5; --sa-text-light: #888; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; line-height: 1.9; margin: 0; padding-top: 80px; background-color: var(--sa-bg); }
         
@@ -35,68 +35,71 @@ layout: null
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: transparent; z-index: 10001; }
         .progress-bar { height: 4px; background: var(--sa-gold); width: 0%; transition: width 0.1s; }
 
-        .post-hero { height: 50vh; min-height: 400px; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; }
+        /* 麵包屑導航 Breadcrumbs */
+        .breadcrumb-wrapper { background: #fff; border-bottom: 1px solid #eee; padding: 15px 0; }
+        .breadcrumb-nav { font-size: 0.9rem; color: var(--sa-text-light); display: flex; align-items: center; gap: 8px; }
+        .breadcrumb-nav a { color: var(--sa-text-light); text-decoration: none; transition: 0.3s; }
+        .breadcrumb-nav a:hover { color: var(--sa-gold); }
+        .breadcrumb-nav i { font-size: 0.7rem; opacity: 0.5; }
+
+        .post-hero { height: 45vh; min-height: 350px; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; }
         .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-        .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
+        
+        /* 文章 Meta 資訊 */
+        .post-meta-bar { display: flex; flex-wrap: wrap; gap: 20px; padding: 25px 0; border-bottom: 1px solid #eee; margin-bottom: 40px; color: var(--sa-text-light); font-size: 0.95rem; align-items: center; }
+        .meta-item { display: flex; align-items: center; gap: 8px; }
+        .meta-item i { color: #ccc; }
+
+        .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 40px 0; }
         .post-main { flex: 1; min-width: 0; }
         .post-sidebar { width: 320px; }
 
-        .entry-content { font-size: 1.05rem; }
-        .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid #e0ddd7; padding-bottom: 10px; margin-top: 45px; font-family: 'Noto Serif TC', serif; scroll-margin-top: 120px; }
+        .entry-content { font-size: 1.1rem; color: #444; }
+        .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid #e0ddd7; padding-bottom: 12px; margin-top: 50px; font-family: 'Noto Serif TC', serif; scroll-margin-top: 120px; }
 
-        /* TOC 側邊目錄 - 強化連結感 */
+        /* TOC 側邊目錄 - 咬住圖片中的連結感 */
         .toc-widget { background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #e0ddd7; margin-top: 30px; position: sticky; top: 100px; transition: 0.3s; }
-        .toc-title { font-family: 'Noto Serif TC', serif; color: var(--sa-green); font-size: 1.2rem; margin-top: 0; border-bottom: 2px solid var(--sa-gold); padding-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        #toc-list { list-style: none; padding: 0; margin: 15px 0 0 0; font-size: 0.9rem; }
-        #toc-list li { margin-bottom: 8px; }
+        .toc-title { font-family: 'Noto Serif TC', serif; color: var(--sa-green); font-size: 1.15rem; margin-top: 0; border-bottom: 2px solid var(--sa-gold); padding-bottom: 10px; margin-bottom: 15px; }
+        #toc-list { list-style: none; padding: 0; margin: 0; }
+        #toc-list li { margin-bottom: 5px; }
         #toc-list a { 
             text-decoration: none; 
-            color: #777; 
+            color: #666; 
             transition: all 0.3s ease; 
             display: block; 
-            line-height: 1.5; 
-            padding: 8px 12px;
-            border-radius: 6px;
-            border-left: 3px solid transparent;
+            line-height: 1.6; 
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.92rem;
         }
-        #toc-list a:hover { background: rgba(197, 160, 89, 0.05); color: var(--sa-gold); }
+        #toc-list a:hover { color: var(--sa-gold); background: rgba(197, 160, 89, 0.05); }
         #toc-list a.active { 
             color: var(--sa-gold); 
-            background: rgba(197, 160, 89, 0.1); 
-            border-left: 3px solid var(--sa-gold); 
-            font-weight: 700; 
-            padding-left: 15px;
+            background: rgba(197, 160, 89, 0.08); 
+            font-weight: bold;
+            box-shadow: inset 4px 0 0 var(--sa-gold); /* 咬住連結的視覺線條 */
         }
 
         /* FAQ 區塊 */
         .sa-faq-section { margin: 60px 0; padding: 40px; background: #fff; border-radius: 20px; border: 1px solid #e0ddd7; }
         .sa-faq-item { background: var(--sa-bg); border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 1px solid transparent; transition: 0.3s; }
-        .sa-faq-item[open] { border-color: var(--sa-gold); background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .sa-faq-item[open] { border-color: var(--sa-gold); background: #fff; }
         .sa-faq-question { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--sa-green); list-style: none; }
-        .sa-faq-question::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--sa-gold); transition: 0.3s; }
-        .sa-faq-item[open] .sa-faq-question::after { content: '\f068'; transform: rotate(180deg); }
-        .sa-faq-answer { padding: 0 25px 25px; color: #666; font-size: 0.95rem; line-height: 1.8; }
+        .sa-faq-question::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--sa-gold); }
+        .sa-faq-item[open] .sa-faq-question::after { content: '\f068'; }
+        .sa-faq-answer { padding: 0 25px 25px; color: #666; line-height: 1.8; }
 
         /* 延伸閱讀 */
-        .related-section { margin-top: 80px; padding-top: 50px; border-top: 2px solid #e0ddd7; }
-        .related-card { background: #fff; border-radius: 15px; overflow: hidden; border: 1px solid #e0ddd7; text-decoration: none; color: inherit; transition: 0.4s; display: flex; flex-direction: column; }
-        .related-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: var(--sa-gold); }
-        .related-img { height: 180px; background-size: cover; background-position: center; transition: 0.5s; }
-        .related-card:hover .related-img { transform: scale(1.05); }
-        .related-body { padding: 25px; flex-grow: 1; }
-        .related-body h4 { margin: 0; color: var(--sa-green); font-family: 'Noto Serif TC'; font-size: 1.1rem; line-height: 1.5; }
-        .read-more-link { display: inline-block; margin-top: 15px; color: var(--sa-gold); font-weight: bold; font-size: 0.85rem; }
+        .related-card { background: #fff; border-radius: 15px; overflow: hidden; border: 1px solid #e0ddd7; text-decoration: none; color: inherit; transition: 0.4s; height: 100%; }
+        .related-card:hover { transform: translateY(-8px); border-color: var(--sa-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .related-img { height: 170px; background-size: cover; background-position: center; }
+        .related-body { padding: 20px; }
+        .related-body h4 { margin: 0; color: var(--sa-green); font-family: 'Noto Serif TC'; line-height: 1.5; font-size: 1.05rem; }
 
-        .sticky-cta { background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.2); margin-bottom: 30px; border: 1px solid rgba(197, 160, 89, 0.3); }
-        .cta-btn { background: var(--sa-gold); color: #fff !important; padding: 16px; display: block; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 20px; transition: 0.3s; border: none; cursor: pointer; }
-        .cta-btn:hover { background: #b89a6a; transform: scale(1.02); }
+        .sticky-cta { background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; }
+        .cta-btn { background: var(--sa-gold); color: #fff !important; padding: 15px; display: block; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
         
-        @media (max-width: 992px) { 
-            .post-sidebar { width: 100%; order: 2; } 
-            .post-main { order: 1; }
-            .toc-widget { display: none; } 
-            .layout-grid { gap: 40px; }
-        }
+        @media (max-width: 992px) { .post-sidebar { display: none; } .layout-grid { padding: 20px 0; } }
     </style>
 </head>
 <body>
@@ -104,11 +107,23 @@ layout: null
     
     {% include header.html %}
 
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="{{ '/' | relative_url }}"><i class="fas fa-home"></i> 首頁</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="{{ '/blog.html' | relative_url }}">殯葬百科</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>{{ page.title }}</span>
+            </nav>
+        </div>
+    </div>
+
     <header class="post-hero">
         <div class="container">
-            <h1 style="font-family:'Noto Serif TC', serif; font-size: clamp(1.8rem, 5vw, 3.2rem); margin:0; line-height: 1.3; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">{{ page.title }}</h1>
-            <div class="post-tags" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 30px;">
-                {% for tag in page.tags %}<span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: #fff; padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.3); letter-spacing: 1px;"># {{ tag }}</span>{% endfor %}
+            <h1 style="font-family:'Noto Serif TC', serif; font-size: clamp(1.8rem, 5vw, 3rem); margin:0; line-height: 1.3;">{{ page.title }}</h1>
+            <div class="post-tags" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 25px;">
+                {% for tag in page.tags %}<span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem;"># {{ tag }}</span>{% endfor %}
             </div>
         </div>
     </header>
@@ -116,17 +131,20 @@ layout: null
     <div class="container">
         <div class="layout-grid">
             <main class="post-main">
-                <div style="font-size:1.15rem; color:#444; border-left:6px solid var(--sa-gold); padding: 20px 0 20px 30px; margin-bottom:60px; line-height: 1.8; background: #fff; border-radius: 0 15px 15px 0; box-shadow: 5px 5px 15px rgba(0,0,0,0.02);">
-                    <i class="fas fa-quote-left" style="color:var(--sa-gold); opacity:0.3; font-size:2rem; display:block; margin-bottom:10px;"></i>
-                    {{ page.description }}
+                <div class="post-meta-bar">
+                    <div class="meta-item"><i class="far fa-user"></i> 祥安生命 禮儀師 陳妍如</div>
+                    <div class="meta-item"><i class="far fa-calendar-alt"></i> 發佈日期：{{ page.date | date: "%Y/%m/%d" }}</div>
+                    <div class="meta-item"><i class="far fa-clock"></i> 閱讀時間約 5 分鐘</div>
                 </div>
+
+                <div style="font-size:1.15rem; color:#555; border-left:5px solid var(--sa-gold); padding: 5px 0 5px 25px; margin-bottom:50px; line-height: 1.8;">{{ page.description }}</div>
                 
                 <div class="entry-content">
                     {{ content }}
 
                     {% if page.has_faq and page.faqs %}
                     <div class="sa-faq-section">
-                        <h2 id="faq-section"><i class="fas fa-comment-dots" style="color: var(--sa-gold);"></i> 專業解答 FAQ</h2>
+                        <h2 id="faq-section"><i class="fas fa-question-circle" style="color: var(--sa-gold);"></i> 治喪後續常見問題</h2>
                         {% for item in page.faqs %}
                         <details class="sa-faq-item">
                             <summary class="sa-faq-question">{{ item.question }}</summary>
@@ -137,39 +155,20 @@ layout: null
                     {% endif %}
                 </div>
 
-                <div style="margin-top:80px; padding:40px; background:#fff; border-radius:20px; border:1px solid #e0ddd7; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
-                    <div>
-                        <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold; font-size: 1.1rem;"><i class="fas fa-arrow-left"></i> 返回殯葬百科首頁</a>
-                        <p style="margin: 10px 0 0 0; color: #888; font-size: 0.9rem;">閱讀更多專業生命禮儀知識</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <span style="color: #999; font-size: 0.9rem; display: block; margin-bottom: 5px;">本文更新日期</span>
-                        <time style="font-weight: bold; color: var(--sa-green);">{{ page.date | date: "%Y 年 %m 月 %d 日" }}</time>
-                    </div>
-                </div>
-
-                <section class="related-section">
-                    <h3 style="font-family:'Noto Serif TC'; font-size: 1.6rem; color: var(--sa-green); margin-bottom: 30px; display: flex; align-items: center; gap: 10px;"><i class="fas fa-plus-circle" style="color:var(--sa-gold);"></i> 延伸閱讀：您可能也感興趣</h3>
-                    <div class="related-grid">
-                        {% assign max_related = 3 %}
+                <section style="margin-top: 80px; border-top: 1px solid #eee; padding-top: 50px;">
+                    <h3 style="font-family:'Noto Serif TC'; color: var(--sa-green); margin-bottom: 30px;">更多相關主題</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
                         {% assign count = 0 %}
                         {% for post in site.posts %}
-                            {% if post.url != page.url %}
-                                {% assign common_tags = 0 %}
-                                {% for tag in post.tags %}
-                                    {% if page.tags contains tag %}{% assign common_tags = common_tags | plus: 1 %}{% endif %}
-                                {% endfor %}
-                                {% if common_tags > 0 and count < max_related %}
-                                    <a href="{{ post.url | relative_url }}" class="related-card">
-                                        <div class="related-img" style="background-image: url('{{ post.image }}');"></div>
-                                        <div class="related-body">
-                                            <h4>{{ post.title }}</h4>
-                                            <p style="font-size: 0.85rem; color: #777; margin-top: 12px; height: 3.6em; overflow: hidden;">{{ post.description | truncate: 55 }}</p>
-                                            <span class="read-more-link">閱讀全文 <i class="fas fa-chevron-right"></i></span>
-                                        </div>
-                                    </a>
-                                    {% assign count = count | plus: 1 %}
-                                {% endif %}
+                            {% if post.url != page.url and count < 3 %}
+                                <a href="{{ post.url | relative_url }}" class="related-card">
+                                    <div class="related-img" style="background-image: url('{{ post.image }}');"></div>
+                                    <div class="related-body">
+                                        <h4>{{ post.title }}</h4>
+                                        <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">{{ post.description | truncate: 50 }}</p>
+                                    </div>
+                                </a>
+                                {% assign count = count | plus: 1 %}
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -178,15 +177,14 @@ layout: null
 
             <aside class="post-sidebar">
                 <div class="sticky-cta">
-                    <h3 style="color:var(--sa-gold); margin-top:0; font-family:'Noto Serif TC'; font-size: 1.5rem;">24H 禮儀顧問</h3>
-                    <p style="font-size:0.95rem; opacity:0.9; line-height:1.7; margin-top: 15px;">遇到突發狀況不需驚慌<br>祥安提供最專業的溫暖諮詢</p>
-                    <a href="tel:0978583699" style="font-size:1.8rem; color:#fff; text-decoration:none; display:block; margin:25px 0; font-weight:800; text-shadow: 0 2px 5px rgba(0,0,0,0.2);"><i class="fas fa-phone-alt" style="font-size: 1.4rem; color: var(--sa-gold);"></i> 0978-583-699</a>
-                    <a href="https://line.me/ti/p/您的ID" target="_blank" class="cta-btn" style="background:#06C755;"><i class="fab fa-line"></i> LINE 即時諮詢</a>
-                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 15px;">全台服務・雙北桃園一小時內抵達</p>
+                    <h4 style="color:var(--sa-gold); margin-top:0;">24H 禮儀諮詢</h4>
+                    <p style="font-size:0.9rem; opacity:0.8;">任何禮俗細節，陳小姐為您解答</p>
+                    <a href="tel:0978583699" style="font-size:1.6rem; color:#fff; text-decoration:none; display:block; margin:20px 0; font-weight:bold;">0978-583-699</a>
+                    <a href="https://line.me/ti/p/您的ID" target="_blank" class="cta-btn" style="background:#06C755;">LINE 即時對談</a>
                 </div>
 
                 <div class="toc-widget" id="sticky-toc">
-                    <h4 class="toc-title"><i class="fas fa-list-ul"></i> 文章目錄</h4>
+                    <h4 class="toc-title">文章目錄</h4>
                     <nav id="toc-list"></nav>
                 </div>
             </aside>
@@ -201,7 +199,6 @@ layout: null
         const headings = document.querySelectorAll(".entry-content h2");
         const navLinks = [];
 
-        // 1. 自動目錄生成
         if(headings.length > 0) {
             headings.forEach((heading, index) => {
                 const id = "section-" + index;
@@ -209,28 +206,23 @@ layout: null
                 const li = document.createElement("li");
                 const a = document.createElement("a");
                 a.href = "#" + id;
-                a.textContent = heading.textContent.replace(' FAQ', '');
+                a.textContent = heading.innerText.replace(' FAQ', '');
                 li.appendChild(a);
                 tocList.appendChild(li);
                 navLinks.push(a);
             });
-        } else {
-            document.getElementById("sticky-toc").style.display = "none";
         }
 
-        // 2. 滾動追蹤與進度條
         window.onscroll = function() {
-            // 進度條邏輯
+            // 進度條
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("myBar").style.width = scrolled + "%";
+            document.getElementById("myBar").style.width = (winScroll / height) * 100 + "%";
 
-            // 目錄高亮邏輯
+            // TOC 高亮
             let current = "";
             headings.forEach((heading) => {
-                const headingTop = heading.offsetTop;
-                if (pageYOffset >= headingTop - 150) {
+                if (pageYOffset >= heading.offsetTop - 150) {
                     current = heading.getAttribute("id");
                 }
             });
