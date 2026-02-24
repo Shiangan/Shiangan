@@ -9,68 +9,218 @@ permalink: /blog.html
     <title>殯葬百科知識庫 | 祥安生命</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --sa-green: #2d3e2a; --sa-gold: #a68b5a; --sa-bg: #fdfaf5; }
-        body { font-family: 'Noto Sans TC', sans-serif; background: #fff; margin: 0; padding-top: 80px; }
+        :root { 
+            --sa-green: #2d3e2a; 
+            --sa-gold: #a68b5a; 
+            --sa-bg: #fdfaf5; 
+            --sa-text: #444;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; background: #fff; margin: 0; padding-top: 80px; color: var(--sa-text); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         
-        /* 搜尋與分類 */
-        .filter-section { background: var(--sa-bg); padding: 50px 0; border-bottom: 1px solid #eee; text-align: center; }
-        .search-box { max-width: 600px; margin: 20px auto; position: relative; }
-        #blog-search { width: 100%; padding: 15px 50px; border-radius: 50px; border: 2px solid #ddd; outline: none; font-size: 1rem; }
+        /* 頂部過濾區塊 */
+        .filter-section { background: var(--sa-bg); padding: 60px 0 40px 0; border-bottom: 1px solid #eee; text-align: center; }
+        .search-box { max-width: 600px; margin: 30px auto; position: relative; }
+        #blog-search { 
+            width: 100%; 
+            padding: 16px 50px; 
+            border-radius: 50px; 
+            border: 2px solid #e0ddd7; 
+            outline: none; 
+            font-size: 1rem; 
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+        #blog-search:focus { border-color: var(--sa-gold); box-shadow: 0 0 15px rgba(166, 139, 90, 0.1); }
         .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--sa-gold); }
 
-        /* 文章卡片網格 */
-        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 60px 0; }
-        .blog-card { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .blog-card.hidden { display: none; }
-        .card-img { width: 100%; height: 200px; object-fit: cover; }
-        .card-body { padding: 25px; flex-grow: 1; }
-        .card-title { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; color: var(--sa-green); margin: 10px 0; }
-        .article-tag { color: var(--sa-gold); font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; display: block; }
+        /* 分類按鈕樣式 */
+        .category-tabs { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+        .tab-btn { 
+            background: #fff; 
+            border: 1px solid #e0ddd7; 
+            padding: 10px 25px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            color: var(--sa-green); 
+            transition: 0.3s; 
+            font-weight: 500;
+        }
+        .tab-btn:hover, .tab-btn.active { 
+            background: var(--sa-gold); 
+            color: #fff; 
+            border-color: var(--sa-gold); 
+            box-shadow: 0 4px 12px rgba(166, 139, 90, 0.2);
+        }
+
+        /* 文章網格 */
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 35px; padding: 60px 0; }
+        
+        /* 卡片精緻化 */
+        .blog-card { 
+            background: #fff; 
+            border: 1px solid #eee; 
+            border-radius: 16px; 
+            overflow: hidden; 
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            display: flex; 
+            flex-direction: column; 
+            text-decoration: none; 
+            color: inherit; 
+            position: relative;
+        }
+        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--sa-gold); }
+        
+        /* 卡片圖片動畫 */
+        .card-img-wrapper { width: 100%; height: 220px; overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .blog-card:hover .card-img { transform: scale(1.1); }
+
+        .card-body { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        .article-category { 
+            color: var(--sa-gold); 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 12px;
+            display: block;
+        }
+        .card-title { 
+            font-family: 'Noto Serif TC', serif; 
+            font-size: 1.35rem; 
+            color: var(--sa-green); 
+            margin: 0 0 15px 0; 
+            line-height: 1.4;
+            transition: 0.3s;
+        }
+        .blog-card:hover .card-title { color: var(--sa-gold); }
+        .card-desc { color: #666; font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; flex-grow: 1; }
+        
+        .card-footer { 
+            border-top: 1px solid #f0f0f0; 
+            padding-top: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* 無結果提示 */
+        #no-results { display: none; text-align: center; padding: 100px 0; color: #999; }
+        #no-results i { font-size: 4rem; color: #eee; margin-bottom: 20px; }
+
+        @media (max-width: 768px) {
+            .article-grid { grid-template-columns: 1fr; }
+            .filter-section { padding: 40px 0; }
+        }
     </style>
 </head>
 <body>
     {% include header.html %}
+
     <section class="filter-section">
         <div class="container">
-            <h1 style="font-family:'Noto Serif TC', serif; color:var(--sa-green);">殯葬百科知識庫</h1>
+            <h1 style="font-family:'Noto Serif TC', serif; color:var(--sa-green); font-size: 2.5rem; margin:0;">殯葬百科知識庫</h1>
+            <p style="color: #888; margin-top: 10px;">專業禮儀顧問，為您解答生命中最重要的事</p>
+            
             <div class="search-box">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="blog-search" placeholder="搜尋治喪流程、費用、習俗...">
+                <input type="text" id="blog-search" placeholder="搜尋治喪流程、費用補助、習俗禁忌...">
+            </div>
+
+            <div class="category-tabs">
+                <button class="tab-btn active" data-filter="all">全部文章</button>
+                <button class="tab-btn" data-filter="流程指引">流程指引</button>
+                <button class="tab-btn" data-filter="補助申請">補助申請</button>
+                <button class="tab-btn" data-filter="禮俗禁忌">禮俗禁忌</button>
+                <button class="tab-btn" data-filter="治喪費用">治喪費用</button>
             </div>
         </div>
     </section>
 
     <div class="container">
+        <div id="no-results">
+            <i class="fas fa-folder-open"></i>
+            <p>找不到相關內容，請換個關鍵字搜尋</p>
+        </div>
+
         <div class="article-grid" id="post-grid">
             {% for post in site.posts %}
-            <article class="blog-card" data-search="{{ post.title }} {{ post.description }}">
-                <a href="{{ post.url | relative_url }}">
-                    <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" class="card-img" alt="{{ post.title }}">
-                </a>
-                <div class="card-body">
-                    {% if post.tags.size > 0 %}
-                    <span class="article-tag"><i class="fas fa-tag"></i> {{ post.tags | first }}</span>
-                    {% endif %}
-                    <h3 class="card-title">{{ post.title }}</h3>
-                    <p style="color:#666; font-size:0.95rem;">{{ post.description | truncate: 60 }}</p>
-                    <a href="{{ post.url | relative_url }}" style="color:var(--sa-gold); font-weight:bold; text-decoration:none;">閱讀全文 →</a>
+            <article class="blog-card" 
+                     data-category="{{ post.category | default: '未分類' }}" 
+                     data-search="{{ post.title }} {{ post.description }} {{ post.tags | join: ' ' }}">
+                
+                <div class="card-img-wrapper">
+                    <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" 
+                         class="card-img" alt="{{ post.title }}">
                 </div>
+                
+                <div class="card-body">
+                    <span class="article-category">
+                        <i class="fas fa-bookmark"></i> {{ post.category | default: "殯葬百科" }}
+                    </span>
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <p class="card-desc">{{ post.description | truncate: 65 }}</p>
+                    
+                    <div class="card-footer">
+                        <span><i class="far fa-calendar-alt"></i> {{ post.date | date: "%Y/%m/%d" }}</span>
+                        <span style="color: var(--sa-gold); font-weight: bold;">詳全文 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+                <a href="{{ post.url | relative_url }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;"></a>
             </article>
             {% endfor %}
         </div>
     </div>
+
     {% include footer.html %}
 
     <script>
         const searchInput = document.getElementById('blog-search');
+        const tabBtns = document.querySelectorAll('.tab-btn');
         const cards = document.querySelectorAll('.blog-card');
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.toLowerCase();
+        const noResults = document.getElementById('no-results');
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        function filterPosts() {
+            let visibleCount = 0;
+
             cards.forEach(card => {
-                const text = card.dataset.search.toLowerCase();
-                card.classList.toggle('hidden', !text.includes(query));
+                const category = card.dataset.category;
+                const searchText = card.dataset.search.toLowerCase();
+                
+                const categoryMatch = (currentCategory === 'all' || category === currentCategory);
+                const searchMatch = searchText.includes(searchQuery);
+
+                if (categoryMatch && searchMatch) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // 搜尋輸入監聽
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            filterPosts();
+        });
+
+        // 分類切換監聽
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.filter;
+                filterPosts();
             });
         });
     </script>
