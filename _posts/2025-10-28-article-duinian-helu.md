@@ -31,23 +31,23 @@ faqs:
 
 ---
 
-## 二、 「對年」儀式：日期與閏月計算（小祥）
+## 二、 對年儀式：日期與閏月計算（小祥）
 
 「對年」指逝者往生**滿一周年**的祭祀。日期計算的精確性至關重要，家屬務必注意以下規範：
 
-<div class="focus-card" style="background: rgba(197, 160, 89, 0.05); padding: 25px; border-radius: 12px; border-left: 6px solid #c5a059; margin: 30px 0;">
-    <h4 style="color: #c5a059; margin-top:0;"><i class="fas fa-calculator"></i> 專業日期計算要點</h4>
-    <ul style="line-height: 1.8;">
+<div class="focus-card" style="background: rgba(197, 160, 89, 0.05); padding: 30px; border-radius: 15px; border-left: 6px solid #c5a059; margin: 35px 0; box-shadow: 0 10px 25px rgba(0,0,0,0.02);">
+    <h4 style="color: #c5a059; margin-top:0; font-size: 1.2rem;"><i class="fas fa-calculator"></i> 專業日期計算要點</h4>
+    <ul style="line-height: 2; margin-bottom:0;">
         <li><strong>以農曆為準：</strong> 需根據逝者往生的農曆日計算滿一年。</li>
         <li><strong>【關鍵】閏月處理：</strong> 若該年遇農曆閏月，對年日期需<strong>「扣除閏月」</strong>，通常會提前一個月完成祭拜。</li>
         <li><strong>有對無沖：</strong> 為了遵循習俗，儀式多選在農曆滿一年前數天（提前 3-7 天），<strong>絕對不可延後</strong>。</li>
     </ul>
-    <p style="font-size: 0.9rem; color: #888;">※ 祥安建議：由於曆法複雜，建議請專業禮儀師協助擇日，確保日期精準無誤。</p>
+    <p style="font-size: 0.9rem; color: #888; margin-top: 15px; border-top: 1px dotted #ccc; padding-top: 10px;">※ 祥安建議：由於曆法複雜，建議請專業禮儀師協助擇日，確保日期精準無誤。</p>
 </div>
 
 ---
 
-## 三、 「合爐」：歸入祖先的莊嚴四步驟
+## 三、 合爐：歸入祖先的莊嚴四步驟
 
 「合爐」是整個後續儀式中專業性最高的一環，是將逝者的臨時靈位（魂）轉化為「祖先」的過程。
 
@@ -58,9 +58,9 @@ faqs:
 
 ---
 
-## 四、 「除孝脫喪」：重啟人生的關鍵
+## 四、 除孝脫喪：重啟人生的關鍵
 
-除孝不仅是撤除物質上的喪飾，更是對家屬走出哀傷的正式鼓勵。
+除孝不僅是撤除物質上的喪飾，更是對家屬走出哀傷的正式鼓勵。
 
 * **撤除喪飾：** 將門口代表喪期的白色、黃色或藍色對聯撕除，換上喜慶的**紅色春聯**。
 * **脫喪更衣：** 褪去素色衣著，換上正常色彩的服裝，象徵「脫喪」完成。
@@ -72,39 +72,53 @@ faqs:
 
 為了讓家屬不慌亂，我們整理了當天必備的物資清單：
 
-| 類別 | 必備物品項目 | 備註說明 |
-| :--- | :--- | :--- |
-| **祭品準備** | 三牲/五牲、飯菜（6 或 12 碗）、水果、發糕、紅龜粿 | 熟食為主，表達敬意 |
-| **儀式用品** | 祖先牌位紅紙條、毛筆/紅漆、壽金、四果 | 供師父現場書寫資料 |
-| **環境用品** | 清水或米酒水、乾淨抹布 | **嚴禁**使用化學清潔劑擦拭神桌 |
-| **脫喪用品** | 全新紅色春聯或紅紙、各色彩色衣物 | 合爐完畢後立即更換 |
+<div style="overflow-x: auto;">
+<table style="width:100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin: 20px 0;">
+    <thead style="background: var(--sa-green); color: #fff;">
+        <tr>
+            <th style="padding: 15px; text-align: left;">類別</th>
+            <th style="padding: 15px; text-align: left;">必備物品項目</th>
+            <th style="padding: 15px; text-align: left;">備註說明</th>
+        </tr>
+    </thead>
+    <tbody style="color: #444;">
+        <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 15px; font-weight: bold;">祭品準備</td>
+            <td style="padding: 15px;">三牲/五牲、飯菜、發糕、紅龜粿</td>
+            <td style="padding: 15px;">熟食為主，表達敬意</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 15px; font-weight: bold;">儀式用品</td>
+            <td style="padding: 15px;">祖先牌位紅紙條、毛筆、壽金</td>
+            <td style="padding: 15px;">供師父現場書寫資料</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px; font-weight: bold;">脫喪用品</td>
+            <td style="padding: 15px;">全新紅色春聯、各色彩色衣物</td>
+            <td style="padding: 15px;">合爐完畢後立即更換</td>
+        </tr>
+    </tbody>
+</table>
+</div>
 
 ---
 
 ## 六、 專業後續服務常見問答 FAQ
 
-<div class="sa-faq-section">
-    {% for item in page.faqs %}
-    <details class="sa-faq-item">
-        <summary class="sa-faq-question">{{ item.question }}</summary>
-        <div class="sa-faq-answer">{{ item.answer }}</div>
-    </details>
-    {% endfor %}
-</div>
-
 ---
+
 ### 🔍 治喪圓滿後的下一步：
 * [**回顧禮儀**] [現代標準喪禮天數與流程解析：如何選擇圓滿方案？](article-funeral-days.html)
 * [**客製紀念**] [打造溫馨主題告別式：將思念轉化為永恆的生命教育實錄](article-custom-case.html)
 * [**費用透明**] [祥安生命：服務承諾與費用方案說明](plans.html)
 
-<div style="margin-top: 50px; padding: 40px; background: #1a241a; color: #fff; border-radius: 15px; text-align: center;">
+<div style="margin-top: 60px; padding: 45px 30px; background: linear-gradient(135deg, var(--sa-green) 0%, #2a3a2a 100%); color: #fff; border-radius: 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
     <h3 style="color: #c5a059; font-size: 1.8rem; margin-top:0; font-family:'Noto Serif TC';">💖 祥安生命：陪伴您完成最後一段溫柔的歸程</h3>
-    <p style="font-size: 1.1rem; opacity: 0.9;">後續關懷儀式涉及繁瑣的擇日與民俗細節，讓專業團隊協助您，<br>確保儀式圓滿，讓心靈獲得最大的安穩與療癒。</p>
-    <div style="margin-top: 30px;">
-        <a href="tel:0978583699" style="font-size: 1.6rem; color: #fff; text-decoration: none; font-weight: bold; display: block; margin-bottom: 15px;">
-            <i class="fas fa-phone-alt"></i> 0978-583-699
+    <p style="font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 20px auto;">後續關懷儀式涉及繁瑣的擇日與民俗細節，讓專業團隊協助您，確保儀式圓滿，讓心靈獲得最大的安穩與療癒。</p>
+    <div style="margin-top: 35px;">
+        <a href="tel:0978583699" style="font-size: 1.8rem; color: #fff; text-decoration: none; font-weight: 800; display: block; margin-bottom: 20px; letter-spacing: 1px;">
+            <i class="fas fa-phone-alt" style="color:var(--sa-gold);"></i> 0978-583-699
         </a>
-        <a href="https://line.me/ti/p/@yourlineid" class="cta-btn" style="background: #06C755; border: none;">24H 禮儀顧問即時諮詢</a>
+        <a href="https://line.me/ti/p/@yourlineid" class="cta-btn" style="background: #06C755; border: none; display: inline-block; padding: 15px 40px; font-size: 1.1rem;">LINE 即時顧問諮詢</a>
     </div>
 </div>
