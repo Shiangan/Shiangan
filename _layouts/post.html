@@ -17,7 +17,6 @@ layout: null
 
     {% include head.html %}
 
-    <!-- Open Graph / Twitter Card -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ page.title }}">
     <meta property="og:description" content="{{ page.description }}">
@@ -25,10 +24,8 @@ layout: null
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- JSON-LD Article Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -49,7 +46,6 @@ layout: null
     </script>
 
     {% if page.has_faq and page.faqs %}
-    <!-- JSON-LD FAQ Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -67,12 +63,11 @@ layout: null
     </script>
     {% endif %}
 
-    <!-- CSS -->
     <style>
         :root { --sa-green: #1a241a; --sa-gold: #c5a059; --sa-bg: #fdfaf5; }
+        html { scroll-behavior: smooth; }
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; line-height: 1.9; margin: 0; padding-top: 80px; background-color: var(--sa-bg); }
-        #navbar { z-index: 9999 !important; }
-
+        
         .post-hero { height: 50vh; min-height: 400px; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; }
         .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
         .layout-grid { display: flex; flex-wrap: wrap; gap: 60px; padding: 60px 0; }
@@ -80,23 +75,37 @@ layout: null
         .post-sidebar { width: 320px; }
 
         .entry-content { font-size: 1.05rem; }
-        .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid #e0ddd7; padding-bottom: 10px; margin-top: 45px; font-family: 'Noto Serif TC', serif; }
+        .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid #e0ddd7; padding-bottom: 10px; margin-top: 45px; font-family: 'Noto Serif TC', serif; scroll-margin-top: 100px; }
+
+        /* TOC 側邊目錄樣式 */
+        .toc-widget { background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #e0ddd7; margin-top: 30px; position: sticky; top: 100px; }
+        .toc-title { font-family: 'Noto Serif TC', serif; color: var(--sa-green); font-size: 1.2rem; margin-top: 0; border-bottom: 2px solid var(--sa-gold); padding-bottom: 10px; }
+        #toc-list { list-style: none; padding: 0; margin: 15px 0 0 0; font-size: 0.95rem; }
+        #toc-list li { margin-bottom: 12px; }
+        #toc-list a { text-decoration: none; color: #666; transition: 0.3s; display: block; line-height: 1.4; }
+        #toc-list a:hover, #toc-list a.active { color: var(--sa-gold); padding-left: 5px; font-weight: bold; }
 
         /* FAQ */
-        .sa-faq-section { margin: 40px 0; }
-        .sa-faq-item { background: #fff; border: 1px solid #e0ddd7; border-radius: 12px; margin-bottom: 15px; overflow: hidden; transition: all 0.3s ease; }
-        .sa-faq-item:hover { border-color: var(--sa-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .sa-faq-question { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--sa-green); list-style: none; outline: none; }
-        .sa-faq-question::-webkit-details-marker { display: none; }
-        .sa-faq-question::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--sa-gold); transition: transform 0.3s ease; }
+        .sa-faq-section { margin: 60px 0; }
+        .sa-faq-item { background: #fff; border: 1px solid #e0ddd7; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+        .sa-faq-question { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--sa-green); list-style: none; }
+        .sa-faq-question::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--sa-gold); transition: 0.3s; }
         .sa-faq-item[open] .sa-faq-question::after { content: '\f068'; transform: rotate(180deg); }
-        .sa-faq-answer { padding: 0 25px 25px; color: #666; line-height: 1.8; font-size: 0.95rem; border-top: 1px solid #f9f9f9; background: #fafafa; }
+        .sa-faq-answer { padding: 0 25px 25px; color: #666; background: #fafafa; }
 
-        .sticky-cta { position: sticky; top: 120px; background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        /* 延伸閱讀卡片 */
+        .related-section { margin-top: 80px; padding-top: 50px; border-top: 2px solid #e0ddd7; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        .related-card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e0ddd7; text-decoration: none; color: inherit; transition: 0.3s; }
+        .related-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .related-img { height: 180px; background-size: cover; background-position: center; }
+        .related-body { padding: 20px; }
+        .related-body h4 { margin: 0; color: var(--sa-green); font-family: 'Noto Serif TC'; line-height: 1.4; }
+
+        .sticky-cta { background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 30px; }
         .cta-btn { background: var(--sa-gold); color: #fff; padding: 15px; display: block; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
-        .cta-btn:hover { background: #b89a6a; transform: translateY(-2px); }
-
-        @media (max-width: 992px) { .post-sidebar { width: 100%; } .layout-grid { gap: 30px; } body { padding-bottom: 80px; } }
+        
+        @media (max-width: 992px) { .post-sidebar { width: 100%; } .toc-widget { display: none; } }
     </style>
 </head>
 <body>
@@ -106,9 +115,7 @@ layout: null
         <div class="container">
             <h1 style="font-family:'Noto Serif TC', serif; font-size: clamp(1.8rem, 5vw, 3.2rem); margin:0; line-height: 1.3;">{{ page.title }}</h1>
             <div class="post-tags" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 25px;">
-                {% for tag in page.tags %}
-                <span style="background: rgba(255,255,255,0.15); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4);"><i class="fas fa-tag"></i> {{ tag }}</span>
-                {% endfor %}
+                {% for tag in page.tags %}<span style="background: rgba(255,255,255,0.15); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4);"># {{ tag }}</span>{% endfor %}
             </div>
         </div>
     </header>
@@ -116,14 +123,14 @@ layout: null
     <div class="container">
         <div class="layout-grid">
             <main class="post-main">
-                <div style="font-size:1.15rem; color:#444; border-left:5px solid var(--sa-gold); padding: 10px 0 10px 25px; margin-bottom:50px; line-height: 1.8; background: rgba(197, 160, 89, 0.05);">{{ page.description }}</div>
+                <div style="font-size:1.15rem; color:#444; border-left:5px solid var(--sa-gold); padding: 15px 0 15px 25px; margin-bottom:50px; line-height: 1.8; background: rgba(197, 160, 89, 0.05);">{{ page.description }}</div>
                 
                 <div class="entry-content">
                     {{ content }}
 
                     {% if page.has_faq and page.faqs %}
                     <div class="sa-faq-section">
-                        <h2 style="margin-bottom: 30px;"><i class="fas fa-question-circle" style="color: var(--sa-gold);"></i> 常見問題 FAQ</h2>
+                        <h2 id="faq-section"><i class="fas fa-question-circle" style="color: var(--sa-gold);"></i> 常見問題 FAQ</h2>
                         {% for item in page.faqs %}
                         <details class="sa-faq-item">
                             <summary class="sa-faq-question">{{ item.question }}</summary>
@@ -134,24 +141,97 @@ layout: null
                     {% endif %}
                 </div>
 
-                <div style="margin-top:80px; padding-top:40px; border-top:1px solid #e0e0e0; display: flex; justify-content: space-between;">
-                    <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold;"><i class="fas fa-chevron-left"></i> 返回百科</a>
-                    <span style="color: #999; font-size: 0.9rem;">更新於：{{ page.date | date: "%Y-%m-%d" }}</span>
+                <div style="margin-top:60px; padding:30px; background:#fff; border-radius:12px; border:1px solid #e0ddd7; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="{{ '/blog.html' | relative_url }}" style="text-decoration:none; color:var(--sa-green); font-weight:bold;"><i class="fas fa-th-large"></i> 更多殯葬百科</a>
+                    <span style="color: #999; font-size: 0.9rem;">最後更新：{{ page.date | date: "%Y-%m-%d" }}</span>
                 </div>
+
+                <section class="related-section">
+                    <h3 style="font-family:'Noto Serif TC'; font-size: 1.5rem; color: var(--sa-green);"><i class="fas fa-link"></i> 相關內容延伸閱讀</h3>
+                    <div class="related-grid">
+                        {% assign max_related = 3 %}
+                        {% assign count = 0 %}
+                        {% for post in site.posts %}
+                            {% if post.url != page.url %}
+                                {% assign common_tags = 0 %}
+                                {% for tag in post.tags %}
+                                    {% if page.tags contains tag %}
+                                        {% assign common_tags = common_tags | plus: 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if common_tags > 0 and count < max_related %}
+                                    <a href="{{ post.url | relative_url }}" class="related-card">
+                                        <div class="related-img" style="background-image: url('{{ post.image }}');"></div>
+                                        <div class="related-body">
+                                            <h4>{{ post.title }}</h4>
+                                            <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">{{ post.description | truncate: 50 }}</p>
+                                        </div>
+                                    </a>
+                                    {% assign count = count | plus: 1 %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </section>
             </main>
 
             <aside class="post-sidebar">
                 <div class="sticky-cta">
                     <h3 style="color:var(--sa-gold); margin-top:0; font-family:'Noto Serif TC';">24H 禮儀諮詢</h3>
-                    <p style="font-size:0.95rem; opacity:0.9; line-height:1.6;">面臨親人往生感到無助？<br>專業禮儀師全程引導與陪伴。</p>
-                    <a href="tel:0978583699" style="font-size:1.6rem; color:#fff; text-decoration:none; display:block; margin:20px 0; font-weight:800; letter-spacing: 1px;"><i class="fas fa-phone-alt"></i> 0978-583-699</a>
-                    <a href="https://line.me/ti/p/您的ID" target="_blank" class="cta-btn" style="background:#06C755;">LINE 即時顧問</a>
-                    <a href="tel:0978583699" class="cta-btn">撥打電話諮詢</a>
+                    <p style="font-size:0.95rem; opacity:0.9; line-height:1.6;">需要即時協助或文件代辦？<br>陳小姐 24 小時守候您的電話。</p>
+                    <a href="tel:0978583699" style="font-size:1.6rem; color:#fff; text-decoration:none; display:block; margin:20px 0; font-weight:800;"><i class="fas fa-phone-alt"></i> 0978-583-699</a>
+                    <a href="https://line.me/ti/p/您的ID" target="_blank" class="cta-btn" style="background:#06C755; border:none;">LINE 即時諮詢</a>
+                </div>
+
+                <div class="toc-widget" id="sticky-toc">
+                    <h4 class="toc-title">文章目錄</h4>
+                    <nav id="toc-list"></nav>
                 </div>
             </aside>
         </div>
     </div>
 
     {% include footer.html %}
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tocList = document.getElementById("toc-list");
+        const headings = document.querySelectorAll(".entry-content h2");
+        const navLinks = [];
+
+        // 1. 自動生成目錄連結
+        headings.forEach((heading, index) => {
+            const id = "section-" + index;
+            heading.setAttribute("id", id);
+
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = "#" + id;
+            a.textContent = heading.textContent.replace(' FAQ', ''); // 移除圖示文字干擾
+            
+            li.appendChild(a);
+            tocList.appendChild(li);
+            navLinks.push(a);
+        });
+
+        // 2. 滾動追蹤：根據當前位置高亮目錄
+        window.addEventListener("scroll", () => {
+            let current = "";
+            headings.forEach((heading) => {
+                const headingTop = heading.offsetTop;
+                if (pageYOffset >= headingTop - 120) {
+                    current = heading.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach((a) => {
+                a.classList.remove("active");
+                if (a.getAttribute("href") === "#" + current) {
+                    a.classList.add("active");
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
