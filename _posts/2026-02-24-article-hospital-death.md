@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "【醫院死亡緊急SOP】親人在醫院過世後：死亡證明、接體與冰存 5 個關鍵步驟"
+category: 流程指引
 description: "親人在醫院往生後家屬該怎麼辦？祥安生命專業禮儀師整理醫院死亡流程SOP：從死亡證明份數申請、離院結帳、到大體接體與冰存地點選擇，讓您在悲慟時刻能有條不紊地處理後事。"
 date: 2026-02-24
 image: "/images/blog-first-step-1.jpg"
