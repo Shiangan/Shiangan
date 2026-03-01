@@ -1,47 +1,143 @@
 ---
-layout: page
-title: "消費權益保障與爭議處理指引"
-permalink: /complaint-policy/
-description: "祥安生命致力於提供透明、專業的生命服務。本頁詳列 2026 最新消費爭議處理流程與家屬權益保障，確保每一份服務均符合內政部定型化契約規範。"
+layout: null
 ---
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <title>消費權益保障與爭議處理 | 祥安生命有限公司</title>
+    <meta name="description" content="祥安生命秉持透明化服務，提供完善的消費爭議處理流程。落實內政部定型化契約規範，確保喪葬費用公開透明。">
+    {% include head.html %}
+    <style>
+        :root {
+            --accent: #a88e6a;
+            --deep-ink: #1e1e1e;
+            --bg-master: #f2efeb;
+            --line-soft: rgba(168, 142, 106, 0.15);
+        }
 
-# 🛡️ 祥安生命：消費權益保障與爭議處理指引
+        .policy-container { padding: 120px var(--side-gap) 80px; max-width: 1000px; margin: 0 auto; }
+        
+        /* 頂部標題 */
+        .policy-header { text-align: center; margin-bottom: 60px; }
+        .policy-header h1 { font-family: 'Noto Serif TC', serif; font-size: 2.5rem; color: var(--deep-ink); margin-bottom: 20px; }
+        .accent-line { width: 50px; height: 2px; background: var(--accent); margin: 0 auto; }
 
-祥安生命秉持「專業、誠信、尊嚴」之核心價值，所有服務均簽署**內政部核定之殯葬服務定型化契約**。為落實品質控管並確保家屬權益，若治喪期間發生任何爭議，請依本指引辦理。
+        /* 服務承諾區塊 */
+        .guarantee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .guarantee-card { background: #fff; padding: 30px; border: 1px solid var(--line-soft); border-radius: 2px; }
+        .guarantee-card i { color: var(--accent); font-size: 1.5rem; margin-bottom: 15px; display: block; }
+        .guarantee-card h3 { font-family: 'Noto Serif TC', serif; margin-bottom: 15px; }
 
----
+        /* 視覺化流程圖 */
+        .flow-section { background: rgba(255,255,255,0.5); padding: 40px; border-radius: 4px; margin-bottom: 60px; }
+        .flow-container { display: flex; justify-content: space-between; align-items: center; position: relative; margin-top: 30px; }
+        .flow-item { text-align: center; flex: 1; z-index: 1; position: relative; }
+        .flow-line { position: absolute; top: 15px; left: 10%; width: 80%; height: 1px; background: var(--accent); opacity: 0.3; z-index: 0; }
+        .flow-circle { width: 32px; height: 32px; background: var(--accent); color: #fff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
+        .flow-item p { font-size: 0.9rem; font-weight: 700; color: var(--deep-ink); }
 
-## 一、 內部申訴與即時處理管道
-若服務品質未達契約承諾，請優先聯繫本公司管理階層，我們將由專人介入調解：
-* **24H 服務與投訴專線**：0978-583-699
-* **官方服務信箱**：ava85110@yahoo.com.tw
-* **承諾時限**：於收到投訴後 **24 小時內** 由督導級主管聯繫，並於 **3 個工作日內** 提出具體解決方案。
+        /* 下載與第三方區塊 */
+        .info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .download-box, .third-party-box { padding: 30px; background: #fff; border: 1px solid var(--line-soft); }
+        .btn-outline { display: inline-block; padding: 10px 20px; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; font-size: 0.9rem; transition: 0.3s; margin-top: 10px; }
+        .btn-outline:hover { background: var(--accent); color: #fff; }
 
----
+        @media (max-width: 768px) {
+            .flow-container { flex-direction: column; gap: 30px; }
+            .flow-line { display: none; }
+            .info-footer { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    {% include header.html %}
 
-## 二、 核心消費權益保障 (依 2026 最新法規)
-本公司嚴格遵守殯葬管理條例，確保家屬享有以下權利：
+    <main class="policy-container">
+        <section class="policy-header reveal">
+            <span style="color:var(--accent); font-weight:700; letter-spacing:4px; display:block; margin-bottom:10px;">CONSUMER RIGHTS</span>
+            <h1>消費權益保障與爭議處理</h1>
+            <div class="accent-line"></div>
+            <p style="margin-top: 25px; opacity: 0.8;">祥安生命致力於打造最透明的禮儀服務，我們將您的信任視為最高榮譽。</p>
+        </section>
 
-1. **規費透明化**：殯儀館、火化場等官方規費，一律依政府電子收據**實報實銷**，絕不額外加收服務費。
-2. **契約審閱權**：合約簽署前，家屬依法享有至少 **3 日之審閱期**，確保充分了解服務項目與細節。
-3. **品質不符處理**：若實際提供之服務項目、數量或品質與契約記載不符，家屬得要求即時改善；若無法改善，得依契約比例扣除費用。
-4. **明碼標價**：全案服務內容清單化，合約成立後無隱藏性收費。
+        <div class="guarantee-grid reveal">
+            <div class="guarantee-card">
+                <i class="fas fa-file-signature"></i>
+                <h3>定型化契約</h3>
+                <p>全面落實內政部定型化契約規範，提供完整三日審閱期，品項清單透明，保障簽約權益。</p>
+            </div>
+            <div class="guarantee-card">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h3>規費透明化</h3>
+                <p>公立殯葬設施規費（如火化、塔位）一律依官方憑據實報實銷，本公司絕不額外加收手續費。</p>
+            </div>
+            <div class="guarantee-card">
+                <i class="fas fa-user-shield"></i>
+                <h3>爭議即時受理</h3>
+                <p>設有管理階層直接督導之申訴管道，確保每一份回饋都能在 24 小時內獲得具體回應。</p>
+            </div>
+        </div>
 
----
+        <section class="flow-section reveal">
+            <h2 style="font-family: 'Noto Serif TC', serif; text-align: center; font-size: 1.5rem;">爭議處理標準程序 (SOP)</h2>
+            
+            <div class="flow-container">
+                <div class="flow-line"></div>
+                <div class="flow-item">
+                    <div class="flow-circle">1</div>
+                    <p>受理申訴</p>
+                    <small>撥打 24H 專線或官方 Line</small>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-circle">2</div>
+                    <p>事實調查</p>
+                    <small>管理階層介入釐清細節</small>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-circle">3</div>
+                    <p>協商方案</p>
+                    <small>於 3 日內提出具體補償或說明</small>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-circle">4</div>
+                    <p>滿意結案</p>
+                    <small>雙方簽署確認圓滿結案</small>
+                </div>
+            </div>
+        </section>
 
-## 三、 第三方調解與官方投訴管道
-若內部調解無法達成共識，家屬得向以下機關尋求法律救濟：
-* **全國消費者服務專線**：手機或室話直撥 **1950**。
-* **各縣市政府殯葬管理處**：針對違規收費或禮儀品質之申訴檢舉。
-* **行政院消保處線上申訴系統**：[https://appeal.cpc.ey.gov.tw/](https://appeal.cpc.ey.gov.tw/)。
+        <div class="info-footer reveal">
+            <div class="download-box">
+                <h4 style="margin-top:0;"><i class="fas fa-download"></i> 法規資訊下載</h4>
+                <p style="font-size: 0.9rem;">主動了解權益，讓治喪過程更安心。</p>
+                <a href="https://www.moi.gov.tw/News_Content.aspx?n=285&s=19246" target="_blank" class="btn-outline">內政部定型化契約範本</a>
+            </div>
+            <div class="third-party-box">
+                <h4 style="margin-top:0;"><i class="fas fa-balance-scale"></i> 第三方調解管道</h4>
+                <p style="font-size: 0.9rem;">若對於本公司處理結果仍有疑慮：</p>
+                <ul style="padding-left: 15px; font-size: 0.85rem; line-height: 1.8;">
+                    <li><strong>全國消保專線：</strong>直撥 1950</li>
+                    <li><strong>新北市殯葬管理處：</strong>(02) 2257-1207</li>
+                </ul>
+            </div>
+        </div>
+    </main>
 
----
+    {% include footer.html %}
 
-## 四、 品質專業承諾
-* **執照保障**：所有禮儀人員均具備國家級專業證照，確保禮俗正確無缺失。
-* **環境衛生**：嚴格監督合作之殯葬設施環境，確保符合公共衛生規範。
-* **數位透明**：本網站即時更新 2026 最新規費與補助資訊，保障資訊不對稱。
-
----
-
-> **評鑑備註**：本頁面內容係根據 2026 年最新殯葬服務法規彙整，旨在落實殯葬服務透明化，並作為網站品質管理與消費者保護之核心證明文件。
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealOptions = { threshold: 0.1 };
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
