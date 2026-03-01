@@ -1,239 +1,264 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-/* --- 基礎變數與全局設定 --- */
 :root {
-    --nav-bg: #1a241a;
-    --nav-gold: #c5a059;
-    --nav-white: #ffffff;
-    --nav-height-desktop: 80px;
-    --nav-height-mobile: 70px;
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --deep-green: #1a241a;
+    --gold-solid: #c5a059;
+    --nav-height: 80px;
+    --nav-scrolled-height: 65px;
+    --transition-base: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Noto Sans TC', sans-serif; padding-top: var(--nav-height-desktop); }
+/* 基礎設定 */
+body { margin: 0; }
 
-/* --- 導航主容器 --- */
-#universal-nav {
+/* 導航容器 */
+#navbar {
     position: fixed; top: 0; left: 0; width: 100%;
-    height: var(--nav-height-desktop);
-    background: var(--nav-bg);
     display: flex; justify-content: center;
-    z-index: 10000;
-    transition: var(--transition-smooth);
+    height: var(--nav-height);
+    z-index: 9999;
+    transition: var(--transition-base);
+    background: transparent;
 }
 
-/* 捲動後縮小樣式 */
-#universal-nav.is-scrolled {
-    height: 65px;
+#navbar.scrolled {
+    height: var(--nav-scrolled-height);
     background: rgba(26, 36, 26, 0.98);
-    box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
-.nav-container {
-    width: 90%; max-width: 1300px;
+.nav-wrapper {
+    width: 92%; max-width: 1400px;
     display: flex; justify-content: space-between; align-items: center;
+    height: 100%;
 }
 
-/* --- Logo --- */
-.logo img {
-    height: 50px; width: auto;
-    transition: var(--transition-smooth);
+/* Logo */
+.logo a { display: flex; align-items: center; text-decoration: none; }
+.logo img { height: 60px; width: auto; transition: 0.3s ease; }
+#navbar.scrolled .logo img { height: 45px; }
+
+/* 桌面選單列表 */
+.nav-links {
+    display: flex; list-style: none; gap: 30px;
+    margin: 0; padding: 0; align-items: center;
 }
-#universal-nav.is-scrolled .logo img { height: 40px; }
-
-/* --- 選單列表 --- */
-.nav-menu {
-    display: flex; list-style: none; gap: 5px;
+.nav-links > li { position: relative; display: flex; align-items: center; }
+.nav-links > li > a {
+    font-family: "Noto Serif TC", "Noto Sans TC", serif;
+    color: white; text-decoration: none; font-size: 1.05rem;
+    font-weight: 500; letter-spacing: 1.5px; padding: 10px 0;
+    transition: color 0.3s;
 }
+.nav-links > li > a:hover { color: var(--gold-solid); cursor: pointer; }
 
-.nav-item { position: relative; }
-
-.nav-link {
-    display: flex; align-items: center; gap: 5px;
-    color: var(--nav-white); text-decoration: none;
-    padding: 10px 18px; font-size: 1rem;
-    transition: color 0.3s; white-space: nowrap;
-}
-
-.nav-link:hover { color: var(--nav-gold); }
-
-/* --- 下拉選單 (電腦版) --- */
-.dropdown-menu {
+/* 下拉選單基礎 */
+.submenu {
     position: absolute; top: 100%; left: 0;
-    background: #243124; min-width: 220px;
-    list-style: none; padding: 10px 0;
-    opacity: 0; visibility: hidden;
-    transform: translateY(10px);
-    transition: var(--transition-smooth);
-    border-top: 2px solid var(--nav-gold);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    background: #1e2b1e; list-style: none; padding: 10px 0;
+    min-width: 220px; opacity: 0; visibility: hidden;
+    transition: var(--transition-base);
+    border-top: 2px solid var(--gold-solid);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 999;
 }
 
-/* 電腦版 Hover 顯示 */
-@media (min-width: 1025px) {
-    .nav-item:hover > .dropdown-menu {
-        opacity: 1; visibility: visible;
-        transform: translateY(0);
-    }
+/* 桌面 Hover 邏輯 */
+@media (min-width: 1101px) {
+    .nav-links li:hover > .submenu { opacity: 1; visibility: visible; }
+    .submenu li:hover > .submenu { top: 0; left: 100%; }
 }
 
-.dropdown-link {
-    display: block; color: rgba(255,255,255,0.8);
-    text-decoration: none; padding: 12px 20px;
-    font-size: 0.95rem; transition: all 0.3s;
+.submenu li a {
+    color: rgba(255,255,255,0.9); text-decoration: none;
+    padding: 12px 20px; display: block; font-size: 0.95rem;
+    transition: all 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.submenu li a:hover { color: var(--gold-solid); background: rgba(255,255,255,0.05); padding-left: 25px; }
+
+/* 箭頭旋轉 */
+.menu-item i { transition: transform 0.3s ease; margin-left: 5px; font-size: 0.8rem; }
+.show-submenu > .menu-item i { transform: rotate(180deg); }
+
+/* 花禮訂購按鈕樣式優化 */
+.nav-cta-btn {
+    color: var(--gold-solid) !important;
+    font-weight: bold !important;
+    border: 1px solid var(--gold-solid) !important;
+    padding: 8px 18px !important;
+    border-radius: 4px;
+    transition: all 0.3s ease !important;
+}
+.nav-cta-btn:hover {
+    background-color: var(--gold-solid) !important;
+    color: #fff !important;
 }
 
-.dropdown-link:hover {
-    background: rgba(197, 160, 89, 0.1);
-    color: var(--nav-gold); padding-left: 25px;
-}
-
-/* --- 特殊按鈕 (花禮訂購) --- */
-.btn-gold {
-    border: 1px solid var(--nav-gold);
-    color: var(--nav-gold) !important;
-    border-radius: 4px; margin-left: 10px;
-}
-.btn-gold:hover { background: var(--nav-gold); color: #fff !important; }
-
-/* --- 手機版漢堡按鈕 --- */
+/* 手機版開關按鈕 */
 .menu-toggle {
-    display: none; color: var(--nav-gold); font-size: 1.5rem; cursor: pointer;
+    display: none; font-size: 1.8rem; color: var(--gold-solid);
+    cursor: pointer; z-index: 10001;
 }
 
-/* --- 手機響應式 (1024px 以下) --- */
-@media (max-width: 1024px) {
-    body { padding-top: var(--nav-height-mobile); }
-    #universal-nav { height: var(--nav-height-mobile); }
-    
+/* 手機版背景遮罩 */
+.nav-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); opacity: 0; visibility: hidden;
+    transition: 0.3s; z-index: 9998;
+}
+.nav-overlay.active { opacity: 1; visibility: visible; }
+
+/* 手機響應式樣式 */
+@media (max-width: 1100px) {
     .menu-toggle { display: block; }
+    
+    .nav-links {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+        flex-direction: column; padding: 100px 30px 50px; gap: 5px;
+        background: var(--deep-green); overflow-y: auto; 
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 9999; align-items: flex-start;
+    }
+    .nav-links.active { right: 0; }
 
-    .nav-menu {
-        position: fixed; top: var(--nav-height-mobile); right: -100%;
-        width: 100%; height: calc(100vh - var(--nav-height-mobile));
-        background: var(--nav-bg); flex-direction: column;
-        padding: 20px 0; gap: 0; overflow-y: auto;
-        transition: 0.4s ease-in-out;
+    .nav-links > li { width: 100%; display: block; }
+    .nav-links > li > a { 
+        display: flex; justify-content: space-between; 
+        padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); 
     }
 
-    .nav-menu.is-active { right: 0; }
-
-    .nav-item { width: 100%; }
-    
-    .nav-link {
-        padding: 18px 5%; border-bottom: 1px solid rgba(255,255,255,0.05);
-        justify-content: space-between;
+    /* 手機版下拉選單改為垂直展開 */
+    .submenu { 
+        position: static !important; opacity: 1 !important; visibility: visible !important; 
+        display: none; width: 100%; background: rgba(0,0,0,0.15); 
+        border: none; box-shadow: none; padding: 0;
     }
-
-    /* 手機版下拉調整 */
-    .dropdown-menu {
-        position: static; opacity: 1; visibility: visible;
-        display: none; transform: none; background: rgba(0,0,0,0.2);
-        box-shadow: none; border: none; padding: 0;
-    }
-
-    .nav-item.open > .dropdown-menu { display: block; }
-    .nav-item.open .fa-chevron-down { transform: rotate(180deg); }
+    .nav-links li.show-submenu > .submenu { display: block; }
     
-    .dropdown-link { padding: 15px 10%; border-bottom: 1px solid rgba(255,255,255,0.03); }
-    
-    .btn-gold { margin: 20px 5%; text-align: center; }
+    .submenu li a { padding: 15px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    .nav-cta-btn { margin-top: 20px; display: inline-block; width: 100%; text-align: center; }
 }
 </style>
 
-<header id="universal-nav">
-    <div class="nav-container">
+<header id="navbar">
+    <div class="nav-wrapper">
         <div class="logo">
-            <a href="/">
-                <img src="https://via.placeholder.com/150x50?text=LOGO" alt="Logo">
+            <a href="{{ site.baseurl }}/">
+                <img src="{{ 'images/logo.png' | relative_url }}" alt="祥安生命">
             </a>
         </div>
 
-        <ul class="nav-menu" id="nav-menu">
-            <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
-            <li class="nav-item"><a href="/about" class="nav-link">關於祥安</a></li>
-            
-            <li class="nav-item has-dropdown">
-                <a href="javascript:void(0)" class="nav-link">
-                    生命禮儀服務 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/chinese" class="dropdown-link">中式禮儀服務</a></li>
-                    <li><a href="/western" class="dropdown-link">西式禮儀服務</a></li>
-                    <li><a href="/japanese" class="dropdown-link">日式禮儀服務</a></li>
-                </ul>
-            </li>
+        <nav>
+            <ul class="nav-links" id="main-nav">
+                <li><a href="{{ '/' | relative_url }}">首頁</a></li>
+                <li><a href="{{ '/about.html' | relative_url }}">關於祥安</a></li>
 
-            <li class="nav-item has-dropdown">
-                <a href="javascript:void(0)" class="nav-link">
-                    服務契約方案 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/compare" class="dropdown-link" style="color:var(--nav-gold)">方案規格對照</a></li>
-                    <li><a href="/deed01" class="dropdown-link">國民專案 6.8萬</a></li>
-                    <li><a href="/deed02" class="dropdown-link">中式精緻 8.8萬</a></li>
-                    <li><a href="/deed06" class="dropdown-link">正信佛教專案</a></li>
-                </ul>
-            </li>
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="menu-item">生命禮儀服務 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ '/chinese-ritual/' | relative_url }}">中式禮儀服務</a></li>
+                        <li><a href="{{ '/western-ritual/' | relative_url }}">西式禮儀服務</a></li>
+                        <li><a href="{{ '/japanese-ritual/' | relative_url }}">日式禮儀服務</a></li>
+                    </ul>
+                </li>
 
-            <li class="nav-item"><a href="/eco" class="nav-link">環保葬專區</a></li>
-            <li class="nav-item"><a href="/order" class="nav-link btn-gold">花禮訂購</a></li>
-        </ul>
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="menu-item">服務契約方案 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ '/compare.html' | relative_url }}" style="color: var(--gold-solid); font-weight: bold;">➔ 方案規格對照</a></li>
+                        <li><a href="{{ '/deed01.html' | relative_url }}">國民專案 6.8萬</a></li>
+                        <li><a href="{{ '/deed02.html' | relative_url }}">中式精緻 8.8萬</a></li>
+                        <li><a href="{{ '/deed03.html' | relative_url }}">中式尊榮 11.8萬</a></li>
+                        <li><a href="{{ '/deed04.html' | relative_url }}">中式豪華 14.8萬</a></li>
+                        <li><a href="{{ '/deed05.html' | relative_url }}">中式頂級 17.8萬</a></li>
+                        <li><a href="{{ '/deed06.html' | relative_url }}">正信佛教專案</a></li>
+                        <li><a href="{{ '/deed07.html' | relative_url }}">西式追思專案</a></li>
+                        <li><a href="{{ '/market-compare.html' | relative_url }}">契約比較表</a></li>
+                    </ul>
+                </li>
 
-        <div class="menu-toggle" id="mobile-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
+                <li><a href="{{ '/eco-burial.html' | relative_url }}">環保葬專區</a></li>
+                <li><a href="{{ '/blog.html' | relative_url }}">治喪百科</a></li>
+                <li><a href="{{ '/order.html' | relative_url }}" class="nav-cta-btn">花禮訂購</a></li>
+            </ul>
+        </nav>
+
+        <div class="menu-toggle" id="menu-btn"><i class="fas fa-bars"></i></div>
     </div>
 </header>
 
+<div class="nav-overlay" id="nav-overlay"></div>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.getElementById('universal-nav');
-    const menu = document.getElementById('nav-menu');
-    const toggle = document.getElementById('mobile-toggle');
-    const dropdowns = document.querySelectorAll('.has-dropdown');
+document.addEventListener('DOMContentLoaded', function(){
+    const navbar = document.getElementById('navbar');
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('main-nav');
+    const overlay = document.getElementById('nav-overlay');
+    const hasSubmenus = document.querySelectorAll('.has-submenu');
 
-    // 1. 處理滾動效果 (優化效能)
+    // 滾動效果 (優化效能)
+    let lastScroll = 0;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            nav.classList.add('is-scrolled');
+        const currentScroll = window.scrollY;
+        if (currentScroll > 50) {
+            navbar.classList.add('scrolled');
         } else {
-            nav.classList.remove('is-scrolled');
+            navbar.classList.remove('scrolled');
         }
-    }, { passive: true });
-
-    // 2. 手機版選單切換
-    toggle.addEventListener('click', () => {
-        menu.classList.toggle('is-active');
-        toggle.querySelector('i').classList.toggle('fa-bars');
-        toggle.querySelector('i').classList.toggle('fa-times');
     });
 
-    // 3. 手機版下拉點擊處理
-    dropdowns.forEach(item => {
-        item.querySelector('.nav-link').addEventListener('click', (e) => {
-            if (window.innerWidth <= 1024) {
+    // 手機開關邏輯
+    function toggleMobileMenu() {
+        navLinks.classList.toggle('active');
+        overlay.classList.toggle('active');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+        
+        // 如果關閉主選單，順便把已打開的子選單也關掉
+        if(!navLinks.classList.contains('active')) {
+            hasSubmenus.forEach(item => item.classList.remove('show-submenu'));
+        }
+    }
+
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+    });
+
+    // 點擊遮罩關閉選單
+    overlay.addEventListener('click', toggleMobileMenu);
+
+    // 手機版子選單展開
+    hasSubmenus.forEach(item => {
+        const link = item.querySelector('.menu-item');
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 1100) {
                 e.preventDefault();
-                // 關閉其他已打開的
-                dropdowns.forEach(other => {
-                    if (other !== item) other.classList.remove('open');
-                });
-                // 切換目前的
-                item.classList.toggle('open');
+                e.stopPropagation();
+                
+                // 取得目前狀態
+                const isOpen = item.classList.contains('show-submenu');
+                
+                // 關閉同層級其他打開的子選單 (Accordion 效果)
+                hasSubmenus.forEach(el => el.classList.remove('show-submenu'));
+                
+                // 如果原本是關的，就打開
+                if (!isOpen) {
+                    item.classList.add('show-submenu');
+                }
             }
         });
     });
 
-    // 4. 點擊外部關閉選單
-    document.addEventListener('click', (e) => {
-        if (!nav.contains(e.target) && menu.classList.contains('is-active')) {
-            menu.classList.remove('is-active');
-            toggle.querySelector('i').classList.add('fa-bars');
-            toggle.querySelector('i').classList.remove('fa-times');
-        }
+    // 防止選單內點擊導致選單關閉 (除了點擊真正的連結)
+    navLinks.addEventListener('click', (e) => {
+        e.stopPropagation();
     });
 });
 </script>
