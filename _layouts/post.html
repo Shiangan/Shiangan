@@ -162,7 +162,7 @@ layout: null
                         {% for post in site.posts %}
                             {% if post.url != page.url and count < 3 %}
                                 <a href="{{ post.url | relative_url }}" class="related-card">
-                                    <div class="related-img" style="background-image: url('{{ post.image }}');"></div>
+                                    <div class="related-img" style="background-image: url('{{ post.image | relative_url }}');"></div>
                                     <div class="related-body">
                                         <h4>{{ post.title }}</h4>
                                         <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">{{ post.description | truncate: 50 }}</p>
