@@ -1,0 +1,67 @@
+---
+layout: page
+title: "主題分類導覽"
+description: "透過標籤快速尋找您需要的治喪知識與禮俗建議"
+---
+
+<div class="container" style="padding: 60px 0;">
+    <div style="text-align: center; margin-bottom: 50px;">
+        <h1 style="font-family: 'Noto Serif TC'; color: var(--sa-green);">主題標籤</h1>
+        <p style="color: #888;">點擊下方標籤，查看相關的專業指南</p>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 60px;">
+        {% capture tags %}
+          {% for tag in site.tags %}
+            {{ tag[0] }}
+          {% endfor %}
+        {% endcapture %}
+        {% assign sorted_tags = tags | split: ' ' | sort %}
+
+        {% for tag in sorted_tags %}
+            <a href="#{{ tag | slugify }}" class="tag-cloud-item">
+                # {{ tag }} <span style="opacity: 0.5; font-size: 0.8rem;">({{ site.tags[tag].size }})</span>
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="tag-results">
+        {% for tag in sorted_tags %}
+            <section id="{{ tag | slugify }}" class="tag-section" style="margin-bottom: 80px;">
+                <h2 style="border-left: 5px solid var(--sa-gold); padding-left: 15px; color: var(--sa-green); font-family: 'Noto Serif TC';">
+                    {{ tag }}
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px;">
+                    {% for post in site.tags[tag] %}
+                        <a href="{{ post.url | relative_url }}" class="related-card">
+                            <div class="related-img" style="background-image: url('{{ post.image | relative_url }}'); height: 180px;"></div>
+                            <div class="related-body">
+                                <h4 style="margin: 0; color: var(--sa-green);">{{ post.title }}</h4>
+                                <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">{{ post.description | truncate: 60 }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .tag-cloud-item {
+        padding: 10px 20px;
+        background: #fff;
+        border: 1px solid #e0ddd7;
+        border-radius: 50px;
+        text-decoration: none;
+        color: #666;
+        transition: 0.3s;
+    }
+    .tag-cloud-item:hover {
+        background: var(--sa-gold);
+        color: #fff;
+        border-color: var(--sa-gold);
+        transform: translateY(-3px);
+    }
+    .tag-section { scroll-margin-top: 100px; }
+</style>
