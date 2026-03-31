@@ -3,6 +3,7 @@ layout: post
 title: "【祭祖指南】合爐後的第一個年節：清明、中元、除夕祭拜祖先的完整儀式與心法"
 description: "合爐圓滿後，逝者已正式歸入家族祖先序列。祥安生命為您整理合爐後第一個年節的祭拜指南，包含供品準備、正確儀式順序與祝禱詞，讓家族香火傳承更顯莊嚴與溫暖。"
 date: 2026-03-31
+permalink: /article-ancestor-worship.html
 image: /images/article-ancestor-worship-main.jpg
 tags: ["祭祖禮儀", "合爐之後", "民俗百科", "家族傳承"]
 has_faq: true
