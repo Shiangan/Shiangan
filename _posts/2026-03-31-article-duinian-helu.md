@@ -87,7 +87,7 @@ faqs:
 ### 🔍 治喪圓滿後的深度指引：
 當對年與合爐落幕，祥安生命持續與您同行，提供最細膩的生命守護：
 
-* [**祭祀傳承**] [**【家傳指南】合爐後的第一個年節：清明、中元與除夕祭祖的完整儀式與心法**](/Shiangan/article-ancestor-worship.html)
+* [**祭祀傳承**] [**【家傳指南】合爐後的第一個年節：清明、中元與除夕祭祖的完整儀式**](/Shiangan/article-ancestor-worship.html)
 * [**生命故事**] [**【數位遺產】除了牌位，我們還能留下什麼？保存逝者生命故事與家族記憶的現代方案**](/Shiangan/article-digital-legacy.html)
 * [**環境美學**] [**【居室供奉】現代居家公媽龕的空間美學：如何將傳統祭祀自然融入現代裝潢？**](/Shiangan/article-altar-design.html)
 * [**權益守護**] [**【安心保障】治喪圓滿後的法律功課：遺產分配與家族權益全解析**](/Shiangan/article-legal-guide.html)
@@ -96,9 +96,9 @@ faqs:
     <h3 style="color: #c5a059; font-size: 1.8rem; margin-top:0; font-family:'Noto Serif TC';">💖 祥安生命：陪伴您完成最後一段溫柔的歸程</h3>
     <p style="font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 20px auto;">對年與合爐涉及繁瑣的擇日與民俗禁忌，讓祥安專業團隊協助您，確保儀式圓滿，讓逝者安穩入位，生者心靈獲得最大寬慰。</p>
     <div style="margin-top: 35px;">
-        <a href="tel:0978583699" style="font-size: 1.5rem; ; text-decoration: none; font-weight: 800; display: block; margin-bottom: 20px; letter-spacing: 1px;">
+        <a href="tel:0978583699" style="font-size: 1.5rem; ; color: #fff; text-decoration: none; font-weight: 800; display: block; margin-bottom: 20px; letter-spacing: 1px;">
             <i class="fas fa-phone-alt" style="color:#c5a059;"></i> 0978-583-699
         </a>
-        <a href="https://line.me/ti/p/@yourlineid" style="background: #06C755; text-decoration: none; display: inline-block; padding: 15px 45px; font-size: 1.1rem; font-weight: 700; border-radius: 2px;">LINE 即時禮俗諮詢</a>
+        <a href="https://line.me/ti/p/@yourlineid" style="background: #06C755; color: #fff; text-decoration: none; display: inline-block; padding: 15px 45px; font-size: 1.1rem; font-weight: 700; border-radius: 2px;">LINE 即時禮俗諮詢</a>
     </div>
 </div>
