@@ -158,40 +158,6 @@ layout: null
     }
 </style>
 
-<section class="section wrapper">
-    <div class="reveal">
-        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 20px; text-align: center;">生命禮讚：精選案例</h2>
-        <div style="width: 40px; height: 1.5px; background: var(--accent); margin: 0 auto 50px;"></div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
-        {% for post in site.posts limit:3 %}
-            <a href="{{ post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
-                <div class="reveal">
-                    <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
-                        {% assign post_img = post.image | default: '/images/blog-hero-bg.jpg' | relative_url %}
-                        <img src="{{ post_img }}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease;" alt="{{ post.title }}">
-                    </div>
-
-                    <div style="padding: 25px 0;">
-                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; display: block; margin-bottom: 12px;">LATEST STORY</span>
-                        <h3 style="margin-bottom: 15px; font-family: 'Noto Serif TC', serif; font-size: 1.5rem; line-height: 1.4; color: var(--deep-ink);">{{ post.title }}</h3>
-                        <p style="font-size: 1rem; opacity: 0.75; line-height: 1.8; margin-bottom: 20px; font-weight: 300;">
-                            {{ post.excerpt | strip_html | truncate: 75 }}
-                        </p>
-                        <div style="display: inline-block; color: var(--deep-ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 3px; font-size: 0.9rem;">
-                            進入生命故事 &rarr;
-                        </div>
-                    </div>
-                </div>
-            </a>
-        {% else %}
-            <div style="padding: 60px; text-align: center; border: 1px solid var(--line-soft); grid-column: 1 / -1;">
-                <p style="opacity: 0.4; font-family: 'Noto Serif TC', serif; letter-spacing: 2px;">敘事整理中，敬請期待</p>
-            </div>
-        {% endfor %}
-    </div>
-</section>
 
 
     </main>
