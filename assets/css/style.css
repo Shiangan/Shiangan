@@ -1,0 +1,134 @@
+/* ==========================================================================
+   1. 變數與基礎設定 (CSS Variables & Base)
+   ========================================================================== */
+:root {
+    /* 祥安生命 品牌色系 */
+    --bg-master: #f2efeb;      /* 全站羊絨灰 - 莊重且溫潤 */
+    --accent: #a88e6a;         /* 職人金 - 專業與尊榮 */
+    --deep-ink: #1e1e1e;       /* 石墨黑 - 權威與穩重 */
+    --text-main: #3d3d3d;      /* 炭灰 - 易於閱讀的內文色 */
+    --line-soft: rgba(168, 142, 106, 0.15); /* 細緻金線 */
+    
+    /* 響應式間距 */
+    --side-gap: clamp(1.2rem, 6vw, 10rem); 
+    --section-gap: clamp(50px, 8vh, 100px);
+    
+    /* 動畫曲線 */
+    --transition-prime: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 基礎重設 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.05em;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-master);
+    color: var(--text-main);
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. 文字排版優化 (Typography)
+   ========================================================================== */
+h1, h2, h3, h4, h5 {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--deep-ink);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: var(--transition-prime);
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   3. 容器與佈局 (Layout)
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--side-gap);
+}
+
+main {
+    padding-top: 100px; /* 留出導覽列空間 */
+    min-height: 80vh;
+}
+
+.section-padding {
+    padding: var(--section-gap) 0;
+}
+
+/* ==========================================================================
+   4. 百科文章專用樣式 (Post & Page Content)
+   ========================================================================== */
+.post-content {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    line-height: 2;
+}
+
+.post-content h2 {
+    border-left: 4px solid var(--accent);
+    padding-left: 15px;
+    margin-top: 2rem;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 2px;
+    margin: 20px 0;
+}
+
+/* ==========================================================================
+   5. 全站共用動畫 (Shared Animations)
+   ========================================================================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition-prime);
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   6. 響應式微調 (Responsive)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .post-content {
+        padding: 20px;
+    }
+    
+    main {
+        padding-top: 80px;
+    }
+}
