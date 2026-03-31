@@ -4,23 +4,26 @@
 title: "祥安生命有限公司"
 email: "ava85110@yahoo.com.tw"
 description: "提供專業往生接體、喪葬補助申請協助、喪禮習俗流程諮詢等全方位生命服務。"
-keywords: "祥安生命, 喪葬補助, 往生接體, 禮儀服務, 喪禮習俗" # 新增關鍵字有利於 SEO
+keywords: "祥安生命, 喪葬補助, 往生接體, 禮儀服務, 喪禮習俗"
+author: "祥安生命" # 建議新增，SEO tag 會用到
 
 # 💡 網址設定
 url: "https://24hour.xn--kpry57d" 
-baseurl: "/Shiangan" 
+baseurl: "" # 確定使用自定義網域，這裡維持空字串是正確的
 
 # --------------------
 # Jekyll 核心配置
 # --------------------
-permalink: /:title/   
+# 採用日期路徑對搜尋引擎最友善
+permalink: /blog/:year/:month/:day/:title/
 timezone: Asia/Taipei
 encoding: "utf-8"
+markdown: kramdown # 確保使用標準 Markdown 引擎
+highlighter: rouge # 確保代碼高亮正常（如果你文章中有放勞保/補助表格代碼）
 
 # --------------------
-# 內容目錄設定 (新增)
+# 內容目錄設定
 # --------------------
-# 將文章與頁面分開管理，維持資料夾整潔
 defaults:
   - scope:
       path: ""
@@ -42,8 +45,8 @@ paginate_path: "/blog/page:num/"
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-feed # 建議增加，產生 RSS 供閱讀器使用
-  - jekyll-seo-tag # 強烈建議！這會自動優化 Meta 標籤
+  - jekyll-feed
+  - jekyll-seo-tag
 
 # --------------------
 # 檔案排除
@@ -56,3 +59,5 @@ exclude:
   - .sass-cache
   - .jekyll-cache
   - .jekyll-metadata
+  - README.md
+  - LICENSE
