@@ -23,26 +23,27 @@ layout: null
     <meta property="og:image" content="{{ final_hero | absolute_url }}">
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <meta name="twitter:card" content="summary_large_image">
-{% if page.has_faq and page.faqs %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {% for item in page.faqs %}
+
+    {% if page.has_faq and page.faqs %}
+    <script type="application/ld+json">
     {
-      "@type": "Question",
-      "name": {{ item.question | jsonify }},
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": {{ item.answer | strip_html | jsonify }}
-      }
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ]
-}
-</script>
-{% endif %}
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {% for item in page.faqs %}
+        {
+          "@type": "Question",
+          "name": {{ item.question | jsonify }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ item.answer | strip_html | jsonify }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    }
+    </script>
+    {% endif %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -55,7 +56,7 @@ layout: null
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: transparent; z-index: 10001; }
         .progress-bar { height: 4px; background: var(--sa-gold); width: 0%; transition: width 0.1s; }
 
-        /* 麵包屑導航 Breadcrumbs */
+        /* 麵包屑導航 */
         .breadcrumb-wrapper { border-bottom: 1px solid #eee; padding: 15px 0; }
         .breadcrumb-nav { font-size: 0.9rem; color: var(--sa-text-light); display: flex; align-items: center; gap: 8px; }
         .breadcrumb-nav a { color: var(--sa-text-light); text-decoration: none; transition: 0.3s; }
@@ -65,7 +66,6 @@ layout: null
         .post-hero { height: 45vh; min-height: 350px; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ final_hero }}') center/cover; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; }
         .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
         
-        /* 文章 Meta 資訊 */
         .post-meta-bar { display: flex; flex-wrap: wrap; gap: 20px; padding: 25px 0; border-bottom: 1px solid #eee; margin-bottom: 40px; color: var(--sa-text-light); font-size: 0.95rem; align-items: center; }
         .meta-item { display: flex; align-items: center; gap: 8px; }
         .meta-item i { color: #ccc; }
@@ -77,81 +77,15 @@ layout: null
         .entry-content { font-size: 1.1rem; color: #444; }
         .entry-content h2 { color: var(--sa-green); border-bottom: 2px solid #e0ddd7; padding-bottom: 12px; margin-top: 50px; font-family: 'Noto Serif TC', serif; scroll-margin-top: 120px; }
 
-                /* TOC 側邊目錄 - 強化視覺引導感 */
-        .toc-widget { 
-            background: #fff; 
-            padding: 25px; 
-            border-radius: 15px; 
-            border: 1px solid #e0ddd7; 
-            margin-top: 30px; 
-            position: sticky; 
-            top: 100px; 
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02); /* 增加輕微陰影提升層次 */
-        }
-        
-        .toc-title { 
-            font-family: 'Noto Serif TC', serif; 
-            color: var(--sa-green); 
-            font-size: 1.15rem; 
-            margin-top: 0; 
-            border-bottom: 2px solid var(--sa-gold); 
-            padding-bottom: 12px; 
-            margin-bottom: 20px; 
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* 在標題前加一個小圖示，增加權威感 */
-        .toc-title::before {
-            content: '\f0ca'; /* FontAwesome 清單圖示 */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 0.9rem;
-            color: var(--sa-gold);
-        }
-
-        #toc-list { 
-            list-style: none; 
-            padding: 0; 
-            margin: 0; 
-            border-left: 1px solid #eee; /* 建立一條垂直貫穿線 */
-        }
-
-        #toc-list li { 
-            margin-bottom: 2px; 
-            position: relative;
-        }
-
-        #toc-list a { 
-            text-decoration: none; 
-            color: #666; 
-            transition: all 0.2s ease-in-out; 
-            display: block; 
-            line-height: 1.5; 
-            padding: 10px 20px;
-            font-size: 0.92rem;
-            border-left: 3px solid transparent; /* 預留邊框位置避免跳動 */
-            margin-left: -1px; /* 覆蓋在貫穿線上 */
-        }
-
-        #toc-list a:hover { 
-            color: var(--sa-gold); 
-            background: rgba(197, 160, 89, 0.03); 
-            border-left: 3px solid #eee;
-        }
-
-        /* 當前閱讀位置的高亮樣式 */
-        #toc-list a.active { 
-            color: var(--sa-gold); 
-            background: rgba(197, 160, 89, 0.08); 
-            font-weight: bold;
-            border-left: 3px solid var(--sa-gold); /* 真正「咬住」貫穿線的設計 */
-            padding-left: 20px;
-            transition: 0.3s;
-        }
-
+        /* TOC 側邊目錄 */
+        .toc-widget { background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #e0ddd7; margin-top: 30px; position: sticky; top: 100px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .toc-title { font-family: 'Noto Serif TC', serif; color: var(--sa-green); font-size: 1.15rem; margin-top: 0; border-bottom: 2px solid var(--sa-gold); padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .toc-title::before { content: '\f0ca'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.9rem; color: var(--sa-gold); }
+        #toc-list { list-style: none; padding: 0; margin: 0; border-left: 1px solid #eee; }
+        #toc-list li { margin-bottom: 2px; position: relative; }
+        #toc-list a { text-decoration: none; color: #666; transition: all 0.2s ease-in-out; display: block; line-height: 1.5; padding: 10px 20px; font-size: 0.92rem; border-left: 3px solid transparent; margin-left: -1px; }
+        #toc-list a:hover { color: var(--sa-gold); background: rgba(197, 160, 89, 0.03); }
+        #toc-list a.active { color: var(--sa-gold); background: rgba(197, 160, 89, 0.08); font-weight: bold; border-left: 3px solid var(--sa-gold); padding-left: 20px; }
 
         /* FAQ 區塊 */
         .sa-faq-section { margin: 60px 0; padding: 40px; background: #fff; border-radius: 20px; border: 1px solid #e0ddd7; }
@@ -162,11 +96,11 @@ layout: null
         .sa-faq-item[open] .sa-faq-question::after { content: '\f068'; }
         .sa-faq-answer { padding: 0 25px 25px; color: #666; line-height: 1.8; }
 
-        /* 延伸閱讀 */
-        .related-card { border-radius: 15px; overflow: hidden; border: 1px solid #e0ddd7; text-decoration: none; color: inherit; transition: 0.4s; height: 100%; }
+        /* 延伸閱讀卡片 */
+        .related-card { background: #fff; border-radius: 15px; overflow: hidden; border: 1px solid #e0ddd7; text-decoration: none; color: inherit; transition: 0.4s; height: 100%; display: flex; flex-direction: column; }
         .related-card:hover { transform: translateY(-8px); border-color: var(--sa-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .related-img { height: 170px; background-size: cover; background-position: center; }
-        .related-body { padding: 20px; }
+        .related-img { height: 170px; background-size: cover; background-position: center; width: 100%; }
+        .related-body { padding: 20px; flex-grow: 1; }
         .related-body h4 { margin: 0; color: var(--sa-green); font-family: 'Noto Serif TC'; line-height: 1.5; font-size: 1.05rem; }
 
         .sticky-cta { background: var(--sa-green); color: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; }
@@ -228,37 +162,39 @@ layout: null
                     {% endif %}
                 </div>
 
-                <section style="margin-top: 80px; border-top: 1px solid #eee; padding-top: 50px;">
-                    <h3 style="font-family:'Noto Serif TC'; color: var(--sa-green); margin-bottom: 30px;">更多相關主題</h3>
+                <section style="margin-top: 80px; border-top: 1px solid #eee; padding-top: 50px; clear: both;">
+                    <h3 style="font-family:'Noto Serif TC'; color: var(--sa-green); margin-bottom: 35px; display: flex; align-items: center; gap: 10px;">
+                        <span style="width: 40px; height: 1px; background: var(--sa-gold);"></span>
+                        您可能感興趣的其他內容
+                    </h3>
+                    
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
-                        {% assign count = 0 %}
-                        {% for post in site.posts %}
-                            {% if post.url != page.url and count < 3 %}
-                                <a href="{{ post.url | relative_url }}" class="related-card">
-    <img src="{{ post.image | relative_url }}" 
-         alt="{{ post.title }}" 
-         loading="lazy" 
-         style="width:100%; height:170px; object-fit:cover; display:block;">
-    
-    <div class="related-body">
-        <h4>{{ post.title }}</h4>
-        <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">{{ post.description | truncate: 50 }}</p>
-    </div>
-</a>
-
-                                {% assign count = count | plus: 1 %}
+                        {% assign random_posts = site.posts | where_not: "url", page.url | sample: 3 %}
+                        {% for post in random_posts %}
+                        <a href="{{ post.url | relative_url }}" class="related-card">
+                            {% if post.image %}
+                                <div class="related-img" style="background-image: url('{{ post.image | relative_url }}');"></div>
+                            {% else %}
+                                <div class="related-img" style="background-image: url('{{ '/images/hero-1.jpg' | relative_url }}');"></div>
                             {% endif %}
+                            
+                            <div class="related-body">
+                                <span style="font-size: 0.75rem; color: var(--sa-gold); font-weight: bold; letter-spacing: 1px;">{{ post.category | default: "禮儀知識" }}</span>
+                                <h4 style="margin-top: 8px;">{{ post.title }}</h4>
+                                <p style="font-size: 0.85rem; color: #888; margin-top: 10px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    {{ post.description | truncate: 50 }}
+                                </p>
+                            </div>
+                        </a>
                         {% endfor %}
                     </div>
                 </section>
-            </main>
-
-            <aside class="post-sidebar">
+            </main> <aside class="post-sidebar">
                 <div class="sticky-cta">
                     <h4 style="color:var(--sa-gold); margin-top:0;">24H 禮儀諮詢</h4>
                     <p style="font-size:0.9rem; opacity:0.8;">任何禮俗細節，陳小姐為您解答</p>
                     <a href="tel:0978583699" style="font-size:1.6rem; color:#fff; text-decoration:none; display:block; margin:20px 0; font-weight:bold;">0978-583-699</a>
-                    <a href="https://line.me/ti/p/您的ID" target="_blank" class="cta-btn" style="background:#06C755;">LINE 即時對談</a>
+                    <a href="https://line.me/ti/p/@shiangan" target="_blank" class="cta-btn" style="background:#06C755;">LINE 即時對談</a>
                 </div>
 
                 <div class="toc-widget" id="sticky-toc">
@@ -266,59 +202,51 @@ layout: null
                     <nav id="toc-list"></nav>
                 </div>
             </aside>
-        </div>
-    </div>
+        </div> </div> {% include footer.html %}
 
-    {% include footer.html %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tocList = document.getElementById("toc-list");
+        const headings = document.querySelectorAll(".entry-content h2:not(#faq-section)");
+        const navLinks = [];
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const tocList = document.getElementById("toc-list");
-    // 優化：只抓取文章內的 h2，排除 FAQ 標題，避免目錄重複顯示
-    const headings = document.querySelectorAll(".entry-content h2:not(#faq-section)");
-    const navLinks = [];
+        if(headings.length > 0) {
+            headings.forEach((heading, index) => {
+                const id = "section-" + index;
+                heading.setAttribute("id", id);
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.href = "#" + id;
+                a.textContent = heading.innerText.replace(' FAQ', '').trim();
+                li.appendChild(a);
+                tocList.appendChild(li);
+                navLinks.push(a);
+            });
+        }
 
-    if(headings.length > 0) {
-        headings.forEach((heading, index) => {
-            const id = "section-" + index;
-            heading.setAttribute("id", id);
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.href = "#" + id;
-            // 確保抓取乾淨的文字
-            a.textContent = heading.innerText.replace(' FAQ', '').trim();
-            li.appendChild(a);
-            tocList.appendChild(li);
-            navLinks.push(a);
-        });
-    }
+        window.addEventListener("scroll", function() {
+            let winScroll = window.scrollY || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById("myBar");
+            if(progressBar) progressBar.style.width = scrolled + "%";
 
-    // 優化：使用 scrollY 標準語法，並加入 passive 監聽提升滑動流暢度
-    window.addEventListener("scroll", function() {
-        // 進度條計算
-        let winScroll = window.scrollY || document.documentElement.scrollTop;
-        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        let scrolled = (winScroll / height) * 100;
-        const progressBar = document.getElementById("myBar");
-        if(progressBar) progressBar.style.width = scrolled + "%";
+            let current = "";
+            headings.forEach((heading) => {
+                if (winScroll >= heading.offsetTop - 160) {
+                    current = heading.getAttribute("id");
+                }
+            });
 
-        // TOC 高亮邏輯
-        let current = "";
-        headings.forEach((heading) => {
-            if (winScroll >= heading.offsetTop - 160) {
-                current = heading.getAttribute("id");
-            }
-        });
-
-        navLinks.forEach((a) => {
-            a.classList.remove("active");
-            if (a.getAttribute("href") === "#" + current) { 
-                a.classList.add("active"); 
-            }
-        });
-    }, { passive: true });
-});
-</script>
+            navLinks.forEach((a) => {
+                a.classList.remove("active");
+                if (a.getAttribute("href") === "#" + current) { 
+                    a.classList.add("active"); 
+                }
+            });
+        }, { passive: true });
+    });
+    </script>
 
 </body>
 </html>
