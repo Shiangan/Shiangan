@@ -3,38 +3,18 @@
 # --------------------
 title: "祥安生命有限公司"
 email: "ava85110@yahoo.com.tw"
-description: "提供專業往生接體、喪葬補助申請協助、喪禮習俗流程諮詢等全方位生命服務。"
-keywords: "祥安生命, 喪葬補助, 往生接體, 禮儀服務, 喪禮習俗"
-author: "祥安生命" # 建議新增，SEO tag 會用到
+description: "提供往生接體、喪葬補助、習俗流程等生命服務專業知識。"
 
-# 💡 網址設定
+# 💡 如果您的網址是 https://24hour.台灣/Shiangan/
 url: "https://24hour.xn--kpry57d" 
-baseurl: "" # 確定使用自定義網域，這裡維持空字串是正確的
+baseurl: "/Shiangan" 
 
 # --------------------
 # Jekyll 核心配置
 # --------------------
-# 採用日期路徑對搜尋引擎最友善
-permalink: /blog/:year/:month/:day/:title/
+permalink: /:title/   # 💡 建議改為 /:title/，這樣網址會更漂亮 (例如 about/ 而非 about.html)
 timezone: Asia/Taipei
 encoding: "utf-8"
-markdown: kramdown # 確保使用標準 Markdown 引擎
-highlighter: rouge # 確保代碼高亮正常（如果你文章中有放勞保/補助表格代碼）
-
-# --------------------
-# 內容目錄設定
-# --------------------
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "page"
 
 # --------------------
 # 分頁與插件
@@ -42,22 +22,16 @@ defaults:
 paginate: 10 
 paginate_path: "/blog/page:num/"
 
+# GitHub Pages 官方支援的插件宣告方式
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-seo-tag
+  - jekyll-sitemap # 建議增加這個，對 SEO 很有幫助
 
 # --------------------
-# 檔案排除
+# 檔案排除 (避免上傳不必要的檔案)
 # --------------------
 exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
   - vendor
-  - .sass-cache
-  - .jekyll-cache
-  - .jekyll-metadata
-  - README.md
-  - LICENSE
