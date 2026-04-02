@@ -1,6 +1,6 @@
 ---
 layout: null
-permalink: /404.html/
+permalink: /404.html
 ---
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -29,10 +29,11 @@ permalink: /404.html/
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            margin: 0;
         }
 
         .error-hero {
-            padding: 100px 20px;
+            padding: 80px 20px;
             flex: 1;
             display: flex;
             align-items: center;
@@ -51,9 +52,9 @@ permalink: /404.html/
         }
 
         .error-code-bg {
-            font-size: 12rem;
+            font-size: 10rem;
             font-weight: 900;
-            color: rgba(198, 164, 126, 0.08);
+            color: rgba(198, 164, 126, 0.1);
             line-height: 1;
             font-family: 'Noto Serif TC', serif;
         }
@@ -68,9 +69,10 @@ permalink: /404.html/
 
         .error-title {
             font-family: 'Noto Serif TC', serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             letter-spacing: 2px;
-            margin-bottom: 20px;
+            margin: 0;
+            color: var(--primary-deep);
         }
 
         .error-desc {
@@ -87,11 +89,11 @@ permalink: /404.html/
             padding: 40px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.03);
             border-top: 5px solid var(--accent-gold);
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
 
         .emergency-box h3 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 20px;
             color: var(--accent-gold);
         }
@@ -107,34 +109,46 @@ permalink: /404.html/
         }
         .tel-link:hover { color: var(--accent-gold); }
 
-        /* 導引按鈕 */
-        .quick-nav {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        /* 按鈕樣式優化 */
+        .btn-group {
+            display: flex;
+            justify-content: center;
             gap: 15px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .nav-btn {
-            border: 1px solid #ddd;
-            padding: 15px;
+            display: inline-block;
+            padding: 12px 30px;
             text-decoration: none;
             color: var(--primary-deep);
-            font-size: 0.95rem;
+            border: 1px solid #ddd;
             transition: 0.3s;
             background: #fff;
+            border-radius: 4px;
         }
         .nav-btn:hover {
             border-color: var(--accent-gold);
             background: var(--bg-soft);
+            color: var(--accent-gold);
+        }
+
+        .line-btn {
+            border-color: #00c300;
+            color: #00c300;
+        }
+        .line-btn:hover {
+            background: #00c300;
+            color: #fff;
+            border-color: #00c300;
         }
 
         @media (max-width: 768px) {
-            .error-code-bg { font-size: 8rem; }
-            .error-title { font-size: 1.8rem; }
+            .error-code-bg { font-size: 7rem; }
+            .error-title { font-size: 1.6rem; }
             .emergency-box { padding: 30px 20px; }
             .tel-link { font-size: 1.8rem; }
-            .quick-nav { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
         }
     </style>
 </head>
@@ -144,7 +158,7 @@ permalink: /404.html/
     {% include header.html %}
 
     <main class="error-hero">
-        <div class="error-wrapper reveal">
+        <div class="error-wrapper">
             <div class="error-visual">
                 <div class="error-code-bg">404</div>
                 <div class="error-content-overlay">
@@ -160,32 +174,19 @@ permalink: /404.html/
             <div class="emergency-box">
                 <h3><i class="fas fa-phone-alt"></i> 24H 禮儀諮詢與接體服務</h3>
                 <a href="tel:0978583699" class="tel-link">0978-583-699</a>
-                <p style="opacity: 0.6; font-size: 0.9rem;">國家認證禮儀師 陳妍如 即時為您守護</p>
-                <div style="margin-top: 25px;">
-                    <a href="https://line.me/ti/p/[YOUR_LINE_ID]" class="nav-btn" style="border-color: #00c300; color: #00c300;">
-                        <i class="fab fa-line"></i> LINE 即時線上諮詢
+                <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 20px;">國家認證禮儀師 陳妍如 即時為您守護</p>
+                
+                <div class="btn-group">
+                    <a href="/" class="nav-btn">返回首頁</a>
+                    <a href="https://line.me/ti/p/你的ID" class="nav-btn line-btn">
+                        <i class="fab fa-line"></i> LINE 線上諮詢
                     </a>
                 </div>
             </div>
-
-    </main>
+        </div> </main>
 
     {% include footer.html %}
     {% include floating-cta.html %}
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 延續首頁的揭幕動畫
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                    }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        });
-    </script>
 
 </body>
 </html>
