@@ -101,7 +101,8 @@ layout: null
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
-        {% for post in site.posts limit:3 %}
+        {% assign random_posts = site.posts | sample: 3 %}
+        {% for post in random_posts %}
             <a href="{{ post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
                 <div class="reveal">
                     <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
@@ -128,6 +129,7 @@ layout: null
         {% endfor %}
     </div>
 </section>
+
 
 
 <style>
