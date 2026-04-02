@@ -10,54 +10,75 @@
     gtag('config', 'G-445583766'); 
 </script>
 
-<title>祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務</title>
-<meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。立即諮詢：0978-583-699。">
+<!-- 動態標題與描述 SEO 優化 -->
+{% if page.title %}
+  <title>{{ page.title }} | 祥安生命有限公司 | 24H 專業禮儀師服務</title>
+{% else %}
+  <title>祥安生命有限公司 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務</title>
+{% endif %}
+
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}祥安生命提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明，讓愛圓滿，專業陪伴。{% endif %}">
+<meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}祥安生命, 禮儀公司, 喪葬服務, 費用透明, 24小時服務, 國家認證禮儀師, 甲級立案, 臨終關懷, 告別式, 塔位, 骨灰罈, 寵物禮儀, 台北禮儀公司, 新北禮儀公司, 治喪流程{% endif %}">
 
 
-<link rel="icon" href="./images/logo.png" type="image/png">
+<!-- 網站圖示 (Favicon) -->
+<link rel="icon" href="{{ site.baseurl }}/images/logo.png" type="image/png">
 
-<meta property="og:title" content="祥安生命 | 國家認證禮儀師、喪葬費用公開、24H隨時諮詢">
+
+<!-- Open Graph / Facebook / LINE 分享優化 -->
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}祥安生命有限公司 | 國家認證禮儀師服務, 費用公開透明, 24H隨時諮詢{% endif %}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://24hour.台灣/Shiangan/">
-<meta property="og:image" content="./images/logo.png">
-<meta property="og:description" content="國家認證禮儀師團隊，甲級立案，喪葬費用方案完整公開透明。">
+<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+<meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/images/logo.png">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}祥安生命提供專業、透明的禮儀服務。我們理解您的慌亂，提供 24 小時全程陪伴，讓愛圓滿。{% endif %}">
+
+<!-- Twitter 分享優化 -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}祥安生命有限公司 | 國家認證禮儀師服務, 費用公開透明, 24H隨時諮詢{% endif %}">
+<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}祥安生命提供專業、透明的禮儀服務。我們理解您的慌亂，提供 24 小時全程陪伴，讓愛圓滿。{% endif %}">
+<meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/images/logo.png">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700;900&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
 
+<!-- 網站主樣式表 -->
+<link rel="stylesheet" href="{{ site.baseurl }}/css/style.css">
+
+
+<!-- 在地商家結構化資料 (JSON-LD) - 這是 Google 搜尋排名的關鍵 -->
 <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "祥安生命有限公司",
-    "url": "https://24hour.台灣/Shiangan/",
-    "logo": "https://24hour.台灣/Shiangan/images/logo.png",
-    "telephone": "+886978583699",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "新北市三重區永福街135巷13號",
-      "addressLocality": "新北",
-      "postalCode": "241",
-      "addressRegion": "TW"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "祥安生命有限公司",
+  "url": "https://24hour.台灣/Shiangan/",
+  "logo": "https://24hour.台灣/Shiangan/images/logo.png",
+  "image": "https://24hour.台灣/Shiangan/images/logo.png",
+  "description": "祥安生命提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "新北市三重區永福街135巷13號", 
+    "addressLocality": "新北市", 
+    "addressRegion": "三重區", 
+    "postalCode": "241", 
+    "addressCountry": "TW" 
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "服務費用是否透明公開？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "是的。祥安生命禮儀致力於價格透明化，所有費用與服務細節皆提供書面文件，鄭重承諾絕無任何隱藏費用。"
-        }
-      }
-    ]
-  }
-]
+  "telephone": "0978-583-699", 
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59" 
+    }
+  ],
+  "sameAs": [
+    "請填寫您的Facebook專頁網址",
+    "請填寫您的LINE官方帳號網址"
+  ]
+}
 </script>
 
 <style>
