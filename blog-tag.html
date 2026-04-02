@@ -6,7 +6,7 @@ permalink: /tag.html
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
-    <title>關鍵字搜尋 | 祥安生命殯葬百科</title>
+    <title>標籤搜尋 | 祥安生命殯葬百科</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { 
@@ -14,6 +14,7 @@ permalink: /tag.html
             --sa-gold: #a68b5a; 
             --sa-bg: #fdfaf5; 
             --sa-text: #444;
+            --transition: all 0.3s ease;
         }
         body { font-family: 'Noto Sans TC', sans-serif; background: #fff; margin: 0; padding-top: 80px; color: var(--sa-text); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
@@ -21,91 +22,85 @@ permalink: /tag.html
         /* 標籤頁首區塊 */
         .tag-header { 
             background: var(--sa-bg); 
-            padding: 60px 0; 
-            border-bottom: 1px solid #eee; 
+            padding: 40px 0; /* 縮小一點高度更顯精煉 */
+            border-bottom: 1px solid #f0f0f0; 
             text-align: center;
             margin-bottom: 50px;
         }
+
+        /* 麵包屑導覽 */
+        .breadcrumb { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+        .breadcrumb a { color: #888; text-decoration: none; transition: var(--transition); }
+        .breadcrumb a:hover { color: var(--sa-gold); }
+
         .tag-header h1 { 
             font-family: 'Noto Serif TC', serif; 
-            font-size: 2.2rem; 
+            font-size: 2rem; 
             color: var(--sa-green); 
-            margin: 0; 
+            margin: 10px 0; 
         }
-        .tag-header .current-tag-name { color: var(--sa-gold); text-decoration: underline; text-underline-offset: 8px; }
-        .back-link { 
-            display: inline-block; 
-            margin-top: 20px; 
-            color: #888; 
-            text-decoration: none; 
-            font-size: 0.95rem;
-            transition: 0.3s;
+        .current-tag-name { 
+            color: var(--sa-gold); 
+            background: rgba(166, 139, 90, 0.1); 
+            padding: 2px 12px;
+            border-radius: 4px;
         }
-        .back-link:hover { color: var(--sa-gold); }
 
-        /* 文章網格系統 (與 Blog 同步) */
+        /* 文章網格系統 */
         .article-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); 
             gap: 35px; 
-            padding-bottom: 80px; 
+            padding-bottom: 80px;
+            min-height: 400px; /* 防止頁腳跳動 */
         }
         
-        /* 精緻文章卡片 (與 Blog 同步) */
+        /* 初始化隱藏卡片，防止載入閃爍 */
         .blog-card { 
+            display: none; 
             background: #fff; 
             border: 1px solid #eee; 
             border-radius: 16px; 
             overflow: hidden; 
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
-            display: flex; 
+            transition: var(--transition); 
             flex-direction: column; 
             text-decoration: none; 
             color: inherit; 
             position: relative;
         }
-        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--sa-gold); }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.07); border-color: var(--sa-gold); }
         
+        /* 圖片與內文樣式保持你原本的精美設定... */
         .card-img-wrapper { width: 100%; height: 220px; overflow: hidden; }
         .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .blog-card:hover .card-img { transform: scale(1.1); }
-
-        .card-body { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
-        .article-category { 
-            color: var(--sa-gold); 
-            font-size: 0.8rem; 
-            font-weight: bold; 
-            letter-spacing: 1px; 
-            margin-bottom: 12px;
-            display: block;
-        }
-        .card-title { 
-            font-family: 'Noto Serif TC', serif; 
-            font-size: 1.35rem; 
-            color: var(--sa-green); 
-            margin: 0 0 15px 0; 
-            line-height: 1.4;
-        }
-        .blog-card:hover .card-title { color: var(--sa-gold); }
-        .card-desc { color: #666; font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; flex-grow: 1; }
+        .blog-card:hover .card-img { transform: scale(1.05); }
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .article-category { color: var(--sa-gold); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+        .card-title { font-family: 'Noto Serif TC', serif; font-size: 1.25rem; color: var(--sa-green); margin: 0 0 12px 0; line-height: 1.5; }
+        .card-desc { color: #666; font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
         
-        .card-footer { 
-            border-top: 1px solid #f0f0f0; 
-            padding-top: 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            font-size: 0.85rem;
-            color: #999;
+        /* 無結果提示優化 */
+        #no-tag-results { 
+            display: none; 
+            text-align: center; 
+            padding: 80px 0; 
         }
-
-        /* 無結果提示 */
-        #no-tag-results { display: none; text-align: center; padding: 100px 0; color: #999; }
-        #no-tag-results i { font-size: 4rem; color: #eee; margin-bottom: 20px; }
+        #no-tag-results i { font-size: 3rem; color: #ddd; margin-bottom: 15px; }
+        .btn-retry {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: var(--sa-green);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        .btn-retry:hover { background: var(--sa-gold); }
 
         @media (max-width: 768px) {
             .article-grid { grid-template-columns: 1fr; }
-            .tag-header h1 { font-size: 1.8rem; }
+            .tag-header h1 { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -114,22 +109,26 @@ permalink: /tag.html
 
     <header class="tag-header">
         <div class="container">
-            <h1>關於「<span id="target-tag-name" class="current-tag-name"></span>」的文章</h1>
-            <a href="/blog.html" class="back-link"><i class="fas fa-chevron-left"></i> 返回所有百科文章</a>
+            <nav class="breadcrumb">
+                <a href="/">首頁</a> / <a href="/blog.html">殯葬百科</a> / 標籤搜尋
+            </nav>
+            <h1>關於「<span id="target-tag-name" class="current-tag-name">...</span>」的文章</h1>
         </div>
     </header>
 
     <div class="container">
         <div id="no-tag-results">
-            <i class="fas fa-search-minus"></i>
-            <p>目前尚無相關標籤的文章內容</p>
+            <i class="fas fa-folder-open"></i>
+            <h3>找不到相關內容</h3>
+            <p>目前「<span class="js-tag-val"></span>」標籤下尚無文章，建議您搜尋其他關鍵字。</p>
+            <a href="/blog.html" class="btn-retry">返回百科首頁</a>
         </div>
 
         <div class="article-grid" id="tag-post-grid">
             {% for post in site.posts %}
             <article class="blog-card" data-tags="{{ post.tags | join: ',' }}">
                 <div class="card-img-wrapper">
-                    <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" class="card-img" alt="{{ post.title }}">
+                    <img src="{{ post.image | default: 'images/default-blog.jpg' | relative_url }}" class="card-img" alt="{{ post.title }}" loading="lazy">
                 </div>
                 
                 <div class="card-body">
@@ -137,14 +136,13 @@ permalink: /tag.html
                         <i class="fas fa-tag"></i> {{ post.tags | first }}
                     </span>
                     <h3 class="card-title">{{ post.title }}</h3>
-                    <p class="card-desc">{{ post.description | truncate: 65 }}</p>
+                    <p class="card-desc">{{ post.description | strip_html | truncate: 60 }}</p>
                     
-                    <div class="card-footer">
-                        <span><i class="far fa-calendar-alt"></i> {{ post.date | date: "%Y/%m/%d" }}</span>
-                        <span style="color: var(--sa-gold); font-weight: bold;">詳全文 <i class="fas fa-arrow-right"></i></span>
+                    <div style="margin-top: auto; color: var(--sa-gold); font-size: 0.9rem; font-weight: 600;">
+                        閱讀全文 <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
                     </div>
                 </div>
-                <a href="{{ post.url | relative_url }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;"></a>
+                <a href="{{ post.url | relative_url }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;" title="{{ post.title }}"></a>
             </article>
             {% endfor %}
         </div>
@@ -153,44 +151,39 @@ permalink: /tag.html
     {% include footer.html %}
 
     <script>
-        // 解析 URL 參數中的 tag
-        const urlParams = new URLSearchParams(window.location.search);
-        const tag = urlParams.get('tag');
-        const tagNameDisplay = document.getElementById('target-tag-name');
-        const grid = document.getElementById('tag-post-grid');
-        const noResults = document.getElementById('no-tag-results');
-        const cards = document.querySelectorAll('.blog-card');
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tag = urlParams.get('tag');
+            const tagNameDisplay = document.getElementById('target-tag-name');
+            const jsTagVals = document.querySelectorAll('.js-tag-val');
+            const grid = document.getElementById('tag-post-grid');
+            const noResults = document.getElementById('no-tag-results');
+            const cards = document.querySelectorAll('.blog-card');
 
-        if (tag) {
-            // 解碼網址中的中文字元並顯示
-            const decodedTag = decodeURIComponent(tag);
-            tagNameDisplay.textContent = decodedTag;
-            document.title = `關於 ${decodedTag} 的文章 | 祥安生命`;
+            if (tag) {
+                const decodedTag = decodeURIComponent(tag).trim();
+                tagNameDisplay.textContent = decodedTag;
+                jsTagVals.forEach(el => el.textContent = decodedTag);
+                document.title = `關於 ${decodedTag} 的文章 - 祥安生命殯葬百科`;
 
-            let matchCount = 0;
+                let matchCount = 0;
 
-            cards.forEach(card => {
-                // 將資料屬性中的標籤字串轉為陣列
-                const postTags = card.dataset.tags.split(',');
-                
-                // 檢查是否包含當前標籤
-                if (postTags.includes(decodedTag)) {
-                    card.style.display = 'flex';
-                    matchCount++;
-                } else {
-                    card.style.display = 'none';
+                cards.forEach(card => {
+                    const postTags = card.dataset.tags.split(',');
+                    // 使用 some 確保模糊匹配或精確匹配，這裡建議用 includes
+                    if (postTags.includes(decodedTag)) {
+                        card.style.display = 'flex';
+                        matchCount++;
+                    }
+                });
+
+                if (matchCount === 0) {
+                    noResults.style.display = 'block';
                 }
-            });
-
-            // 如果沒找到任何文章，顯示提示
-            if (matchCount === 0) {
-                noResults.style.display = 'block';
+            } else {
+                window.location.href = '/blog.html';
             }
-
-        } else {
-            // 如果網址沒帶參數，導回 blog 頁面
-            window.location.href = '/blog.html';
-        }
+        })();
     </script>
 </body>
 </html>
