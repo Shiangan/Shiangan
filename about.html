@@ -9,52 +9,61 @@ permalink: /about.html
     <title>關於祥安 | 守護生命圓滿的職人美學</title>
     <style>
         :root {
-            /* 視覺中心寬度控制 */
+            /* 核心寬度與間距 */
             --content-width: 1100px; 
-            --section-gap: clamp(80px, 12vh, 140px);
-            --side-padding: clamp(1.5rem, 5vw, 4rem); 
+            --section-gap: clamp(70px, 12vh, 130px);
+            --side-padding: clamp(1.2rem, 6vw, 4rem); 
             --accent: #a88e6a; /* 祥安金 */
-            --deep-ink: #1e1e1e; /* 深墨色 */
+            --deep-ink: #1c1c1c; /* 深墨色 */
+            --bg-master: #fcfaf7; /* 暖白底色 */
+        }
+
+        /* --- 核心防護：徹底解決溢出問題 --- */
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            overflow-x: hidden; /* 禁止左右晃動 */
+            -webkit-font-smoothing: antialiased;
         }
 
         body { 
             background-color: var(--bg-master); 
             line-height: 1.9; 
-            margin: 0; 
-            /* 核心防護：禁止任何內容導致螢幕左右晃動 */
-            overflow-x: hidden; 
+            color: #444;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
         }
 
-        /* --- 標題縮放邏輯：解決超出頁面問題 --- */
+        /* 標題邏輯：Responsive Typo 避免超出頁面 */
         .section-title {
             font-family: 'Noto Serif TC', serif;
-            display: block;
-            width: 100%;
-            max-width: 100%; 
-            letter-spacing: 0.05em;
             font-weight: 900;
             color: var(--deep-ink);
-            line-height: 1.4;
-            margin-bottom: 35px;
-            /* 動態字體：根據寬度自動縮放，確保在手機不溢出 */
-            font-size: clamp(1.4rem, 4vw, 2.6rem);
+            line-height: 1.35;
+            letter-spacing: 0.05em;
+            margin-bottom: 30px;
+            /* 關鍵：自動縮放字體，最小 1.4rem，隨螢幕寬度變化，最大 2.5rem */
+            font-size: clamp(1.4rem, 4.2vw, 2.5rem);
             word-break: keep-all; 
-            text-align: left;
+            overflow-wrap: break-word;
         }
 
         .hero-title {
-            font-size: clamp(1.8rem, 5.5vw, 4rem);
             color: #fff;
-            margin-bottom: 0;
+            font-size: clamp(1.8rem, 6vw, 4rem);
+            margin: 0;
             text-align: center;
         }
 
+        /* 內容容器 */
         .container {
             max-width: var(--content-width);
             margin: 0 auto;
             padding: 0 var(--side-padding);
-            box-sizing: border-box;
             position: relative;
+            z-index: 2;
         }
 
         /* 品牌浮水印背景 */
@@ -66,69 +75,75 @@ permalink: /about.html
             font-style: italic;
             white-space: nowrap;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
+            user-select: none;
         }
 
-        /* --- 01 Hero：沈浸式開場 --- */
+        /* --- 01 Hero Section --- */
         .about-hero {
             height: 75vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
             position: relative;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('{{ site.baseurl }}/images/about-hero.jpg') center/cover;
-            padding: 0 var(--side-padding);
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('{{ site.baseurl }}/images/about-hero.jpg') center/cover no-repeat;
+            text-align: center;
         }
 
-        /* --- 02 品牌哲學：雙欄位對齊 --- */
-        .philosophy-section { padding: var(--section-gap) 0; position: relative; background: #fff; }
+        /* --- 02 品牌理念 --- */
+        .philosophy-section { padding: var(--section-gap) 0; background: #fff; position: relative; }
+        
         .philosophy-grid {
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 70px;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
             align-items: center;
         }
 
-        .text-block p { 
-            font-size: 1.05rem; 
-            color: #444; 
-            text-align: justify; 
-            margin-bottom: 25px; 
-            letter-spacing: 0.02em;
+        .text-block p { margin-bottom: 25px; text-align: justify; }
+
+        .img-holder img {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: 20px 20px 0 var(--accent);
+            transition: 0.5s;
         }
 
-        /* --- 03 核心價值：深色質感區塊 --- */
+        /* --- 03 核心價值 (Dark Mode Look) --- */
         .values-dark {
             background: var(--deep-ink);
             padding: var(--section-gap) 0;
             color: #fff;
+            position: relative;
         }
 
         .values-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 45px;
+            gap: 40px;
             margin-top: 60px;
         }
 
-        .value-card { 
-            border-top: 1px solid rgba(168, 142, 106, 0.3); 
-            padding-top: 35px; 
+        .value-card {
+            border-top: 1px solid rgba(168, 142, 106, 0.3);
+            padding-top: 30px;
         }
 
-        .value-card h3 { 
-            font-family: 'Noto Serif TC', serif; 
-            font-size: 1.6rem; 
-            color: var(--accent); 
-            margin-bottom: 20px; 
+        .value-card h3 {
+            color: var(--accent);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif TC', serif;
         }
 
-        .value-card p { font-size: 0.95rem; opacity: 0.75; line-height: 1.8; }
+        .value-card p { opacity: 0.8; font-size: 0.95rem; }
 
-        /* --- 04 職人語錄：感性共鳴 --- */
-        .quote-section { padding: var(--section-gap) 0; background: var(--bg-master); }
+        /* --- 04 職人語錄 --- */
+        .quote-section { padding: var(--section-gap) 0; position: relative; }
+        
         .quote-layout {
             display: grid;
             grid-template-columns: 0.85fr 1.15fr;
@@ -139,46 +154,53 @@ permalink: /about.html
         .quote-content blockquote {
             border-left: 4px solid var(--accent);
             padding-left: 30px;
-            margin: 0 0 40px 0;
-            font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+            margin: 0 0 35px 0;
             font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.4rem, 3vw, 2.3rem);
             font-weight: 900;
             color: var(--deep-ink);
-            line-height: 1.5;
         }
 
-        /* --- 05 CTA：最終行動 --- */
-        .cta-final { padding: 120px 0; text-align: center; background: #fff; border-top: 1px solid #eee; }
+        /* --- 05 CTA Final --- */
+        .cta-final {
+            padding: 100px 0;
+            text-align: center;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+
         .cta-btn-gold {
             display: inline-block;
-            padding: 20px 75px;
+            padding: 20px 70px;
             background: var(--accent);
-            color: #fff;
+            color: #fff !important;
             text-decoration: none;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             font-weight: 700;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(168, 142, 106, 0.15);
-        }
-        .cta-btn-gold:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 15px 35px rgba(168, 142, 106, 0.3); 
+            transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(168, 142, 106, 0.2);
         }
 
-        /* --- 手機版適配樣式 --- */
+        .cta-btn-gold:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(168, 142, 106, 0.3);
+        }
+
+        /* --- 手機版適配：解決靠右被卡掉 --- */
         @media (max-width: 900px) {
             .philosophy-grid, .quote-layout, .values-grid { 
                 grid-template-columns: 1fr; 
-                gap: 50px; 
+                gap: 40px; 
             }
-            .img-holder { order: -1; } /* 圖片在手機版置頂 */
+            .img-holder { order: -1; text-align: center; }
+            .img-holder img { width: 90%; margin: 0 auto; box-shadow: 10px 10px 0 var(--accent); }
             .text-block, .quote-content { text-align: center; }
-            .section-title { text-align: center; font-size: 1.8rem; }
+            .section-title { text-align: center; }
             .quote-content blockquote { 
                 border-left: none; 
                 border-top: 2px solid var(--accent); 
-                padding: 30px 0 0 0; 
-                margin-bottom: 30px;
+                padding: 25px 0 0 0; 
+                display: inline-block;
             }
         }
     </style>
@@ -190,22 +212,22 @@ permalink: /about.html
     <main>
         <section class="about-hero">
             <div class="reveal container">
-                <p style="letter-spacing: 12px; margin-bottom: 25px; opacity: 0.8; color: #fff; font-weight: 300;">SHIANG AN LIFE</p>
-                <h1 class="section-title hero-title">以將心比心，圓滿生命每一段旅程</h1>
+                <p style="letter-spacing: 10px; margin-bottom: 25px; opacity: 0.9; color:#fff; font-weight:300;">SHIANG AN LIFE</p>
+                <h1 class="hero-title">以將心比心，圓滿生命每一段旅程</h1>
             </div>
         </section>
 
         <section class="philosophy-section">
-            <div class="bg-watermark" style="top: 15%; right: -5%;">Compassion</div>
+            <div class="bg-watermark" style="top: 10%; right: -5%;">Compassion</div>
             <div class="container philosophy-grid">
                 <div class="reveal text-block">
-                    <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:4px; display:block; margin-bottom:20px;">品牌故事</span>
+                    <span style="color:var(--accent); font-weight:700; font-size:0.85rem; letter-spacing:4px; display:block; margin-bottom:15px;">品牌故事</span>
                     <h2 class="section-title">我們不只是禮儀師，更是生命溫度的守候者</h2>
-                    <p>祥安生命深耕於雙北與桃園。我們在無數次離別中領悟：告別不應只有冰冷的哀傷，更是一場關於愛的總結。我們創立的初衷，是在生命最脆弱的交界處，為家屬撐起一份堅定且平誠的力量。</p>
-                    <p>對我們而言，每一場告別都是獨一無二的生命敘事。從佛道儀軌的莊嚴、西式追思的溫馨，到日式職人服務的細緻，我們要求團隊不僅在流程上做到分毫不差，更要在心靈上做到「感同身受」。誠信與透明，是我們對家屬最神聖的承諾。</p>
+                    <p>祥安生命深耕於雙北與桃園。我們在無數次離別中領悟：告別不應只有冰冷的哀傷，更是一場關於愛的總結。我們創立的初衷，是在生命最脆弱的交界處，為家屬撐起一份堅定且平靜的力量。</p>
+                    <p>對我們而言，每一場告別都是獨一無二的生命敘事。從佛道儀軌的莊嚴、西式追思的溫馨，到日式職人服務的細緻，我們要求團隊不僅在流程上做到分毫不差，更要在心靈上做到「共感」。誠信與透明，是我們對家屬最神聖的承諾。</p>
                 </div>
                 <div class="reveal img-holder">
-                    <img src="{{ site.baseurl }}/images/about-concept.jpg" alt="祥安品牌理念" style="width: 100%; box-shadow: 25px 25px 0 var(--accent); display: block;">
+                    <img src="{{ site.baseurl }}/images/about-concept.jpg" alt="品牌理念">
                 </div>
             </div>
         </section>
@@ -216,13 +238,13 @@ permalink: /about.html
                 <div class="values-grid">
                     <div class="value-card reveal">
                         <h3>日式工藝</h3>
-                        <p>引入納棺職人精神，從湯身禮到細膩妝容，我們以守護藝術品的心情，還原逝者最安詳、最莊嚴的容顏。</p>
+                        <p>引入極致職人精神，從湯身禮到細膩妝容，我們以守護藝術品的心情，還原逝者最安詳、最莊嚴的容顏。</p>
                     </div>
-                    <div class="value-card reveal" style="transition-delay: 0.15s;">
+                    <div class="value-card reveal" style="transition-delay: 0.1s;">
                         <h3>透明承諾</h3>
-                        <p>信任始於坦誠。祥安首創喪葬費用方案完整公開，鄭重承諾無任何隱藏費用，讓圓滿成為一份安心的保障。</p>
+                        <p>信任始於坦誠。方案費用完整公開，鄭重承諾無任何隱藏追加費用，讓圓滿成為一份安心的保障。</p>
                     </div>
-                    <div class="value-card reveal" style="transition-delay: 0.3s;">
+                    <div class="value-card reveal" style="transition-delay: 0.2s;">
                         <h3>妙法傳承</h3>
                         <p>專精佛道古禮與日蓮正宗儀式。將宗教細節轉化為家屬易懂且平靜的情感連結，延續生命永恆的價值。</p>
                     </div>
@@ -231,9 +253,10 @@ permalink: /about.html
         </section>
 
         <section class="quote-section">
+            <div class="bg-watermark" style="bottom: 5%; left: -5%;">Craftsmanship</div>
             <div class="container quote-layout">
                 <div class="reveal img-holder">
-                    <img src="{{ site.baseurl }}/images/artisan-focus.jpg" alt="職人服務細節" style="width: 100%; box-shadow: -25px 25px 0 var(--accent); display: block;">
+                    <img src="{{ site.baseurl }}/images/artisan-focus.jpg" alt="職人專注細節">
                 </div>
                 <div class="reveal quote-content">
                     <blockquote class="reveal">讓地上的思念，<br>化作最莊嚴的道別</blockquote>
@@ -245,13 +268,13 @@ permalink: /about.html
 
         <section class="cta-final reveal">
             <div class="container">
-                <h2 class="section-title" style="margin-bottom: 30px; text-align: center;">讓圓滿，善始善終</h2>
+                <h2 class="section-title" style="text-align: center;">讓圓滿，善始善終</h2>
                 <p style="margin-bottom: 50px; opacity: 0.7; letter-spacing: 2px;">國家認證專業禮儀師團隊 · 24 小時守候您的託付</p>
-                <a href="tel:+886978583699" class="cta-btn-gold">聯繫專業禮儀諮詢</a>
+                <a href="tel:+886978583699" class="cta-btn-gold">聯繫專業禮儀師</a>
             </div>
         </section>
     </main>
 
-    {% include footer.html %}
+    {% include header.html %}
 </body>
 </html>
