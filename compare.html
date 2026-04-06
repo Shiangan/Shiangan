@@ -1,240 +1,566 @@
 ---
 layout: null
-permalink: /compare.html/
+permalink: /compare.html
 ---
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>全方案規格終極對照 | 祥安生命 - 職人守護，價格透明</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>全方案規格終極對照 | 祥安生命 — 職人守護，價格透明</title>
+    <meta name="description" content="祥安生命五大服務方案完整規格對照，從國民 6.8 萬到頂級 17.8 萬。式場佈置、棺木、壽衣、禮儀人力全部清楚列明，費用透明不隱瞞。">
+
     {% include head.html %}
 
     <style>
+        /* ═══════════════════════════════════════════
+           COMPARE PAGE — 方案對照
+           修正清單：
+           1. 手機版改用卡片堆疊取代強制橫向捲動
+           2. 桌面版保留 sticky 欄位，修正 z-index
+           3. permalink 移除尾部斜線
+           4. 加入 floating-cta include
+           5. deed 連結改用 relative_url
+           6. 新增手機/桌面切換邏輯
+        ═══════════════════════════════════════════ */
+
         :root {
-            --gold: #B4975A;
-            --gold-light: #D4AF37;
-            --deep-ink: #1A1A1A;
-            --bg-soft: #FDFDFB;
-            --border: #E5E5E0;
-            --text-gray: #666666;
+            --gold:      #B4975A;
+            --gold-lt:   #D4AF37;
+            --ink:       #1A1A1A;
+            --green:     #1a241a;
+            --bg:        #f2efeb;
+            --bg-soft:   #FDFDFB;
+            --parchment: #F7F4EF;
+            --border:    #E5E5E0;
+            --text:      #444444;
+            --muted:     #888888;
+            --ease:      cubic-bezier(.25,1,.5,1);
+            --side:      clamp(1.2rem, 6vw, 5rem);
         }
 
-        body { background-color: #fff; color: var(--deep-ink); line-height: 1.6; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        main { padding-top: 90px; }
+        @media (max-width: 1100px) { main { padding-top: 80px; } }
 
-        /* 標題區 */
-        .hero-section {
-            padding: 160px 0 80px;
-            background: linear-gradient(to bottom, #F7F7F2, #FFF);
+        /* ── REVEAL ── */
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity .9s var(--ease), transform .9s var(--ease);
+        }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+        /* ══════════════════════════════
+           HERO
+        ══════════════════════════════ */
+        .c-hero {
+            padding: clamp(100px, 15vh, 160px) var(--side) clamp(50px, 8vh, 90px);
+            background: linear-gradient(170deg, var(--parchment) 0%, #fff 100%);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
-        .hero-section h1 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 3rem;
-            letter-spacing: 4px;
+        .c-hero__watermark {
+            position: absolute;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(6rem, 20vw, 18rem);
+            color: rgba(180,151,90,.05);
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+        }
+        .c-hero__eyebrow {
+            display: inline-block;
+            color: var(--gold);
+            letter-spacing: 6px;
+            font-size: .78rem;
+            font-weight: 700;
             margin-bottom: 20px;
         }
-
-        .hero-section .divider {
-            width: 50px;
-            height: 2px;
+        .c-hero h1 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.9rem, 5vw, 3.2rem);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            color: var(--ink);
+            line-height: 1.25;
+        }
+        .c-hero__rule {
+            width: 44px; height: 2px;
             background: var(--gold);
-            margin: 0 auto 30px;
+            margin: 0 auto 26px;
+        }
+        .c-hero p {
+            max-width: 660px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: clamp(.9rem, 2vw, 1.05rem);
+            line-height: 1.9;
         }
 
-        /* 矩陣容器 */
-        .matrix-container {
-            max-width: 1400px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
+        /* ── 麵包屑 ── */
+        .breadcrumb {
+            padding: 13px var(--side);
+            font-size: .82rem;
+            color: var(--muted);
+            border-bottom: 1px solid rgba(180,151,90,.15);
+            display: flex; gap: 8px; align-items: center;
+            background: #fff;
+        }
+        .breadcrumb a { color: var(--muted); text-decoration: none; transition: .2s; }
+        .breadcrumb a:hover { color: var(--gold); }
+
+        /* ══════════════════════════════
+           PLAN QUICK NAV（手機用）
+        ══════════════════════════════ */
+        .plan-nav {
+            display: none;  /* 手機版才顯示 */
+            gap: 8px;
+            padding: 20px var(--side);
+            overflow-x: auto;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            -webkit-overflow-scrolling: touch;
+        }
+        .plan-nav-btn {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-soft);
+            border-radius: 50px;
+            font-size: .82rem;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--ink);
+            font-family: 'Noto Sans TC', sans-serif;
+            transition: all .3s;
+        }
+        .plan-nav-btn.active, .plan-nav-btn:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #fff;
+        }
+        @media (max-width: 900px) {
+            .plan-nav { display: flex; }
         }
 
-        .matrix-scroll-wrapper {
+        /* ══════════════════════════════
+           DESKTOP TABLE VIEW
+        ══════════════════════════════ */
+        .matrix-section {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 60px var(--side) 30px;
+        }
+
+        /* ── 桌面表格 ── */
+        .desktop-table-wrap {
             overflow-x: auto;
             border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            border-radius: 10px;
+            box-shadow: 0 16px 50px rgba(0,0,0,.06);
             background: #fff;
+            -webkit-overflow-scrolling: touch;
+        }
+        @media (max-width: 900px) {
+            .desktop-table-wrap { display: none; }
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1150px; /* 確保手機版不擠壓 */
+            min-width: 860px;
         }
 
-        /* 表頭：深色奢華感 */
+        /* 表頭 */
         thead th {
-            background: var(--deep-ink);
+            background: var(--green);
             color: #fff;
-            padding: 40px 15px;
+            padding: 32px 14px;
             font-family: 'Noto Serif TC', serif;
             position: sticky;
-            top: 0;
-            z-index: 20;
+            top: 80px;   /* 避免被 fixed header 遮住 */
+            z-index: 15;
         }
+        .p-title { display: block; font-size: 1.2rem; margin-bottom: 8px; color: var(--gold); letter-spacing: 1px; }
+        .p-price { display: block; font-size: 1rem; font-weight: 300; opacity: .85; }
 
-        .p-title { display: block; font-size: 1.4rem; margin-bottom: 10px; color: var(--gold); }
-        .p-price { display: block; font-size: 1.1rem; font-weight: 300; opacity: 0.9; }
-
-        /* 側邊標題欄固定 (核心技術) */
+        /* 固定左欄 */
         .sticky-col {
             position: sticky;
             left: 0;
-            background: var(--bg-soft) !important;
+            background: var(--parchment) !important;
             z-index: 10;
-            width: 180px;
+            width: 160px;
+            min-width: 140px;
             font-weight: 700;
+            font-size: .88rem;
             text-align: left !important;
-            padding-left: 25px !important;
+            padding: 18px 18px !important;
             border-right: 2px solid var(--border) !important;
-            color: var(--deep-ink);
+            color: var(--ink);
+            line-height: 1.45;
+        }
+        thead th.sticky-col {
+            background: var(--ink) !important;
+            color: #fff;
+            z-index: 20;
         }
 
         /* 分類標題行 */
         .cat-row td {
-            background: #F4F4EF !important;
-            padding: 15px 25px !important;
+            background: var(--parchment) !important;
+            padding: 13px 18px !important;
             text-align: left !important;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
+            font-size: .78rem;
+            letter-spacing: 3px;
             font-weight: 700;
             color: var(--gold);
+            border-top: 2px solid var(--border) !important;
         }
 
         /* 一般儲存格 */
         td, th {
             border: 1px solid var(--border);
-            padding: 22px 15px;
+            padding: 18px 14px;
             text-align: center;
-            font-size: 0.95rem;
+            font-size: .9rem;
+            vertical-align: middle;
         }
 
-        .check-mark { color: var(--gold); font-size: 1.3rem; font-weight: bold; }
-        .spec-note { display: block; font-size: 0.8rem; color: var(--text-gray); margin-top: 6px; }
+        .check { color: var(--gold); font-size: 1.2rem; font-weight: 700; }
+        .dash  { color: #ccc; font-size: 1.1rem; }
+        .spec  { display: block; font-size: .76rem; color: var(--muted); margin-top: 5px; line-height: 1.45; }
 
-        /* 行懸停效果 */
-        tbody tr:hover td { background-color: #FDFDF7; }
+        tbody tr:hover td:not(.sticky-col):not(.cat-row td) {
+            background: #FDFDF7;
+        }
 
-        /* 備註區塊 */
-        .footer-disclaimer {
-            background: var(--bg-soft);
-            padding: 60px 40px;
+        /* 底部連結行 */
+        .link-row td {
+            background: var(--parchment) !important;
+            padding: 20px 14px !important;
+        }
+        .plan-link {
+            display: inline-block;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: .85rem;
+            border-bottom: 1.5px solid transparent;
+            transition: border-color .2s;
+        }
+        .plan-link:hover { border-color: var(--gold); }
+
+        /* ══════════════════════════════
+           MOBILE CARD VIEW（手機版核心）
+        ══════════════════════════════ */
+        .mobile-cards {
+            display: none;
+            padding: 0 var(--side) 20px;
+        }
+        @media (max-width: 900px) {
+            .mobile-cards { display: block; }
+        }
+
+        /* 每個方案一張卡片 */
+        .plan-card {
+            display: none;  /* JS 控制顯示哪張 */
+            background: #fff;
+            border: 1px solid var(--border);
             border-radius: 12px;
-            margin-top: 50px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+            margin-top: 24px;
         }
+        .plan-card.active { display: block; }
 
-        .disclaimer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .disclaimer-item h4 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+        /* 卡片頭部 */
+        .plan-card__head {
+            background: var(--green);
+            color: #fff;
+            padding: 28px 24px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
+        .plan-card__name {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+        }
+        .plan-card__price {
+            font-size: 1rem;
+            opacity: .85;
+        }
 
-        .disclaimer-item h4::before {
-            content: "";
-            width: 12px;
-            height: 12px;
+        /* 卡片內容區 */
+        .plan-card__body { padding: 0; }
+
+        /* 分類標題 */
+        .mc-cat {
+            background: var(--parchment);
+            padding: 12px 20px;
+            font-size: .75rem;
+            letter-spacing: 3px;
+            font-weight: 700;
+            color: var(--gold);
+            border-top: 1px solid var(--border);
+        }
+
+        /* 每一行 */
+        .mc-row {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            gap: 16px;
+        }
+        .mc-row:last-child { border-bottom: none; }
+        .mc-row__label {
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--ink);
+            flex: 0 0 110px;
+            line-height: 1.4;
+        }
+        .mc-row__val {
+            flex: 1;
+            font-size: .88rem;
+            color: var(--text);
+            line-height: 1.55;
+        }
+        .mc-row__val .check { color: var(--gold); }
+        .mc-row__val .dash  { color: #ccc; }
+
+        /* 卡片底部 CTA */
+        .plan-card__foot {
+            padding: 22px 20px;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .plan-card__foot p {
+            font-size: .8rem;
+            color: var(--muted);
+        }
+        .plan-card__cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
             background: var(--gold);
-            margin-right: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: .88rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: background .3s;
+        }
+        .plan-card__cta:hover { background: #9a7c42; }
+
+        /* ── 電話 CTA 條 ── */
+        .cta-strip {
+            background: var(--green);
+            padding: 50px var(--side);
+            text-align: center;
+            color: #fff;
+            margin-top: 20px;
+        }
+        .cta-strip h3 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.3rem, 3vw, 1.9rem);
+            margin-bottom: 14px;
+        }
+        .cta-strip p {
+            opacity: .65;
+            margin-bottom: 30px;
+            font-size: .95rem;
+        }
+        .cta-tel {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        /* ══════════════════════════════
+           DISCLAIMER
+        ══════════════════════════════ */
+        .disclaimer-section {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--side) 80px;
+        }
+        .disclaimer-box {
+            background: var(--bg-soft);
+            padding: clamp(30px, 5vw, 60px) clamp(24px, 5vw, 50px);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-top: 10px;
+        }
+        .disclaimer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        .dis-item h4 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+        .dis-item h4::before {
+            content: '';
+            display: inline-block;
+            width: 10px; height: 10px;
+            background: var(--gold);
             border-radius: 2px;
+            flex-shrink: 0;
         }
-
-        .disclaimer-list {
+        .dis-list {
             list-style: none;
-            padding: 0;
-            font-size: 0.9rem;
+            font-size: .88rem;
             color: #555;
-            line-height: 2;
+            line-height: 1.9;
         }
-
-        .disclaimer-list li {
-            padding-left: 20px;
+        .dis-list li {
+            padding-left: 18px;
             position: relative;
             margin-bottom: 8px;
         }
-
-        .disclaimer-list li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
+        .dis-list li::before {
+            content: '•';
+            position: absolute; left: 0;
             color: var(--gold);
         }
-
-        @media (max-width: 768px) {
-            .hero-section h1 { font-size: 2.2rem; }
-            .sticky-col { width: 130px; padding-left: 15px !important; font-size: 0.85rem; }
-            .footer-disclaimer { padding: 40px 20px; }
+        .dis-warning {
+            font-weight: 700;
+            color: #b03030;
+            font-size: .85rem;
+            margin-bottom: 14px;
+            padding: 10px 16px;
+            background: rgba(176,48,48,.06);
+            border-left: 3px solid #b03030;
+            border-radius: 2px;
+        }
+        .dis-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            font-size: .85rem;
+            color: var(--muted);
         }
     </style>
 </head>
 
 <body>
     {% include header.html %}
-    
+
     <main>
-        <section class="hero-section">
-            <div class="wrapper">
-                <span style="color:var(--gold); letter-spacing: 5px; font-size: 0.85rem;">PREMIUM PLAN COMPARISON</span>
+
+        <!-- HERO -->
+        <section class="c-hero">
+            <div class="c-hero__watermark">COMPARE</div>
+            <div style="position:relative; z-index:2;">
+                <span class="c-hero__eyebrow reveal">PREMIUM PLAN COMPARISON</span>
                 <h1 class="reveal">方案內容終極對照</h1>
-                <div class="divider"></div>
-                <p class="reveal" style="max-width: 700px; margin: 0 auto; color: var(--text-gray);">
+                <div class="c-hero__rule reveal"></div>
+                <p class="reveal">
                     祥安生命堅持「規格不省略、價格不隱瞞」。透過下表您可以詳盡對照各級方案的物料等級與服務範疇，確保每一份託付都圓滿無憾。
                 </p>
             </div>
         </section>
 
-        <section class="matrix-container reveal">
-            <div class="matrix-scroll-wrapper">
+        <!-- 麵包屑 -->
+        <nav class="breadcrumb">
+            <a href="{{ '/' | relative_url }}"><i class="fas fa-home"></i> 首頁</a>
+            <span>›</span>
+            <span>方案對照</span>
+        </nav>
+
+        <!-- ── 手機版：方案快速切換按鈕 ── -->
+        <div class="plan-nav" id="planNav">
+            <button class="plan-nav-btn active" data-plan="0">國民 6.8萬</button>
+            <button class="plan-nav-btn" data-plan="1">精緻 8.8萬</button>
+            <button class="plan-nav-btn" data-plan="2">尊榮 11.8萬</button>
+            <button class="plan-nav-btn" data-plan="3">豪華 14.8萬</button>
+            <button class="plan-nav-btn" data-plan="4">頂級 17.8萬</button>
+        </div>
+
+        <!-- ══════════════════════════════
+             桌面版：完整比較表
+        ══════════════════════════════ -->
+        <section class="matrix-section">
+            <div class="desktop-table-wrap reveal">
                 <table>
                     <thead>
                         <tr>
-                            <th class="sticky-col" style="background:var(--deep-ink) !important; color:#fff; border-right: 1px solid #333 !important;">服務細項</th>
-                            <th><span class="p-title">國民專案</span><span class="p-price">6.8萬</span></th>
-                            <th><span class="p-title">中式精緻</span><span class="p-price">8.8萬</span></th>
-                            <th><span class="p-title">中式尊榮</span><span class="p-price">11.8萬</span></th>
-                            <th><span class="p-title">中式豪華</span><span class="p-price">14.8萬</span></th>
-                            <th><span class="p-title">中式頂級</span><span class="p-price">17.8萬</span></th>
+                            <th class="sticky-col">服務細項</th>
+                            <th><span class="p-title">國民專案</span><span class="p-price">NT$68,000</span></th>
+                            <th><span class="p-title">中式精緻</span><span class="p-price">NT$88,000</span></th>
+                            <th><span class="p-title">中式尊榮</span><span class="p-price">NT$118,000</span></th>
+                            <th><span class="p-title">中式豪華</span><span class="p-price">NT$148,000</span></th>
+                            <th><span class="p-title">中式頂級</span><span class="p-price">NT$178,000</span></th>
                         </tr>
                     </thead>
                     <tbody>
+
+                        <!-- ── 一、式場佈置 ── -->
                         <tr class="cat-row">
                             <td colspan="6">一、奠禮式場與空間佈置</td>
                         </tr>
                         <tr>
                             <td class="sticky-col">鮮花式場規格</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">6 呎精緻型</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">10 呎精緻型</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">15 呎大型規模</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">18 呎尊榮規模</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">22 呎頂級旗艦</span></td>
+                            <td><span class="check">✔</span><span class="spec">6 呎精緻型</span></td>
+                            <td><span class="check">✔</span><span class="spec">10 呎精緻型</span></td>
+                            <td><span class="check">✔</span><span class="spec">15 呎大型規模</span></td>
+                            <td><span class="check">✔</span><span class="spec">18 呎尊榮規模</span></td>
+                            <td><span class="check">✔</span><span class="spec">22 呎頂級旗艦</span></td>
                         </tr>
                         <tr>
                             <td class="sticky-col">外場牌樓</td>
-                            <td>-</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">洗淨水設施</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">西式牌樓</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">大型藝術牌樓</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">旗艦型大型牌樓</span></td>
+                            <td><span class="dash">—</span></td>
+                            <td><span class="check">✔</span><span class="spec">洗淨水設施</span></td>
+                            <td><span class="check">✔</span><span class="spec">西式牌樓</span></td>
+                            <td><span class="check">✔</span><span class="spec">大型藝術牌樓</span></td>
+                            <td><span class="check">✔</span><span class="spec">旗艦型大型牌樓</span></td>
                         </tr>
                         <tr>
                             <td class="sticky-col">遺照框規格</td>
                             <td>藝術木框</td>
                             <td>藝術木框</td>
                             <td>精緻藝術框</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">手工精雕框</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">頂級尊榮雕框</span></td>
+                            <td><span class="check">✔</span><span class="spec">手工精雕框</span></td>
+                            <td><span class="check">✔</span><span class="spec">頂級尊榮雕框</span></td>
                         </tr>
 
+                        <!-- ── 二、壽材用品 ── -->
                         <tr class="cat-row">
                             <td colspan="6">二、壽材用品與入殮規格</td>
                         </tr>
@@ -242,82 +568,299 @@ permalink: /compare.html/
                             <td class="sticky-col">火化棺木</td>
                             <td>西式環保棺</td>
                             <td>中西式環保棺</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">進口實木火化棺</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">高級實木火化棺</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">工藝面雕實木棺</span></td>
+                            <td><span class="check">✔</span><span class="spec">進口實木火化棺</span></td>
+                            <td><span class="check">✔</span><span class="spec">高級實木火化棺</span></td>
+                            <td><span class="check">✔</span><span class="spec">工藝面雕實木棺</span></td>
                         </tr>
                         <tr>
                             <td class="sticky-col">壽衣等級</td>
                             <td>五層五件組</td>
                             <td>五層五件組</td>
                             <td>五層五件組</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">材質升級</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">特選絲緞材質</span></td>
+                            <td><span class="check">✔</span><span class="spec">材質升級</span></td>
+                            <td><span class="check">✔</span><span class="spec">特選絲緞材質</span></td>
                         </tr>
                         <tr>
                             <td class="sticky-col">骨灰容器</td>
                             <td>黑花崗</td>
                             <td>黑花崗</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">高級黑花崗/玉石</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">頂級特選玉石</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">特級優質玉石</span></td>
+                            <td><span class="check">✔</span><span class="spec">高級黑花崗／玉石</span></td>
+                            <td><span class="check">✔</span><span class="spec">頂級特選玉石</span></td>
+                            <td><span class="check">✔</span><span class="spec">特級優質玉石</span></td>
                         </tr>
 
+                        <!-- ── 三、禮儀人力 ── -->
                         <tr class="cat-row">
                             <td colspan="6">三、專業禮儀人力配置</td>
                         </tr>
                         <tr>
                             <td class="sticky-col">奠禮司儀</td>
-                            <td>-</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">專業司儀</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">專業司儀</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">專業司儀</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">資深首席司儀</span></td>
+                            <td><span class="dash">—</span></td>
+                            <td><span class="check">✔</span><span class="spec">專業司儀</span></td>
+                            <td><span class="check">✔</span><span class="spec">專業司儀</span></td>
+                            <td><span class="check">✔</span><span class="spec">專業司儀</span></td>
+                            <td><span class="check">✔</span><span class="spec">資深首席司儀</span></td>
                         </tr>
                         <tr>
-                            <td class="sticky-col">襄儀/服務員</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">禮儀襄儀人員</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">禮儀襄儀人員</span></td>
-                            <td><span class="check-mark">✔</span><span class="spec-note">資深服務團隊</span></td>
+                            <td class="sticky-col">禮儀襄儀</td>
+                            <td><span class="dash">—</span></td>
+                            <td><span class="dash">—</span></td>
+                            <td><span class="check">✔</span><span class="spec">禮儀襄儀人員</span></td>
+                            <td><span class="check">✔</span><span class="spec">禮儀襄儀人員</span></td>
+                            <td><span class="check">✔</span><span class="spec">資深服務團隊</span></td>
                         </tr>
                         <tr>
                             <td class="sticky-col">洗淨入殮化妝</td>
-                            <td><span class="check-mark">✔</span></td>
-                            <td><span class="check-mark">✔</span></td>
-                            <td><span class="check-mark">✔</span></td>
-                            <td><span class="check-mark">✔</span></td>
-                            <td><span class="check-mark">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
                         </tr>
 
-                        <tr style="background: #fff;">
-                            <td class="sticky-col">完整明細</td>
-                            <td><a href="/deed01.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看24項細節</a></td>
-                            <td><a href="/deed02.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看26項細節</a></td>
-                            <td><a href="/deed03.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看28項細節</a></td>
-                            <td><a href="/deed04.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看30項細節</a></td>
-                            <td><a href="/deed05.html" style="color:var(--gold); text-decoration:none; font-weight:bold;">查看32項細節</a></td>
+                        <!-- ── 四、行政代辦 ── -->
+                        <tr class="cat-row">
+                            <td colspan="6">四、行政代辦事項</td>
                         </tr>
+                        <tr>
+                            <td class="sticky-col">24H 接體安置</td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">治喪手續代辦</td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-col">補助申請協助</td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                            <td><span class="check">✔</span></td>
+                        </tr>
+
+                        <!-- ── 連結行 ── -->
+                        <tr class="link-row">
+                            <td class="sticky-col" style="color:var(--muted); font-weight:400; font-size:.8rem;">完整明細</td>
+                            <td><a href="{{ '/deed01.html' | relative_url }}" class="plan-link">24項完整細節 →</a></td>
+                            <td><a href="{{ '/deed02.html' | relative_url }}" class="plan-link">26項完整細節 →</a></td>
+                            <td><a href="{{ '/deed03.html' | relative_url }}" class="plan-link">28項完整細節 →</a></td>
+                            <td><a href="{{ '/deed04.html' | relative_url }}" class="plan-link">30項完整細節 →</a></td>
+                            <td><a href="{{ '/deed05.html' | relative_url }}" class="plan-link">32項完整細節 →</a></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
 
-            <div class="footer-disclaimer reveal">
+            <!-- ══════════════════════════════
+                 手機版：卡片式（JS 切換）
+            ══════════════════════════════ -->
+            <div class="mobile-cards" id="mobileCards">
+
+                <!-- 方案 0：國民 6.8萬 -->
+                <div class="plan-card active" data-plan="0">
+                    <div class="plan-card__head">
+                        <span class="plan-card__name">國民專案</span>
+                        <span class="plan-card__price">NT$68,000</span>
+                    </div>
+                    <div class="plan-card__body">
+                        <div class="mc-cat">一、奠禮式場與空間佈置</div>
+                        <div class="mc-row"><span class="mc-row__label">鮮花式場</span><span class="mc-row__val"><span class="check">✔</span> 6 呎精緻型</span></div>
+                        <div class="mc-row"><span class="mc-row__label">外場牌樓</span><span class="mc-row__val"><span class="dash">—</span> 未含</span></div>
+                        <div class="mc-row"><span class="mc-row__label">遺照框</span><span class="mc-row__val">藝術木框</span></div>
+
+                        <div class="mc-cat">二、壽材用品與入殮規格</div>
+                        <div class="mc-row"><span class="mc-row__label">火化棺木</span><span class="mc-row__val">西式環保棺</span></div>
+                        <div class="mc-row"><span class="mc-row__label">壽衣等級</span><span class="mc-row__val">五層五件組</span></div>
+                        <div class="mc-row"><span class="mc-row__label">骨灰容器</span><span class="mc-row__val">黑花崗</span></div>
+
+                        <div class="mc-cat">三、專業禮儀人力配置</div>
+                        <div class="mc-row"><span class="mc-row__label">奠禮司儀</span><span class="mc-row__val"><span class="dash">—</span> 未含</span></div>
+                        <div class="mc-row"><span class="mc-row__label">禮儀襄儀</span><span class="mc-row__val"><span class="dash">—</span> 未含</span></div>
+                        <div class="mc-row"><span class="mc-row__label">洗淨入殮化妝</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+
+                        <div class="mc-cat">四、行政代辦事項</div>
+                        <div class="mc-row"><span class="mc-row__label">24H 接體安置</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">治喪手續代辦</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">補助申請協助</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                    </div>
+                    <div class="plan-card__foot">
+                        <p>共 24 項服務細節</p>
+                        <a href="{{ '/deed01.html' | relative_url }}" class="plan-card__cta"><i class="fas fa-file-alt"></i> 查看完整明細</a>
+                    </div>
+                </div>
+
+                <!-- 方案 1：精緻 8.8萬 -->
+                <div class="plan-card" data-plan="1">
+                    <div class="plan-card__head">
+                        <span class="plan-card__name">中式精緻</span>
+                        <span class="plan-card__price">NT$88,000</span>
+                    </div>
+                    <div class="plan-card__body">
+                        <div class="mc-cat">一、奠禮式場與空間佈置</div>
+                        <div class="mc-row"><span class="mc-row__label">鮮花式場</span><span class="mc-row__val"><span class="check">✔</span> 10 呎精緻型</span></div>
+                        <div class="mc-row"><span class="mc-row__label">外場牌樓</span><span class="mc-row__val"><span class="check">✔</span> 洗淨水設施</span></div>
+                        <div class="mc-row"><span class="mc-row__label">遺照框</span><span class="mc-row__val">藝術木框</span></div>
+
+                        <div class="mc-cat">二、壽材用品與入殮規格</div>
+                        <div class="mc-row"><span class="mc-row__label">火化棺木</span><span class="mc-row__val">中西式環保棺</span></div>
+                        <div class="mc-row"><span class="mc-row__label">壽衣等級</span><span class="mc-row__val">五層五件組</span></div>
+                        <div class="mc-row"><span class="mc-row__label">骨灰容器</span><span class="mc-row__val">黑花崗</span></div>
+
+                        <div class="mc-cat">三、專業禮儀人力配置</div>
+                        <div class="mc-row"><span class="mc-row__label">奠禮司儀</span><span class="mc-row__val"><span class="check">✔</span> 專業司儀</span></div>
+                        <div class="mc-row"><span class="mc-row__label">禮儀襄儀</span><span class="mc-row__val"><span class="dash">—</span> 未含</span></div>
+                        <div class="mc-row"><span class="mc-row__label">洗淨入殮化妝</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+
+                        <div class="mc-cat">四、行政代辦事項</div>
+                        <div class="mc-row"><span class="mc-row__label">24H 接體安置</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">治喪手續代辦</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">補助申請協助</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                    </div>
+                    <div class="plan-card__foot">
+                        <p>共 26 項服務細節</p>
+                        <a href="{{ '/deed02.html' | relative_url }}" class="plan-card__cta"><i class="fas fa-file-alt"></i> 查看完整明細</a>
+                    </div>
+                </div>
+
+                <!-- 方案 2：尊榮 11.8萬 -->
+                <div class="plan-card" data-plan="2">
+                    <div class="plan-card__head">
+                        <span class="plan-card__name">中式尊榮</span>
+                        <span class="plan-card__price">NT$118,000</span>
+                    </div>
+                    <div class="plan-card__body">
+                        <div class="mc-cat">一、奠禮式場與空間佈置</div>
+                        <div class="mc-row"><span class="mc-row__label">鮮花式場</span><span class="mc-row__val"><span class="check">✔</span> 15 呎大型規模</span></div>
+                        <div class="mc-row"><span class="mc-row__label">外場牌樓</span><span class="mc-row__val"><span class="check">✔</span> 西式牌樓</span></div>
+                        <div class="mc-row"><span class="mc-row__label">遺照框</span><span class="mc-row__val">精緻藝術框</span></div>
+
+                        <div class="mc-cat">二、壽材用品與入殮規格</div>
+                        <div class="mc-row"><span class="mc-row__label">火化棺木</span><span class="mc-row__val"><span class="check">✔</span> 進口實木火化棺</span></div>
+                        <div class="mc-row"><span class="mc-row__label">壽衣等級</span><span class="mc-row__val">五層五件組</span></div>
+                        <div class="mc-row"><span class="mc-row__label">骨灰容器</span><span class="mc-row__val"><span class="check">✔</span> 高級黑花崗／玉石</span></div>
+
+                        <div class="mc-cat">三、專業禮儀人力配置</div>
+                        <div class="mc-row"><span class="mc-row__label">奠禮司儀</span><span class="mc-row__val"><span class="check">✔</span> 專業司儀</span></div>
+                        <div class="mc-row"><span class="mc-row__label">禮儀襄儀</span><span class="mc-row__val"><span class="check">✔</span> 禮儀襄儀人員</span></div>
+                        <div class="mc-row"><span class="mc-row__label">洗淨入殮化妝</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+
+                        <div class="mc-cat">四、行政代辦事項</div>
+                        <div class="mc-row"><span class="mc-row__label">24H 接體安置</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">治喪手續代辦</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">補助申請協助</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                    </div>
+                    <div class="plan-card__foot">
+                        <p>共 28 項服務細節</p>
+                        <a href="{{ '/deed03.html' | relative_url }}" class="plan-card__cta"><i class="fas fa-file-alt"></i> 查看完整明細</a>
+                    </div>
+                </div>
+
+                <!-- 方案 3：豪華 14.8萬 -->
+                <div class="plan-card" data-plan="3">
+                    <div class="plan-card__head">
+                        <span class="plan-card__name">中式豪華</span>
+                        <span class="plan-card__price">NT$148,000</span>
+                    </div>
+                    <div class="plan-card__body">
+                        <div class="mc-cat">一、奠禮式場與空間佈置</div>
+                        <div class="mc-row"><span class="mc-row__label">鮮花式場</span><span class="mc-row__val"><span class="check">✔</span> 18 呎尊榮規模</span></div>
+                        <div class="mc-row"><span class="mc-row__label">外場牌樓</span><span class="mc-row__val"><span class="check">✔</span> 大型藝術牌樓</span></div>
+                        <div class="mc-row"><span class="mc-row__label">遺照框</span><span class="mc-row__val"><span class="check">✔</span> 手工精雕框</span></div>
+
+                        <div class="mc-cat">二、壽材用品與入殮規格</div>
+                        <div class="mc-row"><span class="mc-row__label">火化棺木</span><span class="mc-row__val"><span class="check">✔</span> 高級實木火化棺</span></div>
+                        <div class="mc-row"><span class="mc-row__label">壽衣等級</span><span class="mc-row__val"><span class="check">✔</span> 材質升級版</span></div>
+                        <div class="mc-row"><span class="mc-row__label">骨灰容器</span><span class="mc-row__val"><span class="check">✔</span> 頂級特選玉石</span></div>
+
+                        <div class="mc-cat">三、專業禮儀人力配置</div>
+                        <div class="mc-row"><span class="mc-row__label">奠禮司儀</span><span class="mc-row__val"><span class="check">✔</span> 專業司儀</span></div>
+                        <div class="mc-row"><span class="mc-row__label">禮儀襄儀</span><span class="mc-row__val"><span class="check">✔</span> 禮儀襄儀人員</span></div>
+                        <div class="mc-row"><span class="mc-row__label">洗淨入殮化妝</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+
+                        <div class="mc-cat">四、行政代辦事項</div>
+                        <div class="mc-row"><span class="mc-row__label">24H 接體安置</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">治喪手續代辦</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">補助申請協助</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                    </div>
+                    <div class="plan-card__foot">
+                        <p>共 30 項服務細節</p>
+                        <a href="{{ '/deed04.html' | relative_url }}" class="plan-card__cta"><i class="fas fa-file-alt"></i> 查看完整明細</a>
+                    </div>
+                </div>
+
+                <!-- 方案 4：頂級 17.8萬 -->
+                <div class="plan-card" data-plan="4">
+                    <div class="plan-card__head">
+                        <span class="plan-card__name">中式頂級</span>
+                        <span class="plan-card__price">NT$178,000</span>
+                    </div>
+                    <div class="plan-card__body">
+                        <div class="mc-cat">一、奠禮式場與空間佈置</div>
+                        <div class="mc-row"><span class="mc-row__label">鮮花式場</span><span class="mc-row__val"><span class="check">✔</span> 22 呎頂級旗艦</span></div>
+                        <div class="mc-row"><span class="mc-row__label">外場牌樓</span><span class="mc-row__val"><span class="check">✔</span> 旗艦型大型牌樓</span></div>
+                        <div class="mc-row"><span class="mc-row__label">遺照框</span><span class="mc-row__val"><span class="check">✔</span> 頂級尊榮雕框</span></div>
+
+                        <div class="mc-cat">二、壽材用品與入殮規格</div>
+                        <div class="mc-row"><span class="mc-row__label">火化棺木</span><span class="mc-row__val"><span class="check">✔</span> 工藝面雕實木棺</span></div>
+                        <div class="mc-row"><span class="mc-row__label">壽衣等級</span><span class="mc-row__val"><span class="check">✔</span> 特選絲緞材質</span></div>
+                        <div class="mc-row"><span class="mc-row__label">骨灰容器</span><span class="mc-row__val"><span class="check">✔</span> 特級優質玉石</span></div>
+
+                        <div class="mc-cat">三、專業禮儀人力配置</div>
+                        <div class="mc-row"><span class="mc-row__label">奠禮司儀</span><span class="mc-row__val"><span class="check">✔</span> 資深首席司儀</span></div>
+                        <div class="mc-row"><span class="mc-row__label">禮儀襄儀</span><span class="mc-row__val"><span class="check">✔</span> 資深服務團隊</span></div>
+                        <div class="mc-row"><span class="mc-row__label">洗淨入殮化妝</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+
+                        <div class="mc-cat">四、行政代辦事項</div>
+                        <div class="mc-row"><span class="mc-row__label">24H 接體安置</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">治喪手續代辦</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                        <div class="mc-row"><span class="mc-row__label">補助申請協助</span><span class="mc-row__val"><span class="check">✔</span> 全程提供</span></div>
+                    </div>
+                    <div class="plan-card__foot">
+                        <p>共 32 項服務細節</p>
+                        <a href="{{ '/deed05.html' | relative_url }}" class="plan-card__cta"><i class="fas fa-file-alt"></i> 查看完整明細</a>
+                    </div>
+                </div>
+
+            </div><!-- /mobile-cards -->
+        </section>
+
+        <!-- 電話 CTA 條 -->
+        <div class="cta-strip reveal">
+            <h3>對方案仍有疑問？</h3>
+            <p>禮儀顧問 24 小時在線，為您說明每一項細節，並可依需求彈性調整。</p>
+            <a href="tel:+886978583699" class="cta-tel">
+                <i class="fas fa-phone-alt"></i>
+                0978-583-699
+            </a>
+        </div>
+
+        <!-- DISCLAIMER -->
+        <section class="disclaimer-section">
+            <div class="disclaimer-box reveal">
                 <div class="disclaimer-grid">
-                    <div class="disclaimer-item">
+                    <div class="dis-item">
                         <h4>不包含在契約內之部分</h4>
-                        <p style="margin-bottom: 20px; font-weight: bold; color: #cc0000;">以下費用均依據政府或相關單位單據，由家屬據實報實銷：</p>
-                        <ul class="disclaimer-list">
-                            <li><strong>政府殯儀館規費：</strong>包含遺體冷藏費、禮廳租金、火化爐費、各項規費。</li>
-                            <li><strong>塔位/墓園規費：</strong>靈骨塔位購置費、晉塔規費、管理費。</li>
-                            <li><strong>其他客製需求：</strong>包含訃聞郵寄郵資、特定品牌菸酒祭品、追加之花籃。</li>
-                            <li><strong>外縣市接運費：</strong>非本服務範圍（北/中/南特定區域）之長途接體車資。</li>
+                        <p class="dis-warning">以下費用均依政府或相關單位單據，由家屬據實報實銷：</p>
+                        <ul class="dis-list">
+                            <li><strong>政府殯儀館規費：</strong>遺體冷藏費、禮廳租金、火化爐費、各項規費。</li>
+                            <li><strong>塔位／墓園規費：</strong>靈骨塔位購置費、晉塔規費、管理費。</li>
+                            <li><strong>其他客製需求：</strong>訃聞郵資、特定品牌菸酒祭品、追加花籃。</li>
+                            <li><strong>外縣市接運費：</strong>非本服務範圍之長途接體車資。</li>
                         </ul>
                     </div>
-                    <div class="disclaimer-item">
+                    <div class="dis-item">
                         <h4>祥安生命承諾與保證</h4>
-                        <ul class="disclaimer-list">
+                        <ul class="dis-list">
                             <li><strong>價格透明：</strong>合約簽定後絕不惡意追加任何費用。</li>
                             <li><strong>真花保證：</strong>式場佈置堅持使用新鮮花材，絕不混用回收花。</li>
                             <li><strong>專業執照：</strong>所有禮儀師均具備國家級技術士證照。</li>
@@ -325,15 +868,53 @@ permalink: /compare.html/
                         </ul>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 50px; border-top: 1px solid var(--border); padding-top: 30px;">
-                    <p style="font-size: 0.9rem; color: var(--text-gray);">
-                        * 若對方案有任何細項微調需求，歡迎撥打 24H 諮詢專線，由專人為您提供客製化報價。
-                    </p>
+                <div class="dis-footer">
+                    若對方案有任何細項微調需求，歡迎撥打 24H 諮詢專線，由專人為您提供客製化報價。
                 </div>
             </div>
         </section>
+
     </main>
 
     {% include footer.html %}
+    {% include floating-cta.html %}
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        /* ── Reveal 動畫 ── */
+        const revObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('revealed');
+                    revObs.unobserve(e.target);
+                }
+            });
+        }, { threshold: .08, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+        /* ── 手機版方案切換 ── */
+        const navBtns  = document.querySelectorAll('.plan-nav-btn');
+        const planCards = document.querySelectorAll('.plan-card');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const idx = this.dataset.plan;
+
+                // 切換按鈕
+                navBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // 切換卡片
+                planCards.forEach(c => c.classList.remove('active'));
+                document.querySelector(`.plan-card[data-plan="${idx}"]`)?.classList.add('active');
+
+                // 回到卡片頂部
+                document.getElementById('mobileCards')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+    });
+    </script>
 </body>
 </html>
