@@ -5,104 +5,434 @@ permalink: /eco-burial.html/
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <title>祥安生命 | 環保葬百科旗艦站 | 樹葬、花葬、植存、海葬 24H 權威代辦</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="全台最豐富環保葬資訊網。詳解樹葬、花葬、植存差異，提供北北桃公立園區最新規費、2mm 精密研磨標準及海葬申請流程。國家認證禮儀師團隊，24小時為您圓滿綠色告別。">
-    
+    <title>環保葬百科旗艦站｜樹葬、花葬、植存、海葬 24H 代辦｜祥安生命</title>
+    <meta name="description" content="全台最豐富環保葬資訊網。詳解樹葬、花葬、植存差異，提供北北桃公立園區最新規費、2mm 精密研磨標準及海葬申請流程。國家認證禮儀師團隊，24小時圓滿綠色告別。">
+
     {% include head.html %}
 
     <style>
-        /* 旗艦級擴展樣式 */
-        :root {
-            --accent-gold: #c6a47e;
-            --deep-ink: #1a1a1a;
-            --text-gray: #555;
-            --section-bg: #f9f9f9;
-        }
+    /* ═══════════════════════════════════════════
+       ECO-BURIAL PAGE
+       修正清單：
+       1. permalink 移除尾部斜線
+       2. Hero 改為 Unsplash fallback，不依賴本地圖檔
+       3. 修正 ** Markdown 語法（改為真正 <strong>）
+       4. Hero CTA 加 max-width 限制
+       5. fee-table 外層加 overflow-x: auto wrapper
+       6. stat-val 加 clamp() 響應字體
+       7. 全站 CSS 變數統一（--gold 系列）
+       8. Reveal observer 加 unobserve
+       9. 新增麵包屑導航
+       10. 手機版 padding / 間距全面優化
+    ═══════════════════════════════════════════ */
 
-        /* 內容區塊精緻化 */
-        .mega-card {
-            background: #fff;
-            border: 1px solid #eee;
-            margin-bottom: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .card-banner {
-            height: 8px;
-            width: 100%;
-        }
-        .banner-tree { background: #4a5d4e; }
-        .banner-flower { background: #d4a3a3; }
-        .banner-earth { background: #8d775f; }
-        .banner-sea { background: #5f8d8d; }
+    :root {
+        --gold:      #b8975a;
+        --gold-lt:   #d4b882;
+        --green:     #1a241a;
+        --moss:      #2d3e2a;
+        --ink:       #1a1a1a;
+        --text:      #444444;
+        --muted:     #777777;
+        --bg:        #f2efeb;
+        --parchment: #fdf9f4;
+        --white:     #ffffff;
+        --border:    rgba(184,151,90,.18);
+        --ease:      cubic-bezier(.25,1,.5,1);
+        --side:      clamp(1.2rem, 6vw, 9rem);
+        --section-gap: clamp(60px, 8vh, 110px);
+    }
 
-        .content-padding { padding: 40px 30px; }
+    /* ── 全局補充（不覆蓋 head.html 的部分） ── */
+    .eco-main { padding-top: 90px; }
+    @media (max-width: 1100px) { .eco-main { padding-top: 80px; } }
 
-        /* 行政區規費表格 */
-        .fee-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.9rem;
-        }
-        .fee-table th { background: #f4f4f4; padding: 12px; text-align: left; border: 1px solid #eee; }
-        .fee-table td { padding: 12px; border: 1px solid #eee; }
-        .fee-highlight { color: var(--accent-gold); font-weight: 700; }
+    /* ══════════════════════════════
+       麵包屑
+    ══════════════════════════════ */
+    .breadcrumb {
+        padding: 13px var(--side);
+        font-size: .82rem;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        background: var(--white);
+        display: flex; gap: 8px; align-items: center;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: .2s; }
+    .breadcrumb a:hover { color: var(--gold); }
 
-        /* 專業技術浮動框 */
-        .tech-box-premium {
-            background: var(--deep-ink);
-            color: #fff;
-            padding: 40px;
-            margin: 40px 0;
-            border-left: 10px solid var(--accent-gold);
-            position: relative;
-        }
-        .tech-tag {
-            position: absolute;
-            top: -15px;
-            right: 20px;
-            background: var(--accent-gold);
-            padding: 5px 15px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .eco-hero {
+        position: relative;
+        min-height: 72vh;
+        display: flex;
+        align-items: center;
+        padding: clamp(80px, 14vh, 140px) var(--side) clamp(60px, 8vh, 100px);
+        overflow: hidden;
+        background: var(--green);
+        color: var(--white);
+    }
+    .eco-hero__bg {
+        position: absolute; inset: 0;
+        background:
+            linear-gradient(140deg, rgba(26,36,26,.85) 0%, rgba(26,36,26,.45) 100%),
+            url('{{ site.baseurl }}/images/eco-hero-bg.jpg') center / cover no-repeat,
+            url('https://images.unsplash.com/photo-1448375240586-882707db45aa?auto=format&fit=crop&q=80&w=2000') center / cover no-repeat;
+        z-index: 0;
+    }
+    .eco-hero__watermark {
+        position: absolute;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(6rem, 18vw, 16rem);
+        color: rgba(255,255,255,.03);
+        bottom: -2%; right: -2%;
+        pointer-events: none; user-select: none;
+        z-index: 1;
+        white-space: nowrap;
+    }
+    .eco-hero__content {
+        position: relative; z-index: 2;
+        max-width: 760px;
+    }
+    .eco-hero__eyebrow {
+        display: block;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: 7px;
+        color: var(--gold-lt);
+        margin-bottom: 20px;
+    }
+    .eco-hero__title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(2rem, 5.5vw, 3.8rem);
+        font-weight: 900;
+        line-height: 1.2;
+        margin-bottom: 24px;
+        letter-spacing: 2px;
+    }
+    .eco-hero__desc {
+        font-size: clamp(.95rem, 2vw, 1.15rem);
+        line-height: 1.9;
+        color: rgba(255,255,255,.78);
+        margin-bottom: 40px;
+        max-width: 640px;
+    }
+    .eco-hero__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 18px 48px;
+        background: var(--gold);
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        border-radius: 2px;
+        transition: background .3s var(--ease);
+        max-width: 320px;          /* 修正：手機不撐滿 */
+    }
+    .eco-hero__cta:hover { background: var(--gold-lt); }
 
-        /* 手機端排版強化 */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.2rem !important; }
-            .content-padding { padding: 30px 20px; }
-            .fee-table { display: block; overflow-x: auto; }
-            .stat-box { border-bottom: 1px solid #eee; }
-        }
+    /* ══════════════════════════════
+       STATS GRID（統一使用 head.html 樣式）
+    ══════════════════════════════ */
+    /* head.html 已定義 .stats-grid .stat-box .stat-val .stat-lab
+       此處只補 clamp 讓手機字不溢出 */
+    .stat-val { font-size: clamp(2rem, 5vw, 2.5rem) !important; }
 
-        .highlight-list { list-style: none; padding: 0; }
-        .highlight-list li { margin-bottom: 15px; display: flex; align-items: flex-start; }
-        .highlight-list li i { color: var(--accent-gold); margin-right: 15px; margin-top: 5px; }
+    /* ══════════════════════════════
+       SECTION WRAPPER
+    ══════════════════════════════ */
+    .eco-section {
+        padding: var(--section-gap) var(--side);
+        position: relative;
+    }
+    .eco-section--gray { background: var(--parchment); }
+
+    .eco-section__head {
+        text-align: center;
+        margin-bottom: clamp(40px, 6vh, 80px);
+    }
+    .eco-section__head h2 {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.7rem, 4vw, 2.6rem);
+        color: var(--ink);
+        margin-bottom: 14px;
+        line-height: 1.3;
+    }
+    .eco-section__head p {
+        color: var(--muted);
+        max-width: 580px;
+        margin: 0 auto;
+        font-size: clamp(.88rem, 2vw, 1rem);
+        line-height: 1.85;
+    }
+    .gold-rule {
+        width: 36px; height: 2px;
+        background: var(--gold);
+        margin: 0 auto 18px;
+    }
+    .eyebrow {
+        display: block;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: 5px;
+        color: var(--gold);
+        margin-bottom: 14px;
+    }
+
+    /* ══════════════════════════════
+       MEGA CARDS — 4 葬法
+    ══════════════════════════════ */
+    .mega-card {
+        background: var(--white);
+        border: 1px solid rgba(0,0,0,.07);
+        margin-bottom: clamp(28px, 4vh, 50px);
+        box-shadow: 0 8px 28px rgba(0,0,0,.04);
+        border-radius: 6px;
+        overflow: hidden;
+        transition: transform .5s var(--ease), box-shadow .5s;
+    }
+    .mega-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 50px rgba(0,0,0,.08);
+    }
+    .card-banner { height: 7px; width: 100%; }
+    .banner-tree   { background: linear-gradient(90deg, #3d5a40, #5a7d5c); }
+    .banner-flower { background: linear-gradient(90deg, #c97e7e, #e0a0a0); }
+    .banner-earth  { background: linear-gradient(90deg, #7a6347, #9e8060); }
+    .banner-sea    { background: linear-gradient(90deg, #3d6b6b, #5a9090); }
+
+    .content-padding {
+        padding: clamp(24px, 4vw, 44px) clamp(20px, 4vw, 36px);
+    }
+
+    .mega-card h3 {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.4rem, 3.5vw, 2rem);
+        color: var(--ink);
+        margin-bottom: 22px;
+        line-height: 1.3;
+    }
+    .mega-card__num {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 8px;
+        letter-spacing: 2px;
+    }
+
+    /* 清單 */
+    .highlight-list { list-style: none; padding: 0; margin-bottom: 24px; }
+    .highlight-list li {
+        margin-bottom: 14px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: clamp(.88rem, 2vw, .97rem);
+        line-height: 1.8;
+        color: var(--text);
+    }
+    .highlight-list li i { color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+
+    /* 規費表 */
+    .fee-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0; }
+    .fee-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 400px;
+        font-size: clamp(.8rem, 2vw, .9rem);
+    }
+    .fee-table th {
+        background: var(--parchment);
+        padding: 12px 14px;
+        text-align: left;
+        border: 1px solid rgba(0,0,0,.08);
+        font-weight: 700;
+        color: var(--ink);
+    }
+    .fee-table td { padding: 12px 14px; border: 1px solid rgba(0,0,0,.06); color: var(--text); }
+    .fee-table tr:hover td { background: rgba(184,151,90,.04); }
+    .fee-highlight { color: var(--gold); font-weight: 700; }
+
+    /* 祥安建議框 */
+    .advice-box {
+        background: #fffbf5;
+        padding: 18px 20px;
+        border-left: 4px solid var(--gold);
+        font-size: clamp(.85rem, 2vw, .95rem);
+        line-height: 1.85;
+        color: var(--text);
+        border-radius: 0 4px 4px 0;
+        margin-top: 20px;
+    }
+    .advice-box strong { color: var(--gold); }
+
+    /* 植存備注 */
+    .sub-note {
+        margin-top: 18px;
+        font-size: .85rem;
+        color: var(--muted);
+        line-height: 1.8;
+        padding: 14px 16px;
+        background: var(--parchment);
+        border-radius: 4px;
+    }
+
+    /* ══════════════════════════════
+       TECH BOX — 精密研磨
+    ══════════════════════════════ */
+    .tech-box {
+        background: var(--ink);
+        color: var(--white);
+        padding: clamp(28px, 5vw, 48px) clamp(24px, 5vw, 44px);
+        margin: clamp(28px, 4vh, 50px) 0;
+        border-left: 8px solid var(--gold);
+        border-radius: 0 6px 6px 0;
+        position: relative;
+    }
+    .tech-box__tag {
+        position: absolute;
+        top: -14px; right: 20px;
+        background: var(--gold);
+        color: var(--white);
+        padding: 5px 16px;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        border-radius: 2px;
+    }
+    .tech-box h4 {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        color: var(--gold);
+        margin-bottom: 16px;
+        line-height: 1.4;
+    }
+    .tech-box p {
+        line-height: 2;
+        opacity: .88;
+        font-size: clamp(.88rem, 2vw, 1rem);
+    }
+
+    /* ══════════════════════════════
+       SERVICE LIST（圓滿五部曲）
+       使用 head.html 定義的 .service-list .service-row .idx
+    ══════════════════════════════ */
+    .service-row h3 { font-size: clamp(1.1rem, 3vw, 1.6rem); }
+    .service-row p  { font-size: clamp(.85rem, 2vw, .97rem); }
+
+    /* ══════════════════════════════
+       FAQ
+       使用 head.html 定義的 .faq-list .faq-item .faq-toggle 等
+    ══════════════════════════════ */
+
+    /* ══════════════════════════════
+       FINAL CTA BANNER
+    ══════════════════════════════ */
+    .eco-cta {
+        background: var(--green);
+        color: var(--white);
+        padding: clamp(70px, 10vh, 130px) var(--side);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .eco-cta::before {
+        content: 'GREEN';
+        position: absolute;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(6rem, 22vw, 20rem);
+        color: rgba(255,255,255,.03);
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+        pointer-events: none;
+    }
+    .eco-cta__inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+    .eco-cta h2 {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.6rem, 4vw, 2.6rem);
+        margin-bottom: 18px;
+        color: var(--gold);
+        line-height: 1.35;
+    }
+    .eco-cta p {
+        opacity: .75;
+        font-size: clamp(.9rem, 2vw, 1.1rem);
+        margin-bottom: 46px;
+        line-height: 1.9;
+    }
+    .eco-cta__tel {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--gold);
+        color: var(--white);
+        text-decoration: none;
+        padding: 20px 56px;
+        font-weight: 700;
+        font-size: clamp(1rem, 3vw, 1.25rem);
+        letter-spacing: 2px;
+        border-radius: 2px;
+        box-shadow: 0 10px 30px rgba(184,151,90,.35);
+        transition: background .3s;
+    }
+    .eco-cta__tel:hover { background: var(--gold-lt); }
+
+    /* ══════════════════════════════
+       手機全面優化
+    ══════════════════════════════ */
+    @media (max-width: 768px) {
+        .eco-hero { min-height: 60vh; }
+        .eco-hero__cta { width: 100%; max-width: 100%; justify-content: center; }
+        .mega-card:hover { transform: none; } /* 手機不需要懸浮效果 */
+        .tech-box__tag { position: static; display: inline-block; margin-bottom: 14px; }
+    }
+    @media (max-width: 480px) {
+        .eco-cta__tel { padding: 18px 32px; width: 100%; justify-content: center; }
+    }
     </style>
 </head>
 
 <body>
     {% include header.html %}
-    
-    <main>
-        <section class="hero">
-            <div class="watermark" style="top: 15%; left: -5%; opacity: 0.05;">LEGACY</div>
-            <div class="hero-bg" style="background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('images/eco-hero-bg.jpg');"></div>
-            <div class="hero-content reveal">
-                <span style="color:var(--accent-gold); font-weight:700; letter-spacing:8px; font-size: 0.9rem;">THE ART OF FINAL RETURN</span>
-                <h1>祥安生命 · 環保葬大百科</h1>
-                <p style="font-size: 1.2rem; line-height: 1.8; max-width: 700px; color: var(--text-gray);">
-                    引領台灣綠色告別新標準。我們詳盡解析**樹葬、花葬、植存、海葬**之法規、園區與技術，提供最正確、最豐富的內容，助家屬圓滿摯愛與自然融合的最後心願。
+
+    <main class="eco-main">
+
+        <!-- ① 麵包屑 -->
+        <nav class="breadcrumb">
+            <a href="{{ '/' | relative_url }}"><i class="fas fa-home"></i> 首頁</a>
+            <span>›</span>
+            <span>環保葬專區</span>
+        </nav>
+
+        <!-- ② HERO -->
+        <section class="eco-hero">
+            <div class="eco-hero__bg"></div>
+            <div class="eco-hero__watermark">NATURE</div>
+            <div class="eco-hero__content reveal">
+                <span class="eco-hero__eyebrow">THE ART OF FINAL RETURN</span>
+                <h1 class="eco-hero__title">祥安生命<br>環保葬大百科</h1>
+                <p class="eco-hero__desc">
+                    引領台灣綠色告別新標準。詳盡解析<strong>樹葬、花葬、植存、海葬</strong>之法規、園區與技術，提供最正確豐富的內容，助家屬圓滿摯愛與自然融合的最後心願。
                 </p>
-                <div style="display: flex; gap: 15px; margin-top: 40px;">
-                    <a href="tel:0978583699" style="background: var(--deep-ink); color: #fff; padding: 22px 50px; text-decoration: none; font-weight: 700; flex: 1; text-align: center; border-radius: 2px;">📞 24H 專家代辦</a>
-                </div>
+                <a href="tel:+886978583699" class="eco-hero__cta">
+                    <i class="fas fa-phone-alt"></i> 24H 專家代辦
+                </a>
             </div>
         </section>
 
+        <!-- ③ STATS -->
         <div class="stats-grid reveal">
             <div class="stat-box"><span class="stat-val">2mm</span><span class="stat-lab">法規精密研磨</span></div>
             <div class="stat-box"><span class="stat-val">12+</span><span class="stat-lab">北北桃合法園區</span></div>
@@ -110,113 +440,182 @@ permalink: /eco-burial.html/
             <div class="stat-box"><span class="stat-val">0</span><span class="stat-lab">絕無二次收費</span></div>
         </div>
 
-        <section class="section wrapper">
-            <div class="reveal" style="text-align: center; margin-bottom: 80px;">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.8rem;">環保安葬全維度解析</h2>
-                <p style="color: var(--text-gray); max-width: 600px; margin: 20px auto;">為您拆解不同葬法的法規位階、地理分佈與祭祀文化，提供最精確的決策參考。</p>
+        <!-- ④ 四種葬法解析 -->
+        <section class="eco-section wrapper">
+            <div class="eco-section__head reveal">
+                <span class="eyebrow">BURIAL TYPES</span>
+                <div class="gold-rule"></div>
+                <h2>環保安葬全維度解析</h2>
+                <p>為您拆解不同葬法的法規位階、地理分佈與祭祀文化，提供最精確的決策參考。</p>
             </div>
 
+            <!-- 01 樹葬 -->
             <div class="mega-card reveal">
                 <div class="card-banner banner-tree"></div>
                 <div class="content-padding">
-                    <h3 style="font-family: 'Noto Serif TC'; font-size: 2rem; margin-bottom: 20px;">01. 樹葬 (Tree Burial)</h3>
+                    <span class="mega-card__num">01 · TREE BURIAL</span>
+                    <h3>樹葬</h3>
                     <ul class="highlight-list">
-                        <li><i class="fas fa-check-circle"></i> <b>安葬形式：</b>將研磨後骨灰均勻灑入環保穴位，與大樹根系共生。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>主要分佈：</b>多設於公立公墓內劃定之專屬區域（如富德詠愛園）。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>精神寓意：</b>生命如四季更迭，化作綠蔭長存於世，庇蔭後代。</li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>安葬形式：</strong>將研磨後骨灰均勻灑入環保穴位，與大樹根系共生。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>主要分佈：</strong>多設於公立公墓內劃定之專屬區域，如台北富德詠愛園。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>精神寓意：</strong>生命如四季更迭，化作綠蔭長存於世，庇蔭後代。</span>
+                        </li>
                     </ul>
-                    <table class="fee-table">
-                        <tr><th>行政區</th><th>代表園區</th><th>市民規費</th><th>非市民規費</th></tr>
-                        <tr><td>台北市</td><td>富德詠愛園</td><td class="fee-highlight">免費</td><td>免費</td></tr>
-                        <tr><td>新北市</td><td>三芝、新店</td><td class="fee-highlight">免費</td><td>免費</td></tr>
-                        <tr><td>桃園市</td><td>楊梅、蘆竹</td><td class="fee-highlight">免費</td><td>免費</td></tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="mega-card reveal">
-                <div class="card-banner banner-flower"></div>
-                <div class="content-padding">
-                    <h3 style="font-family: 'Noto Serif TC'; font-size: 2rem; margin-bottom: 20px;">02. 花葬 (Flower Burial)</h3>
-                    <ul class="highlight-list">
-                        <li><i class="fas fa-check-circle"></i> <b>安葬形式：</b>植存於精心維護的花海園區，如杜鵑、茶花、櫻花等季節花種。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>視覺感官：</b>完全消除傳統墓園的肅殺感，呈現公園般的幽雅景觀。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>權威地點：</b>陽明山「臻善園」為目前全台最精緻、詢問度最高的花葬區。</li>
-                    </ul>
-                    <p style="background: #fff9f0; padding: 20px; border-left: 4px solid var(--accent-gold); font-size: 0.95rem;">
-                        <b>祥安建議：</b>花葬極受女性長輩與嚮往美學的家屬喜愛，建議提前委託祥安禮儀師確認各園區植存排程，避免火化後等待期過長。
-                    </p>
-                </div>
-            </div>
-
-            <div class="mega-card reveal">
-                <div class="card-banner banner-earth"></div>
-                <div class="content-padding">
-                    <h3 style="font-family: 'Noto Serif TC'; font-size: 2rem; margin-bottom: 20px;">03. 植存 (Earth-Link Burial)</h3>
-                    <ul class="highlight-list">
-                        <li><i class="fas fa-check-circle"></i> <b>法規定義：</b>依照條例，在公墓以外的合法專用綠地執行者稱為「植存」。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>宗教中立：</b>氛圍極簡、不具傳統宗教符號，適合各類信仰或無神論者。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>指標園區：</b>三芝櫻花生命園區、金山生命園區。</li>
-                    </ul>
-                    <div style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-                        * 植存對骨灰細緻度要求極其嚴格，祥安堅持提供**國家標準極細研磨技術**，確保 100% 符合各區規範。
+                    <div class="fee-table-wrap">
+                        <table class="fee-table">
+                            <thead>
+                                <tr><th>行政區</th><th>代表園區</th><th>市民規費</th><th>非市民規費</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>台北市</td><td>富德詠愛園</td><td class="fee-highlight">免費</td><td>免費</td></tr>
+                                <tr><td>新北市</td><td>三芝、新店</td><td class="fee-highlight">免費</td><td>免費</td></tr>
+                                <tr><td>桃園市</td><td>楊梅、蘆竹</td><td class="fee-highlight">免費</td><td>免費</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
+            <!-- 02 花葬 -->
+            <div class="mega-card reveal">
+                <div class="card-banner banner-flower"></div>
+                <div class="content-padding">
+                    <span class="mega-card__num">02 · FLOWER BURIAL</span>
+                    <h3>花葬</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>安葬形式：</strong>植存於精心維護的花海園區，如杜鵑、茶花、櫻花等季節花種。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>視覺感官：</strong>完全消除傳統墓園的肅殺感，呈現公園般的幽雅景觀。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>權威地點：</strong>陽明山「臻善園」為目前全台最精緻、詢問度最高的花葬區。</span>
+                        </li>
+                    </ul>
+                    <div class="advice-box">
+                        <strong>祥安建議：</strong>花葬極受女性長輩與嚮往美學的家屬喜愛，建議提前委託祥安禮儀師確認各園區植存排程，避免火化後等待期過長。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 植存 -->
+            <div class="mega-card reveal">
+                <div class="card-banner banner-earth"></div>
+                <div class="content-padding">
+                    <span class="mega-card__num">03 · EARTH-LINK BURIAL</span>
+                    <h3>植存</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>法規定義：</strong>依照殯葬管理條例，在公墓以外的合法專用綠地執行者稱為「植存」。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>宗教中立：</strong>氛圍極簡、不具傳統宗教符號，適合各類信仰或無宗教者。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>指標園區：</strong>三芝櫻花生命園區、金山生命園區。</span>
+                        </li>
+                    </ul>
+                    <div class="sub-note">
+                        ※ 植存對骨灰細緻度要求極為嚴格，祥安堅持提供<strong>國家標準極細研磨技術</strong>，確保 100% 符合各區規範。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 04 海葬 -->
             <div class="mega-card reveal">
                 <div class="card-banner banner-sea"></div>
                 <div class="content-padding">
-                    <h3 style="font-family: 'Noto Serif TC'; font-size: 2rem; margin-bottom: 20px;">04. 海葬 (Sea Burial)</h3>
+                    <span class="mega-card__num">04 · SEA BURIAL</span>
+                    <h3>海葬</h3>
                     <ul class="highlight-list">
-                        <li><i class="fas fa-check-circle"></i> <b>自由本質：</b>將骨灰研磨後放入可分解容器，灑向國家指定之合法海域。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>代辦細項：</b>包含聯合海葬期程申請、私人包船預約、航行許可辦理。</li>
-                        <li><i class="fas fa-check-circle"></i> <b>紀念方式：</b>不留實體痕跡，象徵愛如大海無邊無際。</li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>自由本質：</strong>將骨灰研磨後放入可分解容器，灑向國家指定之合法海域。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>代辦細項：</strong>涵蓋聯合海葬期程申請、私人包船預約、航行許可辦理。</span>
+                        </li>
+                        <li><i class="fas fa-check-circle"></i>
+                            <span><strong>紀念方式：</strong>不留實體痕跡，象徵愛如大海無邊無際，永遠流動。</span>
+                        </li>
                     </ul>
+                    <div class="advice-box">
+                        <strong>祥安說明：</strong>海葬每年由各縣市政府定期舉辦聯合海葬，若需私人包船服務，建議至少提前 30 天洽詢，由禮儀師全程協調。
+                    </div>
                 </div>
             </div>
 
-            <div class="tech-box-premium reveal">
+            <!-- 技術說明框：精密研磨 -->
+            <div class="tech-box reveal">
                 <div class="tech-tag">核心關鍵技術</div>
-                <h4 style="font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 15px;">為何「精密研磨」決定了環保葬的圓滿？</h4>
-                <p style="line-height: 2; opacity: 0.9;">
-                    根據殯葬管理條例規範，環保葬骨灰需處理至粒徑**小於 2mm**。祥安生命引進高效能精密研磨設備，確保骨灰呈現純淨粉末狀。這不僅是為了通過政府園區審查，更是為了確保摯愛能迅速回歸土壤，達成真正的「生命循環」。
+                <h4>為何「精密研磨」決定了環保葬的圓滿？</h4>
+                <p>
+                    根據殯葬管理條例規範，環保葬骨灰需處理至粒徑<strong style="color:var(--gold);">小於 2mm</strong>。祥安生命引進高效能精密研磨設備，確保骨灰呈現純淨粉末狀。這不僅是為了通過政府園區審查，更是為了確保摯愛能迅速回歸土壤，達成真正的「生命循環」。
                 </p>
             </div>
+
         </section>
 
-        <section class="section wrapper" style="background: var(--section-bg); padding-bottom: 100px;">
-            <div class="reveal" style="text-align: center; margin-bottom: 60px;">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem;">祥安代辦 · 圓滿五部曲</h2>
-                <p style="opacity: 0.7;">從臨終關懷到最後安葬，我們為您處理所有繁瑣行政與技術工作</p>
+        <!-- ⑤ 代辦五部曲 -->
+        <section class="eco-section eco-section--gray wrapper">
+            <div class="eco-section__head reveal">
+                <span class="eyebrow">OUR PROCESS</span>
+                <div class="gold-rule"></div>
+                <h2>祥安代辦 · 圓滿五部曲</h2>
+                <p>從臨終關懷到最後安葬，我們為您處理所有繁瑣行政與技術工作</p>
             </div>
-            
+
             <div class="service-list">
                 <div class="service-row reveal">
                     <span class="idx">01</span>
-                    <div><h3>全天候諮詢與接體</h3><p>24H 撥號即刻出動。禮儀師進場協助死亡證明申請及遺體安置。</p></div>
+                    <div>
+                        <h3>全天候諮詢與接體</h3>
+                        <p>24H 撥號即刻出動。禮儀師進場協助死亡證明申請及遺體安置。</p>
+                    </div>
                 </div>
                 <div class="service-row reveal">
                     <span class="idx">02</span>
-                    <div><h3>行政代辦與排期</h3><p>全程代辦各縣市環保葬專區申請、火化時間排定，省去家屬奔波之苦。</p></div>
+                    <div>
+                        <h3>行政代辦與排期</h3>
+                        <p>全程代辦各縣市環保葬專區申請、火化時間排定，省去家屬奔波之苦。</p>
+                    </div>
                 </div>
                 <div class="service-row reveal">
                     <span class="idx">03</span>
-                    <div><h3>尊嚴告別式策劃</h3><p>依家屬需求舉行簡單追思、家祭或各類宗教儀式，在入土前留下深刻紀念。</p></div>
+                    <div>
+                        <h3>尊嚴告別式策劃</h3>
+                        <p>依家屬需求舉行簡單追思、家祭或各類宗教儀式，在入土前留下深刻紀念。</p>
+                    </div>
                 </div>
                 <div class="service-row reveal">
                     <span class="idx">04</span>
-                    <div><h3>精密研磨處理</h3><p>火化後由技師執行極細處理，確保符合所有環保葬法規標準。</p></div>
+                    <div>
+                        <h3>精密研磨處理</h3>
+                        <p>火化後由技師執行極細處理，確保符合所有環保葬法規標準，100% 通過審查。</p>
+                    </div>
                 </div>
                 <div class="service-row reveal">
                     <span class="idx">05</span>
-                    <div><h3>植存灑葬引導</h3><p>禮儀師帶領家屬前往指定園區或海域，執行溫馨圓滿的植葬告別。</p></div>
+                    <div>
+                        <h3>植存灑葬引導</h3>
+                        <p>禮儀師帶領家屬前往指定園區或海域，執行溫馨圓滿的植葬告別儀式。</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section wrapper">
-            <h2 style="text-align: center; margin-bottom: 60px; font-family: 'Noto Serif TC', serif; font-size: 2.2rem;">常見疑問與解答庫</h2>
+        <!-- ⑥ FAQ -->
+        <section class="eco-section wrapper">
+            <div class="eco-section__head reveal">
+                <span class="eyebrow">FAQ</span>
+                <div class="gold-rule"></div>
+                <h2>常見疑問解答</h2>
+            </div>
             <div class="faq-list">
                 <div class="faq-item reveal">
                     <button class="faq-toggle">
@@ -224,7 +623,7 @@ permalink: /eco-burial.html/
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-content">
-                        <b>不可以。</b>環保葬的精神在於「全然回歸」。一旦骨灰植入土中或灑向海洋，便會與大自然融為一體，法律規定不可遷葬或領回。這也是對環境與生命循環的最終承諾。
+                        <strong>不可以。</strong>環保葬的精神在於「全然回歸」。一旦骨灰植入土中或灑向海洋，便會與大自然融為一體，法律規定不可遷葬或領回。這也是對環境與生命循環的最終承諾。
                     </div>
                 </div>
                 <div class="faq-item reveal">
@@ -242,50 +641,69 @@ permalink: /eco-burial.html/
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-content">
-                        依據環保葬推廣初衷，建議全數研磨植存。但若家屬有情感上的紀念需求，我們可協助建議將部分骨灰轉化為「琉璃紀念品」或保存於特製小型容器中，其餘部分則圓滿回歸大地。
+                        依據環保葬推廣初衷，建議全數研磨植存。但若家屬有情感上的紀念需求，我們可協助將部分骨灰轉化為「琉璃紀念品」或保存於特製小型容器中，其餘部分則圓滿回歸大地。
+                    </div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-toggle">
+                        <h4>環保葬可以選日子嗎？</h4>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-content">
+                        可以。祥安禮儀師會協助查詢各縣市環保葬園區的開放植存日期，並配合家屬的時間安排。若有特定吉日需求，建議提前至少 2 週與我們確認，以便預留火化及研磨的準備時間。
                     </div>
                 </div>
             </div>
         </section>
 
-        <section style="background: var(--deep-ink); color: #fff; padding: 120px 20px; text-align: center;">
-            <div class="reveal">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--accent-gold);">生命圓滿 · 綠色守護</h2>
-                <p style="opacity: 0.8; font-size: 1.1rem; margin-bottom: 50px; max-width: 600px; margin-inline: auto;">
-                    每一個生命都值得一份最純粹的禮讚。祥安生命 24 小時在線，為您處理環保葬所有專業細節。
+        <!-- ⑦ FINAL CTA -->
+        <section class="eco-cta">
+            <div class="eco-cta__inner reveal">
+                <span class="eyebrow" style="color:var(--gold-lt);">CONTACT US</span>
+                <h2>生命圓滿 · 綠色守護</h2>
+                <p>
+                    每一個生命都值得一份最純粹的禮讚。<br>
+                    祥安生命 24 小時在線，為您處理環保葬所有專業細節。
                 </p>
-                <a href="tel:0978583699" style="background: var(--accent-gold); color: #fff; padding: 22px 60px; text-decoration: none; font-weight: 700; font-size: 1.3rem; display: inline-block; box-shadow: 0 10px 30px rgba(198, 164, 126, 0.3);">📞 立即撥號諮詢</a>
+                <a href="tel:+886978583699" class="eco-cta__tel">
+                    <i class="fas fa-phone-alt"></i> 立即撥號諮詢
+                </a>
             </div>
         </section>
+
     </main>
 
     {% include footer.html %}
     {% include floating-cta.html %}
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // FAQ 高級交互
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const btn = item.querySelector('.faq-toggle');
-                btn.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    faqItems.forEach(i => i.classList.remove('active'));
-                    if (!isActive) item.classList.add('active');
-                });
+    document.addEventListener('DOMContentLoaded', function () {
+
+        /* ── FAQ 手風琴（統一邏輯） ── */
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const btn = item.querySelector('.faq-toggle');
+            if (!btn) return;
+            btn.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
             });
-
-            // 揭幕動畫邏輯
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
+
+        /* ── Scroll Reveal（修正：加 unobserve 避免效能浪費） ── */
+        const revObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revObs.unobserve(entry.target);   /* 修正：觸發後停止監聽 */
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+    });
     </script>
 </body>
 </html>
