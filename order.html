@@ -1,389 +1,1091 @@
+---
+layout: null
+permalink: /order.html
+---
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
-    <meta charset="UTF-8">
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    {% include head.html %}
+    <title>花禮訂購 | 祥安生命 — 告別式花藝專業訂製</title>
+    <meta name="description" content="祥安生命提供告別式花禮訂購服務，涵蓋告別花籃、花圈、盆花、鮮花花束。專業花藝設計，配合治喪時程，24H 緊急接單。">
 
-    gtag('config', 'G-445583766'); 
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 
-    <title>💐 告別式花禮、罐頭塔、輓聯代訂服務 | 24H 專業代送 - 祥安生命</title>
-
-    <meta name="description" content="提供專業告別式花禮、鮮花山、罐頭塔、蘭花、羅馬柱花圈等用品訂購服務。24H 全台配送，價格透明，代寫輓聯，讓您心意圓滿傳達。">
-    <link rel="canonical" href="https://24hour.台灣/Shiangan/order.html">
-
-    <meta property="og:title" content="告別式花禮與奠儀用品代訂 | 祥安生命 24H 服務">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://24hour.台灣/Shiangan/order.html">
-    <meta property="og:image" content="https://24hour.台灣/Shiangan/images/hero-flowers.jpg">
-    <meta property="og:description" content="協助您快速訂購高品質、符合禮儀規範的告別式用品。">
-
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
-    <link rel="preload" href="../fonts/UoqMunThenKhung-1.000.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="../fonts/Iansui-Regular.ttf" as="font" type="font/ttf" crossorigin>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "首頁",
-          "item": "https://24hour.台灣/Shiangan/index.html"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "花禮與奠儀用品訂購",
-          "item": "https://24hour.台灣/Shiangan/order.html"
+    <style>
+        /* =============================================
+           SHIANGAN ORDER PAGE — 花禮訂購
+           職人質感 × 清雅和風 × 莊嚴生命美學
+        ============================================= */
+        :root {
+            --ink:      #1c1c1c;
+            --green:    #1a241a;
+            --gold:     #b8975a;
+            --gold-lt:  #d4b27a;
+            --petal:    #f5ede0;       /* 花瓣米白 */
+            --moss:     #4a5e3a;       /* 苔蘚深綠 */
+            --line:     rgba(184,151,90,.18);
+            --bg:       #faf8f4;
+            --white:    #ffffff;
+            --radius:   3px;
+            --ease:     cubic-bezier(.25,1,.5,1);
         }
-      ]
-    }
-    </script>
-    
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        main { padding-top: 90px; }
+
+        /* ── HERO ── */
+        .o-hero {
+            position: relative;
+            height: 62vh;
+            min-height: 480px;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 clamp(1.5rem, 8vw, 9rem) clamp(3rem,6vh,5rem);
+            overflow: hidden;
+            background: var(--green);
+        }
+        .o-hero__bg {
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(160deg, rgba(26,36,26,.72) 30%, rgba(26,36,26,.25) 100%),
+                url('https://images.unsplash.com/photo-1487530811015-780be4f95f51?auto=format&fit=crop&q=80&w=2000') center/cover;
+        }
+        /* petal scatter deco */
+        .o-hero__deco {
+            position: absolute; inset: 0; pointer-events: none; z-index: 2;
+            overflow: hidden;
+        }
+        .petal {
+            position: absolute;
+            width: 6px; height: 14px;
+            background: rgba(212,178,122,.35);
+            border-radius: 50% 50% 50% 0;
+            animation: petalFall linear infinite;
+        }
+        @keyframes petalFall {
+            0%   { transform: translateY(-20px) rotate(0deg); opacity: .8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .o-hero__content {
+            position: relative; z-index: 10;
+            color: #fff;
+        }
+        .o-hero__eyebrow {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--gold-lt);
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .o-hero__title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+        .o-hero__sub {
+            font-size: 1.05rem;
+            opacity: .75;
+            max-width: 480px;
+            line-height: 1.85;
+        }
+
+        /* ── BREADCRUMB ── */
+        .breadcrumb {
+            padding: 14px clamp(1.5rem, 8vw, 9rem);
+            font-size: .82rem;
+            color: #999;
+            border-bottom: 1px solid var(--line);
+            display: flex; gap: 8px; align-items: center;
+        }
+        .breadcrumb a { color: #999; text-decoration: none; transition: .2s; }
+        .breadcrumb a:hover { color: var(--gold); }
+        .breadcrumb span { opacity: .5; font-size: .72rem; }
+
+        /* ── LAYOUT GRID ── */
+        .o-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 60px;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 70px clamp(1.5rem, 6vw, 5rem) 100px;
+        }
+        @media (max-width: 1100px) {
+            .o-layout { grid-template-columns: 1fr; }
+        }
+
+        /* ── SECTION TITLE ── */
+        .sec-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.8rem;
+            color: var(--green);
+            margin-bottom: 10px;
+        }
+        .sec-sub {
+            font-size: .9rem;
+            color: #888;
+            margin-bottom: 36px;
+            line-height: 1.7;
+        }
+        .gold-rule {
+            width: 36px; height: 2px;
+            background: var(--gold);
+            margin-bottom: 18px;
+        }
+
+        /* ══════════════════════════════
+           PRODUCT CATALOGUE
+        ══════════════════════════════ */
+        .product-filters {
+            display: flex; gap: 10px; flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        .pf-btn {
+            padding: 8px 22px;
+            border: 1px solid var(--line);
+            background: var(--white);
+            border-radius: 50px;
+            font-size: .88rem;
+            cursor: pointer;
+            transition: all .3s;
+            color: var(--ink);
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .pf-btn:hover, .pf-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #fff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        .prod-card {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all .5s var(--ease);
+            position: relative;
+        }
+        .prod-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,.07);
+        }
+        .prod-card__img {
+            width: 100%;
+            height: 210px;
+            overflow: hidden;
+            position: relative;
+        }
+        .prod-card__img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform .7s var(--ease);
+        }
+        .prod-card:hover .prod-card__img img { transform: scale(1.08); }
+        .prod-card__badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            background: var(--gold);
+            color: #fff;
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 2px;
+            letter-spacing: 1px;
+        }
+        .prod-card__select {
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.9);
+            border: 2px solid var(--line);
+            display: flex; align-items: center; justify-content: center;
+            font-size: .9rem;
+            color: var(--gold);
+            transition: all .3s;
+        }
+        .prod-card.chosen .prod-card__select {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #fff;
+        }
+        .prod-card__body { padding: 20px 18px 22px; }
+        .prod-card__cat {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .prod-card__name {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.1rem;
+            color: var(--green);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .prod-card__desc {
+            font-size: .83rem;
+            color: #888;
+            line-height: 1.65;
+            margin-bottom: 14px;
+        }
+        .prod-card__price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.45rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .prod-card__price small {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: .78rem;
+            color: #aaa;
+            margin-left: 4px;
+        }
+        .prod-card__add {
+            margin-top: 14px;
+            width: 100%;
+            padding: 11px 0;
+            background: transparent;
+            border: 1.5px solid var(--green);
+            color: var(--green);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: var(--radius);
+            transition: all .3s;
+            letter-spacing: 1px;
+        }
+        .prod-card__add:hover,
+        .prod-card.chosen .prod-card__add {
+            background: var(--green);
+            color: #fff;
+        }
+
+        /* chosen ring */
+        .prod-card.chosen {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+
+        /* ══════════════════════════════
+           ORDER FORM SIDEBAR
+        ══════════════════════════════ */
+        .order-sidebar {
+            position: sticky;
+            top: 110px;
+            align-self: start;
+        }
+
+        /* Cart Summary */
+        .cart-box {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .cart-box__head {
+            background: var(--green);
+            color: #fff;
+            padding: 18px 22px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-box__head .cart-count {
+            background: var(--gold);
+            color: #fff;
+            border-radius: 50px;
+            font-size: .78rem;
+            padding: 2px 10px;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .cart-items { padding: 0; }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 22px;
+            border-bottom: 1px solid var(--line);
+            font-size: .88rem;
+            animation: slideIn .3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .cart-item__name { color: var(--green); font-weight: 500; flex: 1; }
+        .cart-item__price { color: var(--gold); font-weight: 700; margin-left: 12px; }
+        .cart-item__remove {
+            background: none; border: none;
+            color: #ccc; cursor: pointer;
+            font-size: 1rem;
+            margin-left: 10px;
+            transition: color .2s;
+            padding: 0 4px;
+        }
+        .cart-item__remove:hover { color: #e74c3c; }
+        .cart-empty {
+            padding: 32px 22px;
+            text-align: center;
+            color: #bbb;
+            font-size: .88rem;
+            line-height: 1.8;
+        }
+        .cart-empty i { font-size: 2rem; display: block; margin-bottom: 10px; color: #e0ddd7; }
+        .cart-total {
+            padding: 16px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid var(--line);
+            background: var(--petal);
+        }
+        .cart-total__label { font-size: .85rem; color: #888; }
+        .cart-total__price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ORDER FORM */
+        .order-form {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 30px 28px 36px;
+        }
+        .order-form h3 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.15rem;
+            color: var(--green);
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 7px;
+            letter-spacing: .5px;
+        }
+        .form-label .req { color: var(--gold); margin-left: 3px; }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: .92rem;
+            color: var(--ink);
+            background: var(--bg);
+            transition: border-color .3s, box-shadow .3s;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(184,151,90,.12);
+            background: #fff;
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 90px;
+            line-height: 1.7;
+        }
+        select.form-control { cursor: pointer; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* Delivery Type Toggle */
+        .delivery-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .dtgl-btn {
+            padding: 12px 8px;
+            border: 1.5px solid var(--line);
+            background: var(--white);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: .85rem;
+            text-align: center;
+            color: #888;
+            transition: all .3s;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 5px;
+        }
+        .dtgl-btn i { font-size: 1.2rem; color: var(--line); transition: color .3s; }
+        .dtgl-btn.active {
+            border-color: var(--gold);
+            color: var(--green);
+            background: var(--petal);
+        }
+        .dtgl-btn.active i { color: var(--gold); }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 17px 0;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all .4s var(--ease);
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s var(--ease);
+        }
+        .btn-submit:hover::before { transform: scaleX(1); }
+        .btn-submit span { position: relative; z-index: 1; }
+        .btn-submit:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+        .btn-submit:disabled::before { display: none; }
+
+        .form-note {
+            text-align: center;
+            font-size: .78rem;
+            color: #bbb;
+            margin-top: 14px;
+            line-height: 1.7;
+        }
+
+        /* ── SUCCESS MODAL ── */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(26,36,26,.75);
+            backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0; visibility: hidden;
+            transition: all .4s;
+        }
+        .modal-overlay.open { opacity: 1; visibility: visible; }
+        .modal-box {
+            background: #fff;
+            border-radius: 6px;
+            padding: 52px 44px;
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+            transform: scale(.9) translateY(20px);
+            transition: transform .4s var(--ease);
+        }
+        .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
+        .modal-icon {
+            width: 72px; height: 72px;
+            background: var(--petal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2rem;
+            color: var(--gold);
+        }
+        .modal-box h2 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.6rem;
+            color: var(--green);
+            margin-bottom: 14px;
+        }
+        .modal-box p { font-size: .95rem; color: #777; line-height: 1.8; margin-bottom: 30px; }
+        .modal-close {
+            padding: 13px 44px;
+            background: var(--gold);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        /* ── PROMISE STRIP ── */
+        .promise-strip {
+            background: var(--green);
+            color: #fff;
+            padding: 40px clamp(1.5rem, 8vw, 9rem);
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .promise-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: .92rem;
+        }
+        .promise-item i { font-size: 1.4rem; color: var(--gold); }
+
+        /* ── REVEAL ANIMATION ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .9s var(--ease), transform .9s var(--ease);
+        }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+        /* ── RWD ── */
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .promise-strip { gap: 28px; flex-direction: column; align-items: center; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
+<body>
+    {% include header.html %}
 
-    <header class="main-header" role="banner">
-        <div class="header-container container">
-            <div class="logo">
-                <a href="index.html" title="祥安生命有限公司 - 回到首頁">
-                    <img src="images/logo.png" alt="祥安生命有限公司 Logo - 國家認證禮儀師" class="site-logo">
-                </a>
-            </div>
-
-            <nav class="main-nav" id="main-nav" role="navigation" aria-label="主要網站導覽">
-                <ul role="menubar">
-                    <li role="menuitem"><a href="index.html" title="回到首頁"><strong>首頁</strong></a></li>
-                    <li role="menuitem"><a href="about.html" title="了解祥安生命的理念、專業證照與甲級立案證明"><strong>關於我們</strong></a></li> 
-
-                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
-                        <a href="services.html" aria-expanded="false" title="了解所有生命禮儀服務"> <strong>專業生命禮儀服務</strong> <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
-                        <div class="submenu-container">
-                            <ul class="submenu" role="menu">
-                                <li class="submenu-title"><strong>依宗教信仰分類</strong></li>
-                                <li role="menuitem"><a href="services.html#buddhist-taoist" title="中式佛/道教禮儀服務"><strong>中式禮儀 (佛教/道教)</strong></a></li>
-                                <li role="menuitem"><a href="services.html#western-etiquette" title="西式基督/天主教禮儀服務"><strong>西式禮儀 (基督教/天主教)</strong></a></li>
-                                <li role="menuitem"><a href="services.html#japanese-etiquette" title="日式宗教禮儀服務"><strong>日式禮儀 (日蓮正宗/創價學會)</strong></a></li>
-                                <li role="menuitem"><a href="services.html#customized-etiquette" title="客製化禮儀"><strong>客製化禮儀</strong></a></li>
-                                <li class="submenu-separator" role="separator"></li>
-                                <li class="submenu-title">環保永續</li>
-                                <li role="menuitem"><a href="services.html#eco-burial" title="環保葬專區"><strong>環保葬/樹葬/花葬/植葬 專區</strong></a></li>
-                                <li role="menuitem"><a href="services.html#special-groups" title="土葬專區"><strong>土葬專區</strong></a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li role="menuitem"><a href="plans.html" title="查看喪葬費用公開透明方案"> <strong>喪葬費用公開方案</strong></a></li>
-
-                    <li role="menuitem"><a href="blog.html" title="查看殯葬相關知識與問答"> <strong>殯葬百科知識</strong></a></li>
-
-                    <li class="dropdown" role="menuitem" tabindex="0" aria-haspopup="true">
-                        <a href="ta-wei-choice-guide.html" aria-expanded="false" title="塔位選擇與晉塔指南"> <strong>塔位晉塔指引</strong> <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
-                        <div class="submenu-container">
-                            <ul class="submenu" role="menu">
-                                <li class="submenu-title"><strong>塔位與安奉指南</strong></li>
-                                <li role="menuitem"><a href="ta-wei-he-fa-xing-query-guide.html" title="塔位合法性與詐騙避險指南">🛡️ <strong>塔位合法性與避險</strong></a></li>
-                                <li role="menuitem"><a href="ta-wei-choice-guide.html" title="靈骨塔位風水與價格選擇指南">🏞️ **塔位選擇指南**</a></li>
-                                <li role="menuitem"><a href="jin-ta-process-details.html" title="圓滿晉塔與安葬流程詳解">🔔 **晉塔與安葬流程**</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li role="menuitem" class="active"><a href="order.html" title="花禮與奠儀用品訂購" aria-current="page"><strong>花禮訂購</strong></a></li>
-                    <li class="contact-nav" role="menuitem"><a href="tel:+886978583699" title="24小時禮儀服務緊急專線 0978-583-699"><strong>24H 聯絡我們</strong></a></li>
-                </ul>
-            </nav>
-
-            <button class="menu-toggle" aria-label="切換導覽選單" aria-controls="main-nav" aria-expanded="false">
-                <i class="fas fa-bars" aria-hidden="true"></i> 選單
-            </button>
-        </div>
-    </header>
-    <main role="main">
-        <section id="page-hero" class="hero-section subpage-hero" style="background-image: url('images/hero-flowers.jpg'); min-height: 450px;" aria-label="告別式花禮與奠儀用品訂購">
-            <div class="hero-content">
-                <h1 style="font-size: clamp(2rem, 6vw, 4.5rem);">💐 線上快速訂購：告別式花禮、罐頭塔代訂服務</h1>
-                <p style="font-size: 1.2rem;">24H 專業代送，確保您的心意與敬重，準時圓滿送達告別式會場。</p>
+    <main>
+        <!-- HERO -->
+        <section class="o-hero">
+            <div class="o-hero__bg"></div>
+            <div class="o-hero__deco" id="petalContainer"></div>
+            <div class="o-hero__content">
+                <span class="o-hero__eyebrow">Funeral Floral Arrangement</span>
+                <h1 class="o-hero__title">花禮訂製<br>以花語傳遞無盡思念</h1>
+                <p class="o-hero__sub">告別式、公祭、家祭、追思音樂會。每一束花都是生命的致敬，由祥安專業花藝師手工設計。</p>
             </div>
         </section>
 
-        <nav aria-label="breadcrumb" class="container" style="padding-top: 20px;">
-            <ol class="breadcrumb">
-                <li><a href="index.html">首頁</a></li>
-                <li aria-current="page">花禮與奠儀用品訂購</li>
-            </ol>
+        <!-- BREADCRUMB -->
+        <nav class="breadcrumb">
+            <a href="{{ '/' | relative_url }}"><i class="fas fa-home"></i> 首頁</a>
+            <span>›</span>
+            <span>花禮訂購</span>
         </nav>
 
-        <section id="product-line-preview" class="container-v-padding" aria-labelledby="product-line-heading" style="padding-bottom: 0;">
-            <div class="container" style="max-width: 1100px;">
-                <h2 id="product-line-heading" class="text-center" style="color: var(--007bff);">📷 產品預覽與 LINE 快速洽詢</h2>
-                <p class="lead text-center">點擊下方產品圖片，可直接在 LINE 上洽詢該品項，方便傳圖或細節確認。</p>
-                
-                <h3 style="color: var(--007bff); margin-top: 40px;"><i class="fas fa-heart"></i> 鮮花花禮系列</h3>
-                <div class="card-grid product-grid">
-                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：鮮花山/主花牆，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="flower" title="LINE 洽詢：鮮花山/主花牆">
-                        <img src="images/product-huashan.jpg" alt="告別式鮮花山花禮" loading="lazy">
-                        <h4>鮮花山/主花牆 (極致尊榮)</h4>
-                        <p class="description">高規格會場設計。**點擊圖片立即 LINE 洽詢**</p>
-                        <p class="price">**價格：** 45,000 元起</p>
-                    </a>
+        <!-- PROMISE STRIP -->
+        <div class="promise-strip">
+            <div class="promise-item"><i class="fas fa-seedling"></i><span>新鮮花材，當日配送</span></div>
+            <div class="promise-item"><i class="fas fa-clock"></i><span>24H 緊急接單服務</span></div>
+            <div class="promise-item"><i class="fas fa-pen-nib"></i><span>免費客製緞帶題字</span></div>
+            <div class="promise-item"><i class="fas fa-shield-alt"></i><span>不滿意全額退款</span></div>
+        </div>
 
-                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：羅馬柱/立體花圈，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="flower" title="LINE 洽詢：羅馬柱/立體花圈">
-                        <img src="images/product-luomazhu.jpg" alt="告別式羅馬柱花圈" loading="lazy">
-                        <h4>羅馬柱/立體花圈 (莊重典雅)</h4>
-                        <p class="description">親友致意首選。**點擊圖片立即 LINE 洽詢**</p>
-                        <p class="price">**價格：** 3,000 元 / 對起</p>
-                    </a>
+        <!-- MAIN LAYOUT -->
+        <div class="o-layout">
 
-                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：蘭花盆景，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="flower" title="LINE 洽詢：高品質蘭花盆景">
-                        <img src="images/product-lanhua.jpg" alt="告別式蘭花盆景" loading="lazy">
-                        <h4>高品質蘭花盆景 (長久致意)</h4>
-                        <p class="description">適合企業團體。**點擊圖片立即 LINE 洽詢**</p>
-                        <p class="price">**價格：** 2,500 元 / 盆起</p>
-                    </a>
+            <!-- LEFT: CATALOGUE -->
+            <div class="catalogue">
+                <div class="reveal">
+                    <div class="gold-rule"></div>
+                    <h2 class="sec-title">選擇花禮</h2>
+                    <p class="sec-sub">點選商品加入訂單，可同時訂購多款。所有花材每日清晨進貨，品質保證新鮮。</p>
                 </div>
 
-                <h3 style="color: var(--ffc107); margin-top: 40px;"><i class="fas fa-beer"></i> 罐頭塔與奠儀米塔系列</h3>
-                <div class="card-grid product-grid">
-                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：傳統雙層/三層罐頭塔，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="tower" title="LINE 洽詢：傳統雙層/三層罐頭塔">
-                        <img src="images/product-guantou.jpg" alt="傳統三層罐頭塔" loading="lazy">
-                        <h4>傳統雙層/三層罐頭塔</h4>
-                        <p class="description">傳統會場奠禮。**點擊圖片立即 LINE 洽詢**</p>
-                        <p class="price">**價格：** 2,800 元 / 對起</p>
-                    </a>
-
-                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：環保白米塔，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="tower" title="LINE 洽詢：環保白米塔">
-                        <img src="images/product-mita.jpg" alt="環保 LED 白米塔" loading="lazy">
-                        <h4>環保白米塔 (愛心公益)</h4>
-                        <p class="description">環保與愛心結合。**點擊圖片立即 LINE 洽詢**</p>
-                        <p class="price">**價格：** 3,800 元 / 對起</p>
-                    </a>
-
-                    <a href="https://line.me/R/ti/p/@yourlineid?text=想洽詢：客製化飲料/酒塔，送達時間為__" target="_blank" rel="noopener noreferrer nofollow" class="product-card clickable-line-link" data-category="tower" title="LINE 洽詢：客製化飲料/酒塔">
-                        <img src="images/product-jiuta.jpg" alt="告別式飲料塔或酒塔" loading="lazy">
-                        <h4>客製化飲料/酒塔</h4>
-                        <p class="description">依逝者喜好客製。**點擊圖片立即 LINE 洽詢**</p>
-                        <p class="price">**價格：** 依內容物實價計算</p>
-                    </a>
+                <!-- FILTER TABS -->
+                <div class="product-filters reveal">
+                    <button class="pf-btn active" data-cat="all">全部</button>
+                    <button class="pf-btn" data-cat="basket">告別花籃</button>
+                    <button class="pf-btn" data-cat="wreath">喪禮花圈</button>
+                    <button class="pf-btn" data-cat="pot">精緻盆花</button>
+                    <button class="pf-btn" data-cat="bouquet">鮮花花束</button>
                 </div>
-            </div>
-        </section>
-        
-        <hr class="container" style="max-width: 1100px;">
-        
-        <section id="online-order-form" class="container-v-padding" aria-labelledby="online-form-heading">
-            <div class="container contact-grid-2col" style="max-width: 1200px;">
-                
-                <div class="contact-form-wrap animate-on-scroll fade-in-up">
-                    <h2 id="online-form-heading" class="text-center" style="color: var(--primary-dark); margin-bottom: 30px;">📝 完整線上訂購表單</h2>
-                    <p class="lead text-center">請填寫詳細資訊，我們將儘快回覆。**緊急訂單請務必來電**。</p>
-                    
-                    <form id="product-order-form" class="contact-form" action="https://formspree.io/f/your_form_endpoint" method="POST">
-                        <fieldset>
-                            <legend>1. 訂購人與聯繫資訊</legend>
-                            <label for="orderer-name">訂購人姓名 <span class="required-asterisk">*</span></label>
-                            <input type="text" id="orderer-name" name="訂購人姓名" required>
 
-                            <label for="orderer-phone">聯繫電話 <span class="required-asterisk">*</span></label>
-                            <input type="tel" id="orderer-phone" name="訂購人電話" required>
+                <!-- PRODUCT GRID -->
+                <div class="product-grid" id="productGrid">
 
-                            <label for="orderer-email">電子郵件 (用於確認信)</label>
-                            <input type="email" id="orderer-email" name="訂購人Email">
-                        </fieldset>
-                        
-                        <fieldset style="margin-top: 30px;">
-                            <legend>2. 訂購商品與會場資訊</legend>
-
-                            <label for="product-select">選擇訂購類型 <span class="required-asterisk">*</span></label>
-                            <select id="product-select" name="訂購產品類型" required>
-                                <option value="">-- 請選擇訂購產品類型 --</option>
-                                <optgroup label="鮮花花禮系列">
-                                    <option value="鮮花山/主花牆">鮮花山/主花牆</option>
-                                    <option value="羅馬柱/立體花圈">羅馬柱/立體花圈 (對)</option>
-                                    <option value="高品質蘭花盆景">高品質蘭花盆景 (盆)</option>
-                                </optgroup>
-                                <optgroup label="罐頭塔與米塔系列">
-                                    <option value="傳統罐頭塔">傳統罐頭塔 (對)</option>
-                                    <option value="環保白米塔">環保白米塔 (對)</option>
-                                    <option value="客製化飲料/酒塔">客製化飲料/酒塔</option>
-                                </optgroup>
-                                <option value="其他奠儀用品">其他奠儀用品/代辦服務</option>
-                            </select>
-                            
-                            <label for="quantity">數量 (請填寫對/組/盆數) <span class="required-asterisk">*</span></label>
-                            <input type="number" id="quantity" name="訂購數量" required min="1" value="1" style="max-width: 150px;">
-                            
-                            <label for="delivery-location">送達會場名稱與地址 <span class="required-asterisk">*</span></label>
-                            <textarea id="delivery-location" name="送達會場地址" rows="3" placeholder="請填寫完整的會館名稱與地址 (例如：台北市立第二殯儀館 景仰廳)" required></textarea>
-
-                            <label for="deceased-name">逝者尊稱 (用於輓聯代寫) <span class="required-asterisk">*</span></label>
-                            <input type="text" id="deceased-name" name="逝者尊稱" placeholder="例如：某府OO公 (母) 諱名OO" required>
-                            
-                            <label for="delivery-date">希望送達日期 <span class="required-asterisk">*</span></label>
-                            <input type="date" id="delivery-date" name="希望送達日期" required>
-                            
-                            <label for="notes">備註/輓聯內容要求 (或由專人電聯確認)</label>
-                            <textarea id="notes" name="備註與輓聯要求" rows="3" placeholder="例如：希望輓聯題辭為 [OOO 敬輓]，送禮人為 [OO股份有限公司]"></textarea>
-                        </fieldset>
-
-                        <div class="privacy-note">
-                            <input type="checkbox" id="privacy-agree" required>
-                            <label for="privacy-agree" style="display: inline;">我已閱讀並同意本公司的 <a href="privacy.html" class="color-primary" target="_blank">隱私權政策</a>。</label>
+                    <!-- 1 -->
+                    <div class="prod-card reveal" data-cat="basket" data-id="b01" data-name="靜謐白玫告別花籃" data-price="3800">
+                        <div class="prod-card__img">
+                            <span class="prod-card__badge">熱銷</span>
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1521543832500-49e69fb0b947?auto=format&fit=crop&q=80&w=600" alt="靜謐白玫告別花籃">
                         </div>
-                        
-                        <button type="submit" class="cta-button primary large mt-md">確認送出訂購資訊</button>
-                        <div id="form-status-message" style="margin-top: 15px; text-align: center;"></div>
-                    </form>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">告別花籃</span>
+                            <div class="prod-card__name">靜謐白玫告別花籃</div>
+                            <p class="prod-card__desc">以純白玫瑰、白百合、滿天星構成。寧靜純粹，傳遞深切的敬意與思念。</p>
+                            <div class="prod-card__price">NT$3,800 <small>/ 組</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div class="prod-card reveal" data-cat="basket" data-id="b02" data-name="典雅霧金花籃" data-price="4800">
+                        <div class="prod-card__img">
+                            <span class="prod-card__badge" style="background:var(--moss);">精選</span>
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc4c?auto=format&fit=crop&q=80&w=600" alt="典雅霧金花籃">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">告別花籃</span>
+                            <div class="prod-card__name">典雅霧金花籃</div>
+                            <p class="prod-card__desc">霧面金色包裝、奶油玫瑰與尤加利葉點綴，呈現典雅低調的生命禮讚。</p>
+                            <div class="prod-card__price">NT$4,800 <small>/ 組</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 3 -->
+                    <div class="prod-card reveal" data-cat="wreath" data-id="w01" data-name="圓滿白菊花圈" data-price="5500">
+                        <div class="prod-card__img">
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=600" alt="圓滿白菊花圈">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">喪禮花圈</span>
+                            <div class="prod-card__name">圓滿白菊花圈</div>
+                            <p class="prod-card__desc">傳統菊花搭配翠綠葉材，圓形寓意圓滿，適合靈堂正中央擺設。</p>
+                            <div class="prod-card__price">NT$5,500 <small>/ 組</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 4 -->
+                    <div class="prod-card reveal" data-cat="wreath" data-id="w02" data-name="尊榮立式花圈" data-price="7800">
+                        <div class="prod-card__img">
+                            <span class="prod-card__badge">頂級</span>
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=600" alt="尊榮立式花圈">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">喪禮花圈</span>
+                            <div class="prod-card__name">尊榮立式花圈</div>
+                            <p class="prod-card__desc">大型立式鐵架、白玫＋洋桔梗＋綠植。氣勢莊重，適合公祭或大型告別式。</p>
+                            <div class="prod-card__price">NT$7,800 <small>/ 組</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 5 -->
+                    <div class="prod-card reveal" data-cat="pot" data-id="p01" data-name="蘭花精緻盆景" data-price="2800">
+                        <div class="prod-card__img">
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=600" alt="蘭花精緻盆景">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">精緻盆花</span>
+                            <div class="prod-card__name">蘭花精緻盆景</div>
+                            <p class="prod-card__desc">白色蝴蝶蘭搭配深色陶盆，高雅靜謐，象徵純潔與永恆。可事後移植栽種。</p>
+                            <div class="prod-card__price">NT$2,800 <small>/ 盆</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 6 -->
+                    <div class="prod-card reveal" data-cat="pot" data-id="p02" data-name="共生森系盆栽" data-price="3200">
+                        <div class="prod-card__img">
+                            <span class="prod-card__badge" style="background:var(--moss);">環保</span>
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=80&w=600" alt="共生森系盆栽">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">精緻盆花</span>
+                            <div class="prod-card__name">共生森系盆栽</div>
+                            <p class="prod-card__desc">苔球與蕨類組合，呼應環保葬精神，生生不息。適合無宗教告別式。</p>
+                            <div class="prod-card__price">NT$3,200 <small>/ 盆</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 7 -->
+                    <div class="prod-card reveal" data-cat="bouquet" data-id="q01" data-name="思念純白花束" data-price="1800">
+                        <div class="prod-card__img">
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1559181567-c3190bfbf406?auto=format&fit=crop&q=80&w=600" alt="思念純白花束">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">鮮花花束</span>
+                            <div class="prod-card__name">思念純白花束</div>
+                            <p class="prod-card__desc">白給、白桔梗、棉花組成，素雅小巧。適合親友手持或置於遺像前。</p>
+                            <div class="prod-card__price">NT$1,800 <small>/ 束</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                    <!-- 8 -->
+                    <div class="prod-card reveal" data-cat="bouquet" data-id="q02" data-name="金漾奉花花束" data-price="2400">
+                        <div class="prod-card__img">
+                            <span class="prod-card__badge">季節限定</span>
+                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1516205651411-aef33a44f7c2?auto=format&fit=crop&q=80&w=600" alt="金漾奉花花束">
+                        </div>
+                        <div class="prod-card__body">
+                            <span class="prod-card__cat">鮮花花束</span>
+                            <div class="prod-card__name">金漾奉花花束</div>
+                            <p class="prod-card__desc">向日葵、金絲雀玫瑰、向晚草。帶著溫暖光輝，紀念生命最燦爛的時刻。</p>
+                            <div class="prod-card__price">NT$2,400 <small>/ 束</small></div>
+                            <button class="prod-card__add">加入訂單</button>
+                        </div>
+                    </div>
+
+                </div><!-- /product-grid -->
+            </div><!-- /catalogue -->
+
+            <!-- RIGHT: SIDEBAR -->
+            <aside class="order-sidebar">
+
+                <!-- CART -->
+                <div class="cart-box">
+                    <div class="cart-box__head">
+                        <span><i class="fas fa-shopping-basket" style="margin-right:8px;color:var(--gold-lt)"></i>已選花禮</span>
+                        <span class="cart-count" id="cartCount">0 項</span>
+                    </div>
+                    <div class="cart-items" id="cartItems">
+                        <div class="cart-empty" id="cartEmpty">
+                            <i class="fas fa-leaf"></i>
+                            尚未選擇花禮<br>
+                            <span style="font-size:.78rem">請從左側商品點選加入</span>
+                        </div>
+                    </div>
+                    <div class="cart-total" id="cartTotal" style="display:none">
+                        <span class="cart-total__label">預估合計</span>
+                        <span class="cart-total__price" id="totalPrice">NT$0</span>
+                    </div>
                 </div>
 
-                <div class="contact-info-block animate-on-scroll fade-in-up delay-100">
-                    <div class="info-card side-note-box">
-                        <h3 class="text-line-container"><i class="fas fa-exclamation-triangle"></i> 重要訂購提醒</h3>
-                        <ul class="check-list">
-                            <li>**緊急訂單：** 若送達時間在 **48 小時內**，請務必直接**撥打電話**，以確保花材與運送時間能即時安排。</li>
-                            <li>**輓聯代寫：** 請填寫逝者尊稱，由專人提供最合適的題辭建議。</li>
-                            <li>**代送區域：** 表單適用於雙北/桃園地區。其他縣市請先電話確認。</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="info-card">
-                        <h3 class="text-line-container">📞 24H 洽詢專線</h3>
-                        <p class="large-text" style="font-size: 1.8rem;">
-                            <a href="tel:+886978583699" title="24H 電話洽詢花禮訂購">
-                                <i class="fas fa-phone-volume"></i> 0978-583-699
-                            </a>
-                        </p>
-                        <p>專人將於收到表單後儘快 (約 5 分鐘內) 聯繫您確認細節。</p>
-                    </div>
-                    
-                    <div class="info-card">
-                        <h3 class="text-line-container">📱 LINE 即時聯繫</h3>
-                         <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" class="cta-button line-btn large" style="width: 100%;">
-                            <i class="fab fa-line" aria-hidden="true"></i> 點此開啟 LINE 洽詢
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+                <!-- FORM -->
+                <div class="order-form">
+                    <h3><i class="fas fa-file-alt" style="color:var(--gold);margin-right:10px;"></i>填寫訂購資料</h3>
 
+                    <div class="form-group">
+                        <label class="form-label">配送方式 <span class="req">*</span></label>
+                        <div class="delivery-toggle">
+                            <button class="dtgl-btn active" data-mode="deliver">
+                                <i class="fas fa-truck"></i>
+                                送達現場
+                            </button>
+                            <button class="dtgl-btn" data-mode="pickup">
+                                <i class="fas fa-store"></i>
+                                自取（三重）
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="f-name">訂購人姓名 <span class="req">*</span></label>
+                            <input type="text" id="f-name" class="form-control" placeholder="您的姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="f-phone">聯絡電話 <span class="req">*</span></label>
+                            <input type="tel" id="f-phone" class="form-control" placeholder="09XX-XXX-XXX">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="deliverGroup">
+                        <label class="form-label" for="f-addr">送達地址 <span class="req">*</span></label>
+                        <input type="text" id="f-addr" class="form-control" placeholder="殯儀館名稱或詳細地址">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="f-date">需用日期 <span class="req">*</span></label>
+                            <input type="date" id="f-date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="f-time">需用時間 <span class="req">*</span></label>
+                            <input type="time" id="f-time" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-ribbon">緞帶題字（免費）</label>
+                        <input type="text" id="f-ribbon" class="form-control" placeholder="如：沉痛悼念 XX 先生 / 哀 思">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-note">備注事項</label>
+                        <textarea id="f-note" class="form-control" placeholder="特殊需求、顏色偏好、擺放位置說明…"></textarea>
+                    </div>
+
+                    <button class="btn-submit" id="submitBtn" disabled>
+                        <span>確認送出訂單</span>
+                    </button>
+                    <p class="form-note">
+                        <i class="fas fa-lock" style="color:var(--gold)"></i>
+                        祥安收到訂單後將於 30 分鐘內電話確認。<br>
+                        緊急需求請直接撥打 <a href="tel:0978583699" style="color:var(--gold)">0978-583-699</a>
+                    </p>
+                </div>
+
+            </aside>
+        </div><!-- /layout -->
     </main>
 
-    <footer role="contentinfo">
-        <div class="container footer-grid wide-footer-grid">
+    {% include footer.html %}
+    {% include floating-cta.html %}
 
-            <div class="footer-block footer-links">
-                <h4>專業生命禮儀服務</h4>
-                <ul>
-                    <li><a href="services.html" title="所有禮儀服務總覽">所有服務總覽</a></li>
-                    <li><a href="services.html#buddhist-taoist" title="中式佛/道教禮儀">中式禮儀 (佛教/道教)</a></li>
-                    <li><a href="services.html#western-etiquette" title="西式基督/天主教禮儀">西式禮儀 (基督教/天主教)</a></li>
-                    <li><a href="services.html#japanese-etiquette" title="日式宗教禮儀服務">日式禮儀（日蓮正宗/創價學會）</a></li>
-                    <li><a href="services.html#eco-burial" title="環保葬、樹葬專區">環保葬/樹葬專區</a></li>
-                    <li><a href="services.html#customized-etiquette" title="客製化服務">客製化服務</a></li>
-                    <li><a href="services.html#special-together" title="聯合奠祭">政府聯合奠祭</a></li>
-                </ul>
-
-                <h4> 塔位與晉塔指引 </h4>
-                <ul>
-                    <li><a href="ta-wei-he-fa-xing-query-guide.html" title="塔位合法性與詐騙避險指南">🛡️ 塔位合法性與詐騙避險</a></li>
-                    <li><a href="ta-wei-choice-guide.html" title="靈骨塔位選擇指南">🏞️ 靈骨塔位選擇指南</a></li>
-                    <li><a href="jin-ta-process-details.html" title="圓滿晉塔與安葬流程詳解">🔔 晉塔與安葬流程</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-block footer-links">
-                <h4>喪葬費用公開方案</h4>
-                <ul>
-                    <li><a href="plans.html" title="所有費用方案與價格總覽">所有方案與價格總覽</a></li>
-                    <li><a href="plans.html#basic" title="國民契約 6.8萬方案">國民契約 6.8萬</a></li>
-                    <li><a href="plans.html#eighty-eight" title="中式契約 8.8萬起方案">中式契約 8.8萬起</a></li>
-                    <li><a href="plans.html#eleven-eight" title="中式契約 11.8萬起方案">中式契約 11.8萬起</a></li>
-                    <li><a href="plans.html#fourteen-eight" title="中式契約 14.8萬起方案">中式契約 14.8萬起</a></li>
-                    <li><a href="plans.html#west" title="西式契約方案">西式契約</a></li>
-                    <li><a href="plans.html#japen" title="日式契約方案">日式契約</a></li>
-                </ul>
-
-                <h4>殯葬百科知識 (補助/法規)</h4>
-                <ul>
-                    <li><a href="blog.html" title="所有常見問題與流程總覽">常見問題與流程</a></li>
-                    <li><a href="blog.html#first-step-detail" title="臨終/初終處理指南">臨終/初終處理</a></li>
-                    <li><a href="blog.html#law-guide-detail" title="殯葬法規與補助指南">法規與補助指南</a></li>
-                    <li><a href="blog.html#subsidy-details-detail" title="勞保/國保/榮民喪葬補助詳情">補助金申請詳情</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-block footer-contact" itemscope itemtype="https://schema.org/LocalBusiness">
-                <h4 style="margin-bottom: 5px;">24H 國家認證禮儀師 陳妍如 專線</h4>
-                <p style="font-size: 1.5rem; color: var(--accent-color); margin-top: 0;">
-                    📞 <a href="tel:+886978583699" itemprop="telephone" title="點擊撥打 24小時緊急專線">0978-583-699</a>
-                    <meta itemprop="priceRange" content="$$$">
-                    <meta itemprop="openingHours" content="Mo-Su 00:00-23:59">
-                    <meta itemprop="areaServed" content="台灣全區">
-                </p>
-
-                <h4>公司資訊與服務範圍</h4>
-                <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                    <p>
-                        主要聯絡地址：<span itemprop="streetAddress"><strong>新北市板橋區雙十路二段30號</strong></span>
-                        <meta itemprop="addressLocality" content="新北">
-                        <meta itemprop="addressRegion" content="台灣">
-                    </p>
-                </address>
-                <p>服務地區：<strong itemprop="areaServed">全台服務</strong> (<strong>雙北/桃園</strong>即時服務)</p>
-
-                <p style="margin-top: 15px;">線上聯繫：</p>
-                <div class="footer-social-links">
-                    <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE ID 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i> LINE</a> |
-                    <a href="https://www.facebook.com/ShianganLife" target="_blank" rel="noopener noreferrer nofollow" title="Facebook 粉絲專頁聯繫"><i class="fab fa-facebook" aria-hidden="true"></i> Facebook</a>
-                </div>
-            </div>
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-check"></i></div>
+            <h2>訂單已送出</h2>
+            <p>感謝您的訂購。<br>祥安花藝師將於 <strong>30 分鐘內</strong>致電確認細節，<br>請保持電話暢通。</p>
+            <button class="modal-close" id="modalClose">確認關閉</button>
         </div>
-
-        <div class="footer-copyright">
-            <div class="container">
-                <div class="footer-logo text-line-container">
-                    <span class="fit-text-line" title="祥安生命有限公司版權所有">祥安生命有限公司 © <span id="current-year"></span></span>
-                </div>
-                <div class="footer-meta">
-                     <a href="about.html#team" title="了解祥安的服務理念與團隊">關於我們 (溫暖守護)</a> | <a href="privacy.html" title="隱私權政策與聲明">隱私權政策</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <div class="floating-cta" aria-label="緊急聯繫方式">
-        <a href="tel:+886978583699" title="24H 電話諮詢 0978-583-699"><i class="fas fa-phone" aria-hidden="true"></i></a>
-        <a href="https://line.me/ti/p/@yourlineid" target="_blank" rel="noopener noreferrer nofollow" title="LINE 即時諮詢"><i class="fab fa-line" aria-hidden="true"></i></a>
     </div>
-    
-    <a href="#" class="back-to-top" aria-label="返回頂部">
-        <i class="fas fa-chevron-up"></i>
-    </a>
 
-    <script src="js/script.js" defer></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        document.body.classList.remove('js-loading');
-        
-        // 確保 script.js 中有訂單表單的提交邏輯！
-        // ----------------------------------------------------------------------
-        // 如果您希望訂購成功後，自動跳轉到 LINE：
-        // 請確保您的 script.js 中的訂單成功處理邏輯，包含 window.location.href = '您的LINE連結';
-        // ----------------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', function () {
 
+        /* ── PETAL ANIMATION ── */
+        const petalContainer = document.getElementById('petalContainer');
+        const PETAL_COUNT = 12;
+        for (let i = 0; i < PETAL_COUNT; i++) {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            p.style.cssText = `
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 40}%;
+                width: ${4 + Math.random() * 6}px;
+                height: ${10 + Math.random() * 12}px;
+                opacity: ${.15 + Math.random() * .45};
+                animation-duration: ${6 + Math.random() * 10}s;
+                animation-delay: ${-Math.random() * 10}s;
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            petalContainer.appendChild(p);
+        }
+
+        /* ── REVEAL OBSERVER ── */
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('revealed');
+                    obs.unobserve(e.target);
+                }
+            });
+        }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        /* ── CART STATE ── */
+        const cart = {};   // { id: { name, price } }
+
+        function formatPrice(n) {
+            return 'NT$' + n.toLocaleString('zh-TW');
+        }
+
+        function renderCart() {
+            const items = Object.values(cart);
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartEmptyEl = document.getElementById('cartEmpty');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const cartCountEl = document.getElementById('cartCount');
+            const totalPriceEl = document.getElementById('totalPrice');
+            const submitBtn  = document.getElementById('submitBtn');
+
+            cartCountEl.textContent = items.length + ' 項';
+
+            if (items.length === 0) {
+                cartEmptyEl.style.display = 'block';
+                cartTotalEl.style.display = 'none';
+                submitBtn.disabled = true;
+                return;
+            }
+
+            cartEmptyEl.style.display = 'none';
+            cartTotalEl.style.display = 'flex';
+
+            // Clear and rebuild
+            Array.from(cartItemsEl.querySelectorAll('.cart-item')).forEach(el => el.remove());
+            let total = 0;
+            items.forEach(item => {
+                total += item.price;
+                const row = document.createElement('div');
+                row.className = 'cart-item';
+                row.innerHTML = `
+                    <span class="cart-item__name">${item.name}</span>
+                    <span class="cart-item__price">${formatPrice(item.price)}</span>
+                    <button class="cart-item__remove" data-id="${item.id}" title="移除">×</button>
+                `;
+                cartItemsEl.insertBefore(row, cartTotalEl);
+            });
+            totalPriceEl.textContent = formatPrice(total);
+
+            // Enable submit if form has minimal data
+            checkSubmitState();
+        }
+
+        /* ── PRODUCT CARD CLICK ── */
+        document.getElementById('productGrid').addEventListener('click', function (e) {
+            const addBtn = e.target.closest('.prod-card__add');
+            if (!addBtn) return;
+
+            const card = addBtn.closest('.prod-card');
+            const id    = card.dataset.id;
+            const name  = card.dataset.name;
+            const price = parseInt(card.dataset.price);
+
+            if (cart[id]) {
+                delete cart[id];
+                card.classList.remove('chosen');
+                addBtn.textContent = '加入訂單';
+            } else {
+                cart[id] = { id, name, price };
+                card.classList.add('chosen');
+                addBtn.textContent = '✓ 已選取';
+            }
+            renderCart();
+        });
+
+        /* ── CART REMOVE ── */
+        document.getElementById('cartItems').addEventListener('click', function (e) {
+            const btn = e.target.closest('.cart-item__remove');
+            if (!btn) return;
+            const id = btn.dataset.id;
+            delete cart[id];
+            // unmark card
+            const card = document.querySelector(`.prod-card[data-id="${id}"]`);
+            if (card) {
+                card.classList.remove('chosen');
+                const addBtn = card.querySelector('.prod-card__add');
+                if (addBtn) addBtn.textContent = '加入訂單';
+            }
+            renderCart();
+        });
+
+        /* ── FILTER TABS ── */
+        document.querySelectorAll('.pf-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const cat = this.dataset.cat;
+                document.querySelectorAll('.prod-card').forEach(card => {
+                    const match = (cat === 'all' || card.dataset.cat === cat);
+                    card.style.display = match ? 'block' : 'none';
+                });
+            });
+        });
+
+        /* ── DELIVERY TOGGLE ── */
+        const dtglBtns    = document.querySelectorAll('.dtgl-btn');
+        const deliverGroup = document.getElementById('deliverGroup');
+        dtglBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                dtglBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                deliverGroup.style.display = this.dataset.mode === 'deliver' ? 'block' : 'none';
+            });
+        });
+
+        /* ── SUBMIT STATE ── */
+        function checkSubmitState() {
+            const hasCart  = Object.keys(cart).length > 0;
+            const name     = document.getElementById('f-name').value.trim();
+            const phone    = document.getElementById('f-phone').value.trim();
+            const date     = document.getElementById('f-date').value;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = !(hasCart && name && phone && date);
+        }
+
+        ['f-name','f-phone','f-date','f-time'].forEach(id => {
+            document.getElementById(id)?.addEventListener('input', checkSubmitState);
+        });
+
+        /* ── SUBMIT ── */
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            // Build summary for WhatsApp / LINE (optional extension point)
+            const items = Object.values(cart).map(i => `${i.name} ${formatPrice(i.price)}`).join('\n');
+            const name  = document.getElementById('f-name').value.trim();
+            const phone = document.getElementById('f-phone').value.trim();
+            const addr  = document.getElementById('f-addr').value.trim();
+            const date  = document.getElementById('f-date').value;
+            const time  = document.getElementById('f-time').value;
+            const ribbon = document.getElementById('f-ribbon').value.trim();
+            const note  = document.getElementById('f-note').value.trim();
+
+            // Compose LINE message
+            const mode = document.querySelector('.dtgl-btn.active').dataset.mode;
+            const msg = encodeURIComponent(
+                `【祥安花禮訂購】\n` +
+                `訂購人：${name}\n電話：${phone}\n` +
+                `配送方式：${mode === 'deliver' ? '送達 ' + addr : '自取'}\n` +
+                `需用：${date} ${time}\n` +
+                `緞帶：${ribbon || '無'}\n` +
+                `備注：${note || '無'}\n\n` +
+                `選購花禮：\n${items}\n` +
+                `合計：${document.getElementById('totalPrice').textContent}`
+            );
+
+            // Open LINE (fallback to modal)
+            // window.open(`https://line.me/R/ti/p/@yourid?text=${msg}`, '_blank');
+
+            // Show success modal
+            document.getElementById('successModal').classList.add('open');
+        });
+
+        /* ── MODAL CLOSE ── */
+        document.getElementById('modalClose').addEventListener('click', function () {
+            document.getElementById('successModal').classList.remove('open');
+        });
+        document.getElementById('successModal').addEventListener('click', function (e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+
+        /* ── SET MIN DATE ── */
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById('f-date').min = `${yyyy}-${mm}-${dd}`;
+
+        /* ── INITIAL RENDER ── */
+        renderCart();
+    });
     </script>
 </body>
 </html>
