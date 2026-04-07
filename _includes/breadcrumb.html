@@ -1,0 +1,13 @@
+<nav class="breadcrumb" aria-label="麵包屑導航">
+    <div class="container"> 
+        <a href="{{ '/' | relative_url }}"><i class="fas fa-home" aria-hidden="true"></i> 首頁</a>
+        
+        {% if include.parent_url %}
+            <span aria-hidden="true">›</span>
+            <a href="{{ include.parent_url | relative_url }}">{{ include.parent_title }}</a>
+        {% endif %}
+
+        <span aria-hidden="true">›</span>
+        <span class="current">{{ include.current_title }}</span>
+    </div>
+</nav>
