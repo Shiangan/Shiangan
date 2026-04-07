@@ -1,439 +1,447 @@
----
-layout: null
-permalink: /blog.html/
----
+-----
+
+## layout: null
+permalink: /blog.html
+
 <!DOCTYPE html>
+
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
     <title>殯葬百科知識庫 | 祥安生命</title>
     <meta name="description" content="祥安生命殯葬百科知識庫，涵蓋治喪流程、補助申請、禮俗禁忌、治喪費用等專業文章，由國家認證禮儀師團隊撰寫。">
 
-    <style>
-    /* ═══════════════════════════════════════════
-       BLOG PAGE — 殯葬百科知識庫
-       修正清單：
-       1. 移除重複 Font Awesome CDN（head.html 已載入）
-       2. CSS 變數統一為全站 --gold / --green 系列
-       3. h1 加 clamp() 響應字體
-       4. body padding 改 main padding-top，與全站一致
-       5. blog-card 改為語意化 <a> 直接包覆，移除 absolute overlay
-       6. 新增 floating-cta include
-       7. 搜尋框左右 padding 修正（右側不再過度留白）
-       8. card-img 高度改 clamp() 響應式
-       9. 新增麵包屑導航
-       10. data-search 改用 xml_escape 安全輸出
-       11. JS 移至 footer include 之後，加 IIFE 避免汙染全域
-       12. 手機 hover 效果改用 @media (hover: hover) 避免觸控誤判
-       13. 新增防抖搜尋（250ms）
-       14. 新增結果計數列
-       15. 新增「禮儀知識」分類（對應 _posts front matter）
-       16. card 標題改為語意 <h2>（SEO）
-    ═══════════════════════════════════════════ */
+```
+<style>
+/* ═══════════════════════════════════════════
+   BLOG PAGE — 殯葬百科知識庫
+   修正清單：
+   1. 移除重複 Font Awesome CDN（head.html 已載入）
+   2. CSS 變數統一為全站 --gold / --green 系列
+   3. h1 加 clamp() 響應字體
+   4. body padding 改 main padding-top，與全站一致
+   5. blog-card 改為語意化 <a> 直接包覆，移除 absolute overlay
+   6. 新增 floating-cta include
+   7. 搜尋框左右 padding 修正（右側不再過度留白）
+   8. card-img 高度改 clamp() 響應式
+   9. 新增麵包屑導航
+   10. data-search 改用 xml_escape 安全輸出
+   11. JS 移至 footer include 之後，加 IIFE 避免汙染全域
+   12. 手機 hover 效果改用 @media (hover: hover) 避免觸控誤判
+   13. 新增防抖搜尋（250ms）
+   14. 新增結果計數列
+   15. 新增「禮儀知識」分類（對應 _posts front matter）
+   16. card 標題改為語意 <h2>（SEO）
+═══════════════════════════════════════════ */
 
-    :root {
-        --bg-gold:      #b8975a;
-        --bg-gold-lt:   #d4b882;
-        --bg-green:     #1a241a;
-        --bg-bg:        #fdf9f4;
-        --bg-text:      #444444;
-        --bg-muted:     #888888;
-        --bg-border:    #e8e4de;
-        --bg-white:     #ffffff;
-        --ease:         cubic-bezier(.25,1,.5,1);
-        --side:         clamp(1.2rem, 5vw, 5rem);
-    }
+:root {
+    --bg-gold:      #b8975a;
+    --bg-gold-lt:   #d4b882;
+    --bg-green:     #1a241a;
+    --bg-bg:        #fdf9f4;
+    --bg-text:      #444444;
+    --bg-muted:     #888888;
+    --bg-border:    #e8e4de;
+    --bg-white:     #ffffff;
+    --ease:         cubic-bezier(.25,1,.5,1);
+    --side:         clamp(1.2rem, 5vw, 5rem);
+}
 
-    body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg-white); color: var(--bg-text); margin: 0; }
-    .blog-main { padding-top: 90px; }
-    @media (max-width: 1100px) { .blog-main { padding-top: 80px; } }
-    .container { max-width: 1240px; margin: 0 auto; padding: 0 var(--side); }
+body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg-white); color: var(--bg-text); margin: 0; }
+.blog-main { padding-top: 90px; }
+@media (max-width: 1100px) { .blog-main { padding-top: 80px; } }
+.container { max-width: 1240px; margin: 0 auto; padding: 0 var(--side); }
 
-    /* ── 麵包屑 ── */
-    .breadcrumb {
-        padding: 13px var(--side);
-        font-size: .82rem; color: var(--bg-muted);
-        border-bottom: 1px solid var(--bg-border);
-        background: var(--bg-white);
-        display: flex; gap: 8px; align-items: center;
-    }
-    .breadcrumb a { color: var(--bg-muted); text-decoration: none; transition: .2s; }
-    .breadcrumb a:hover { color: var(--bg-gold); }
+/* ── 麵包屑 ── */
+.breadcrumb {
+    padding: 13px var(--side);
+    font-size: .82rem; color: var(--bg-muted);
+    border-bottom: 1px solid var(--bg-border);
+    background: var(--bg-white);
+    display: flex; gap: 8px; align-items: center;
+}
+.breadcrumb a { color: var(--bg-muted); text-decoration: none; transition: .2s; }
+.breadcrumb a:hover { color: var(--bg-gold); }
 
-    /* ══════════════════════════════
-       HERO / FILTER
-    ══════════════════════════════ */
-    .filter-section {
-        background: var(--bg-bg);
-        padding: clamp(44px, 7vh, 80px) 0 clamp(32px, 5vh, 56px);
-        border-bottom: 1px solid var(--bg-border);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-    .filter-section::before {
-        content: 'KNOWLEDGE';
-        position: absolute;
-        font-family: 'Playfair Display', serif;
-        font-style: italic;
-        font-size: clamp(5rem, 18vw, 16rem);
-        color: rgba(184,151,90,.05);
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        white-space: nowrap;
-        pointer-events: none;
-        user-select: none;
-    }
-    .filter-inner { position: relative; z-index: 2; }
-    .filter-eyebrow {
-        display: block; font-size: .75rem; font-weight: 700;
-        letter-spacing: 6px; color: var(--bg-gold); margin-bottom: 14px;
-    }
-    .filter-title {
-        font-family: 'Noto Serif TC', serif;
-        color: var(--bg-green);
-        font-size: clamp(1.7rem, 5vw, 2.8rem);
-        margin: 0 0 10px;
-        line-height: 1.25; font-weight: 900;
-    }
-    .filter-sub { color: var(--bg-muted); margin: 0 0 30px; font-size: clamp(.88rem, 2vw, 1rem); line-height: 1.7; }
+/* ══════════════════════════════
+   HERO / FILTER
+══════════════════════════════ */
+.filter-section {
+    background: var(--bg-bg);
+    padding: clamp(44px, 7vh, 80px) 0 clamp(32px, 5vh, 56px);
+    border-bottom: 1px solid var(--bg-border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.filter-section::before {
+    content: 'KNOWLEDGE';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(5rem, 18vw, 16rem);
+    color: rgba(184,151,90,.05);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+.filter-inner { position: relative; z-index: 2; }
+.filter-eyebrow {
+    display: block; font-size: .75rem; font-weight: 700;
+    letter-spacing: 6px; color: var(--bg-gold); margin-bottom: 14px;
+}
+.filter-title {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--bg-green);
+    font-size: clamp(1.7rem, 5vw, 2.8rem);
+    margin: 0 0 10px;
+    line-height: 1.25; font-weight: 900;
+}
+.filter-sub { color: var(--bg-muted); margin: 0 0 30px; font-size: clamp(.88rem, 2vw, 1rem); line-height: 1.7; }
 
-    /* 搜尋框 */
-    .search-wrap { max-width: 580px; margin: 0 auto 30px; position: relative; }
-    .search-icon-left {
-        position: absolute; left: 20px; top: 50%;
-        transform: translateY(-50%);
-        color: var(--bg-gold); pointer-events: none; font-size: .95rem;
-    }
-    #blog-search {
-        width: 100%;
-        padding: 15px 20px 15px 50px;
-        border-radius: 50px;
-        border: 2px solid var(--bg-border);
-        outline: none;
-        font-size: 1rem;
-        font-family: 'Noto Sans TC', sans-serif;
-        transition: .3s;
-        box-sizing: border-box;
-        background: var(--bg-white);
-        color: var(--bg-text);
-    }
-    #blog-search:focus { border-color: var(--bg-gold); box-shadow: 0 0 0 4px rgba(184,151,90,.1); }
-    #blog-search::placeholder { color: #bbb; }
+/* 搜尋框 */
+.search-wrap { max-width: 580px; margin: 0 auto 30px; position: relative; }
+.search-icon-left {
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--bg-gold); pointer-events: none; font-size: .95rem;
+}
+#blog-search {
+    width: 100%;
+    padding: 15px 20px 15px 50px;
+    border-radius: 50px;
+    border: 2px solid var(--bg-border);
+    outline: none;
+    font-size: 1rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: .3s;
+    box-sizing: border-box;
+    background: var(--bg-white);
+    color: var(--bg-text);
+}
+#blog-search:focus { border-color: var(--bg-gold); box-shadow: 0 0 0 4px rgba(184,151,90,.1); }
+#blog-search::placeholder { color: #bbb; }
 
-    /* 分類按鈕 */
-    .category-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 0 var(--side); }
-    .tab-btn {
-        background: var(--bg-white);
-        border: 1.5px solid var(--bg-border);
-        padding: 9px 22px; border-radius: 50px;
-        cursor: pointer; font-size: .88rem;
-        color: var(--bg-green);
-        transition: all .3s; font-weight: 500;
-        font-family: 'Noto Sans TC', sans-serif;
-        white-space: nowrap;
-    }
-    .tab-btn:hover, .tab-btn.active {
-        background: var(--bg-gold); color: var(--bg-white);
+/* 分類按鈕 */
+.category-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 0 var(--side); }
+.tab-btn {
+    background: var(--bg-white);
+    border: 1.5px solid var(--bg-border);
+    padding: 9px 22px; border-radius: 50px;
+    cursor: pointer; font-size: .88rem;
+    color: var(--bg-green);
+    transition: all .3s; font-weight: 500;
+    font-family: 'Noto Sans TC', sans-serif;
+    white-space: nowrap;
+}
+.tab-btn:hover, .tab-btn.active {
+    background: var(--bg-gold); color: var(--bg-white);
+    border-color: var(--bg-gold);
+    box-shadow: 0 4px 14px rgba(184,151,90,.25);
+}
+
+/* ══════════════════════════════
+   結果計數列
+══════════════════════════════ */
+.result-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0; border-bottom: 1px solid var(--bg-border);
+    margin-bottom: 40px; font-size: .85rem; color: var(--bg-muted);
+}
+#result-count { font-weight: 700; color: var(--bg-green); }
+
+/* ══════════════════════════════
+   文章網格
+══════════════════════════════ */
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    padding-bottom: 80px;
+}
+
+/* ── 卡片：語意化 <a>，無 absolute overlay ── */
+.blog-card {
+    background: var(--bg-white);
+    border: 1px solid var(--bg-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .4s var(--ease), box-shadow .4s, border-color .3s;
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+}
+@media (hover: hover) {
+    .blog-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 44px rgba(0,0,0,.09);
         border-color: var(--bg-gold);
-        box-shadow: 0 4px 14px rgba(184,151,90,.25);
     }
+}
+.blog-card:focus-visible { outline: 3px solid var(--bg-gold); outline-offset: 3px; }
 
-    /* ══════════════════════════════
-       結果計數列
-    ══════════════════════════════ */
-    .result-bar {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 20px 0; border-bottom: 1px solid var(--bg-border);
-        margin-bottom: 40px; font-size: .85rem; color: var(--bg-muted);
-    }
-    #result-count { font-weight: 700; color: var(--bg-green); }
+/* 圖片 */
+.card-img-wrap {
+    width: 100%;
+    height: clamp(180px, 22vw, 230px);
+    overflow: hidden; flex-shrink: 0;
+    position: relative; background: var(--bg-bg);
+}
+.card-img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform .55s var(--ease);
+}
+@media (hover: hover) { .blog-card:hover .card-img { transform: scale(1.08); } }
 
-    /* ══════════════════════════════
-       文章網格
-    ══════════════════════════════ */
-    .article-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 30px;
-        padding-bottom: 80px;
-    }
+.card-cat-badge {
+    position: absolute; top: 14px; left: 14px;
+    background: rgba(26,36,26,.82);
+    color: var(--bg-gold-lt);
+    font-size: .72rem; font-weight: 700;
+    letter-spacing: 1.5px; padding: 5px 12px;
+    border-radius: 50px;
+    backdrop-filter: blur(4px);
+}
 
-    /* ── 卡片：語意化 <a>，無 absolute overlay ── */
-    .blog-card {
-        background: var(--bg-white);
-        border: 1px solid var(--bg-border);
-        border-radius: 12px;
-        overflow: hidden;
-        transition: transform .4s var(--ease), box-shadow .4s, border-color .3s;
-        display: flex; flex-direction: column;
-        text-decoration: none; color: inherit;
-    }
-    @media (hover: hover) {
-        .blog-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 44px rgba(0,0,0,.09);
-            border-color: var(--bg-gold);
-        }
-    }
-    .blog-card:focus-visible { outline: 3px solid var(--bg-gold); outline-offset: 3px; }
+/* 內容 */
+.card-body { padding: clamp(18px, 3vw, 28px); flex-grow: 1; display: flex; flex-direction: column; }
+.card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.05rem, 2.5vw, 1.28rem);
+    color: var(--bg-green); margin: 0 0 12px;
+    line-height: 1.45; transition: color .3s;
+    font-weight: 700;
+}
+@media (hover: hover) { .blog-card:hover .card-title { color: var(--bg-gold); } }
+.card-desc {
+    color: #777; font-size: clamp(.84rem, 2vw, .93rem);
+    line-height: 1.75; flex-grow: 1; margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.card-footer {
+    border-top: 1px solid #f0ede8; padding-top: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .82rem; color: #aaa; gap: 8px;
+}
+.card-date { display: flex; align-items: center; gap: 6px; }
+.card-read {
+    color: var(--bg-gold); font-weight: 700;
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap; transition: gap .25s;
+}
+@media (hover: hover) { .blog-card:hover .card-read { gap: 9px; } }
 
-    /* 圖片 */
-    .card-img-wrap {
-        width: 100%;
-        height: clamp(180px, 22vw, 230px);
-        overflow: hidden; flex-shrink: 0;
-        position: relative; background: var(--bg-bg);
-    }
-    .card-img {
-        width: 100%; height: 100%;
-        object-fit: cover; display: block;
-        transition: transform .55s var(--ease);
-    }
-    @media (hover: hover) { .blog-card:hover .card-img { transform: scale(1.08); } }
+/* ── 無結果 ── */
+.no-results {
+    display: none; text-align: center;
+    padding: 100px 20px; color: #bbb;
+    grid-column: 1 / -1;
+}
+.no-results i { font-size: 3.5rem; display: block; margin-bottom: 18px; color: #e0ddd7; }
+.no-results p { font-size: 1rem; line-height: 1.8; }
+.no-results.visible { display: block; }
 
-    .card-cat-badge {
-        position: absolute; top: 14px; left: 14px;
-        background: rgba(26,36,26,.82);
-        color: var(--bg-gold-lt);
-        font-size: .72rem; font-weight: 700;
-        letter-spacing: 1.5px; padding: 5px 12px;
-        border-radius: 50px;
-        backdrop-filter: blur(4px);
-    }
+/* ── 空文章 ── */
+.empty-state {
+    grid-column: 1 / -1; text-align: center;
+    padding: 100px 30px;
+    border: 1px dashed var(--bg-border); border-radius: 12px;
+}
+.empty-state i { font-size: 3rem; color: var(--bg-gold); opacity: .4; display: block; margin-bottom: 20px; }
+.empty-state p { color: var(--bg-muted); font-family: 'Noto Serif TC', serif; letter-spacing: 2px; }
 
-    /* 內容 */
-    .card-body { padding: clamp(18px, 3vw, 28px); flex-grow: 1; display: flex; flex-direction: column; }
-    .card-title {
-        font-family: 'Noto Serif TC', serif;
-        font-size: clamp(1.05rem, 2.5vw, 1.28rem);
-        color: var(--bg-green); margin: 0 0 12px;
-        line-height: 1.45; transition: color .3s;
-        font-weight: 700;
-    }
-    @media (hover: hover) { .blog-card:hover .card-title { color: var(--bg-gold); } }
-    .card-desc {
-        color: #777; font-size: clamp(.84rem, 2vw, .93rem);
-        line-height: 1.75; flex-grow: 1; margin-bottom: 18px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    .card-footer {
-        border-top: 1px solid #f0ede8; padding-top: 16px;
-        display: flex; justify-content: space-between; align-items: center;
-        font-size: .82rem; color: #aaa; gap: 8px;
-    }
-    .card-date { display: flex; align-items: center; gap: 6px; }
-    .card-read {
-        color: var(--bg-gold); font-weight: 700;
-        display: flex; align-items: center; gap: 5px;
-        white-space: nowrap; transition: gap .25s;
-    }
-    @media (hover: hover) { .blog-card:hover .card-read { gap: 9px; } }
+/* ── RWD ── */
+@media (max-width: 768px) {
+    .article-grid { grid-template-columns: 1fr; gap: 22px; padding-bottom: 50px; }
+    .result-bar { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .tab-btn { font-size: .82rem; padding: 8px 16px; }
+}
+@media (max-width: 480px) {
+    .card-img-wrap { height: 200px; }
+}
+</style>
+```
 
-    /* ── 無結果 ── */
-    .no-results {
-        display: none; text-align: center;
-        padding: 100px 20px; color: #bbb;
-        grid-column: 1 / -1;
-    }
-    .no-results i { font-size: 3.5rem; display: block; margin-bottom: 18px; color: #e0ddd7; }
-    .no-results p { font-size: 1rem; line-height: 1.8; }
-    .no-results.visible { display: block; }
-
-    /* ── 空文章 ── */
-    .empty-state {
-        grid-column: 1 / -1; text-align: center;
-        padding: 100px 30px;
-        border: 1px dashed var(--bg-border); border-radius: 12px;
-    }
-    .empty-state i { font-size: 3rem; color: var(--bg-gold); opacity: .4; display: block; margin-bottom: 20px; }
-    .empty-state p { color: var(--bg-muted); font-family: 'Noto Serif TC', serif; letter-spacing: 2px; }
-
-    /* ── RWD ── */
-    @media (max-width: 768px) {
-        .article-grid { grid-template-columns: 1fr; gap: 22px; padding-bottom: 50px; }
-        .result-bar { flex-direction: column; align-items: flex-start; gap: 6px; }
-        .tab-btn { font-size: .82rem; padding: 8px 16px; }
-    }
-    @media (max-width: 480px) {
-        .card-img-wrap { height: 200px; }
-    }
-    </style>
 </head>
 
 <body>
     {% include header.html %}
 
-    <main class="blog-main">
+```
+<main class="blog-main">
 
-        <!-- 麵包屑 -->
-        <nav class="breadcrumb" aria-label="麵包屑導航">
-            <a href="{{ '/' | relative_url }}"><i class="fas fa-home" aria-hidden="true"></i> 首頁</a>
-            <span aria-hidden="true">›</span>
-            <span>殯葬百科</span>
-        </nav>
+    <!-- 麵包屑 -->
+    <nav class="breadcrumb" aria-label="麵包屑導航">
+        <a href="{{ '/' | relative_url }}"><i class="fas fa-home" aria-hidden="true"></i> 首頁</a>
+        <span aria-hidden="true">›</span>
+        <span>殯葬百科</span>
+    </nav>
 
-        <!-- HERO / FILTER -->
-        <section class="filter-section" aria-label="搜尋與篩選">
-            <div class="filter-inner container">
-                <span class="filter-eyebrow">KNOWLEDGE BASE</span>
-                <h1 class="filter-title">殯葬百科知識庫</h1>
-                <p class="filter-sub">專業禮儀顧問，為您解答生命中最重要的事</p>
+    <!-- HERO / FILTER -->
+    <section class="filter-section" aria-label="搜尋與篩選">
+        <div class="filter-inner container">
+            <span class="filter-eyebrow">KNOWLEDGE BASE</span>
+            <h1 class="filter-title">殯葬百科知識庫</h1>
+            <p class="filter-sub">專業禮儀顧問，為您解答生命中最重要的事</p>
 
-                <div class="search-wrap">
-                    <i class="fas fa-search search-icon-left" aria-hidden="true"></i>
-                    <input type="search"
-                           id="blog-search"
-                           placeholder="搜尋治喪流程、費用補助、習俗禁忌…"
-                           aria-label="搜尋文章"
-                           autocomplete="off">
-                </div>
-
-                <div class="category-tabs" role="tablist" aria-label="文章分類">
-                    <button class="tab-btn active" data-filter="all"  role="tab" aria-selected="true" >全部文章</button>
-                    <button class="tab-btn" data-filter="流程指引"    role="tab" aria-selected="false">流程指引</button>
-                    <button class="tab-btn" data-filter="補助申請"    role="tab" aria-selected="false">補助申請</button>
-                    <button class="tab-btn" data-filter="禮俗禁忌"    role="tab" aria-selected="false">禮俗禁忌</button>
-                    <button class="tab-btn" data-filter="治喪費用"    role="tab" aria-selected="false">治喪費用</button>
-                    <button class="tab-btn" data-filter="禮儀知識"    role="tab" aria-selected="false">禮儀知識</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 文章列表 -->
-        <div class="container" style="padding-top:40px;">
-
-            <div class="result-bar">
-                <span>共 <span id="result-count">0</span> 篇文章</span>
-                <span style="font-size:.8rem; color:#ccc;">點擊分類或輸入關鍵字進行篩選</span>
+            <div class="search-wrap">
+                <i class="fas fa-search search-icon-left" aria-hidden="true"></i>
+                <input type="search"
+                       id="blog-search"
+                       placeholder="搜尋治喪流程、費用補助、習俗禁忌…"
+                       aria-label="搜尋文章"
+                       autocomplete="off">
             </div>
 
-            <!-- 無結果（JS 控制顯示） -->
-            <div class="no-results" id="no-results" role="status" aria-live="polite">
-                <i class="fas fa-folder-open" aria-hidden="true"></i>
-                <p>找不到相關文章<br><span style="font-size:.88rem;">請嘗試其他關鍵字或切換分類</span></p>
+            <div class="category-tabs" role="tablist" aria-label="文章分類">
+                <button class="tab-btn active" data-filter="all"  role="tab" aria-selected="true" >全部文章</button>
+                <button class="tab-btn" data-filter="流程指引"    role="tab" aria-selected="false">流程指引</button>
+                <button class="tab-btn" data-filter="補助申請"    role="tab" aria-selected="false">補助申請</button>
+                <button class="tab-btn" data-filter="禮俗禁忌"    role="tab" aria-selected="false">禮俗禁忌</button>
+                <button class="tab-btn" data-filter="治喪費用"    role="tab" aria-selected="false">治喪費用</button>
+                <button class="tab-btn" data-filter="禮儀知識"    role="tab" aria-selected="false">禮儀知識</button>
             </div>
+        </div>
+    </section>
 
-            <div class="article-grid" id="post-grid">
+    <!-- 文章列表 -->
+    <div class="container" style="padding-top:40px;">
 
-                {% if site.posts.size > 0 %}
-                    {% for post in site.posts %}
-                    {%- assign post_cat   = post.category | default: '殯葬百科' -%}
-                    {%- assign post_desc  = post.description | default: '' -%}
-                    {%- assign post_tags  = post.tags | join: ' ' | default: '' -%}
-                    {%- assign search_str = post.title | append: ' ' | append: post_desc | append: ' ' | append: post_tags | downcase | xml_escape -%}
-                    <a href="{{ post.url | relative_url }}"
-                       class="blog-card"
-                       data-category="{{ post_cat | xml_escape }}"
-                       data-search="{{ search_str }}"
-                       aria-label="{{ post.title | xml_escape }}">
+        <div class="result-bar">
+            <span>共 <span id="result-count">0</span> 篇文章</span>
+            <span style="font-size:.8rem; color:#ccc;">點擊分類或輸入關鍵字進行篩選</span>
+        </div>
 
-                        <div class="card-img-wrap">
-                            <img src="{{ post.image | default: '/images/default-blog.jpg' | relative_url }}"
-                                 class="card-img"
-                                 alt="{{ post.title | xml_escape }}"
-                                 loading="lazy"
-                                 decoding="async"
-                                 onerror="this.src='{{ '/images/blog-hero-bg.jpg' | relative_url }}'">
-                            <span class="card-cat-badge" aria-hidden="true">
-                                <i class="fas fa-bookmark"></i> {{ post_cat }}
+        <!-- 無結果（JS 控制顯示） -->
+        <div class="no-results" id="no-results" role="status" aria-live="polite">
+            <i class="fas fa-folder-open" aria-hidden="true"></i>
+            <p>找不到相關文章<br><span style="font-size:.88rem;">請嘗試其他關鍵字或切換分類</span></p>
+        </div>
+
+        <div class="article-grid" id="post-grid">
+
+            {% if site.posts.size > 0 %}
+                {% for post in site.posts %}
+                {%- assign post_cat   = post.category | default: '殯葬百科' -%}
+                {%- assign post_desc  = post.description | default: '' -%}
+                {%- assign post_tags  = post.tags | join: ' ' | default: '' -%}
+                {%- assign search_str = post.title | append: ' ' | append: post_desc | append: ' ' | append: post_tags | downcase | xml_escape -%}
+                <a href="{{ post.url | relative_url }}"
+                   class="blog-card"
+                   data-category="{{ post_cat | xml_escape }}"
+                   data-search="{{ search_str }}"
+                   aria-label="{{ post.title | xml_escape }}">
+
+                    <div class="card-img-wrap">
+                        <img src="{{ post.image | default: '/images/default-blog.jpg' | relative_url }}"
+                             class="card-img"
+                             alt="{{ post.title | xml_escape }}"
+                             loading="lazy"
+                             decoding="async"
+                             onerror="this.src='{{ '/images/blog-hero-bg.jpg' | relative_url }}'">
+                        <span class="card-cat-badge" aria-hidden="true">
+                            <i class="fas fa-bookmark"></i> {{ post_cat }}
+                        </span>
+                    </div>
+
+                    <div class="card-body">
+                        <h2 class="card-title">{{ post.title }}</h2>
+                        <p class="card-desc">{{ post_desc | truncate: 72 }}</p>
+                        <div class="card-footer">
+                            <span class="card-date">
+                                <i class="far fa-calendar-alt" aria-hidden="true"></i>
+                                <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
+                                    {{ post.date | date: "%Y/%m/%d" }}
+                                </time>
+                            </span>
+                            <span class="card-read" aria-hidden="true">
+                                詳全文 <i class="fas fa-arrow-right"></i>
                             </span>
                         </div>
-
-                        <div class="card-body">
-                            <h2 class="card-title">{{ post.title }}</h2>
-                            <p class="card-desc">{{ post_desc | truncate: 72 }}</p>
-                            <div class="card-footer">
-                                <span class="card-date">
-                                    <i class="far fa-calendar-alt" aria-hidden="true"></i>
-                                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
-                                        {{ post.date | date: "%Y/%m/%d" }}
-                                    </time>
-                                </span>
-                                <span class="card-read" aria-hidden="true">
-                                    詳全文 <i class="fas fa-arrow-right"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                    {% endfor %}
-                {% else %}
-                    <div class="empty-state">
-                        <i class="fas fa-feather-alt" aria-hidden="true"></i>
-                        <p>文章整理中，敬請期待</p>
                     </div>
-                {% endif %}
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-feather-alt" aria-hidden="true"></i>
+                    <p>文章整理中，敬請期待</p>
+                </div>
+            {% endif %}
 
-            </div><!-- /article-grid -->
-        </div><!-- /container -->
+        </div><!-- /article-grid -->
+    </div><!-- /container -->
 
-    </main>
+</main>
 
-    {% include footer.html %}
-    {% include floating-cta.html %}
+{% include footer.html %}
+{% include floating-cta.html %}
 
-    <script>
-    /* IIFE：避免汙染全域命名空間 */
-    (function () {
-        'use strict';
+<script>
+/* IIFE：避免汙染全域命名空間 */
+(function () {
+    'use strict';
 
-        var searchInput = document.getElementById('blog-search');
-        var tabBtns     = document.querySelectorAll('.tab-btn');
-        var cards       = document.querySelectorAll('.blog-card');
-        var noResults   = document.getElementById('no-results');
-        var countEl     = document.getElementById('result-count');
-        var currentCat  = 'all';
-        var searchQuery = '';
-        var debounce;
+    var searchInput = document.getElementById('blog-search');
+    var tabBtns     = document.querySelectorAll('.tab-btn');
+    var cards       = document.querySelectorAll('.blog-card');
+    var noResults   = document.getElementById('no-results');
+    var countEl     = document.getElementById('result-count');
+    var currentCat  = 'all';
+    var searchQuery = '';
+    var debounce;
 
-        /* ── 篩選邏輯 ── */
-        function filterPosts() {
-            var visible = 0;
-            cards.forEach(function (card) {
-                var cat    = card.dataset.category || '';
-                var text   = card.dataset.search   || '';
-                var catOk  = currentCat === 'all' || cat === currentCat;
-                var srchOk = searchQuery === '' || text.includes(searchQuery);
-                var show   = catOk && srchOk;
-                card.style.display = show ? 'flex' : 'none';
-                if (show) visible++;
-            });
-            if (countEl) countEl.textContent = visible;
-            if (noResults) noResults.classList.toggle('visible', visible === 0 && cards.length > 0);
-        }
-
-        /* ── 搜尋（防抖 250ms）── */
-        if (searchInput) {
-            searchInput.addEventListener('input', function (e) {
-                clearTimeout(debounce);
-                debounce = setTimeout(function () {
-                    searchQuery = e.target.value.trim().toLowerCase();
-                    filterPosts();
-                }, 250);
-            });
-        }
-
-        /* ── 分類切換 ── */
-        tabBtns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                tabBtns.forEach(function (b) {
-                    b.classList.remove('active');
-                    b.setAttribute('aria-selected', 'false');
-                });
-                this.classList.add('active');
-                this.setAttribute('aria-selected', 'true');
-                currentCat = this.dataset.filter;
-                filterPosts();
-            });
+    /* ── 篩選邏輯 ── */
+    function filterPosts() {
+        var visible = 0;
+        cards.forEach(function (card) {
+            var cat    = card.dataset.category || '';
+            var text   = card.dataset.search   || '';
+            var catOk  = currentCat === 'all' || cat === currentCat;
+            var srchOk = searchQuery === '' || text.includes(searchQuery);
+            var show   = catOk && srchOk;
+            card.style.display = show ? 'flex' : 'none';
+            if (show) visible++;
         });
+        if (countEl) countEl.textContent = visible;
+        if (noResults) noResults.classList.toggle('visible', visible === 0 && cards.length > 0);
+    }
 
-        /* ── 初始化 ── */
-        filterPosts();
+    /* ── 搜尋（防抖 250ms）── */
+    if (searchInput) {
+        searchInput.addEventListener('input', function (e) {
+            clearTimeout(debounce);
+            debounce = setTimeout(function () {
+                searchQuery = e.target.value.trim().toLowerCase();
+                filterPosts();
+            }, 250);
+        });
+    }
 
-    }());
-    </script>
+    /* ── 分類切換 ── */
+    tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            tabBtns.forEach(function (b) {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+            currentCat = this.dataset.filter;
+            filterPosts();
+        });
+    });
+
+    /* ── 初始化 ── */
+    filterPosts();
+
+}());
+</script>
+```
+
 </body>
 </html>
