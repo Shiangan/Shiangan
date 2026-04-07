@@ -145,7 +145,36 @@
 
     .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--transition-prime); }
     .reveal.revealed { opacity: 1; transform: translateY(0); }
-</style>
+
+
+/* 麵包屑通用樣式 */
+.breadcrumb {
+    padding: 13px var(--side);
+    font-size: .82rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+    display: flex; 
+    gap: 8px; 
+    align-items: center;
+}
+
+.breadcrumb a { 
+    color: var(--muted); 
+    text-decoration: none; 
+    transition: .2s; 
+}
+
+.breadcrumb a:hover { 
+    color: var(--gold); 
+}
+
+.breadcrumb .current {
+    color: var(--muted);
+    pointer-events: none;
+    opacity: 0.8; /* 稍微做一點視覺區隔 */
+}
+</stlye>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
