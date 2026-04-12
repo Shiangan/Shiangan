@@ -1,6 +1,8 @@
+<!-- ① charset + viewport（永遠最優先）-->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-445583766"></script>
 <script>
@@ -10,58 +12,196 @@
     gtag('config', 'G-445583766'); 
 </script>
 
-<title>祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務</title>
-<meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。立即諮詢：0978-583-699。">
+<!-- ② Primary SEO -->
+<title>
+  {% if page.title %}
+    {{ page.title | truncate: 60 }} | 祥安生命
+  {% else %}
+    祥安生命有限公司 | 24H 國家認證禮儀師・新北・台北・桃園
+  {% endif %}
+</title>
+<meta name="description"
+  content="{% if page.description %}{{ page.description | truncate: 155 }}{% else %}{{ site.description | truncate: 155 }}{% endif %}">
+<meta name="robots" content="{% if page.robots %}{{ page.robots }}{% else %}index, follow{% endif %}">
+<link rel="canonical"
+  href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
+<!-- ③ Open Graph（Facebook / LINE 預覽）-->
+<meta property="og:type"        content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:title"       content="{% if page.title %}{{ page.title | truncate: 60 }}{% else %}{{ site.title }}{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description | truncate: 155 }}{% else %}{{ site.description | truncate: 155 }}{% endif %}">
+<meta property="og:url"         content="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
+<meta property="og:image"
+  content="{% if page.image %}{{ page.image | prepend: site.baseurl | prepend: site.url }}{% else %}{{ site.baseurl }}/images/og-default.jpg{% endif %}">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name"   content="{{ site.title }}">
+<meta property="og:locale"      content="zh_TW">
+{% if page.layout == 'post' %}
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+<meta property="article:modified_time"  content="{{ page.date | date_to_xmlschema }}">
+<meta property="article:author"         content="{{ site.author.name }}">
+<meta property="article:section"        content="{{ page.category }}">
+{% for tag in page.tags %}
+<meta property="article:tag" content="{{ tag }}">
+{% endfor %}
+{% endif %}
 
-<link rel="icon" href="./images/logo.png" type="image/png">
+<!-- ④ Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="{% if page.title %}{{ page.title | truncate: 60 }}{% else %}{{ site.title }}{% endif %}">
+<meta name="twitter:description" content="{% if page.description %}{{ page.description | truncate: 155 }}{% else %}{{ site.description | truncate: 155 }}{% endif %}">
+<meta name="twitter:image"
+  content="{% if page.image %}{{ page.image | prepend: site.baseurl | prepend: site.url }}{% else %}{{ site.baseurl }}/images/og-default.jpg{% endif %}">
 
-<meta property="og:title" content="祥安生命 | 國家認證禮儀師、喪葬費用公開、24H隨時諮詢">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://24hour.台灣/Shiangan/">
-<meta property="og:image" content="https://24hour.台灣/Shiangan/images/logo.png">
-<meta property="og:description" content="國家認證禮儀師團隊，甲級立案，喪葬費用方案完整公開透明。">
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700;900&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
-
+<!-- ⑤ Schema.org JSON-LD ── 全站 LocalBusiness（所有頁面）-->
 <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "祥安生命有限公司",
-    "priceRange": "NT$36,000 - NT$188000",
-    "openingHours": "Mo-Su 00:00-23:59",
-    "areaServed": ["台北", "新北", "桃園", "基隆", "宜蘭", "中壢"],
-    "url": "https://24hour.台灣/Shiangan/",
-    "logo": "https://24hour.台灣/Shiangan/images/logo.png",
-    "telephone": "+886978583699",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "新北市三重區永福街135巷13號",
-      "addressLocality": "新北",
-      "postalCode": "241",
-      "addressRegion": "TW"
+{
+  "@context": "https://schema.org",
+  "@type": "FuneralHome",
+  "@id": "{{ site.url }}{{ site.baseurl }}/#organization",
+  "name": "{{ site.company.name }}",
+  "url": "{{ site.url }}{{ site.baseurl }}/",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "{{ site.url }}{{ site.baseurl }}/images/logo.png"
+  },
+  "image": "{{ site.url }}{{ site.baseurl }}/images/og-default.jpg",
+  "description": "{{ site.description }}",
+  "telephone": "{{ site.company.phone }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ site.company.address }}",
+    "addressLocality": "{{ site.company.city }}",
+    "addressRegion": "{{ site.company.region }}",
+    "postalCode": "{{ site.company.postal_code }}",
+    "addressCountry": "TW"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": {{ site.company.lat }},
+    "longitude": {{ site.company.lng }}
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "areaServed": [
+    "新北市", "台北市", "桃園市", "基隆市", "宜蘭縣"
+  ],
+  "priceRange": "NT$68,000 起",
+  "sameAs": [
+    "{{ site.company.facebook }}"
+  ]
+}
+</script>
+
+<!-- ⑥ Schema.org JSON-LD ── Article（僅 _posts 頁面）-->
+{% if page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ page.title | truncate: 110 }}",
+  "description": "{{ page.description | truncate: 155 }}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% if page.image %}{{ page.image | prepend: site.baseurl | prepend: site.url }}{% else %}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{% endif %}",
+    "width": 1200,
+    "height": 630
+  },
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Organization",
+    "name": "{{ site.company.name }}",
+    "@id": "{{ site.url }}{{ site.baseurl }}/#organization"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.company.name }}",
+    "@id": "{{ site.url }}{{ site.baseurl }}/#organization",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}{{ site.baseurl }}/images/logo.png"
     }
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "服務費用是否透明公開？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "是的。祥安生命禮儀致力於價格透明化，所有費用與服務細節皆提供書面文件，鄭重承諾絕無任何隱藏費用。"
-        }
-      }
-    ]
-  }
-]
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | prepend: site.baseurl | prepend: site.url }}"
+  },
+  "articleSection": "{{ page.category }}",
+  "keywords": "{{ page.tags | join: ', ' }}"
+}
 </script>
+{% endif %}
+
+<!-- ⑦ Schema.org JSON-LD ── FAQPage（有 has_faq: true 的文章）-->
+{% if page.has_faq and page.faqs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in page.faqs %}
+    {
+      "@type": "Question",
+      "name": "{{ faq.question | xml_escape }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ faq.answer | xml_escape }}"
+      }
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
+<!-- ⑧ BreadcrumbList（_posts 頁面）-->
+{% if page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首頁",
+      "item": "{{ site.url }}{{ site.baseurl }}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "殯葬百科知識",
+      "item": "{{ site.url }}{{ site.baseurl }}/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ page.title | truncate: 60 }}",
+      "item": "{{ page.url | prepend: site.baseurl | prepend: site.url }}"
+    }
+  ]
+}
+</script>
+{% endif %}
+
+<!-- ⑨ GA4（正確 10 碼 ID，請填入 site.company.ga4_id）-->
+{% if site.company.ga4_id and site.company.ga4_id != "8842890892" %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.company.ga4_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ site.company.ga4_id }}', { 'anonymize_ip': true });
+</script>
+{% endif %}
+
+
 
 <style>
     :root {
