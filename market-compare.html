@@ -1,257 +1,445 @@
 ---
 layout: null
-permalink: /market-compare.html/
+permalink: /market-compare.html
+description: "為什麼選擇祥安生命？對照台灣殯葬業常見問題：收費透明vs低價追加、鮮花品質、規費實報實銷、國家認證禮儀師vs派遣人力，讓家屬在最脆弱的時刻做出最安心的選擇。"
+image: /images/market-compare-og.jpg
 ---
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>為什麼選擇祥安？同業誠信對照 | 祥安生命</title>
-    
     {% include head.html %}
+    <title>為什麼選擇祥安？同業誠信對照 | 祥安生命</title>
 
     <style>
-        :root {
-            --gold: #B4975A;
-            --deep-ink: #1A1A1A;
-            --safe-green: #27ae60;
-            --danger-red: #e74c3c;
-            --soft-bg: #FDFDFB;
-            --border: #E5E5E0;
-        }
+    /* ══════════════════════════════════════════
+       market-compare.html 專屬樣式
+       全站變數：--gold:#b8975a / --green:#1a241a
+    ══════════════════════════════════════════ */
 
-        body { background-color: #fff; color: var(--deep-ink); line-height: 1.6; }
+    /* ── Hero ───────────────────────────────── */
+    .mc-hero {
+        padding: clamp(120px, 15vw, 180px) 0 clamp(48px, 6vw, 72px);
+        background: linear-gradient(to bottom, #f7f7f2, #fff);
+        text-align: center;
+    }
+    .mc-hero__eyebrow {
+        display: block;
+        color: #b8975a;
+        letter-spacing: 5px;
+        font-size: .8rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+    .mc-hero__title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        letter-spacing: 2px;
+        color: #1a241a;
+        margin: 0 0 14px;
+        line-height: 1.3;
+    }
+    .mc-hero__sub {
+        font-size: clamp(.95rem, 2vw, 1.15rem);
+        color: #555;
+        margin: 0;
+        line-height: 1.8;
+    }
+    .mc-hero__sub strong { color: #c0522a; }
 
-        /* 標題區塊 */
-        .market-hero {
-            padding: 160px 0 60px;
-            background: linear-gradient(to bottom, #F7F7F2, #FFF);
-            text-align: center;
-        }
-        .market-hero h1 { font-family: 'Noto Serif TC', serif; font-size: 2.8rem; letter-spacing: 2px; }
-        .market-hero .warning-text { color: var(--danger-red); font-weight: bold; font-size: 1.1rem; margin-top: 10px; }
+    /* ── 矩陣容器 ───────────────────────────── */
+    .mc-wrapper {
+        max-width: 1200px;
+        margin: 0 auto clamp(60px, 8vw, 100px);
+        padding: 0 clamp(16px, 3vw, 24px);
+    }
 
-        /* 矩陣容器 */
-        .matrix-container {
-            max-width: 1300px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
-        }
+    .mc-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #e8e4de;
+        border-radius: 4px;
+        box-shadow: 0 12px 40px rgba(0,0,0,.07);
+        background: #fff;
+        margin-bottom: 48px;
+    }
 
-        .matrix-scroll-wrapper {
-            overflow-x: auto;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            background: #fff;
-        }
+    .mc-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 780px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1000px; /* 確保手機版滑動空間 */
-        }
+    /* 表頭 */
+    .mc-table thead th {
+        padding: clamp(22px, 3vw, 36px) clamp(16px, 2.5vw, 24px);
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        border-bottom: 2px solid #e8e4de;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .mc-table .th-label {
+        background: #f4f4ef;
+        color: #1a241a;
+        width: 22%;
+        text-align: left;
+        padding-left: clamp(18px, 2.5vw, 28px);
+        font-size: clamp(.88rem, 2vw, 1rem);
+        font-weight: 700;
+    }
+    .mc-table .th-shiangan {
+        background: #1a241a;
+        color: #b8975a;
+        width: 39%;
+    }
+    .mc-table .th-others {
+        background: #f9f9f9;
+        color: #aaa;
+        width: 39%;
+    }
 
-        /* 表頭設計 */
-        thead th {
-            padding: 35px 20px;
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.3rem;
-            border-bottom: 2px solid var(--border);
-        }
+    /* 資料列 */
+    .mc-table td {
+        padding: clamp(18px, 2.5vw, 26px) clamp(14px, 2vw, 22px);
+        border-bottom: 1px solid #e8e4de;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .mc-table tr:last-child td { border-bottom: none; }
+    .mc-table tr:nth-child(odd) td { background: rgba(184,151,90,.025); }
 
-        .th-brand { background: var(--deep-ink); color: var(--gold); width: 40%; }
-        .th-others { background: #f9f9f9; color: #999; width: 40%; }
+    /* 首欄固定 */
+    .mc-table .td-label {
+        position: sticky;
+        left: 0;
+        background: #fff;
+        z-index: 10;
+        text-align: left;
+        padding-left: clamp(18px, 2.5vw, 28px);
+        font-weight: 700;
+        color: #1a241a;
+        font-size: clamp(.85rem, 2vw, .97rem);
+        border-right: 2px solid #e8e4de;
+        min-width: 130px;
+        max-width: 160px;
+        white-space: normal;
+        line-height: 1.5;
+    }
+    /* 奇數行的固定列背景同步 */
+    .mc-table tr:nth-child(odd) .td-label { background: #fdfaf4; }
 
-        /* 首欄固定 */
-        .sticky-col {
-            position: sticky;
-            left: 0;
-            background: #fff;
-            z-index: 10;
-            width: 170px;
-            font-weight: 700;
-            padding-left: 25px !important;
-            border-right: 2px solid var(--border) !important;
-            text-align: left !important;
-        }
+    /* 狀態標示 */
+    .status {
+        display: block;
+        font-weight: 700;
+        font-size: clamp(.95rem, 2vw, 1.1rem);
+        margin-bottom: 6px;
+    }
+    .status.ok  { color: #2a7a2a; }
+    .status.bad { color: #c0522a; }
+    .desc {
+        display: block;
+        font-size: clamp(.82rem, 1.8vw, .93rem);
+        color: #555;
+        line-height: 1.65;
+    }
 
-        /* 格子細節 */
-        td {
-            padding: 25px 20px;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-            vertical-align: middle;
-        }
+    /* ── 誠信備註區塊 ───────────────────────── */
+    .mc-note {
+        background: #fdfaf4;
+        padding: clamp(28px, 4vw, 50px);
+        border-radius: 4px;
+        border: 1px solid rgba(184,151,90,.35);
+        margin-top: 48px;
+    }
+    .mc-note__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: clamp(28px, 4vw, 44px);
+    }
+    .mc-note__title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        margin: 0 0 20px;
+        color: #1a241a;
+        border-left: 4px solid #b8975a;
+        padding-left: 14px;
+        line-height: 1.4;
+    }
+    .mc-note__warn {
+        color: #c0522a;
+        font-weight: 700;
+        margin: 0 0 16px;
+        font-size: clamp(.88rem, 2vw, .97rem);
+        line-height: 1.7;
+    }
+    .mc-item-list { list-style: none; padding: 0; margin: 0; }
+    .mc-item-list li {
+        position: relative;
+        padding-left: 22px;
+        margin-bottom: 12px;
+        font-size: clamp(.85rem, 2vw, .94rem);
+        color: #555;
+        line-height: 1.75;
+    }
+    .mc-item-list li::before {
+        content: "◆";
+        position: absolute;
+        left: 0;
+        color: #b8975a;
+        font-size: .75rem;
+        top: 5px;
+    }
+    .mc-item-list li strong { color: #1a241a; }
 
-        .row-highlight { background-color: rgba(180, 151, 90, 0.03); }
-        
-        .status-box { display: block; font-weight: bold; margin-bottom: 5px; font-size: 1.1rem; }
-        .status-box.ok { color: var(--safe-green); }
-        .status-box.no { color: var(--danger-red); }
+    .mc-note__body {
+        font-size: clamp(.87rem, 2vw, .97rem);
+        color: #555;
+        line-height: 1.9;
+        margin: 0 0 24px;
+    }
+    .mc-note__body strong { color: #1a241a; }
 
-        .desc-text { font-size: 0.95rem; color: #444; display: block; line-height: 1.5; }
+    .mc-note__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #1a241a;
+        color: #fff;
+        text-decoration: none;
+        padding: 13px 28px;
+        font-weight: 700;
+        font-size: .92rem;
+        border-radius: 4px;
+        transition: background .3s;
+        letter-spacing: .5px;
+    }
+    .mc-note__cta:hover { background: #b8975a; }
 
-        /* 底部備註區塊 */
-        .contract-note {
-            margin-top: 60px;
-            background: var(--soft-bg);
-            padding: 50px;
-            border-radius: 15px;
-            border: 1px dashed var(--gold);
-        }
+    /* ── 底部 CTA 條 ─────────────────────────── */
+    .mc-bottom-cta {
+        background: linear-gradient(135deg, #1a241a 0%, #2c3e2c 100%);
+        padding: clamp(48px, 6vw, 80px) clamp(20px, 5vw, 40px);
+        text-align: center;
+        border-top: 1px solid rgba(197,160,89,.3);
+    }
+    .mc-bottom-cta h2 {
+        font-family: 'Noto Serif TC', serif;
+        color: #c5a059;
+        font-size: clamp(1.3rem, 3.5vw, 2rem);
+        margin: 0 0 14px;
+    }
+    .mc-bottom-cta p {
+        color: rgba(255,255,255,.8);
+        font-size: clamp(.92rem, 2vw, 1.08rem);
+        margin: 0 auto 36px;
+        max-width: 540px;
+        line-height: 1.9;
+    }
+    .mc-tel {
+        display: block;
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        transition: color .3s;
+    }
+    .mc-tel i { color: #c5a059; margin-right: 10px; }
+    .mc-tel:hover { color: #c5a059; }
+    .mc-line {
+        display: inline-flex; align-items: center; gap: 9px;
+        background: #06C755; padding: 13px 36px;
+        font-size: .97rem; color: #fff; text-decoration: none;
+        border-radius: 50px; font-weight: 700;
+        box-shadow: 0 4px 16px rgba(6,199,85,.3);
+        transition: background .3s, transform .3s;
+    }
+    .mc-line:hover { background: #05b04a; transform: translateY(-2px); }
 
-        .note-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-
-        .note-title {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            color: var(--deep-ink);
-            border-left: 4px solid var(--gold);
-            padding-left: 15px;
-        }
-
-        .item-list { list-style: none; padding: 0; }
-        .item-list li {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-        .item-list li::before {
-            content: "◆";
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-        }
-
-        @media (max-width: 768px) {
-            .market-hero h1 { font-size: 2rem; }
-            .sticky-col { width: 140px; font-size: 0.9rem; }
-            .contract-note { padding: 30px 20px; }
-        }
+    /* ── 手機適配 ────────────────────────────── */
+    @media (max-width: 600px) {
+        .mc-note__grid { grid-template-columns: 1fr; }
+        .mc-line { width: 100%; justify-content: center; }
+    }
     </style>
 </head>
 
 <body>
     {% include header.html %}
-    
+
     <main>
-        <section class="market-hero">
+
+        <!-- Hero -->
+        <section class="mc-hero">
             <div class="wrapper">
-                <span style="color:var(--gold); letter-spacing: 5px; font-size: 0.85rem;">MARKET COMPARISON</span>
-                <h1>拒絕殯葬陷阱：為什麼選擇祥安？</h1>
-                <p class="warning-text">同樣的預算，祥安給您更有溫度的品質</p>
+                <span class="mc-hero__eyebrow">MARKET COMPARISON</span>
+                <h1 class="mc-hero__title">拒絕殯葬陷阱<br>為什麼選擇祥安？</h1>
+                <p class="mc-hero__sub">
+                    同樣的預算，祥安給您更有溫度的品質。<br>
+                    <strong>以下對照，源自業界真實存在的消費糾紛現象。</strong>
+                </p>
             </div>
         </section>
 
-        <section class="matrix-container">
-            <div class="matrix-scroll-wrapper">
-                <table>
+        <!-- 對照矩陣 -->
+        <section class="mc-wrapper">
+            <div class="mc-table-wrap">
+                <table class="mc-table">
                     <thead>
                         <tr>
-                            <th class="sticky-col" style="background: #F4F4EF;">核心差異對照</th>
-                            <th class="th-brand">祥安生命服務</th>
-                            <th class="th-others">傳統業者 / 生前契約</th>
+                            <th class="th-label">核心差異對照</th>
+                            <th class="th-shiangan">祥安生命服務</th>
+                            <th class="th-others">業界常見問題現象</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="row-highlight">
-                            <td class="sticky-col">收費透明度</td>
-                            <td>
-                                <span class="status-box ok">✔ 一次性總價承諾</span>
-                                <span class="desc-text">合約內容清楚列載，簽約後絕不巧立名目（如車資、入殮費）追加。</span>
-                            </td>
-                            <td>
-                                <span class="status-box no">✘ 低價釣魚後追加</span>
-                                <span class="desc-text">先以驚人低價吸引，事後卻以「習俗、長輩交代」為由不斷追加數萬元。</span>
-                            </td>
-                        </tr>
+
                         <tr>
-                            <td class="sticky-col">鮮花式場品質</td>
+                            <td class="td-label">收費透明度</td>
                             <td>
-                                <span class="status-box ok">✔ 100% 當季鮮花</span>
-                                <span class="desc-text">堅持使用當天配送新鮮花材，即便告別式結束，花朵依然維持生命力。</span>
+                                <span class="status ok">✔ 簽約即最終費用</span>
+                                <span class="desc">服務品項、物資規格、單價與總價完整列於定型化契約，簽約後若有追加需求，必須經家屬書面同意，絕不單方面追加。</span>
                             </td>
                             <td>
-                                <span class="status-box no">✘ 二手回收花</span>
-                                <span class="desc-text">業界常見回收前一場花材重複使用，花邊枯萎、噴漆染色，對先人不敬。</span>
-                            </td>
-                        </tr>
-                        <tr class="row-highlight">
-                            <td class="sticky-col">規費處理方式</td>
-                            <td>
-                                <span class="status-box ok">✔ 實報實銷、不賺差價</span>
-                                <span class="desc-text">政府殯儀館收費（如冰庫、禮廳）完全透明，檢附官方收據，誠實核銷。</span>
-                            </td>
-                            <td>
-                                <span class="status-box no">✘ 模糊規費、賺退佣</span>
-                                <span class="desc-text">常標榜包到好，卻將規費虛報或是收取規費卻不退餘額，家屬被收兩次錢。</span>
+                                <span class="status bad">✘ 低價釣魚、事後追加</span>
+                                <span class="desc">消保會與殯葬管理處接獲的糾紛中，最常見的是先以低報價吸引簽約，事後以「習俗需要」「長輩要求」等理由不斷追加，實際費用遠超原始估算。</span>
                             </td>
                         </tr>
+
                         <tr>
-                            <td class="sticky-col">服務人力與證照</td>
+                            <td class="td-label">鮮花式場品質</td>
                             <td>
-                                <span class="status-box ok">✔ 國家證照禮儀師</span>
-                                <span class="desc-text">每一場均由持證職人親自帶領，24H 專線直接對應禮儀師，不透過客服。</span>
+                                <span class="status ok">✔ 當日新鮮花材</span>
+                                <span class="desc">所有方案均使用當天配送的新鮮花材，祥安堅持不使用回收花、人造花或噴漆染色花，告別式結束時花朵依然保有生命力。</span>
                             </td>
                             <td>
-                                <span class="status-box no">✘ 外包派遣人力</span>
-                                <span class="desc-text">合約簽訂是一套，現場卻是派遣工，流程生疏、對家屬需求愛理不理。</span>
-                            </td>
-                        </tr>
-                        <tr class="row-highlight">
-                            <td class="sticky-col">壽材與用品品質</td>
-                            <td>
-                                <span class="status-box ok">✔ 等級升級不含糊</span>
-                                <span class="desc-text">合約載明棺木材質、骨灰罈玉石等級。祥安中價位方案即配備他牌的高階物料。</span>
-                            </td>
-                            <td>
-                                <span class="status-box no">✘ 偷更換劣質品</span>
-                                <span class="desc-text">口頭承諾高品質，現場卻以薄板合板棺代替，或骨灰罈夾雜石紋裂痕瑕疵。</span>
+                                <span class="status bad">✘ 回收花重複使用</span>
+                                <span class="desc">業界糾紛案例中，有業者將前一場告別式的花材回收整理後重複使用，花邊枯萎、氣味不佳，或以噴漆重新染色，家屬難以在現場辨識。</span>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td class="td-label">政府規費處理</td>
+                            <td>
+                                <span class="status ok">✔ 實報實銷，附官方收據</span>
+                                <span class="desc">殯儀館冰存費、禮廳租金、火化費等政府規費，祥安一律代繳後附上官方電子收據，家屬可逐筆核對，不從中加收任何差價或手續費。</span>
+                            </td>
+                            <td>
+                                <span class="status bad">✘ 規費不透明或虛報</span>
+                                <span class="desc">部分業者將政府規費包入「套裝總價」不另列明，或代繳後不提供收據，家屬無從確認實際繳納金額，業者可能從中收取差額。</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="td-label">服務人力資歷</td>
+                            <td>
+                                <span class="status ok">✔ 國家認證禮儀師全程主持</span>
+                                <span class="desc">每一場服務均由持有國家殯葬禮儀師技術士證照的職人親自統籌，24H 專線直接對應負責禮儀師，不透過客服轉介。</span>
+                            </td>
+                            <td>
+                                <span class="status bad">✘ 派遣人力素質不穩</span>
+                                <span class="desc">糾紛案例中有業者簽約時由資深人員接洽，實際服務卻由臨時派遣人員執行，對家屬的習俗需求不熟悉，流程失誤無法補救。</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="td-label">棺木骨灰罐品質</td>
+                            <td>
+                                <span class="status ok">✔ 材質規格白紙黑字</span>
+                                <span class="desc">合約明載棺木材質（環保棺 / 實木棺種類）、骨灰罐石材等級，家屬可於安置時現場確認，與合約規格不符者有權要求更換。</span>
+                            </td>
+                            <td>
+                                <span class="status bad">✘ 口頭承諾與現場不符</span>
+                                <span class="desc">消費糾紛中常見口頭承諾高品質棺木，現場卻以薄板合板棺代替，或骨灰罐有裂紋瑕疵，但事後舉證困難。</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="td-label">生前契約保障</td>
+                            <td>
+                                <span class="status ok">✔ 定型化契約・信託履約</span>
+                                <span class="desc">祥安提供政府核可的定型化契約，符合殯葬管理條例規範。家屬享有 3 天審閱期，不接受當場簽約、不可事後修改品項。</span>
+                            </td>
+                            <td>
+                                <span class="status bad">✘ 自擬契約、缺乏保障</span>
+                                <span class="desc">部分業者使用自擬格式合約，品項描述模糊（如「豪華套裝」未載明細），一旦業者倒閉或不履行，家屬求償困難。</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="td-label">補助代辦服務</td>
+                            <td>
+                                <span class="status ok">✔ 勞保國保農保全程代辦</span>
+                                <span class="desc">祥安禮儀師協助確認請領資格、備齊文件並代為遞送至勞保局，確保家屬不因忙於治喪而錯過補助申請期限，所有憑證符合核銷要求。</span>
+                            </td>
+                            <td>
+                                <span class="status bad">✘ 不告知補助資訊</span>
+                                <span class="desc">部分業者未主動告知家屬喪葬補助資訊，家屬因不知情而錯過 5 年申請期限，損失數萬至十萬元以上的補助金額。</span>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
 
-            <div class="contract-note">
-                <div class="note-grid">
-                    <div class="note-info">
-                        <h4 class="note-title">誠信告知：不包含在契約內之部分</h4>
-                        <p style="color:var(--danger-red); font-weight:bold; margin-bottom: 20px;">以下費用屬於「實報實銷」項目，家屬可依照單據核銷，祥安絕不從中獲利：</p>
-                        <ul class="item-list">
-                            <li><strong>政府機關規費：</strong>包含殯儀館遺體冷藏費、禮廳租用費、火化爐使用費、入館費。</li>
-                            <li><strong>塔位墓園規費：</strong>公家或私立納骨塔購置費用、管理費、晉塔祭祀費。</li>
-                            <li><strong>宗教神職人員：</strong>家屬指定之特定宗教神職人員紅包（法師、牧師、司琴等）。</li>
-                            <li><strong>客製祭品雜項：</strong>非合約內之特定品牌菸酒祭品、大量寄送訃聞之郵資（按實計算）。</li>
-                            <li><strong>長途接送里程：</strong>超出特定服務範圍（北/中/南特定區）之長途接體車資。</li>
+            <!-- 誠信備註 -->
+            <div class="mc-note">
+                <div class="mc-note__grid">
+
+                    <div>
+                        <h3 class="mc-note__title">誠信告知：契約外的實報實銷費用</h3>
+                        <p class="mc-note__warn">以下費用屬「代收代付」性質，祥安一律附官方單據核銷，絕不從中獲利：</p>
+                        <ul class="mc-item-list">
+                            <li><strong>殯儀館政府規費：</strong>遺體冷藏費（冰櫃）、禮廳租用費、火化爐使用費、入館登記費</li>
+                            <li><strong>塔位墓園費用：</strong>公私立納骨塔使用費、管理費、晉塔相關費用</li>
+                            <li><strong>宗教神職人員謝禮：</strong>家屬指定之法師、牧師、道士、司琴等宗教人士謝禮</li>
+                            <li><strong>客製化雜項：</strong>非合約內之特定品牌祭品、大量訃聞郵資等（按實計算）</li>
+                            <li><strong>長途接送里程：</strong>超出服務範圍（大台北地區）之接體車資，依距離另報</li>
                         </ul>
                     </div>
-                    <div class="note-reason">
-                        <h4 class="note-title">這對家屬有什麼好處？</h4>
-                        <p style="font-size: 0.95rem; color: #444;">
-                            許多同業標榜「全包」其實隱藏了極高的規費差額。
+
+                    <div>
+                        <h3 class="mc-note__title">這對家屬有什麼具體好處？</h3>
+                        <p class="mc-note__body">
+                            許多業者標榜「全包」，實際上將規費差額藏入總報價，家屬付了兩次規費卻渾然不知。
                             <br><br>
-                            祥安生命將「服務費」與「政府規費」分開列載，是為了確保家屬<strong>每一分錢都花在刀口上</strong>。我們幫您省下虛報的規費，並將這份預算投入到更精緻的花藝、更優質的棺木上，這才是真正的對先人盡孝、對家屬負責。
+                            祥安生命將<strong>「禮儀服務費」與「政府規費」分開列載</strong>，是讓家屬對每一分錢都有充分知情權。省下的規費差額，可投入更精緻的花藝佈置、更優質的物資品質——這才是真正對先人負責、對家屬誠信的做法。
                         </p>
-                        <div style="margin-top: 30px;">
-                            <a href="{{ '/compare.html' | relative_url }}" style="background: var(--gold); color: #fff; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">
-                                ➔ 查看祥安自家方案規格
-                            </a>
-                        </div>
+                        <a href="{{ '/compare.html' | relative_url }}" class="mc-note__cta">
+                            <i class="fas fa-file-alt" aria-hidden="true"></i>
+                            查看祥安透明方案規格
+                        </a>
                     </div>
+
                 </div>
             </div>
         </section>
+
+        <!-- 底部 CTA -->
+        <section class="mc-bottom-cta">
+            <h2>做出您最安心的選擇</h2>
+            <p>
+                在最脆弱的時刻，您值得一個誠信透明的守護者。<br>
+                祥安生命 24 小時在線，歡迎來電確認任何細節。
+            </p>
+            <a href="tel:+886978583699" class="mc-tel">
+                <i class="fas fa-phone-alt" aria-hidden="true"></i> 0978-583-699
+            </a>
+            <!-- LINE ID：請將 @shiangan 替換為實際帳號 -->
+            <a href="https://line.me/ti/p/@ava85110"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="mc-line">
+                <i class="fab fa-line" aria-hidden="true"></i> LINE 即時諮詢
+            </a>
+        </section>
+
     </main>
 
     {% include footer.html %}
+    {% include floating-cta.html %}
+
 </body>
 </html>
