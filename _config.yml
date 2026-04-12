@@ -1,37 +1,54 @@
-# --------------------
-# 基礎資訊設定
-# --------------------
-title: "祥安生命有限公司"
-email: "ava85110@yahoo.com.tw"
-description: "提供往生接體、喪葬補助、習俗流程等生命服務專業知識。"
+# ── 基本資訊 ──────────────────────────────────────────────
+title: 祥安生命有限公司
+tagline: 24H 國家認證禮儀師・費用透明・雙北桃園即時服務
+description: >-
+  祥安生命有限公司，提供 24 小時國家認證禮儀師服務。
+  涵蓋中式佛道教、西式、日式多元禮儀，費用透明定型化契約，
+  服務新北市、台北市、桃園市及全台。
+url: "https://24hour.xn--kpry57d"
+baseurl: "/Shiangan"
 
-# 💡 如果您的網址是 https://24hour.台灣/Shiangan/
-url: "https://24hour.xn--kpry57d" 
-baseurl: "/Shiangan" 
+# ── 公司資訊（供 Schema 使用）──────────────────────────────
+company:
+  name: 祥安生命有限公司
+  name_en: Shiangan Life Services Co., Ltd.
+  phone: "+886978583699"
+  phone_display: "0978-583-699"
+  address: 新北市三重區永福街135巷13號
+  city: 新北市
+  region: 三重區
+  postal_code: "241"
+  lat: 25.0652
+  lng: 121.4855
+  license: "北府民儀字第XXXXXXXX號"   # ← 待填真實立案字號
+  line_id: "@ava85110"               # ← 待填真實 LINE 帳號
+  facebook: "https://www.facebook.com/ShianganLife"
+  ga4_id: "G-8842890892"            # ← 待填正確 10 碼 GA4 ID
 
-# --------------------
-# Jekyll 核心配置
-# --------------------
-permalink: /:title/   # 💡 建議改為 /:title/，這樣網址會更漂亮 (例如 about/ 而非 about.html)
-timezone: Asia/Taipei
-encoding: "utf-8"
+# ── 作者 ──────────────────────────────────────────────────
+author:
+  name: 祥安生命禮儀師團隊
+  url: https://24hour.xn--kpry57d/Shiangan/about.html
 
-# --------------------
-# 分頁與插件
-# --------------------
-paginate: 10 
-paginate_path: "/blog/page:num/"
-
-# GitHub Pages 官方支援的插件宣告方式
+# ── Jekyll SEO Tag 插件 ───────────────────────────────────
+# 安裝：gem 'jekyll-seo-tag'，在 Gemfile 加入
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap # 建議增加這個，對 SEO 很有幫助
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
 
-# --------------------
-# 檔案排除 (避免上傳不必要的檔案)
-# --------------------
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor
+# ── 預設 front matter ────────────────────────────────────
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: 祥安生命禮儀師團隊
+      lang: zh-Hant
+      robots: "index, follow"
+
+# ── Sitemap ─────────────────────────────────────────────
+sitemap:
+  exclude:
+    - /404.html
