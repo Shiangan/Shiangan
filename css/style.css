@@ -29,7 +29,7 @@
     --line-gold:   rgba(184,151,90,.25); /* 金色半透明邊框 */
 
     /* 版面間距 */
-    --side-gap:    clamp(1.2rem, 5vw, 6rem);  /* 左右邊距 */
+    --side-gap:    clamp(1.5rem, 6vw, 6rem);  /* 左右邊距 */
     --section-gap: clamp(50px, 8vh, 100px);   /* 區塊上下間距 */
 
     /* 動畫曲線 */
@@ -169,9 +169,10 @@ main { padding-top: 90px; }
 /* ── 數字統計列 ─────────────────────────────── */
 .stats-grid {
     display: grid;
+    /* 確保有 box-sizing 並且稍微增加手機版的內距 */
+    box-sizing: border-box;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    padding: 40px var(--side-gap);
     background: rgba(255,255,255,.3);
     border-top: 1px solid var(--line-soft);
 }
@@ -202,9 +203,12 @@ main { padding-top: 90px; }
     margin-top: 40px;
     border-top: 1px solid var(--line-soft);
 }
+
+
 .service-row {
-    padding: 35px 0;
+    padding: 35px var(--side-gap);
     border-bottom: 1px solid var(--line-soft);
+   margin: 0 calc(var(--side-gap) * -1); /* 如果你想讓底色 hover 滿版但文字對齊 */
     display: grid;
     grid-template-columns: 50px 1fr;
     gap: 20px;
@@ -233,6 +237,9 @@ main { padding-top: 90px; }
     opacity: .72;
     margin: 0;
     line-height: 1.7;
+}
+.service-list {
+    padding: 0; /* 保持原樣 */
 }
 
 /* ── FAQ ────────────────────────────────────── */
