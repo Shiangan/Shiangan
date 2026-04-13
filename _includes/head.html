@@ -1,28 +1,14 @@
-<!-- ═══════════════════════════════════════════════════
-     _includes/head.html
-     祥安生命 Jekyll 全站 <head> 統一管理
-     修正版 2026-04
-     ─────────────────────────────────────────────────
-     使用前提：
-       _config.yml 已設定 site.company.*（參見 SEO 手冊）
-       css/style.css 已定義全站 CSS 變數與基礎樣式
-       js/script.js  已定義 FAQ 展開 + Reveal 動畫邏輯
-     ═══════════════════════════════════════════════════ -->
-
-<!-- ① Charset + Viewport（永遠最優先）-->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<!-- ② Google Search Console 所有權驗證 -->
 <meta name="google-site-verification" content="7521ccb19fc25690">
 
-<!-- ③ Primary SEO -->
 <title>
   {%- if page.title -%}
     {{ page.title | truncate: 60, '' }} | 祥安生命
   {%- else -%}
-    祥安生命有限公司 | 24H 國家認證禮儀師・新北・台北・桃園
+    祥安生命 | 24H 國家認證禮儀師・新北台北桃園專業殯葬服務
   {%- endif -%}
 </title>
 
@@ -32,62 +18,41 @@
 <meta name="robots"
   content="{%- if page.robots -%}{{ page.robots }}{%- else -%}index, follow{%- endif -%}">
 
-<link rel="canonical"
-  href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+<link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
 
-<!-- ④ Open Graph（Facebook / LINE 分享預覽）-->
-<meta property="og:type"
-  content="{%- if page.layout == 'post' -%}article{%- else -%}website{%- endif -%}">
-<meta property="og:title"
-  content="{%- if page.title -%}{{ page.title | truncate: 60, '' }}{%- else -%}{{ site.title }}{%- endif -%}">
-<meta property="og:description"
-  content="{%- if page.description -%}{{ page.description | truncate: 155, '' }}{%- else -%}{{ site.description | truncate: 155, '' }}{%- endif -%}">
-<meta property="og:url"
-  content="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
-<meta property="og:image"
-  content="{%- if page.image -%}{{ page.image | prepend: site.baseurl | prepend: site.url }}{%- else -%}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{%- endif -%}">
-<meta property="og:image:width"  content="1200">
+<meta property="og:type" content="{%- if page.layout == 'post' -%}article{%- else -%}website{%- endif -%}">
+<meta property="og:title" content="{%- if page.title -%}{{ page.title | truncate: 60, '' }}{%- else -%}{{ site.title }}{%- endif -%}">
+<meta property="og:description" content="{%- if page.description -%}{{ page.description | truncate: 155, '' }}{%- else -%}{{ site.description | truncate: 155, '' }}{%- endif -%}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:image" content="{%- if page.image -%}{{ page.image | absolute_url }}{%- else -%}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{%- endif -%}">
+<meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name"    content="{{ site.title }}">
-<meta property="og:locale"       content="zh_TW">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:locale" content="zh_TW">
 
 {%- if page.layout == 'post' -%}
 <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
-<meta property="article:modified_time"  content="{{ page.date | date_to_xmlschema }}">
-<meta property="article:author"         content="{{ site.author.name }}">
-<meta property="article:section"        content="{{ page.category }}">
-{%- for tag in page.tags -%}
-<meta property="article:tag" content="{{ tag }}">
-{%- endfor -%}
+<meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">
+<meta property="article:author" content="{{ site.author.name }}">
+<meta property="article:section" content="{{ page.category }}">
+{%- for tag in page.tags -%}<meta property="article:tag" content="{{ tag }}">{%- endfor -%}
 {%- endif -%}
 
-<!-- ⑤ Twitter Card -->
-<meta name="twitter:card"        content="summary_large_image">
-<meta name="twitter:title"
-  content="{%- if page.title -%}{{ page.title | truncate: 60, '' }}{%- else -%}{{ site.title }}{%- endif -%}">
-<meta name="twitter:description"
-  content="{%- if page.description -%}{{ page.description | truncate: 155, '' }}{%- else -%}{{ site.description | truncate: 155, '' }}{%- endif -%}">
-<meta name="twitter:image"
-  content="{%- if page.image -%}{{ page.image | prepend: site.baseurl | prepend: site.url }}{%- else -%}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{%- endif -%}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{%- if page.title -%}{{ page.title | truncate: 60, '' }}{%- else -%}{{ site.title }}{%- endif -%}">
+<meta name="twitter:description" content="{%- if page.description -%}{{ page.description | truncate: 155, '' }}{%- else -%}{{ site.description | truncate: 155, '' }}{%- endif -%}">
+<meta name="twitter:image" content="{%- if page.image -%}{{ page.image | absolute_url }}{%- else -%}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{%- endif -%}">
 
-<!-- ⑥ 字型與 Font Awesome（預載入）-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload"
-  href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
-  as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 </noscript>
-<link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-  crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-<!-- ⑦ 全站 CSS -->
 <link rel="stylesheet" href="{{ site.baseurl }}/css/style.css">
 
-<!-- ⑧ Schema.org JSON-LD ── FuneralHome（所有頁面）-->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -103,7 +68,7 @@
     "height": 60
   },
   "image": "{{ site.url }}{{ site.baseurl }}/images/og-default.jpg",
-  "description": "祥安生命有限公司提供24小時國家認證禮儀師服務，費用透明定型化契約，服務新北市、台北市、桃園市、基隆市、宜蘭縣。",
+  "description": "祥安生命提供24小時國家認證禮儀師服務，費用透明定型化契約，專業服務北北基桃宜地區。",
   "telephone": "+886978583699",
   "address": {
     "@type": "PostalAddress",
@@ -120,132 +85,56 @@
   },
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
-    "dayOfWeek": [
-      "Monday","Tuesday","Wednesday","Thursday",
-      "Friday","Saturday","Sunday"
-    ],
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
     "opens": "00:00",
     "closes": "23:59"
   },
-  "areaServed": [
-    {"@type": "City", "name": "新北市"},
-    {"@type": "City", "name": "台北市"},
-    {"@type": "City", "name": "桃園市"},
-    {"@type": "City", "name": "基隆市"},
-    {"@type": "City", "name": "宜蘭縣"}
-  ],
   "priceRange": "NT$68,000 起",
-  "sameAs": [
-    "https://www.facebook.com/ShianganLife"
-  ]
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "禮儀服務項目",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "尊嚴合約方案" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "24小時接運安置" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "精緻花禮代送" } }
+    ]
+  },
+  "sameAs": ["https://www.facebook.com/ShianganLife"]
 }
 </script>
 
-<!-- ⑨ Schema.org JSON-LD ── Article（僅 _posts 頁面）-->
 {%- if page.layout == 'post' -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "{{ page.title | truncate: 110, '' | xml_escape }}",
-  "description": "{{ page.description | truncate: 155, '' | xml_escape }}",
-  "image": {
-    "@type": "ImageObject",
-    "url": "{%- if page.image -%}{{ page.image | prepend: site.baseurl | prepend: site.url }}{%- else -%}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{%- endif -%}",
-    "width": 1200,
-    "height": 630
-  },
+  "image": "{%- if page.image -%}{{ page.image | absolute_url }}{%- else -%}{{ site.url }}{{ site.baseurl }}/images/og-default.jpg{%- endif -%}",
   "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.date | date_to_xmlschema }}",
-  "author": {
-    "@type": "Organization",
-    "name": "祥安生命有限公司",
-    "@id": "{{ site.url }}{{ site.baseurl }}/#organization"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "祥安生命有限公司",
-    "@id": "{{ site.url }}{{ site.baseurl }}/#organization",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ site.url }}{{ site.baseurl }}/images/logo.png"
-    }
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ page.url | prepend: site.baseurl | prepend: site.url }}"
-  },
-  "articleSection": "{{ page.category | xml_escape }}",
-  "keywords": "{{ page.tags | join: ', ' | xml_escape }}"
+  "author": {"@type": "Organization", "name": "祥安生命"},
+  "publisher": {"@type": "Organization", "name": "祥安生命", "logo": {"@type": "ImageObject", "url": "{{ site.url }}{{ site.baseurl }}/images/logo.png"}}
 }
 </script>
 {%- endif -%}
 
-<!-- ⑩ Schema.org JSON-LD ── FAQPage（有 has_faq: true 的文章）-->
 {%- if page.has_faq and page.faqs -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {%- for faq in page.faqs -%}
-    {
-      "@type": "Question",
-      "name": "{{ faq.question | xml_escape }}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{ faq.answer | xml_escape }}"
-      }
-    }{%- unless forloop.last -%},{%- endunless -%}
-    {%- endfor -%}
-  ]
+  "mainEntity": [{%- for faq in page.faqs -%}{"@type": "Question","name": "{{ faq.question | xml_escape }}","acceptedAnswer": {"@type": "Answer","text": "{{ faq.answer | xml_escape }}"}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
 }
 </script>
 {%- endif -%}
 
-<!-- ⑪ Schema.org JSON-LD ── BreadcrumbList（_posts 頁面）-->
-{%- if page.layout == 'post' -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "首頁",
-      "item": "{{ site.url }}{{ site.baseurl }}/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "殯葬百科知識",
-      "item": "{{ site.url }}{{ site.baseurl }}/blog.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ page.title | truncate: 60, '' | xml_escape }}",
-      "item": "{{ page.url | prepend: site.baseurl | prepend: site.url }}"
-    }
-  ]
-}
-</script>
-{%- endif -%}
-
-<!-- ⑫ GA4（從 _config.yml 讀取，避免硬寫）-->
-{%- if site.company.ga4_id and site.company.ga4_id != "" and site.company.ga4_id != "G-XXXXXXXXXX" -%}
+{%- if site.company.ga4_id -%}
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.company.ga4_id }}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '{{ site.company.ga4_id }}', {
-    'anonymize_ip': true,
-    'send_page_view': true
-  });
+  gtag('config', '{{ site.company.ga4_id }}');
 </script>
 {%- endif -%}
 
-<!-- ⑬ 全站 JS（defer 確保不阻塞渲染）-->
 <script src="{{ site.baseurl }}/js/script.js" defer></script>
