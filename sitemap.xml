@@ -1,37 +1,95 @@
+---
+layout: null
+permalink: /sitemap.xml
+---
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!-- 首頁 -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- ══════════════════════════════════════════
+       祥安生命 Sitemap
+       自動生成版本（Jekyll 驅動）
+       域名統一使用 Punycode：https://24hour.xn--kpry57d
+       ══════════════════════════════════════════ -->
+
+  <!-- ① 首頁（最高優先）-->
   <url>
-    <loc>https://24hour.台灣/Shiangan/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://24hour.xn--kpry57d/Shiangan/</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- 部落格文章示例 -->
+  <!-- ② 核心功能頁（priority 0.9）-->
   <url>
-    <loc>https://24hour.台灣/Shiangan/blog/article-1.html</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://24hour.xn--kpry57d/Shiangan/compare.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://24hour.台灣/Shiangan/blog/article-2.html</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://24hour.xn--kpry57d/Shiangan/about.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
-  <!-- 可依此規則自動生成 100 篇文章 -->
+  <url>
+    <loc>https://24hour.xn--kpry57d/Shiangan/eco-burial.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://24hour.xn--kpry57d/Shiangan/blog.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://24hour.xn--kpry57d/Shiangan/order.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://24hour.xn--kpry57d/Shiangan/market-compare.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ③ 方案詳細頁（priority 0.7）-->
+  <url>
+    <loc>https://24hour.xn--kpry57d/Shiangan/deed01.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://24hour.xn--kpry57d/Shiangan/deed-non-religious.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ④ 殯葬百科知識文章（Jekyll 自動生成，priority 0.7）-->
   {% for post in site.posts %}
+  {% unless post.robots == 'noindex' %}
   <url>
-    <loc>{{ post.url | absolute_url }}</loc>
+    <loc>https://24hour.xn--kpry57d/Shiangan{{ post.url }}</loc>
     <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
+  {% endunless %}
   {% endfor %}
 
 </urlset>
