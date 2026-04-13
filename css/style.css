@@ -74,9 +74,12 @@ main { padding-top: 90px; }
 }
 
 .section {
-    padding: var(--section-gap) 0;
+    /* 只設定上下，不干涉左右 */
+    padding-top: var(--section-gap);
+    padding-bottom: var(--section-gap);
     position: relative;
 }
+
 
 /* ── 圖文並排 ──────────────────────────────── */
 .flex-container {
