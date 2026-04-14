@@ -5,395 +5,214 @@ permalink: /deed-non-religious/
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>無宗教自由追思告別式 | 祥安生命 - 以生命故事為核心的圓滿謝幕</title>
-    <meta name="description" content="不受宗教框架限制，以逝者的人生故事、音樂與影像為核心。祥安生命無宗教自由追思方案，由國家認證禮儀師全程規劃，讓最後的告別最貼近逝者本人。">
-
     {% include head.html %}
+    <title>無宗教自由追思 | 祥安生命 - 讓告別回歸生命本質</title>
+    <meta name="description" content="打破傳統宗教框架，以逝者的人生故事、音樂與影像為核心。祥安生命提供客製化無宗教自由追思方案，由國家認證禮儀師全程規劃，創造一場最溫暖、最貼近本人的謝幕。">
 
     <style>
         :root {
-            --soft-bg: #F9F9F7;
-            --border-color: #e8e4de;
+            --soft-bg: #FDFDFB;
+            --border-color: #EBE7E1;
+            --accent-gold: #B8975A;
+            --ink-black: #1A1A1A;
+            --text-gray: #555555;
         }
 
-        /* ── 頂部視覺區 ── */
+        /* ── 頂部視覺區：雜誌感排版 ── */
         .plan-hero {
-            padding: clamp(100px, 14vw, 160px) 0 clamp(50px, 7vw, 90px);
-            background: linear-gradient(
-                to bottom,
-                rgba(249,249,247,.95) 0%,
-                rgba(255,255,255,1) 100%
-            );
+            padding: clamp(120px, 15vw, 180px) 0 clamp(60px, 8vw, 100px);
+            background: linear-gradient(to bottom, #F9F9F7 0%, #FFFFFF 100%);
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
+        
         .plan-hero__watermark {
             position: absolute;
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: clamp(5rem, 18vw, 16rem);
-            color: rgba(184,151,90,.04);
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-            top: 50%;
-            left: 50%;
+            font-size: clamp(6rem, 20vw, 18rem);
+            color: rgba(184, 151, 90, 0.05);
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             z-index: 0;
-        }
-        .plan-hero__inner { position: relative; z-index: 1; }
-        .plan-badge {
-            display: inline-block;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 5px 18px;
-            font-size: .82rem;
-            letter-spacing: 3px;
-            margin-bottom: 22px;
-            border-radius: 2px;
-        }
-        .plan-hero__title {
-            font-family: 'Noto Serif TC', serif;
-            font-size: clamp(2rem, 6vw, 3.2rem);
-            color: var(--deep-ink);
-            margin: 0 0 16px;
-            line-height: 1.3;
-        }
-        .plan-hero__sub {
-            font-size: clamp(.92rem, 2vw, 1.08rem);
-            color: #666;
-            max-width: 560px;
-            margin: 0 auto 32px;
-            line-height: 1.85;
-            opacity: .75;
-        }
-        .plan-hero__philosophy {
-            display: inline-block;
-            font-family: 'Noto Serif TC', serif;
-            font-style: italic;
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            color: var(--accent);
-            border-top: 1px solid rgba(184,151,90,.3);
-            border-bottom: 1px solid rgba(184,151,90,.3);
-            padding: 12px 32px;
-            letter-spacing: 2px;
+            white-space: nowrap;
         }
 
-        /* ── 無宗教特色說明橫幅 ── */
+        .plan-hero__inner { position: relative; z-index: 1; }
+
+        .plan-badge {
+            display: inline-block;
+            border: 1.5px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 6px 20px;
+            font-size: .85rem;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .plan-hero__title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            color: var(--ink-black);
+            margin: 0 0 20px;
+            line-height: 1.25;
+        }
+
+        .plan-hero__sub {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 2;
+        }
+
+        /* ── 特色橫幅：暗色高級感 ── */
         .feature-banner {
-            background: var(--deep-ink);
+            background: #222;
             color: #fff;
-            padding: clamp(28px, 4vw, 44px) clamp(20px, 5vw, 40px);
+            padding: 60px 0;
         }
         .feature-banner__inner {
-            max-width: 1000px;
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: clamp(20px, 3vw, 36px);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
             text-align: center;
         }
-        .feature-item__icon {
-            font-size: 1.6rem;
-            color: var(--accent);
+        .feature-item i {
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
             display: block;
-            margin-bottom: 8px;
         }
         .feature-item h4 {
             font-family: 'Noto Serif TC', serif;
-            font-size: clamp(.92rem, 2vw, 1.05rem);
-            color: #fff;
-            margin: 0 0 6px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
         }
         .feature-item p {
-            font-size: .8rem;
-            color: rgba(255,255,255,.55);
-            margin: 0;
-            line-height: 1.65;
-        }
-
-        /* ── 契約容器 ── */
-        .contract-wrapper {
-            max-width: 1000px;
-            margin: 0 auto clamp(60px, 8vw, 100px);
-            padding: 0 clamp(16px, 3vw, 24px);
-        }
-
-        /* ── 分類區塊 ── */
-        .contract-section {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            border-top: 1px solid var(--border-color);
-            padding: clamp(28px, 4vw, 44px) 0;
-            gap: clamp(20px, 3vw, 40px);
-        }
-        .section-info { padding-right: 16px; }
-        .section-info .phase-label {
-            font-size: .74rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .section-info h3 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-            color: var(--deep-ink);
-            margin: 0 0 10px;
-            line-height: 1.35;
-        }
-        .section-info .section-note {
-            font-size: .78rem;
-            color: #aaa;
-            line-height: 1.65;
-        }
-
-        /* ── 細項清單 ── */
-        .detail-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: clamp(18px, 3vw, 30px);
-        }
-        .detail-item h4 {
-            font-size: clamp(.95rem, 2vw, 1.05rem);
-            font-weight: 700;
-            color: var(--deep-ink);
-            margin: 0 0 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .detail-item h4::before {
-            content: "";
-            width: 4px; height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .detail-item p {
-            font-size: clamp(.85rem, 1.8vw, .95rem);
-            line-height: 1.85;
-            color: #666;
-            margin: 0;
-        }
-
-        /* 完整欄位（跨兩欄）*/
-        .detail-item.full { grid-column: 1 / -1; }
-
-        /* 無宗教特色項目（帶金色左邊框）*/
-        .detail-item.featured {
-            background: rgba(184,151,90,.04);
-            border-left: 3px solid var(--accent);
-            padding: 14px 16px;
-            border-radius: 0 4px 4px 0;
-        }
-        .detail-item.featured h4 { color: #9a7c42; }
-
-        /* ── 客製化追思區塊 ── */
-        .customize-section {
-            border-top: 1px solid var(--border-color);
-            padding: clamp(28px, 4vw, 44px) 0;
-        }
-        .customize-section h3 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-            color: var(--deep-ink);
-            margin: 0 0 6px;
-        }
-        .customize-section .phase-label {
-            font-size: .74rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .customize-section > p {
-            font-size: clamp(.88rem, 2vw, .97rem);
-            color: #666;
-            line-height: 1.85;
-            margin: 0 0 24px;
-        }
-        .option-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 14px;
-        }
-        .option-card {
-            background: var(--soft-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 18px 16px;
-            transition: border-color .3s, box-shadow .3s;
-        }
-        .option-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 14px rgba(0,0,0,.06);
-        }
-        .option-card__icon {
-            font-size: 1.3rem;
-            color: var(--accent);
-            display: block;
-            margin-bottom: 8px;
-        }
-        .option-card h5 {
-            font-size: .9rem;
-            color: var(--deep-ink);
-            margin: 0 0 5px;
-            font-weight: 700;
-        }
-        .option-card p {
-            font-size: .8rem;
-            color: #888;
-            margin: 0;
+            font-size: .85rem;
+            color: #999;
             line-height: 1.6;
         }
 
-        /* ── 總價區 ── */
+        /* ── 服務內容區塊 ── */
+        .contract-wrapper {
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 25px;
+        }
+
+        .contract-section {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0;
+            gap: 50px;
+        }
+
+        .section-info h3 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.6rem;
+            color: var(--ink-black);
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        .phase-label {
+            font-family: 'Work Sans', sans-serif;
+            font-size: .75rem;
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        /* 細項清單排版 */
+        .detail-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .detail-item h4 {
+            font-size: 1.1rem;
+            color: var(--ink-black);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .detail-item h4::before {
+            content: "";
+            width: 6px; height: 6px;
+            background: var(--accent-gold);
+            margin-right: 12px;
+            border-radius: 50%;
+        }
+
+        .detail-item p {
+            font-size: .95rem;
+            color: var(--text-gray);
+            line-height: 1.9;
+        }
+
+        .detail-item.featured {
+            background: #FBF9F5;
+            padding: 25px;
+            border-left: 4px solid var(--accent-gold);
+            grid-column: 1 / -1; /* 特色項目橫跨兩欄 */
+        }
+
+        /* ── 總價與行動區 ── */
         .price-summary {
-            background: var(--deep-ink);
+            background: #1A1A1A;
             color: #fff;
-            padding: clamp(44px, 6vw, 70px) clamp(24px, 5vw, 44px);
+            padding: 80px 40px;
             text-align: center;
-            margin-top: 40px;
-            position: relative;
-            overflow: hidden;
             border-radius: 4px;
+            margin-top: 40px;
         }
-        .price-summary .ps-watermark {
-            position: absolute;
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: clamp(4rem, 14vw, 12rem);
-            color: rgba(255,255,255,.04);
-            white-space: nowrap;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            user-select: none;
-        }
-        .price-summary__inner { position: relative; z-index: 1; }
         .price-summary h2 {
             font-family: 'Noto Serif TC', serif;
-            font-size: clamp(1.3rem, 4vw, 2.2rem);
-            letter-spacing: 3px;
-            margin: 0 0 12px;
-            color: #fff;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
         }
-        .price-summary__amount {
+        .price-amount {
             font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: var(--accent);
+            font-size: 3rem;
+            color: var(--accent-gold);
             display: block;
-            margin: 12px 0 16px;
-            letter-spacing: 2px;
+            margin-bottom: 25px;
         }
-        .price-summary p {
-            opacity: .65;
-            font-size: clamp(.82rem, 2vw, .92rem);
-            margin: 0;
-        }
-        .price-summary__cta-group {
+
+        .cta-group {
             display: flex;
-            gap: 16px;
             justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 32px;
+            gap: 20px;
+            margin-top: 40px;
         }
-        .ps-tel {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            background: #b8975a;
+        .btn-call {
+            background: var(--accent-gold);
             color: #fff;
+            padding: 16px 40px;
             text-decoration: none;
-            padding: 14px 32px;
             font-weight: 700;
-            font-size: .97rem;
             border-radius: 4px;
-            letter-spacing: .5px;
-            transition: background .3s, transform .3s;
+            transition: .3s;
         }
-        .ps-tel:hover { background: #c5a059; transform: translateY(-2px); }
-        .ps-line {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
+        .btn-line {
             background: #06C755;
             color: #fff;
+            padding: 16px 40px;
             text-decoration: none;
-            padding: 14px 32px;
             font-weight: 700;
-            font-size: .97rem;
-            border-radius: 50px;
-            transition: background .3s, transform .3s;
-        }
-        .ps-line:hover { background: #05b04a; transform: translateY(-2px); }
-
-        /* ── 備註卡片 ── */
-        .note-card {
-            background: var(--soft-bg);
-            padding: clamp(22px, 3.5vw, 34px);
-            margin-top: 24px;
             border-radius: 4px;
-            border: 1px solid var(--border-color);
+            transition: .3s;
         }
-        .note-card h5 {
-            font-weight: 700;
-            color: var(--deep-ink);
-            margin: 0 0 14px;
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1rem;
-        }
-        .note-card ol {
-            margin: 0;
-            padding-left: 20px;
-            line-height: 2.1;
-            font-size: clamp(.83rem, 1.8vw, .92rem);
-            color: #666;
-        }
-        .note-card li { margin-bottom: 4px; }
 
-        /* ── 回上方比較頁按鈕 ── */
-        .back-to-compare {
-            text-align: center;
-            margin-top: 36px;
-        }
-        .back-to-compare a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--deep-ink);
-            text-decoration: none;
-            font-size: .88rem;
-            font-weight: 700;
-            border-bottom: 1.5px solid rgba(184,151,90,.4);
-            padding-bottom: 3px;
-            transition: color .2s, border-color .2s;
-        }
-        .back-to-compare a:hover { color: var(--accent); border-color: var(--accent); }
-
-        /* ── RWD ── */
-        @media (max-width: 768px) {
-            .contract-section {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .detail-list {
-                grid-template-columns: 1fr;
-            }
-            .detail-item.full { grid-column: 1; }
-            .section-info { padding-right: 0; }
-        }
-        @media (max-width: 480px) {
-            .option-grid { grid-template-columns: 1fr 1fr; }
+        /* RWD */
+        @media (max-width: 900px) {
+            .contract-section { grid-template-columns: 1fr; gap: 30px; }
+            .detail-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -401,297 +220,156 @@ permalink: /deed-non-religious/
 <body>
     {% include header.html %}
 
-    <main role="main">
-
-        <!-- Hero -->
+    <main>
         <section class="plan-hero">
-            <div class="plan-hero__watermark" aria-hidden="true">Life</div>
+            <div class="plan-hero__watermark">Memory</div>
             <div class="wrapper plan-hero__inner">
-                <span class="plan-badge reveal">無宗教自由追思</span>
-                <h1 class="plan-hero__title reveal">
-                    無宗教告別式<br>以生命故事為核心的圓滿謝幕
-                </h1>
+                <span class="plan-badge reveal">FREE STYLE CEREMONY</span>
+                <h1 class="plan-hero__title reveal">無宗教自由追思方案</h1>
                 <p class="plan-hero__sub reveal">
-                    不受宗教框架束縛，以逝者的音樂、影像、故事與個性為主軸，<br>
-                    創造一場最貼近本人、讓家屬真正告別的溫柔儀式。
+                    打破宗教儀軌的框架，以生命故事為核心。<br>
+                    透過影像、選曲與親友告白，為心愛的親人策畫一場最溫暖的謝幕式。
                 </p>
-                <span class="plan-hero__philosophy reveal">
-                    「儀式的意義，在於讓愛有個歸處。」
-                </span>
             </div>
         </section>
 
-        <!-- 無宗教四大特色橫幅 -->
         <div class="feature-banner">
-            <div class="feature-banner__inner reveal">
+            <div class="wrapper feature-banner__inner reveal">
                 <div class="feature-item">
-                    <span class="feature-item__icon"><i class="fas fa-ban" aria-hidden="true"></i></span>
-                    <h4>無宗教限制</h4>
-                    <p>不燒香、不燒紙錢、不設神主牌，完全以家屬意願規劃</p>
+                    <i class="fas fa-dove"></i>
+                    <h4>去宗教化規劃</h4>
+                    <p>不設神主牌、不燒香紙，完全依據家屬心願設計流程。</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-item__icon"><i class="fas fa-film" aria-hidden="true"></i></span>
-                    <h4>生命故事影像</h4>
-                    <p>由專業團隊製作追思影片，以照片與文字留住一生精彩</p>
+                    <i class="fas fa-film"></i>
+                    <h4>生命影像敘事</h4>
+                    <p>專業美編團隊製作生平影片，留存一生最精彩的瞬間。</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-item__icon"><i class="fas fa-music" aria-hidden="true"></i></span>
-                    <h4>個人化音樂選曲</h4>
-                    <p>逝者最愛的歌曲或音樂，成為告別式的主旋律</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-item__icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
-                    <h4>親友追思發言</h4>
-                    <p>設計互動追思環節，讓親友的話語成為最溫暖的送別</p>
+                    <i class="fas fa-heart"></i>
+                    <h4>溫度追思主持</h4>
+                    <p>捨棄傳統誦經，由溫暖司儀引導親友進行謝恩與告別。</p>
                 </div>
             </div>
         </div>
 
-        <!-- 契約詳細內容 -->
         <section class="contract-wrapper">
-
-            <!-- PHASE 01 臨終與接運 -->
             <div class="contract-section reveal">
                 <div class="section-info">
                     <span class="phase-label">PHASE 01</span>
-                    <h3>臨終關懷<br>與大體接運</h3>
-                    <p class="section-note">往生後第一時間的專業處理，讓家屬在最慌亂的時刻有所依靠。</p>
+                    <h3>臨終關懷與接運</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>24H 專業諮詢</h4>
-                        <p>國家認證禮儀師 1 名全程主責，24 小時臨終關懷諮詢，電話接通後大台北地區 30 分鐘內抵達。</p>
+                        <h4>24H 全程主責</h4>
+                        <p>國家認證禮儀師第一時間抵達，提供專業諮詢與情緒支撐，全程陪同各項行政代辦。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>大體接運服務</h4>
-                        <p>接體人員 1 名、專用接體車 1 輛（限醫院或家中至殯儀館），含陀羅尼經被、高級專用屍袋。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>行政代辦服務</h4>
-                        <p>協助辦理殯儀館入館登記、代領火化許可申請，以及勞保、國保、農保喪葬補助文件備妥與遞送。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>遺物整理建議</h4>
-                        <p>禮儀師協助家屬說明遺物整理時間建議與相關習俗注意事項，不強制、不催促。</p>
+                        <h4>尊嚴接運服務</h4>
+                        <p>專用接體車與專業人員，含高級專用屍袋及陀羅尼經被（依意願），護送至殯儀館。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PHASE 02 追思靈位設置（無宗教版）-->
             <div class="contract-section reveal">
                 <div class="section-info">
                     <span class="phase-label">PHASE 02</span>
-                    <h3>追思靈位<br>設置服務</h3>
-                    <p class="section-note">以乾淨簡約的方式設置靈位，不設神主牌，以逝者照片與鮮花為核心。</p>
+                    <h3>追思靈位設置</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item featured">
-                        <h4>無宗教靈位設置</h4>
-                        <p>不設神主牌位，以<strong>逝者照片</strong>（15 吋放大遺照含框）為中心，搭配白色鮮花與蠟燭，呈現乾淨莊嚴的現代追思空間。</p>
-                    </div>
-                    <div class="detail-item featured">
-                        <h4>不燃香選項</h4>
-                        <p>可選擇完全不燃香的潔淨靈位形式（以蠟燭或電子燭取代），特別適合對煙霧敏感的家屬或有嬰幼兒出席的場合。</p>
+                        <h4>現代化簡約靈位</h4>
+                        <p>不設傳統神主牌位，以 15 吋藝術遺照為核心，輔以現代花藝佈置與香氛或電子燭火，營造乾淨、舒心的思念空間。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>消耗品配備</h4>
-                        <p>白色鮮花一組、蠟燭或電子燭 1 組、素果（時令水果）、清茶三杯，提供乾淨莊重的日常供奉環境。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>靈位引導說明</h4>
-                        <p>禮儀師到場說明無宗教靈位的祭拜方式（合掌、鞠躬或靜默），讓所有家屬都能自在參與，無需擔心不熟悉儀式。</p>
+                        <h4>追思導引</h4>
+                        <p>禮儀師引導家屬以鞠躬、默禱或書寫卡片的方式進行日常祭拜，取代傳統焚香，維持環境清新。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PHASE 03 入殮封棺 -->
             <div class="contract-section reveal">
                 <div class="section-info">
                     <span class="phase-label">PHASE 03</span>
-                    <h3>大體護理<br>與入殮封棺</h3>
-                    <p class="section-note">以最專業、最尊嚴的方式，為逝者完成最後的儀容整理。</p>
+                    <h3>大體護理與入殮</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>專業大體護理</h4>
-                        <p>大體淨身、穿衣，由入殮人員 2 名及專業大體化妝師 1 名共同執行，以最莊嚴的方式完成儀容整理。</p>
+                        <h4>專業儀容整理</h4>
+                        <p>由專業化妝師進行大體護理與彩妝，讓逝者展現安詳自然的儀容。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>壽材配備</h4>
-                        <p>高級西式火化環保棺（整具火化，非套棺），符合現代環保理念；精選壽衣男女各一套任選，或依家屬意願更換為逝者生前喜愛的服裝。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>隨身物品</h4>
-                        <p>刺繡水被含底被、隨身庫錢 5000 萬；無宗教儀式不強制放置傳統隨身物，家屬可選擇放入逝者生前喜愛的物品（如書籍、照片、信件）替代。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>入殮儀式引導</h4>
-                        <p>禮儀師全程在旁引導入殮流程，家屬可選擇參與程度，從全程在旁陪伴到僅在封棺前道別均可配合安排。</p>
+                        <h4>環保火化壽材</h4>
+                        <p>精選西式環保火化棺與合適壽衣（亦可穿著生前喜愛之服飾），落實綠色殯葬理念。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PHASE 04 生命故事告別式（核心亮點）-->
             <div class="contract-section reveal">
                 <div class="section-info">
                     <span class="phase-label">PHASE 04</span>
-                    <h3>生命故事<br>告別奠禮</h3>
-                    <p class="section-note">無宗教告別式的核心：以逝者的人生為主軸，讓每位出席者都帶著溫暖的記憶離開。</p>
+                    <h3>生命故事告別奠禮</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item featured">
-                        <h4>專業追思主持人</h4>
-                        <p>由祥安資深司儀擔任追思主持人（取代傳統誦經法師），以溫暖敘事的方式引導儀式流程，串聯生平介紹、家屬致詞與親友追思。不使用宗教儀軌。</p>
-                    </div>
-                    <div class="detail-item featured">
-                        <h4>生命故事影片製作</h4>
-                        <p>由祥安美編製作 3 至 5 分鐘的生命故事影片，以家屬提供的照片、文字與逝者喜愛的背景音樂編製，告別式現場循環播放，亦可留存紀念。</p>
+                        <h4>客製化生命故事影片</h4>
+                        <p>蒐集照片與文稿，由祥安影像團隊剪輯專屬追思影片，於儀式現場大螢幕播放，訴說一生精彩歲月。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>式場佈置</h4>
-                        <p>6 呎精緻白色鮮花式場（以白色、米色、淡綠等自然色系為主）、無宗教牌樓佈置、獻花環一組、收付處整體佈置、洗淨水。</p>
+                        <h4>自然系式場佈置</h4>
+                        <p>6 呎精緻鮮花式場，以白色或逝者喜愛的色系為主，營造如同藝廊或客廳般的溫馨氛圍。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>追思供品</h4>
-                        <p>以白色鮮花、時令水果、蠟燭為主要供品（不備三牲）；可依逝者喜好擺放其生前最愛的食物或飲料，不受傳統祭品限制。</p>
+                        <h4>追思音樂策展</h4>
+                        <p>告別式現場播放逝者生前最愛的曲目，讓旋律成為最深刻的連結與慰藉。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>親友獻花環節</h4>
-                        <p>設計親友依次獻花的環節（取代傳統燒香），每位出席者親手送上一支白花，在靜默或音樂中完成最溫柔的道別。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>奠禮文書配備</h4>
-                        <p>禮簿、簽到簿、謝卡（可客製化設計，印上逝者照片與名言）、簽字筆、現場秩序單一批。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>家屬黑袍</h4>
-                        <p>親屬素色黑袍 10 套（或以黑色孝帶替代，更符合現代追思的簡約感），白色孝帶另備。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>音響與影音設備</h4>
-                        <p>告別式現場音響系統一套（含麥克風），可播放逝者指定音樂或家屬準備的個人化選曲，讓音樂成為儀式的一部分。</p>
+                        <h4>親友獻花與道別</h4>
+                        <p>設計專屬獻花環節，親友可手持鮮花依序告別，並留出時間供親友進行生平軼事分享或致詞。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PHASE 05 客製化追思選項 -->
-            <div class="customize-section reveal">
-                <span class="phase-label">PHASE 05</span>
-                <h3>客製化追思加值選項</h3>
-                <p>無宗教告別式的精神在於「最像逝者本人」，以下選項可依家屬需求加入方案，讓儀式更獨一無二（費用另議）：</p>
-                <div class="option-grid">
-                    <div class="option-card">
-                        <span class="option-card__icon"><i class="fas fa-pen-nib" aria-hidden="true"></i></span>
-                        <h5>生命故事手冊</h5>
-                        <p>設計印製精美追思手冊，記錄生平與親友留言，出席者人手一份永久珍藏</p>
-                    </div>
-                    <div class="option-card">
-                        <span class="option-card__icon"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></span>
-                        <h5>在宅告別式</h5>
-                        <p>於逝者生前居住的家中舉行小型告別，在最熟悉的空間道別，更具私密溫度</p>
-                    </div>
-                    <div class="option-card">
-                        <span class="option-card__icon"><i class="fas fa-camera" aria-hidden="true"></i></span>
-                        <h5>告別式攝影紀錄</h5>
-                        <p>專業攝影師全程記錄告別式，留存珍貴影像供家屬日後回憶</p>
-                    </div>
-                    <div class="option-card">
-                        <span class="option-card__icon"><i class="fas fa-video" aria-hidden="true"></i></span>
-                        <h5>線上直播服務</h5>
-                        <p>無法親臨的遠地親友可透過直播同步參與，跨越距離的溫暖告別</p>
-                    </div>
-                    <div class="option-card">
-                        <span class="option-card__icon"><i class="fas fa-leaf" aria-hidden="true"></i></span>
-                        <h5>環保葬規劃</h5>
-                        <p>搭配樹葬、花葬、植存、海葬等環保葬形式，讓生命回歸自然循環</p>
-                    </div>
-                    <div class="option-card">
-                        <span class="option-card__icon"><i class="fas fa-envelope-open-text" aria-hidden="true"></i></span>
-                        <h5>數位訃聞設計</h5>
-                        <p>設計質感電子訃聞，含地圖導航與出席回覆表單，方便親友確認出席</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PHASE 06 發引晉塔 -->
             <div class="contract-section reveal">
                 <div class="section-info">
-                    <span class="phase-label">PHASE 06</span>
-                    <h3>火化發引<br>與骨灰安置</h3>
-                    <p class="section-note">無宗教告別式同樣可搭配傳統晉塔或環保葬，依家屬意願彈性安排。</p>
+                    <span class="phase-label">PHASE 05</span>
+                    <h3>火化發引與安置</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>出殯服務</h4>
-                        <p>告別式完成後護送靈柩至火化場，移柩扶棺人員 1 組，禮儀師全程陪同等候，直至火化完成。</p>
+                        <h4>全程領航服務</h4>
+                        <p>禮儀師陪同前往火化場，協助撿骨入甕，並引導至塔位安座或執行環保葬（樹葬、海葬）。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>骨灰容器</h4>
-                        <p>標準黑花崗骨灰罐 1 個（可折價更換其他材質），含刻字、描金、彩色玉相（逝者照片鑲嵌），以及專業撿骨封罐服務。</p>
-                    </div>
-                    <div class="detail-item featured">
-                        <h4>無宗教返主方式</h4>
-                        <p>火化後不進行傳統道教返主科儀，改以家屬靜默致意或自行祝禱的方式，讓骨灰罐安置於選定的塔位或環保葬場所。禮儀師在旁引導，確保過程莊嚴圓滿。</p>
-                    </div>
-                    <div class="detail-item">
-                        <h4>後續關懷追蹤</h4>
-                        <p>百日、對年、合爐等重要節日電話提醒，後續免費殯葬禮儀諮詢，以及晉塔或環保葬的申請協助。</p>
+                        <h4>黑花崗藝術骨灰罈</h4>
+                        <p>包含標準藝術骨灰罐一個（可折價更換），含刻字描金及專業封罈服務。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 總價 -->
             <div class="price-summary reveal">
-                <div class="ps-watermark" aria-hidden="true">TRANSPARENT</div>
-                <div class="price-summary__inner">
-                    <h2>無宗教自由追思服務方案</h2>
-                    <span class="price-summary__amount">費用依規模另行報價</span>
-                    <p>
-                        無宗教告別式的費用依式場規模、追思影片製作、客製化選項而定。<br>
-                        基礎方案與佛道傳統方案相同起價，客製化項目費用提前列明，簽約後絕不追加。
-                    </p>
-                    <div class="price-summary__cta-group">
-                        <a href="tel:+886978583699" class="ps-tel">
-                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                            24H 立即諮詢：0978-583-699
-                        </a>
-                        <!-- LINE ID：請將 @shiangan 替換為實際帳號 -->
-                        <a href="https://line.me/ti/p/@shiangan"
-                           target="_blank" rel="noopener noreferrer"
-                           class="ps-line">
-                            <i class="fab fa-line" aria-hidden="true"></i>
-                            LINE 即時諮詢
-                        </a>
-                    </div>
+                <h2>無宗教自由追思服務方案</h2>
+                <span class="price-amount">費用依客製化內容報價</span>
+                <p>透明化的報價體系，無隱藏費用，簽約後絕不額外加價。</p>
+                <div class="cta-group">
+                    <a href="tel:0978583699" class="btn-call">24H 撥打諮詢</a>
+                    <a href="https://line.me/ti/p/@shiangan" class="btn-line">LINE 即時連繫</a>
                 </div>
             </div>
 
-            <!-- 備註 -->
-            <div class="note-card reveal">
-                <h5>備註事項</h5>
-                <ol>
-                    <li>本方案適用無特定宗教信仰，或逝者生前明確希望以現代自由形式告別的家庭。</li>
-                    <li>殯儀館設施使用費、火化申請規費屬代收代付性質，依實報實銷，附官方電子收據核銷。</li>
-                    <li>各項客製化加值選項（追思手冊、攝影、直播等）費用於簽約前完整告知，不於簽約後追加。</li>
-                    <li>無宗教儀式可與佛教助念、基督教禱告等家屬個人信仰的私下儀式並存，祥安尊重每一個家庭的選擇。</li>
-                    <li>若逝者有明確的遺囑或遺願（如指定音樂、指定方式），祥安將盡最大努力實現，並提前與家屬確認可行性。</li>
-                    <li>本契約含治喪期間各項禮儀指導與行政代辦，祥安生命承諾全程陪伴，讓家屬專注於告別。</li>
-                </ol>
+            <div class="note-card reveal" style="background: #F9F9F7; padding: 40px; margin-top: 40px; border: 1px solid #EEE;">
+                <h5 style="margin-bottom: 20px; font-family: 'Noto Serif TC';">服務說明</h5>
+                <ul style="color: #666; line-height: 2; font-size: .9rem;">
+                    <li>本方案專為無宗教、現代主義或追求簡約感的家庭設計。</li>
+                    <li>殯儀館公家規費（場地、冷藏、火化）屬實報實銷，祥安不加收服務費。</li>
+                    <li>影像製作建議於奠禮前 5 天提供素材，以確保最佳成品品質。</li>
+                    <li>祥安生命尊重多元價值，方案內容均可依特殊遺願進行微調。</li>
+                </ul>
             </div>
-
-            <!-- 回方案比較頁 -->
-            <div class="back-to-compare reveal">
-                <a href="{{ '/compare.html' | relative_url }}">
-                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                    返回所有方案比較
-                </a>
-            </div>
-
         </section>
     </main>
 
     {% include footer.html %}
     {% include floating-cta.html %}
-
 </body>
 </html>
