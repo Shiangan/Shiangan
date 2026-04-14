@@ -8,15 +8,40 @@ permalink: /deed07.html/
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>西式尊榮專案 | 祥安生命 - 在主懷抱，永恆安息</title>
-    <meta name="description" content="祥安生命西式基督/天主教專案，秉持信仰尊嚴，提供十字架鮮花式場佈置與莊嚴追思禮拜規劃。由國家認證禮儀師團隊守護，引導親人在愛與平安中回歸天家。">
+    
+    <title>西式尊榮專案 6.8萬起 | 祥安生命 - 基督/天主教追思禮拜規劃與十字架鮮花式場</title>
+    <meta name="description" content="祥安生命「西式尊榮專案」售價 68,000 元起，專為基督徒與天主教徒設計。提供莊嚴十字架鮮花式場佈置、追思禮拜程序規劃與專業禮儀守護。在平安與愛的氛圍中，引導親人回歸天家，得享永恆安息。">
     
     {% include head.html %}
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "祥安生命 西式尊榮專案",
+      "image": "{{ site.url }}{{ site.baseurl }}/images/og-default.jpg",
+      "description": "專業西式基督/天主教追思禮拜規劃，配置十字架鮮花式場，在主懷抱中完成最優雅的生命告別。",
+      "brand": {
+        "@type": "Brand",
+        "name": "祥安生命"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ page.url | absolute_url }}",
+        "priceCurrency": "TWD",
+        "price": "68000",
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2026-12-31"
+      }
+    }
+    </script>
 
     <style>
         :root {
             --soft-bg: #F9F9F7;
             --border-color: #E0E0DB;
+            --west-blue: #4A5568; /* 偏冷色調藍灰，展現西式優雅 */
+            --deep-ink: #1e1e1e;
         }
 
         /* 頂部視覺區 */
@@ -28,12 +53,13 @@ permalink: /deed07.html/
 
         .plan-badge {
             display: inline-block;
-            border: 1px solid #718096; /* 偏冷色調，展現西式簡潔 */
-            color: #718096;
+            border: 1px solid var(--west-blue);
+            color: var(--west-blue);
             padding: 4px 16px;
             font-size: 0.85rem;
             letter-spacing: 2px;
             margin-bottom: 20px;
+            font-weight: 700;
         }
 
         /* 契約內容容器 */
@@ -61,8 +87,9 @@ permalink: /deed07.html/
         .section-info .item-count {
             font-family: 'Work Sans', sans-serif;
             font-size: 0.8rem;
-            color: #718096;
+            color: var(--west-blue);
             letter-spacing: 1px;
+            font-weight: 700;
         }
 
         /* 細項清單 */
@@ -83,10 +110,10 @@ permalink: /deed07.html/
 
         .detail-item h4::before {
             content: "";
-            width: 4px;
-            height: 4px;
-            background: #718096;
-            margin-right: 10px;
+            width: 6px;
+            height: 6px;
+            background: var(--west-blue);
+            margin-right: 12px;
             border-radius: 50%;
         }
 
@@ -99,32 +126,62 @@ permalink: /deed07.html/
 
         /* 總價區 */
         .price-summary {
-            background: #2D3748; /* 深灰色調，更顯西式肅穆 */
+            background: #2D3748; /* 深灰色調，顯現西式肅穆感 */
             color: #fff;
-            padding: 60px 40px;
+            padding: 80px 40px;
             text-align: center;
             margin-top: 40px;
             position: relative;
+            overflow: hidden;
         }
 
         .price-summary h2 {
             font-family: 'Noto Serif TC', serif;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .price-summary p {
+            opacity: 0.7;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .watermark {
+            position: absolute;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
         }
 
         /* 備註卡片 */
         .note-card {
             background: var(--soft-bg);
-            padding: 30px;
+            padding: 40px;
             margin-top: 40px;
             border-radius: 4px;
+            border-left: 4px solid var(--west-blue);
+        }
+
+        .note-card h5 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--deep-ink);
         }
 
         @media (max-width: 768px) {
-            .contract-section { grid-template-columns: 1fr; gap: 20px; }
+            .contract-section { grid-template-columns: 1fr; gap: 20px; padding: 30px 0; }
             .detail-list { grid-template-columns: 1fr; gap: 20px; }
             .plan-hero { padding: 100px 0 50px; }
+            .plan-hero h1 { font-size: 2.2rem !important; }
+            .price-summary h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -136,8 +193,8 @@ permalink: /deed07.html/
         <section class="plan-hero">
             <div class="wrapper">
                 <span class="plan-badge reveal">信仰永恆 · 平安歸家</span>
-                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3rem;">西式專案 (基督/天主教)</h1>
-                <p class="reveal" style="opacity: 0.6;">在溫暖與平安的氛圍中，舉行最莊嚴的追思與道別</p>
+                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; color: var(--deep-ink);">西式尊榮專案</h1>
+                <p class="reveal" style="font-size: 1.1rem; color: #888; margin-top: 20px;">在溫暖與平安的氛圍中，舉行最莊嚴優雅的追思道別</p>
             </div>
         </section>
 
@@ -151,11 +208,11 @@ permalink: /deed07.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>西式禮儀諮詢</h4>
-                        <p>專屬禮儀師 1 名，24 小時臨終關懷，協助與教會、神父或牧師溝通治喪禮儀細節。</p>
+                        <p>專屬禮儀師 1 名提供 24 小時服務，協助家屬與教會同工、神父或牧師溝通，確保治喪細節符合教規。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>大體尊榮接運</h4>
-                        <p>接體人員 1 名、精裝尊榮接體車 1 輛（醫院或家中至殯儀館）。含高級專用屍袋。</p>
+                        <h4>尊榮大體接運</h4>
+                        <p>專業接體人員 1 名、精裝尊榮接體車 1 輛。提供頂級大體專用防護袋，並以最莊嚴的方式守護故人。</p>
                     </div>
                 </div>
             </div>
@@ -167,12 +224,12 @@ permalink: /deed07.html/
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>西式靈位佈置</h4>
-                        <p>安靈室使用、15 吋藝術框遺照、<strong>十字架擺飾</strong>、西式聖經唸經機、環境精緻鮮花佈置。</p>
+                        <h4>西式安靈佈置</h4>
+                        <p>包含安靈室、15 吋藝術框遺照、<strong>神聖十字架擺飾</strong>、聖經唸經機及歐式精緻鮮花佈置。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>治喪流程協調</h4>
-                        <p>協助編排追思禮拜程序單、挑選讚美詩歌，規劃符合信仰的溫馨告別流程。</p>
+                        <h4>追思流程協調</h4>
+                        <p>協助家屬編排追思禮拜程序單、挑選讚美詩歌，規劃一場充滿愛與希望的西式告別流程。</p>
                     </div>
                 </div>
             </div>
@@ -185,15 +242,15 @@ permalink: /deed07.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>尊榮護理美容</h4>
-                        <p>大體淨身、穿衣、入殮人員 2 名，專業美妝化妝師 1 名。以尊重的態度完成最後相貌。</p>
+                        <p>精細淨身與大體化妝，由專業化妝師完成最後優雅相貌，入殮人員 2 名秉持尊重態度執行程序。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>環保壽材與用品</h4>
-                        <p>高級西式火化環保棺、精選西式壽衣（或家屬自備）、刺繡蓮花水被（或西式蓋被）。</p>
+                        <h4>西式壽材用品</h4>
+                        <p>高級西式環保火化棺、精選西式壽衣（或家屬自備）、西式專用蓋被，呈現簡潔大方的質感。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>壽內隨身品</h4>
-                        <p>包含西式專用壽內用品組，並可依信仰放入聖經或家屬提供之追思物品。</p>
+                        <h4>壽內追思隨身品</h4>
+                        <p>提供西式專屬壽內用品組，並可依信仰放入聖經、十字架或家屬提供之紀念信札與照片。</p>
                     </div>
                 </div>
             </div>
@@ -206,15 +263,15 @@ permalink: /deed07.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>西式鮮花式場</h4>
-                        <p><strong>6-10 呎西式精緻鮮花式場</strong>、<strong>大型木製或鮮花十字架</strong>、西式牌樓、獻花圈、收付處整體佈置。</p>
+                        <p><strong>6-10 呎西式風格鮮花式場</strong>、<strong>大型手工木製或鮮花十字架</strong>、西式牌樓及收付處美學佈置。</p>
                     </div>
                     <div class="detail-item">
                         <h4>專業奠禮團隊</h4>
-                        <p><strong>資深司儀 1 名</strong>、親屬黑袍或素雅胸花 10 套、洗淨毛巾 1 組。全程協助教會同工進行儀式。</p>
+                        <p><strong>資深司儀 1 名</strong>全程導引、親屬素雅胸花 10 套及洗淨毛巾組，全程協助教會進行禮拜。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>文書耗材與杯水</h4>
-                        <p>高級禮簿、提名簿、謝卡、簽字筆 1 套、奠禮儀式用杯水提供。</p>
+                        <h4>文書耗材與飲水</h4>
+                        <p>提供高質感禮簿、提名簿、謝卡、簽字筆耗材組，並供應追思會現場充足之瓶裝飲用水。</p>
                     </div>
                 </div>
             </div>
@@ -226,32 +283,33 @@ permalink: /deed07.html/
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>發引火化儀式</h4>
-                        <p>禮儀人員 1 名隨車協助送至火化場、專業移柩扶棺人員 1 組。</p>
+                        <h4>發引儀式</h4>
+                        <p>禮儀專員隨車協助護送至火化場、專業移柩扶棺人員 1 組，確保發引過程順暢且莊嚴。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>骨灰保存容器</h4>
-                        <p>標準黑花崗骨灰罐（可更換為十字架式樣）、刻字描金、彩色玉相、撿骨封罐及黃絲巾（或白巾）包覆。</p>
+                        <h4>西式骨灰容器</h4>
+                        <p>特選黑花崗骨灰罐（可更換十字架式樣）、刻字描金、瓷像鑲嵌、專業撿骨封罐與白/黃絲巾包覆。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>後續追思服務</h4>
-                        <p>協助百日/週年追思提醒，永久免費提供喪葬相關法規、補助申請與晉塔諮詢。</p>
+                        <h4>終身追思關懷</h4>
+                        <p>主動提醒週年追思日期。永久提供全台塔位諮詢、西式治喪禮俗與相關補助申請諮詢服務。</p>
                     </div>
                 </div>
             </div>
 
             <div class="price-summary reveal">
-                <div class="watermark" style="color: rgba(255,255,255,0.05); top:0;">ETERNAL</div>
-                <h2>服務契約總價 陸萬捌仟元起</h2>
-                <p>祥安生命 · 在主懷裡得享永恆的平安</p>
+                <div class="watermark">ETERNAL</div>
+                <p>服務契約總價</p>
+                <h2>新台幣 陸萬捌仟元 起</h2>
+                <p>— 祥安生命 · 在主懷裡得享永恆的平安 —</p>
             </div>
 
             <div class="note-card reveal">
-                <h5 style="font-weight: 700; margin-bottom: 10px;">西式方案說明</h5>
-                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.9rem; opacity: 0.7;">
-                    <li>本方案專為基督徒、天主教徒設計，移除所有傳統道教祭品。</li>
-                    <li>代辦各項殯儀館規費，均依據政府收據實報實銷。</li>
-                    <li>式場佈置以白、粉、綠等素雅鮮花為主，並配置大十字架，彰顯信仰莊嚴。</li>
+                <h5><i class="fas fa-cross" style="margin-right:8px; color:var(--west-blue);"></i> 西式方案說明</h5>
+                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.95rem; color: #555;">
+                    <li>本方案專為基督徒、天主教徒設計，全面移除傳統道教祭品，回歸純粹追思。</li>
+                    <li>式場佈置預設為白、粉、綠等素雅色系鮮花，並配置<strong>大型標誌十字架</strong>彰顯信仰。</li>
+                    <li>所有代辦殯儀館规費及火化規費，均<strong>依政府公定收據實報實銷</strong>，絕不變相加價。</li>
                 </ul>
             </div>
 
