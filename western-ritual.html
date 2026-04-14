@@ -7,136 +7,210 @@ permalink: /western-ritual/
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
-    <title>西式禮儀流程 | 基督、天主教莊嚴告別 | 祥安生命</title>
+    <title>西式禮儀流程 | 基督、天主教莊嚴安息告別規劃 | 祥安生命</title>
+    <meta name="description" content="祥安生命為基督徒與天主教徒量身打造莊嚴的安息禮儀流程。從尊嚴接體、追思規劃、入殮禮拜到安息禮拜，我們在主的愛中陪伴家屬，將悲傷轉化為榮耀上主的平安，圓滿每一場通往天堂的盛會。">
+    
     <style>
-        /* 1. 基礎容器優化 */
+        /* 1. 基礎排版優化：消除切斷感 */
         body {
             background-color: #fff;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
         .wrapper {
-            width: 88%;
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* 2. Header 視覺 - 使用較為靜謐、神聖的視覺感 */
+        /* 2. Header 視覺 - 靜謐神聖感 */
         .process-header {
-            padding: 160px 0 120px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ site.baseurl }}/images/service-bg-western.jpg') center/cover;
+            padding: 180px 0 140px;
+            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), 
+                        url('{{ site.baseurl }}/images/service-bg-western.jpg') center/cover no-repeat;
             color: #fff;
             text-align: center;
         }
 
-        /* 3. 五大步驟卡片排版優化 */
+        /* 3. 五大步驟導航卡片 */
         .process-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: -60px auto 80px;
+            gap: 20px;
+            margin: -75px auto 100px;
             position: relative;
             z-index: 10;
-            flex-wrap: nowrap;
         }
 
         .process-step-card {
             flex: 1;
-            min-width: 0;
             background: #fff;
-            padding: 40px 10px;
+            padding: 45px 15px;
             text-align: center;
             border: 1px solid #f0f0f0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: 0.3s;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-decoration: none;
             color: inherit;
+            border-radius: 4px;
         }
 
         .process-step-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
+            transform: translateY(-10px);
+            border-color: #4A5568; /* 西式深藍灰 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
         }
 
-        .step-num { font-size: 0.75rem; color: var(--accent); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 10px; }
-        .step-icon { font-size: 2rem; margin-bottom: 15px; color: #555; }
+        .step-num {
+            display: block;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.8rem;
+            color: #718096;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-        /* 4. 詳細內容區塊 - 解決跳行與切斷感 */
+        .step-icon {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2D3748;
+        }
+
+        .process-step-card h4 {
+            font-size: 1.15rem;
+            margin: 0;
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        /* 4. 詳細內容區塊：優化文字流動 */
         .detail-section {
-            padding: 100px 0;
-            background-color: #fff; 
+            padding: 120px 0;
+            border-bottom: 1px solid #f8f8f8;
         }
+
+        .detail-section:last-child { border-bottom: none; }
 
         .detail-content {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 60px;
-            align-items: flex-start;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 80px;
+            align-items: center;
         }
 
+        /* 圖片交錯佈局 */
         .detail-section:nth-child(even) .detail-content {
-            grid-template-columns: 0.8fr 1.2fr;
+            grid-template-columns: 0.9fr 1.1fr;
+        }
+        .detail-section:nth-child(even) .detail-text { order: 2; }
+        .detail-section:nth-child(even) .detail-image { order: 1; }
+
+        .detail-text h2 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.4rem;
+            margin-bottom: 35px;
+            color: #1a202c;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-text h2 span {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            color: #718096;
+            border: 1.5px solid #cbd5e0;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 20px;
+            flex-shrink: 0;
         }
 
         .detail-text p {
             font-size: 1.1rem;
-            line-height: 1.9;
-            color: #444;
+            line-height: 2; /* 增加行高，提升閱讀舒適度 */
+            color: #4a5568;
             text-align: justify;
-            margin-bottom: 25px;
-        }
-
-        .detail-section h2 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 2.2rem;
             margin-bottom: 30px;
-            color: var(--deep-ink);
         }
 
-        .detail-section h2 span {
+        /* 西式信仰清單符號 */
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 35px;
+        }
+
+        .check-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
             font-size: 1rem;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 2px 10px;
-            border-radius: 50px;
-            margin-right: 12px;
-            display: inline-block;
-            vertical-align: middle;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .check-list li::before {
+            content: "✝";
+            position: absolute;
+            left: 0;
+            color: #718096;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* 專業備註區 */
+        .pro-note {
+            background: #f7fafc;
+            border-left: 4px solid #cbd5e0;
+            padding: 35px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .pro-note strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #2d3748;
+            font-size: 1.1rem;
         }
 
         .detail-image img {
             width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
         }
 
-        .check-list { list-style: none; padding: 0; margin-bottom: 30px; }
-        .check-list li { position: relative; padding-left: 25px; margin-bottom: 12px; line-height: 1.6; color: #555; }
-        .check-list li::before { content: "✝"; position: absolute; left: 0; color: var(--accent); font-size: 0.9rem; }
-
-        .pro-note {
-            background: #f9f9fb;
-            border-left: 5px solid #bdc3c7;
-            padding: 30px;
-            margin-top: 40px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        /* 5. 底部銜接區塊 */
+        /* 5. 底部銜接 */
         .final-cta {
-            background-color: #fff;
-            padding: 100px 0 120px;
-            border-top: 1px solid #f9f9f9;
+            background-color: #f8fafc;
+            padding: 120px 0;
+            text-align: center;
         }
 
-        @media (max-width: 992px) {
-            .process-container { flex-wrap: wrap; }
-            .process-step-card { flex: 0 0 46%; margin-bottom: 10px; }
-            .detail-content, .detail-section:nth-child(even) .detail-content { 
-                grid-template-columns: 1fr; 
-                gap: 40px;
+        @media (max-width: 1024px) {
+            .process-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
             }
+            .detail-content, .detail-section:nth-child(even) .detail-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .detail-text { order: 1 !important; }
+            .detail-image { order: 2 !important; }
+        }
+
+        @media (max-width: 768px) {
+            .process-header h1 { font-size: 2.8rem !important; }
+            .process-container { grid-template-columns: repeat(2, 1fr); }
+            .detail-text h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -147,10 +221,11 @@ permalink: /western-ritual/
     <main>
         <header class="process-header">
             <div class="reveal wrapper">
-                <span style="letter-spacing: 5px; font-weight: 700; color: #fff;">SACRED FAREWELL</span>
-                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; margin: 25px 0;">西式禮儀服務流程</h1>
-                <p style="max-width: 800px; margin: 0 auto; opacity: 0.9; line-height: 2;">
-                    回歸信仰的純粹，祥安生命為基督徒與天主教徒量身打造莊嚴的安息禮儀。我們尊重教會傳統，透過詩歌、祈禱與追思，將悲傷轉化為榮耀上主的平安，陪伴家屬在主的愛中安撫心靈，期盼未來的重逢。
+                <span style="letter-spacing: 5px; font-weight: 700; color: #fff; text-transform: uppercase;">Sacred Farewell</span>
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 4rem; margin: 20px 0;">西式禮儀服務流程</h1>
+                <p style="max-width: 850px; margin: 0 auto; opacity: 0.9; line-height: 2.2; font-size: 1.15rem;">
+                    回歸信仰的純粹，祥安生命為基督徒與天主教徒量身打造莊嚴的安息禮儀。<br>
+                    陪伴家屬在主的愛中安撫心靈，將悲傷轉化為榮耀上主的平安。
                 </p>
             </div>
         </header>
@@ -193,16 +268,16 @@ permalink: /western-ritual/
                     <ul class="check-list">
                         <li>協助申請死亡證明文件與各項法律程序諮詢。</li>
                         <li>專業團隊第一時間抵達，引導家屬進行祝禱或禱告。</li>
-                        <li>提供具備西式氛圍的靈堂或追思空間佈置。</li>
+                        <li>提供具備西式氛圍的靈堂佈置或追思空間安排。</li>
                         <li>協助代辦殯儀館進館登記，全程由禮儀顧問陪同。</li>
                     </ul>
                     <div class="pro-note">
-                        <strong>💡 提醒事項：</strong><br>
-                        請先預備逝者的身分證件。若家屬希望在教會或家中舉辦簡單追思，請告知禮儀師，我們將協助安排場地布置。
+                        <strong>💡 專業提醒：</strong>
+                        請先預備逝者的身分證正本。若家屬希望在教會或家中舉辦簡單追思，請告知禮儀師，我們將協助安排專業的場地佈置。
                     </div>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-western-01.jpg" alt="西式臨終安置">
+                    <img src="{{ site.baseurl }}/images/process-western-01.jpg" alt="西式尊嚴接體服務 - 祥安生命">
                 </div>
             </div>
         </section>
@@ -210,16 +285,16 @@ permalink: /western-ritual/
         <section id="step2" class="detail-section">
             <div class="detail-content wrapper">
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-western-02.jpg" alt="追思規劃討論">
+                    <img src="{{ site.baseurl }}/images/process-western-02.jpg" alt="西式追思規劃討論 - 祥安生命">
                 </div>
                 <div class="reveal detail-text">
                     <h2><span>02</span> 禮拜規劃與聯繫</h2>
                     <p>西式喪禮核心在於「追思」與「榮耀」。我們的顧問會協助家屬聯繫教會牧師或神父，確認告別禮拜的程序、詩歌選取及生平投影片製作，確保儀式完全符合信仰精神與家族心願。</p>
                     <ul class="check-list">
                         <li>聯繫所屬教會，協調牧師、神父或司琴之行程。</li>
-                        <li>設計西式風格訃聞、程序單及紀念卡片。</li>
-                        <li>協助家屬收集生活照，製作充滿溫度與溫馨感的生平影片。</li>
-                        <li>提供透明透明的服務方案說明，不含有違信仰的繁雜開支。</li>
+                        <li>設計西式風格訃聞、程序單及追思紀念卡片。</li>
+                        <li>協助家屬收集照片，製作充滿溫度與盼望感的生活生平影片。</li>
+                        <li>提供透明方案說明，排除有違信仰的繁瑣開支與雜項。</li>
                     </ul>
                 </div>
             </div>
@@ -229,16 +304,16 @@ permalink: /western-ritual/
             <div class="detail-content wrapper">
                 <div class="reveal detail-text">
                     <h2><span>03</span> 入殮禮拜與致敬</h2>
-                    <p>在告別禮拜正式開始前，我們會安排溫馨的入殮儀式。透過簡單的詩歌、讀經與禱告，讓至親家屬在最後一次瞻仰遺容時，能感受到主所賜的平靜，並由禮儀師引導完成封棺與致敬儀節。</p>
+                    <p>在告別禮拜正式開始前，我們會安排溫馨的入殮儀式。透過簡單的詩歌、讀經與禱告，讓至親家屬在最後一次瞻仰遺容時，能感受到主所賜的平靜，並由禮儀師引導完成封棺儀節。</p>
                     <ul class="check-list">
-                        <li>專業大體洗身、著裝、化妝（符合西式自然淡雅風格）。</li>
-                        <li>協助安排牧師或神父主持入殮禮拜，安慰家屬。</li>
-                        <li>提供高品質西式棺木與精緻花籃佈置。</li>
-                        <li>引導家屬放置象徵性的陪葬物品或信件，傳遞哀思。</li>
+                        <li>專業大體洗身、著裝、化妝（符合自然淡雅風格）。</li>
+                        <li>協助安排牧師或神父主持入殮禮拜，安慰親友心靈。</li>
+                        <li>提供高品質西式環保棺木與精緻白綠系鮮花佈置。</li>
+                        <li>引導家屬放置象徵性的陪葬物品、紀念信件或聖經。</li>
                     </ul>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-western-03.jpg" alt="入殮儀式">
+                    <img src="{{ site.baseurl }}/images/process-western-03.jpg" alt="入殮禮拜儀式 - 祥安生命">
                 </div>
             </div>
         </section>
@@ -246,16 +321,16 @@ permalink: /western-ritual/
         <section id="step4" class="detail-section">
             <div class="detail-content wrapper">
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-western-04.jpg" alt="告別禮拜現場">
+                    <img src="{{ site.baseurl }}/images/process-western-04.jpg" alt="安息禮拜現場佈置 - 祥安生命">
                 </div>
                 <div class="reveal detail-text">
                     <h2><span>04</span> 安息禮拜（告別禮）</h2>
-                    <p>這是一場通往天堂的盛會。我們會配合教會或在禮廳內營造出典雅、溫馨、充滿盼望的會場。透過優雅的花藝、神聖的音樂與感人的生平分享，讓前來弔唁的親友在主的愛中一同緬懷逝者的生命光輝。</p>
+                    <p>這是一場通往天堂的盛會。我們會配合教會或在禮廳內營造出典雅、溫馨、充滿盼望的會場。透過優雅的花藝、神聖的音樂與感人的生命分享，讓前來弔唁的親友在主的愛中一同緬懷逝者的光輝生命。</p>
                     <ul class="check-list">
-                        <li>客製化西式會場花藝設計，使用大量鮮花營造神聖感。</li>
-                        <li>專業襄儀導引流程，維持禮拜現場之肅穆與順暢。</li>
-                        <li>代訂專業音響設備、投影系統與流程錄影。</li>
-                        <li>提供接駁車輛服務，安排親友前往火化場或墓園。</li>
+                        <li>客製化西式會場花藝設計，使用白百合、蘭花等聖潔花卉。</li>
+                        <li>專業襄儀導引流程，維持禮拜現場之肅穆、安靜與順暢。</li>
+                        <li>代辦專業音響與投影設備，確保詩歌與影片播放品質。</li>
+                        <li>安排專車接送親友前往火化場或墓園，流程接軌緊湊。</li>
                     </ul>
                 </div>
             </div>
@@ -265,34 +340,35 @@ permalink: /western-ritual/
             <div class="detail-content wrapper">
                 <div class="reveal detail-text">
                     <h2><span>05</span> 安葬安座與圓滿</h2>
-                    <p>儀式結束後，禮儀師陪同前往火化場或家族墓園。在進行最後的火化或下葬儀式時，我們會再次引導家屬禱告，象徵將親人完全交託給主。隨後進塔或安座，讓生命在永恆的平安中得到圓滿。</p>
+                    <p>儀式結束後，禮儀師陪同前往火化場或墓園。在進行最後的火化或下葬儀式時，我們會再次引導家屬禱告，象徵將親人完全交託給主。隨後進塔或安座，讓生命在永恆的平安中得到圓滿。</p>
                     <ul class="check-list">
-                        <li>火化場全程專業陪同，協助領取骨灰與各項證明。</li>
-                        <li>晉塔安座儀式引導，配合牧師神父進行祝禱。</li>
-                        <li>提供後續追思禮拜、週年紀念與家族掃墓諮詢。</li>
-                        <li>協助整理場地，確保家屬能安心返家休息。</li>
+                        <li>火化場全程專業陪同，協助家屬辦理火化證明與領骨手續。</li>
+                        <li>晉塔安座儀式引導，配合牧師或神父進行祝禱安座。</li>
+                        <li>提供後續追思禮拜、週年紀念與家族掃墓之習俗諮詢。</li>
+                        <li>協助整理現場物品，確保家屬能安心圓滿地返家休息。</li>
                     </ul>
                     <div class="pro-note">
-                        <strong>📖 信仰百科：</strong><br>
-                        了解基督徒對於「死亡」的看法與習俗細節：<br>
-                        <a href="{{ site.baseurl }}/christian-funeral/" style="color: var(--accent); font-weight: bold;">【信仰指引】西式喪禮的程序與禁忌解析 &rarr;</a>
+                        <strong>📖 信仰指引：</strong>
+                        了解西式喪禮與基督信仰的關聯與常見問題：<br>
+                        <a href="{{ site.baseurl }}/christian-funeral/" style="color: #2d3748; font-weight: bold; text-decoration: none;">【信仰百科】西式喪禮的程序細節與禁忌解析 &rarr;</a>
                     </div>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-western-05.jpg" alt="安葬圓滿">
+                    <img src="{{ site.baseurl }}/images/process-western-05.jpg" alt="安葬圓滿安座 - 祥安生命">
                 </div>
             </div>
         </section>
 
         <section class="final-cta">
-            <div class="reveal wrapper text-center">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.8rem; margin-bottom: 20px;">在地上的告別，在天上的重逢</h2>
-                <p style="margin: 0 auto 50px; opacity: 0.8; font-size: 1.2rem; max-width: 600px;">
-                    祥安生命團隊以最溫柔的心，陪伴您完成這場神聖的交託。無論您所屬何種教派，我們都將提供最尊嚴的服務。
+            <div class="reveal wrapper">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 25px; color: #1a202c;">在地上的告別，在天上的重逢</h2>
+                <p style="margin: 0 auto 60px; color: #718096; font-size: 1.25rem; max-width: 750px; line-height: 1.8;">
+                    祥安生命團隊以同理心出發，陪伴您完成這場神聖的交託。<br>
+                    無論教派為何，我們都將提供最尊榮、平安的安息服務。
                 </p>
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="tel:0978583699" style="background: #2c3e50; color: #fff; padding: 22px 60px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">24H 服務專線</a>
-                    <a href="{{ site.baseurl }}/plans/" style="border: 2px solid #2c3e50; color: #2c3e50; padding: 20px 60px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem;">西式禮儀方案</a>
+                    <a href="tel:0978583699" style="background: #2D3748; color: #fff; padding: 22px 65px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">24H 服務專線</a>
+                    <a href="{{ site.baseurl }}/plans/" style="border: 2px solid #2D3748; color: #2D3748; padding: 20px 65px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem;">西式禮儀方案</a>
                 </div>
             </div>
         </section>
@@ -302,6 +378,7 @@ permalink: /western-ritual/
     {% include floating-cta.html %}
 
     <script>
+        // 增強型平滑捲動
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -320,6 +397,17 @@ permalink: /western-ritual/
                 }
             });
         });
+
+        // 揭露動畫邏輯
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
 </body>
 </html>
