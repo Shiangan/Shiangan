@@ -7,51 +7,211 @@ permalink: /japanese-ritual/
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
-    <title>日式禮儀流程 | 日蓮正宗、創價學會莊嚴告別 | 祥安生命</title>
+    <title>日式禮儀流程 | 日蓮正宗、創價學會莊嚴告別 | 祥安生命 - 職人精神，追善圓滿</title>
+    <meta name="description" content="祥安生命深悉日蓮正宗與創價學會治喪儀軌。從安置御本尊、日式職人納棺到唱題追善告別式，我們以最嚴謹的態度與精緻的和風美學，守護信仰的純粹，圓滿生命的尊榮告別。">
+    
     <style>
-        /* 延用您要求的黃金比例 CSS */
-        body { background-color: #fff; margin: 0; padding: 0; }
-        .wrapper { width: 88%; max-width: 1200px; margin: 0 auto; }
-        
-        .process-header {
-            padding: 160px 0 120px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ site.baseurl }}/images/service-bg-japanese.jpg') center/cover;
-            color: #fff; text-align: center;
+        /* 1. 基礎排版優化：消除切斷感 */
+        body {
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
+        .wrapper {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 2. Header 視覺 - 禪意與和風感 */
+        .process-header {
+            padding: 180px 0 140px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('{{ site.baseurl }}/images/service-bg-japanese.jpg') center/cover no-repeat;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* 3. 五大步驟導航卡片 */
         .process-container {
-            display: flex; justify-content: center; gap: 15px; margin: -60px auto 80px; position: relative; z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: -75px auto 100px;
+            position: relative;
+            z-index: 10;
         }
 
         .process-step-card {
-            flex: 1; background: #fff; padding: 40px 10px; text-align: center; border: 1px solid #f0f0f0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: 0.3s; text-decoration: none; color: inherit;
+            flex: 1;
+            background: #fff;
+            padding: 45px 15px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-decoration: none;
+            color: inherit;
+            border-radius: 4px;
         }
 
-        .process-step-card:hover { transform: translateY(-8px); border-color: #8e735b; }
-        .step-num { font-size: 0.75rem; color: #8e735b; font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 10px; }
-        .step-icon { font-size: 2rem; margin-bottom: 15px; color: #555; }
+        .process-step-card:hover {
+            transform: translateY(-10px);
+            border-color: #8e735b; /* 日式木質色 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
 
-        .detail-section { padding: 100px 0; background-color: #fff; }
-        .detail-content { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: flex-start; }
-        .detail-section:nth-child(even) .detail-content { grid-template-columns: 0.8fr 1.2fr; }
+        .step-num {
+            display: block;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.8rem;
+            color: #8e735b;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-        .detail-text p { font-size: 1.1rem; line-height: 1.9; color: #444; text-align: justify; margin-bottom: 25px; }
-        .detail-section h2 { font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 30px; color: var(--deep-ink); }
-        .detail-section h2 span { font-size: 1rem; color: #8e735b; border: 1px solid #8e735b; padding: 2px 10px; border-radius: 50px; margin-right: 12px; display: inline-block; vertical-align: middle; }
+        .step-icon {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+        }
 
-        .detail-image img { width: 100%; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
-        .check-list { list-style: none; padding: 0; margin-bottom: 30px; }
-        .check-list li { position: relative; padding-left: 25px; margin-bottom: 12px; line-height: 1.6; color: #555; }
-        .check-list li::before { content: "●"; position: absolute; left: 0; color: #8e735b; font-size: 0.7rem; top: 2px; }
+        .process-step-card h4 {
+            font-size: 1.15rem;
+            margin: 0;
+            font-family: 'Noto Serif TC', serif;
+        }
 
-        .pro-note { background: #fdfaf7; border-left: 5px solid #8e735b; padding: 30px; margin-top: 40px; border-radius: 0 8px 8px 0; }
-        .final-cta { background-color: #fff; padding: 100px 0 120px; border-top: 1px solid #f9f9f9; }
+        /* 4. 詳細內容區塊：優化內容流動感 */
+        .detail-section {
+            padding: 120px 0;
+            border-bottom: 1px solid #f8f8f8;
+        }
 
-        @media (max-width: 992px) {
-            .process-container { flex-wrap: wrap; }
-            .process-step-card { flex: 0 0 46%; margin-bottom: 10px; }
-            .detail-content, .detail-section:nth-child(even) .detail-content { grid-template-columns: 1fr; gap: 40px; }
+        .detail-section:last-child { border-bottom: none; }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr; /* 調整文字佔比，解決跳行問題 */
+            gap: 80px;
+            align-items: center;
+        }
+
+        /* 圖片交錯佈局 */
+        .detail-section:nth-child(even) .detail-content {
+            grid-template-columns: 0.85fr 1.15fr;
+        }
+        .detail-section:nth-child(even) .detail-text { order: 2; }
+        .detail-section:nth-child(even) .detail-image { order: 1; }
+
+        .detail-text h2 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.4rem;
+            margin-bottom: 35px;
+            color: #2c2c2c;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-text h2 span {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            color: #8e735b;
+            border: 1.5px solid #8e735b;
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .detail-text p {
+            font-size: 1.1rem;
+            line-height: 2.1; /* 增加行高，提升閱讀質感 */
+            color: #4a4a4a;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        /* 日式清單標誌 */
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 35px;
+        }
+
+        .check-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .check-list li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: #8e735b;
+            font-size: 0.75rem;
+            top: 1px;
+        }
+
+        /* 專業備註：日式質感框 */
+        .pro-note {
+            background: #fdfaf7;
+            border-left: 4px solid #8e735b;
+            padding: 35px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.95rem;
+        }
+
+        .pro-note strong {
+            display: block;
+            margin-bottom: 12px;
+            color: #2c2c2c;
+            font-size: 1.1rem;
+        }
+
+        .detail-image img {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            display: block;
+        }
+
+        /* 5. 底部 CTA 區塊 */
+        .final-cta {
+            background-color: #fafafa;
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .process-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            .detail-content, .detail-section:nth-child(even) .detail-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .detail-text { order: 1 !important; }
+            .detail-image { order: 2 !important; }
+        }
+
+        @media (max-width: 768px) {
+            .process-header h1 { font-size: 2.8rem !important; }
+            .process-container { grid-template-columns: repeat(2, 1fr); }
+            .detail-text h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -62,10 +222,11 @@ permalink: /japanese-ritual/
     <main>
         <header class="process-header">
             <div class="reveal wrapper">
-                <span style="letter-spacing: 5px; font-weight: 700; color: #fff;">SACRED HARMONY</span>
-                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; margin: 25px 0;">日式禮儀服務流程</h1>
-                <p style="max-width: 800px; margin: 0 auto; opacity: 0.9; line-height: 2;">
-                    祥安生命深悉日蓮正宗與創價學會之治喪儀軌，從御本尊安置到唱題追善，我們以最嚴謹的態度守護信仰的純粹。結合日式職人的納棺工藝，讓親人在莊嚴的「南無妙法蓮華經」唱題聲中，圓滿生命的尊榮告別。
+                <span style="letter-spacing: 5px; font-weight: 700; color: #fff; text-transform: uppercase;">Sacred Harmony</span>
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 4rem; margin: 20px 0;">日式禮儀服務流程</h1>
+                <p style="max-width: 850px; margin: 0 auto; opacity: 0.9; line-height: 2.2; font-size: 1.15rem;">
+                    深悉日蓮正宗與創價學會之治喪儀軌，結合日式職人的納棺工藝。<br>
+                    在莊嚴的「南無妙法蓮華經」唱題聲中，圓滿生命的尊榮告別。
                 </p>
             </div>
         </header>
@@ -104,20 +265,20 @@ permalink: /japanese-ritual/
             <div class="detail-content wrapper">
                 <div class="reveal detail-text">
                     <h2><span>01</span> 安置御本尊與豎靈</h2>
-                    <p>在親人圓滿之際，祥安團隊會立即協助大體安置，並配合信仰需求於靈前「安置御本尊」。這在日蓮正宗或創價學會的禮儀中是至高無上的核心，象徵著佛法的加持與守護。我們會確保靈堂環境素雅、莊嚴，營造適合唱題與追善的寧靜空間。</p>
+                    <p>在親人圓滿之際，祥安團隊會立即協助大體安置，並配合信仰需求於靈前「安置御本尊」。這在日蓮正宗或創價學會的禮儀中是至高無上的核心，象徵著佛法的加持。我們會確保環境素雅、莊嚴，營造適合唱題的寧靜空間。</p>
                     <ul class="check-list">
                         <li>專業團隊協助大體安置於館內或家中，並建立初步追思空間。</li>
-                        <li>**安置御本尊儀軌引導**，並備妥常綠植物（如樒樹/佛桑）與供品。</li>
+                        <li>**安置御本尊儀軌引導**，並備妥樒樹（佛桑）與供品。</li>
                         <li>引導家屬進行初步唱題追善，穩定哀傷的情緒。</li>
-                        <li>協助代辦殯儀館進館各項手續，緩解家屬焦慮。</li>
+                        <li>協助代辦殯儀館進館各項手續，全程禮儀師陪同。</li>
                     </ul>
                     <div class="pro-note">
-                        <strong>📖 禮儀小知識：</strong><br>
-                        安置御本尊時，祭壇佈置以「青葉」（常綠植物）為主，象徵生命的常綠與不朽，避免過於花俏的裝飾，維持宗教的純淨感。
+                        <strong>📖 禮儀小知識：</strong>
+                        安置御本尊時，祭壇佈置以「青葉」（常綠植物）為主，象徵生命的常綠與不朽，避免過於繽紛的花藝裝飾，以維持宗教的純淨感。
                     </div>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-jp-01.jpg" alt="安置御本尊">
+                    <img src="{{ site.baseurl }}/images/process-jp-01.jpg" alt="日式安置御本尊儀式 - 祥安生命">
                 </div>
             </div>
         </section>
@@ -125,16 +286,16 @@ permalink: /japanese-ritual/
         <section id="step2" class="detail-section">
             <div class="detail-content wrapper">
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-jp-02.jpg" alt="日式治喪規劃">
+                    <img src="{{ site.baseurl }}/images/process-jp-02.jpg" alt="日式治喪規劃討論 - 祥安生命">
                 </div>
                 <div class="reveal detail-text">
                     <h2><span>02</span> 唱題排期與規劃</h2>
-                    <p>祥安顧問會與家屬、教會或講頭聯繫，確認告別禮拜的時間安排。我們特別注重程序單的編排，確保唱題時間、生平介紹與弔詞宣讀順序流暢。內容公開透明，針對日式細節（如白木祭壇、專用香爐）提供專業建議。</p>
+                    <p>祥安顧問會與家屬、教會或講頭聯繫，確認告別禮拜的時間安排。我們特別注重程序單的編排，確保唱題時間、生平介紹與弔詞宣讀順序流暢。內容公開透明，方針針對日式細節提供專業建議。</p>
                     <ul class="check-list">
-                        <li>連繫所屬教會或寺院，協調講頭、役員或牧師之行程。</li>
+                        <li>連繫所屬教會或寺院，協調講頭、役員或主持行程。</li>
                         <li>規畫唱題、讀經之排期，落實追善供養。</li>
                         <li>設計日系簡約風格訃聞，並註明不收奠儀（依信仰習慣）。</li>
-                        <li>提供完整服務合約與費用清單，落實價格透明。</li>
+                        <li>提供完整服務合約與費用清單，落實價格透明化。</li>
                     </ul>
                 </div>
             </div>
@@ -143,17 +304,17 @@ permalink: /japanese-ritual/
         <section id="step3" class="detail-section">
             <div class="detail-content wrapper">
                 <div class="reveal detail-text">
-                    <h2><span>03</span> 湯身納棺儀式</h2>
-                    <p>由祥安合作之專業納棺師執行日式湯身服務。我們以溫柔的動作為逝者清潔、更衣與化妝，展現對生命最後的敬重。家屬可在旁觀禮並共同為親人進行最後的梳理，隨後由禮儀師引導進行莊嚴的封棺儀式。</p>
+                    <h2><span>03</span> 湯身納棺職人服務</h2>
+                    <p>由祥安合作之專業納棺師執行日式湯身服務。我們以溫柔的動作為逝者清潔、更衣與化妝，展現對生命最後的敬重。家屬可在旁觀禮共同梳理，隨後由禮儀師引導進行莊嚴的封棺儀節。</p>
                     <ul class="check-list">
                         <li>專業納棺師執行湯身禮（洗浴儀式），讓親人淨身出發。</li>
-                        <li>著裝以自然、尊嚴為原則，可穿著信仰專屬之白衣。</li>
+                        <li>著裝以自然尊嚴為原則，可穿著信仰專屬之白衣（鶴衣）。</li>
                         <li>引導家屬放置象徵性物品（如數珠、經書影本）入棺。</li>
-                        <li>精緻入殮儀式，全程注重細節與質感。</li>
+                        <li>精緻入殮儀式，全程注重東方職人的細節與質感。</li>
                     </ul>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-jp-03.jpg" alt="日式納棺">
+                    <img src="{{ site.baseurl }}/images/process-jp-03.jpg" alt="日式湯身納棺職人 - 祥安生命">
                 </div>
             </div>
         </section>
@@ -161,16 +322,16 @@ permalink: /japanese-ritual/
         <section id="step4" class="detail-section">
             <div class="detail-content wrapper">
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-jp-04.jpg" alt="唱題告別現場">
+                    <img src="{{ site.baseurl }}/images/process-jp-04.jpg" alt="唱題追善告別式現場 - 祥安生命">
                 </div>
                 <div class="reveal detail-text">
                     <h2><span>04</span> 唱題追善告別式</h2>
-                    <p>這是一場充滿希望與力量的告別。我們會佈置充滿禪意的祭壇，在「南無妙法蓮華經」的唱題聲中，家屬與親友共同進行追善供養。現場不使用過度哀傷的音樂，而是強調法樂與平靜，讓逝者在清淨的音聲中走向成佛之路。</p>
+                    <p>這是一場充滿希望與力量的告別。我們會佈置充滿禪意的祭壇，在唱題聲中，家屬與親友共同進行追善供養。現場不使用過度哀傷的音樂，而是強調法樂與平靜，讓逝者在清淨音聲中走向成佛之路。</p>
                     <ul class="check-list">
-                        <li>客製化日式鮮花祭壇設計，營造靜謐、祥和的氛圍。</li>
-                        <li>專業司儀引導唱題流程、追思文朗讀與獻花。</li>
-                        <li>準備專用香爐、鈴棒與儀式所需之宗教器物。</li>
-                        <li>流暢的現場控管，確保家奠與公奠過程莊嚴有序。</li>
+                        <li>客製化日式鮮花祭壇設計，營造靜謐、祥和的追思氛圍。</li>
+                        <li>專業司儀引導唱題流程、追思文朗讀與獻花儀軌。</li>
+                        <li>備妥專用香爐、鈴棒與儀式所需之宗教器物。</li>
+                        <li>流暢的現場控管，確保家奠與公奠過程莊嚴且有序。</li>
                     </ul>
                 </div>
             </div>
@@ -180,34 +341,35 @@ permalink: /japanese-ritual/
             <div class="detail-content wrapper">
                 <div class="reveal detail-text">
                     <h2><span>05</span> 火化晉塔與圓滿</h2>
-                    <p>在告別式圓滿後，由禮儀師陪同家屬前往火化場進行最後的送別。我們會協助辦理領骨（拾灰）手續，並引導家屬前往預定的塔位進行安座儀式。治喪雖告一段落，我們仍會提醒家屬後續的追善日與紀念儀軌，確保全程圓滿。</p>
+                    <p>告別式圓滿後，由禮儀師陪同家屬前往火化場送別。我們會協助辦理領骨（拾灰）手續，並引導家屬前往預定的塔位進行安座。治喪雖結束，我們仍會提醒家屬後續追善日，確保全程圓滿。</p>
                     <ul class="check-list">
-                        <li>火化場全程陪同，由禮儀師協助拾骨與入甕。</li>
-                        <li>協助前往寺院或塔位進行晉塔儀式，並引導唱題。</li>
-                        <li>提供回靈、安靈等後續居家祭拜指導。</li>
-                        <li>主動提醒紀念日與教會追思活動之相關細節。</li>
+                        <li>火化場全程專業陪同，協助家屬辦理火化證明與領骨手續。</li>
+                        <li>晉塔安座儀式引導，配合教會或寺院進行祝禱唱題。</li>
+                        <li>提供回靈、安靈等後續居家祭拜與信仰生活指導。</li>
+                        <li>主動提醒紀念日與追思活動細節，落實後續關懷。</li>
                     </ul>
                     <div class="pro-note">
-                        <strong>📖 後續關懷：</strong><br>
+                        <strong>📖 信仰指引：</strong>
                         信仰生活中的追善供養如何持續？<br>
-                        <a href="{{ site.baseurl }}/japanese-memorial/" style="color: #8e735b; font-weight: bold;">【信仰指引】日式禮儀後的追思與紀念儀軌解析 &rarr;</a>
+                        <a href="{{ site.baseurl }}/japanese-memorial/" style="color: #8e735b; font-weight: bold; text-decoration: none;">【追思指南】日式禮儀後的紀念儀軌解析 &rarr;</a>
                     </div>
                 </div>
                 <div class="reveal detail-image">
-                    <img src="{{ site.baseurl }}/images/process-jp-05.jpg" alt="晉塔安座">
+                    <img src="{{ site.baseurl }}/images/process-jp-05.jpg" alt="日式晉塔圓滿安座 - 祥安生命">
                 </div>
             </div>
         </section>
 
         <section class="final-cta">
-            <div class="reveal wrapper text-center">
-                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.8rem; margin-bottom: 20px;">以信行為根，圓滿生命之禮</h2>
-                <p style="margin: 0 auto 50px; opacity: 0.8; font-size: 1.2rem; max-width: 600px;">
-                    祥安生命尊重您的信仰價值，透過精緻的日式職人服務，讓每一場告別都充滿平安與莊嚴。
+            <div class="reveal wrapper">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 25px; color: #2c2c2c;">以信行為根，圓滿生命之禮</h2>
+                <p style="margin: 0 auto 60px; color: #717171; font-size: 1.25rem; max-width: 750px; line-height: 1.8;">
+                    祥安生命尊重您的信仰價值，透過精緻的日式職人服務。<br>
+                    讓每一場告別都充滿平安、莊嚴與成佛的希望。
                 </p>
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="tel:0978583699" style="background: #4a4a4a; color: #fff; padding: 22px 60px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem;">24H 服務專線</a>
-                    <a href="{{ site.baseurl }}/plans/" style="border: 2px solid #4a4a4a; color: #4a4a4a; padding: 20px 60px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem;">查看日式方案費</a>
+                    <a href="tel:0978583699" style="background: #4a4a4a; color: #fff; padding: 22px 65px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">24H 服務專線</a>
+                    <a href="{{ site.baseurl }}/plans/" style="border: 2px solid #4a4a4a; color: #4a4a4a; padding: 20px 65px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 1.1rem;">查看服務方案</a>
                 </div>
             </div>
         </section>
@@ -217,19 +379,36 @@ permalink: /japanese-ritual/
     {% include floating-cta.html %}
 
     <script>
+        // 增強型平滑捲動
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if(target) {
                     const offset = 100;
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = target.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
                     window.scrollTo({
-                        top: target.offsetTop - offset,
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
                 }
             });
         });
+
+        // 揭露動畫邏輯
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
 </body>
 </html>
