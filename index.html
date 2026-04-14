@@ -1,13 +1,106 @@
 ---
 layout: null
+permalink: /
 ---
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-<title>祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師服務</title>
-<meta name="description" content="祥安生命有限公司提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。專業服務涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。立即諮詢：0978-583-699。">
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>祥安生命 | 喪葬費用公開透明 | 24H 國家認證禮儀師專業服務</title>
+    <meta name="description" content="祥安生命提供 24 小時專業生命禮儀服務。國家認證禮儀師團隊，甲級立案，承諾喪葬費用方案完整公開透明。涵蓋台北、新北、桃園，提供中式、西式、日式、環保葬客製化服務。">
+    
     {% include head.html %}
+
+    <style>
+        :root {
+            --accent: #b8975a;
+            --deep-ink: #1a1a1a;
+            --line-soft: rgba(0,0,0,0.08);
+            --side-padding: clamp(1.5rem, 5vw, 10rem);
+        }
+
+        /* ── Hero 視覺優化 ── */
+        .hero {
+            position: relative;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--side-padding);
+            overflow: hidden;
+            background: #F9F9F7;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0; right: 0;
+            width: 55%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1516962080544-eac695c93791?auto=format&fit=crop&q=80') center / cover no-repeat;
+            opacity: 0.9;
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 650px; }
+        .hero h1 { 
+            font-family: 'Noto Serif TC', serif; 
+            font-size: clamp(2.5rem, 6vw, 4rem); 
+            line-height: 1.2; 
+            margin: 20px 0;
+            color: var(--deep-ink);
+        }
+
+        /* ── 水印裝飾 ── */
+        .watermark {
+            position: absolute;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(8rem, 20vw, 22rem);
+            color: rgba(184, 151, 90, 0.04);
+            font-style: italic;
+            pointer-events: none;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        /* ── 數據橫條 ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            background: var(--deep-ink);
+            color: #fff;
+            padding: 60px var(--side-padding);
+            gap: 40px;
+            text-align: center;
+        }
+        .stat-val { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--accent); display: block; margin-bottom: 5px; }
+        .stat-lab { font-size: 0.9rem; letter-spacing: 3px; opacity: 0.6; }
+
+        /* ── 服務行視覺 ── */
+        .service-list { margin-top: 50px; }
+        .service-row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            padding: 40px 0;
+            border-top: 1px solid var(--line-soft);
+            text-decoration: none;
+            color: inherit;
+            transition: 0.4s;
+        }
+        .service-row:hover { padding-left: 20px; color: var(--accent); }
+        .service-row .idx { font-family: 'Playfair Display'; font-size: 1.8rem; color: var(--accent); opacity: 0.5; }
+        .service-row h3 { font-family: 'Noto Serif TC', serif; font-size: 1.5rem; margin-bottom: 10px; }
+        .service-row p { color: #666; font-size: 1rem; line-height: 1.8; }
+
+        /* ── 案例卡片 ── */
+        .case-card-blend { display: block; text-decoration: none; color: inherit; }
+        .case-card-blend:hover .case-img { transform: scale(1.05); }
+        .case-img-wrap { width: 100%; height: 320px; overflow: hidden; border-radius: 2px; border: 1px solid var(--line-soft); }
+        .case-img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; }
+
+        @media (max-width: 850px) {
+            .hero { padding: 80px 25px; min-height: 60vh; }
+            .hero-bg { width: 100%; opacity: 0.3; mask-image: none; }
+            .service-row { grid-template-columns: 1fr; gap: 10px; }
+        }
+    </style>
 </head>
 
 <body>
@@ -15,15 +108,17 @@ layout: null
     
     <main>
         <section class="hero">
-            <div class="watermark" style="top: 10%; left: -5%;">Care</div>
+            <div class="watermark" style="top: 5%; left: -2%;">Legacy</div>
             <div class="hero-bg"></div>
             <div class="hero-content">
-                <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:4px; display:block; margin-bottom:15px;">SHIANG AN</span>
+                <span class="reveal" style="color:var(--accent); font-weight:700; letter-spacing:6px; display:block; margin-bottom:15px;">SHIANG AN LIFE</span>
                 <h1 class="reveal">祥安生命<br>書寫生命最終的溫柔</h1>
-                <p class="reveal" style="max-width: 500px; margin-bottom: 40px; font-size: 1.1rem; opacity: 0.8;">離別轉化為深刻的追思，悲傷時刻為您撐起一份平靜與堅定。</p>
-                <div class="reveal" style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <a href="./plans.html" style="background: var(--deep-ink); padding: 18px 45px; text-decoration: none; font-weight: 700; border-radius: 2px; transition: 0.3s; color:#fff">服務方案</a>
-                    <a href="tel:+886978583699" style="color: var(--deep-ink); text-decoration: none; border-bottom: 2px solid var(--accent); font-weight: 700; padding: 10px 0; transition: 0.3s;">24H 專人諮詢 &rarr;</a>
+                <p class="reveal" style="max-width: 520px; margin-bottom: 45px; font-size: 1.15rem; line-height: 1.9; color: #555;">
+                    將離別轉化為深刻的追思，在悲傷時刻為您撐起一份平靜與堅定。國家認證禮儀師團隊，守護圓滿時刻。
+                </p>
+                <div class="reveal" style="display: flex; gap: 25px; flex-wrap: wrap;">
+                    <a href="{{ '/plans/' | relative_url }}" style="background: var(--deep-ink); color:#fff; padding: 20px 50px; text-decoration: none; font-weight: 700; letter-spacing: 2px; transition: 0.3s;">瀏覽方案</a>
+                    <a href="tel:+886978583699" style="color: var(--deep-ink); text-decoration: none; border-bottom: 2px solid var(--accent); font-weight: 700; padding: 12px 0;">24H 專人諮詢 &rarr;</a>
                 </div>
             </div>
         </section>
@@ -32,83 +127,105 @@ layout: null
             <div class="stat-box"><span class="stat-val">15+</span><span class="stat-lab">專業年資</span></div>
             <div class="stat-box"><span class="stat-val">100%</span><span class="stat-lab">費用透明</span></div>
             <div class="stat-box"><span class="stat-val">24H</span><span class="stat-lab">即時待命</span></div>
-            <div class="stat-box"><span class="stat-val">4.9</span><span class="stat-lab">暖心評分</span></div>
+            <div class="stat-box"><span class="stat-val">4.9</span><span class="stat-lab">家屬評分</span></div>
         </div>
 
-        <section class="section wrapper">
-            <div class="watermark" style="bottom: 5%; right: -5%; transform: rotate(-3deg);">Legacy</div>
-            <div class="flex-container">
-                <div class="img-holder reveal">
-                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80" alt="祥安品牌精神">
+        <section class="wrapper" style="padding: 120px var(--side-padding); position: relative;">
+            <div class="watermark" style="bottom: 5%; right: 2%; transform: rotate(-2deg);">Care</div>
+            <div style="display: flex; gap: clamp(40px, 8vw, 100px); align-items: center; flex-wrap: wrap;">
+                <div class="reveal" style="flex: 1; min-width: 320px;">
+                    <div style="padding-right: 20px; border-right: 5px solid var(--accent);">
+                        <span style="color:var(--accent); font-weight:700; font-size:0.85rem; letter-spacing:4px; display: block; margin-bottom: 15px;">OUR PHILOSOPHY</span>
+                        <h2 style="font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.4; color: var(--deep-ink);">以將心比心，<br>圓滿生命每一段旅程。</h2>
+                    </div>
                 </div>
-                <div class="text-holder reveal" style="flex: 1.2;">
-                    <span style="color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:3px;">OUR PHILOSOPHY</span>
-                    <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; line-height: 1.4; margin: 20px 0;">以將心比心，<br>圓滿生命每一段旅程。</h2>
-                    <p style="font-size: 1.1rem; margin-bottom: 30px; opacity: 0.8;">祥安生命有限公司，秉持著逝者安心，生者心安。繁瑣流程轉化為隱形守護，讓家屬能全心追思。最脆弱的時刻，提供最莊嚴的支持。</p>
-                    <a href="./about.html" style="color:var(--deep-ink); text-decoration:none; font-weight:700; border-bottom:2.5px solid var(--accent); padding-bottom:5px;">關於我們 &rarr;</a>
+                <div class="reveal" style="flex: 1.2; min-width: 320px;">
+                    <p style="font-size: 1.1rem; line-height: 2; color: #555; margin-bottom: 35px;">
+                        祥安生命深知，每一次的告別都是唯一的。我們將繁瑣流程轉化為隱形的守護，讓家屬能全心追思。在最脆弱的時刻，我們提供最莊嚴且堅定的支持。
+                    </p>
+                    <a href="{{ '/about/' | relative_url }}" style="color:var(--deep-ink); text-decoration:none; font-weight:700; border-bottom:2.5px solid var(--accent); padding-bottom:5px;">品牌故事 &rarr;</a>
                 </div>
             </div>
         </section>
 
-       <section class="section wrapper" style="padding-top: 2;">
-    <div class="reveal">
-        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 40px; text-align: center;">以禮謝幕 · 圓滿如初</h2>
-    </div>
-    <div class="service-list">
-        <a href="./chinese-ritual/" class="service-row reveal">
-            <span class="idx">01</span>
-            <div>
-                <h3>佛道傳統禮儀</h3>
-                <p>傳承古典底蘊與現代美學，在莊嚴儀軌中，指引靈魂通往寧靜淨土。</p>
+        <section class="wrapper" style="padding: 0 var(--side-padding) 120px;">
+            <div class="reveal" style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem;">以禮謝幕 · 圓滿如初</h2>
+                <div style="width: 40px; height: 2px; background: var(--accent); margin: 25px auto;"></div>
             </div>
-        </a>
-
-        <a href="./western-ritual/" class="service-row reveal">
-            <span class="idx">02</span>
-            <div>
-                <h3>西式尊榮追思</h3>
-                <p>化哀傷為盼望，透過如詩般的溫馨敘事，為生命綻放最後的光影。</p>
+            
+            <div class="service-list">
+                <a href="{{ '/chinese-ritual/' | relative_url }}" class="service-row reveal">
+                    <span class="idx">01</span>
+                    <div>
+                        <h3>佛道傳統禮儀</h3>
+                        <p>傳承古典底蘊與現代美學，在莊嚴儀軌中，指引靈魂通往寧靜淨土。</p>
+                    </div>
+                </a>
+                <a href="{{ '/western-ritual/' | relative_url }}" class="service-row reveal">
+                    <span class="idx">02</span>
+                    <div>
+                        <h3>西式尊榮追思</h3>
+                        <p>化哀傷為盼望，透過如詩般的溫馨敘事，為生命綻放最後的光影。</p>
+                    </div>
+                </a>
+                <a href="{{ '/japanese-ritual/' | relative_url }}" class="service-row reveal">
+                    <span class="idx">03</span>
+                    <div>
+                        <h3>日式正宗儀軌</h3>
+                        <p>專注妙法真意，以簡潔莊嚴的唱題禮讚，守護生命永恆的尊貴與法喜。</p>
+                    </div>
+                </a>
+                <a href="{{ '/deed-non-religious/' | relative_url }}" class="service-row reveal">
+                    <span class="idx">04</span>
+                    <div>
+                        <h3>無宗教自由緬懷</h3>
+                        <p>打破形式框架，用最符合逝者性格的方式，留下溫潤深刻的最後一頁。</p>
+                    </div>
+                </a>
+                <a href="{{ '/eco-burial.html' | relative_url }}" class="service-row reveal">
+                    <span class="idx">05</span>
+                    <div>
+                        <h3>環保自然回歸</h3>
+                        <p>樹葬、海葬、花葬。讓生命重回大地懷抱，達成真正的綠色圓滿。</p>
+                    </div>
+                </a>
             </div>
-        </a>
+        </section>
 
-        <a href="./japanese-ritual/" class="service-row reveal">
-            <span class="idx">03</span>
-            <div>
-                <h3>日式正宗儀軌</h3>
-                <p>專注妙法真意，以簡潔莊嚴的唱題禮讚，守護生命永恆的尊貴與法喜。</p>
+        <section style="background: #F2F2EF; padding: 120px var(--side-padding);">
+            <div class="reveal" style="text-align: center; margin-bottom: 70px;">
+                <span style="color:var(--accent); font-weight:700; letter-spacing:4px;">CASE STORIES</span>
+                <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.5rem; margin-top: 15px;">生命禮讚：精選故事</h2>
             </div>
-        </a>
 
-        <a href="./deed-non-religious/" class="service-row reveal">
-            <span class="idx">04</span>
-            <div>
-                <h3>無宗教自由緬懷</h3>
-                <p>打破形式框架，用最符合摯愛性格的方式，留下溫潤深刻的最後一頁。</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+                {% for post in site.posts limit:3 %}
+                <a href="{{ post.url | relative_url }}" class="case-card-blend reveal">
+                    <div class="case-img-wrap">
+                        {% assign post_img = post.image | default: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80' %}
+                        <img src="{{ post_img | relative_url }}" class="case-img" alt="{{ post.title }}">
+                    </div>
+                    <div style="padding: 25px 0;">
+                        <h3 style="font-family: 'Noto Serif TC', serif; font-size: 1.4rem; line-height: 1.4; color: var(--deep-ink);">{{ post.title }}</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.7; line-height: 1.7; margin: 15px 0 20px;">{{ post.excerpt | strip_html | truncate: 65 }}</p>
+                        <span style="font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 4px; font-size: 0.85rem;">閱讀全文 &rarr;</span>
+                    </div>
+                </a>
+                {% endfor %}
             </div>
-        </a>
+        </section>
 
-        <a href="./eco-burial.html/" class="service-row reveal">
-            <span class="idx">05</span>
-            <div>
-                <h3>環保自然回歸</h3>
-                <p>樹葬、海葬、花葬。讓生命重回大地懷抱，化作春泥與萬物共生。</p>
-            </div>
-        </a>
-    </div>
-</section>
-
-
-
-        <section class="section wrapper">
-            <h2 style="text-align: center; margin-bottom: 50px; font-family: 'Noto Serif TC', serif; font-size: 2.2rem;">常見疑問解答</h2>
-            <div class="faq-list">
+        <section class="wrapper" style="padding: 120px var(--side-padding);">
+            <h2 style="text-align: center; margin-bottom: 60px; font-family: 'Noto Serif TC', serif; font-size: 2.2rem;">常見疑問解答</h2>
+            <div class="faq-list" style="max-width: 900px; margin: 0 auto;">
                 <div class="faq-item reveal">
                     <button class="faq-toggle">
-                        <h4>關於服務契約是否有法律保障？</h4>
+                        <h4>服務契約是否有法律保障？</h4>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-content">
-                        祥安生命所有服務均簽署政府核可之定型化契約，品項與金額完全透明，杜絕惡意追加費用的可能。
+                        祥安生命所有服務均簽署政府核可之定型化契約，所有品項與金額完全透明公開，簽約後絕不惡意追加費用。
                     </div>
                 </div>
                 <div class="faq-item reveal">
@@ -117,112 +234,39 @@ layout: null
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-content">
-                        請隨時撥打 24H 專線 0978-583-699。我們的會即刻提供指引並安排接體服務，給您最即時的專業守護。
+                        請撥打 24H 守護專線 <a href="tel:0978583699">0978-583-699</a>。我們即刻提供專業指引並安排接體服務，給您最安心的依靠。
                     </div>
                 </div>
             </div>
         </section>
-
-   <section class="section wrapper">
-    <div class="reveal">
-        <h2 style="font-family: 'Noto Serif TC', serif; font-size: 2.2rem; margin-bottom: 20px; text-align: center;">生命禮讚：精選案例</h2>
-        <div style="width: 40px; height: 1.5px; background: var(--accent); margin: 0 auto 50px;"></div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
-        {% assign random_posts = site.posts | sample: 3 %}
-        {% for post in random_posts %}
-            <a href="{{ post.url | relative_url }}" class="case-card-blend" style="text-decoration: none; color: inherit;">
-                <div class="reveal">
-                    <div style="width: 100%; height: 300px; overflow: hidden; position: relative; border: 1px solid var(--line-soft); border-radius: 2px;">
-                        {% assign post_img = post.image | default: '/images/blog-hero-bg.jpg' | relative_url %}
-                        <img src="{{ post_img }}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease;" alt="{{ post.title }}">
-                    </div>
-
-                    <div style="padding: 25px 0;">
-                        <span style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; display: block; margin-bottom: 12px;">LIFE STORY</span>
-                        <h3 style="margin-bottom: 15px; font-family: 'Noto Serif TC', serif; font-size: 1.5rem; line-height: 1.4; color: var(--deep-ink);">{{ post.title }}</h3>
-                        <p style="font-size: 1rem; opacity: 0.75; line-height: 1.8; margin-bottom: 20px; font-weight: 300;">
-                            {{ post.excerpt | strip_html | truncate: 75 }}
-                        </p>
-                        <div style="display: inline-block; color: var(--deep-ink); font-weight: 700; border-bottom: 2.5px solid var(--accent); padding-bottom: 5px; font-size: 0.9rem;">
-                            進入生命故事 &rarr;
-                        </div>
-                    </div>
-                </div>
-            </a>
-        {% else %}
-            <div style="padding: 60px; text-align: center; border: 1px solid var(--line-soft); grid-column: 1 / -1;">
-                <p style="opacity: 0.4; font-family: 'Noto Serif TC', serif; letter-spacing: 2px;">敘事整理中，敬請期待</p>
-            </div>
-        {% endfor %}
-    </div>
-</section>
-
-
-
-<style>
-    /* 1. 統一融合特效：去掉白底陰影，改用職人質感位移 */
-    .case-card-blend {
-        display: block;
-        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .case-card-blend:hover {
-        transform: translateY(-8px); /* 輕微上浮 */
-    }
-
-    .case-card-blend:hover img {
-        transform: scale(1.05); /* 照片微擴張 */
-    }
-
-    .case-card-blend:hover h3 {
-        color: var(--accent) !important; /* 標題變色引導點擊 */
-    }
-
-    /* 2. 手機版適配：確保兩側不會撞牆 */
-    @media (max-width: 768px) {
-        .case-card-blend {
-            padding: 0 15px;
-            margin-bottom: 30px;
-        }
-    }
-</style>
-
-
-
     </main>
 
     {% include footer.html %}
     {% include floating-cta.html %}
 
-  <script>
+    <script>
     document.addEventListener('DOMContentLoaded', function () {
-
-        /* ── FAQ 手風琴（統一邏輯） ── */
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const btn = item.querySelector('.faq-toggle');
-            if (!btn) return;
+        // FAQ Toggle
+        document.querySelectorAll('.faq-toggle').forEach(btn => {
             btn.addEventListener('click', () => {
+                const item = btn.parentElement;
                 const isActive = item.classList.contains('active');
-                faqItems.forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
                 if (!isActive) item.classList.add('active');
             });
         });
 
-        /* ── Scroll Reveal（修正：加 unobserve 避免效能浪費） ── */
+        // Intersection Observer for Reveal
         const revObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
-                    revObs.unobserve(entry.target);   /* 修正：觸發後停止監聽 */
+                    revObs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
-
     });
     </script>
 </body>
