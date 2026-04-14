@@ -8,15 +8,40 @@ permalink: /deed06.html/
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>正信佛教專案 | 祥安生命 - 蓮開並蒂，圓滿佛事</title>
-    <meta name="description" content="祥安生命正信佛教專案，以佛法慈悲為懷，提供莊嚴西方三聖式場佈置與專業誦經祈福。內容包含臨終助念、尊榮入殮及佛化儀軌，引導親人往生淨土，成就圓滿。">
+    
+    <title>正信佛教專案 6.8萬起 | 祥安生命 - 莊嚴西方三聖式場與圓滿佛事儀軌</title>
+    <meta name="description" content="祥安生命「正信佛教專案」售價 68,000 元起，依循佛法慈悲為懷，提供莊嚴西方三聖鮮花式場、專業助念引導與佛化儀軌服務。由國家認證禮儀師團隊全程協助，以佛號聲引導親人往生極樂淨土，圓滿生命最後修行。">
     
     {% include head.html %}
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "祥安生命 正信佛教專案",
+      "image": "{{ site.url }}{{ site.baseurl }}/images/og-default.jpg",
+      "description": "提供莊嚴西方三聖鮮花式場與專業法師誦經，引導親人圓滿佛事，成就極致慈悲之告別。",
+      "brand": {
+        "@type": "Brand",
+        "name": "祥安生命"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ page.url | absolute_url }}",
+        "priceCurrency": "TWD",
+        "price": "68000",
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2026-12-31"
+      }
+    }
+    </script>
 
     <style>
         :root {
             --soft-bg: #F9F9F7;
             --border-color: #E0E0DB;
+            --buddha-gold: #B4975A; /* 專屬佛教金棕色 */
+            --deep-ink: #1e1e1e;
         }
 
         /* 頂部視覺區 */
@@ -28,12 +53,13 @@ permalink: /deed06.html/
 
         .plan-badge {
             display: inline-block;
-            border: 1px solid #B4975A; /* 佛教風格微調金棕色 */
-            color: #B4975A;
+            border: 1px solid var(--buddha-gold);
+            color: var(--buddha-gold);
             padding: 4px 16px;
             font-size: 0.85rem;
             letter-spacing: 2px;
             margin-bottom: 20px;
+            font-weight: 700;
         }
 
         /* 契約內容容器 */
@@ -61,8 +87,9 @@ permalink: /deed06.html/
         .section-info .item-count {
             font-family: 'Work Sans', sans-serif;
             font-size: 0.8rem;
-            color: #B4975A;
+            color: var(--buddha-gold);
             letter-spacing: 1px;
+            font-weight: 700;
         }
 
         /* 細項清單 */
@@ -83,10 +110,10 @@ permalink: /deed06.html/
 
         .detail-item h4::before {
             content: "";
-            width: 4px;
-            height: 4px;
-            background: #B4975A;
-            margin-right: 10px;
+            width: 6px;
+            height: 6px;
+            background: var(--buddha-gold);
+            margin-right: 12px;
             border-radius: 50%;
         }
 
@@ -99,38 +126,62 @@ permalink: /deed06.html/
 
         /* 總價區 */
         .price-summary {
-            background: #3E3B39; /* 較溫潤的深木色 */
+            background: #3E3B39; /* 較溫潤的深木色，符合佛教穩重感 */
             color: #fff;
-            padding: 60px 40px;
+            padding: 80px 40px;
             text-align: center;
             margin-top: 40px;
             position: relative;
+            overflow: hidden;
         }
 
         .price-summary h2 {
             font-family: 'Noto Serif TC', serif;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             letter-spacing: 4px;
+            margin-bottom: 10px;
         }
 
         .price-summary p {
             opacity: 0.7;
-            font-size: 0.9rem;
-            margin-top: 15px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .watermark {
+            position: absolute;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
         }
 
         /* 備註卡片 */
         .note-card {
             background: var(--soft-bg);
-            padding: 30px;
+            padding: 40px;
             margin-top: 40px;
             border-radius: 4px;
+            border-left: 4px solid var(--buddha-gold);
+        }
+
+        .note-card h5 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--deep-ink);
         }
 
         @media (max-width: 768px) {
-            .contract-section { grid-template-columns: 1fr; gap: 20px; }
+            .contract-section { grid-template-columns: 1fr; gap: 20px; padding: 30px 0; }
             .detail-list { grid-template-columns: 1fr; gap: 20px; }
             .plan-hero { padding: 100px 0 50px; }
+            .plan-hero h1 { font-size: 2.2rem !important; }
+            .price-summary h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -141,9 +192,9 @@ permalink: /deed06.html/
     <main>
         <section class="plan-hero">
             <div class="wrapper">
-                <span class="plan-badge reveal">佛化儀軌 · 圓滿慈悲</span>
-                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3rem;">正信佛教專案</h1>
-                <p class="reveal" style="opacity: 0.6;">依循正信佛教禮法，在佛號聲中引導親人往生極樂淨土</p>
+                <span class="plan-badge reveal">正信佛法 · 圓滿慈悲</span>
+                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; color: var(--deep-ink);">正信佛教專案</h1>
+                <p class="reveal" style="font-size: 1.1rem; color: #888; margin-top: 20px;">依循佛化儀軌，在清淨佛號聲中引導親人往生極樂淨土</p>
             </div>
         </section>
 
@@ -156,12 +207,12 @@ permalink: /deed06.html/
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>臨終佛教諮詢</h4>
-                        <p>專業禮儀師 1 名，24 小時臨終關懷，協助家屬安排「助念」事宜與佛事流程規劃。</p>
+                        <h4>佛化治喪諮詢</h4>
+                        <p>資深禮儀師 1 名提供 24 小時服務，協助家屬安排「助念」環境，規劃符合正信佛教之治喪流程。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>大體尊榮接運</h4>
-                        <p>接體人員 1 名、精裝接體車 1 輛。含陀羅尼經被（佛山經被）、高級專用屍袋。</p>
+                        <h4>尊榮大體接運</h4>
+                        <p>專業接體人員 1 名、精裝接體專車 1 輛。含陀羅尼經被（佛山被）及高級大體專用防護袋。</p>
                     </div>
                 </div>
             </div>
@@ -173,12 +224,12 @@ permalink: /deed06.html/
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>安靈室佈置</h4>
-                        <p>安靈室使用、15 吋藝術框遺照、佛教專用靈位牌、佛號唸佛機、環香架組、高級鮮花束。</p>
+                        <h4>安靈空間佈置</h4>
+                        <p>包含安靈室使用、15 吋藝術框遺照、佛教專用靈位牌、佛號唸佛機、環香架及精緻安靈花束佈置。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>引靈與安靈</h4>
-                        <p>引靈法師（師父）1 名，協助安靈法事、引導家屬虔心禮佛。含水果、香、佛教專用金銀紙。</p>
+                        <h4>引靈與安靈儀軌</h4>
+                        <p>專業法師 1 名引導家屬虔心禮佛，執行引靈與安靈佛事。提供鮮果、優質香燭及佛教專用金銀紙。</p>
                     </div>
                 </div>
             </div>
@@ -191,15 +242,15 @@ permalink: /deed06.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>尊榮護理化妝</h4>
-                        <p>淨身、穿衣、入殮人員 2 名，專業大體化妝師 1 名。以清淨心協助往生者圓滿法相。</p>
+                        <p>精細淨身、穿衣與大體護理。由專業化妝師協助往生者圓滿法相，入殮人員 2 名秉持清淨心執行儀式。</p>
                     </div>
                     <div class="detail-item">
                         <h4>環保壽材與配件</h4>
-                        <p>高級西式火化環保棺、精選佛教專用壽衣、<strong>特選刺繡蓮花水被（含底被）</strong>、隨身庫錢 5000 萬。</p>
+                        <p>高級西式火化環保棺一具、精選佛教專用壽衣、<strong>特選刺繡蓮花水被（含底被）</strong>及隨身庫錢 5000 萬。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>壽內用品組</h4>
-                        <p>梳子、扇子、鏡子、過山褲、童男童女、棺底蓆、口含銀等必備佛教壽內用品。</p>
+                        <h4>壽內清淨用品</h4>
+                        <p>提供梳子、扇子、鏡子、過山褲、金童玉女、棺底蓆、口含銀等完整佛教壽內必備用品。</p>
                     </div>
                 </div>
             </div>
@@ -212,15 +263,15 @@ permalink: /deed06.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>西方三聖式場佈置</h4>
-                        <p><strong>6-10 呎精緻鮮花佛化式場</strong>、西方三聖像供奉、西式牌樓、獻花圈、收付處佈置、門外洗淨水。</p>
+                        <p><strong>6-10 呎精緻鮮花佛化式場</strong>、供奉西方三聖像、西式牌樓、獻花圈、收付處美學佈置與洗淨水服務。</p>
                     </div>
                     <div class="detail-item">
                         <h4>佛事引導團隊</h4>
-                        <p><strong>專業司儀 1 名</strong>、出殯誦經法師 1 名、親屬黑袍（居士服）10 套、洗淨毛巾 1 組。</p>
+                        <p><strong>專業司儀 1 名</strong>全程導引、出殯誦經法師 1 名、親屬黑袍（居士服）10 套、洗淨毛巾組。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>祭品與供奉</h4>
-                        <p>三牲（可選全素三牲）、素果、素菜碗（12碗）、紅包子、發糕、米酒。奠禮專用香燭與佛教金銀紙。</p>
+                        <h4>佛化供品物資</h4>
+                        <p>提供素三牲、特選素果、精緻素菜碗（12碗）、紅包子、發糕。含奠禮專用特級香燭與佛教金銀紙。</p>
                     </div>
                 </div>
             </div>
@@ -232,32 +283,33 @@ permalink: /deed06.html/
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>發引火化</h4>
-                        <p>出殯引導法師 1 名送至火化場、專業移柩扶棺人員 1 組、返主安靈法師一名。</p>
+                        <h4>發引儀式</h4>
+                        <p>出殯引導法師 1 名護送至火化場、專業移柩扶棺人員 1 組、返主安靈法師協助圓滿佛事儀軌。</p>
                     </div>
                     <div class="detail-item">
                         <h4>骨灰保存容器</h4>
-                        <p>標準黑花崗骨灰罐一個（可更換）、刻字描金、彩色玉相、撿骨封罐及黃絲巾包覆。</p>
+                        <p>標準黑花崗骨灰罐（可折價更換）、刻字描金、彩色瓷像鑲嵌、專業撿骨封罐與黃絲巾包覆交付。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>永久關懷</h4>
-                        <p>百日、對年、三年、合爐提醒。提供免費塔位諮詢與佛法治喪禮儀指導。</p>
+                        <h4>終身佛事關懷</h4>
+                        <p>提醒百日、對年、三年、合爐日期。永久提供全台塔位諮詢、佛法治喪禮俗與相關補助申請諮詢。</p>
                     </div>
                 </div>
             </div>
 
             <div class="price-summary reveal">
-                <div class="watermark" style="color: rgba(255,255,255,0.05); top:0;">BUDDHISM</div>
-                <h2>服務契約總價 陸萬捌仟元起</h2>
-                <p>祥安生命 · 以佛之心，圓滿每一場生命的告別</p>
+                <div class="watermark">BUDDHISM</div>
+                <p>服務契約總價</p>
+                <h2>新台幣 陸萬捌仟元 起</h2>
+                <p>— 祥安生命 · 以佛之心，圓滿每一場生命的告別 —</p>
             </div>
 
             <div class="note-card reveal">
-                <h5 style="font-weight: 700; margin-bottom: 10px;">正信佛教方案說明</h5>
-                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.9rem; opacity: 0.7;">
-                    <li>本方案特別加強「佛事儀軌」，所有祭品預設為全素，亦可依家屬需求調整。</li>
-                    <li>代辦各項殯儀館規費，均依據政府收據實報實銷。</li>
-                    <li>本方案包含 24 小時臨終助念諮詢與相關佛具用品。</li>
+                <h5><i class="fas fa-om" style="margin-right:8px; color:var(--buddha-gold);"></i> 佛化方案說明</h5>
+                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.95rem; color: #555;">
+                    <li>本方案特別加強「正信佛事儀軌」，祭品預設為全素，亦可依家屬習俗進行微調。</li>
+                    <li>代辦各項殯儀館設施及火化規費，均<strong>依政府公定收據實報實銷</strong>，透明無爭議。</li>
+                    <li>祥安生命尊重各宗派佛法禮儀，可協助家屬邀請特定寺院法師主導佛事。</li>
                 </ul>
             </div>
 
