@@ -8,15 +8,40 @@ permalink: /deed02.html/
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>中式精緻契約 8.8萬 | 祥安生命 - 讓告別更顯莊嚴</title>
-    <meta name="description" content="祥安生命中式精緻專案 88,000 元，提供 12 呎精緻鮮花式場與專業司儀引導。內容包含臨終關懷、豎靈佛事、尊榮入殮及完整發引晉塔服務，費用透明無追加。">
+    
+    <title>中式精緻契約 8.8萬 | 祥安生命 - 12呎鮮花式場與專業司儀服務</title>
+    <meta name="description" content="祥安生命「中式精緻專案」售價 88,000 元，服務全面升級。包含 12 呎精緻鮮花式場佈置、專業司儀全程引導、尊榮大體護理與完整治喪流程，提供北北基桃地區家屬最莊嚴的告別選擇。">
     
     {% include head.html %}
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "祥安生命 中式精緻契約",
+      "image": "{{ site.url }}{{ site.baseurl }}/images/og-default.jpg",
+      "description": "升級 12 呎鮮花式場與專業司儀，8.8 萬中式精緻禮儀專案，給予至親最尊榮的謝幕。",
+      "brand": {
+        "@type": "Brand",
+        "name": "祥安生命"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ page.url | absolute_url }}",
+        "priceCurrency": "TWD",
+        "price": "88000",
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2026-12-31"
+      }
+    }
+    </script>
 
     <style>
         :root {
             --soft-bg: #F9F9F7;
             --border-color: #E0E0DB;
+            --accent: #a88e6a;
+            --deep-ink: #1e1e1e;
         }
 
         /* 頂部視覺區 */
@@ -34,6 +59,7 @@ permalink: /deed02.html/
             font-size: 0.85rem;
             letter-spacing: 2px;
             margin-bottom: 20px;
+            font-weight: 700;
         }
 
         /* 契約內容容器 */
@@ -63,6 +89,7 @@ permalink: /deed02.html/
             font-size: 0.8rem;
             color: var(--accent);
             letter-spacing: 1px;
+            font-weight: 700;
         }
 
         /* 細項清單 */
@@ -83,10 +110,10 @@ permalink: /deed02.html/
 
         .detail-item h4::before {
             content: "";
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             background: var(--accent);
-            margin-right: 10px;
+            margin-right: 12px;
             border-radius: 50%;
         }
 
@@ -101,41 +128,60 @@ permalink: /deed02.html/
         .price-summary {
             background: var(--deep-ink);
             color: #fff;
-            padding: 60px 40px;
+            padding: 80px 40px;
             text-align: center;
             margin-top: 40px;
             position: relative;
+            overflow: hidden;
         }
 
         .price-summary h2 {
             font-family: 'Noto Serif TC', serif;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             letter-spacing: 4px;
+            margin-bottom: 10px;
         }
 
         .price-summary p {
             opacity: 0.7;
-            font-size: 0.9rem;
-            margin-top: 15px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .watermark {
+            position: absolute;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
         }
 
         /* 備註卡片 */
         .note-card {
             background: var(--soft-bg);
-            padding: 30px;
+            padding: 40px;
             margin-top: 40px;
             border-radius: 4px;
+            border-left: 4px solid var(--accent);
         }
 
         .note-card h5 {
             font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--deep-ink);
         }
 
         @media (max-width: 768px) {
-            .contract-section { grid-template-columns: 1fr; gap: 20px; }
+            .contract-section { grid-template-columns: 1fr; gap: 20px; padding: 30px 0; }
             .detail-list { grid-template-columns: 1fr; gap: 20px; }
             .plan-hero { padding: 100px 0 50px; }
+            .plan-hero h1 { font-size: 2.2rem !important; }
+            .price-summary h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -146,9 +192,9 @@ permalink: /deed02.html/
     <main>
         <section class="plan-hero">
             <div class="wrapper">
-                <span class="plan-badge reveal">中式精緻方案</span>
-                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3rem;">中式契約 8.8萬</h1>
-                <p class="reveal" style="opacity: 0.6;">更顯莊嚴的式場規劃，提供專業司儀全程引導</p>
+                <span class="plan-badge reveal">精緻中式尊榮禮儀</span>
+                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; color: var(--deep-ink);">中式契約 8.8 萬</h1>
+                <p class="reveal" style="font-size: 1.1rem; color: #888; margin-top: 20px;">更顯莊嚴的式場規劃，提供專業司儀全程引導</p>
             </div>
         </section>
 
@@ -157,16 +203,16 @@ permalink: /deed02.html/
             <div class="contract-section reveal">
                 <div class="section-info">
                     <span class="item-count">PHASE 01</span>
-                    <h3>臨終關懷與接運</h3>
+                    <h3>臨終與接運</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>禮儀諮詢規劃</h4>
-                        <p>專業禮儀師 1 名提供 24 小時往生諮詢，協助家屬治喪流程安排與規劃。</p>
+                        <p>國家認證禮儀師 1 名提供 24 小時往生諮詢，全程協助家屬安排治喪流程，確保禮儀細節圓滿。</p>
                     </div>
                     <div class="detail-item">
                         <h4>大體接運服務</h4>
-                        <p>接體人員 1 名、接體車 1 輛（醫院或家中至殯儀館）。含陀羅尼經被、專用屍袋。</p>
+                        <p>專業接體人員 1 名、接體車 1 輛。提供隨車陀羅尼經被與高級專用屍袋，守護大體最後尊嚴。</p>
                     </div>
                 </div>
             </div>
@@ -179,11 +225,11 @@ permalink: /deed02.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>靈位設置與佈置</h4>
-                        <p>安靈室使用、15 吋藝術框遺照、靈位牌、招魂旛、竹子、童男童女、唸佛機、環香架組、精緻花束。</p>
+                        <p>包含安靈室、15 吋藝術框遺照、靈位牌、招魂旛、唸佛機、環香架組及精緻安靈鮮花。</p>
                     </div>
                     <div class="detail-item">
                         <h4>開冥路佛事</h4>
-                        <p>開冥路專業師父 1 名，包含開冥路用品（水果、香、金銀紙、蠟燭）。</p>
+                        <p>資深開冥路師父 1 名進行儀式。包含引魂、安靈所需之完整祭品（水果、香、金銀紙、蠟燭）。</p>
                     </div>
                 </div>
             </div>
@@ -196,15 +242,15 @@ permalink: /deed02.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>大體護理美容</h4>
-                        <p>大體淨身、穿衣、入殮人員 2 名，專業大體化妝師 1 名，大殮引導師父 1 名。</p>
+                        <p>精細大體淨身、穿衣。含專業大體化妝師 1 名、入殮人員 2 名及大殮引導師父 1 名。</p>
                     </div>
                     <div class="detail-item">
                         <h4>精選壽材用品</h4>
-                        <p>高級中西式火化環保棺、精選壽衣（男/女多款任選）、刺繡蓮花水被含底被 1 件。</p>
+                        <p>高級西式火化環保棺（整具火化）、精選中/西式壽衣（多款任選）、刺繡蓮花水被組。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>壽內隨身配件</h4>
-                        <p>隨身庫錢 5000 萬、壽內一組（梳子、扇子、鏡子、過山褲、童男童女、棺底蓆、口含銀）。</p>
+                        <h4>隨身配件組</h4>
+                        <p>隨身庫錢 5000 萬、完整壽內用品（梳子、扇子、鏡子、過山褲、棺底蓆、口含銀等）。</p>
                     </div>
                 </div>
             </div>
@@ -216,20 +262,20 @@ permalink: /deed02.html/
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>12呎鮮花式場</h4>
-                        <p><strong>升級 10 呎精緻鮮花式場</strong>、西式牌樓、獻花圈、收付處整體佈置、門外洗淨水。</p>
+                        <h4>12呎精緻花場</h4>
+                        <p><strong>升級 12 呎精緻鮮花式場佈置</strong>、優雅牌樓、獻花圈、收付處整體佈置與門外洗淨水服務。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>專業奠禮團隊</h4>
-                        <p><strong>專業司儀 1 名</strong>、出殯誦經師父 1 名（出殯迴向與圓七）、親屬黑袍 10 套、<strong>毛巾 1 組（36條）</strong>。</p>
+                        <h4>專業司儀團隊</h4>
+                        <p><strong>聘請專業司儀 1 名</strong>全程掌控節奏、出殯師父 1 名、親屬黑袍 10 套及<strong>毛巾組 (36條)</strong>。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>文書與飲水</h4>
-                        <p>提供禮簿、提名簿、謝卡、簽字筆 1 套、奠禮儀式小瓶水供應。</p>
+                        <h4>奠禮物資與飲水</h4>
+                        <p>提供禮簿、提名簿、謝卡、簽字筆等全套耗材，並供應奠禮現場專用瓶裝水。</p>
                     </div>
                     <div class="detail-item">
                         <h4>祭品禮俗用品</h4>
-                        <p>三牲、水果、12菜碗、米酒、奠禮專用香、蠟燭、金銀紙、拈香粉。</p>
+                        <p>標準三牲、季節水果、12 菜碗、米酒、奠禮專用香燭與金銀紙（含拈香粉）。</p>
                     </div>
                 </div>
             </div>
@@ -237,37 +283,37 @@ permalink: /deed02.html/
             <div class="contract-section reveal">
                 <div class="section-info">
                     <span class="item-count">PHASE 05</span>
-                    <h3>發引晉塔回饋</h3>
+                    <h3>發引晉塔圓滿</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>火化發引儀式</h4>
-                        <p>出殯師父 1 名送至火化場、移柩扶棺人員 1 組、返主安靈師父 1 名（如不返主則略）。</p>
+                        <p>出殯師父 1 名護送至火化場、移柩扶棺人員 1 組及返主安靈師父 1 名。</p>
                     </div>
                     <div class="detail-item">
                         <h4>骨灰保存罐</h4>
-                        <p>標準黑花崗/黃玉玉石骨灰罐、骨灰罐刻字、描金、彩色玉相、專業工作人員撿骨與封罐（黃絲巾包覆）。</p>
+                        <p>精選黑花崗或黃玉石骨灰罐、刻字描金、彩色瓷像鑲嵌、專業撿骨封罐服務。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>後續追思服務</h4>
-                        <p>百日、對年、三年、合爐電話通知，後續免費喪葬禮儀與各項塔位諮詢。</p>
+                        <h4>永續追思服務</h4>
+                        <p>主動通知百日、對年、合爐日期，並提供永久免費之禮儀諮詢與各地塔位代辦諮詢。</p>
                     </div>
                 </div>
             </div>
 
             <div class="price-summary reveal">
-                <div class="watermark" style="color: rgba(255,255,255,0.05); top:0;">TRANSPARENT</div>
-                <h2>服務契約總價 捌萬捌仟元整</h2>
-                <p>祥安生命 · 用專業職人精神，圓滿人生謝幕</p>
+                <div class="watermark">TRANSPARENT</div>
+                <p>服務契約總價</p>
+                <h2>新台幣 捌萬捌仟元整</h2>
+                <p>— 祥安生命 · 用專業職人精神，圓滿人生謝幕 —</p>
             </div>
 
             <div class="note-card reveal">
-                <h5>備註事項</h5>
-                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.9rem; opacity: 0.7;">
-                    <li>本方案相較國民專案升級 12 呎式場與司儀服務。</li>
-                    <li>代辦各項殯儀館設施使用及火化申請，規費依據據實報實銷。</li>
-                    <li>因各地風俗不同，如有合約外之額外求需求，費用另議。</li>
-                    <li>本契約包含代領火化許可證服務。</li>
+                <h5><i class="fas fa-check-circle" style="margin-right:8px; color:var(--accent);"></i> 專案特點與說明</h5>
+                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.95rem; color: #555;">
+                    <li>本方案相較國民專案，<strong>全面升級 12 呎式場</strong>並包含<strong>專業司儀</strong>服務，適合重視奠禮氣氛之家庭。</li>
+                    <li>所有代辦之殯儀館設施及火化費用，一律<strong>依政府收據實報實銷</strong>，絕不變相加價。</li>
+                    <li>本契約已包含治喪期間所有專業規劃、代領許可證與各項行政協助。</li>
                 </ul>
             </div>
 
