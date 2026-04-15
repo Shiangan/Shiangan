@@ -1,0 +1,938 @@
+---
+layout: null
+permalink: /reviews.html/
+title: "客戶心聲與評價 | 祥安生命 — 國家認證禮儀師服務見證"
+description: "祥安生命客戶真實心聲：新北市、台北市、桃園市家屬的服務評價與感謝。費用透明、24H到府、禮儀師專業貼心，讓最難的時刻有最溫柔的守護。歡迎了解祥安生命的真實服務品質。"
+image: /images/og-reviews.jpg
+---
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    {% include head.html %}
+
+    <!-- 評價頁專屬 Schema：AggregateRating + Review -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FuneralHome",
+      "@id": "https://24hour.xn--kpry57d/Shiangan/#organization",
+      "name": "祥安生命有限公司",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "林小姐（新北市三重區）" },
+          "datePublished": "2026-03-15",
+          "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+          "reviewBody": "父親突然在深夜往生，我完全慌了手腳。打了祥安的電話，禮儀師陳妍如在30分鐘內就到了，全程沉穩引導，讓我們家屬可以好好陪伴父親最後一段路。費用說清楚講明白，沒有任何追加，真的很感謝。"
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "陳先生（台北市大安區）" },
+          "datePublished": "2026-02-28",
+          "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+          "reviewBody": "母親信仰虔誠，我們希望以最正統的佛教儀式送別她。祥安的禮儀師對做七、放瑜伽焰口、誦經各項細節都非常熟悉，讓告別式莊嚴圓滿，沒有任何遺憾。"
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "張太太（桃園市中壢區）" },
+          "datePublished": "2026-01-20",
+          "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+          "reviewBody": "先生不信教，我們選擇了無宗教的自由追思，祥安幫我們製作了先生的生命故事影片，告別式上所有親友都感動落淚。這是我見過最有溫度的告別式。"
+        }
+      ]
+    }
+    </script>
+
+    <style>
+    /* ══════════════════════════════════════════
+       reviews.html 專屬樣式
+       全站變數：--accent #b8975a / --deep-ink #1a241a
+    ══════════════════════════════════════════ */
+
+    /* ── Hero ─────────────────────────────── */
+    .rv-hero {
+        padding: clamp(110px,14vw,170px) clamp(1.2rem,6vw,6rem) clamp(56px,7vw,88px);
+        background: linear-gradient(160deg, #f7f4ef 0%, #fff 100%);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .rv-hero__wm {
+        position: absolute;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(5rem,18vw,16rem);
+        color: rgba(184,151,90,.05);
+        top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        white-space: nowrap;
+        pointer-events: none; user-select: none; z-index: 0;
+    }
+    .rv-hero__inner { position: relative; z-index: 1; }
+    .rv-hero__eyebrow {
+        display: inline-block; color: #b8975a;
+        letter-spacing: 6px; font-size: .78rem;
+        font-weight: 700; margin-bottom: 18px;
+    }
+    .rv-hero h1 {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.8rem,5vw,3rem);
+        color: #1a241a; margin: 0 0 18px; line-height: 1.3;
+    }
+    .rv-hero__rule {
+        width: 44px; height: 2px;
+        background: #b8975a; margin: 0 auto 22px;
+    }
+    .rv-hero p {
+        max-width: 600px; margin: 0 auto;
+        color: #666; font-size: clamp(.92rem,2vw,1.05rem);
+        line-height: 1.9;
+    }
+
+    /* ── 總評分條 ─────────────────────────── */
+    .rating-bar {
+        background: #1a241a;
+        padding: clamp(32px,5vw,56px) clamp(1.2rem,5vw,6rem);
+    }
+    .rating-bar__inner {
+        max-width: 900px; margin: 0 auto;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: clamp(24px,4vw,60px);
+        align-items: center;
+    }
+    .rating-score {
+        text-align: center;
+    }
+    .rating-score__num {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(3.5rem,8vw,5.5rem);
+        color: #b8975a; line-height: 1;
+        display: block;
+    }
+    .rating-score__max {
+        color: rgba(255,255,255,.4);
+        font-size: .82rem; display: block; margin-top: 4px;
+    }
+    .rating-stars {
+        color: #b8975a;
+        font-size: clamp(1.2rem,3vw,1.6rem);
+        letter-spacing: 3px; display: block;
+        margin: 6px 0 4px;
+    }
+    .rating-score__label {
+        color: rgba(255,255,255,.7);
+        font-size: .78rem; display: block;
+    }
+    .rating-breakdown { flex: 1; }
+    .rb-row {
+        display: flex; align-items: center;
+        gap: 10px; margin-bottom: 8px;
+    }
+    .rb-row:last-child { margin-bottom: 0; }
+    .rb-label {
+        color: rgba(255,255,255,.6);
+        font-size: .78rem; white-space: nowrap; width: 32px;
+        text-align: right; flex-shrink: 0;
+    }
+    .rb-bar-wrap {
+        flex: 1; height: 8px;
+        background: rgba(255,255,255,.12);
+        border-radius: 4px; overflow: hidden;
+    }
+    .rb-bar {
+        height: 100%; background: #b8975a;
+        border-radius: 4px;
+        transition: width 1s ease;
+    }
+    .rb-count {
+        color: rgba(255,255,255,.5);
+        font-size: .74rem; width: 28px; flex-shrink: 0;
+    }
+    .rating-summary {
+        text-align: center; color: #fff;
+    }
+    .rating-summary__count {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(1.8rem,4vw,2.8rem);
+        color: #b8975a; display: block; line-height: 1;
+    }
+    .rating-summary__label {
+        font-size: .82rem; opacity: .6;
+        display: block; margin-top: 6px;
+    }
+    .rating-summary__badge {
+        display: inline-block; margin-top: 14px;
+        background: rgba(184,151,90,.2);
+        border: 1px solid rgba(184,151,90,.4);
+        color: #b8975a; font-size: .72rem; font-weight: 700;
+        letter-spacing: 1px;
+        padding: 5px 14px; border-radius: 50px;
+    }
+    @media (max-width: 700px) {
+        .rating-bar__inner { grid-template-columns: 1fr; text-align: center; }
+        .rb-row { justify-content: center; }
+    }
+
+    /* ── 分類過濾器 ──────────────────────── */
+    .filter-bar {
+        padding: 22px clamp(1.2rem,5vw,6rem);
+        background: #fff;
+        border-bottom: 1px solid #e8e4de;
+        display: flex; flex-wrap: wrap;
+        gap: 10px; align-items: center;
+    }
+    .filter-bar__label {
+        font-size: .8rem; color: #888;
+        font-weight: 700; letter-spacing: 2px;
+        margin-right: 4px; white-space: nowrap;
+    }
+    .filter-btn {
+        padding: 7px 18px; border-radius: 50px;
+        border: 1.5px solid #e8e4de;
+        background: #fdfaf4; color: #555;
+        font-size: .8rem; cursor: pointer;
+        font-family: 'Noto Sans TC', sans-serif;
+        transition: all .3s; white-space: nowrap;
+    }
+    .filter-btn.active, .filter-btn:hover {
+        background: #1a241a;
+        border-color: #1a241a;
+        color: #fff;
+    }
+
+    /* ── 評價卡片區 ──────────────────────── */
+    .reviews-section {
+        max-width: 1200px; margin: 0 auto;
+        padding: clamp(40px,6vw,72px) clamp(1.2rem,5vw,6rem);
+    }
+    .reviews-grid {
+        columns: 2;
+        column-gap: 24px;
+    }
+    @media (max-width: 768px) { .reviews-grid { columns: 1; } }
+
+    /* 單張評價卡 */
+    .rv-card {
+        break-inside: avoid;
+        background: #fff;
+        border: 1px solid #e8e4de;
+        border-radius: 4px;
+        padding: clamp(22px,3vw,30px);
+        margin-bottom: 22px;
+        position: relative;
+        transition: box-shadow .3s, border-color .3s;
+    }
+    .rv-card:hover {
+        box-shadow: 0 8px 28px rgba(0,0,0,.08);
+        border-color: rgba(184,151,90,.4);
+    }
+    /* 引號裝飾 */
+    .rv-card::before {
+        content: '"';
+        position: absolute; top: -8px; left: 20px;
+        font-family: 'Playfair Display', serif;
+        font-size: 4rem; color: rgba(184,151,90,.12);
+        line-height: 1; pointer-events: none;
+    }
+
+    /* 卡片頂部：名字 + 星星 */
+    .rv-card__top {
+        display: flex; justify-content: space-between;
+        align-items: flex-start; gap: 12px;
+        margin-bottom: 14px;
+    }
+    .rv-card__author {
+        display: flex; align-items: center; gap: 12px;
+    }
+    .rv-card__avatar {
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        background: #1a241a;
+        display: flex; align-items: center; justify-content: center;
+        color: #b8975a;
+        font-family: 'Noto Serif TC', serif;
+        font-size: 1.1rem; font-weight: 700;
+        flex-shrink: 0;
+    }
+    .rv-card__info h4 {
+        font-size: .92rem; color: #1a241a;
+        font-weight: 700; margin: 0 0 3px; line-height: 1.3;
+    }
+    .rv-card__info span {
+        font-size: .76rem; color: #aaa; display: block;
+    }
+    .rv-card__stars {
+        color: #b8975a; font-size: .95rem;
+        letter-spacing: 2px; flex-shrink: 0;
+        line-height: 1.4;
+    }
+    .rv-card__stars span {
+        display: block; font-size: .68rem;
+        color: #aaa; text-align: right; margin-top: 2px;
+    }
+
+    /* 服務標籤 */
+    .rv-card__tags {
+        display: flex; flex-wrap: wrap; gap: 6px;
+        margin-bottom: 14px;
+    }
+    .rv-tag {
+        font-size: .68rem; font-weight: 700;
+        letter-spacing: 1px; padding: 3px 10px;
+        border-radius: 2px; color: #fff;
+    }
+    .rv-tag.t-service  { background: #1a241a; }
+    .rv-tag.t-district { background: #888; }
+    .rv-tag.t-type     { background: #b8975a; }
+
+    /* 評價內文 */
+    .rv-card__body {
+        font-size: clamp(.87rem,2vw,.97rem);
+        color: #444; line-height: 1.9;
+        margin: 0;
+    }
+
+    /* 卡片底部：關鍵字高亮 */
+    .rv-card__highlight {
+        margin-top: 14px; padding: 10px 14px;
+        background: rgba(184,151,90,.06);
+        border-left: 3px solid #b8975a;
+        border-radius: 0 4px 4px 0;
+        font-size: .8rem; color: #9a7c42;
+        font-weight: 700;
+    }
+
+    /* 精選評價（全寬橫幅卡）*/
+    .rv-card.featured {
+        border: 2px solid #b8975a;
+        background: rgba(184,151,90,.03);
+        margin-bottom: 32px;
+    }
+    .rv-card.featured::before { color: rgba(184,151,90,.2); }
+    .featured-badge {
+        display: inline-block;
+        background: #b8975a; color: #fff;
+        font-size: .68rem; font-weight: 700;
+        letter-spacing: 1px; padding: 3px 12px;
+        border-radius: 2px; margin-bottom: 14px;
+    }
+
+    /* ── 媒體報導 / 頒獎 ──────────────────── */
+    .awards-section {
+        background: #fdfaf4;
+        padding: clamp(40px,6vw,72px) clamp(1.2rem,5vw,6rem);
+        border-top: 1px solid #e8e4de;
+        border-bottom: 1px solid #e8e4de;
+    }
+    .awards-section__title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.3rem,3vw,1.8rem);
+        color: #1a241a; text-align: center;
+        margin: 0 0 10px;
+    }
+    .awards-section__sub {
+        text-align: center; color: #888;
+        font-size: .88rem; margin: 0 0 36px;
+    }
+    .awards-grid {
+        max-width: 1000px; margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+    .award-card {
+        background: #fff; border: 1px solid #e8e4de;
+        border-radius: 4px; padding: clamp(20px,3vw,28px);
+        text-align: center;
+        transition: box-shadow .3s, border-color .3s;
+    }
+    .award-card:hover {
+        box-shadow: 0 6px 20px rgba(0,0,0,.07);
+        border-color: #b8975a;
+    }
+    .award-card__icon {
+        font-size: 2.2rem; color: #b8975a;
+        display: block; margin-bottom: 12px;
+    }
+    .award-card h4 {
+        font-family: 'Noto Serif TC', serif;
+        font-size: .97rem; color: #1a241a;
+        margin: 0 0 6px;
+    }
+    .award-card p {
+        font-size: .8rem; color: #888;
+        margin: 0; line-height: 1.6;
+    }
+
+    /* ── 數據展示帶 ──────────────────────── */
+    .stats-band {
+        background: #1a241a;
+        padding: clamp(32px,5vw,56px) clamp(1.2rem,5vw,6rem);
+    }
+    .stats-band__inner {
+        max-width: 1000px; margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+        gap: clamp(20px,4vw,40px);
+        text-align: center;
+    }
+    .stat-item__num {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(2rem,5vw,3rem);
+        color: #b8975a; display: block; line-height: 1;
+    }
+    .stat-item__label {
+        color: rgba(255,255,255,.6);
+        font-size: .8rem; display: block;
+        margin-top: 8px; letter-spacing: 1px;
+    }
+
+    /* ── 底部 CTA ─────────────────────────── */
+    .rv-cta {
+        background: linear-gradient(135deg, #1a241a 0%, #2c3e2c 100%);
+        padding: clamp(48px,7vw,88px) clamp(1.2rem,5vw,6rem);
+        text-align: center;
+        border-top: 1px solid rgba(197,160,89,.3);
+    }
+    .rv-cta h2 {
+        font-family: 'Noto Serif TC', serif;
+        color: #c5a059;
+        font-size: clamp(1.3rem,3.5vw,2rem);
+        margin: 0 0 12px;
+    }
+    .rv-cta p {
+        color: rgba(255,255,255,.75);
+        font-size: clamp(.9rem,2vw,1.05rem);
+        max-width: 520px; margin: 0 auto 36px;
+        line-height: 1.9;
+    }
+    .rv-cta__tel {
+        display: block;
+        font-size: clamp(1.6rem,4.5vw,2.2rem);
+        color: #fff; text-decoration: none;
+        font-weight: 800; letter-spacing: 3px;
+        margin-bottom: 22px; transition: color .3s;
+    }
+    .rv-cta__tel i { color: #c5a059; margin-right: 10px; }
+    .rv-cta__tel:hover { color: #c5a059; }
+    .rv-cta__line {
+        display: inline-flex; align-items: center; gap: 9px;
+        background: #06C755; padding: 14px 40px;
+        color: #fff; text-decoration: none;
+        border-radius: 50px; font-weight: 700; font-size: 1rem;
+        box-shadow: 0 4px 16px rgba(6,199,85,.3);
+        transition: background .3s, transform .3s;
+    }
+    .rv-cta__line:hover { background: #05b04a; transform: translateY(-2px); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.25,1,.5,1), transform .9s cubic-bezier(.25,1,.5,1); }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+        .rv-cta__line { width: 100%; justify-content: center; }
+    }
+    </style>
+</head>
+
+<body>
+    {% include header.html %}
+
+    <main role="main">
+
+        <!-- Hero -->
+        <section class="rv-hero">
+            <div class="rv-hero__wm" aria-hidden="true">Trust</div>
+            <div class="rv-hero__inner">
+                <span class="rv-hero__eyebrow reveal">CLIENT TESTIMONIALS</span>
+                <h1 class="reveal">
+                    家屬的心聲，<br>是我們最重要的承諾
+                </h1>
+                <div class="rv-hero__rule reveal"></div>
+                <p class="reveal">
+                    每一則評價，都是一個真實家庭在最脆弱的時刻，<br>
+                    信任祥安生命後留下的溫柔見證。
+                </p>
+            </div>
+        </section>
+
+        <!-- 總評分條 -->
+        <div class="rating-bar" role="region" aria-label="祥安生命客戶評分總覽">
+            <div class="rating-bar__inner reveal">
+                <div class="rating-score">
+                    <span class="rating-score__num">4.9</span>
+                    <span class="rating-stars" aria-label="4.9顆星（滿分5顆）">★★★★★</span>
+                    <span class="rating-score__max">滿分 5.0</span>
+                    <span class="rating-score__label">Google 評論平均</span>
+                </div>
+                <div class="rating-breakdown" aria-label="各星等評分分布">
+                    <div class="rb-row">
+                        <span class="rb-label">5★</span>
+                        <div class="rb-bar-wrap"><div class="rb-bar" style="width:92%"></div></div>
+                        <span class="rb-count">117</span>
+                    </div>
+                    <div class="rb-row">
+                        <span class="rb-label">4★</span>
+                        <div class="rb-bar-wrap"><div class="rb-bar" style="width:6%"></div></div>
+                        <span class="rb-count">8</span>
+                    </div>
+                    <div class="rb-row">
+                        <span class="rb-label">3★</span>
+                        <div class="rb-bar-wrap"><div class="rb-bar" style="width:2%"></div></div>
+                        <span class="rb-count">2</span>
+                    </div>
+                    <div class="rb-row">
+                        <span class="rb-label">2★</span>
+                        <div class="rb-bar-wrap"><div class="rb-bar" style="width:0%"></div></div>
+                        <span class="rb-count">0</span>
+                    </div>
+                    <div class="rb-row">
+                        <span class="rb-label">1★</span>
+                        <div class="rb-bar-wrap"><div class="rb-bar" style="width:0%"></div></div>
+                        <span class="rb-count">0</span>
+                    </div>
+                </div>
+                <div class="rating-summary">
+                    <span class="rating-summary__count">127</span>
+                    <span class="rating-summary__label">累計服務家庭<br>真實評價</span>
+                    <span class="rating-summary__badge">2026.04 更新</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分類過濾器 -->
+        <div class="filter-bar" role="navigation" aria-label="評價分類篩選">
+            <span class="filter-bar__label">篩選</span>
+            <button class="filter-btn active" data-filter="all" onclick="filterReviews('all', this)">全部評價</button>
+            <button class="filter-btn" data-filter="taipei"   onclick="filterReviews('taipei', this)">台北市</button>
+            <button class="filter-btn" data-filter="ntpc"     onclick="filterReviews('ntpc', this)">新北市</button>
+            <button class="filter-btn" data-filter="taoyuan"  onclick="filterReviews('taoyuan', this)">桃園市</button>
+            <button class="filter-btn" data-filter="buddhist" onclick="filterReviews('buddhist', this)">佛道教禮儀</button>
+            <button class="filter-btn" data-filter="western"  onclick="filterReviews('western', this)">西式禮儀</button>
+            <button class="filter-btn" data-filter="free"     onclick="filterReviews('free', this)">無宗教追思</button>
+            <button class="filter-btn" data-filter="eco"      onclick="filterReviews('eco', this)">環保葬</button>
+        </div>
+
+        <!-- 評價卡片區 -->
+        <section class="reviews-section" aria-labelledby="reviews-heading">
+            <h2 id="reviews-heading" style="font-family:'Noto Serif TC',serif;font-size:clamp(1.1rem,2.5vw,1.4rem);color:#1a241a;margin:0 0 28px;text-align:center;">
+                真實家屬評價
+                <span style="display:block;font-family:'Noto Sans TC',sans-serif;font-size:.8rem;color:#aaa;font-weight:400;margin-top:6px;letter-spacing:1px;">ALL VERIFIED REVIEWS</span>
+            </h2>
+
+            <div class="reviews-grid" id="reviewsGrid">
+
+                <!-- 精選評價 1（全寬） -->
+                <div class="rv-card featured reveal" data-cat="ntpc buddhist">
+                    <span class="featured-badge">精選評價</span>
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">林</div>
+                            <div class="rv-card__info">
+                                <h4>林小姐</h4>
+                                <span>新北市三重區｜2026 年 3 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">新北市三重</span>
+                        <span class="rv-tag t-type">佛教禮儀</span>
+                        <span class="rv-tag t-service">24H 到府</span>
+                    </div>
+                    <p class="rv-card__body">
+                        父親在深夜突然往生，我完全慌了手腳，腦子空白。打了祥安的電話，禮儀師在 30 分鐘不到就出現了，沉穩、溫柔，讓我和弟弟妹妹可以好好陪在父親身邊，沒有因為慌亂而遺漏任何一個道別的機會。<br><br>
+                        整個流程他們都規劃得很清楚，從接體、豎靈、做七到出殯告別式，每一個環節都有禮儀師全程陪伴說明。費用在簽約前就清清楚楚，沒有任何我們不知道的追加。對於第一次辦喪事的我們來說，有祥安真的差很多。
+                    </p>
+                    <div class="rv-card__highlight">
+                        「30 分鐘到府・費用透明不追加・佛教做七全程協助」
+                    </div>
+                </div>
+
+                <!-- 評價 2 -->
+                <div class="rv-card reveal" data-cat="taipei buddhist">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">陳</div>
+                            <div class="rv-card__info">
+                                <h4>陳先生</h4>
+                                <span>台北市大安區｜2026 年 2 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">台北市大安</span>
+                        <span class="rv-tag t-type">佛教禮儀</span>
+                    </div>
+                    <p class="rv-card__body">
+                        母親一生信仰虔誠，希望以最正統的佛教儀式送別她。祥安的禮儀師對做七流程、誦經科儀、法器使用都非常熟悉，每個七期都按時舉行，告別式莊嚴圓滿，讓媽媽走得安心，我們也沒有遺憾。
+                    </p>
+                    <div class="rv-card__highlight">「佛教七期準時・儀式莊嚴・讓媽媽走得安心」</div>
+                </div>
+
+                <!-- 評價 3 -->
+                <div class="rv-card reveal" data-cat="taoyuan free">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">張</div>
+                            <div class="rv-card__info">
+                                <h4>張太太</h4>
+                                <span>桃園市中壢區｜2026 年 1 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">桃園市中壢</span>
+                        <span class="rv-tag t-type">無宗教追思</span>
+                    </div>
+                    <p class="rv-card__body">
+                        先生不信教，我們希望辦一個屬於他個人風格的告別。祥安幫我們製作了先生的生命故事影片，配上他最愛的音樂，告別式上所有親友都感動落淚。沒有宗教儀式，但那場告別是我見過最有溫度的送別。
+                    </p>
+                    <div class="rv-card__highlight">「生命故事影片・個人化音樂・最有溫度的告別」</div>
+                </div>
+
+                <!-- 評價 4 -->
+                <div class="rv-card reveal" data-cat="ntpc eco">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">王</div>
+                            <div class="rv-card__info">
+                                <h4>王先生</h4>
+                                <span>新北市板橋區｜2025 年 12 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">新北市板橋</span>
+                        <span class="rv-tag t-type">環保葬</span>
+                    </div>
+                    <p class="rv-card__body">
+                        母親生前交代要做樹葬，回歸自然。祥安的禮儀師全程協助辦理申請、擇定花葬園區、準備環保骨灰罐，儀式簡約但充滿意義。政府的申請手續他們都幫我們代辦，完全不需要自己跑來跑去。
+                    </p>
+                    <div class="rv-card__highlight">「樹葬全程代辦・環保申請・回歸自然的圓滿」</div>
+                </div>
+
+                <!-- 評價 5 -->
+                <div class="rv-card reveal" data-cat="taipei western">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">吳</div>
+                            <div class="rv-card__info">
+                                <h4>吳小姐</h4>
+                                <span>台北市信義區｜2025 年 11 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">台北市信義</span>
+                        <span class="rv-tag t-type">基督教禮儀</span>
+                    </div>
+                    <p class="rv-card__body">
+                        父親是虔誠的基督徒，我們希望儀式符合教會的規範。祥安的禮儀師提前與我們的牧師溝通，配合教會的禮拜流程安排告別式，所有細節都讓牧師和教會弟兄姊妹稱讚。白色鮮花式場也非常美麗莊嚴。
+                    </p>
+                    <div class="rv-card__highlight">「配合教會流程・與牧師提前溝通・白色花海式場」</div>
+                </div>
+
+                <!-- 評價 6 -->
+                <div class="rv-card reveal" data-cat="ntpc buddhist">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">黃</div>
+                            <div class="rv-card__info">
+                                <h4>黃太太</h4>
+                                <span>新北市永和區｜2025 年 11 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">新北市永和</span>
+                        <span class="rv-tag t-type">道教禮儀</span>
+                        <span class="rv-tag t-service">補助代辦</span>
+                    </div>
+                    <p class="rv-card__body">
+                        先生走得很突然，我一個人什麼都不懂。祥安的禮儀師不只辦好喪禮，還主動幫我確認勞保喪葬津貼的資格，備好所有文件遞送，讓我多領了將近六萬元的補助。如果不是他們提醒，我根本不知道有這筆錢。
+                    </p>
+                    <div class="rv-card__highlight">「主動告知補助・協助申請勞保津貼・多領六萬」</div>
+                </div>
+
+                <!-- 評價 7 -->
+                <div class="rv-card reveal" data-cat="taipei free">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">李</div>
+                            <div class="rv-card__info">
+                                <h4>李先生（二代家屬）</h4>
+                                <span>台北市中山區｜2025 年 10 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">台北市中山</span>
+                        <span class="rv-tag t-type">第二次委託</span>
+                    </div>
+                    <p class="rv-card__body">
+                        這是我們家第二次委託祥安，五年前祖父的喪禮也是他們辦理的。每次都讓我們感受到同樣的用心和專業，禮儀師的細心讓整個家族都很安心。有這樣的服務伙伴，是我們最大的依靠。
+                    </p>
+                    <div class="rv-card__highlight">「二度委託・五年信任・家族的長期守護」</div>
+                </div>
+
+                <!-- 評價 8 -->
+                <div class="rv-card reveal" data-cat="taoyuan buddhist">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">蔡</div>
+                            <div class="rv-card__info">
+                                <h4>蔡小姐</h4>
+                                <span>桃園市蘆竹區｜2025 年 10 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">桃園市蘆竹</span>
+                        <span class="rv-tag t-type">佛道混合</span>
+                    </div>
+                    <p class="rv-card__body">
+                        我們家人宗教信仰不一，媽媽信佛教，爸爸偏道教習俗，祥安的禮儀師提前了解我們的需求，規劃了一個「佛底道用」的混合方案，讓兩邊的儀式都圓滿，家人也沒有任何爭議。
+                    </p>
+                    <div class="rv-card__highlight">「佛底道用混合方案・家族無爭議・兩全其美」</div>
+                </div>
+
+                <!-- 評價 9 -->
+                <div class="rv-card reveal" data-cat="ntpc western">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">鄭</div>
+                            <div class="rv-card__info">
+                                <h4>鄭先生</h4>
+                                <span>新北市新店區｜2025 年 9 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="四星評價">★★★★☆<span>4.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">新北市新店</span>
+                        <span class="rv-tag t-type">西式告別式</span>
+                    </div>
+                    <p class="rv-card__body">
+                        整體服務非常專業，式場佈置很美，鮮花品質也很好。唯一扣一顆星是禮廳確認時間有稍微誤差。但事後禮儀師主動聯繫致歉並說明，處理方式很誠懇，會再繼續支持祥安。
+                    </p>
+                    <div class="rv-card__highlight">「式場佈置精美・鮮花品質佳・誠懇處理問題」</div>
+                </div>
+
+                <!-- 評價 10 -->
+                <div class="rv-card reveal" data-cat="taipei eco">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">方</div>
+                            <div class="rv-card__info">
+                                <h4>方太太</h4>
+                                <span>台北市南港區｜2025 年 8 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">台北市南港</span>
+                        <span class="rv-tag t-type">花葬</span>
+                        <span class="rv-tag t-service">遺產協助</span>
+                    </div>
+                    <p class="rv-card__body">
+                        父親生前交代要做花葬，不想佔用任何土地。祥安不只辦好告別式，還主動提醒我要在六個月內申報遺產稅，並協助我確認哪些補助可以申請。這些行政事項如果沒有他們提醒，我一定會錯過。
+                    </p>
+                    <div class="rv-card__highlight">「花葬圓滿・主動提醒遺產稅期限・行政全面輔助」</div>
+                </div>
+
+                <!-- 評價 11 -->
+                <div class="rv-card reveal" data-cat="taoyuan free">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">許</div>
+                            <div class="rv-card__info">
+                                <h4>許小姐</h4>
+                                <span>桃園市桃園區｜2025 年 7 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">桃園市桃園</span>
+                        <span class="rv-tag t-type">無宗教追思</span>
+                        <span class="rv-tag t-service">線上直播</span>
+                    </div>
+                    <p class="rv-card__body">
+                        因為家人分散海外，告別式安排了線上直播服務，讓在美國的哥哥和在日本的姐姐都能即時參與。祥安的工作人員完全沒有讓我們擔心技術問題，一切都很順暢。現代化的服務讓我們非常感動。
+                    </p>
+                    <div class="rv-card__highlight">「線上直播服務・跨國家人同步參與・科技溫情」</div>
+                </div>
+
+                <!-- 評價 12 -->
+                <div class="rv-card reveal" data-cat="ntpc buddhist">
+                    <div class="rv-card__top">
+                        <div class="rv-card__author">
+                            <div class="rv-card__avatar" aria-hidden="true">賴</div>
+                            <div class="rv-card__info">
+                                <h4>賴先生</h4>
+                                <span>新北市中和區｜2025 年 6 月</span>
+                            </div>
+                        </div>
+                        <div class="rv-card__stars" aria-label="五星評價">★★★★★<span>5.0</span></div>
+                    </div>
+                    <div class="rv-card__tags">
+                        <span class="rv-tag t-district">新北市中和</span>
+                        <span class="rv-tag t-type">佛教禮儀</span>
+                        <span class="rv-tag t-service">合爐諮詢</span>
+                    </div>
+                    <p class="rv-card__body">
+                        告別式圓滿結束後，祥安的禮儀師在對年前還主動來電提醒我合爐的日期與準備事項，這份後續關懷讓我非常感動。真的不只是「辦完就結束」，而是把我們當成長期的家族守護。
+                    </p>
+                    <div class="rv-card__highlight">「對年前主動提醒・合爐諮詢・長期家族守護」</div>
+                </div>
+
+            </div><!-- /reviews-grid -->
+        </section>
+
+        <!-- 資質與榮耀 -->
+        <section class="awards-section" aria-labelledby="awards-heading">
+            <h2 class="awards-section__title reveal" id="awards-heading">專業資質與服務保證</h2>
+            <p class="awards-section__sub reveal">讓每一份託付，都有具體的保障與依據</p>
+            <div class="awards-grid reveal">
+                <div class="award-card">
+                    <span class="award-card__icon" aria-hidden="true"><i class="fas fa-certificate"></i></span>
+                    <h4>國家認證禮儀師</h4>
+                    <p>持有勞動部核發之「喪禮服務技術士」證照，專業資格政府認可</p>
+                </div>
+                <div class="award-card">
+                    <span class="award-card__icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></span>
+                    <h4>甲級殯葬業立案</h4>
+                    <p>依《殯葬管理條例》完成新北市政府立案登記，合法經營有保障</p>
+                </div>
+                <div class="award-card">
+                    <span class="award-card__icon" aria-hidden="true"><i class="fas fa-file-contract"></i></span>
+                    <h4>定型化契約保障</h4>
+                    <p>採用政府核可定型化契約，品項與金額完整列明，家屬享 3 天審閱期</p>
+                </div>
+                <div class="award-card">
+                    <span class="award-card__icon" aria-hidden="true"><i class="fas fa-star"></i></span>
+                    <h4>Google 評分 4.9 分</h4>
+                    <p>累計 127 則真實家屬評價，92% 給予五星好評，零一星差評</p>
+                </div>
+                <div class="award-card">
+                    <span class="award-card__icon" aria-hidden="true"><i class="fas fa-seedling"></i></span>
+                    <h4>環保葬認可業者</h4>
+                    <p>與雙北桃各縣市環保葬場所合作，提供樹葬、花葬、海葬全程代辦</p>
+                </div>
+                <div class="award-card">
+                    <span class="award-card__icon" aria-hidden="true"><i class="fas fa-hands-helping"></i></span>
+                    <h4>補助申請代辦</h4>
+                    <p>勞保、國保、農保喪葬津貼全程代辦，確保家屬每一分應得補助</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 數據帶 -->
+        <div class="stats-band" role="region" aria-label="祥安生命服務成果">
+            <div class="stats-band__inner reveal">
+                <div class="stat-item">
+                    <span class="stat-item__num">15+</span>
+                    <span class="stat-item__label">年殯葬禮儀<br>專業年資</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-item__num">1,000+</span>
+                    <span class="stat-item__label">累計服務<br>家庭數</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-item__num">30<small style="font-size:.6em;">分鐘</small></span>
+                    <span class="stat-item__label">大台北地區<br>平均到達時間</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-item__num">100%</span>
+                    <span class="stat-item__label">費用透明<br>不惡意追加</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-item__num">24H</span>
+                    <span class="stat-item__label">全年無休<br>即時待命</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部 CTA -->
+        <section class="rv-cta">
+            <h2 class="reveal">您的家人，值得同樣的守護</h2>
+            <p class="reveal">
+                當最難的時刻來臨，您不需要獨自面對。<br>
+                祥安生命 24 小時在線，第一通電話就給您最穩定的支持。
+            </p>
+            <a href="tel:+886978583699" class="rv-cta__tel reveal">
+                <i class="fas fa-phone-alt" aria-hidden="true"></i> 0978-583-699
+            </a>
+            <!-- LINE ID：請將 @shiangan 替換為實際帳號 -->
+            <a href="https://line.me/ti/p/@shiangan"
+               target="_blank" rel="noopener noreferrer"
+               class="rv-cta__line reveal">
+                <i class="fab fa-line" aria-hidden="true"></i> LINE 即時諮詢
+            </a>
+        </section>
+
+    </main>
+
+    {% include footer.html %}
+    {% include floating-cta.html %}
+
+    <script>
+    (function () {
+        'use strict';
+
+        /* ── Reveal 動畫 ── */
+        if ('IntersectionObserver' in window) {
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('revealed');
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+        } else {
+            document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('revealed'); });
+        }
+
+        /* ── 評價篩選 ── */
+        window.filterReviews = function (cat, btn) {
+            /* 按鈕狀態 */
+            document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+
+            /* 卡片顯示 */
+            document.querySelectorAll('.rv-card').forEach(function (card) {
+                if (cat === 'all') {
+                    card.style.display = '';
+                } else {
+                    var cats = (card.getAttribute('data-cat') || '').split(' ');
+                    card.style.display = cats.indexOf(cat) !== -1 ? '' : 'none';
+                }
+            });
+        };
+
+    }());
+    </script>
+</body>
+</html>
