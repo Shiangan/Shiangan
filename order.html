@@ -1,607 +1,435 @@
 ---
 layout: null
 permalink: /order.html
+title: "花禮訂購 | 祥安生命 — 告別式花藝專業訂製・24H 緊急接單"
+description: "祥安生命告別式花禮訂購：告別花籃、喪禮花圈、精緻盆花、鮮花花束，當日新鮮花材、免費緞帶題字、24H 緊急接單，服務新北市、台北市、桃園市。"
+image: /images/og-default.jpg
 ---
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     {% include head.html %}
-    <title>花禮訂購 | 祥安生命 — 告別式花藝專業訂製</title>
-    <meta name="description" content="祥安生命提供告別式花禮訂購服務，涵蓋告別花籃、花圈、盆花、鮮花花束。專業花藝設計，配合治喪時程，24H 緊急接單。">
-
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 
     <style>
-        /* =============================================
-           SHIANGAN ORDER PAGE — 花禮訂購
-           職人質感 × 清雅和風 × 莊嚴生命美學
-        ============================================= */
-        :root {
-            --ink:      #1c1c1c;
-            --green:    #1a241a;
-            --gold:     #b8975a;
-            --gold-lt:  #d4b27a;
-            --petal:    #f5ede0;       /* 花瓣米白 */
-            --moss:     #4a5e3a;       /* 苔蘚深綠 */
-            --line:     rgba(184,151,90,.18);
-            --bg:       #faf8f4;
-            --white:    #ffffff;
-            --radius:   3px;
-            --ease:     cubic-bezier(.25,1,.5,1);
-        }
+    /* ══════════════════════════════════════════
+       order.html 專屬樣式
+       全站變數：--accent #b8975a / --deep-ink #1a241a
+    ══════════════════════════════════════════ */
+    :root {
+        --petal:  #f5ede0;
+        --moss:   #4a5e3a;
+        --line:   rgba(184,151,90,.18);
+        --ease:   cubic-bezier(.25,1,.5,1);
+    }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background: var(--bg);
-            color: var(--ink);
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-        main { padding-top: 90px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Noto Sans TC', sans-serif;
+        background: #faf8f4;
+        color: #1a241a;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+    main { padding-top: 90px; }
+    @media (max-width: 1100px) { main { padding-top: 80px; } }
 
-        /* ── HERO ── */
-        .o-hero {
-            position: relative;
-            height: 62vh;
-            min-height: 480px;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 clamp(1.5rem, 8vw, 9rem) clamp(3rem,6vh,5rem);
-            overflow: hidden;
-            background: var(--green);
-        }
-        .o-hero__bg {
-            position: absolute; inset: 0;
-            background:
-                linear-gradient(160deg, rgba(26,36,26,.72) 30%, rgba(26,36,26,.25) 100%),
-                url('https://images.unsplash.com/photo-1487530811015-780be4f95f51?auto=format&fit=crop&q=80&w=2000') center/cover;
-        }
-        /* petal scatter deco */
-        .o-hero__deco {
-            position: absolute; inset: 0; pointer-events: none; z-index: 2;
-            overflow: hidden;
-        }
-        .petal {
-            position: absolute;
-            width: 6px; height: 14px;
-            background: rgba(212,178,122,.35);
-            border-radius: 50% 50% 50% 0;
-            animation: petalFall linear infinite;
-        }
-        @keyframes petalFall {
-            0%   { transform: translateY(-20px) rotate(0deg); opacity: .8; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
+    /* ── Hero ──────────────────────────────── */
+    .o-hero {
+        position: relative;
+        height: 58vh; min-height: 420px;
+        display: flex; align-items: flex-end;
+        padding: 0 clamp(1.5rem,8vw,9rem) clamp(2.5rem,5vh,4.5rem);
+        overflow: hidden;
+        background: #1a241a;
+    }
+    .o-hero__bg {
+        position: absolute; inset: 0;
+        background:
+            linear-gradient(160deg, rgba(26,36,26,.78) 30%, rgba(26,36,26,.28) 100%),
+            url('/images/order-hero-bg.jpg') center/cover no-repeat;
+        background-color: #1a241a;
+    }
+    .o-hero__deco {
+        position: absolute; inset: 0;
+        pointer-events: none; z-index: 2; overflow: hidden;
+    }
+    .petal {
+        position: absolute;
+        width: 6px; height: 14px;
+        background: rgba(212,178,122,.35);
+        border-radius: 50% 50% 50% 0;
+        animation: petalFall linear infinite;
+    }
+    @keyframes petalFall {
+        0%   { transform: translateY(-20px) rotate(0deg); opacity: .8; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    .o-hero__content { position: relative; z-index: 10; color: #fff; }
+    .o-hero__eyebrow {
+        font-style: italic; font-size: clamp(.9rem,2vw,1.1rem);
+        color: #d4b27a; letter-spacing: 4px;
+        margin-bottom: 14px; display: block;
+    }
+    .o-hero__title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(2rem,5vw,3.6rem);
+        font-weight: 900; line-height: 1.2; margin-bottom: 14px;
+    }
+    .o-hero__sub {
+        font-size: clamp(.92rem,2vw,1.05rem);
+        opacity: .75; max-width: 460px; line-height: 1.85;
+    }
 
-        .o-hero__content {
-            position: relative; z-index: 10;
-            color: #fff;
-        }
-        .o-hero__eyebrow {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--gold-lt);
-            letter-spacing: 4px;
-            margin-bottom: 16px;
-            display: block;
-        }
-        .o-hero__title {
-            font-family: 'Noto Serif TC', serif;
-            font-size: clamp(2.4rem, 5.5vw, 4rem);
-            font-weight: 900;
-            line-height: 1.15;
-            margin-bottom: 18px;
-        }
-        .o-hero__sub {
-            font-size: 1.05rem;
-            opacity: .75;
-            max-width: 480px;
-            line-height: 1.85;
-        }
+    /* ── 麵包屑 ─────────────────────────────── */
+    .breadcrumb {
+        padding: 13px clamp(1.5rem,8vw,9rem);
+        font-size: .82rem; color: #aaa;
+        border-bottom: 1px solid var(--line);
+        display: flex; gap: 8px; align-items: center;
+        background: #fff;
+    }
+    .breadcrumb a { color: #aaa; text-decoration: none; transition: .2s; }
+    .breadcrumb a:hover { color: #b8975a; }
 
-        /* ── BREADCRUMB ── */
-        .breadcrumb {
-            padding: 14px clamp(1.5rem, 8vw, 9rem);
-            font-size: .82rem;
-            color: #999;
-            border-bottom: 1px solid var(--line);
-            display: flex; gap: 8px; align-items: center;
-        }
-        .breadcrumb a { color: #999; text-decoration: none; transition: .2s; }
-        .breadcrumb a:hover { color: var(--gold); }
-        .breadcrumb span { opacity: .5; font-size: .72rem; }
+    /* ── 承諾條 ─────────────────────────────── */
+    .promise-strip {
+        background: #1a241a; color: #fff;
+        padding: clamp(22px,3vw,36px) clamp(1.5rem,8vw,9rem);
+        display: flex; justify-content: center;
+        gap: clamp(24px,5vw,60px); flex-wrap: wrap;
+    }
+    .promise-item { display: flex; align-items: center; gap: 12px; font-size: .9rem; }
+    .promise-item i { font-size: 1.3rem; color: #b8975a; }
 
-        /* ── LAYOUT GRID ── */
-        .o-layout {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 60px;
-            max-width: 1380px;
-            margin: 0 auto;
-            padding: 70px clamp(1.5rem, 6vw, 5rem) 100px;
-        }
-        @media (max-width: 1100px) {
-            .o-layout { grid-template-columns: 1fr; }
-        }
+    /* ── Layout Grid ────────────────────────── */
+    .o-layout {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: clamp(28px,4vw,60px);
+        max-width: 1360px; margin: 0 auto;
+        padding: clamp(36px,6vw,70px) clamp(1.5rem,5vw,5rem) 100px;
+    }
+    @media (max-width: 1100px) { .o-layout { grid-template-columns: 1fr; } }
 
-        /* ── SECTION TITLE ── */
-        .sec-title {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.8rem;
-            color: var(--green);
-            margin-bottom: 10px;
-        }
-        .sec-sub {
-            font-size: .9rem;
-            color: #888;
-            margin-bottom: 36px;
-            line-height: 1.7;
-        }
-        .gold-rule {
-            width: 36px; height: 2px;
-            background: var(--gold);
-            margin-bottom: 18px;
-        }
+    /* ── 區塊標題 ───────────────────────────── */
+    .sec-title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: clamp(1.4rem,3vw,1.8rem); color: #1a241a; margin-bottom: 8px;
+    }
+    .sec-sub { font-size: .88rem; color: #888; margin-bottom: 28px; line-height: 1.7; }
+    .gold-rule { width: 36px; height: 2px; background: #b8975a; margin-bottom: 16px; }
 
-        /* ══════════════════════════════
-           PRODUCT CATALOGUE
-        ══════════════════════════════ */
-        .product-filters {
-            display: flex; gap: 10px; flex-wrap: wrap;
-            margin-bottom: 32px;
-        }
-        .pf-btn {
-            padding: 8px 22px;
-            border: 1px solid var(--line);
-            background: var(--white);
-            border-radius: 50px;
-            font-size: .88rem;
-            cursor: pointer;
-            transition: all .3s;
-            color: var(--ink);
-            font-family: 'Noto Sans TC', sans-serif;
-        }
-        .pf-btn:hover, .pf-btn.active {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: #fff;
-        }
+    /* ── 篩選按鈕 ───────────────────────────── */
+    .product-filters { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 28px; }
+    .pf-btn {
+        padding: 7px 20px; border: 1.5px solid var(--line);
+        background: #fff; border-radius: 50px;
+        font-size: .85rem; cursor: pointer;
+        transition: all .3s; color: #555;
+        font-family: 'Noto Sans TC', sans-serif;
+    }
+    .pf-btn:hover, .pf-btn.active {
+        background: #b8975a; border-color: #b8975a; color: #fff;
+    }
 
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 28px;
-        }
+    /* ── 商品格 ─────────────────────────────── */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 24px;
+    }
+    .prod-card {
+        background: #fff; border: 1px solid var(--line);
+        border-radius: 4px; overflow: hidden;
+        cursor: pointer; transition: all .45s var(--ease);
+        position: relative;
+    }
+    .prod-card:hover {
+        border-color: #b8975a; transform: translateY(-5px);
+        box-shadow: 0 18px 44px rgba(0,0,0,.08);
+    }
+    .prod-card.chosen { outline: 2px solid #b8975a; outline-offset: 2px; }
 
-        .prod-card {
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            overflow: hidden;
-            cursor: pointer;
-            transition: all .5s var(--ease);
-            position: relative;
-        }
-        .prod-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0,0,0,.07);
-        }
-        .prod-card__img {
-            width: 100%;
-            height: 210px;
-            overflow: hidden;
-            position: relative;
-        }
-        .prod-card__img img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform .7s var(--ease);
-        }
-        .prod-card:hover .prod-card__img img { transform: scale(1.08); }
-        .prod-card__badge {
-            position: absolute;
-            top: 12px; left: 12px;
-            background: var(--gold);
-            color: #fff;
-            font-size: .72rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 2px;
-            letter-spacing: 1px;
-        }
-        .prod-card__select {
-            position: absolute;
-            top: 12px; right: 12px;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: rgba(255,255,255,.9);
-            border: 2px solid var(--line);
-            display: flex; align-items: center; justify-content: center;
-            font-size: .9rem;
-            color: var(--gold);
-            transition: all .3s;
-        }
-        .prod-card.chosen .prod-card__select {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: #fff;
-        }
-        .prod-card__body { padding: 20px 18px 22px; }
-        .prod-card__cat {
-            font-size: .72rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--gold);
-            margin-bottom: 8px;
-            display: block;
-        }
-        .prod-card__name {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.1rem;
-            color: var(--green);
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-        .prod-card__desc {
-            font-size: .83rem;
-            color: #888;
-            line-height: 1.65;
-            margin-bottom: 14px;
-        }
-        .prod-card__price {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.45rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
-        .prod-card__price small {
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: .78rem;
-            color: #aaa;
-            margin-left: 4px;
-        }
-        .prod-card__add {
-            margin-top: 14px;
-            width: 100%;
-            padding: 11px 0;
-            background: transparent;
-            border: 1.5px solid var(--green);
-            color: var(--green);
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: .88rem;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: var(--radius);
-            transition: all .3s;
-            letter-spacing: 1px;
-        }
-        .prod-card__add:hover,
-        .prod-card.chosen .prod-card__add {
-            background: var(--green);
-            color: #fff;
-        }
+    .prod-card__img {
+        width: 100%; height: 200px; overflow: hidden; position: relative;
+    }
+    .prod-card__img img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform .7s var(--ease);
+    }
+    .prod-card:hover .prod-card__img img { transform: scale(1.07); }
 
-        /* chosen ring */
-        .prod-card.chosen {
-            outline: 2px solid var(--gold);
-            outline-offset: 2px;
-        }
+    .prod-card__badge {
+        position: absolute; top: 11px; left: 11px;
+        background: #b8975a; color: #fff;
+        font-size: .7rem; font-weight: 700;
+        padding: 3px 9px; border-radius: 2px; letter-spacing: 1px;
+    }
+    .prod-card__badge.eco { background: #4a5e3a; }
 
-        /* ══════════════════════════════
-           ORDER FORM SIDEBAR
-        ══════════════════════════════ */
-        .order-sidebar {
-            position: sticky;
-            top: 110px;
-            align-self: start;
-        }
+    .prod-card__check {
+        position: absolute; top: 11px; right: 11px;
+        width: 30px; height: 30px; border-radius: 50%;
+        background: rgba(255,255,255,.9); border: 2px solid var(--line);
+        display: flex; align-items: center; justify-content: center;
+        color: #b8975a; font-size: .85rem; transition: all .3s;
+    }
+    .prod-card.chosen .prod-card__check {
+        background: #b8975a; border-color: #b8975a; color: #fff;
+    }
 
-        /* Cart Summary */
-        .cart-box {
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            margin-bottom: 28px;
-            overflow: hidden;
-        }
-        .cart-box__head {
-            background: var(--green);
-            color: #fff;
-            padding: 18px 22px;
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .cart-box__head .cart-count {
-            background: var(--gold);
-            color: #fff;
-            border-radius: 50px;
-            font-size: .78rem;
-            padding: 2px 10px;
-            font-family: 'Noto Sans TC', sans-serif;
-        }
-        .cart-items { padding: 0; }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 22px;
-            border-bottom: 1px solid var(--line);
-            font-size: .88rem;
-            animation: slideIn .3s ease;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(10px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        .cart-item__name { color: var(--green); font-weight: 500; flex: 1; }
-        .cart-item__price { color: var(--gold); font-weight: 700; margin-left: 12px; }
-        .cart-item__remove {
-            background: none; border: none;
-            color: #ccc; cursor: pointer;
-            font-size: 1rem;
-            margin-left: 10px;
-            transition: color .2s;
-            padding: 0 4px;
-        }
-        .cart-item__remove:hover { color: #e74c3c; }
-        .cart-empty {
-            padding: 32px 22px;
-            text-align: center;
-            color: #bbb;
-            font-size: .88rem;
-            line-height: 1.8;
-        }
-        .cart-empty i { font-size: 2rem; display: block; margin-bottom: 10px; color: #e0ddd7; }
-        .cart-total {
-            padding: 16px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 2px solid var(--line);
-            background: var(--petal);
-        }
-        .cart-total__label { font-size: .85rem; color: #888; }
-        .cart-total__price {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
+    .prod-card__body { padding: 18px 16px 20px; }
+    .prod-card__cat {
+        font-size: .7rem; font-weight: 700; letter-spacing: 2px;
+        color: #b8975a; margin-bottom: 7px; display: block;
+    }
+    .prod-card__name {
+        font-family: 'Noto Serif TC', serif; font-size: 1.05rem;
+        color: #1a241a; margin-bottom: 7px; line-height: 1.4;
+    }
+    .prod-card__desc {
+        font-size: .81rem; color: #888; line-height: 1.65; margin-bottom: 12px;
+    }
+    .prod-card__price {
+        font-size: 1.35rem; color: #b8975a; font-weight: 700;
+        font-family: 'Noto Serif TC', serif;
+    }
+    .prod-card__price small {
+        font-size: .75rem; color: #bbb;
+        margin-left: 3px; font-family: 'Noto Sans TC', sans-serif;
+    }
+    .prod-card__add {
+        margin-top: 12px; width: 100%; padding: 10px 0;
+        background: transparent; border: 1.5px solid #1a241a;
+        color: #1a241a; font-family: 'Noto Sans TC', sans-serif;
+        font-size: .85rem; font-weight: 700; cursor: pointer;
+        border-radius: 4px; transition: all .3s; letter-spacing: 1px;
+    }
+    .prod-card__add:hover,
+    .prod-card.chosen .prod-card__add {
+        background: #1a241a; color: #fff;
+    }
 
-        /* ORDER FORM */
-        .order-form {
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 30px 28px 36px;
-        }
-        .order-form h3 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.15rem;
-            color: var(--green);
-            margin-bottom: 24px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--line);
-        }
+    /* ── Sidebar ────────────────────────────── */
+    .order-sidebar { position: sticky; top: 110px; align-self: start; }
 
-        .form-group { margin-bottom: 20px; }
-        .form-label {
-            display: block;
-            font-size: .82rem;
-            font-weight: 700;
-            color: var(--green);
-            margin-bottom: 7px;
-            letter-spacing: .5px;
-        }
-        .form-label .req { color: var(--gold); margin-left: 3px; }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--radius);
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: .92rem;
-            color: var(--ink);
-            background: var(--bg);
-            transition: border-color .3s, box-shadow .3s;
-            outline: none;
-        }
-        .form-control:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(184,151,90,.12);
-            background: #fff;
-        }
-        textarea.form-control {
-            resize: vertical;
-            min-height: 90px;
-            line-height: 1.7;
-        }
-        select.form-control { cursor: pointer; }
+    /* 購物車 */
+    .cart-box {
+        background: #fff; border: 1px solid var(--line);
+        border-radius: 4px; margin-bottom: 22px; overflow: hidden;
+    }
+    .cart-box__head {
+        background: #1a241a; color: #fff;
+        padding: 16px 20px; display: flex;
+        justify-content: space-between; align-items: center;
+        font-family: 'Noto Serif TC', serif; font-size: .97rem;
+    }
+    .cart-count {
+        background: #b8975a; color: #fff; border-radius: 50px;
+        font-size: .74rem; padding: 2px 10px;
+        font-family: 'Noto Sans TC', sans-serif;
+    }
+    .cart-items { }
+    .cart-item {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 20px; border-bottom: 1px solid var(--line);
+        font-size: .85rem; animation: slideIn .3s ease;
+    }
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(10px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+    .cart-item__name { color: #1a241a; font-weight: 600; flex: 1; }
+    .cart-item__price { color: #b8975a; font-weight: 700; margin-left: 10px; white-space: nowrap; }
+    .cart-item__rm {
+        background: none; border: none; color: #ccc;
+        cursor: pointer; font-size: .95rem; margin-left: 8px;
+        padding: 0 3px; transition: color .2s;
+    }
+    .cart-item__rm:hover { color: #c0522a; }
+    .cart-empty {
+        padding: 28px 20px; text-align: center;
+        color: #bbb; font-size: .85rem; line-height: 1.8;
+    }
+    .cart-empty i { font-size: 1.8rem; display: block; margin-bottom: 8px; color: #e0ddd7; }
+    .cart-total {
+        padding: 14px 20px; display: flex;
+        justify-content: space-between; align-items: center;
+        border-top: 2px solid var(--line); background: var(--petal);
+    }
+    .cart-total__label { font-size: .82rem; color: #888; }
+    .cart-total__val {
+        font-size: 1.55rem; color: #b8975a; font-weight: 700;
+        font-family: 'Noto Serif TC', serif;
+    }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
+    /* 表單 */
+    .order-form {
+        background: #fff; border: 1px solid var(--line);
+        border-radius: 4px; padding: 26px 24px 32px;
+    }
+    .order-form h3 {
+        font-family: 'Noto Serif TC', serif; font-size: 1.1rem;
+        color: #1a241a; margin-bottom: 22px;
+        padding-bottom: 12px; border-bottom: 1px solid var(--line);
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-label {
+        display: block; font-size: .8rem; font-weight: 700;
+        color: #1a241a; margin-bottom: 6px; letter-spacing: .5px;
+    }
+    .form-label .req { color: #b8975a; margin-left: 2px; }
+    .form-control {
+        width: 100%; padding: 11px 13px;
+        border: 1.5px solid #ddd; border-radius: 4px;
+        font-family: 'Noto Sans TC', sans-serif;
+        font-size: .9rem; color: #1a241a;
+        background: #faf8f4; transition: border-color .3s, box-shadow .3s;
+        outline: none; box-sizing: border-box;
+    }
+    .form-control:focus {
+        border-color: #b8975a;
+        box-shadow: 0 0 0 3px rgba(184,151,90,.12);
+        background: #fff;
+    }
+    .form-control.error { border-color: #c0522a; }
+    textarea.form-control { resize: vertical; min-height: 80px; line-height: 1.7; }
+    select.form-control { cursor: pointer; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* Delivery Type Toggle */
-        .delivery-toggle {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .dtgl-btn {
-            padding: 12px 8px;
-            border: 1.5px solid var(--line);
-            background: var(--white);
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: .85rem;
-            text-align: center;
-            color: #888;
-            transition: all .3s;
-            display: flex; flex-direction: column;
-            align-items: center; gap: 5px;
-        }
-        .dtgl-btn i { font-size: 1.2rem; color: var(--line); transition: color .3s; }
-        .dtgl-btn.active {
-            border-color: var(--gold);
-            color: var(--green);
-            background: var(--petal);
-        }
-        .dtgl-btn.active i { color: var(--gold); }
+    /* 配送方式切換 */
+    .delivery-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .dtgl-btn {
+        padding: 11px 8px; border: 1.5px solid var(--line);
+        background: #fff; border-radius: 4px; cursor: pointer;
+        font-family: 'Noto Sans TC', sans-serif; font-size: .82rem;
+        text-align: center; color: #888;
+        transition: all .3s; display: flex; flex-direction: column;
+        align-items: center; gap: 5px;
+    }
+    .dtgl-btn i { font-size: 1.1rem; color: #ddd; transition: color .3s; }
+    .dtgl-btn.active { border-color: #b8975a; color: #1a241a; background: var(--petal); }
+    .dtgl-btn.active i { color: #b8975a; }
 
-        /* Submit Button */
-        .btn-submit {
-            width: 100%;
-            padding: 17px 0;
-            background: var(--green);
-            color: #fff;
-            border: none;
-            border-radius: var(--radius);
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all .4s var(--ease);
-            margin-top: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-submit::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: var(--gold);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform .4s var(--ease);
-        }
-        .btn-submit:hover::before { transform: scaleX(1); }
-        .btn-submit span { position: relative; z-index: 1; }
-        .btn-submit:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-        }
-        .btn-submit:disabled::before { display: none; }
+    /* 送出按鈕 */
+    .btn-submit {
+        width: 100%; padding: 16px 0;
+        background: #1a241a; color: #fff;
+        border: none; border-radius: 4px;
+        font-family: 'Noto Sans TC', sans-serif;
+        font-size: .97rem; font-weight: 700; letter-spacing: 2px;
+        cursor: pointer; transition: background .4s var(--ease);
+        margin-top: 6px; position: relative; overflow: hidden;
+    }
+    .btn-submit::before {
+        content: ''; position: absolute; inset: 0;
+        background: #b8975a; transform: scaleX(0);
+        transform-origin: left; transition: transform .4s var(--ease);
+    }
+    .btn-submit:hover::before { transform: scaleX(1); }
+    .btn-submit span { position: relative; z-index: 1; }
+    .btn-submit:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-submit:disabled::before { display: none; }
 
-        .form-note {
-            text-align: center;
-            font-size: .78rem;
-            color: #bbb;
-            margin-top: 14px;
-            line-height: 1.7;
-        }
+    /* LINE 直發按鈕 */
+    .btn-line {
+        width: 100%; padding: 14px 0; margin-top: 10px;
+        background: #06C755; color: #fff;
+        border: none; border-radius: 50px;
+        font-family: 'Noto Sans TC', sans-serif;
+        font-size: .92rem; font-weight: 700; letter-spacing: 1px;
+        cursor: pointer; display: flex; align-items: center;
+        justify-content: center; gap: 8px;
+        transition: background .3s, transform .3s;
+        box-shadow: 0 4px 14px rgba(6,199,85,.25);
+    }
+    .btn-line:hover { background: #05b04a; transform: translateY(-2px); }
+    .btn-line:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
-        /* ── SUCCESS MODAL ── */
-        .modal-overlay {
-            position: fixed; inset: 0;
-            background: rgba(26,36,26,.75);
-            backdrop-filter: blur(6px);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0; visibility: hidden;
-            transition: all .4s;
-        }
-        .modal-overlay.open { opacity: 1; visibility: visible; }
-        .modal-box {
-            background: #fff;
-            border-radius: 6px;
-            padding: 52px 44px;
-            text-align: center;
-            max-width: 440px;
-            width: 100%;
-            transform: scale(.9) translateY(20px);
-            transition: transform .4s var(--ease);
-        }
-        .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
-        .modal-icon {
-            width: 72px; height: 72px;
-            background: var(--petal);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 2rem;
-            color: var(--gold);
-        }
-        .modal-box h2 {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.6rem;
-            color: var(--green);
-            margin-bottom: 14px;
-        }
-        .modal-box p { font-size: .95rem; color: #777; line-height: 1.8; margin-bottom: 30px; }
-        .modal-close {
-            padding: 13px 44px;
-            background: var(--gold);
-            color: #fff;
-            border: none;
-            border-radius: var(--radius);
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: .95rem;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
+    .form-note {
+        text-align: center; font-size: .76rem; color: #bbb;
+        margin-top: 12px; line-height: 1.75;
+    }
+    .form-note a { color: #b8975a; }
 
-        /* ── PROMISE STRIP ── */
-        .promise-strip {
-            background: var(--green);
-            color: #fff;
-            padding: 40px clamp(1.5rem, 8vw, 9rem);
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
-        .promise-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: .92rem;
-        }
-        .promise-item i { font-size: 1.4rem; color: var(--gold); }
+    /* ── 成功 Modal ──────────────────────────── */
+    .modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(26,36,26,.78);
+        backdrop-filter: blur(6px);
+        z-index: 99999; display: flex;
+        align-items: center; justify-content: center; padding: 20px;
+        opacity: 0; visibility: hidden; transition: all .4s;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal-box {
+        background: #fff; border-radius: 4px;
+        padding: clamp(36px,5vw,52px) clamp(28px,5vw,44px);
+        text-align: center; max-width: 420px; width: 100%;
+        transform: scale(.9) translateY(20px);
+        transition: transform .4s var(--ease);
+    }
+    .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
+    .modal-icon {
+        width: 68px; height: 68px; background: var(--petal);
+        border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; margin: 0 auto 22px;
+        font-size: 1.8rem; color: #b8975a;
+    }
+    .modal-box h2 {
+        font-family: 'Noto Serif TC', serif; font-size: 1.5rem;
+        color: #1a241a; margin-bottom: 12px;
+    }
+    .modal-box p { font-size: .92rem; color: #777; line-height: 1.85; margin-bottom: 26px; }
+    .modal-order-no {
+        background: var(--petal); border-radius: 4px;
+        padding: 10px 16px; margin-bottom: 20px;
+        font-size: .82rem; color: #b8975a; font-weight: 700;
+    }
+    .modal-actions { display: flex; gap: 10px; flex-direction: column; }
+    .modal-btn-line {
+        padding: 13px 0; background: #06C755; color: #fff;
+        border: none; border-radius: 50px; width: 100%;
+        font-family: 'Noto Sans TC', sans-serif; font-size: .92rem;
+        font-weight: 700; cursor: pointer; display: flex;
+        align-items: center; justify-content: center; gap: 8px;
+        transition: background .3s;
+    }
+    .modal-btn-line:hover { background: #05b04a; }
+    .modal-btn-close {
+        padding: 11px 0; background: #f4f0e8; color: #1a241a;
+        border: none; border-radius: 4px; width: 100%;
+        font-family: 'Noto Sans TC', sans-serif; font-size: .88rem;
+        font-weight: 700; cursor: pointer; transition: background .3s;
+    }
+    .modal-btn-close:hover { background: #e0ddd7; }
 
-        /* ── REVEAL ANIMATION ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity .9s var(--ease), transform .9s var(--ease);
-        }
-        .reveal.revealed { opacity: 1; transform: translateY(0); }
+    /* ── Reveal ─────────────────────────────── */
+    .reveal {
+        opacity: 0; transform: translateY(26px);
+        transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
 
-        /* ── RWD ── */
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; }
-            .promise-strip { gap: 28px; flex-direction: column; align-items: center; text-align: center; }
-        }
-        @media (max-width: 480px) {
-            .product-grid { grid-template-columns: 1fr; }
-        }
+    @media (max-width: 768px) {
+        .form-row { grid-template-columns: 1fr; }
+        .promise-strip { gap: 20px; flex-direction: column; align-items: center; text-align: center; }
+    }
+    @media (max-width: 480px) {
+        .product-grid { grid-template-columns: 1fr; }
+    }
     </style>
 </head>
+
 <body>
     {% include header.html %}
 
     <main>
-        <!-- HERO -->
+
+        <!-- Hero -->
         <section class="o-hero">
             <div class="o-hero__bg"></div>
-            <div class="o-hero__deco" id="petalContainer"></div>
+            <div class="o-hero__deco" id="petalContainer" aria-hidden="true"></div>
             <div class="o-hero__content">
                 <span class="o-hero__eyebrow">Funeral Floral Arrangement</span>
                 <h1 class="o-hero__title">花禮訂製<br>以花語傳遞無盡思念</h1>
@@ -609,34 +437,34 @@ permalink: /order.html
             </div>
         </section>
 
-        <!-- BREADCRUMB -->
-        <nav class="breadcrumb">
-            <a href="{{ '/' | relative_url }}"><i class="fas fa-home"></i> 首頁</a>
-            <span>›</span>
+        <!-- 麵包屑 -->
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+            <a href="{{ '/' | relative_url }}"><i class="fas fa-home" aria-hidden="true"></i> 首頁</a>
+            <span aria-hidden="true">›</span>
             <span>花禮訂購</span>
         </nav>
 
-        <!-- PROMISE STRIP -->
-        <div class="promise-strip">
-            <div class="promise-item"><i class="fas fa-seedling"></i><span>新鮮花材，當日配送</span></div>
-            <div class="promise-item"><i class="fas fa-clock"></i><span>24H 緊急接單服務</span></div>
-            <div class="promise-item"><i class="fas fa-pen-nib"></i><span>免費客製緞帶題字</span></div>
-            <div class="promise-item"><i class="fas fa-shield-alt"></i><span>不滿意全額退款</span></div>
+        <!-- 承諾條 -->
+        <div class="promise-strip" role="region" aria-label="服務承諾">
+            <div class="promise-item"><i class="fas fa-seedling" aria-hidden="true"></i><span>當日新鮮花材</span></div>
+            <div class="promise-item"><i class="fas fa-clock" aria-hidden="true"></i><span>24H 緊急接單</span></div>
+            <div class="promise-item"><i class="fas fa-pen-nib" aria-hidden="true"></i><span>免費緞帶題字</span></div>
+            <div class="promise-item"><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span>雙北桃直送現場</span></div>
         </div>
 
-        <!-- MAIN LAYOUT -->
+        <!-- 主要版面 -->
         <div class="o-layout">
 
-            <!-- LEFT: CATALOGUE -->
+            <!-- 左：商品目錄 -->
             <div class="catalogue">
                 <div class="reveal">
                     <div class="gold-rule"></div>
                     <h2 class="sec-title">選擇花禮</h2>
-                    <p class="sec-sub">點選商品加入訂單，可同時訂購多款。所有花材每日清晨進貨，品質保證新鮮。</p>
+                    <p class="sec-sub">點選商品加入訂單，可同時選購多款。所有花材每日清晨進貨，品質保證新鮮。</p>
                 </div>
 
-                <!-- FILTER TABS -->
-                <div class="product-filters reveal">
+                <!-- 篩選按鈕 -->
+                <div class="product-filters reveal" role="tablist" aria-label="商品分類篩選">
                     <button class="pf-btn active" data-cat="all">全部</button>
                     <button class="pf-btn" data-cat="basket">告別花籃</button>
                     <button class="pf-btn" data-cat="wreath">喪禮花圈</button>
@@ -644,46 +472,43 @@ permalink: /order.html
                     <button class="pf-btn" data-cat="bouquet">鮮花花束</button>
                 </div>
 
-                <!-- PRODUCT GRID -->
+                <!-- 商品格 -->
                 <div class="product-grid" id="productGrid">
 
-                    <!-- 1 -->
                     <div class="prod-card reveal" data-cat="basket" data-id="b01" data-name="靜謐白玫告別花籃" data-price="3800">
                         <div class="prod-card__img">
                             <span class="prod-card__badge">熱銷</span>
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1521543832500-49e69fb0b947?auto=format&fit=crop&q=80&w=600" alt="靜謐白玫告別花籃">
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1521543832500-49e69fb0b947?auto=format&fit=crop&q=80&w=600" alt="靜謐白玫告別花籃" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">告別花籃</span>
                             <div class="prod-card__name">靜謐白玫告別花籃</div>
-                            <p class="prod-card__desc">以純白玫瑰、白百合、滿天星構成。寧靜純粹，傳遞深切的敬意與思念。</p>
+                            <p class="prod-card__desc">純白玫瑰、白百合、滿天星構成。寧靜純粹，傳遞深切的敬意與思念。</p>
                             <div class="prod-card__price">NT$3,800 <small>/ 組</small></div>
                             <button class="prod-card__add">加入訂單</button>
                         </div>
                     </div>
 
-                    <!-- 2 -->
                     <div class="prod-card reveal" data-cat="basket" data-id="b02" data-name="典雅霧金花籃" data-price="4800">
                         <div class="prod-card__img">
-                            <span class="prod-card__badge" style="background:var(--moss);">精選</span>
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc4c?auto=format&fit=crop&q=80&w=600" alt="典雅霧金花籃">
+                            <span class="prod-card__badge" style="background:#4a5e3a;">精選</span>
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc4c?auto=format&fit=crop&q=80&w=600" alt="典雅霧金花籃" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">告別花籃</span>
                             <div class="prod-card__name">典雅霧金花籃</div>
-                            <p class="prod-card__desc">霧面金色包裝、奶油玫瑰與尤加利葉點綴，呈現典雅低調的生命禮讚。</p>
+                            <p class="prod-card__desc">霧面金色包裝、奶油玫瑰與尤加利葉點綴，典雅低調的生命禮讚。</p>
                             <div class="prod-card__price">NT$4,800 <small>/ 組</small></div>
                             <button class="prod-card__add">加入訂單</button>
                         </div>
                     </div>
 
-                    <!-- 3 -->
                     <div class="prod-card reveal" data-cat="wreath" data-id="w01" data-name="圓滿白菊花圈" data-price="5500">
                         <div class="prod-card__img">
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=600" alt="圓滿白菊花圈">
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=600" alt="圓滿白菊花圈" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">喪禮花圈</span>
@@ -694,12 +519,11 @@ permalink: /order.html
                         </div>
                     </div>
 
-                    <!-- 4 -->
                     <div class="prod-card reveal" data-cat="wreath" data-id="w02" data-name="尊榮立式花圈" data-price="7800">
                         <div class="prod-card__img">
                             <span class="prod-card__badge">頂級</span>
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=600" alt="尊榮立式花圈">
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=600" alt="尊榮立式花圈" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">喪禮花圈</span>
@@ -710,27 +534,25 @@ permalink: /order.html
                         </div>
                     </div>
 
-                    <!-- 5 -->
                     <div class="prod-card reveal" data-cat="pot" data-id="p01" data-name="蘭花精緻盆景" data-price="2800">
                         <div class="prod-card__img">
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=600" alt="蘭花精緻盆景">
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=600" alt="蘭花精緻盆景" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">精緻盆花</span>
                             <div class="prod-card__name">蘭花精緻盆景</div>
-                            <p class="prod-card__desc">白色蝴蝶蘭搭配深色陶盆，高雅靜謐，象徵純潔與永恆。可事後移植栽種。</p>
+                            <p class="prod-card__desc">白色蝴蝶蘭搭配深色陶盆，高雅靜謐，象徵純潔與永恆，可事後移植栽種。</p>
                             <div class="prod-card__price">NT$2,800 <small>/ 盆</small></div>
                             <button class="prod-card__add">加入訂單</button>
                         </div>
                     </div>
 
-                    <!-- 6 -->
                     <div class="prod-card reveal" data-cat="pot" data-id="p02" data-name="共生森系盆栽" data-price="3200">
                         <div class="prod-card__img">
-                            <span class="prod-card__badge" style="background:var(--moss);">環保</span>
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=80&w=600" alt="共生森系盆栽">
+                            <span class="prod-card__badge" style="background:#4a5e3a;">環保</span>
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=80&w=600" alt="共生森系盆栽" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">精緻盆花</span>
@@ -741,11 +563,10 @@ permalink: /order.html
                         </div>
                     </div>
 
-                    <!-- 7 -->
                     <div class="prod-card reveal" data-cat="bouquet" data-id="q01" data-name="思念純白花束" data-price="1800">
                         <div class="prod-card__img">
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1559181567-c3190bfbf406?auto=format&fit=crop&q=80&w=600" alt="思念純白花束">
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1559181567-c3190bfbf406?auto=format&fit=crop&q=80&w=600" alt="思念純白花束" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">鮮花花束</span>
@@ -756,12 +577,11 @@ permalink: /order.html
                         </div>
                     </div>
 
-                    <!-- 8 -->
                     <div class="prod-card reveal" data-cat="bouquet" data-id="q02" data-name="金漾奉花花束" data-price="2400">
                         <div class="prod-card__img">
                             <span class="prod-card__badge">季節限定</span>
-                            <div class="prod-card__select"><i class="fas fa-check"></i></div>
-                            <img src="https://images.unsplash.com/photo-1516205651411-aef33a44f7c2?auto=format&fit=crop&q=80&w=600" alt="金漾奉花花束">
+                            <div class="prod-card__check" aria-hidden="true"><i class="fas fa-check"></i></div>
+                            <img src="https://images.unsplash.com/photo-1516205651411-aef33a44f7c2?auto=format&fit=crop&q=80&w=600" alt="金漾奉花花束" loading="lazy">
                         </div>
                         <div class="prod-card__body">
                             <span class="prod-card__cat">鮮花花束</span>
@@ -775,42 +595,40 @@ permalink: /order.html
                 </div><!-- /product-grid -->
             </div><!-- /catalogue -->
 
-            <!-- RIGHT: SIDEBAR -->
-            <aside class="order-sidebar">
+            <!-- 右：訂購表單 -->
+            <aside class="order-sidebar" aria-label="訂購表單">
 
-                <!-- CART -->
+                <!-- 購物車 -->
                 <div class="cart-box">
                     <div class="cart-box__head">
-                        <span><i class="fas fa-shopping-basket" style="margin-right:8px;color:var(--gold-lt)"></i>已選花禮</span>
-                        <span class="cart-count" id="cartCount">0 項</span>
+                        <span><i class="fas fa-shopping-basket" style="margin-right:8px;color:#d4b27a;" aria-hidden="true"></i>已選花禮</span>
+                        <span class="cart-count" id="cartCount" aria-live="polite">0 項</span>
                     </div>
-                    <div class="cart-items" id="cartItems">
+                    <div id="cartItems">
                         <div class="cart-empty" id="cartEmpty">
-                            <i class="fas fa-leaf"></i>
+                            <i class="fas fa-leaf" aria-hidden="true"></i>
                             尚未選擇花禮<br>
-                            <span style="font-size:.78rem">請從左側商品點選加入</span>
+                            <span style="font-size:.76rem;">請從左側商品點選加入</span>
                         </div>
                     </div>
-                    <div class="cart-total" id="cartTotal" style="display:none">
+                    <div class="cart-total" id="cartTotal" style="display:none;">
                         <span class="cart-total__label">預估合計</span>
-                        <span class="cart-total__price" id="totalPrice">NT$0</span>
+                        <span class="cart-total__val" id="totalPrice">NT$0</span>
                     </div>
                 </div>
 
-                <!-- FORM -->
+                <!-- 表單 -->
                 <div class="order-form">
-                    <h3><i class="fas fa-file-alt" style="color:var(--gold);margin-right:10px;"></i>填寫訂購資料</h3>
+                    <h3><i class="fas fa-file-alt" style="color:#b8975a;margin-right:9px;" aria-hidden="true"></i>填寫訂購資料</h3>
 
                     <div class="form-group">
                         <label class="form-label">配送方式 <span class="req">*</span></label>
-                        <div class="delivery-toggle">
-                            <button class="dtgl-btn active" data-mode="deliver">
-                                <i class="fas fa-truck"></i>
-                                送達現場
+                        <div class="delivery-toggle" role="group" aria-label="配送方式選擇">
+                            <button class="dtgl-btn active" data-mode="deliver" type="button" aria-pressed="true">
+                                <i class="fas fa-truck" aria-hidden="true"></i>送達現場
                             </button>
-                            <button class="dtgl-btn" data-mode="pickup">
-                                <i class="fas fa-store"></i>
-                                自取（三重）
+                            <button class="dtgl-btn" data-mode="pickup" type="button" aria-pressed="false">
+                                <i class="fas fa-store" aria-hidden="true"></i>自取（三重）
                             </button>
                         </div>
                     </div>
@@ -818,16 +636,16 @@ permalink: /order.html
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="f-name">訂購人姓名 <span class="req">*</span></label>
-                            <input type="text" id="f-name" class="form-control" placeholder="您的姓名">
+                            <input type="text" id="f-name" class="form-control" placeholder="您的姓名" autocomplete="name">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="f-phone">聯絡電話 <span class="req">*</span></label>
-                            <input type="tel" id="f-phone" class="form-control" placeholder="09XX-XXX-XXX">
+                            <input type="tel" id="f-phone" class="form-control" placeholder="09XX-XXX-XXX" autocomplete="tel">
                         </div>
                     </div>
 
                     <div class="form-group" id="deliverGroup">
-                        <label class="form-label" for="f-addr">送達地址 <span class="req">*</span></label>
+                        <label class="form-label" for="f-addr">送達地址 / 殯儀館 <span class="req">*</span></label>
                         <input type="text" id="f-addr" class="form-control" placeholder="殯儀館名稱或詳細地址">
                     </div>
 
@@ -843,8 +661,8 @@ permalink: /order.html
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="f-ribbon">緞帶題字（免費）</label>
-                        <input type="text" id="f-ribbon" class="form-control" placeholder="如：沉痛悼念 XX 先生 / 哀 思">
+                        <label class="form-label" for="f-ribbon">緞帶題字 <span style="font-size:.74rem;color:#aaa;font-weight:400;">（免費）</span></label>
+                        <input type="text" id="f-ribbon" class="form-control" placeholder="如：沉痛悼念 陳公大明先生">
                     </div>
 
                     <div class="form-group">
@@ -852,13 +670,22 @@ permalink: /order.html
                         <textarea id="f-note" class="form-control" placeholder="特殊需求、顏色偏好、擺放位置說明…"></textarea>
                     </div>
 
-                    <button class="btn-submit" id="submitBtn" disabled>
-                        <span>確認送出訂單</span>
+                    <!-- 主要按鈕：直接發送 LINE 訊息給店家 -->
+                    <button class="btn-line" id="btnLine" disabled type="button">
+                        <i class="fab fa-line" aria-hidden="true"></i>
+                        透過 LINE 發送訂單給祥安
                     </button>
+
+                    <!-- 次要：電話確認 -->
+                    <button class="btn-submit" id="submitBtn" disabled type="button">
+                        <span>送出訂單（30分鐘電話確認）</span>
+                    </button>
+
                     <p class="form-note">
-                        <i class="fas fa-lock" style="color:var(--gold)"></i>
-                        祥安收到訂單後將於 30 分鐘內電話確認。<br>
-                        緊急需求請直接撥打 <a href="tel:0978583699" style="color:var(--gold)">0978-583-699</a>
+                        <i class="fas fa-info-circle" style="color:#b8975a;" aria-hidden="true"></i>
+                        LINE 按鈕會直接帶您開啟 LINE 並填入完整訂單內容<br>
+                        緊急需求請直接撥打
+                        <a href="tel:+886978583699">0978-583-699</a>
                     </p>
                 </div>
 
@@ -869,223 +696,276 @@ permalink: /order.html
     {% include footer.html %}
     {% include floating-cta.html %}
 
-    <!-- SUCCESS MODAL -->
-    <div class="modal-overlay" id="successModal">
+    <!-- 成功 Modal -->
+    <div class="modal-overlay" id="successModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-box">
-            <div class="modal-icon"><i class="fas fa-check"></i></div>
-            <h2>訂單已送出</h2>
-            <p>感謝您的訂購。<br>祥安花藝師將於 <strong>30 分鐘內</strong>致電確認細節，<br>請保持電話暢通。</p>
-            <button class="modal-close" id="modalClose">確認關閉</button>
+            <div class="modal-icon" aria-hidden="true"><i class="fas fa-check"></i></div>
+            <h2 id="modalTitle">訂單已準備完成</h2>
+            <p>請選擇以下方式將訂單傳送給祥安花藝師：</p>
+            <div class="modal-order-no" id="modalOrderNo"></div>
+            <div class="modal-actions">
+                <button class="modal-btn-line" id="modalBtnLine" type="button">
+                    <i class="fab fa-line" aria-hidden="true"></i>
+                    點此開啟 LINE 發送訂單
+                </button>
+                <a href="tel:+886978583699" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 0;background:#1a241a;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:.92rem;transition:background .3s;" onmouseover="this.style.background='#b8975a'" onmouseout="this.style.background='#1a241a'">
+                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                    直接撥打：0978-583-699
+                </a>
+                <button class="modal-btn-close" id="modalClose" type="button">關閉</button>
+            </div>
         </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    (function () {
+        'use strict';
 
-        /* ── PETAL ANIMATION ── */
-        const petalContainer = document.getElementById('petalContainer');
-        const PETAL_COUNT = 12;
-        for (let i = 0; i < PETAL_COUNT; i++) {
-            const p = document.createElement('div');
+        /* ── LINE 官方帳號 ID（請將 @shiangan 替換為實際帳號）── */
+        var LINE_ID = '@shiangan';
+
+        /* ── 花瓣動畫 ── */
+        var container = document.getElementById('petalContainer');
+        for (var i = 0; i < 12; i++) {
+            var p = document.createElement('div');
             p.className = 'petal';
-            p.style.cssText = `
-                left: ${Math.random() * 100}%;
-                top: ${Math.random() * 40}%;
-                width: ${4 + Math.random() * 6}px;
-                height: ${10 + Math.random() * 12}px;
-                opacity: ${.15 + Math.random() * .45};
-                animation-duration: ${6 + Math.random() * 10}s;
-                animation-delay: ${-Math.random() * 10}s;
-                transform: rotate(${Math.random() * 360}deg);
-            `;
-            petalContainer.appendChild(p);
+            p.style.cssText = [
+                'left:' + (Math.random() * 100) + '%',
+                'top:' + (Math.random() * 40) + '%',
+                'width:' + (4 + Math.random() * 6) + 'px',
+                'height:' + (10 + Math.random() * 12) + 'px',
+                'opacity:' + (.15 + Math.random() * .4),
+                'animation-duration:' + (6 + Math.random() * 10) + 's',
+                'animation-delay:-' + (Math.random() * 10) + 's',
+                'transform:rotate(' + (Math.random() * 360) + 'deg)'
+            ].join(';');
+            container.appendChild(p);
         }
 
-        /* ── REVEAL OBSERVER ── */
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('revealed');
-                    obs.unobserve(e.target);
-                }
-            });
-        }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
-        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-        /* ── CART STATE ── */
-        const cart = {};   // { id: { name, price } }
-
-        function formatPrice(n) {
-            return 'NT$' + n.toLocaleString('zh-TW');
+        /* ── Reveal 動畫 ── */
+        if ('IntersectionObserver' in window) {
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); }
+                });
+            }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+        } else {
+            document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('revealed'); });
         }
+
+        /* ── 購物車狀態 ── */
+        var cart = {};   // { id: { id, name, price } }
+
+        function fmt(n) { return 'NT$' + n.toLocaleString('zh-TW'); }
 
         function renderCart() {
-            const items = Object.values(cart);
-            const cartItemsEl = document.getElementById('cartItems');
-            const cartEmptyEl = document.getElementById('cartEmpty');
-            const cartTotalEl = document.getElementById('cartTotal');
-            const cartCountEl = document.getElementById('cartCount');
-            const totalPriceEl = document.getElementById('totalPrice');
-            const submitBtn  = document.getElementById('submitBtn');
+            var items      = Object.values(cart);
+            var countEl    = document.getElementById('cartCount');
+            var itemsEl    = document.getElementById('cartItems');
+            var emptyEl    = document.getElementById('cartEmpty');
+            var totalEl    = document.getElementById('cartTotal');
+            var totalValEl = document.getElementById('totalPrice');
+            var btnLine    = document.getElementById('btnLine');
+            var btnSubmit  = document.getElementById('submitBtn');
 
-            cartCountEl.textContent = items.length + ' 項';
+            countEl.textContent = items.length + ' 項';
+
+            /* 清除既有列 */
+            Array.from(itemsEl.querySelectorAll('.cart-item')).forEach(function (el) { el.remove(); });
 
             if (items.length === 0) {
-                cartEmptyEl.style.display = 'block';
-                cartTotalEl.style.display = 'none';
-                submitBtn.disabled = true;
-                return;
+                emptyEl.style.display = 'block';
+                totalEl.style.display = 'none';
+            } else {
+                emptyEl.style.display = 'none';
+                totalEl.style.display = 'flex';
+                var total = 0;
+                items.forEach(function (item) {
+                    total += item.price;
+                    var row = document.createElement('div');
+                    row.className = 'cart-item';
+                    row.innerHTML =
+                        '<span class="cart-item__name">' + item.name + '</span>' +
+                        '<span class="cart-item__price">' + fmt(item.price) + '</span>' +
+                        '<button class="cart-item__rm" data-id="' + item.id + '" aria-label="移除 ' + item.name + '">×</button>';
+                    itemsEl.insertBefore(row, totalEl);
+                });
+                totalValEl.textContent = fmt(total);
             }
-
-            cartEmptyEl.style.display = 'none';
-            cartTotalEl.style.display = 'flex';
-
-            // Clear and rebuild
-            Array.from(cartItemsEl.querySelectorAll('.cart-item')).forEach(el => el.remove());
-            let total = 0;
-            items.forEach(item => {
-                total += item.price;
-                const row = document.createElement('div');
-                row.className = 'cart-item';
-                row.innerHTML = `
-                    <span class="cart-item__name">${item.name}</span>
-                    <span class="cart-item__price">${formatPrice(item.price)}</span>
-                    <button class="cart-item__remove" data-id="${item.id}" title="移除">×</button>
-                `;
-                cartItemsEl.insertBefore(row, cartTotalEl);
-            });
-            totalPriceEl.textContent = formatPrice(total);
-
-            // Enable submit if form has minimal data
-            checkSubmitState();
+            checkReady();
         }
 
-        /* ── PRODUCT CARD CLICK ── */
+        /* ── 商品點擊 ── */
         document.getElementById('productGrid').addEventListener('click', function (e) {
-            const addBtn = e.target.closest('.prod-card__add');
-            if (!addBtn) return;
-
-            const card = addBtn.closest('.prod-card');
-            const id    = card.dataset.id;
-            const name  = card.dataset.name;
-            const price = parseInt(card.dataset.price);
+            var btn = e.target.closest('.prod-card__add');
+            if (!btn) return;
+            var card  = btn.closest('.prod-card');
+            var id    = card.dataset.id;
+            var name  = card.dataset.name;
+            var price = parseInt(card.dataset.price, 10);
 
             if (cart[id]) {
                 delete cart[id];
                 card.classList.remove('chosen');
-                addBtn.textContent = '加入訂單';
+                btn.textContent = '加入訂單';
             } else {
-                cart[id] = { id, name, price };
+                cart[id] = { id: id, name: name, price: price };
                 card.classList.add('chosen');
-                addBtn.textContent = '✓ 已選取';
+                btn.textContent = '✓ 已選取';
             }
             renderCart();
         });
 
-        /* ── CART REMOVE ── */
+        /* ── 購物車移除 ── */
         document.getElementById('cartItems').addEventListener('click', function (e) {
-            const btn = e.target.closest('.cart-item__remove');
+            var btn = e.target.closest('.cart-item__rm');
             if (!btn) return;
-            const id = btn.dataset.id;
+            var id = btn.dataset.id;
             delete cart[id];
-            // unmark card
-            const card = document.querySelector(`.prod-card[data-id="${id}"]`);
+            var card = document.querySelector('.prod-card[data-id="' + id + '"]');
             if (card) {
                 card.classList.remove('chosen');
-                const addBtn = card.querySelector('.prod-card__add');
+                var addBtn = card.querySelector('.prod-card__add');
                 if (addBtn) addBtn.textContent = '加入訂單';
             }
             renderCart();
         });
 
-        /* ── FILTER TABS ── */
-        document.querySelectorAll('.pf-btn').forEach(btn => {
+        /* ── 篩選分類 ── */
+        document.querySelectorAll('.pf-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.pf-btn').forEach(function (b) { b.classList.remove('active'); });
                 this.classList.add('active');
-                const cat = this.dataset.cat;
-                document.querySelectorAll('.prod-card').forEach(card => {
-                    const match = (cat === 'all' || card.dataset.cat === cat);
-                    card.style.display = match ? 'block' : 'none';
+                var cat = this.dataset.cat;
+                document.querySelectorAll('.prod-card').forEach(function (card) {
+                    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
                 });
             });
         });
 
-        /* ── DELIVERY TOGGLE ── */
-        const dtglBtns    = document.querySelectorAll('.dtgl-btn');
-        const deliverGroup = document.getElementById('deliverGroup');
-        dtglBtns.forEach(btn => {
+        /* ── 配送方式切換 ── */
+        var deliverGroup = document.getElementById('deliverGroup');
+        document.querySelectorAll('.dtgl-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                dtglBtns.forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.dtgl-btn').forEach(function (b) {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
                 this.classList.add('active');
-                deliverGroup.style.display = this.dataset.mode === 'deliver' ? 'block' : 'none';
+                this.setAttribute('aria-pressed', 'true');
+                deliverGroup.style.display = (this.dataset.mode === 'deliver') ? 'block' : 'none';
+                checkReady();
             });
         });
 
-        /* ── SUBMIT STATE ── */
-        function checkSubmitState() {
-            const hasCart  = Object.keys(cart).length > 0;
-            const name     = document.getElementById('f-name').value.trim();
-            const phone    = document.getElementById('f-phone').value.trim();
-            const date     = document.getElementById('f-date').value;
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = !(hasCart && name && phone && date);
+        /* ── 表單驗證 ── */
+        function isDelivery() {
+            var active = document.querySelector('.dtgl-btn.active');
+            return active && active.dataset.mode === 'deliver';
         }
 
-        ['f-name','f-phone','f-date','f-time'].forEach(id => {
-            document.getElementById(id)?.addEventListener('input', checkSubmitState);
+        function checkReady() {
+            var hasCart = Object.keys(cart).length > 0;
+            var name    = document.getElementById('f-name').value.trim();
+            var phone   = document.getElementById('f-phone').value.trim();
+            var date    = document.getElementById('f-date').value;
+            var addr    = document.getElementById('f-addr').value.trim();
+            var addrOk  = !isDelivery() || addr.length > 0;
+            var ready   = hasCart && name && phone && date && addrOk;
+            document.getElementById('btnLine').disabled   = !ready;
+            document.getElementById('submitBtn').disabled = !ready;
+        }
+
+        ['f-name','f-phone','f-date','f-time','f-addr'].forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) el.addEventListener('input', checkReady);
         });
 
-        /* ── SUBMIT ── */
+        /* ── 組合訂單文字 ── */
+        function buildOrderText() {
+            var items   = Object.values(cart).map(function (i) { return i.name + ' ' + fmt(i.price); }).join('\n');
+            var total   = Object.values(cart).reduce(function (s, i) { return s + i.price; }, 0);
+            var name    = document.getElementById('f-name').value.trim();
+            var phone   = document.getElementById('f-phone').value.trim();
+            var date    = document.getElementById('f-date').value;
+            var time    = document.getElementById('f-time').value || '（未填）';
+            var ribbon  = document.getElementById('f-ribbon').value.trim() || '無';
+            var note    = document.getElementById('f-note').value.trim() || '無';
+            var mode    = isDelivery() ? '送達現場：' + document.getElementById('f-addr').value.trim() : '自取（三重店）';
+
+            return '【祥安花禮訂購】\n' +
+                   '訂購人：' + name + '\n' +
+                   '電話：' + phone + '\n' +
+                   '配送：' + mode + '\n' +
+                   '需用日期：' + date + ' ' + time + '\n' +
+                   '緞帶題字：' + ribbon + '\n' +
+                   '備注：' + note + '\n\n' +
+                   '【選購花禮】\n' + items + '\n' +
+                   '合計：' + fmt(total);
+        }
+
+        /* ── LINE 按鈕：直接開啟 LINE 並帶入訊息 ── */
+        function openLine() {
+            var text = buildOrderText();
+            var encoded = encodeURIComponent(text);
+            /* 嘗試開啟 LINE App；若未安裝則開啟 LINE 網頁版 */
+            window.open('https://line.me/R/ti/p/' + encodeURIComponent(LINE_ID) + '?text=' + encoded, '_blank', 'noopener,noreferrer');
+        }
+
+        document.getElementById('btnLine').addEventListener('click', function () {
+            if (this.disabled) return;
+            /* 先顯示 Modal，讓用戶知道訂單內容 */
+            showModal();
+        });
+
+        /* ── 送出按鈕：顯示 Modal（電話確認版）── */
         document.getElementById('submitBtn').addEventListener('click', function () {
-            // Build summary for WhatsApp / LINE (optional extension point)
-            const items = Object.values(cart).map(i => `${i.name} ${formatPrice(i.price)}`).join('\n');
-            const name  = document.getElementById('f-name').value.trim();
-            const phone = document.getElementById('f-phone').value.trim();
-            const addr  = document.getElementById('f-addr').value.trim();
-            const date  = document.getElementById('f-date').value;
-            const time  = document.getElementById('f-time').value;
-            const ribbon = document.getElementById('f-ribbon').value.trim();
-            const note  = document.getElementById('f-note').value.trim();
-
-            // Compose LINE message
-            const mode = document.querySelector('.dtgl-btn.active').dataset.mode;
-            const msg = encodeURIComponent(
-                `【祥安花禮訂購】\n` +
-                `訂購人：${name}\n電話：${phone}\n` +
-                `配送方式：${mode === 'deliver' ? '送達 ' + addr : '自取'}\n` +
-                `需用：${date} ${time}\n` +
-                `緞帶：${ribbon || '無'}\n` +
-                `備注：${note || '無'}\n\n` +
-                `選購花禮：\n${items}\n` +
-                `合計：${document.getElementById('totalPrice').textContent}`
-            );
-
-            // Open LINE (fallback to modal)
-            // window.open(`https://line.me/R/ti/p/@yourid?text=${msg}`, '_blank');
-
-            // Show success modal
-            document.getElementById('successModal').classList.add('open');
+            if (this.disabled) return;
+            showModal();
         });
 
-        /* ── MODAL CLOSE ── */
+        function showModal() {
+            var text = buildOrderText();
+            document.getElementById('modalOrderNo').textContent = '訂單時間：' + new Date().toLocaleString('zh-TW');
+
+            /* 儲存訊息給 Modal 內的 LINE 按鈕使用 */
+            document.getElementById('modalBtnLine').dataset.msg = text;
+            document.getElementById('successModal').classList.add('open');
+            document.getElementById('modalBtnLine').focus();
+        }
+
+        /* ── Modal 內的 LINE 按鈕 ── */
+        document.getElementById('modalBtnLine').addEventListener('click', function () {
+            var encoded = encodeURIComponent(this.dataset.msg || '');
+            window.open('https://line.me/R/ti/p/' + encodeURIComponent(LINE_ID) + '?text=' + encoded, '_blank', 'noopener,noreferrer');
+            document.getElementById('successModal').classList.remove('open');
+        });
+
+        /* ── Modal 關閉 ── */
         document.getElementById('modalClose').addEventListener('click', function () {
             document.getElementById('successModal').classList.remove('open');
         });
         document.getElementById('successModal').addEventListener('click', function (e) {
             if (e.target === this) this.classList.remove('open');
         });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') document.getElementById('successModal').classList.remove('open');
+        });
 
-        /* ── SET MIN DATE ── */
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        document.getElementById('f-date').min = `${yyyy}-${mm}-${dd}`;
+        /* ── 最小日期 ── */
+        var t = new Date();
+        document.getElementById('f-date').min = [
+            t.getFullYear(),
+            String(t.getMonth() + 1).padStart(2, '0'),
+            String(t.getDate()).padStart(2, '0')
+        ].join('-');
 
-        /* ── INITIAL RENDER ── */
+        /* ── 初始化 ── */
         renderCart();
-    });
+        checkReady();
+
+    }());
     </script>
 </body>
 </html>
