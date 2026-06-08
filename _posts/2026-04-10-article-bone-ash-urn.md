@@ -24,7 +24,7 @@ faqs:
 ---
 
 <style>
-/* ── 骨灰罐指南文章專屬樣式（全站高級感深色基調，無純白背景） ── */
+/* ── 骨灰罐指南文章專屬樣式（星空藍品牌基調，無純白背景） ── */
 
 .article-lead {
     font-size: clamp(.97rem, 2vw, 1.08rem);
@@ -37,7 +37,7 @@ faqs:
 .article-lead strong { color: #c5a059; }
 
 .tip-box {
-    background: #242e24; border-left: 4px solid #c5a059;
+    background: #162436; border-left: 4px solid #c5a059;
     padding: 16px 20px; margin: 24px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
     color: #dfdcd6; line-height: 1.85; border-radius: 0 4px 4px 0;
@@ -45,7 +45,7 @@ faqs:
 .tip-box strong { color: #c5a059; }
 
 .warn-box {
-    background: #2a1f1b; border-left: 4px solid #c0522a;
+    background: #2d1e1e; border-left: 4px solid #c0522a;
     padding: 16px 20px; margin: 24px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
     color: #dfdcd6; line-height: 1.85; border-radius: 0 4px 4px 0;
@@ -53,7 +53,7 @@ faqs:
 .warn-box strong { color: #e06d45; }
 
 .good-box {
-    background: #192519; border-left: 4px solid #3a8a3a;
+    background: #12221a; border-left: 4px solid #3a8a3a;
     padding: 16px 20px; margin: 24px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
     color: #dfdcd6; line-height: 1.85; border-radius: 0 4px 4px 0;
@@ -67,27 +67,24 @@ faqs:
     gap: 20px; margin: 28px 0;
 }
 .material-card {
-    background: #1a241a; border: 1px solid #2d3e2d;
+    background: #111a24; border: 1px solid #1e2d3d;
     border-radius: 4px; padding: clamp(20px, 3vw, 28px);
     border-top: 4px solid #c5a059;
     transition: box-shadow .3s, border-color .3s, transform .2s;
 }
 .material-card:hover { 
-    box-shadow: 0 8px 26px rgba(0,0,0,.4); 
+    box-shadow: 0 8px 26px rgba(0,0,0,.5); 
     border-color: #c5a059;
     transform: translateY(-2px);
 }
-.material-card.recommend { border-top-color: #c5a059; background: #162016; }
-.material-card.eco       { border-top-color: #3a8a3a; }
+.material-card.recommend { border-top-color: #c5a059; background: #0d1620; }
 .material-card__tag {
     display: inline-block; font-size: .72rem; font-weight: 700;
     letter-spacing: 1px; padding: 4px 10px; border-radius: 2px;
-    margin-bottom: 12px; color: #1a241a;
+    margin-bottom: 12px; color: #0d1620;
 }
 .material-card .tag-classic  { background: #c5a059; }
 .material-card .tag-premium  { background: #dcd0b8; }
-.material-card .tag-eco      { background: #3a8a3a; color: #fff; }
-.material-card .tag-ceramic  { background: #8a6a5a; color: #fff; }
 .material-card h3 {
     font-family: 'Noto Serif TC', serif;
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
@@ -98,20 +95,20 @@ faqs:
     font-family: 'Playfair Display', serif; font-style: italic;
     font-size: 1.05rem; color: #c5a059; display: block; margin-bottom: 12px; font-weight: 600;
 }
-.material-card .pros-cons { font-size: .82rem; color: #95928b; line-height: 1.75; border-top: 1px solid #2d3e2d; padding-top: 12px; }
+.material-card .pros-cons { font-size: .82rem; color: #95928b; line-height: 1.75; border-top: 1px solid #1e2d3d; padding-top: 12px; }
 
 /* 比較表格 */
-.compare-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; border: 1px solid #2d3e2d; border-radius: 4px; }
+.compare-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; border: 1px solid #1e2d3d; border-radius: 4px; }
 .compare-table {
     width: 100%; border-collapse: collapse;
     min-width: 640px;
-    font-size: clamp(.85rem, 1.8vw, .93rem); background: #141c14;
+    font-size: clamp(.85rem, 1.8vw, .93rem); background: #0b1118;
 }
-.compare-table thead tr { background: #1d291d; color: #c5a059; border-bottom: 2px solid #2d3e2d; }
+.compare-table thead tr { background: #141f2b; color: #c5a059; border-bottom: 2px solid #1e2d3d; }
 .compare-table th { padding: 14px 16px; text-align: left; font-weight: 700; }
-.compare-table td { padding: 13px 16px; border-bottom: 1px solid #2d3e2d; vertical-align: top; color: #dfdcd6; line-height: 1.7; }
-.compare-table td:first-child { font-weight: 700; color: #c5a059; background: #1a241a; white-space: nowrap; border-right: 1px solid #2d3e2d; }
-.compare-table tr:nth-child(even) td:not(:first-child) { background: #172117; }
+.compare-table td { padding: 13px 16px; border-bottom: 1px solid #1e2d3d; vertical-align: top; color: #dfdcd6; line-height: 1.7; }
+.compare-table td:first-child { font-weight: 700; color: #c5a059; background: #111a24; white-space: nowrap; border-right: 1px solid #1e2d3d; }
+.compare-table tr:nth-child(even) td:not(:first-child) { background: #0e161f; }
 .compare-table .good { color: #52a852; font-weight: 700; }
 .compare-table .bad  { color: #e06d45; }
 .compare-table .note { font-size: .78rem; color: #88847d; display: block; margin-top: 4px; }
@@ -121,21 +118,21 @@ faqs:
 .price-tier {
     display: flex; gap: 20px; align-items: flex-start;
     padding: 20px; margin-bottom: 12px;
-    background: #1a241a; border: 1px solid #2d3e2d;
+    background: #111a24; border: 1px solid #1e2d3d;
     border-radius: 4px;
     transition: border-color .3s, background .3s;
 }
-.price-tier:hover { border-color: #c5a059; background: #1e2a1e; }
+.price-tier:hover { border-color: #c5a059; background: #152230; }
 .price-tier__label {
     flex-shrink: 0;
-    background: #c5a059; color: #1a241a;
+    background: #c5a059; color: #111a24;
     padding: 6px 14px; border-radius: 4px;
     font-size: .8rem; font-weight: 700;
     white-space: nowrap; align-self: center;
 }
-.price-tier__label.tier-basic  { background: #5a645a; color: #dfdcd6; }
-.price-tier__label.tier-mid    { background: #c5a059; color: #1a241a; }
-.price-tier__label.tier-high   { background: #dcd0b8; color: #1a241a; }
+.price-tier__label.tier-basic  { background: #485666; color: #dfdcd6; }
+.price-tier__label.tier-mid    { background: #c5a059; color: #111a24; }
+.price-tier__label.tier-high   { background: #dcd0b8; color: #111a24; }
 .price-tier__body { flex-grow: 1; }
 .price-tier__body h4 { font-size: 1rem; color: #c5a059; margin: 0 0 6px; font-weight: 700; }
 .price-tier__body p  { font-size: .88rem; color: #b5b2ab; margin: 0; line-height: 1.65; }
@@ -146,10 +143,10 @@ faqs:
     white-space: nowrap; font-weight: 600;
 }
 
-/* 刻字說明 */
+/* 正統直書刻字卡片 */
 .engrave-card {
-    background: #162016;
-    border: 1px solid #2d3e2d;
+    background: #0d1620;
+    border: 1px solid #1e2d3d;
     border-left: 5px solid #c5a059;
     padding: clamp(20px, 3.5vw, 30px);
     border-radius: 0 4px 4px 0;
@@ -160,19 +157,28 @@ faqs:
     color: #c5a059; margin: 0 0 16px;
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
 }
-.engrave-sample {
-    font-family: 'Noto Serif TC', serif;
-    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
-    color: #dfdcd6;
-    line-height: 2.3;
-    padding: 20px;
-    background: #111811;
-    border: 1px solid #2d3e2d;
+.engrave-sample-container {
+    display: flex;
+    justify-content: center;
+    background: #070d14;
+    border: 1px solid #1e2d3d;
     border-radius: 4px;
-    text-align: center;
-    letter-spacing: 4px;
-    margin: 16px 0;
-    box-shadow: inset 0 2px 8px rgba(0,0,0,.5);
+    padding: 30px 20px;
+    margin: 20px 0;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,.6);
+}
+.engrave-sample-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.15rem, 2.8vw, 1.45rem);
+    color: #dfdcd6;
+    line-height: 2.4;
+    letter-spacing: 6px;
+    height: 280px; /* 控制直書高度 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .engrave-card p { font-size: clamp(.87rem, 2vw, .95rem); color: #b5b2ab; line-height: 1.85; margin: 0; }
 
@@ -180,11 +186,11 @@ faqs:
 .step-box {
     display: flex; gap: 20px; align-items: flex-start;
     padding: clamp(18px, 3vw, 26px);
-    background: #1a241a; border: 1px solid #2d3e2d;
+    background: #111a24; border: 1px solid #1e2d3d;
     border-radius: 4px; margin-bottom: 16px;
     transition: border-color .3s, box-shadow .3s;
 }
-.step-box:hover { border-color: #c5a059; box-shadow: 0 6px 22px rgba(0,0,0,.3); }
+.step-box:hover { border-color: #c5a059; box-shadow: 0 6px 22px rgba(0,0,0,.4); }
 .step-num {
     font-family: 'Playfair Display', 'Noto Serif TC', serif;
     font-style: italic; font-size: clamp(2rem, 4.5vw, 2.8rem);
@@ -208,7 +214,7 @@ faqs:
 /* 延伸閱讀 */
 .further-reading {
     margin-top: 54px; padding: 28px 24px;
-    background: #162016; border: 1px solid #2d3e2d; border-radius: 4px;
+    background: #0d1620; border: 1px solid #1e2d3d; border-radius: 4px;
 }
 .further-reading h3 {
     font-family: 'Noto Serif TC', serif;
@@ -233,10 +239,10 @@ faqs:
 .post-cta {
     margin-top: 72px;
     padding: clamp(36px, 5vw, 54px) clamp(24px, 5vw, 44px);
-    background: linear-gradient(135deg, #131b13 0%, #223222 100%);
+    background: linear-gradient(135deg, #090f14 0%, #152332 100%);
     color: #dfdcd6; border-radius: 4px; text-align: center;
     border: 1px solid rgba(197,160,89,.35);
-    box-shadow: 0 16px 44px rgba(0,0,0,.4);
+    box-shadow: 0 16px 44px rgba(0,0,0,.5);
 }
 .post-cta__title {
     color: #c5a059; font-size: clamp(1.3rem, 3.5vw, 1.85rem);
@@ -269,6 +275,8 @@ faqs:
     .price-tier { flex-wrap: wrap; gap: 14px; }
     .price-tier__price { width: 100%; text-align: right; }
     .post-cta__line { width: 100%; justify-content: center; }
+    .engrave-sample-container { padding: 20px 10px; }
+    .engrave-sample-vertical { height: 320px; font-size: 1.1rem; line-height: 2.1; }
 }
 </style>
 
@@ -323,7 +331,7 @@ faqs:
     <div class="material-card recommend">
         <span class="material-card__tag tag-classic">物理性最穩定</span>
         <h3>黑花崗石（花崗岩）</h3>
-        <p>屬於深層火成岩，主要成分為石英與長石。其最大特性是<strong>密度極高、吸水率近乎零（< 0.5%）</strong>。在台灣高溫高濕、甚至山區多霧的納骨塔環境中，黑花崗石完全不會因風化而質變。外觀呈沉穩的黑色帶微小結晶，莊嚴內斂。</p>
+        <p>屬於深層火成岩，主要成分為石英與長石。其最大特性是<strong>密度極高、吸水率近乎零（&lt; 0.5%）</strong>。在台灣高溫高濕、甚至山區多霧的納骨塔環境中，黑花崗石完全不會因風化而質變。外觀呈沉穩的黑色帶微小結晶，莊嚴內斂。</p>
         <span class="price-range">NT$5,000 — 25,000</span>
         <div class="pros-cons">
             <strong>莫氏硬度：</strong>約 6.0 級<br>
@@ -334,7 +342,7 @@ faqs:
     <div class="material-card">
         <span class="material-card__tag tag-premium">質地強韌首選</span>
         <h3>天然硬玉 / 軟玉（如：緬甸翡翠、碧玉）</h3>
-        <p>殯葬業界俗稱的「真玉」。包含緬甸輝玉（翡翠）與加拿大或台灣閃玉（碧玉、青玉）。天然玉石具有交織狀的晶體結構，簡稱<strong>「韌度」在所有石材中最高，極抗震、不易碎裂</strong>。色澤溫潤，其天然石紋象徵功德圓滿。</p>
+        <p>殯葬業界俗稱的「真玉」。包含緬甸輝玉（翡翠）與加拿大或台灣閃玉（碧玉、青玉）。天然玉石具有交織狀的晶體結構，其<strong>「韌度」在所有石材中最高，極抗震、不易碎裂</strong>。色澤溫潤，其天然石紋象徵功德圓滿。</p>
         <span class="price-range">NT$30,000 — 200,000+</span>
         <div class="pros-cons">
             <strong>莫氏硬度：</strong>6.5 — 7.0 級（石材中最高）<br>
@@ -346,7 +354,7 @@ faqs:
         <span class="material-card__tag tag-premium">珍稀半寶石</span>
         <h3>瑪瑙 / 木化石 / 水晶類</h3>
         <p>屬於二氧化矽隱晶質類（如紅瑪瑙、玉髓、黑曜石）或古生物化石。這類材質分子結構極緻密、硬度高。特別是瑪瑙與木化石，因歷經千萬年演化，外觀色彩絢麗奪目，水頭足，常作為尊榮客製化首選。</p>
-        <span class="price-range">NT$50,000 — 150,000</span>
+        <span class="price-range">NT$5,000 — 150,000</span>
         <div class="pros-cons">
             <strong>莫氏硬度：</strong>6.5 — 7.0 級<br>
             <strong>優點：</strong>色彩極其華麗、完全不吸水、防潮抗氧化度高<br>
@@ -365,7 +373,7 @@ faqs:
         </div>
     </div>
     <div class="material-card">
-        <span class="material-card__tag tag-ceramic">釉面防滲</span>
+        <span class="material-card__tag tag-classic">釉面防滲</span>
         <h3>高溫高級陶瓷 / 瓷器</h3>
         <p>經高溫瓷化燒製而成。陶瓷本身雖然怕重摔，但其表面覆蓋的<strong>「釉層」在化學性質上極其穩定，完全不透水、不吸濕、抗酸鹼</strong>。外觀可結合青花、霽藍描金、甚至是佛經釉燒，藝術溫馨感十足。</p>
         <span class="price-range">NT$6,000 — 45,000</span>
@@ -442,7 +450,7 @@ faqs:
             <tr>
                 <td><strong>環保葬專用</strong></td>
                 <td>水溶性紙漿、無毒澱粉膠</td>
-                <td>< 1.0</td>
+                <td>&lt; 1.0</td>
                 <td class="bad">☆☆☆☆☆ <span class="note">遇水即需分解</span></td>
                 <td class="bad">☆☆☆☆☆</td>
                 <td><strong>樹葬、花葬、海葬（法規強制）</strong></td>
@@ -463,20 +471,22 @@ faqs:
 
 ---
 
-## 五、骨灰罐刻字：最後的文字致敬與格式
+## 五、骨灰罐刻字：最後的文字致敬與正統格式
 
-刻字是骨灰罐最重要的細節，字數與用詞有著嚴格的禮俗規範。
+刻字是骨灰罐最重要的細節。依據台灣正統殯葬禮俗，骨灰罐面板字體**必須採直書（直式排版）**，格式與字數有著極嚴謹的規範。
 
 <div class="engrave-card">
-    <h4>標準火化骨灰罐刻字範例（以傳統格式為例）</h4>
-    <div class="engrave-sample">
-        顯考 陳公 大明 老大人之骨灰<br>
-        民國○○年○月○日生<br>
-        民國一一五年○月○日歿<br>
-        享壽八十有○歲<br>
-        孝男 ○○ 暨全體子孫 敬立
+    <h4>標準火化骨灰罐正統直書刻字範例（由右至左閱讀）</h4>
+    <div class="engrave-sample-container">
+        <div class="engrave-sample-vertical">
+            <div>孝男 〇〇 暨全體子孫 敬立</div>
+            <div>顯考 陳公 大明 老大人之骨灰</div>
+            <div>民國〇〇年〇月〇日生</div>
+            <div>民國一一五年〇月〇日歿</div>
+            <div>享壽八十有〇歲</div>
+        </div>
     </div>
-    <p><strong>⚠️ 實務重點：</strong>火化後的骨灰，正中央務必刻「之骨灰」或「之淨骨」；千萬不可誤刻為撿骨專用的「之靈骨」或「之金寶」。另外，總字數（如 11 字或 12 字）必須依照「生老病死苦」循序計算，最後一字需落在「生」或「老」字，俗稱<strong>「兩生抱一老」</strong>，強烈建議由祥安專業禮儀師為您親自排版計算。</p>
+    <p><strong>⚠️ 實務重點：</strong>火化後的骨灰，正中央（主行）務必刻「之骨灰」或「之淨骨」；千萬不可誤刻為撿骨專用的「之靈骨」或「之金寶」。另外，各行與總字數（如 11 字或 12 字）必須依照「生老病死苦」循序計算，最後一字需落在「生」或「老」字，俗稱<strong>「兩生抱一老」</strong>，強烈建議由祥安專業禮儀師為您親自排版與精密計算。</p>
 </div>
 
 **不同宗教之正面祝禱用語參考：**
@@ -568,7 +578,6 @@ faqs:
     <a href="tel:+886978583699" class="post-cta__tel">
         <i class="fas fa-phone-alt" aria-hidden="true"></i> 0978-583-699
     </a>
-    <!-- LINE ID：請將 @shiangan 替換為實際帳號 -->
     <a href="https://line.me/ti/p/@shiangan"
        target="_blank"
        rel="noopener noreferrer"
