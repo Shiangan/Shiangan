@@ -24,7 +24,7 @@ faqs:
 ---
 
 <style>
-/* ── 骨灰罐指南文章專屬樣式（星空藍品牌基調，無純白背景） ── */
+/* ── 骨灰罐指南文章專屬樣式（優化星空藍質感，全面去除死黑區塊） ── */
 
 .article-lead {
     font-size: clamp(.97rem, 2vw, 1.08rem);
@@ -140,7 +140,7 @@ faqs:
     white-space: nowrap; font-weight: 600;
 }
 
-/* ── 完美傳統直書刻字卡片 ── */
+/* ── 頂級星空藍質感直書刻字容器（徹底修正死黑問題） ── */
 .engrave-card {
     background: #0d1620;
     border: 1px solid #1e2d3d;
@@ -154,58 +154,63 @@ faqs:
     color: #e8c87a; margin: 0 0 16px;
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
 }
+
+/* 將原本死黑的黑底改為富有品牌層次的星空藍漸層（兼顧質感與清晰度） */
 .engrave-sample-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #070d14;
-    border: 1px solid #2a3a4d;
-    border-radius: 4px;
-    padding: 40px 24px;
+    background: linear-gradient(180deg, #101c2a 0%, #0a111a 100%);
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    border-radius: 6px;
+    padding: 48px 24px;
     margin: 20px 0;
-    box-shadow: inset 0 2px 12px rgba(0,0,0,.7);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 
-/* 
-  完美純直書排版：
-  1. writing-mode 搭配 direction: rtl，強制瀏覽器由右至左處理直列
-  2. 每一行以區塊級 span 垂直呈現，在直書下各 span 寬度即為一「列」
-*/
+/* 正統直書核心樣式：確保由右至左、一筆直下 */
 .engrave-sample-vertical {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     direction: rtl; 
     font-family: 'Noto Serif TC', serif;
-    color: #e8e5de;
-    line-height: 2.5;
+    color: #f2efe9;
+    line-height: 2.6;
     letter-spacing: 6px;
     min-height: 280px;
-    display: block;
-    text-align: start;
+    display: flex;
+    flex-direction: row; /* 在直書下，row 代表橫向並列每一列 */
+    justify-content: center;
     margin: 0 auto;
 }
+
 .engrave-sample-vertical .ev-col {
-    display: inline-block;
-    vertical-align: top;
-    padding: 0 12px;
+    display: block;
+    padding: 0 16px;
+    white-space: nowrap;
 }
-/* 中間主行（逝者姓名）：字體加大並填入典雅金 */
+
+/* 中間主行（逝者姓名）：填入典雅奢華金，字級加大，極致吸睛 */
 .engrave-sample-vertical .ev-col.main-col {
-    font-size: clamp(1.3rem, 3vw, 1.65rem);
+    font-size: clamp(1.35rem, 3.2vw, 1.75rem);
     color: #e8c87a;
     letter-spacing: 8px;
     font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
-/* 兩側副行（生卒與立碑）：大小適中 */
+
+/* 兩側副行（生卒年月日）：乳白溫潤色調，字體適中清晰 */
 .engrave-sample-vertical .ev-col.side-col {
-    font-size: clamp(1.05rem, 2.3vw, 1.25rem);
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+    color: #dfdcd6;
 }
-/* 結尾行（陽上子孫）：位置通常略為下落（以 padding 模擬） */
+
+/* 結尾行（陽上子孫）：位置依循傳統禮俗略為下落（以 padding 調整） */
 .engrave-sample-vertical .ev-col.sub-col {
-    font-size: clamp(.95rem, 2vw, 1.1rem);
-    color: #c0bcb5;
+    font-size: clamp(.95rem, 2.1vw, 1.1rem);
+    color: #b0aba2;
     letter-spacing: 4px;
-    padding-top: 40px; /* 傳統排版中立碑者名字會往下挪，更符合真實刻字美學 */
+    padding-top: 50px; 
 }
 
 .engrave-card p { font-size: clamp(.87rem, 2vw, .95rem); color: #ccc9c2; line-height: 1.85; margin: 0; }
@@ -303,17 +308,17 @@ faqs:
     .price-tier { flex-wrap: wrap; gap: 14px; }
     .price-tier__price { width: 100%; text-align: right; }
     .post-cta__line { width: 100%; justify-content: center; }
-    .engrave-sample-container { padding: 30px 12px; }
-    .engrave-sample-vertical { min-height: 300px; font-size: 1.05rem; line-height: 2.2; letter-spacing: 4px; }
-    .engrave-sample-vertical .ev-col { padding: 0 6px; }
-    .engrave-sample-vertical .ev-col.main-col { font-size: 1.25rem; letter-spacing: 6px; }
-    .engrave-sample-vertical .ev-col.sub-col { padding-top: 25px; font-size: .88rem; }
+    .engrave-sample-container { padding: 36px 12px; }
+    .engrave-sample-vertical { min-height: 300px; line-height: 2.3; letter-spacing: 4px; }
+    .engrave-sample-vertical .ev-col { padding: 0 8px; }
+    .engrave-sample-vertical .ev-col.main-col { font-size: 1.3rem; letter-spacing: 6px; }
+    .engrave-sample-vertical .ev-col.sub-col { padding-top: 35px; font-size: .88rem; }
 }
 </style>
 
 <!-- 引言 -->
 <div class="article-lead">
-    骨灰罐，是逝者最後的居所。它不只是一件器物，更承載著家屬對摯愛的思念與敬意。面對市面上琳瑯滿目的材質、尺寸與價格，許多家屬在最脆弱的時刻往往不知從何選起。<strong>祥安生命禮儀師陳妍如，為您整理最完整、資訊最精確的骨灰罐選購指南，讓這個重要的決定不再倉促，而是充滿愛與智慧。</strong>
+    骨灰罐，是逝者最後的居所。它不只是一件器物，更承載著家屬對摯愛的思念與敬意。面對市面上琳瑯滿目的材質、尺寸與價格，許多家屬在最脆弱的時刻往往不知從何選起。<strong>祥安生命禮儀師陳妍如，為您整理最完整、資訊最精確的骨灰罐選購指南，讓這個重要的決定不再倉惜，而是充滿愛與智慧。</strong>
 </div>
 
 <blockquote>
@@ -510,9 +515,9 @@ faqs:
     <h4>標準火化骨灰罐正統直書刻字範例（由右至左閱讀）</h4>
     <div class="engrave-sample-container">
         <div class="engrave-sample-vertical">
-            <span class="ev-col side-col">民國〇〇年〇月〇日生<br>民國一一五年〇月〇日歿</span>
-            <span class="ev-col main-col">顯考陳公大明老大人之骨灰</span>
-            <span class="ev-col sub-col">孝男 〇〇<br>暨全體子孫 敬立</span>
+            <div class="ev-col side-col">民國〇〇年〇月〇日生<br>民國一一五年〇月〇日歿</div>
+            <div class="ev-col main-col">顯考陳公大明老大人之骨灰</div>
+            <div class="ev-col sub-col">孝男 〇〇<br>暨全體子孫 敬立</div>
         </div>
     </div>
     <p><strong>⚠️ 實務重點：</strong>火化後的骨灰，正中央（主行）務必刻「之骨灰」或「之淨骨」；千萬不可誤刻為撿骨專用的「之靈骨」或「之金寶」。另外，各行與總字數（如 11 字或 12 字）必須依照「生老病死苦」循序計算，最後一字需落在「生」或「老」字，俗稱<strong>「兩生抱一老」</strong>，強烈建議由祥安專業禮儀師為您親自排版與精密計算。</p>
@@ -527,7 +532,7 @@ faqs:
 
 ## 六、骨灰罐價格區間與服務內容說明
 
-市面上骨灰罐價差極大，祥安生命禮儀秉持透明化原則，將市場主流價格帶分類如下：
+市面上骨灰罐價差極大，祥安生命禮儀稟持透明化原則，將市場主流價格帶分類如下：
 
 <ul class="price-tier-list">
     <li class="price-tier">
