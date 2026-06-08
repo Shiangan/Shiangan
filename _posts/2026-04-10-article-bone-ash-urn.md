@@ -24,27 +24,27 @@ faqs:
 ---
 
 <style>
-/* ── 骨灰罐指南文章專屬樣式（徹底拔除灰色色塊，全透明微光質感） ── */
+/* ── 骨灰罐指南文章專屬樣式（徹底拔除灰色、字體全面高亮純白/象牙白） ── */
 
 .article-lead {
     font-size: clamp(.97rem, 2vw, 1.08rem);
-    color: #dfdcd6;
+    color: #ffffff; /* 提升為純白，保證清晰可見 */
     border-left: 4px solid #c5a059;
     padding: 18px 24px; 
     margin-bottom: 44px;
-    background: transparent; /* 去除灰色，保持通透 */
+    background: transparent; 
     line-height: 1.9; 
 }
 .article-lead strong { color: #e8c87a; }
 
-/* 提示框改用無背景，僅由古典色彩邊框引導 */
+/* 提示框：字體全面高亮 */
 .tip-box {
     background: transparent; 
     border-left: 4px solid #c5a059;
     padding: 14px 22px; 
     margin: 28px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
-    color: #dfdcd6; 
+    color: #f5f4f0; /* 高亮象牙白 */
     line-height: 1.85; 
 }
 .tip-box strong { color: #e8c87a; }
@@ -55,7 +55,7 @@ faqs:
     padding: 14px 22px; 
     margin: 28px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
-    color: #e0cfc8; 
+    color: #fff0eb; /* 高亮淡桔白 */
     line-height: 1.85; 
 }
 .warn-box strong { color: #f08060; }
@@ -66,12 +66,12 @@ faqs:
     padding: 14px 22px; 
     margin: 28px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
-    color: #cce8cc; 
+    color: #effbef; /* 高亮淡綠白 */
     line-height: 1.85; 
 }
 .good-box strong { color: #6dcc6d; }
 
-/* 材質卡片群（完全透明背景，以微光邊框呈現） */
+/* 材質卡片群（完全透明背景，以微光邊框與高亮字呈現） */
 .material-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -79,8 +79,8 @@ faqs:
     margin: 32px 0;
 }
 .material-card {
-    background: transparent; /* 徹底告別一塊一塊的灰色底 */
-    border: 1px solid rgba(197, 160, 89, 0.2); /* 優雅極細絲線框 */
+    background: transparent; 
+    border: 1px solid rgba(197, 160, 89, 0.2); 
     border-radius: 4px; 
     padding: clamp(20px, 3vw, 26px);
     border-top: 3px solid #c5a059;
@@ -116,7 +116,7 @@ faqs:
 }
 .material-card p { 
     font-size: clamp(.85rem, 2vw, .93rem); 
-    color: #ccc9c2; 
+    color: #f5f4f0; /* 調亮文字 */
     line-height: 1.8; 
     margin: 0 0 16px; 
 }
@@ -131,13 +131,13 @@ faqs:
 }
 .pros-cons { 
     font-size: .82rem; 
-    color: #c0bcb5; 
+    color: #e5e5e5; /* 避免灰色，使用亮白灰色 */
     line-height: 1.8; 
     border-top: 1px solid rgba(197, 160, 89, 0.15); 
     padding-top: 14px; 
 }
 
-/* 比較表格（完全透明底，僅保留邊框線） */
+/* 比較表格（完全透明底，高亮文字） */
 .compare-table-wrap { 
     overflow-x: auto; 
     -webkit-overflow-scrolling: touch; 
@@ -165,7 +165,7 @@ faqs:
     padding: 14px 16px; 
     border-bottom: 1px solid rgba(197, 160, 89, 0.1); 
     vertical-align: top; 
-    color: #dfdcd6; 
+    color: #ffffff; /* 表格內文全白 */
     line-height: 1.7; 
 }
 .compare-table td:first-child { 
@@ -176,13 +176,13 @@ faqs:
     border-right: 1px solid rgba(197, 160, 89, 0.15); 
 }
 .compare-table tr:nth-child(even) td { 
-    background: transparent; /* 移除交錯灰色 */
+    background: transparent; 
 }
 .compare-table .good { color: #6dcc6d; font-weight: 700; }
 .compare-table .bad  { color: #f08060; }
-.compare-table .note { font-size: .78rem; color: #a8a49d; display: block; margin-top: 4px; }
+.compare-table .note { font-size: .78rem; color: #dfdcd6; display: block; margin-top: 4px; }
 
-/* 價格清單區（透明通透） */
+/* 價格清單區（透明通透、文字高亮） */
 .price-tier-list { list-style: none; padding: 0; margin: 28px 0; }
 .price-tier {
     display: flex; 
@@ -207,12 +207,12 @@ faqs:
     white-space: nowrap; 
     align-self: center;
 }
-.price-tier__label.tier-basic  { background: rgba(255,255,255,0.1); color: #dfdcd6; border: 1px solid rgba(255,255,255,0.15); }
+.price-tier__label.tier-basic  { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.15); }
 .price-tier__label.tier-mid    { background: #c5a059; color: #0d1218; }
 .price-tier__label.tier-high   { background: #dcd0b8; color: #0d1218; }
 .price-tier__body { flex-grow: 1; padding-left: 8px; }
 .price-tier__body h4 { font-size: 1.05rem; color: #e8c87a; margin: 0 0 6px; font-weight: 700; }
-.price-tier__body p  { font-size: .88rem; color: #ccc9c2; margin: 0; line-height: 1.7; }
+.price-tier__body p  { font-size: .88rem; color: #f5f4f0; margin: 0; line-height: 1.7; }
 .price-tier__price {
     flex-shrink: 0; 
     align-self: center;
@@ -238,7 +238,7 @@ faqs:
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
 }
 
-/* 刻字展示框：完全透明背景，以典雅金絲雙線框（double）封裝文字 */
+/* 刻字展示框 */
 .engrave-sample-container {
     display: flex;
     justify-content: center;
@@ -256,8 +256,8 @@ faqs:
     text-orientation: mixed;
     direction: rtl; 
     font-family: 'Noto Serif TC', serif;
-    line-height: 2.8;
-    letter-spacing: 6px;
+    line-height: 3.0; /* 加寬字距與行距，呈現高質感大器感 */
+    letter-spacing: 8px;
     min-height: 280px;
     display: flex;
     flex-direction: row; 
@@ -267,41 +267,41 @@ faqs:
 
 .engrave-sample-vertical .ev-col {
     display: block;
-    padding: 0 18px;
+    padding: 0 20px;
     white-space: nowrap;
 }
 
 /* 中間主行（逝者姓名）：填入明亮奢華金 */
 .engrave-sample-vertical .ev-col.main-col {
-    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+    font-size: clamp(1.45rem, 3.8vw, 1.85rem);
     color: #e8c87a;
-    letter-spacing: 8px;
+    letter-spacing: 10px;
     font-weight: 700;
 }
 
-/* 兩側副行（生卒年月日）：溫潤香檳金 */
+/* 兩側副行（生卒年月日）：高亮象牙白（確保不變灰） */
 .engrave-sample-vertical .ev-col.side-col {
     font-size: clamp(1.05rem, 2.4vw, 1.25rem);
-    color: #dcd0b8; 
+    color: #ffffff; 
 }
 
-/* 結尾行（陽上子孫） */
+/* 結尾行（一女一婿）：高亮溫潤白，且精準貼合底部排版 */
 .engrave-sample-vertical .ev-col.sub-col {
-    font-size: clamp(.95rem, 2.1vw, 1.1rem);
-    color: #bfae90;
-    letter-spacing: 4px;
-    padding-top: 55px; 
+    font-size: clamp(1.0rem, 2.2vw, 1.15rem);
+    color: #f5f4f0;
+    letter-spacing: 6px;
+    padding-top: 75px; /* 使敬立子孫字樣自然落於下方 */
 }
 
 .engrave-card p { 
     font-size: clamp(.87rem, 2vw, .95rem); 
-    color: #ccc9c2; 
+    color: #ffffff; 
     line-height: 1.85; 
     margin-top: 18px; 
 }
 .engrave-card strong { color: #f08060; }
 
-/* 步驟卡片（完全透明底，無灰色方塊） */
+/* 步驟卡片（文字高亮） */
 .step-box {
     display: flex; 
     gap: 20px; 
@@ -320,7 +320,7 @@ faqs:
     font-family: 'Playfair Display', 'Noto Serif TC', serif;
     font-style: italic; 
     font-size: clamp(2rem, 4.5vw, 2.6rem);
-    color: rgba(197, 160, 89, 0.5); 
+    color: rgba(197, 160, 89, 0.7); /* 加強數字亮度 */
     line-height: 1;
     flex-shrink: 0; 
     width: 40px; 
@@ -336,12 +336,12 @@ faqs:
 }
 .step-content p, .step-content ul {
     font-size: clamp(.88rem, 2vw, .95rem);
-    color: #dfdcd6; 
+    color: #ffffff; /* 全白 */
     line-height: 1.85; 
     margin: 0 0 10px;
 }
 .step-content ul { padding-left: 20px; }
-.step-content li { margin-bottom: 6px; color: #ccc9c2; }
+.step-content li { margin-bottom: 6px; color: #f5f4f0; }
 .step-content strong { color: #e8c87a; }
 
 /* 延伸閱讀區 */
@@ -371,7 +371,7 @@ faqs:
 .further-reading ul { list-style: none; padding: 0; margin: 0; }
 .further-reading li { margin-bottom: 14px; }
 .further-reading a {
-    color: #e8e5de; 
+    color: #ffffff; 
     text-decoration: none; 
     font-size: .95rem; 
     font-weight: 700;
@@ -380,14 +380,14 @@ faqs:
     transition: color .2s, border-color .2s;
 }
 .further-reading a:hover { color: #e8c87a; border-color: #c5a059; }
-.further-reading a span { font-size: .8rem; color: #a8a49d; margin-left: 10px; font-weight: 400; }
+.further-reading a span { font-size: .8rem; color: #dfdcd6; margin-left: 10px; font-weight: 400; }
 
 /* 底部 CTA */
 .post-cta {
     margin-top: 72px;
     padding: clamp(36px, 5vw, 48px) 20px;
     background: transparent; 
-    color: #dfdcd6; 
+    color: #ffffff; 
     text-align: center;
     border-top: 1px solid rgba(197,160,89,0.3);
     border-bottom: 1px solid rgba(197,160,89,0.3);
@@ -403,12 +403,12 @@ faqs:
     max-width: 580px; 
     margin: 0 auto 36px; 
     line-height: 1.9; 
-    color: #ccc9c2;
+    color: #f5f4f0;
 }
 .post-cta__tel {
     display: block; 
     font-size: clamp(1.6rem, 4vw, 2.2rem);
-    color: #f0ede8; 
+    color: #ffffff; 
     text-decoration: none; 
     font-weight: 800;
     margin-bottom: 24px; 
@@ -441,10 +441,10 @@ faqs:
     .price-tier__price { width: 100%; text-align: right; }
     .post-cta__line { width: 100%; justify-content: center; }
     .engrave-sample-container { padding: 40px 10px; }
-    .engrave-sample-vertical { min-height: 300px; line-height: 2.4; letter-spacing: 4px; }
+    .engrave-sample-vertical { min-height: 300px; line-height: 2.6; letter-spacing: 5px; }
     .engrave-sample-vertical .ev-col { padding: 0 10px; }
-    .engrave-sample-vertical .ev-col.main-col { font-size: 1.35rem; letter-spacing: 6px; }
-    .engrave-sample-vertical .ev-col.sub-col { padding-top: 40px; font-size: .88rem; }
+    .engrave-sample-vertical .ev-col.main-col { font-size: 1.35rem; letter-spacing: 7px; }
+    .engrave-sample-vertical .ev-col.sub-col { padding-top: 50px; font-size: .88rem; }
 }
 </style>
 
@@ -587,7 +587,7 @@ faqs:
                 <td><strong>天然玉石類</strong></td>
                 <td>緬甸翡翠、加拿大碧玉、青玉</td>
                 <td class="good">6.5 — 7.0</td>
-                <td>★★★★☆ <span class="note">有毛細孔</span></td>
+                <td>★★開位☆ <span class="note">有毛細孔</span></td>
                 <td class="good">★★★★★ <span class="note">結構交織最不易碎</span></td>
                 <td>室內公私立納骨塔</td>
             </tr>
@@ -644,12 +644,12 @@ faqs:
 刻字是骨灰罐最重要的細節。依據台灣正統殯葬禮俗，骨灰罐面板字體**必須採直書（直式排版）**，格式與字數有著極嚴謹的規範。
 
 <div class="engrave-card">
-    <h4>標準火化骨灰罐正統直書刻字範例（由右至左閱讀）</h4>
+    <h4>標準火化骨灰罐正統直書刻字範例（由右至左閱讀：一女一婿編排）</h4>
     <div class="engrave-sample-container">
         <div class="engrave-sample-vertical">
             <div class="ev-col side-col">民國〇〇年〇月〇日生<br>民國一一五年〇月〇日歿</div>
-            <div class="ev-col main-col">顯考陳公大明老大人之骨灰</div>
-            <div class="ev-col sub-col">孝男 〇〇<br>暨全體子孫 敬立</div>
+            <div class="ev-col main-col">顯妣陳媽〇〇〇女士之骨灰</div>
+            <div class="ev-col sub-col">孝女 〇〇<br>孝婿 〇〇 敬立</div>
         </div>
     </div>
     <p><strong>⚠️ 實務重點：</strong>火化後的骨灰，正中央（主行）務必刻「之骨灰」或「之淨骨」；千萬不可誤刻為撿骨專用的「之靈骨」或「之金寶」。另外，各行與總字數（如 11 字或 12 字）必須依照「生老病死苦」循序計算，最後一字需落在「生」或「老」字，俗稱<strong>「兩生抱一老」</strong>，強烈建議由專業禮儀團隊為您親自排版與精密計算。</p>
@@ -671,7 +671,7 @@ faqs:
         <div class="price-tier__label tier-basic">經濟基礎款</div>
         <div class="price-tier__body">
             <h4>黑花崗石標準罐 / 環保葬專用罐 / 基礎陶瓷罐</h4>
-            <p>外觀簡約素雅、功能完整。適合講求實用性、有編列預算控管，或是選擇辦理樹葬、海葬等環保葬的家庭，品質穩固不馬虎。</p>
+            <p>外觀簡約素雅、功能完整。適合講求實用性、有編列預算控管，或是選擇辦理樹葬、海葬等環保葬的家庭，品質穩供不馬虎。</p>
         </div>
         <div class="price-tier__price">NT$3,000 — 10,000</div>
     </li>
