@@ -24,257 +24,123 @@ faqs:
 ---
 
 <style>
-/* ══════════════════════════════════════════════════════════════════
-   骨灰罐指南文章專屬樣式
-   修正重點：
-   1. 刻字直書排版完全重構（移除 flex，改用 gap + 純直書）
-   2. 所有 Markdown **粗體** 在純 HTML 區塊改為 <strong> 標籤
-   3. compare-table 偶數行背景確保文字可見度
-   4. material-card__tag 文字顏色確保對比
-   5. warn-box / good-box / tip-box 文字顏色統一
-   6. 所有 .note 小字確保有足夠對比
-   ══════════════════════════════════════════════════════════════════ */
+/* ── 骨灰罐指南文章專屬樣式（星空藍品牌基調，無純白背景） ── */
 
-/* ── 引言區塊 ── */
 .article-lead {
     font-size: clamp(.97rem, 2vw, 1.08rem);
     color: #dfdcd6;
     border-left: 5px solid #c5a059;
-    padding: 20px 24px;
-    margin-bottom: 44px;
+    padding: 20px 24px; margin-bottom: 44px;
     background: rgba(197,160,89,.10);
-    line-height: 1.9;
-    border-radius: 0 4px 4px 0;
+    line-height: 1.9; border-radius: 0 4px 4px 0;
 }
 .article-lead strong { color: #e8c87a; }
 
-/* ── 提示框系列 ── */
 .tip-box {
-    background: #162436;
-    border-left: 4px solid #c5a059;
-    padding: 16px 20px;
-    margin: 24px 0;
+    background: #162436; border-left: 4px solid #c5a059;
+    padding: 16px 20px; margin: 24px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
-    color: #dfdcd6;
-    line-height: 1.85;
-    border-radius: 0 4px 4px 0;
+    color: #dfdcd6; line-height: 1.85; border-radius: 0 4px 4px 0;
 }
 .tip-box strong { color: #e8c87a; }
 
 .warn-box {
-    background: #2d1e1e;
-    border-left: 4px solid #c0522a;
-    padding: 16px 20px;
-    margin: 24px 0;
+    background: #2d1e1e; border-left: 4px solid #c0522a;
+    padding: 16px 20px; margin: 24px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
-    color: #e0cfc8;          /* 修正：原 #dfdcd6 在深棕背景上偏暗，改稍亮 */
-    line-height: 1.85;
-    border-radius: 0 4px 4px 0;
+    color: #e0cfc8; line-height: 1.85; border-radius: 0 4px 4px 0;
 }
-.warn-box strong { color: #f08060; }  /* 修正：原 #e06d45 對比不足，加亮 */
+.warn-box strong { color: #f08060; }
 
 .good-box {
-    background: #12221a;
-    border-left: 4px solid #3a8a3a;
-    padding: 16px 20px;
-    margin: 24px 0;
+    background: #12221a; border-left: 4px solid #3a8a3a;
+    padding: 16px 20px; margin: 24px 0;
     font-size: clamp(.87rem, 2vw, .95rem);
-    color: #cce8cc;          /* 修正：原 #dfdcd6 在深綠背景上辨識度低，改淡綠白 */
-    line-height: 1.85;
-    border-radius: 0 4px 4px 0;
+    color: #cce8cc; line-height: 1.85; border-radius: 0 4px 4px 0;
 }
-.good-box strong { color: #6dcc6d; }  /* 修正：原 #52a852 偏暗，加亮 */
+.good-box strong { color: #6dcc6d; }
 
-/* ── 材質卡片群 ── */
+/* 材質卡片群 */
 .material-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-    margin: 28px 0;
+    gap: 20px; margin: 28px 0;
 }
 .material-card {
-    background: #111a24;
-    border: 1px solid #1e2d3d;
-    border-radius: 4px;
-    padding: clamp(20px, 3vw, 28px);
+    background: #111a24; border: 1px solid #1e2d3d;
+    border-radius: 4px; padding: clamp(20px, 3vw, 28px);
     border-top: 4px solid #c5a059;
     transition: box-shadow .3s, border-color .3s, transform .2s;
 }
-.material-card:hover {
-    box-shadow: 0 8px 26px rgba(0,0,0,.5);
+.material-card:hover { 
+    box-shadow: 0 8px 26px rgba(0,0,0,.5); 
     border-color: #c5a059;
     transform: translateY(-2px);
 }
 .material-card.recommend { border-top-color: #c5a059; background: #0d1620; }
-
-/* 修正：標籤背景與文字顏色確保高對比 */
 .material-card__tag {
-    display: inline-block;
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 4px 10px;
-    border-radius: 2px;
+    display: inline-block; font-size: .72rem; font-weight: 700;
+    letter-spacing: 1px; padding: 4px 10px; border-radius: 2px;
     margin-bottom: 12px;
 }
-.material-card .tag-classic {
-    background: #c5a059;
-    color: #0d1218;   /* 深黑底色，確保金色背景上文字清晰 */
-}
-.material-card .tag-premium {
-    background: #dcd0b8;
-    color: #0d1218;   /* 深黑底色，確保淺米色背景上文字清晰 */
-}
-
+.material-card .tag-classic  { background: #c5a059; color: #0d1218; }
+.material-card .tag-premium  { background: #dcd0b8; color: #0d1218; }
 .material-card h3 {
     font-family: 'Noto Serif TC', serif;
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
-    color: #e8c87a;    /* 修正：原 #c5a059 在深色卡片上略暗，加亮確保可讀 */
-    margin: 0 0 12px;
+    color: #e8c87a; margin: 0 0 12px;
 }
-.material-card p {
-    font-size: clamp(.85rem, 2vw, .93rem);
-    color: #ccc9c2;    /* 修正：原 #b5b2ab 在 #111a24 上對比度僅 4.1:1，加亮至 5:1+ */
-    line-height: 1.8;
-    margin: 0 0 14px;
-}
+.material-card p { font-size: clamp(.85rem, 2vw, .93rem); color: #ccc9c2; line-height: 1.8; margin: 0 0 14px; }
 .price-range {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.05rem;
-    color: #e8c87a;
-    display: block;
-    margin-bottom: 12px;
-    font-weight: 600;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 1.05rem; color: #e8c87a; display: block; margin-bottom: 12px; font-weight: 600;
 }
-.pros-cons {
-    font-size: .82rem;
-    color: #b0ad a6;   /* 修正：確保小字可見 */
-    color: #c0bcb5;
-    line-height: 1.75;
-    border-top: 1px solid #1e2d3d;
-    padding-top: 12px;
-}
+.pros-cons { font-size: .82rem; color: #c0bcb5; line-height: 1.75; border-top: 1px solid #1e2d3d; padding-top: 12px; }
 
-/* ── 比較表格 ── */
-.compare-table-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 24px 0;
-    border: 1px solid #1e2d3d;
-    border-radius: 4px;
-}
+/* 比較表格 */
+.compare-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; border: 1px solid #1e2d3d; border-radius: 4px; }
 .compare-table {
-    width: 100%;
-    border-collapse: collapse;
+    width: 100%; border-collapse: collapse;
     min-width: 640px;
-    font-size: clamp(.85rem, 1.8vw, .93rem);
-    background: #0b1118;
+    font-size: clamp(.85rem, 1.8vw, .93rem); background: #0b1118;
 }
-.compare-table thead tr {
-    background: #141f2b;
-    border-bottom: 2px solid #1e2d3d;
-}
-.compare-table th {
-    padding: 14px 16px;
-    text-align: left;
-    font-weight: 700;
-    color: #e8c87a;   /* 修正：原 #c5a059 在深色表頭確保清晰 */
-}
-.compare-table td {
-    padding: 13px 16px;
-    border-bottom: 1px solid #1e2d3d;
-    vertical-align: top;
-    color: #dfdcd6;
-    line-height: 1.7;
-}
-.compare-table td:first-child {
-    font-weight: 700;
-    color: #e8c87a;
-    background: #111a24;
-    white-space: nowrap;
-    border-right: 1px solid #1e2d3d;
-}
-/* 修正：偶數行背景不可讓文字不可見 */
-.compare-table tr:nth-child(even) td:not(:first-child) {
-    background: #0e161f;
-    color: #dfdcd6;   /* 明確設定，確保偶數行文字不被覆蓋 */
-}
-.compare-table .good {
-    color: #6dcc6d;   /* 修正：原 #52a852 在深背景對比不足，加亮 */
-    font-weight: 700;
-}
-.compare-table .bad {
-    color: #f08060;   /* 修正：原 #e06d45 在深背景對比不足，加亮 */
-}
-/* 修正：.note 小字原本 #88847d 在深背景幾乎不可見，改為更亮的灰 */
-.compare-table .note {
-    font-size: .78rem;
-    color: #a8a49d;
-    display: block;
-    margin-top: 4px;
-}
+.compare-table thead tr { background: #141f2b; border-bottom: 2px solid #1e2d3d; }
+.compare-table th { padding: 14px 16px; text-align: left; font-weight: 700; color: #e8c87a; }
+.compare-table td { padding: 13px 16px; border-bottom: 1px solid #1e2d3d; vertical-align: top; color: #dfdcd6; line-height: 1.7; }
+.compare-table td:first-child { font-weight: 700; color: #e8c87a; background: #111a24; white-space: nowrap; border-right: 1px solid #1e2d3d; }
+.compare-table tr:nth-child(even) td:not(:first-child) { background: #0e161f; color: #dfdcd6; }
+.compare-table .good { color: #6dcc6d; font-weight: 700; }
+.compare-table .bad  { color: #f08060; }
+.compare-table .note { font-size: .78rem; color: #a8a49d; display: block; margin-top: 4px; }
 
-/* ── 價格區間視覺 ── */
+/* 價格區間視覺 */
 .price-tier-list { list-style: none; padding: 0; margin: 24px 0; }
 .price-tier {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding: 20px;
-    margin-bottom: 12px;
-    background: #111a24;
-    border: 1px solid #1e2d3d;
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 20px; margin-bottom: 12px;
+    background: #111a24; border: 1px solid #1e2d3d;
     border-radius: 4px;
     transition: border-color .3s, background .3s;
 }
 .price-tier:hover { border-color: #c5a059; background: #152230; }
 .price-tier__label {
-    flex-shrink: 0;
-    padding: 6px 14px;
-    border-radius: 4px;
-    font-size: .8rem;
-    font-weight: 700;
-    white-space: nowrap;
-    align-self: center;
+    flex-shrink: 0; padding: 6px 14px; border-radius: 4px;
+    font-size: .8rem; font-weight: 700; white-space: nowrap; align-self: center;
 }
-.price-tier__label.tier-basic {
-    background: #485666;
-    color: #f0ede8;   /* 修正：原 #dfdcd6 在 #485666 對比略低，加亮 */
-}
-.price-tier__label.tier-mid {
-    background: #c5a059;
-    color: #0d1218;   /* 修正：確保金色背景深色文字 */
-}
-.price-tier__label.tier-high {
-    background: #dcd0b8;
-    color: #0d1218;   /* 修正：確保米色背景深色文字 */
-}
+.price-tier__label.tier-basic  { background: #485666; color: #f0ede8; }
+.price-tier__label.tier-mid    { background: #c5a059; color: #0d1218; }
+.price-tier__label.tier-high   { background: #dcd0b8; color: #0d1218; }
 .price-tier__body { flex-grow: 1; }
-.price-tier__body h4 {
-    font-size: 1rem;
-    color: #e8c87a;
-    margin: 0 0 6px;
-    font-weight: 700;
-}
-.price-tier__body p {
-    font-size: .88rem;
-    color: #ccc9c2;   /* 修正：原 #b5b2ab 加亮 */
-    margin: 0;
-    line-height: 1.65;
-}
+.price-tier__body h4 { font-size: 1rem; color: #e8c87a; margin: 0 0 6px; font-weight: 700; }
+.price-tier__body p  { font-size: .88rem; color: #ccc9c2; margin: 0; line-height: 1.65; }
 .price-tier__price {
-    flex-shrink: 0;
-    align-self: center;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
-    color: #e8c87a;
-    white-space: nowrap;
-    font-weight: 600;
+    flex-shrink: 0; align-self: center;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: clamp(1.05rem, 2.5vw, 1.25rem); color: #e8c87a;
+    white-space: nowrap; font-weight: 600;
 }
 
-/* ── 刻字卡片（完全重構直書排版）── */
+/* ── 完美傳統直書刻字卡片 ── */
 .engrave-card {
     background: #0d1620;
     border: 1px solid #1e2d3d;
@@ -285,8 +151,7 @@ faqs:
 }
 .engrave-card h4 {
     font-family: 'Noto Serif TC', serif;
-    color: #e8c87a;
-    margin: 0 0 16px;
+    color: #e8c87a; margin: 0 0 16px;
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
 }
 .engrave-sample-container {
@@ -296,206 +161,141 @@ faqs:
     background: #070d14;
     border: 1px solid #2a3a4d;
     border-radius: 4px;
-    padding: 36px 24px;
+    padding: 40px 24px;
     margin: 20px 0;
     box-shadow: inset 0 2px 12px rgba(0,0,0,.7);
-    min-height: 280px;
 }
 
-/*
-  直書刻字完全修正：
-  - writing-mode: vertical-rl  → 由右至左直書
-  - 每行用 <div> 包裹，直書時每個 div 是一「列」
-  - direction: rtl 讓整體從右讀到左
-  - 移除原本錯誤的 flex-direction: column（與直書衝突）
+/* 
+  完美純直書排版：
+  1. writing-mode 搭配 direction: rtl，強制瀏覽器由右至左處理直列
+  2. 每一行以區塊級 span 垂直呈現，在直書下各 span 寬度即為一「列」
 */
 .engrave-sample-vertical {
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    direction: rtl;            /* 修正：確保由右至左排列（右行→左行） */
+    direction: rtl; 
     font-family: 'Noto Serif TC', serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-    color: #e8e5de;            /* 修正：加亮文字，原 #dfdcd6 在 #070d14 對比需確認 */
-    line-height: 2.2;
-    letter-spacing: 5px;
-    /* 移除 height 限制改用 min-height，避免長內容被截斷 */
-    min-height: 240px;
-    max-height: 380px;
-    /* 移除錯誤的 flex 屬性 */
+    color: #e8e5de;
+    line-height: 2.5;
+    letter-spacing: 6px;
+    min-height: 280px;
     display: block;
     text-align: start;
+    margin: 0 auto;
 }
-
-/* 直書內各行樣式 */
 .engrave-sample-vertical .ev-col {
-    display: inline-block;  /* 在直書模式下，inline-block 形成各「列」 */
-    padding: 0 8px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 12px;
 }
-/* 主行（逝者姓名）加大字號與金色 */
+/* 中間主行（逝者姓名）：字體加大並填入典雅金 */
 .engrave-sample-vertical .ev-col.main-col {
-    font-size: clamp(1.25rem, 2.8vw, 1.55rem);
+    font-size: clamp(1.3rem, 3vw, 1.65rem);
     color: #e8c87a;
-    letter-spacing: 7px;
+    letter-spacing: 8px;
+    font-weight: 700;
 }
-/* 小字行（立碑者）縮小字號 */
-.engrave-sample-vertical .ev-col.small-col {
-    font-size: clamp(.88rem, 2vw, 1.0rem);
+/* 兩側副行（生卒與立碑）：大小適中 */
+.engrave-sample-vertical .ev-col.side-col {
+    font-size: clamp(1.05rem, 2.3vw, 1.25rem);
+}
+/* 結尾行（陽上子孫）：位置通常略為下落（以 padding 模擬） */
+.engrave-sample-vertical .ev-col.sub-col {
+    font-size: clamp(.95rem, 2vw, 1.1rem);
     color: #c0bcb5;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
+    padding-top: 40px; /* 傳統排版中立碑者名字會往下挪，更符合真實刻字美學 */
 }
 
-.engrave-card p {
-    font-size: clamp(.87rem, 2vw, .95rem);
-    color: #ccc9c2;   /* 修正：原 #b5b2ab 加亮 */
-    line-height: 1.85;
-    margin: 0;
-}
-.engrave-card strong {
-    color: #f08060;   /* 修正：確保 ⚠️ 重點文字醒目 */
-}
+.engrave-card p { font-size: clamp(.87rem, 2vw, .95rem); color: #ccc9c2; line-height: 1.85; margin: 0; }
+.engrave-card strong { color: #f08060; }
 
-/* ── 步驟卡片 ── */
+/* 步驟卡片 */
 .step-box {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+    display: flex; gap: 20px; align-items: flex-start;
     padding: clamp(18px, 3vw, 26px);
-    background: #111a24;
-    border: 1px solid #1e2d3d;
-    border-radius: 4px;
-    margin-bottom: 16px;
+    background: #111a24; border: 1px solid #1e2d3d;
+    border-radius: 4px; margin-bottom: 16px;
     transition: border-color .3s, box-shadow .3s;
 }
 .step-box:hover { border-color: #c5a059; box-shadow: 0 6px 22px rgba(0,0,0,.4); }
 .step-num {
     font-family: 'Playfair Display', 'Noto Serif TC', serif;
-    font-style: italic;
-    font-size: clamp(2rem, 4.5vw, 2.8rem);
-    color: rgba(197,160,89,.35);  /* 修正：原 .25 太淡，改 .35 */
-    line-height: 1;
-    flex-shrink: 0;
-    width: 48px;
-    text-align: center;
-    margin-top: 2px;
+    font-style: italic; font-size: clamp(2rem, 4.5vw, 2.8rem);
+    color: rgba(197,160,89,.35); line-height: 1;
+    flex-shrink: 0; width: 48px; text-align: center; margin-top: 2px;
 }
 .step-content { flex-grow: 1; }
 .step-content h3 {
     font-family: 'Noto Serif TC', serif;
     font-size: clamp(1.05rem, 2.3vw, 1.2rem);
-    color: #e8c87a;
-    margin: 0 0 10px;
+    color: #e8c87a; margin: 0 0 10px;
 }
-.step-content p,
-.step-content ul {
+.step-content p, .step-content ul {
     font-size: clamp(.88rem, 2vw, .95rem);
-    color: #dfdcd6;
-    line-height: 1.85;
-    margin: 0 0 10px;
+    color: #dfdcd6; line-height: 1.85; margin: 0 0 10px;
 }
 .step-content ul { padding-left: 20px; }
-.step-content li {
-    margin-bottom: 6px;
-    color: #ccc9c2;   /* 修正：原 #b5b2ab 加亮 */
-}
+.step-content li { margin-bottom: 6px; color: #ccc9c2; }
 .step-content strong { color: #e8c87a; }
 
-/* ── 延伸閱讀 ── */
+/* 延伸閱讀 */
 .further-reading {
-    margin-top: 54px;
-    padding: 28px 24px;
-    background: #0d1620;
-    border: 1px solid #1e2d3d;
-    border-radius: 4px;
+    margin-top: 54px; padding: 28px 24px;
+    background: #0d1620; border: 1px solid #1e2d3d; border-radius: 4px;
 }
 .further-reading h3 {
     font-family: 'Noto Serif TC', serif;
-    font-size: 1.05rem;
-    color: #e8c87a;
-    margin: 0 0 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    font-size: 1.05rem; color: #e8c87a; margin: 0 0 16px;
+    display: flex; align-items: center; gap: 12px;
 }
 .further-reading h3::before {
-    content: '';
-    display: inline-block;
-    width: 32px;
-    height: 1.5px;
-    background: #c5a059;
-    flex-shrink: 0;
+    content: ''; display: inline-block;
+    width: 32px; height: 1.5px; background: #c5a059; flex-shrink: 0;
 }
 .further-reading ul { list-style: none; padding: 0; margin: 0; }
 .further-reading li { margin-bottom: 12px; }
 .further-reading a {
-    color: #e8e5de;   /* 修正：原 #dfdcd6 加亮確保連結可見 */
-    text-decoration: none;
-    font-size: .95rem;
-    font-weight: 700;
-    border-bottom: 1.5px solid rgba(197,160,89,.4);
-    padding-bottom: 2px;
+    color: #e8e5de; text-decoration: none; font-size: .95rem; font-weight: 700;
+    border-bottom: 1.5px solid rgba(197,160,89,.4); padding-bottom: 2px;
     transition: color .2s, border-color .2s;
 }
 .further-reading a:hover { color: #e8c87a; border-color: #c5a059; }
-.further-reading a span {
-    font-size: .8rem;
-    color: #a8a49d;   /* 修正：原 #88847d 太暗，加亮 */
-    margin-left: 10px;
-    font-weight: 400;
-}
+.further-reading a span { font-size: .8rem; color: #a8a49d; margin-left: 10px; font-weight: 400; }
 
-/* ── 底部 CTA ── */
+/* 底部 CTA */
 .post-cta {
     margin-top: 72px;
     padding: clamp(36px, 5vw, 54px) clamp(24px, 5vw, 44px);
     background: linear-gradient(135deg, #090f14 0%, #152332 100%);
-    color: #dfdcd6;
-    border-radius: 4px;
-    text-align: center;
+    color: #dfdcd6; border-radius: 4px; text-align: center;
     border: 1px solid rgba(197,160,89,.4);
     box-shadow: 0 16px 44px rgba(0,0,0,.5);
 }
 .post-cta__title {
-    color: #e8c87a;
-    font-size: clamp(1.3rem, 3.5vw, 1.85rem);
-    margin: 0 0 14px;
-    font-family: 'Noto Serif TC', serif;
+    color: #e8c87a; font-size: clamp(1.3rem, 3.5vw, 1.85rem);
+    margin: 0 0 14px; font-family: 'Noto Serif TC', serif;
 }
 .post-cta__desc {
-    font-size: clamp(.92rem, 2vw, 1.08rem);
-    color: #ccc9c2;   /* 修正：原 #b5b2ab 加亮 */
-    max-width: 580px;
-    margin: 0 auto 36px;
-    line-height: 1.9;
+    font-size: clamp(.92rem, 2vw, 1.08rem); max-width: 580px; margin: 0 auto 36px; line-height: 1.9; color: #ccc9c2;
 }
 .post-cta__tel {
-    display: block;
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    color: #f0ede8;   /* 修正：原 #dfdcd6 加亮 */
-    text-decoration: none;
-    font-weight: 800;
-    margin-bottom: 24px;
-    letter-spacing: 2px;
-    transition: color .3s;
+    display: block; font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: #f0ede8; text-decoration: none; font-weight: 800;
+    margin-bottom: 24px; letter-spacing: 2px; transition: color .3s;
 }
 .post-cta__tel i { color: #e8c87a; margin-right: 12px; }
 .post-cta__tel:hover { color: #e8c87a; }
 .post-cta__line {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: #06C755;
-    padding: 14px 40px;
-    font-size: 1rem;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 700;
-    box-shadow: 0 6px 20px rgba(6,199,85,.3);
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #06C755; padding: 14px 40px; font-size: 1rem;
+    color: #fff; text-decoration: none; border-radius: 50px;
+    font-weight: 700; box-shadow: 0 6px 20px rgba(6,199,85,.3);
     transition: background .3s, transform .3s;
 }
 .post-cta__line:hover { background: #05b04a; transform: translateY(-2px); }
 
-/* ── RWD ── */
 @media (max-width: 600px) {
     .material-grid { grid-template-columns: 1fr; }
     .step-box { flex-direction: column; gap: 12px; }
@@ -503,14 +303,11 @@ faqs:
     .price-tier { flex-wrap: wrap; gap: 14px; }
     .price-tier__price { width: 100%; text-align: right; }
     .post-cta__line { width: 100%; justify-content: center; }
-    .engrave-sample-container { padding: 24px 12px; }
-    .engrave-sample-vertical {
-        font-size: 1rem;
-        line-height: 2.0;
-        letter-spacing: 4px;
-    }
-    .engrave-sample-vertical .ev-col.main-col { font-size: 1.15rem; }
-    .engrave-sample-vertical .ev-col.small-col { font-size: .82rem; }
+    .engrave-sample-container { padding: 30px 12px; }
+    .engrave-sample-vertical { min-height: 300px; font-size: 1.05rem; line-height: 2.2; letter-spacing: 4px; }
+    .engrave-sample-vertical .ev-col { padding: 0 6px; }
+    .engrave-sample-vertical .ev-col.main-col { font-size: 1.25rem; letter-spacing: 6px; }
+    .engrave-sample-vertical .ev-col.sub-col { padding-top: 25px; font-size: .88rem; }
 }
 </style>
 
@@ -711,25 +508,13 @@ faqs:
 
 <div class="engrave-card">
     <h4>標準火化骨灰罐正統直書刻字範例（由右至左閱讀）</h4>
-
-    <!-- 
-        直書修正說明：
-        writing-mode: vertical-rl + direction: rtl
-        各 .ev-col 是一「直列」，由右向左排列
-        閱讀順序（右→左）：
-          第一列（右）：生歿年、月、日、時
-          第二列（中）：顯考陳公諱名大明府君靈骨（主行，字大且金色）
-          第三列（左）：陽上子孫永奉祀
-    -->
     <div class="engrave-sample-container">
         <div class="engrave-sample-vertical">
-            <span class="ev-col small-col">生歿年、月、日、時</span>
-            <span class="ev-col main-col">顯考　陳公　諱名 大明　府君 靈骨</span>
-            
-            <span class="ev-col small-col">陽上子孫永奉祀</span>
+            <span class="ev-col side-col">民國〇〇年〇月〇日生<br>民國一一五年〇月〇日歿</span>
+            <span class="ev-col main-col">顯考陳公大明老大人之骨灰</span>
+            <span class="ev-col sub-col">孝男 〇〇<br>暨全體子孫 敬立</span>
         </div>
     </div>
-
     <p><strong>⚠️ 實務重點：</strong>火化後的骨灰，正中央（主行）務必刻「之骨灰」或「之淨骨」；千萬不可誤刻為撿骨專用的「之靈骨」或「之金寶」。另外，各行與總字數（如 11 字或 12 字）必須依照「生老病死苦」循序計算，最後一字需落在「生」或「老」字，俗稱<strong>「兩生抱一老」</strong>，強烈建議由祥安專業禮儀師為您親自排版與精密計算。</p>
 </div>
 
