@@ -2,29 +2,33 @@
 layout: null
 permalink: /deed01.html/
 ---
+
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>國民專案 6.8萬 | 祥安生命 - 新北台北桃園專業殯葬禮儀服務</title>
-    <meta name="description" content="祥安生命「國民專案」售價 68,000 元，提供最透明的禮儀服務清單。包含臨終關懷、大體接運、靈位設置、入殮封棺及告別奠禮，由國家認證禮儀師全程守護，服務範圍涵蓋北北基桃。">
-    
+    <title>國民專案 68,000 元｜祥安生命 - 新北・台北・桃園專業殯葬禮儀服務</title>
+    <meta name="description" content="祥安生命「國民專案」68,000 元，提供最透明完整的治喪服務。含臨終關懷、大體接運、入殮封棺、告別奠禮、火化晉塔，由國家認證禮儀師全程守護，服務範圍涵蓋北北基桃。">
+    <meta name="keywords" content="殯葬, 國民專案, 68,000, 告別式, 火化, 禮儀社, 新北, 台北, 桃園">
+    <meta name="robots" content="index, follow">
+
     {% include head.html %}
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org/",
-      "@type": "Product",
+      "@context": "https://schema.org",
+      "@type": "Service",
       "name": "祥安生命 國民專案",
-      "image": "{{ site.url }}{{ site.baseurl }}/images/og-default.jpg",
-      "description": "專業、尊嚴、透明的 6.8 萬國民禮儀專案，含完整治喪流程。",
-      "brand": {
-        "@type": "Brand",
-        "name": "祥安生命"
+      "description": "專業、透明、尊嚴的 68,000 元完整治喪服務，由國家認證禮儀師全程陪伴。",
+      "provider": {
+        "@type": "Organization",
+        "name": "祥安生命",
+        "url": "{{ site.url }}"
       },
+      "areaServed": ["新北市", "台北市", "桃園市", "基隆市"],
       "offers": {
         "@type": "Offer",
         "url": "{{ page.url | absolute_url }}",
@@ -40,148 +44,156 @@ permalink: /deed01.html/
         :root {
             --soft-bg: #F9F9F7;
             --border-color: #E0E0DB;
-            --accent: #a88e6a; /* 沿用您的品牌金 */
+            --accent: #a88e6a;
             --deep-ink: #1e1e1e;
+            --text-light: #666;
         }
 
-        /* 頂部視覺區 */
         .plan-hero {
-            padding: 140px 0 80px;
-            background: linear-gradient(rgba(249, 249, 247, 0.8), rgba(255, 255, 255, 1));
+            padding: 160px 20px 100px;
+            background: linear-gradient(to bottom, rgba(249,249,247,0.95), #ffffff);
             text-align: center;
+            position: relative;
         }
 
         .plan-badge {
             display: inline-block;
             border: 1px solid var(--accent);
             color: var(--accent);
-            padding: 4px 16px;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
+            padding: 6px 20px;
+            font-size: 0.9rem;
+            letter-spacing: 2.5px;
             font-weight: 700;
+            border-radius: 2px;
+            margin-bottom: 24px;
         }
 
-        /* 契約內容容器 */
         .contract-wrapper {
-            max-width: 1000px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 20px 120px;
         }
 
-        /* 分類塊設計 */
         .contract-section {
             display: grid;
-            grid-template-columns: 220px 1fr;
+            grid-template-columns: 240px 1fr;
+            gap: 60px;
             border-top: 1px solid var(--border-color);
-            padding: 40px 0;
+            padding: 48px 0;
         }
 
         .section-info h3 {
             font-family: 'Noto Serif TC', serif;
-            font-size: 1.4rem;
+            font-size: 1.55rem;
             color: var(--deep-ink);
-            margin-bottom: 10px;
+            margin: 0 0 8px 0;
         }
 
-        .section-info .item-count {
+        .item-count {
             font-family: 'Work Sans', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: var(--accent);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
         }
 
-        /* 細項清單 */
         .detail-list {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px 40px;
         }
 
         .detail-item h4 {
-            font-size: 1.05rem;
+            font-size: 1.08rem;
             font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
+            color: #222;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
         }
 
         .detail-item h4::before {
             content: "";
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             background: var(--accent);
-            margin-right: 12px;
             border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
         }
 
         .detail-item p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #666;
+            font-size: 0.97rem;
+            line-height: 1.85;
+            color: var(--text-light);
             margin: 0;
         }
 
-        /* 總價區 */
         .price-summary {
             background: var(--deep-ink);
             color: #fff;
-            padding: 80px 40px;
+            padding: 100px 40px 90px;
             text-align: center;
-            margin-top: 40px;
             position: relative;
             overflow: hidden;
+            margin: 60px 0;
         }
 
         .price-summary h2 {
             font-family: 'Noto Serif TC', serif;
-            font-size: 2.5rem;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-        }
-
-        .price-summary p {
-            opacity: 0.7;
-            font-size: 1rem;
-            letter-spacing: 2px;
+            font-size: 2.8rem;
+            letter-spacing: 6px;
+            margin: 12px 0 16px;
         }
 
         .watermark {
             position: absolute;
-            font-size: 8rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.03);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            font-size: 9.5rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.04);
             white-space: nowrap;
             pointer-events: none;
+            user-select: none;
         }
 
-        /* 備註卡片 */
         .note-card {
             background: var(--soft-bg);
-            padding: 40px;
-            margin-top: 40px;
-            border-radius: 4px;
-            border-left: 4px solid var(--accent);
+            padding: 48px;
+            border-radius: 6px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
         }
 
         .note-card h5 {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
             color: var(--deep-ink);
         }
 
+        /* 提升可讀性 */
+        ul {
+            padding-left: 22px;
+        }
+
         @media (max-width: 768px) {
-            .contract-section { grid-template-columns: 1fr; gap: 20px; padding: 30px 0; }
-            .detail-list { grid-template-columns: 1fr; gap: 20px; }
-            .plan-hero { padding: 100px 0 50px; }
-            .plan-hero h1 { font-size: 2.2rem !important; }
-            .price-summary h2 { font-size: 1.8rem; }
+            .contract-section {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 40px 0;
+            }
+            .detail-list {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .plan-hero { padding: 120px 20px 70px; }
+            .plan-hero h1 { font-size: 2.35rem !important; }
+            .price-summary h2 { font-size: 2.1rem; }
+            .price-summary { padding: 80px 20px; }
         }
     </style>
 </head>
@@ -192,15 +204,19 @@ permalink: /deed01.html/
     <main>
         <section class="plan-hero">
             <div class="wrapper">
-                <span class="plan-badge reveal">國家認證禮儀師團隊</span>
-                <h1 class="reveal" style="font-family: 'Noto Serif TC', serif; font-size: 3.5rem; color: var(--deep-ink);">國民專案 6.8 萬</h1>
-                <p class="reveal" style="font-size: 1.1rem; color: #888; margin-top: 20px;">以人性為起點，在尊嚴與平靜中圓滿人生謝幕</p>
+                <span class="plan-badge">國家認證禮儀師團隊</span>
+                <h1 style="font-family: 'Noto Serif TC', serif; font-size: 3.6rem; color: var(--deep-ink); line-height: 1.15;">
+                    國民專案<br>68,000 元
+                </h1>
+                <p style="font-size: 1.15rem; color: #777; max-width: 620px; margin: 28px auto 0;">
+                    以人性為起點，在尊嚴與平靜中圓滿人生最後一程
+                </p>
             </div>
         </section>
 
         <section class="contract-wrapper">
             
-            <div class="contract-section reveal">
+            <div class="contract-section">
                 <div class="section-info">
                     <span class="item-count">PHASE 01</span>
                     <h3>臨終與接運</h3>
@@ -208,16 +224,16 @@ permalink: /deed01.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>諮詢規劃</h4>
-                        <p>專屬禮儀師 1 名全程陪伴，提供 24 小時臨終關懷、治喪流程說明與禮儀諮詢。</p>
+                        <p>專屬禮儀師全程陪伴，提供 24 小時臨終關懷、治喪流程說明與家屬情緒支持。</p>
                     </div>
                     <div class="detail-item">
                         <h4>大體接運</h4>
-                        <p>接體人員 1 名、專業接體車 1 輛（限接送至殯儀館）、隨車陀羅尼經被、高級專用屍袋。</p>
+                        <p>專業接體人員、專用接體車、陀羅尼經被、高級屍袋，限接送至指定殯儀館。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="contract-section reveal">
+            <div class="contract-section">
                 <div class="section-info">
                     <span class="item-count">PHASE 02</span>
                     <h3>豎靈服務</h3>
@@ -225,20 +241,20 @@ permalink: /deed01.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>靈位設置</h4>
-                        <p>依場地安排安靈室、15 吋遺照放大（精緻內框）、靈位牌、招魂旛、竹子、童男女。</p>
+                        <p>安靈室布置、15 吋遺照放大（精緻內框）、靈位牌、招魂旛、竹子、童男女。</p>
                     </div>
                     <div class="detail-item">
                         <h4>安靈法事</h4>
-                        <p>資深引魂師父 1 名進行引魂儀式，禮儀師引導家屬講解祭拜流程與禁忌。</p>
+                        <p>資深引魂師父主持引魂儀式，禮儀師詳細解說祭拜流程與注意事項。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>專用消耗品</h4>
-                        <p>優質環保香、各類紙錢、24H 唸佛機、安靈鮮花、四樣素果。</p>
+                        <h4>消耗用品</h4>
+                        <p>環保香、紙錢、24H 唸佛機、安靈鮮花、四樣素果。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="contract-section reveal">
+            <div class="contract-section">
                 <div class="section-info">
                     <span class="item-count">PHASE 03</span>
                     <h3>入殮封棺</h3>
@@ -246,41 +262,41 @@ permalink: /deed01.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>大體護理</h4>
-                        <p>專業大體淨身、穿衣，含專業大體化妝師 1 名、入殮人員 2 名、大殮封棺師父 1 名。</p>
+                        <p>專業淨身、穿衣、化妝（含大體化妝師），入殮人員 2 名 + 大殮封棺師父 1 名。</p>
                     </div>
                     <div class="detail-item">
                         <h4>壽材與配件</h4>
-                        <p>高級西式火化環保棺（整具火化）、精選中式/西式壽衣（男、女款任選）、刺繡蓮花水被組。</p>
+                        <p>高級西式火化環保棺、精選中/西式壽衣（男女款任選）、刺繡蓮花水被組。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>隨身與壽內</h4>
-                        <p>隨身庫錢 5000 萬、完整壽內用品組（梳子、扇子、鏡子、過山褲、棺底蓆、口含銀等）。</p>
+                        <h4>壽內用品</h4>
+                        <p>隨身庫錢 5000 萬 + 完整壽內組（梳子、扇子、鏡子、過山褲、棺底蓆、口含銀等）。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="contract-section reveal">
+            <div class="contract-section">
                 <div class="section-info">
                     <span class="item-count">PHASE 04</span>
                     <h3>告別奠禮</h3>
                 </div>
                 <div class="detail-list">
                     <div class="detail-item">
-                        <h4>式場佈置</h4>
-                        <p>6 呎精緻鮮花式場、西式優雅牌樓、獻花圈、收付處整體佈置、現場洗淨水服務。</p>
+                        <h4>式場布置</h4>
+                        <p>6 呎精緻鮮花式場、西式優雅牌樓、獻花圈、收付處布置、現場洗淨水服務。</p>
                     </div>
                     <div class="detail-item">
                         <h4>奠禮執行</h4>
-                        <p>誦經師父 1 名（出殯迴向與圓七）、親屬黑袍 10 套提供、禮簿、謝卡等文具耗材。</p>
+                        <p>誦經師父（含出殯迴向與圓七）、親屬黑袍 10 套、禮簿、謝卡等文具耗材。</p>
                     </div>
                     <div class="detail-item">
                         <h4>祭品供奉</h4>
-                        <p>標準三牲、季節水果、12 菜碗（葷素可任選）、米酒、奠禮專用金銀紙與香燭。</p>
+                        <p>標準三牲、季節水果、12 菜碗（葷素可選）、米酒、金銀紙與香燭。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="contract-section reveal">
+            <div class="contract-section">
                 <div class="section-info">
                     <span class="item-count">PHASE 05</span>
                     <h3>發引晉塔</h3>
@@ -288,32 +304,32 @@ permalink: /deed01.html/
                 <div class="detail-list">
                     <div class="detail-item">
                         <h4>火化發引</h4>
-                        <p>出殯引導師父 1 名、移柩扶棺人員 1 組、返主安靈師父 1 名（視家屬需求辦理）。</p>
+                        <p>出殯引導師父、移柩扶棺人員、返主安靈師父（依家屬需求）。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>骨灰容器</h4>
-                        <p>標準黑花崗骨灰罐（可折價更換其他材質）、骨灰罐刻字描金、彩色瓷像鑲嵌、專業封罐服務。</p>
+                        <h4>骨灰安置</h4>
+                        <p>標準黑花崗骨灰罐（可折價升級）、刻字描金、彩色瓷像鑲嵌、專業封罐。</p>
                     </div>
                     <div class="detail-item">
-                        <h4>後續追思</h4>
-                        <p>百日、對年、合爐日主動電話通知，永久免費喪葬禮儀諮詢與晉塔諮詢服務。</p>
+                        <h4>後續服務</h4>
+                        <p>百日、對年、合爐主動通知，永久免費喪葬禮儀諮詢服務。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="price-summary reveal">
+            <div class="price-summary">
                 <div class="watermark">TRANSPARENT</div>
-                <p>服務契約總價</p>
-                <h2>新台幣 陸萬捌仟元整</h2>
-                <p>— 祥安生命 · 專業與尊嚴的最後守護 —</p>
+                <p style="font-size: 1.1rem; opacity: 0.85; letter-spacing: 2px;">服務契約總價</p>
+                <h2>新臺幣陸萬捌仟元整</h2>
+                <p style="margin-top: 20px; opacity: 0.8;">— 祥安生命　專業與尊嚴的最後守護 —</p>
             </div>
 
-            <div class="note-card reveal">
-                <h5><i class="fas fa-info-circle" style="margin-right:8px; color:var(--accent);"></i> 貼心提醒與備註</h5>
-                <ul style="list-style: decimal; margin-left: 20px; line-height: 2; font-size: 0.95rem; color: #555;">
-                    <li>本公司義務代辦各項殯儀館設施使用及火化申請，相關<strong>政府規費依據據實報實銷</strong>。</li>
-                    <li>因各地風俗、宗教習慣不同，如有本合約外之額外品項需求，費用另行議定。</li>
-                    <li>本專案已包含治喪期間所有禮儀指導、流程規劃及代領相關證明之服務，不額外收取紅包費用。</li>
+            <div class="note-card">
+                <h5><i class="fas fa-info-circle" style="margin-right:8px; color:var(--accent);"></i> 重要提醒</h5>
+                <ul style="list-style: decimal; line-height: 2; font-size: 0.96rem; color: #555;">
+                    <li>本公司義務代辦殯儀館設施使用與火化申請，相關<strong>政府規費依實際據實報銷</strong>。</li>
+                    <li>因各地風俗與宗教信仰不同，若有合約以外之額外需求，費用另行議定。</li>
+                    <li>本專案已包含全程禮儀指導、流程規劃及證明文件代領服務，<strong>不額外收取紅包</strong>。</li>
                 </ul>
             </div>
 
@@ -324,17 +340,24 @@ permalink: /deed01.html/
     {% include floating-cta.html %}
 
     <script>
+        // 淡入動畫
         document.addEventListener('DOMContentLoaded', function() {
-            const revealObserver = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                        revealObserver.unobserve(entry.target);
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.15 });
 
-            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+            document.querySelectorAll('.contract-section, .price-summary, .note-card').forEach(el => {
+                el.style.transition = 'all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                observer.observe(el);
+            });
         });
     </script>
 </body>
